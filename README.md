@@ -13,7 +13,7 @@ Alle Tools laufen direkt im Browser, ohne Installation.
 
 | Tool | Beschreibung | Lizenz | Kommerzielle Nutzung |
 |------|--------------|--------|----------------------|
-| [CS-Dashboard](cs-dashboard/) | Calculation Service Dashboard | Proprietär | ❌ nur nach Vereinbarung |
+| 🔒 [CS-Dashboard](cs-dashboard/) | Calculation Service Dashboard | Proprietär · **Lizenzschlüssel erforderlich** | ❌ nur nach Vereinbarung |
 | [Trainingsübungen](trainingsuebungen/) | Animierte Fußball-Übungen & Spielzüge | CC BY-NC 4.0 | ❌ |
 | [FCPF Taktiktafel](fcpf-taktiktafel/) | Digitale Taktiktafel | CC BY-NC 4.0 | ❌ |
 | [PPTX Manager](pptx-manager/) | Präsentationen aus PowerPoint-Abschnitten zusammenstellen | Proprietär | ❌ nur nach Vereinbarung |
@@ -27,6 +27,12 @@ Alle Tools laufen direkt im Browser, ohne Installation.
 | **Proprietär** | 👁️ Ansicht | ❌ | ❌ | ❌ | Nutzung nur mit schriftlicher Erlaubnis |
 
 Volltexte bzw. Vorlagen: siehe [`LICENSES/`](LICENSES/).
+
+### 🔒 Geschützte Tools
+
+Mit 🔒 markierte Tools sind nur mit gültigem Lizenzschlüssel (`RT-XXXX-XXXX-XXXX-XXXX`) nutzbar.
+Der Tool-Code liegt nicht in diesem Repository, sondern wird nach der Lizenzprüfung vom Server geladen.
+Lizenz anfragen: https://riemer.co
 
 ---
 
