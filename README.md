@@ -13,8 +13,8 @@ Alle Tools laufen direkt im Browser, ohne Installation.
 
 | Tool | Beschreibung | Lizenz | Kommerzielle Nutzung |
 |------|--------------|--------|----------------------|
-| 🔒 [CS-Dashboard](cs-dashboard/) | Calculation Service Dashboard | Proprietär · **Lizenzschlüssel erforderlich** | ❌ nur nach Vereinbarung |
 | 🔒 [Trainingsmanager](trainingsmanager/) | Trainingsübungen, Taktiktafel & Bewegungsübungen als Animation | Proprietär · **Lizenzschlüssel erforderlich** | ❌ nur nach Vereinbarung |
+| 🔒 [PV Tracker](https://pv.riemer.co/) | PV-Ertrag, Verbrauch, Autarkie & Kosten der eigenen PV-Anlage – Code im Repo [`golfsburg/we7`](https://github.com/golfsburg/we7) | Proprietär · **Lizenzschlüssel erforderlich** | ❌ nur nach Vereinbarung |
 | 🔒 [PPTX Manager](pptx-manager/) | Präsentationen aus PowerPoint-Abschnitten zusammenstellen | Proprietär · **Lizenzschlüssel erforderlich** | ❌ nur nach Vereinbarung |
 
 ### Lizenzarten im Überblick

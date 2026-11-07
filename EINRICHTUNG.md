@@ -21,7 +21,7 @@
 
 ## 3. Tools einfügen
 Für jedes Tool die fertige HTML-Datei als `index.html` in den Tool-Ordner legen
-(z. B. `cs-dashboard/`, `pptx-manager/`, `trainingsmanager/`).
+(z. B. `pptx-manager/`, `trainingsmanager/`).
 Lizenzen pro Tool prüfen – die Zuordnung im Paket ist nur ein Vorschlag.
 
 ## 4. GitHub Pages aktivieren

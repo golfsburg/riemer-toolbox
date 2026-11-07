@@ -3,7 +3,7 @@
 #
 # Aufruf (PowerShell):
 #   $env:RIEMER_SERVICE_KEY = "<service_role / secret key aus Supabase>"
-#   .\upload-tool.ps1 -Id cs-dashboard -Name "CS-Dashboard" -Version 2.4 -Datei "C:\Pfad\CS-Dashboard.html"
+#   .\upload-tool.ps1 -Id pptx-manager -Name "PPTX Manager" -Version 1.0 -Datei "C:\Pfad\pptx-manager.html"
 #
 # Den Service-Key NIEMALS in dieses Repo schreiben!
 # Zu finden unter: Supabase → Projekt RIEMER-Lizenzen → Project Settings → API Keys → secret / service_role

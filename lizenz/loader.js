@@ -3,7 +3,7 @@
  * Copyright (c) 2026 Peter Riemer – Alle Rechte vorbehalten.
  *
  * Einbindung in einer Tool-Seite:
- *   <script src="../lizenz/loader.js" data-tool="cs-dashboard" data-name="CS-Dashboard"></script>
+ *   <script src="../lizenz/loader.js" data-tool="pptx-manager" data-name="PPTX Manager"></script>
  *
  * Der eigentliche Tool-Code liegt NICHT in diesem Repo, sondern wird nach
  * erfolgreicher Lizenzprüfung vom Server geladen.

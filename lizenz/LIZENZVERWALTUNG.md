@@ -41,7 +41,7 @@ Alle Befehle unten im **SQL Editor** des Projekts ausführen.
 ```sql
 select create_license(
   'Firma XY GmbH',                 -- Kunde
-  array['cs-dashboard'],           -- Tools ('*' = alle Tools)
+  array['pptx-manager'],           -- Tools ('*' = alle Tools)
   '2027-12-31',                    -- Ablaufdatum (null = unbefristet)
   'office@firma-xy.at',            -- E-Mail (optional)
   3,                               -- max. Geräte
@@ -68,7 +68,7 @@ update licenses set active = false where customer = 'Firma XY GmbH';
 
 ```sql
 update licenses set expires_at = '2028-12-31'                    where customer = 'Firma XY GmbH';
-update licenses set tools = array['cs-dashboard','anderes-tool'] where customer = 'Firma XY GmbH';
+update licenses set tools = array['pptx-manager','trainingsmanager'] where customer = 'Firma XY GmbH';
 update licenses set max_devices = 10                             where customer = 'Firma XY GmbH';
 ```
 
@@ -97,7 +97,7 @@ Mögliche Ergebnisse: `ok`, `invalid_key`, `revoked`, `expired`, `tool_not_licen
 
 ```powershell
 $env:RIEMER_SERVICE_KEY = "<secret key aus Supabase → Project Settings → API Keys>"
-.\lizenz\upload-tool.ps1 -Id cs-dashboard -Name "CS-Dashboard" -Version 2.4 -Datei "C:\Pfad\CS-Dashboard.html"
+.\lizenz\upload-tool.ps1 -Id pptx-manager -Name "PPTX Manager" -Version 1.0 -Datei "C:\Pfad\pptx-manager.html"
 ```
 
 **Variante B – Datei an Claude schicken** und hochladen lassen.
@@ -108,7 +108,7 @@ $env:RIEMER_SERVICE_KEY = "<secret key aus Supabase → Project Settings → API
    ```html
    <script src="../lizenz/loader.js" data-tool="rohr-rechner" data-name="Rohr-Rechner"></script>
    ```
-   (Vorlage: `cs-dashboard/index.html`)
+   (Vorlage: `pptx-manager/index.html`)
 2. Echte Tool-Datei mit `upload-tool.ps1 -Id rohr-rechner …` hochladen.
 3. In `README.md` und Startseite `index.html` mit 🔒 eintragen.
 4. Lizenzen mit `array['rohr-rechner']` vergeben.
@@ -118,7 +118,7 @@ $env:RIEMER_SERVICE_KEY = "<secret key aus Supabase → Project Settings → API
 ## Für Kunden
 
 - Schlüssel einmal eingeben → wird im Browser gespeichert, beim nächsten Öffnen automatisch geprüft.
-- Abmelden auf einem Gerät: Tool-Adresse mit `?abmelden` aufrufen, z. B. `…/cs-dashboard/?abmelden`
+- Abmelden auf einem Gerät: Tool-Adresse mit `?abmelden` aufrufen, z. B. `…/pptx-manager/?abmelden`
 - Gerät = Browser auf einem PC. Browser-Daten löschen oder privater Modus zählt als neues Gerät.
 
 ## Grenzen des Schutzes
