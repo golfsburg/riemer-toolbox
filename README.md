@@ -16,6 +16,7 @@ Alle Tools laufen direkt im Browser, ohne Installation.
 | 🔒 [Trainingsmanager](trainingsmanager/) | Trainingsübungen, Taktiktafel & Bewegungsübungen als Animation | Proprietär · **Lizenzschlüssel erforderlich** | ❌ nur nach Vereinbarung |
 | 🔒 [PV Tracker](https://pv.riemer.co/) | PV-Ertrag, Verbrauch, Autarkie & Kosten der eigenen PV-Anlage – Code im Repo [`golfsburg/we7`](https://github.com/golfsburg/we7) | Proprietär · **Lizenzschlüssel erforderlich** | ❌ nur nach Vereinbarung |
 | 🔒 [PPTX Manager](pptx-manager/) | Präsentationen aus PowerPoint-Abschnitten zusammenstellen | Proprietär · **Lizenzschlüssel erforderlich** | ❌ nur nach Vereinbarung |
+| ▶ [Lieferschein-Manager](ls-manager/) | Lieferscheine automatisch auslesen und je Lieferant archivieren | Demoversion · frei testbar, **kein Lizenzschlüssel** | ❌ Firmenlizenz nach Vereinbarung |
 
 ### Lizenzarten im Überblick
 
@@ -32,6 +33,10 @@ Volltexte bzw. Vorlagen: siehe [`LICENSES/`](LICENSES/).
 Mit 🔒 markierte Tools sind nur mit gültigem Lizenzschlüssel (`RT-XXXX-XXXX-XXXX-XXXX`) nutzbar.
 Der Tool-Code liegt nicht in diesem Repository, sondern wird nach der Lizenzprüfung vom Server geladen.
 Lizenz anfragen: https://riemer.co
+
+### ▶ Demoversionen
+
+Mit ▶ markierte Tools sind als Demoversion ohne Lizenzschlüssel frei testbar.
 
 ---
 
