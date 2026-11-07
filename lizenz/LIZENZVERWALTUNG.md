@@ -18,7 +18,8 @@ Browser ──(Schlüssel + Tool + Geräte-ID)──▶ Supabase Edge Function �
 mit dem Admin-Token (`RTA-…`) anmelden. Dort kannst du:
 
 - alle Lizenzen sehen (Kunde, Tools, Ablauf, Geräte, letzte Nutzung, Status)
-- neue Lizenzen erzeugen – der Schlüssel wird einmalig angezeigt
+- **vollständigen Schlüssel anzeigen**: auf `RT-…XXXX` klicken (wird auch kopiert)
+- neue Lizenzen erzeugen
 - sperren/entsperren, Ablauf ändern, Tools ändern, Geräte zurücksetzen, löschen
 - geschützte Tools hochladen/aktualisieren (HTML-Datei auswählen)
 - das Zugriffsprotokoll ansehen
@@ -48,8 +49,8 @@ select create_license(
 );
 ```
 
-➡️ Gibt den Schlüssel `RT-XXXX-XXXX-XXXX-XXXX` zurück – **nur dieses eine Mal sichtbar**,
-gespeichert wird nur ein Hash. Sofort an den Kunden weitergeben.
+➡️ Gibt den Schlüssel `RT-XXXX-XXXX-XXXX-XXXX` zurück. Gespeichert werden ein Hash (für die Prüfung)
+und eine verschlüsselte Kopie (Geheimnis im Supabase Vault) – abrufbar über die Admin-Seite.
 
 ## Übersicht
 

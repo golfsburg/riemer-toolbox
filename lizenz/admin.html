@@ -34,6 +34,8 @@
   button.pri{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
   button.dan{color:var(--bad)}
   .acts{display:flex;gap:.3rem;flex-wrap:wrap}
+  .keybtn{background:none;border:1px dashed var(--line);border-radius:6px;padding:.25rem .5rem;color:inherit;font-size:.85rem;cursor:pointer;white-space:nowrap}
+  .keybtn:hover{border-color:var(--accent)}.keybtn[data-full]{border-style:solid;border-color:var(--accent);font-weight:700;letter-spacing:.04em}
   label{display:block;font-size:.75rem;font-weight:600;margin:.8rem 0 .3rem}
   input,select,textarea{width:100%;padding:.55rem .7rem;border:1px solid var(--line);border-radius:7px;background:transparent;color:inherit;font:inherit}
   .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0 1rem}
@@ -81,7 +83,7 @@
         <thead><tr><th>Kunde</th><th>Schlüssel</th><th>Tools</th><th>Gültig bis</th><th>Geräte</th><th>Zuletzt genutzt</th><th>Status</th><th></th></tr></thead>
         <tbody id="licrows"></tbody>
       </table></div>
-      <p class="hint">Aus Sicherheitsgründen ist nur der Hash gespeichert – vollständige Schlüssel werden nur beim Anlegen angezeigt.</p>
+      <p class="hint">Auf den Schlüssel klicken, um ihn vollständig anzuzeigen und zu kopieren. Erneut klicken verbirgt ihn.</p>
     </section>
 
     <section id="t-new" class="card hide">
@@ -98,7 +100,7 @@
         <button class="b pri" style="margin-top:1rem">Lizenz erzeugen</button>
       </form>
       <div id="newkey" class="keybox hide">
-        <div class="hint">Neuer Lizenzschlüssel – jetzt kopieren, er wird nicht wieder angezeigt:</div>
+        <div class="hint">Neuer Lizenzschlüssel (später jederzeit in der Lizenzliste abrufbar):</div>
         <div class="mono" id="nk"></div>
         <button class="b" id="copy" style="margin-top:.6rem">📋 Kopieren</button>
       </div>
@@ -154,7 +156,7 @@
 
   function toast(msg) { var t = $("toast"); t.textContent = msg; t.classList.add("show"); clearTimeout(t._h); t._h = setTimeout(function () { t.classList.remove("show"); }, 2600); }
 
-  var ERR = { unauthorized: "Admin-Token ungültig.", invalid_tool: "Ungültige Tool-ID oder leere Datei.", server_error: "Serverfehler.", network: "Keine Verbindung zum Server." };
+  var ERR = { key_not_stored: "Für diese Lizenz ist kein Klartext gespeichert.", unauthorized: "Admin-Token ungültig.", invalid_tool: "Ungültige Tool-ID oder leere Datei.", server_error: "Serverfehler.", network: "Keine Verbindung zum Server." };
 
   function api(action, data) {
     return fetch(API, { method: "POST", headers: { "Content-Type": "application/json", "x-admin-token": token },
@@ -178,7 +180,9 @@
     $("licrows").innerHTML = state.licenses.length ? state.licenses.map(function (l) {
       return "<tr><td><b>" + esc(l.customer) + "</b>" + (l.email ? '<br><span class="hint">' + esc(l.email) + "</span>" : "") +
         (l.note ? '<br><span class="hint">' + esc(l.note) + "</span>" : "") + "</td>" +
-        '<td class="mono">' + esc(l.key) + "</td>" +
+        "<td>" + (l.revealable === false
+          ? '<span class="mono hint" title="Vor der Umstellung angelegt – Klartext nicht gespeichert">' + esc(l.key) + "</span>"
+          : '<button class="keybtn mono" data-a="reveal" data-id="' + l.id + '" title="Klicken zum Anzeigen">' + esc(l.key) + " 👁</button>") + "</td>" +
         "<td>" + l.tools.map(function (t) { return '<span class="tag">' + esc(t === "*" ? "alle" : t) + "</span>"; }).join("") + "</td>" +
         "<td>" + (l.expires_at ? fmtD(l.expires_at) : "unbefristet") + "</td>" +
         "<td>" + l.devices + " / " + l.max_devices + "</td>" +
@@ -224,6 +228,15 @@
   $("licrows").addEventListener("click", function (e) {
     var b = e.target.closest("button[data-a]"); if (!b) return;
     var l = find(b.dataset.id), a = b.dataset.a, p;
+    if (a === "reveal") {
+      if (b.dataset.full) { delete b.dataset.full; b.textContent = l.key + " 👁"; b.title = "Klicken zum Anzeigen"; return; }
+      return api("reveal", { id: l.id }).then(function (r) {
+        if (!r.ok) return;
+        b.dataset.full = "1"; b.textContent = r.key + " 📋"; b.title = "Klicken zum Verbergen";
+        (navigator.clipboard ? navigator.clipboard.writeText(r.key) : Promise.reject())
+          .then(function () { toast("Schlüssel angezeigt und kopiert ✓"); }, function () { toast("Schlüssel angezeigt"); });
+      });
+    }
     if (a === "toggle") p = api("update", { id: l.id, active: !l.active });
     if (a === "extend") {
       var v = prompt("Neues Ablaufdatum (JJJJ-MM-TT), leer = unbefristet:", l.expires_at ? l.expires_at.slice(0, 10) : "");
