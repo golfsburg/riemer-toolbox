@@ -36,9 +36,6 @@ Nach ~1 Minute erreichbar unter `https://golfsburg.github.io/riemer-toolbox/`
 
 > Hinweis: iCloud+ verwaltet nur die Mail-Einträge – DNS-Einträge setzt du beim Registrar/DNS-Hoster von riemer.co.
 
-## 6. Platzhalter ersetzen
-Suchen & ersetzen: `golfsburg` → dein GitHub-Benutzername.
-
 ## Wichtig
 - Öffentliches Repo = Quellcode für alle sichtbar, auch bei proprietärer Lizenz.
   Die Lizenz regelt die Nutzung rechtlich, verhindert aber kein Kopieren.
