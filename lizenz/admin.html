@@ -30,7 +30,8 @@
   .p-ok{background:var(--okbg);color:var(--ok)}.p-bad{background:var(--badbg);color:var(--bad)}.p-warn{background:var(--warnbg);color:var(--warn)}
   .tag{display:inline-block;padding:.1rem .4rem;margin:.1rem;border:1px solid var(--line);border-radius:4px;font-size:.75rem}
   button.b{padding:.45rem .8rem;border-radius:7px;border:1px solid var(--line);background:var(--card);color:var(--text);font:inherit;font-size:.82rem;cursor:pointer}
-  button.b:hover{border-color:var(--accent)}
+  button.b:hover,a.b:hover{border-color:var(--accent)}
+  a.b{display:inline-block;padding:.45rem .8rem;border-radius:7px;border:1px solid var(--line);background:var(--card);color:var(--text);font-size:.82rem;text-decoration:none}
   button.pri{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
   button.dan{color:var(--bad)}
   .acts{display:flex;gap:.3rem;flex-wrap:wrap}
@@ -62,11 +63,13 @@
     <button class="b pri" style="width:100%;margin-top:.5rem">Anmelden</button>
     <p id="lerr" class="p-bad pill hide" style="margin-top:1rem"></p>
   </form>
+  <p class="hint" style="text-align:center;margin:1rem 0 0"><a href="../" style="color:inherit">← zur RIEMER Toolbox</a></p>
 </div>
 
 <div id="app" class="hide">
   <header>
     <h1><span>RIEMER</span> Toolbox · Lizenz-Admin</h1><div class="sp"></div>
+    <a class="b" href="../">← RIEMER Toolbox</a>
     <button class="b" id="reload">↻ Aktualisieren</button>
     <button class="b" id="logout">Abmelden</button>
   </header>
