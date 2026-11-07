@@ -41,17 +41,18 @@ body{margin:0;background:var(--surface);color:var(--ink);font:400 14px/20px var(
 a{color:var(--accent-text)}
 
 .apphead{position:sticky;top:0;z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
-.apphead-in{max-width:1240px;margin:auto;padding:14px 40px;display:flex;align-items:center;justify-content:space-between;gap:16px 24px;flex-wrap:wrap}
-.appid{display:flex;align-items:center;gap:20px;min-width:0}
+.apphead-in{max-width:1240px;margin:auto;padding:14px 40px;display:flex;align-items:center;justify-content:space-between;gap:16px 24px;flex-wrap:nowrap}
+.appid{display:flex;align-items:center;gap:20px;min-width:0;flex:1 1 auto}
+.appid>div{min-width:0}
 .appimg{width:52px;height:52px;flex:none}
 .ico-l1{fill:color-mix(in srgb,var(--brand) 30%,var(--surface))}
 .ico-l2{fill:color-mix(in srgb,var(--brand) 60%,var(--surface))}
 .ico-l3{fill:var(--brand)}
 .ico-d{fill:var(--on-brand)}
-.eyebrow{margin:0 0 2px;font:500 13px/18px var(--mono);letter-spacing:2.5px;text-transform:uppercase;color:var(--muted)}
-.apptitle{margin:0;font:800 32px/1.05 var(--sans);letter-spacing:-.8px;color:var(--ink)}
+.eyebrow{margin:0 0 2px;font:500 13px/18px var(--mono);letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.apptitle{margin:0;font:800 32px/1.05 var(--sans);letter-spacing:-.8px;color:var(--ink);white-space:nowrap}
 .apptitle span{color:var(--accent-text)}
-.appactions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.appactions{display:flex;align-items:center;gap:12px;flex-wrap:nowrap;flex:none}
 .hbtn{display:inline-flex;align-items:center;gap:10px;height:44px;padding:0 20px;border:1px solid var(--line2);border-radius:10px;background:var(--surface);color:var(--ink);font:600 15px/1 var(--sans);cursor:pointer;white-space:nowrap;transition:border-color .15s,color .15s}
 .hbtn:hover{border-color:var(--brand);color:var(--accent-text)}
 .hbtn.plain{border-color:transparent;background:transparent;padding:0 10px}
@@ -155,7 +156,9 @@ footer a{color:var(--muted)}footer a:hover{color:var(--accent-text)}
 [data-theme="dark"] #toast{background:var(--ink);color:var(--surface)}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
-@media(max-width:860px){.layout{grid-template-columns:1fr}.fields{grid-template-columns:1fr}.field.full{grid-column:auto}.apptitle{font-size:26px}.appimg{width:44px;height:44px}.apphead-in,main,footer{padding-left:20px;padding-right:20px}.apphead{position:static}.brandmark{margin-left:4px}}
+@media(max-width:1240px){.hbtn .opt{display:none}.hbtn.ico{padding:0 12px}}
+@media(max-width:1060px){.apptitle{font-size:28px}.appimg{width:44px;height:44px}.appid{gap:14px}.appactions{gap:8px}.hbtn{padding:0 14px}.brandmark{margin-left:8px}}
+@media(max-width:860px){.apphead-in{flex-wrap:wrap}.appactions{flex-wrap:wrap}.layout{grid-template-columns:1fr}.fields{grid-template-columns:1fr}.field.full{grid-column:auto}.apptitle{font-size:26px}.appimg{width:44px;height:44px}.apphead-in,main,footer{padding-left:20px;padding-right:20px}.apphead{position:static}.brandmark{margin-left:4px}}
 </style>
 </head>
 <body>
@@ -177,7 +180,7 @@ footer a{color:var(--muted)}footer a:hover{color:var(--accent-text)}
   </div>
   <nav class="appactions" aria-label="App-Aktionen">
    <button class="hbtn plain" id="helpBtn" type="button">? Anleitung</button>
-   <button class="hbtn" id="settingsBtn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Einstellungen</button>
+   <button class="hbtn ico" id="settingsBtn" type="button" aria-label="Einstellungen" title="Einstellungen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg><span class="opt">Einstellungen</span></button>
    <button class="hbtn" id="exportJson" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M10 13h4"/></svg>Backup</button>
    <button class="theme-btn" id="theme-btn" type="button"></button>
    <a class="brandmark" href="../">RIEMER <span>Tools</span></a>
