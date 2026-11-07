@@ -57,28 +57,39 @@
 
   if (/[?&]abmelden\b/.test(location.search)) store(KEY_STORE, null);
 
+  (function () {
+    var t = store("riemer-theme");
+    if (t !== "light" && t !== "dark") t = (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light";
+    document.documentElement.setAttribute("data-theme", t);
+  })();
+
   function render(msg, typed) {
     document.title = NAME + " – Lizenz erforderlich";
     document.body.innerHTML =
+      '<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">' +
       '<style>' +
-      ':root{--bg:#f5f6f8;--card:#fff;--text:#1b1f24;--muted:#6b7280;--accent:#c8102e;--line:#d1d5db}' +
-      '@media(prefers-color-scheme:dark){:root{--bg:#14161a;--card:#1e2127;--text:#e8eaed;--muted:#9aa0a6;--line:#3a3f47}}' +
-      '*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:1rem;' +
-      'font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}' +
-      '.card{background:var(--card);width:100%;max-width:420px;padding:2rem;border-radius:14px;' +
-      'box-shadow:0 4px 16px rgba(0,0,0,.08);border-top:4px solid var(--accent)}' +
-      'h1{margin:0 0 .25rem;font-size:1.35rem}.sub{margin:0 0 1.5rem;color:var(--muted);font-size:.9rem}' +
-      'label{display:block;font-size:.8rem;font-weight:600;margin-bottom:.35rem}' +
-      'input{width:100%;padding:.75rem .9rem;font:600 1.05rem ui-monospace,Consolas,monospace;letter-spacing:.06em;' +
-      'border:1px solid var(--line);border-radius:8px;background:transparent;color:inherit;text-transform:uppercase}' +
-      'input:focus{outline:2px solid var(--accent);outline-offset:1px}' +
-      'button{margin-top:1rem;width:100%;padding:.8rem;border:0;border-radius:8px;background:var(--accent);' +
-      'color:#fff;font-weight:600;font-size:1rem;cursor:pointer}button:disabled{opacity:.6;cursor:wait}' +
-      '.err{margin-top:1rem;padding:.7rem .9rem;border-radius:8px;background:#fee2e2;color:#991b1b;font-size:.9rem}' +
-      '.foot{margin-top:1.5rem;font-size:.78rem;color:var(--muted);text-align:center}.foot a{color:inherit}' +
+      ':root{--brand:#1F5FC2;--accent-text:#1F5FC2;--ink:#1B1F24;--muted:#5F6773;--surface:#FFFFFF;--surface-muted:#F4F5F7;' +
+      '--line:#E3E6EB;--field:#FFFFFF;--danger:#B42318;--sans:"Inter",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace;color-scheme:light}' +
+      '[data-theme="dark"]{--accent-text:#6EA2FF;--ink:#F4F5F7;--muted:#9AA3AF;--surface:#1B1F24;--surface-muted:#23272E;' +
+      '--line:#323843;--field:#1B1F24;--danger:#F97066;color-scheme:dark}' +
+      '*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:16px;' +
+      'font:400 14px/20px var(--sans);background:var(--surface);color:var(--ink)}' +
+      '.card{background:var(--surface-muted);width:100%;max-width:440px;padding:40px;border-radius:16px;border:1px solid var(--line)}' +
+      '.eyebrow{margin:0 0 8px;font:500 12px/16px var(--mono);letter-spacing:2px;text-transform:uppercase;color:var(--muted)}' +
+      'h1{margin:0 0 8px;font:800 24px/30px var(--sans);letter-spacing:-.5px}h1 span{color:var(--accent-text)}' +
+      '.sub{margin:0 0 24px;color:var(--muted)}' +
+      'label{display:block;font:500 12px/16px var(--mono);letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}' +
+      'input{width:100%;padding:12px 14px;font:500 17px/24px var(--mono);letter-spacing:1px;' +
+      'border:1px solid var(--line);border-radius:8px;background:var(--field);color:inherit;text-transform:uppercase}' +
+      'input:focus{outline:2px solid var(--brand);outline-offset:0;border-color:transparent}' +
+      'button{margin-top:16px;width:100%;padding:12px;border:0;border-radius:8px;background:var(--brand);' +
+      'color:#fff;font:700 15px/20px var(--sans);cursor:pointer}button:hover{background:#1a52a8}button:disabled{opacity:.6;cursor:wait}' +
+      '.err{margin-top:16px;padding:10px 12px;border-radius:3px;background:color-mix(in srgb,var(--danger) 14%,transparent);color:var(--danger)}' +
+      '.foot{margin-top:24px;font-size:13px;color:var(--muted);text-align:center}.foot a{color:var(--muted)}.foot a:hover{color:var(--accent-text)}' +
       '</style>' +
       '<form class="card" id="f" autocomplete="off">' +
-      '<h1>🔒 ' + NAME + '</h1>' +
+      '<p class="eyebrow">RIEMER Tools · 🔒 Lizenz</p>' +
+      '<h1>' + NAME + '</h1>' +
       '<p class="sub">Für dieses Tool ist eine gültige Lizenz erforderlich.</p>' +
       '<label for="k">Lizenzschlüssel</label>' +
       '<input id="k" placeholder="RT-XXXX-XXXX-XXXX-XXXX" spellcheck="false" required>' +
@@ -126,7 +137,7 @@
   function start() {
     var saved = store(KEY_STORE);
     if (saved) {
-      document.body.innerHTML = '<p style="font-family:system-ui;text-align:center;margin-top:40vh;color:#888">Lizenz wird geprüft …</p>';
+      document.body.innerHTML = '<p style="font:500 13px/18px ui-monospace,monospace;letter-spacing:2px;text-transform:uppercase;text-align:center;margin-top:40vh;color:#9AA3AF">Lizenz wird geprüft …</p>';
       unlock(saved, false);
     } else {
       render("");

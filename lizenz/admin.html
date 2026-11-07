@@ -7,55 +7,97 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
 <title>Lizenz-Admin – RIEMER Toolbox</title>
+<script>
+  /* Theme vor dem ersten Zeichnen setzen (kein Aufblitzen) */
+  (function () {
+    var t = null; try { t = localStorage.getItem("riemer-theme"); } catch (e) {}
+    if (t !== "light" && t !== "dark") t = (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light";
+    document.documentElement.setAttribute("data-theme", t);
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
 <style>
-  :root{--bg:#f5f6f8;--card:#fff;--text:#1b1f24;--muted:#6b7280;--accent:#c8102e;--line:#e5e7eb;--ok:#065f46;--okbg:#d1fae5;--bad:#991b1b;--badbg:#fee2e2;--warn:#92400e;--warnbg:#fef3c7}
-  @media(prefers-color-scheme:dark){:root{--bg:#14161a;--card:#1e2127;--text:#e8eaed;--muted:#9aa0a6;--line:#2f343c}}
+  /* ── RIEMER Tools – Farbspektrum ─────────────────────────── */
+  :root{
+    --brand:#1F5FC2;--accent-text:#1F5FC2;--ink:#1B1F24;--muted:#5F6773;
+    --surface:#FFFFFF;--surface-muted:#F4F5F7;--graphite:#1B1F24;
+    --on-brand:#FFFFFF;--tint:#C9DAF5;--alt-teal:#0F7B6C;--alt-orange:#C2410C;
+    --line:#E3E6EB;--field:#FFFFFF;--danger:#B42318;
+    --ok-tx:#0F7B6C;--warn-tx:#C2410C;--bad-tx:#B42318;
+    --radius-sm:3px;--radius-panel:16px;--radius-ctl:8px;
+    --sans:"Inter",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace;
+    color-scheme:light}
+  [data-theme="dark"]{
+    --accent-text:#6EA2FF;--ink:#F4F5F7;--muted:#9AA3AF;
+    --surface:#1B1F24;--surface-muted:#23272E;--line:#323843;--field:#1B1F24;--danger:#F97066;
+    --ok-tx:#4FC7B5;--warn-tx:#FB8A55;--bad-tx:#F97066;
+    color-scheme:dark}
   *{box-sizing:border-box}
-  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);font-size:14px}
-  header{display:flex;align-items:center;gap:1rem;padding:1rem 1.5rem;background:var(--card);border-bottom:3px solid var(--accent)}
-  header h1{margin:0;font-size:1.15rem}header h1 span{color:var(--accent)}
+  body{margin:0;font:400 14px/20px var(--sans);background:var(--surface);color:var(--ink)}
+  a{color:var(--accent-text)}
+  header{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:20px 40px;background:var(--surface);border-bottom:1px solid var(--line)}
+  header .eyebrow{display:block;font:500 12px/16px var(--mono);letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+  header h1{margin:0;font:800 24px/30px var(--sans);letter-spacing:-.5px}
+  header h1 span{color:var(--accent-text)}
   header .sp{flex:1}
-  nav{display:flex;gap:.25rem;padding:0 1.5rem;background:var(--card);border-bottom:1px solid var(--line);overflow-x:auto}
-  nav button{background:none;border:0;border-bottom:3px solid transparent;padding:.8rem 1rem;font:inherit;color:var(--muted);cursor:pointer;white-space:nowrap}
-  nav button.on{color:var(--text);border-color:var(--accent);font-weight:600}
-  main{max-width:1200px;margin:auto;padding:1.5rem}
-  .card{background:var(--card);border-radius:12px;padding:1.25rem;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:1rem}
-  h2{margin:0 0 1rem;font-size:1rem}
+  nav{display:flex;gap:4px;padding:0 40px;background:var(--surface);border-bottom:1px solid var(--line);overflow-x:auto}
+  nav button{background:none;border:0;border-bottom:3px solid transparent;padding:12px 16px;font:500 14px/20px var(--sans);color:var(--muted);cursor:pointer;white-space:nowrap}
+  nav button:hover{color:var(--ink)}
+  nav button.on{color:var(--ink);border-color:var(--brand);font-weight:700}
+  main{max-width:1240px;margin:auto;padding:24px 40px 48px}
+  .card{background:var(--surface-muted);border:1px solid var(--line);border-radius:var(--radius-panel);padding:24px;margin-bottom:24px}
+  h2{margin:0 0 16px;font:800 18px/24px var(--sans);letter-spacing:-.3px}
   table{width:100%;border-collapse:collapse}
-  th,td{text-align:left;padding:.55rem .5rem;border-bottom:1px solid var(--line);vertical-align:middle}
-  th{font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.03em;font-weight:600}
+  th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
+  tr:last-child td{border-bottom:0}
+  th{font:500 12px/16px var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:1px}
   .wrap{overflow-x:auto}
-  .mono{font-family:ui-monospace,Consolas,monospace}
-  .pill{display:inline-block;padding:.12rem .5rem;border-radius:99px;font-size:.72rem;font-weight:600}
-  .p-ok{background:var(--okbg);color:var(--ok)}.p-bad{background:var(--badbg);color:var(--bad)}.p-warn{background:var(--warnbg);color:var(--warn)}
-  .tag{display:inline-block;padding:.1rem .4rem;margin:.1rem;border:1px solid var(--line);border-radius:4px;font-size:.75rem}
-  button.b{padding:.45rem .8rem;border-radius:7px;border:1px solid var(--line);background:var(--card);color:var(--text);font:inherit;font-size:.82rem;cursor:pointer}
-  button.b:hover,a.b:hover{border-color:var(--accent)}
-  a.b{display:inline-block;padding:.45rem .8rem;border-radius:7px;border:1px solid var(--line);background:var(--card);color:var(--text);font-size:.82rem;text-decoration:none}
-  button.pri{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
-  button.dan{color:var(--bad)}
-  .acts{display:flex;gap:.3rem;flex-wrap:wrap}
-  .keybtn{background:none;border:1px dashed var(--line);border-radius:6px;padding:.25rem .5rem;color:inherit;font-size:.85rem;cursor:pointer;white-space:nowrap}
-  .keybtn:hover{border-color:var(--accent)}.keybtn[data-full]{border-style:solid;border-color:var(--accent);font-weight:700;letter-spacing:.04em}
-  label{display:block;font-size:.75rem;font-weight:600;margin:.8rem 0 .3rem}
-  input,select,textarea{width:100%;padding:.55rem .7rem;border:1px solid var(--line);border-radius:7px;background:transparent;color:inherit;font:inherit}
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0 1rem}
-  .checks{display:flex;flex-wrap:wrap;gap:.4rem 1rem;padding:.3rem 0}
-  .checks label{display:flex;align-items:center;gap:.35rem;margin:0;font-weight:400;font-size:.9rem}
-  .checks input{width:auto}
-  .keybox{margin-top:1rem;padding:1rem;border:2px dashed var(--accent);border-radius:10px;text-align:center}
-  .keybox .mono{font-size:1.4rem;font-weight:700;letter-spacing:.06em;user-select:all}
-  .hint{color:var(--muted);font-size:.8rem}
-  #toast{position:fixed;bottom:1.25rem;left:50%;transform:translateX(-50%);padding:.7rem 1.1rem;border-radius:8px;background:#1b1f24;color:#fff;opacity:0;transition:.2s;pointer-events:none}
+  .mono{font-family:var(--mono)}
+  .pill{display:inline-block;padding:3px 8px;border-radius:var(--radius-sm);font:500 12px/16px var(--mono)}
+  .p-ok{background:color-mix(in srgb,var(--alt-teal) 16%,transparent);color:var(--ok-tx)}
+  .p-warn{background:color-mix(in srgb,var(--alt-orange) 16%,transparent);color:var(--warn-tx)}
+  .p-bad{background:color-mix(in srgb,var(--danger) 16%,transparent);color:var(--bad-tx)}
+  .tag{display:inline-block;padding:2px 6px;margin:2px;border-radius:var(--radius-sm);font:500 12px/16px var(--mono);background:color-mix(in srgb,var(--brand) 14%,transparent);color:var(--accent-text)}
+  button.b,a.b{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:var(--radius-ctl);border:1px solid var(--line);background:var(--surface);color:var(--ink);font:500 13px/18px var(--sans);cursor:pointer;text-decoration:none;white-space:nowrap}
+  button.b:hover,a.b:hover{border-color:var(--brand)}
+  button.b:focus-visible,a.b:focus-visible,nav button:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+  button.pri{background:var(--brand);border-color:var(--brand);color:var(--on-brand);font-weight:700}
+  button.pri:hover{background:color-mix(in srgb,var(--brand) 88%,#000)}
+  button.dan{color:var(--danger)}
+  button.dan:hover{border-color:var(--danger)}
+  button:disabled{opacity:.6;cursor:wait}
+  .acts{display:flex;gap:6px;flex-wrap:wrap}
+  .keybtn{background:var(--surface);border:1px dashed var(--line);border-radius:var(--radius-sm);padding:4px 8px;color:inherit;font:500 13px/18px var(--mono);cursor:pointer;white-space:nowrap}
+  .keybtn:hover{border-color:var(--brand)}
+  .keybtn[data-full]{border-style:solid;border-color:var(--brand);color:var(--accent-text);letter-spacing:.5px}
+  label{display:block;font:500 12px/16px var(--mono);letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin:16px 0 6px}
+  input,select,textarea{width:100%;padding:9px 12px;border:1px solid var(--line);border-radius:var(--radius-ctl);background:var(--field);color:inherit;font:400 14px/20px var(--sans)}
+  input:focus,select:focus,textarea:focus{outline:2px solid var(--brand);outline-offset:0;border-color:transparent}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0 24px}
+  .checks{display:flex;flex-wrap:wrap;gap:8px 20px;padding:4px 0}
+  .checks label{display:flex;align-items:center;gap:6px;margin:0;font:400 14px/20px var(--sans);letter-spacing:0;text-transform:none;color:var(--ink)}
+  .checks input{width:auto;accent-color:var(--brand)}
+  .keybox{margin-top:24px;padding:24px;border:2px dashed var(--brand);border-radius:var(--radius-panel);text-align:center;background:color-mix(in srgb,var(--brand) 6%,transparent)}
+  .keybox .mono{font-size:24px;line-height:32px;font-weight:500;letter-spacing:1px;color:var(--accent-text);user-select:all;margin:8px 0}
+  .hint{color:var(--muted);font-size:13px}
+  #toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);padding:10px 16px;border-radius:var(--radius-ctl);background:var(--graphite);color:#F4F5F7;border:1px solid #323843;opacity:0;transition:.2s;pointer-events:none;font-size:14px}
   #toast.show{opacity:1}
-  #login{max-width:420px;margin:12vh auto}
+  #login{max-width:440px;margin:12vh auto 0}
+  #login h2{font-size:24px;line-height:30px;letter-spacing:-.5px}
+  #login h2 span{color:var(--accent-text)}
+  #login .eyebrow{font:500 12px/16px var(--mono);letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+  .login-top{max-width:440px;margin:24px auto 0;display:flex;justify-content:flex-end}
   .hide{display:none!important}
+  @media(max-width:700px){header,nav,main{padding-left:16px;padding-right:16px}}
 </style>
 </head>
 <body>
 
+<div class="login-top" id="login-top"><button class="b theme-btn" type="button">🌙 Dunkel</button></div>
 <div id="login" class="card">
-  <h2>🔐 Lizenz-Admin – RIEMER Toolbox</h2>
+  <p class="eyebrow">RIEMER Tools · Toolbox</p>
+  <h2>Lizenz-<span>Admin</span></h2>
   <form id="lf">
     <label for="tok">Admin-Token</label>
     <input id="tok" class="mono" placeholder="RTA-…" autocomplete="off" spellcheck="false" required>
@@ -68,7 +110,8 @@
 
 <div id="app" class="hide">
   <header>
-    <h1><span>RIEMER</span> Toolbox · Lizenz-Admin</h1><div class="sp"></div>
+    <div><span class="eyebrow">RIEMER Tools · Toolbox</span><h1>Lizenz-<span>Admin</span></h1></div><div class="sp"></div>
+    <button class="b theme-btn" type="button">🌙 Dunkel</button>
     <a class="b" href="../">← RIEMER Toolbox</a>
     <button class="b" id="reload">↻ Aktualisieren</button>
     <button class="b" id="logout">Abmelden</button>
@@ -308,16 +351,31 @@
 
   function logout(msg) {
     token = ""; ss.set("riemer-admin", null);
-    $("app").classList.add("hide"); $("login").classList.remove("hide");
+    $("app").classList.add("hide"); $("login").classList.remove("hide"); $("login-top").classList.remove("hide");
     $("lerr").textContent = msg; $("lerr").classList.toggle("hide", !msg);
   }
   function login(t) {
     token = t.trim();
     load().then(function (r) {
-      if (r.ok) { ss.set("riemer-admin", token); $("login").classList.add("hide"); $("app").classList.remove("hide"); }
+      if (r.ok) { ss.set("riemer-admin", token); $("login").classList.add("hide"); $("login-top").classList.add("hide"); $("app").classList.remove("hide"); }
       else if (r.error !== "unauthorized") { $("lerr").textContent = ERR[r.error] || "Fehler"; $("lerr").classList.remove("hide"); }
     });
   }
+  /* Hell/Dunkel */
+  function themeUI() {
+    var dark = document.documentElement.getAttribute("data-theme") === "dark";
+    [].forEach.call(document.querySelectorAll(".theme-btn"), function (b) { b.textContent = dark ? "☀️ Hell" : "🌙 Dunkel"; });
+  }
+  [].forEach.call(document.querySelectorAll(".theme-btn"), function (b) {
+    b.addEventListener("click", function () {
+      var r = document.documentElement, next = r.getAttribute("data-theme") === "dark" ? "light" : "dark";
+      r.setAttribute("data-theme", next);
+      try { localStorage.setItem("riemer-theme", next); } catch (e) {}
+      themeUI();
+    });
+  });
+  themeUI();
+
   $("lf").addEventListener("submit", function (e) { e.preventDefault(); login($("tok").value); });
   var saved = ss.get("riemer-admin"); if (saved) login(saved);
 })();

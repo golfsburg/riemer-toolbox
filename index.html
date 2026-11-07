@@ -5,65 +5,137 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RIEMER Toolbox</title>
+  <script>
+    /* Theme vor dem ersten Zeichnen setzen (kein Aufblitzen) */
+    (function () {
+      var t = null; try { t = localStorage.getItem("riemer-theme"); } catch (e) {}
+      if (t !== "light" && t !== "dark") t = (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light";
+      document.documentElement.setAttribute("data-theme", t);
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
   <style>
-    :root { --bg:#f5f6f8; --card:#fff; --text:#1b1f24; --muted:#6b7280; --accent:#c8102e; }
-    @media (prefers-color-scheme: dark) {
-      :root { --bg:#14161a; --card:#1e2127; --text:#e8eaed; --muted:#9aa0a6; }
+    /* ── RIEMER Tools – Farbspektrum ─────────────────────────── */
+    :root {
+      --brand:#1F5FC2; --accent-text:#1F5FC2; --ink:#1B1F24; --muted:#5F6773;
+      --surface:#FFFFFF; --surface-muted:#F4F5F7; --graphite:#1B1F24;
+      --on-brand:#FFFFFF; --tint:#C9DAF5; --alt-teal:#0F7B6C; --alt-orange:#C2410C;
+      --line:#E3E6EB; --shadow:0 1px 2px rgba(27,31,36,.06);
+      --radius-sm:3px; --radius-panel:16px;
+      --sans:"Inter",system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,monospace;
+      color-scheme:light;
+    }
+    [data-theme="dark"] {
+      --accent-text:#6EA2FF; --ink:#F4F5F7; --muted:#9AA3AF;
+      --surface:#1B1F24; --surface-muted:#23272E; --line:#323843; --shadow:none;
+      color-scheme:dark;
     }
     * { box-sizing:border-box; }
-    body { margin:0; font-family:system-ui,-apple-system,"Segoe UI",sans-serif; background:var(--bg); color:var(--text); }
-    header { padding:3rem 1.5rem 1.5rem; max-width:960px; margin:auto; }
-    h1 { margin:0; font-size:2rem; letter-spacing:.02em; }
-    h1 span { color:var(--accent); }
-    header p { color:var(--muted); margin:.5rem 0 0; }
-    main { max-width:960px; margin:auto; padding:0 1.5rem 3rem;
-           display:grid; gap:1rem; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); }
-    a.card { display:block; background:var(--card); border-radius:12px; padding:1.25rem;
-             text-decoration:none; color:inherit; box-shadow:0 1px 3px rgba(0,0,0,.08);
-             border-top:3px solid var(--accent); transition:transform .15s; }
-    a.card:hover { transform:translateY(-2px); }
-    .card h2 { margin:0 0 .4rem; font-size:1.1rem; }
-    .card p { margin:0 0 .9rem; color:var(--muted); font-size:.9rem; }
-    .badge { display:inline-block; font-size:.72rem; font-weight:600; padding:.2rem .55rem; border-radius:99px; }
-    .mit  { background:#d1fae5; color:#065f46; }
-    .ccnc { background:#fef3c7; color:#92400e; }
-    .prop { background:#fee2e2; color:#991b1b; }
-    footer { text-align:center; color:var(--muted); font-size:.8rem; padding:2rem; }
-    footer a { color:inherit; }
+    body { margin:0; font:400 14px/20px var(--sans); background:var(--surface); color:var(--ink); }
+    a { color:var(--accent-text); }
+
+    .top { max-width:1040px; margin:auto; padding:40px 40px 0; display:flex; justify-content:flex-end; }
+    .theme-btn { display:inline-flex; align-items:center; gap:8px; padding:8px 14px; border-radius:99px;
+                 border:1px solid var(--line); background:var(--surface-muted); color:var(--ink);
+                 font:500 12px/16px var(--mono); letter-spacing:1px; text-transform:uppercase; cursor:pointer; }
+    .theme-btn:hover { border-color:var(--brand); }
+    .theme-btn:focus-visible { outline:2px solid var(--brand); outline-offset:2px; }
+
+    header { max-width:1040px; margin:auto; padding:24px 40px 40px; }
+    .eyebrow { margin:0 0 8px; font:500 13px/18px var(--mono); letter-spacing:2px; text-transform:uppercase; color:var(--muted); }
+    h1 { margin:0; font:800 56px/1 var(--sans); letter-spacing:-1.5px; }
+    h1 span { color:var(--accent-text); }
+    header p.lead { margin:16px 0 0; color:var(--muted); font-size:15px; }
+
+    main { max-width:1040px; margin:auto; padding:0 40px 48px;
+           display:grid; gap:24px; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); }
+    a.card { display:flex; flex-direction:column; background:var(--surface-muted); border:1px solid var(--line);
+             border-radius:var(--radius-panel); padding:24px; text-decoration:none; color:inherit;
+             box-shadow:var(--shadow); transition:border-color .15s, transform .15s; }
+    a.card:hover { border-color:var(--brand); transform:translateY(-2px); }
+    a.card:focus-visible { outline:2px solid var(--brand); outline-offset:2px; }
+    .card .kicker { font:500 12px/16px var(--mono); letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin:0 0 8px; }
+    .card h2 { margin:0 0 8px; font:800 22px/28px var(--sans); letter-spacing:-.5px; }
+    .card p { margin:0 0 20px; color:var(--muted); flex:1; }
+    .badge { align-self:flex-start; display:inline-flex; align-items:center; gap:6px; padding:4px 10px; border-radius:var(--radius-sm);
+             font:500 12px/16px var(--mono); }
+    .prop { background:color-mix(in srgb, var(--brand) 14%, transparent); color:var(--accent-text); }
+    .mit  { background:color-mix(in srgb, var(--alt-teal) 16%, transparent); color:var(--alt-teal); }
+    .ccnc { background:color-mix(in srgb, var(--alt-orange) 16%, transparent); color:var(--alt-orange); }
+    [data-theme="dark"] .mit  { color:#4FC7B5; }
+    [data-theme="dark"] .ccnc { color:#FB8A55; }
+
+    footer { max-width:1040px; margin:auto; padding:24px 40px 40px; border-top:1px solid var(--line);
+             color:var(--muted); font-size:13px; display:flex; flex-wrap:wrap; gap:8px 16px; justify-content:space-between; }
+    footer a { color:var(--muted); }
+    footer a:hover { color:var(--accent-text); }
+
+    @media (max-width:600px) {
+      .top, header, main, footer { padding-left:20px; padding-right:20px; }
+      h1 { font-size:40px; letter-spacing:-1px; }
+    }
   </style>
 </head>
 <body>
+  <div class="top">
+    <button class="theme-btn" id="theme-btn" type="button" aria-label="Hell/Dunkel umschalten">
+      <span id="theme-icon">🌙</span><span id="theme-label">Dunkel</span>
+    </button>
+  </div>
+
   <header>
-    <h1><span>RIEMER</span> Toolbox</h1>
-    <p>Browserbasierte Tools ohne Installation.</p>
+    <p class="eyebrow">RIEMER Tools · Toolbox</p>
+    <h1>RIEMER <span>Toolbox</span></h1>
+    <p class="lead">Browserbasierte Tools ohne Installation.</p>
   </header>
 
   <main>
     <!-- Neues Tool: Karte kopieren, Link/Titel/Text/Lizenz-Badge anpassen.
-         Badge-Klassen: mit | ccnc | prop -->
+         Badge-Klassen: prop (Lizenzschlüssel) | mit | ccnc -->
     <a class="card" href="trainingsmanager/">
-      <h2>🔒 Trainingsmanager</h2>
+      <p class="kicker">Fußball · Training</p>
+      <h2>Trainingsmanager</h2>
       <p>Fußball-Trainingsübungen, Taktiktafel und Bewegungsübungen als Animation</p>
-      <span class="badge prop">Lizenzschlüssel erforderlich</span>
+      <span class="badge prop">🔒 Lizenzschlüssel erforderlich</span>
     </a>
 
     <a class="card" href="https://pv.riemer.co/">
-      <h2>🔒 PV Tracker</h2>
+      <p class="kicker">Energie · PV</p>
+      <h2>PV Tracker</h2>
       <p>PV-Ertrag, Verbrauch, Autarkie und Kosten der eigenen PV-Anlage im Blick</p>
-      <span class="badge prop">Lizenzschlüssel erforderlich</span>
+      <span class="badge prop">🔒 Lizenzschlüssel erforderlich</span>
     </a>
 
     <a class="card" href="pptx-manager/">
-      <h2>🔒 PPTX Manager</h2>
+      <p class="kicker">Office · PowerPoint</p>
+      <h2>PPTX Manager</h2>
       <p>Präsentationen aus PowerPoint-Abschnitten zusammenstellen – mit verlinktem Inhaltsverzeichnis</p>
-      <span class="badge prop">Lizenzschlüssel erforderlich</span>
+      <span class="badge prop">🔒 Lizenzschlüssel erforderlich</span>
     </a>
   </main>
 
   <footer>
-    © 2026 Peter Riemer · <a href="https://riemer.co">riemer.co</a> ·
-    Jedes Tool unterliegt seiner eigenen Lizenz (siehe Tool-Ordner) ·
+    <span>© 2026 Peter Riemer · <a href="https://riemer.co">riemer.co</a> · Jedes Tool unterliegt seiner eigenen Lizenz</span>
     <a href="lizenz/admin.html">🔐 Lizenz-Admin</a>
   </footer>
+
+  <script>
+    (function () {
+      var root = document.documentElement;
+      function ui() {
+        var dark = root.getAttribute("data-theme") === "dark";
+        document.getElementById("theme-icon").textContent = dark ? "☀️" : "🌙";
+        document.getElementById("theme-label").textContent = dark ? "Hell" : "Dunkel";
+      }
+      document.getElementById("theme-btn").addEventListener("click", function () {
+        var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+        root.setAttribute("data-theme", next);
+        try { localStorage.setItem("riemer-theme", next); } catch (e) {}
+        ui();
+      });
+      ui();
+    })();
+  </script>
 </body>
 </html>
