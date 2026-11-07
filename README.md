@@ -16,6 +16,7 @@ Alle Tools laufen direkt im Browser, ohne Installation.
 | [CS-Dashboard](cs-dashboard/) | Calculation Service Dashboard | Proprietär | ❌ nur nach Vereinbarung |
 | [Trainingsübungen](trainingsuebungen/) | Animierte Fußball-Übungen & Spielzüge | CC BY-NC 4.0 | ❌ |
 | [FCPF Taktiktafel](fcpf-taktiktafel/) | Digitale Taktiktafel | CC BY-NC 4.0 | ❌ |
+| [PPTX Manager](pptx-manager/) | Präsentationen aus PowerPoint-Abschnitten zusammenstellen | Proprietär | ❌ nur nach Vereinbarung |
 
 ### Lizenzarten im Überblick
 
