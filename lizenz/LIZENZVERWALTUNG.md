@@ -12,6 +12,25 @@ Browser ──(Schlüssel + Tool + Geräte-ID)──▶ Supabase Edge Function �
 
 **Supabase-Projekt:** `RIEMER-Lizenzen` (Frankfurt) · https://supabase.com/dashboard/project/hcluxhlvshydnncprpbl
 
+## 🖥️ Admin-Seite (empfohlen)
+
+**`lizenz/admin.html`** – im Browser öffnen (lokal oder später unter `tools.riemer.co/lizenz/admin.html`),
+mit dem Admin-Token (`RTA-…`) anmelden. Dort kannst du:
+
+- alle Lizenzen sehen (Kunde, Tools, Ablauf, Geräte, letzte Nutzung, Status)
+- neue Lizenzen erzeugen – der Schlüssel wird einmalig angezeigt
+- sperren/entsperren, Ablauf ändern, Tools ändern, Geräte zurücksetzen, löschen
+- geschützte Tools hochladen/aktualisieren (HTML-Datei auswählen)
+- das Zugriffsprotokoll ansehen
+
+Admin-Token verloren? Neuen im SQL Editor erzeugen: `select create_admin_token('Peter – neu');`
+Alten sperren: `update admin_tokens set active = false where label = '…';`
+
+## Im Supabase-Dashboard
+
+- **Table Editor** → `licenses` (Lizenzen), `license_devices` (Geräte), `license_log` (Zugriffe), `tools` (Tool-Dateien)
+- **SQL Editor** → Befehle unten
+
 Alle Befehle unten im **SQL Editor** des Projekts ausführen.
 
 ---

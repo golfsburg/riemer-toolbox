@@ -5,6 +5,9 @@ Präsentationen aus PowerPoint-Abschnitten zusammenstellen (RIEMER Tools).
 **Online:** https://tools.riemer.co/pptx-manager/
 **Lizenz:** `LicenseRef-Proprietary` – siehe [LICENSE](LICENSE)
 
+> 🔒 Geschütztes Tool: `index.html` ist nur die Schlüssel-Abfrage. Der eigentliche Code wird nach
+> erfolgreicher Lizenzprüfung vom Server geladen – siehe [`../lizenz/LIZENZVERWALTUNG.md`](../lizenz/LIZENZVERWALTUNG.md).
+
 ## Funktionen
 - Mehrere `.pptx` laden – Abschnitte werden automatisch erkannt (Datei- und Matrix-Ansicht)
 - Ganze Abschnitte oder einzelne Folien auswählen, Vorschau mit Blättern

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<!-- RIEMER Toolbox – Lizenz-Admin · Copyright (c) 2026 Peter Riemer – Alle Rechte vorbehalten.
+     Enthält keine Geheimnisse: Zugriff nur mit Admin-Token (RTA-…), geprüft auf dem Server. -->
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Lizenz-Admin – RIEMER Toolbox</title>
+<style>
+  :root{--bg:#f5f6f8;--card:#fff;--text:#1b1f24;--muted:#6b7280;--accent:#c8102e;--line:#e5e7eb;--ok:#065f46;--okbg:#d1fae5;--bad:#991b1b;--badbg:#fee2e2;--warn:#92400e;--warnbg:#fef3c7}
+  @media(prefers-color-scheme:dark){:root{--bg:#14161a;--card:#1e2127;--text:#e8eaed;--muted:#9aa0a6;--line:#2f343c}}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);font-size:14px}
+  header{display:flex;align-items:center;gap:1rem;padding:1rem 1.5rem;background:var(--card);border-bottom:3px solid var(--accent)}
+  header h1{margin:0;font-size:1.15rem}header h1 span{color:var(--accent)}
+  header .sp{flex:1}
+  nav{display:flex;gap:.25rem;padding:0 1.5rem;background:var(--card);border-bottom:1px solid var(--line);overflow-x:auto}
+  nav button{background:none;border:0;border-bottom:3px solid transparent;padding:.8rem 1rem;font:inherit;color:var(--muted);cursor:pointer;white-space:nowrap}
+  nav button.on{color:var(--text);border-color:var(--accent);font-weight:600}
+  main{max-width:1200px;margin:auto;padding:1.5rem}
+  .card{background:var(--card);border-radius:12px;padding:1.25rem;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:1rem}
+  h2{margin:0 0 1rem;font-size:1rem}
+  table{width:100%;border-collapse:collapse}
+  th,td{text-align:left;padding:.55rem .5rem;border-bottom:1px solid var(--line);vertical-align:middle}
+  th{font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.03em;font-weight:600}
+  .wrap{overflow-x:auto}
+  .mono{font-family:ui-monospace,Consolas,monospace}
+  .pill{display:inline-block;padding:.12rem .5rem;border-radius:99px;font-size:.72rem;font-weight:600}
+  .p-ok{background:var(--okbg);color:var(--ok)}.p-bad{background:var(--badbg);color:var(--bad)}.p-warn{background:var(--warnbg);color:var(--warn)}
+  .tag{display:inline-block;padding:.1rem .4rem;margin:.1rem;border:1px solid var(--line);border-radius:4px;font-size:.75rem}
+  button.b{padding:.45rem .8rem;border-radius:7px;border:1px solid var(--line);background:var(--card);color:var(--text);font:inherit;font-size:.82rem;cursor:pointer}
+  button.b:hover{border-color:var(--accent)}
+  button.pri{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+  button.dan{color:var(--bad)}
+  .acts{display:flex;gap:.3rem;flex-wrap:wrap}
+  label{display:block;font-size:.75rem;font-weight:600;margin:.8rem 0 .3rem}
+  input,select,textarea{width:100%;padding:.55rem .7rem;border:1px solid var(--line);border-radius:7px;background:transparent;color:inherit;font:inherit}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0 1rem}
+  .checks{display:flex;flex-wrap:wrap;gap:.4rem 1rem;padding:.3rem 0}
+  .checks label{display:flex;align-items:center;gap:.35rem;margin:0;font-weight:400;font-size:.9rem}
+  .checks input{width:auto}
+  .keybox{margin-top:1rem;padding:1rem;border:2px dashed var(--accent);border-radius:10px;text-align:center}
+  .keybox .mono{font-size:1.4rem;font-weight:700;letter-spacing:.06em;user-select:all}
+  .hint{color:var(--muted);font-size:.8rem}
+  #toast{position:fixed;bottom:1.25rem;left:50%;transform:translateX(-50%);padding:.7rem 1.1rem;border-radius:8px;background:#1b1f24;color:#fff;opacity:0;transition:.2s;pointer-events:none}
+  #toast.show{opacity:1}
+  #login{max-width:420px;margin:12vh auto}
+  .hide{display:none!important}
+</style>
+</head>
+<body>
+
+<div id="login" class="card">
+  <h2>🔐 Lizenz-Admin – RIEMER Toolbox</h2>
+  <form id="lf">
+    <label for="tok">Admin-Token</label>
+    <input id="tok" class="mono" placeholder="RTA-…" autocomplete="off" spellcheck="false" required>
+    <p class="hint">Der Token bleibt nur bis zum Schließen dieses Tabs gespeichert.</p>
+    <button class="b pri" style="width:100%;margin-top:.5rem">Anmelden</button>
+    <p id="lerr" class="p-bad pill hide" style="margin-top:1rem"></p>
+  </form>
+</div>
+
+<div id="app" class="hide">
+  <header>
+    <h1><span>RIEMER</span> Toolbox · Lizenz-Admin</h1><div class="sp"></div>
+    <button class="b" id="reload">↻ Aktualisieren</button>
+    <button class="b" id="logout">Abmelden</button>
+  </header>
+  <nav>
+    <button data-tab="lic" class="on">Lizenzen</button>
+    <button data-tab="new">+ Neue Lizenz</button>
+    <button data-tab="tools">Tools</button>
+    <button data-tab="log">Protokoll</button>
+  </nav>
+  <main>
+    <section id="t-lic" class="card">
+      <h2>Lizenzen</h2>
+      <div class="wrap"><table>
+        <thead><tr><th>Kunde</th><th>Schlüssel</th><th>Tools</th><th>Gültig bis</th><th>Geräte</th><th>Zuletzt genutzt</th><th>Status</th><th></th></tr></thead>
+        <tbody id="licrows"></tbody>
+      </table></div>
+      <p class="hint">Aus Sicherheitsgründen ist nur der Hash gespeichert – vollständige Schlüssel werden nur beim Anlegen angezeigt.</p>
+    </section>
+
+    <section id="t-new" class="card hide">
+      <h2>Neue Lizenz</h2>
+      <form id="nf">
+        <div class="grid">
+          <div><label>Kunde *</label><input name="customer" required placeholder="Firma XY GmbH"></div>
+          <div><label>E-Mail</label><input name="email" type="email" placeholder="office@firma.at"></div>
+          <div><label>Gültig bis</label><input name="expires_at" type="date"><span class="hint">leer = unbefristet</span></div>
+          <div><label>Max. Geräte</label><input name="max_devices" type="number" min="1" value="3"></div>
+        </div>
+        <label>Tools *</label><div class="checks" id="toolchecks"></div>
+        <label>Notiz</label><input name="note" placeholder="z. B. Rechnung 2026-041">
+        <button class="b pri" style="margin-top:1rem">Lizenz erzeugen</button>
+      </form>
+      <div id="newkey" class="keybox hide">
+        <div class="hint">Neuer Lizenzschlüssel – jetzt kopieren, er wird nicht wieder angezeigt:</div>
+        <div class="mono" id="nk"></div>
+        <button class="b" id="copy" style="margin-top:.6rem">📋 Kopieren</button>
+      </div>
+    </section>
+
+    <section id="t-tools" class="hide">
+      <div class="card">
+        <h2>Geschützte Tools</h2>
+        <div class="wrap"><table>
+          <thead><tr><th>ID</th><th>Name</th><th>Version</th><th>Größe</th><th>Aktualisiert</th></tr></thead>
+          <tbody id="toolrows"></tbody>
+        </table></div>
+      </div>
+      <div class="card">
+        <h2>Tool hochladen / aktualisieren</h2>
+        <form id="uf">
+          <div class="grid">
+            <div><label>Tool-ID *</label><input name="tool_id" required pattern="[a-z0-9-]{2,40}" placeholder="pptx-manager" list="toolids">
+              <datalist id="toolids"></datalist><span class="hint">= Ordnername im Repo</span></div>
+            <div><label>Name</label><input name="name" placeholder="PPTX Manager"></div>
+            <div><label>Version</label><input name="version" placeholder="1.0"></div>
+          </div>
+          <label>HTML-Datei *</label><input name="file" type="file" accept=".html,.htm,text/html" required>
+          <button class="b pri" style="margin-top:1rem">Hochladen</button>
+        </form>
+        <p class="hint">Das ist die vollständige Tool-Datei. Im Repo liegt im Tool-Ordner nur die Schlüssel-Abfrage (siehe cs-dashboard/index.html).</p>
+      </div>
+    </section>
+
+    <section id="t-log" class="card hide">
+      <h2>Letzte 100 Zugriffe</h2>
+      <div class="wrap"><table>
+        <thead><tr><th>Zeit</th><th>Kunde</th><th>Tool</th><th>Gerät</th><th>Ergebnis</th></tr></thead>
+        <tbody id="logrows"></tbody>
+      </table></div>
+    </section>
+  </main>
+</div>
+<div id="toast"></div>
+
+<script>
+(function () {
+  "use strict";
+  var API = "https://hcluxhlvshydnncprpbl.supabase.co/functions/v1/license-admin";
+  var token = "";
+  var state = { licenses: [], tools: [] };
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]; }); };
+  var fmtD = function (d) { return d ? new Date(d).toLocaleDateString("de-AT") : "–"; };
+  var fmtDT = function (d) { return d ? new Date(d).toLocaleString("de-AT", {dateStyle:"short", timeStyle:"short"}) : "–"; };
+  var ss = { get: function (k) { try { return sessionStorage.getItem(k); } catch (e) { return null; } },
+             set: function (k, v) { try { v == null ? sessionStorage.removeItem(k) : sessionStorage.setItem(k, v); } catch (e) {} } };
+
+  function toast(msg) { var t = $("toast"); t.textContent = msg; t.classList.add("show"); clearTimeout(t._h); t._h = setTimeout(function () { t.classList.remove("show"); }, 2600); }
+
+  var ERR = { unauthorized: "Admin-Token ungültig.", invalid_tool: "Ungültige Tool-ID oder leere Datei.", server_error: "Serverfehler.", network: "Keine Verbindung zum Server." };
+
+  function api(action, data) {
+    return fetch(API, { method: "POST", headers: { "Content-Type": "application/json", "x-admin-token": token },
+                        body: JSON.stringify({ action: action, data: data || {} }) })
+      .then(function (r) { return r.json(); }, function () { return { ok: false, error: "network" }; })
+      .then(function (res) {
+        if (!res.ok && res.error === "unauthorized") logout(ERR.unauthorized);
+        else if (!res.ok) toast("Fehler: " + (ERR[res.error] || res.error || "unbekannt"));
+        return res;
+      });
+  }
+
+  function status(l) {
+    if (!l.active) return '<span class="pill p-bad">gesperrt</span>';
+    if (l.expires_at && new Date(l.expires_at) < new Date()) return '<span class="pill p-bad">abgelaufen</span>';
+    if (l.expires_at && (new Date(l.expires_at) - new Date()) < 30 * 864e5) return '<span class="pill p-warn">läuft bald ab</span>';
+    return '<span class="pill p-ok">aktiv</span>';
+  }
+
+  function renderAll() {
+    $("licrows").innerHTML = state.licenses.length ? state.licenses.map(function (l) {
+      return "<tr><td><b>" + esc(l.customer) + "</b>" + (l.email ? '<br><span class="hint">' + esc(l.email) + "</span>" : "") +
+        (l.note ? '<br><span class="hint">' + esc(l.note) + "</span>" : "") + "</td>" +
+        '<td class="mono">' + esc(l.key) + "</td>" +
+        "<td>" + l.tools.map(function (t) { return '<span class="tag">' + esc(t === "*" ? "alle" : t) + "</span>"; }).join("") + "</td>" +
+        "<td>" + (l.expires_at ? fmtD(l.expires_at) : "unbefristet") + "</td>" +
+        "<td>" + l.devices + " / " + l.max_devices + "</td>" +
+        "<td>" + fmtDT(l.last_use) + "</td>" +
+        "<td>" + status(l) + "</td>" +
+        '<td><div class="acts">' +
+          '<button class="b" data-a="toggle" data-id="' + l.id + '">' + (l.active ? "Sperren" : "Entsperren") + "</button>" +
+          '<button class="b" data-a="extend" data-id="' + l.id + '">Ablauf</button>' +
+          '<button class="b" data-a="tools" data-id="' + l.id + '">Tools</button>' +
+          '<button class="b" data-a="devmax" data-id="' + l.id + '">Max. Geräte</button>' +
+          '<button class="b" data-a="reset" data-id="' + l.id + '">Geräte zurücksetzen</button>' +
+          '<button class="b dan" data-a="delete" data-id="' + l.id + '">Löschen</button>' +
+        "</div></td></tr>";
+    }).join("") : '<tr><td colspan="8" class="hint">Noch keine Lizenzen.</td></tr>';
+
+    $("toolrows").innerHTML = state.tools.map(function (t) {
+      return '<tr><td class="mono">' + esc(t.id) + "</td><td>" + esc(t.name) + "</td><td>" + esc(t.version) +
+             "</td><td>" + t.kb + " KB</td><td>" + fmtDT(t.updated_at) + "</td></tr>";
+    }).join("") || '<tr><td colspan="5" class="hint">Noch keine Tools.</td></tr>';
+
+    $("toolids").innerHTML = state.tools.map(function (t) { return '<option value="' + esc(t.id) + '">'; }).join("");
+    $("toolchecks").innerHTML = state.tools.map(function (t) {
+      return '<label><input type="checkbox" name="tools" value="' + esc(t.id) + '"> ' + esc(t.name) + "</label>";
+    }).join("") + '<label><input type="checkbox" name="tools" value="*"> <b>Alle Tools</b></label>';
+  }
+
+  function load() {
+    return api("list").then(function (r) { if (r.ok) { state.licenses = r.licenses; state.tools = r.tools; renderAll(); } return r; });
+  }
+  function loadLog() {
+    api("log").then(function (r) {
+      if (!r.ok) return;
+      $("logrows").innerHTML = r.log.map(function (g) {
+        var cls = g.result === "ok" ? "p-ok" : "p-bad";
+        return "<tr><td>" + fmtDT(g.created_at) + "</td><td>" + esc(g.customer || "–") + '</td><td class="mono">' + esc(g.tool_id) +
+               '</td><td class="mono">' + esc(g.device) + '</td><td><span class="pill ' + cls + '">' + esc(g.result) + "</span></td></tr>";
+      }).join("") || '<tr><td colspan="5" class="hint">Noch keine Zugriffe.</td></tr>';
+    });
+  }
+
+  function find(id) { return state.licenses.filter(function (l) { return l.id === id; })[0]; }
+
+  $("licrows").addEventListener("click", function (e) {
+    var b = e.target.closest("button[data-a]"); if (!b) return;
+    var l = find(b.dataset.id), a = b.dataset.a, p;
+    if (a === "toggle") p = api("update", { id: l.id, active: !l.active });
+    if (a === "extend") {
+      var v = prompt("Neues Ablaufdatum (JJJJ-MM-TT), leer = unbefristet:", l.expires_at ? l.expires_at.slice(0, 10) : "");
+      if (v === null) return;
+      if (v && !/^\d{4}-\d{2}-\d{2}$/.test(v.trim())) return toast("Format: JJJJ-MM-TT");
+      p = api("update", { id: l.id, expires_at: v.trim() ? v.trim() + "T23:59:59" : "" });
+    }
+    if (a === "tools") {
+      var t = prompt("Tool-IDs, mit Komma getrennt (* = alle).\nVerfügbar: " + state.tools.map(function (x) { return x.id; }).join(", "), l.tools.join(", "));
+      if (t === null) return;
+      var arr = t.split(",").map(function (s) { return s.trim(); }).filter(Boolean);
+      if (!arr.length) return toast("Mindestens ein Tool angeben.");
+      p = api("update", { id: l.id, tools: arr });
+    }
+    if (a === "devmax") {
+      var n = prompt("Maximale Anzahl Geräte:", l.max_devices);
+      if (n === null) return;
+      if (!(parseInt(n, 10) > 0)) return toast("Bitte eine Zahl > 0 eingeben.");
+      p = api("update", { id: l.id, max_devices: parseInt(n, 10) });
+    }
+    if (a === "reset") { if (!confirm("Alle registrierten Geräte von „" + l.customer + "“ zurücksetzen?")) return; p = api("reset_devices", { id: l.id }); }
+    if (a === "delete") { if (!confirm("Lizenz von „" + l.customer + "“ endgültig löschen?")) return; p = api("delete", { id: l.id }); }
+    p && p.then(function (r) { if (r.ok) { toast("Gespeichert ✓"); load(); } });
+  });
+
+  $("nf").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var f = e.target, tools = [].slice.call(f.querySelectorAll('input[name=tools]:checked')).map(function (c) { return c.value; });
+    if (!tools.length) return toast("Bitte mindestens ein Tool wählen.");
+    if (tools.indexOf("*") >= 0) tools = ["*"];
+    api("create", { customer: f.customer.value.trim(), email: f.email.value.trim(), tools: tools,
+                    expires_at: f.expires_at.value ? f.expires_at.value + "T23:59:59" : "",
+                    max_devices: parseInt(f.max_devices.value, 10) || 3, note: f.note.value.trim() })
+      .then(function (r) {
+        if (!r.ok) return;
+        $("nk").textContent = r.key; $("newkey").classList.remove("hide");
+        f.reset(); load();
+      });
+  });
+  $("copy").addEventListener("click", function () {
+    var k = $("nk").textContent;
+    (navigator.clipboard ? navigator.clipboard.writeText(k) : Promise.reject()).then(function () { toast("Kopiert ✓"); }, function () { toast("Bitte manuell markieren und kopieren."); });
+  });
+
+  $("uf").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var f = e.target, file = f.file.files[0]; if (!file) return;
+    var btn = f.querySelector("button"); btn.disabled = true; btn.textContent = "Lade hoch …";
+    file.text().then(function (html) {
+      return api("upload_tool", { tool_id: f.tool_id.value.trim(), name: f.name.value.trim(), version: f.version.value.trim(), html: html });
+    }).then(function (r) {
+      btn.disabled = false; btn.textContent = "Hochladen";
+      if (r.ok) { toast("Hochgeladen ✓ (" + r.kb + " KB)"); f.reset(); load(); }
+    });
+  });
+
+  document.querySelector("nav").addEventListener("click", function (e) {
+    var b = e.target.closest("button[data-tab]"); if (!b) return;
+    [].forEach.call(document.querySelectorAll("nav button"), function (x) { x.classList.toggle("on", x === b); });
+    ["lic", "new", "tools", "log"].forEach(function (t) { $("t-" + t).classList.toggle("hide", t !== b.dataset.tab); });
+    if (b.dataset.tab === "log") loadLog();
+    if (b.dataset.tab === "new") $("newkey").classList.add("hide");
+  });
+  $("reload").addEventListener("click", function () { load().then(function (r) { if (r.ok) toast("Aktualisiert ✓"); }); });
+  $("logout").addEventListener("click", function () { logout(""); });
+
+  function logout(msg) {
+    token = ""; ss.set("riemer-admin", null);
+    $("app").classList.add("hide"); $("login").classList.remove("hide");
+    $("lerr").textContent = msg; $("lerr").classList.toggle("hide", !msg);
+  }
+  function login(t) {
+    token = t.trim();
+    load().then(function (r) {
+      if (r.ok) { ss.set("riemer-admin", token); $("login").classList.add("hide"); $("app").classList.remove("hide"); }
+      else if (r.error !== "unauthorized") { $("lerr").textContent = ERR[r.error] || "Fehler"; $("lerr").classList.remove("hide"); }
+    });
+  }
+  $("lf").addEventListener("submit", function (e) { e.preventDefault(); login($("tok").value); });
+  var saved = ss.get("riemer-admin"); if (saved) login(saved);
+})();
+</script>
+</body>
+</html>
