@@ -1,0 +1,15 @@
+RIEMER Toolbox – Lizenzhinweis
+==============================
+
+Copyright (c) 2026 Peter Riemer. Alle Rechte vorbehalten, soweit nicht anders angegeben.
+
+Dieses Repository enthält mehrere voneinander unabhängige Tools.
+Für JEDES Tool gilt ausschließlich die Lizenz in der Datei LICENSE
+im jeweiligen Unterordner (z. B. ./cs-dashboard/LICENSE).
+
+Für Dateien ohne eigene Lizenzangabe (z. B. diese Übersichtsseite,
+README, Startseite index.html) gilt: Alle Rechte vorbehalten.
+
+Eine Übersicht aller Tools und ihrer Lizenzen steht in README.md.
+
+Lizenzanfragen: https://riemer.co
