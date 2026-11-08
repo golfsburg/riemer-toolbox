@@ -18,4 +18,6 @@ Schnitte aus DWG, DXF, Vektor-PDF, MSX oder RIEMER-Tools-Platzhaltergruppen in I
 
 Alle Daten werden lokal im Browser verarbeitet – nichts wird hochgeladen.
 
+Versionen: siehe [CHANGELOG.md](CHANGELOG.md) · aktuell **3.0** (08.11.2026)
+
 © 2026 Peter Riemer
