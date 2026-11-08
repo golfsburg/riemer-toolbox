@@ -3,7 +3,7 @@
 Sammlung browserbasierter HTML-Tools von Peter Riemer – für MEP/HLS-Planung, BIM-Workflows und mehr.
 Alle Tools laufen direkt im Browser, ohne Installation.
 
-🌐 **Online nutzen:** https://tools.riemer.co
+🌐 **Online nutzen:** https://golfsburg.github.io/riemer-toolbox/
 
 ---
 

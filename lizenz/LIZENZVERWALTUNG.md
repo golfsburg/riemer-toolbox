@@ -14,7 +14,7 @@ Browser ──(Schlüssel + Tool + Geräte-ID)──▶ Supabase Edge Function �
 
 ## 🖥️ Admin-Seite (empfohlen)
 
-**`lizenz/admin.html`** – im Browser öffnen (lokal oder später unter `tools.riemer.co/lizenz/admin.html`),
+**`lizenz/admin.html`** – im Browser öffnen (lokal oder später unter `golfsburg.github.io/riemer-toolbox/lizenz/admin.html`),
 mit dem Admin-Token (`RTA-…`) anmelden. Dort kannst du:
 
 - alle Lizenzen sehen (Kunde, Tools, Ablauf, Geräte, letzte Nutzung, Status)

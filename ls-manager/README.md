@@ -2,7 +2,7 @@
 
 Lieferscheine automatisch auslesen und je Lieferant im eigenen Archivordner ablegen (RIEMER Tools).
 
-**Online:** https://tools.riemer.co/ls-manager/
+**Online:** https://golfsburg.github.io/riemer-toolbox/ls-manager/
 **Lizenz:** Demoversion, frei testbar ohne Lizenzschlüssel – siehe [LICENSE](LICENSE)
 
 ## Funktionen

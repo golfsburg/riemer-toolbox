@@ -2,7 +2,7 @@
 
 Schnitte aus DWG, DXF, Vektor-PDF, MSX oder RIEMER-Tools-Platzhaltergruppen in Importdateien (`.msx`) für **Hilti PROFIS MSE** umwandeln – nur Rohre, Kanäle, Bauteile und Stäbe, ohne Hilti-Produkte (RIEMER Tools).
 
-**Online:** https://tools.riemer.co/msx-builder/
+**Online:** https://golfsburg.github.io/riemer-toolbox/msx-builder/
 **Lizenz:** `LicenseRef-Proprietary` – siehe [LICENSE](LICENSE)
 
 > 🔒 Geschütztes Tool: `index.html` ist nur die Schlüssel-Abfrage. Der eigentliche Code wird nach

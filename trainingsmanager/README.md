@@ -2,7 +2,7 @@
 
 Fußball-Trainingsübungen, Taktiktafel und Bewegungsübungen als Animation – für Nachwuchs-Trainer (RIEMER Tools).
 
-**Online:** https://tools.riemer.co/trainingsmanager/
+**Online:** https://golfsburg.github.io/riemer-toolbox/trainingsmanager/
 **Lizenz:** `LicenseRef-Proprietary` – siehe [LICENSE](LICENSE)
 
 > 🔒 Geschütztes Tool: `index.html` ist nur die Schlüssel-Abfrage. Der eigentliche Code wird nach

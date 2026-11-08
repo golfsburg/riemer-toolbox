@@ -2,7 +2,7 @@
 
 Kurzbeschreibung des Tools.
 
-**Online:** https://tools.riemer.co/TOOLORDNER/
+**Online:** https://golfsburg.github.io/riemer-toolbox/TOOLORDNER/
 **Lizenz:** MIT – siehe [LICENSE](LICENSE)
 
 ## Nutzung

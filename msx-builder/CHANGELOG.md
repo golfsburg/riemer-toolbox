@@ -8,7 +8,7 @@ Neu in 3.0 (08.11.2026)
 - Design nach RIEMER-Farbkarte: Header mit App-Bild, Eyebrow und Wortmarke „RIEMER Tools“ (nicht rot),
   runder Hell/Dunkel-Knopf (gemeinsame Einstellung riemer-theme), nummerierte Panels, Inter/JetBrains Mono,
   Anleitung als Dialog, Footer; Header in jeder Breite einzeilig.
-- In der RIEMER Toolbox als lizenzgeschütztes Tool (tools.riemer.co/msx-builder/).
+- In der RIEMER Toolbox als lizenzgeschütztes Tool (golfsburg.github.io/riemer-toolbox/msx-builder/).
 
 Neu in 2.9
 - Übersicht-Chips im Modellbereich reagieren alle gleich: Klick wählt die zugehörigen Objekte aus

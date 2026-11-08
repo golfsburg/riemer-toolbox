@@ -2,7 +2,7 @@
 
 Präsentationen aus PowerPoint-Abschnitten zusammenstellen (RIEMER Tools).
 
-**Online:** https://tools.riemer.co/pptx-manager/
+**Online:** https://golfsburg.github.io/riemer-toolbox/pptx-manager/
 **Lizenz:** `LicenseRef-Proprietary` – siehe [LICENSE](LICENSE)
 
 > 🔒 Geschütztes Tool: `index.html` ist nur die Schlüssel-Abfrage. Der eigentliche Code wird nach
