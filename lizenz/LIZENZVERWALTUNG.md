@@ -49,7 +49,7 @@ select create_license(
 );
 ```
 
-➡️ Gibt den Schlüssel `RT-XXXX-XXXX-XXXX-XXXX` zurück. Gespeichert werden ein Hash (für die Prüfung)
+➡️ Gibt den Schlüssel `RITL-XXXX-XXXX-XXXX-XXXX` zurück. Gespeichert werden ein Hash (für die Prüfung)
 und eine verschlüsselte Kopie (Geheimnis im Supabase Vault) – abrufbar über die Admin-Seite.
 
 ## Übersicht
@@ -116,6 +116,10 @@ $env:RIEMER_SERVICE_KEY = "<secret key aus Supabase → Project Settings → API
 ---
 
 ## Für Kunden
+
+- Schlüsselformat: `RITL-XXXX-XXXX-XXXX-XXXX`. Ältere Schlüssel mit `RT-…` funktionieren weiter und werden automatisch auf `RITL-…` umgeschrieben (gleicher Schlüssel, neues Präfix).
+- Das Eingabefeld zeigt den Schlüssel verdeckt (●●●●). Mit dem Auge-Symbol wird er sichtbar.
+- Passwortmanager: Das Feld ist als Passwortfeld mit dem Benutzernamen „RIEMER Tools Lizenz“ gekennzeichnet. Chrome und Edge bieten nach dem Freischalten das Speichern an, Safari (iCloud-Schlüsselbund), Firefox, 1Password, Bitwarden & Co. erkennen das Formular ebenfalls und füllen es auf anderen Geräten aus. Lokal geöffnete Dateien (`file://`) speichern viele Passwortmanager nicht – dort hilft nur Kopieren & Einfügen.
 
 - Schlüssel einmal eingeben → wird im Browser gespeichert, beim nächsten Öffnen automatisch geprüft.
 - Abmelden auf einem Gerät: Tool-Adresse mit `?abmelden` aufrufen, z. B. `…/pptx-manager/?abmelden`

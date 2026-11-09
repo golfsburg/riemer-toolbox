@@ -47,13 +47,32 @@
     return id;
   }
 
+  /* Schlüsselformat RITL-XXXX-XXXX-XXXX-XXXX (alte Schlüssel RT-… werden umgeschrieben) */
   function formatKey(v) {
-    var raw = v.toUpperCase().replace(/[^A-Z0-9]/g, "");
-    if (raw.indexOf("RT") === 0) raw = raw.slice(2);
-    raw = raw.slice(0, 16);
-    var parts = raw.match(/.{1,4}/g) || [];
-    return parts.length ? "RT-" + parts.join("-") : "";
+    var raw = String(v || "").toUpperCase().replace(/[^A-Z0-9]/g, "");
+    if (raw.indexOf("RITL") === 0) raw = raw.slice(4);
+    else if (raw.indexOf("RT") === 0) raw = raw.slice(2);
+    var parts = raw.slice(0, 16).match(/.{1,4}/g) || [];
+    return parts.length ? "RITL-" + parts.join("-") : "";
   }
+
+  /* Passwortmanager: Benutzername ist fest, der Schlüssel ist das „Passwort“ */
+  var CRED_USER = "RIEMER Tools Lizenz";
+  function offerSave(key) {
+    try {
+      if (window.PasswordCredential && navigator.credentials && navigator.credentials.store) {
+        var c = new PasswordCredential({ id: CRED_USER, password: key, name: "RIEMER Tools – " + NAME });
+        return Promise.race([
+          navigator.credentials.store(c).catch(function () {}),
+          new Promise(function (r) { setTimeout(r, 1500); })
+        ]);
+      }
+    } catch (e) {}
+    return Promise.resolve();
+  }
+
+  var EYE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>';
+  var EYE_OFF = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 3l18 18"/><path d="M10.6 5.1A10.8 10.8 0 0 1 12 5c6.5 0 10 7 10 7a17.6 17.6 0 0 1-3.2 4.1M6.6 6.6C3.8 8.4 2 12 2 12s3.5 7 10 7c1.8 0 3.4-.5 4.8-1.3"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>';
 
   if (/[?&]abmelden\b/.test(location.search)) store(KEY_STORE, null);
 
@@ -82,17 +101,24 @@
       'input{width:100%;padding:12px 14px;font:500 17px/24px var(--mono);letter-spacing:1px;' +
       'border:1px solid var(--line);border-radius:8px;background:var(--field);color:inherit;text-transform:uppercase}' +
       'input:focus{outline:2px solid var(--brand);outline-offset:0;border-color:transparent}' +
+      '.field{position:relative}.field input{padding-right:52px}' +
+      '.eye{position:absolute;top:50%;right:6px;transform:translateY(-50%);margin:0;width:40px;height:40px;padding:0;border:0;' +
+      'border-radius:6px;background:transparent;color:var(--muted);display:flex;align-items:center;justify-content:center}' +
+      '.eye:hover{background:transparent;color:var(--accent-text)}.eye:focus-visible{outline:2px solid var(--brand)}.eye svg{width:20px;height:20px}' +
+      '.vh{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}' +
       'button{margin-top:16px;width:100%;padding:12px;border:0;border-radius:8px;background:var(--brand);' +
       'color:#fff;font:700 15px/20px var(--sans);cursor:pointer}button:hover{background:#1a52a8}button:disabled{opacity:.6;cursor:wait}' +
       '.err{margin-top:16px;padding:10px 12px;border-radius:3px;background:color-mix(in srgb,var(--danger) 14%,transparent);color:var(--danger)}' +
       '.foot{margin-top:24px;font-size:13px;color:var(--muted);text-align:center}.foot a{color:var(--muted)}.foot a:hover{color:var(--accent-text)}' +
       '</style>' +
-      '<form class="card" id="f" autocomplete="off">' +
+      '<form class="card" id="f" method="post" action="#">' +
       '<p class="eyebrow">RIEMER Tools · 🔒 Lizenz</p>' +
       '<h1>' + NAME + '</h1>' +
       '<p class="sub">Für dieses Tool ist eine gültige Lizenz erforderlich.</p>' +
+      '<input class="vh" type="text" name="username" autocomplete="username" value="' + CRED_USER + '" readonly tabindex="-1" aria-hidden="true">' +
       '<label for="k">Lizenzschlüssel</label>' +
-      '<input id="k" placeholder="RT-XXXX-XXXX-XXXX-XXXX" spellcheck="false" required>' +
+      '<div class="field"><input id="k" type="password" name="password" autocomplete="current-password" placeholder="RITL-XXXX-XXXX-XXXX-XXXX" spellcheck="false" autocapitalize="characters" required>' +
+      '<button class="eye" id="eye" type="button" aria-label="Lizenzschlüssel anzeigen" aria-pressed="false" title="Anzeigen">' + EYE + '</button></div>' +
       '<button id="b" type="submit">Freischalten</button>' +
       (msg ? '<div class="err">' + msg + '</div>' : '') +
       '<div class="foot">Lizenz anfragen: <a href="https://riemer.co">riemer.co</a> · ' +
@@ -100,8 +126,18 @@
       '</form>';
 
     var input = document.getElementById("k");
-    input.value = typed || store(KEY_STORE) || "";
+    input.value = formatKey(typed || store(KEY_STORE) || "");
     input.addEventListener("input", function () { input.value = formatKey(input.value); });
+    var eye = document.getElementById("eye");
+    eye.addEventListener("click", function () {
+      var show = input.type === "password";
+      input.type = show ? "text" : "password";
+      eye.innerHTML = show ? EYE_OFF : EYE;
+      eye.setAttribute("aria-pressed", show ? "true" : "false");
+      eye.setAttribute("aria-label", show ? "Lizenzschlüssel verbergen" : "Lizenzschlüssel anzeigen");
+      eye.title = show ? "Verbergen" : "Anzeigen";
+      input.focus();
+    });
     document.getElementById("f").addEventListener("submit", function (e) {
       e.preventDefault();
       unlock(formatKey(input.value), true);
@@ -122,9 +158,11 @@
       .then(function (res) {
         if (res && res.ok && res.html) {
           store(KEY_STORE, key);
-          document.open();
-          document.write(res.html);
-          document.close();
+          (fromForm ? offerSave(key) : Promise.resolve()).then(function () {
+            document.open();
+            document.write(res.html);
+            document.close();
+          });
         } else {
           var code = (res && res.error) || "server_error";
           if (code !== "device_limit" && code !== "server_error") store(KEY_STORE, null);
@@ -136,6 +174,7 @@
 
   function start() {
     var saved = store(KEY_STORE);
+    if (saved && formatKey(saved) !== saved) { saved = formatKey(saved); store(KEY_STORE, saved); }
     if (saved) {
       document.body.innerHTML = '<p style="font:500 13px/18px ui-monospace,monospace;letter-spacing:2px;text-transform:uppercase;text-align:center;margin-top:40vh;color:#9AA3AF">Lizenz wird geprüft …</p>';
       unlock(saved, false);

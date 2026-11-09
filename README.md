@@ -32,7 +32,7 @@ Volltexte bzw. Vorlagen: siehe [`LICENSES/`](LICENSES/).
 
 ### 🔒 Geschützte Tools
 
-Mit 🔒 markierte Tools sind nur mit gültigem Lizenzschlüssel (`RT-XXXX-XXXX-XXXX-XXXX`) nutzbar.
+Mit 🔒 markierte Tools sind nur mit gültigem Lizenzschlüssel (`RITL-XXXX-XXXX-XXXX-XXXX`) nutzbar.
 Der Tool-Code liegt nicht in diesem Repository, sondern wird nach der Lizenzprüfung vom Server geladen.
 Lizenz anfragen: https://riemer.co
 
