@@ -30,6 +30,10 @@ Alle Tools laufen direkt im Browser, ohne Installation.
 
 Volltexte bzw. Vorlagen: siehe [`LICENSES/`](LICENSES/).
 
+### myTOOLBOX.ritl
+
+Kunden melden sich auf der Startseite mit E-Mail-Adresse und Lizenzschlüssel an und sehen unter [`my/`](my/) ihre freigeschalteten Tools.
+
 ### 🔒 Geschützte Tools
 
 Mit 🔒 markierte Tools sind nur mit gültigem Lizenzschlüssel (`RITL-XXXX-XXXX-XXXX-XXXX`) nutzbar.

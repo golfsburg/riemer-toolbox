@@ -115,6 +115,34 @@ $env:RIEMER_SERVICE_KEY = "<secret key aus Supabase → Project Settings → API
 
 ---
 
+## E-Mail-Prüfung
+
+Jede Lizenz kann eine Login-E-Mail haben (Admin → Spalte E-Mail bzw. Knopf **E-Mail**):
+
+| Eintrag | Wirkung |
+|---|---|
+| `max@firma.at` | nur diese Adresse (Groß-/Kleinschreibung egal) |
+| `@firma.at` | jede Adresse dieser Domain – für Firmenlizenzen |
+| leer | keine Prüfung (wie bisher) |
+
+Alle Schlüssel-Abfragen fragen E-Mail **und** Schlüssel ab. Die E-Mail ist für Passwortmanager der Benutzername.
+Ist für eine Lizenz eine E-Mail hinterlegt, reicht der Schlüssel allein nicht mehr.
+
+## myTOOLBOX.ritl
+
+- Startseite der Toolbox → **Anmelden** (E-Mail + Schlüssel) → persönliche Seite `my/` („myTOOLBOX.ritl“).
+- Oben: freigeschaltete Tools (farbig, anklickbar, dort automatisch angemeldet) inkl. Demo-Tools.
+- Unten: nicht lizenzierte Tools grau mit Vorschau und „Lizenz anfragen“.
+- Lizenzstatus: Login-E-Mail, gültig bis, Geräte.
+- Die Anmeldung zählt wie ein Tool-Start als Gerät (gleicher Browser = gleiches Gerät).
+
+### Katalog pflegen (Admin → Tools → Bearbeiten)
+
+Name, Kategorie, Beschreibung, Link, Sortierung, „im Katalog anzeigen“, „ohne Lizenz nutzbar (Demo)“,
+**Vorschaubild** (Screenshot, wird auf 960 px verkleinert) und App-Bild (SVG).
+Startseite und myTOOLBOX lesen den Katalog live aus Supabase – keine Änderung im Repo nötig.
+Neue Demo-/externe Tools ohne Lizenzschutz: **+ Katalogeintrag ohne Lizenzschutz**.
+
 ## Für Kunden
 
 - Schlüsselformat: `RITL-XXXX-XXXX-XXXX-XXXX`. Ältere Schlüssel mit `RT-…` funktionieren weiter und werden automatisch auf `RITL-…` umgeschrieben (gleicher Schlüssel, neues Präfix).

@@ -68,6 +68,24 @@
   button.dan:hover{border-color:var(--danger)}
   button:disabled{opacity:.6;cursor:wait}
   .acts{display:flex;gap:6px;flex-wrap:wrap}
+  .keycell{display:inline-flex;align-items:center;gap:4px;white-space:nowrap}
+  .keytxt{font:500 13px/18px var(--mono);letter-spacing:.5px;padding:4px 8px;border:1px dashed var(--line);border-radius:var(--radius-sm);background:var(--surface)}
+  .keytxt.shown{border-style:solid;border-color:var(--brand);color:var(--accent-text)}
+  .ib{width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;border:1px solid transparent;border-radius:6px;background:transparent;color:var(--muted);cursor:pointer;padding:0}
+  .ib:hover{color:var(--accent-text);border-color:var(--line)}
+  .ib:focus-visible{outline:2px solid var(--brand);outline-offset:1px}
+  .ib svg{width:16px;height:16px}
+  .pwfield{position:relative}.pwfield input{padding-right:44px}
+  .pwfield .ib{position:absolute;right:6px;top:50%;transform:translateY(-50%)}
+  .keybox .keyline{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
+  .appimg{width:36px;height:36px;flex:none;display:block}
+  .ico-l1{fill:color-mix(in srgb,var(--brand) 30%,var(--surface))}
+  .ico-l2{fill:color-mix(in srgb,var(--brand) 60%,var(--surface))}
+  .ico-l3{fill:var(--brand)}
+  .ico-d{fill:var(--on-brand)}
+  .teaserthumb{width:72px;height:44px;object-fit:cover;border-radius:6px;border:1px solid var(--line);display:block}
+  .flags .pill{margin-right:4px}
+  textarea{min-height:90px;resize:vertical;font:400 13px/18px var(--mono)}
   .keybtn{background:var(--surface);border:1px dashed var(--line);border-radius:var(--radius-sm);padding:4px 8px;color:inherit;font:500 13px/18px var(--mono);cursor:pointer;white-space:nowrap}
   .keybtn:hover{border-color:var(--brand)}
   .keybtn[data-full]{border-style:solid;border-color:var(--brand);color:var(--accent-text);letter-spacing:.5px}
@@ -100,7 +118,9 @@
   <h2>Lizenz-<span>Admin</span></h2>
   <form id="lf">
     <label for="tok">Admin-Token</label>
-    <input id="tok" class="mono" placeholder="RTA-…" autocomplete="off" spellcheck="false" required>
+    <input class="vh" type="text" name="username" autocomplete="username" value="RIEMER Tools Admin" readonly tabindex="-1" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);border:0;padding:0">
+    <div class="pwfield"><input id="tok" class="mono" type="password" name="password" autocomplete="current-password" placeholder="RTA-…" spellcheck="false" required>
+    <button class="ib eye" type="button" data-for="tok" aria-label="Token anzeigen" title="Anzeigen"></button></div>
     <p class="hint">Der Token bleibt nur bis zum Schließen dieses Tabs gespeichert.</p>
     <button class="b pri" style="width:100%;margin-top:.5rem">Anmelden</button>
     <p id="lerr" class="p-bad pill hide" style="margin-top:1rem"></p>
@@ -129,7 +149,7 @@
         <thead><tr><th>Kunde</th><th>Schlüssel</th><th>Tools</th><th>Gültig bis</th><th>Geräte</th><th>Zuletzt genutzt</th><th>Status</th><th></th></tr></thead>
         <tbody id="licrows"></tbody>
       </table></div>
-      <p class="hint">Auf den Schlüssel klicken, um ihn vollständig anzuzeigen und zu kopieren. Erneut klicken verbirgt ihn.</p>
+      <p class="hint">Schlüssel sind verdeckt. Auge = anzeigen/verbergen, Symbol daneben = kopieren. E-Mail leer = keine Prüfung, <span class="mono">@firma.at</span> = alle Adressen dieser Domain.</p>
     </section>
 
     <section id="t-new" class="card hide">
@@ -137,7 +157,7 @@
       <form id="nf">
         <div class="grid">
           <div><label>Kunde *</label><input name="customer" required placeholder="Firma XY GmbH"></div>
-          <div><label>E-Mail</label><input name="email" type="email" placeholder="office@firma.at"></div>
+          <div><label>E-Mail</label><input name="email" placeholder="name@firma.at oder @firma.at"><span class="hint">Login-Adresse · leer = keine Prüfung</span></div>
           <div><label>Gültig bis</label><input name="expires_at" type="date"><span class="hint">leer = unbefristet</span></div>
           <div><label>Max. Geräte</label><input name="max_devices" type="number" min="1" value="3"></div>
         </div>
@@ -147,18 +167,44 @@
       </form>
       <div id="newkey" class="keybox hide">
         <div class="hint">Neuer Lizenzschlüssel (später jederzeit in der Lizenzliste abrufbar):</div>
-        <div class="mono" id="nk"></div>
-        <button class="b" id="copy" style="margin-top:.6rem">📋 Kopieren</button>
+        <div class="keyline"><div class="mono" id="nk"></div>
+          <button class="ib" id="nk-eye" type="button" aria-label="Schlüssel anzeigen" title="Anzeigen"></button>
+          <button class="ib" id="copy" type="button" aria-label="Schlüssel kopieren" title="Kopieren"></button></div>
       </div>
     </section>
 
     <section id="t-tools" class="hide">
       <div class="card">
-        <h2>Geschützte Tools</h2>
+        <h2>Tools &amp; Katalog</h2>
+        <p class="hint" style="margin:-8px 0 12px">Was hier steht, zeigen die Toolbox-Startseite und myTOOLBOX.ritl. Reihenfolge nach „Sort.“.</p>
         <div class="wrap"><table>
-          <thead><tr><th>ID</th><th>Name</th><th>Version</th><th>Größe</th><th>Aktualisiert</th></tr></thead>
+          <thead><tr><th></th><th>Tool</th><th>Kategorie</th><th>Link</th><th>Sort.</th><th>Vorschau</th><th>Status</th><th>Größe</th><th></th></tr></thead>
           <tbody id="toolrows"></tbody>
         </table></div>
+        <button class="b" id="cat-new" type="button" style="margin-top:12px">+ Katalogeintrag ohne Lizenzschutz (Demo / extern)</button>
+      </div>
+      <div class="card hide" id="catcard">
+        <h2 id="cat-title">Katalogeintrag bearbeiten</h2>
+        <form id="cf">
+          <div class="grid">
+            <div><label>Tool-ID *</label><input name="tool_id" required pattern="[a-z0-9-]{2,40}"></div>
+            <div><label>Name *</label><input name="name" required></div>
+            <div><label>Kategorie</label><input name="category" placeholder="z. B. Office · PowerPoint"></div>
+            <div><label>Sortierung</label><input name="sort" type="number" value="100"></div>
+          </div>
+          <label>Beschreibung</label><input name="description" placeholder="Ein Satz, was das Tool tut">
+          <label>Link</label><input name="url" placeholder="pptx-manager/  oder  https://…"><span class="hint">relativ zur Toolbox oder volle Adresse</span>
+          <div class="checks" style="margin-top:12px">
+            <label><input type="checkbox" name="listed"> Im Katalog anzeigen</label>
+            <label><input type="checkbox" name="free"> Ohne Lizenz nutzbar (Demo)</label>
+          </div>
+          <div class="grid">
+            <div><label>Vorschaubild (Teaser)</label><input name="teaser" type="file" accept="image/*"><span class="hint">wird auf 960 px verkleinert</span>
+              <div style="margin-top:8px;display:flex;gap:8px;align-items:center"><img id="cf-teaser" class="teaserthumb hide" alt=""><button class="b dan hide" type="button" id="cf-teaser-del">Bild entfernen</button></div></div>
+            <div><label>App-Bild (SVG)</label><textarea name="icon_svg" spellcheck="false" placeholder='<svg class="appimg" viewBox="0 0 48 48">…</svg>'></textarea></div>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:16px"><button class="b pri">Speichern</button><button class="b" type="button" id="cf-cancel">Abbrechen</button></div>
+        </form>
       </div>
       <div class="card">
         <h2>Tool hochladen / aktualisieren</h2>
@@ -195,7 +241,7 @@
   var state = { licenses: [], tools: [] };
   var $ = function (id) { return document.getElementById(id); };
   var esc = function (s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]; }); };
-  var fmtD = function (d) { return d ? new Date(d).toLocaleDateString("de-AT") : "–"; };
+  var fmtD = function (d) { return d ? new Date(d).toLocaleDateString("de-AT", { timeZone: "UTC" }) : "–"; };
   var fmtDT = function (d) { return d ? new Date(d).toLocaleString("de-AT", {dateStyle:"short", timeStyle:"short"}) : "–"; };
   var ss = { get: function (k) { try { return sessionStorage.getItem(k); } catch (e) { return null; } },
              set: function (k, v) { try { v == null ? sessionStorage.removeItem(k) : sessionStorage.setItem(k, v); } catch (e) {} } };
@@ -215,6 +261,28 @@
       });
   }
 
+  var EYE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>';
+  var EYE_OFF = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 3l18 18"/><path d="M10.6 5.1A10.8 10.8 0 0 1 12 5c6.5 0 10 7 10 7a17.6 17.6 0 0 1-3.2 4.1M6.6 6.6C3.8 8.4 2 12 2 12s3.5 7 10 7c1.8 0 3.4-.5 4.8-1.3"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>';
+  var COPY = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>';
+  var keys = {};   // bereits abgerufene Klartext-Schlüssel (nur im Speicher dieses Tabs)
+  function masked(hint) { var last = String(hint || "").slice(-4); return "RITL-●●●●-●●●●-●●●●-" + last; }
+  function copyText(t, msg) {
+    (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject())
+      .then(function () { toast(msg || "Kopiert ✓"); }, function () { toast("Kopieren nicht möglich – bitte anzeigen und markieren."); });
+  }
+  function getKey(id) {
+    if (keys[id]) return Promise.resolve(keys[id]);
+    return api("reveal", { id: id }).then(function (r) { if (r.ok) { keys[id] = r.key; return r.key; } return null; });
+  }
+  [].forEach.call(document.querySelectorAll(".eye[data-for]"), function (b) {
+    b.innerHTML = EYE;
+    b.addEventListener("click", function () {
+      var i = $(b.dataset.for), show = i.type === "password";
+      i.type = show ? "text" : "password"; b.innerHTML = show ? EYE_OFF : EYE;
+      b.title = show ? "Verbergen" : "Anzeigen"; b.setAttribute("aria-label", show ? "Verbergen" : "Anzeigen"); i.focus();
+    });
+  });
+
   function status(l) {
     if (!l.active) return '<span class="pill p-bad">gesperrt</span>';
     if (l.expires_at && new Date(l.expires_at) < new Date()) return '<span class="pill p-bad">abgelaufen</span>';
@@ -228,7 +296,9 @@
         (l.note ? '<br><span class="hint">' + esc(l.note) + "</span>" : "") + "</td>" +
         "<td>" + (l.revealable === false
           ? '<span class="mono hint" title="Vor der Umstellung angelegt – Klartext nicht gespeichert">' + esc(l.key) + "</span>"
-          : '<button class="keybtn mono" data-a="reveal" data-id="' + l.id + '" title="Klicken zum Anzeigen">' + esc(l.key) + " 👁</button>") + "</td>" +
+          : '<span class="keycell"><span class="keytxt" id="kt-' + l.id + '">' + esc(masked(l.key)) + "</span>" +
+            '<button class="ib" data-a="reveal" data-id="' + l.id + '" aria-label="Schlüssel anzeigen" title="Anzeigen">' + EYE + "</button>" +
+            '<button class="ib" data-a="copykey" data-id="' + l.id + '" aria-label="Schlüssel kopieren" title="Kopieren">' + COPY + "</button></span>") + "</td>" +
         "<td>" + l.tools.map(function (t) { return '<span class="tag">' + esc(t === "*" ? "alle" : t) + "</span>"; }).join("") + "</td>" +
         "<td>" + (l.expires_at ? fmtD(l.expires_at) : "unbefristet") + "</td>" +
         "<td>" + l.devices + " / " + l.max_devices + "</td>" +
@@ -238,6 +308,7 @@
           '<button class="b" data-a="toggle" data-id="' + l.id + '">' + (l.active ? "Sperren" : "Entsperren") + "</button>" +
           '<button class="b" data-a="extend" data-id="' + l.id + '">Ablauf</button>' +
           '<button class="b" data-a="tools" data-id="' + l.id + '">Tools</button>' +
+          '<button class="b" data-a="email" data-id="' + l.id + '">E-Mail</button>' +
           '<button class="b" data-a="devmax" data-id="' + l.id + '">Max. Geräte</button>' +
           '<button class="b" data-a="reset" data-id="' + l.id + '">Geräte zurücksetzen</button>' +
           '<button class="b dan" data-a="delete" data-id="' + l.id + '">Löschen</button>' +
@@ -245,12 +316,18 @@
     }).join("") : '<tr><td colspan="8" class="hint">Noch keine Lizenzen.</td></tr>';
 
     $("toolrows").innerHTML = state.tools.map(function (t) {
-      return '<tr><td class="mono">' + esc(t.id) + "</td><td>" + esc(t.name) + "</td><td>" + esc(t.version) +
-             "</td><td>" + t.kb + " KB</td><td>" + fmtDT(t.updated_at) + "</td></tr>";
-    }).join("") || '<tr><td colspan="5" class="hint">Noch keine Tools.</td></tr>';
+      var flags = (t.listed ? "" : '<span class="pill p-warn">ausgeblendet</span>') +
+                  (t.free ? '<span class="pill p-ok">Demo</span>' : '<span class="pill" style="background:color-mix(in srgb,var(--brand) 14%,transparent);color:var(--accent-text)">Lizenz</span>');
+      return "<tr><td>" + (t.icon_svg || "") + "</td>" +
+             "<td><b>" + esc(t.name) + '</b><br><span class="hint mono">' + esc(t.id) + " · v" + esc(t.version) + "</span>" +
+             (t.description ? '<br><span class="hint">' + esc(t.description) + "</span>" : "") + "</td>" +
+             "<td>" + esc(t.category || "–") + '</td><td class="mono" style="font-size:12px">' + esc(t.url || "–") + "</td>" +
+             "<td>" + t.sort + "</td><td>" + (t.teaser ? "✓" : "–") + '</td><td class="flags">' + flags + "</td>" +
+             "<td>" + (t.kb > 0 ? t.kb + " KB" : "–") + '</td><td><button class="b" data-cat="' + esc(t.id) + '">Bearbeiten</button></td></tr>';
+    }).join("") || '<tr><td colspan="9" class="hint">Noch keine Tools.</td></tr>';
 
     $("toolids").innerHTML = state.tools.map(function (t) { return '<option value="' + esc(t.id) + '">'; }).join("");
-    $("toolchecks").innerHTML = state.tools.map(function (t) {
+    $("toolchecks").innerHTML = state.tools.filter(function (t) { return !t.free; }).map(function (t) {
       return '<label><input type="checkbox" name="tools" value="' + esc(t.id) + '"> ' + esc(t.name) + "</label>";
     }).join("") + '<label><input type="checkbox" name="tools" value="*"> <b>Alle Tools</b></label>';
   }
@@ -275,13 +352,24 @@
     var b = e.target.closest("button[data-a]"); if (!b) return;
     var l = find(b.dataset.id), a = b.dataset.a, p;
     if (a === "reveal") {
-      if (b.dataset.full) { delete b.dataset.full; b.textContent = l.key + " 👁"; b.title = "Klicken zum Anzeigen"; return; }
-      return api("reveal", { id: l.id }).then(function (r) {
-        if (!r.ok) return;
-        b.dataset.full = "1"; b.textContent = r.key + " 📋"; b.title = "Klicken zum Verbergen";
-        (navigator.clipboard ? navigator.clipboard.writeText(r.key) : Promise.reject())
-          .then(function () { toast("Schlüssel angezeigt und kopiert ✓"); }, function () { toast("Schlüssel angezeigt"); });
+      var kt = $("kt-" + l.id);
+      if (b.dataset.full) {
+        delete b.dataset.full; kt.textContent = masked(l.key); kt.classList.remove("shown");
+        b.innerHTML = EYE; b.title = "Anzeigen"; b.setAttribute("aria-label", "Schlüssel anzeigen"); return;
+      }
+      return getKey(l.id).then(function (k) {
+        if (!k) return;
+        b.dataset.full = "1"; kt.textContent = k; kt.classList.add("shown");
+        b.innerHTML = EYE_OFF; b.title = "Verbergen"; b.setAttribute("aria-label", "Schlüssel verbergen");
       });
+    }
+    if (a === "copykey") return getKey(l.id).then(function (k) { if (k) copyText(k, "Schlüssel kopiert ✓"); });
+    if (a === "email") {
+      var m = prompt("E-Mail-Adresse für den Login (leer = keine Prüfung, @firma.at = ganze Domain):", l.email || "");
+      if (m === null) return;
+      m = m.trim();
+      if (m && !/^([^@\s]+)?@[^@\s]+\.[^@\s]+$/.test(m)) return toast("Ungültige E-Mail-Adresse.");
+      p = api("update", { id: l.id, email: m });
     }
     if (a === "toggle") p = api("update", { id: l.id, active: !l.active });
     if (a === "extend") {
@@ -312,19 +400,72 @@
     e.preventDefault();
     var f = e.target, tools = [].slice.call(f.querySelectorAll('input[name=tools]:checked')).map(function (c) { return c.value; });
     if (!tools.length) return toast("Bitte mindestens ein Tool wählen.");
+    var em = f.email.value.trim();
+    if (em && !/^([^@\s]+)?@[^@\s]+\.[^@\s]+$/.test(em)) return toast("Ungültige E-Mail-Adresse.");
     if (tools.indexOf("*") >= 0) tools = ["*"];
     api("create", { customer: f.customer.value.trim(), email: f.email.value.trim(), tools: tools,
                     expires_at: f.expires_at.value ? f.expires_at.value + "T23:59:59" : "",
                     max_devices: parseInt(f.max_devices.value, 10) || 3, note: f.note.value.trim() })
       .then(function (r) {
         if (!r.ok) return;
-        $("nk").textContent = r.key; $("newkey").classList.remove("hide");
+        newKey = r.key; $("nk").textContent = masked(r.key); $("nk").classList.remove("shown");
+        $("nk-eye").innerHTML = EYE; $("newkey").classList.remove("hide");
         f.reset(); load();
       });
   });
-  $("copy").addEventListener("click", function () {
-    var k = $("nk").textContent;
-    (navigator.clipboard ? navigator.clipboard.writeText(k) : Promise.reject()).then(function () { toast("Kopiert ✓"); }, function () { toast("Bitte manuell markieren und kopieren."); });
+  var newKey = "";
+  $("copy").innerHTML = COPY; $("nk-eye").innerHTML = EYE;
+  $("copy").addEventListener("click", function () { if (newKey) copyText(newKey, "Schlüssel kopiert ✓"); });
+  $("nk-eye").addEventListener("click", function () {
+    var show = $("nk").textContent !== newKey;
+    $("nk").textContent = show ? newKey : masked(newKey);
+    this.innerHTML = show ? EYE_OFF : EYE; this.title = show ? "Verbergen" : "Anzeigen";
+  });
+
+  /* ── Katalog bearbeiten ── */
+  var teaserData;   // undefined = unverändert, "" = entfernen, "data:…" = neu
+  function openCat(t, isNew) {
+    var f = $("cf"); teaserData = undefined;
+    $("cat-title").textContent = isNew ? "Neuer Katalogeintrag (ohne Lizenzschutz)" : "Katalogeintrag: " + t.name;
+    f.tool_id.value = t.id || ""; f.tool_id.readOnly = !isNew;
+    f.name.value = t.name || ""; f.category.value = t.category || ""; f.sort.value = t.sort == null ? 100 : t.sort;
+    f.description.value = t.description || ""; f.url.value = t.url || "";
+    f.listed.checked = t.listed !== false; f.free.checked = !!t.free || !!isNew;
+    f.icon_svg.value = t.icon_svg || ""; f.teaser.value = "";
+    $("cf-teaser").classList.add("hide"); $("cf-teaser-del").classList.toggle("hide", !t.teaser);
+    $("catcard").classList.remove("hide"); $("catcard").scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+  $("toolrows").addEventListener("click", function (e) {
+    var b = e.target.closest("button[data-cat]"); if (!b) return;
+    openCat(state.tools.filter(function (t) { return t.id === b.dataset.cat; })[0], false);
+  });
+  $("cat-new").addEventListener("click", function () { openCat({}, true); });
+  $("cf-cancel").addEventListener("click", function () { $("catcard").classList.add("hide"); });
+  $("cf-teaser-del").addEventListener("click", function () { teaserData = ""; $("cf-teaser").classList.add("hide"); this.classList.add("hide"); toast("Vorschaubild wird beim Speichern entfernt"); });
+  $("cf").teaser.addEventListener("change", function () {
+    var file = this.files[0]; if (!file) return;
+    var img = new Image(), url = URL.createObjectURL(file);
+    img.onload = function () {
+      var w = Math.min(960, img.naturalWidth), h = Math.round(img.naturalHeight * w / img.naturalWidth);
+      var c = document.createElement("canvas"); c.width = w; c.height = h;
+      c.getContext("2d").drawImage(img, 0, 0, w, h);
+      teaserData = c.toDataURL("image/webp", 0.82);
+      if (teaserData.indexOf("data:image/webp") !== 0) teaserData = c.toDataURL("image/jpeg", 0.85);
+      $("cf-teaser").src = teaserData; $("cf-teaser").classList.remove("hide"); $("cf-teaser-del").classList.add("hide");
+      URL.revokeObjectURL(url);
+    };
+    img.src = url;
+  });
+  $("cf").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var f = e.target, svg = f.icon_svg.value.trim();
+    if (svg && !/^<svg[\s\S]*<\/svg>$/.test(svg)) return toast("App-Bild muss ein <svg>…</svg> sein.");
+    if (/<script|on\w+\s*=/i.test(svg)) return toast("App-Bild darf keine Skripte enthalten.");
+    var d = { tool_id: f.tool_id.value.trim(), name: f.name.value.trim(), category: f.category.value.trim(),
+              description: f.description.value.trim(), url: f.url.value.trim(), sort: parseInt(f.sort.value, 10) || 100,
+              listed: f.listed.checked, free: f.free.checked, icon_svg: svg };
+    if (teaserData !== undefined) d.teaser_img = teaserData;
+    api("catalog_update", d).then(function (r) { if (r.ok) { toast("Katalog gespeichert ✓"); $("catcard").classList.add("hide"); load(); } });
   });
 
   $("uf").addEventListener("submit", function (e) {
