@@ -4,6 +4,10 @@
 Start: index.html im Browser öffnen (Chrome/Edge/Firefox) oder auf GitHub Pages ablegen.
 Beim Öffnen wird die Beispielzeichnung „Beispiel_Schnitt.dxf“ geladen.
 
+Neu in 3.1 (09.11.2026)
+- Layout nutzt immer die volle Breite des Browserfensters, höchstens 2048 px (vorher 1240 px):
+  Header, Arbeitsbereich und Footer; darüber zentriert.
+
 Startseite (09.11.2026)
 - Neue Startdatei als Letztstand: Anmeldung mit E-Mail-Adresse und Lizenzschlüssel RITL-XXXX-XXXX-XXXX-XXXX
   (verdeckt, Auge-Knopf, Passwortmanager), Hell/Dunkel, Anleitung. Funktioniert online und lokal per Doppelklick.
