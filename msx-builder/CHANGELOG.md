@@ -4,6 +4,12 @@
 Start: index.html im Browser öffnen (Chrome/Edge/Firefox) oder auf GitHub Pages ablegen.
 Beim Öffnen wird die Beispielzeichnung „Beispiel_Schnitt.dxf“ geladen.
 
+Startseite (09.11.2026)
+- Neue Startdatei als Letztstand: Anmeldung mit E-Mail-Adresse und Lizenzschlüssel RITL-XXXX-XXXX-XXXX-XXXX
+  (verdeckt, Auge-Knopf, Passwortmanager), Hell/Dunkel, Anleitung. Funktioniert online und lokal per Doppelklick.
+- Wichtig: Die Startdatei gehört nur nach msx-builder/index.html bzw. zum Weitergeben – NIE in die Tabelle
+  tools (sonst lädt sie sich nach der Prüfung selbst neu → Endlosschleife „Lizenz wird geprüft …“).
+
 Neu in 3.0 (08.11.2026)
 - Design nach RIEMER-Farbkarte: Header mit App-Bild, Eyebrow und Wortmarke „RIEMER Tools“ (nicht rot),
   runder Hell/Dunkel-Knopf (gemeinsame Einstellung riemer-theme), nummerierte Panels, Inter/JetBrains Mono,
