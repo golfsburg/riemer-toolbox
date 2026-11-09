@@ -4,6 +4,16 @@
 Start: index.html im Browser öffnen (Chrome/Edge/Firefox) oder auf GitHub Pages ablegen.
 Beim Öffnen wird die Beispielzeichnung „Beispiel_Schnitt.dxf“ geladen.
 
+Neu in 4.0 (09.11.2026)
+- Projekt-Browser (Bereich 01): Projektstruktur wie in PROFIS MSE mit Ordnern (beliebig verschachtelt) und
+  Unterprojekten; anlegen, umbenennen (Doppelklick/F2), löschen, per Ziehen verschieben; Status je Unterprojekt.
+- Jedes Unterprojekt hat eigene Zeichnung, Einstellungen, Erkennung und Bearbeitung; Wechsel per Klick, nichts geht verloren.
+- Export „Projekt .mspx“ (ganzes Projekt, Unterprojekt-Nummern leer – PROFIS MSE vergibt sie beim Import neu)
+  und „Alle .msx (ZIP)“ in der Ordnerstruktur.
+- .mspx aus PROFIS MSE öffnen (Bereich 01 oder Zeichnungsfeld): Struktur wird übernommen, Unterprojekte beim
+  Anklicken als MSX-Zeichnung geöffnet; nicht geöffnete werden unverändert exportiert.
+- Bereiche neu nummeriert (Projekt = 01).
+
 Neu in 3.1 (09.11.2026)
 - Layout nutzt immer die volle Breite des Browserfensters, höchstens 2048 px (vorher 1240 px):
   Header, Arbeitsbereich und Footer; darüber zentriert.
