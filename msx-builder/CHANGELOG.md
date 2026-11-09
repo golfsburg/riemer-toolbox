@@ -4,6 +4,10 @@
 Start: index.html im Browser öffnen (Chrome/Edge/Firefox) oder auf GitHub Pages ablegen.
 Beim Öffnen wird die Beispielzeichnung „Beispiel_Schnitt.dxf“ geladen.
 
+Neu in 4.2 (09.11.2026)
+- Fix .mspx-Export: Unterprojekte werden mit Unterprojekt-Nummer geschrieben (aus der Vorlage bzw. dem Original).
+  PROFIS MSE lehnt Unterprojekte ohne Nummer beim Projekt-Import ab; gleiche Nummern sind erlaubt.
+
 Neu in 4.1 (09.11.2026)
 - Jeder Import wird automatisch ein neues Unterprojekt im ausgewählten Ordner (ohne „+ Unterprojekt“);
   mehrere Dateien auf einmal möglich. Ein frisches, leeres Unterprojekt bzw. das Startbeispiel wird dabei weiterverwendet.
@@ -15,7 +19,7 @@ Neu in 4.0 (09.11.2026)
 - Projekt-Browser (Bereich 01): Projektstruktur wie in PROFIS MSE mit Ordnern (beliebig verschachtelt) und
   Unterprojekten; anlegen, umbenennen (Doppelklick/F2), löschen, per Ziehen verschieben; Status je Unterprojekt.
 - Jedes Unterprojekt hat eigene Zeichnung, Einstellungen, Erkennung und Bearbeitung; Wechsel per Klick, nichts geht verloren.
-- Export „Projekt .mspx“ (ganzes Projekt, Unterprojekt-Nummern leer – PROFIS MSE vergibt sie beim Import neu)
+- Export „Projekt .mspx“ (ganzes Projekt)
   und „Alle .msx (ZIP)“ in der Ordnerstruktur.
 - .mspx aus PROFIS MSE öffnen (Bereich 01 oder Zeichnungsfeld): Struktur wird übernommen, Unterprojekte beim
   Anklicken als MSX-Zeichnung geöffnet; nicht geöffnete werden unverändert exportiert.
