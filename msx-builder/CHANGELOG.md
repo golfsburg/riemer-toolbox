@@ -4,6 +4,12 @@
 Start: index.html im Browser öffnen (Chrome/Edge/Firefox) oder auf GitHub Pages ablegen.
 Beim Öffnen wird die Beispielzeichnung „Beispiel_Schnitt.dxf“ geladen.
 
+Neu in 4.3 (09.11.2026)
+- „+ Unterprojekt“ entfernt (jeder Import legt automatisch ein Unterprojekt an).
+- Export & Import im Projektbereich einklappbar (Zustand bleibt gespeichert).
+- Alle Anleitungen als (i) neben der Überschrift jedes Bereichs, Anzeige bei Mausover, Fokus oder Klick;
+  im Modellbereich passt sich der Hinweis dem gewählten Werkzeug an.
+
 Neu in 4.2 (09.11.2026)
 - Fix .mspx-Export: Unterprojekte werden mit Unterprojekt-Nummer geschrieben (aus der Vorlage bzw. dem Original).
   PROFIS MSE lehnt Unterprojekte ohne Nummer beim Projekt-Import ab; gleiche Nummern sind erlaubt.
