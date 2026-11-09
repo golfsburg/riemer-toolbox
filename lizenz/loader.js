@@ -98,6 +98,7 @@
       '*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:16px;' +
       'font:400 14px/20px var(--sans);background:var(--surface);color:var(--ink)}' +
       '.card{background:var(--surface-muted);width:100%;max-width:440px;padding:40px;border-radius:16px;border:1px solid var(--line)}' +
+      '.tblink{display:inline-flex;line-height:0;border-radius:10px;margin-bottom:16px}.tblink:focus-visible{outline:2px solid var(--brand);outline-offset:2px}' +
       '.eyebrow{margin:0 0 8px;font:500 12px/16px var(--mono);letter-spacing:2px;text-transform:uppercase;color:var(--muted)}' +
       'h1{margin:0 0 8px;font:800 24px/30px var(--sans);letter-spacing:-.5px}h1 span{color:var(--accent-text)}' +
       '.sub{margin:0 0 24px;color:var(--muted)}' +
@@ -117,6 +118,7 @@
       '.foot{margin-top:24px;font-size:13px;color:var(--muted);text-align:center}.foot a{color:var(--muted)}.foot a:hover{color:var(--accent-text)}' +
       '</style>' +
       '<form class="card" id="f" method="post" action="#">' +
+      '<a class="tblink" href="../" title="RIEMER Toolbox – alle Tools" aria-label="Zur RIEMER Toolbox"><svg width="44" height="44" viewBox="0 0 48 48" aria-hidden="true"><rect x="4" y="4" width="18" height="18" rx="5" fill="#C9DAF5"/><rect x="26" y="4" width="18" height="18" rx="5" fill="#8FB0E3"/><rect x="4" y="26" width="18" height="18" rx="5" fill="#8FB0E3"/><rect x="26" y="26" width="18" height="18" rx="5" fill="#1F5FC2"/><rect x="31" y="33.5" width="8" height="3" rx="1.5" fill="#FFFFFF"/><rect x="33.5" y="31" width="3" height="8" rx="1.5" fill="#FFFFFF"/></svg></a>' +
       '<p class="eyebrow">RIEMER Tools · 🔒 Lizenz</p>' +
       '<h1>' + NAME + '</h1>' +
       '<p class="sub">Für dieses Tool ist eine gültige Lizenz erforderlich.</p>' +
