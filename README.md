@@ -38,7 +38,7 @@ Kunden melden sich auf der Startseite mit E-Mail-Adresse und Lizenzschlüssel an
 
 Mit 🔒 markierte Tools sind nur mit gültigem Lizenzschlüssel (`RITL-XXXX-XXXX-XXXX-XXXX`) nutzbar.
 Der Tool-Code liegt nicht in diesem Repository, sondern wird nach der Lizenzprüfung vom Server geladen.
-Lizenz anfragen: https://riemer.co
+Lizenz anfragen: toolbox@riemer.co
 
 ### ▶ Demoversionen
 
@@ -62,6 +62,6 @@ RIEMER-Toolbox/
 
 ## Kontakt / Lizenzanfragen
 
-Peter Riemer · https://riemer.co
+Peter Riemer · toolbox@riemer.co
 
 © 2026 Peter Riemer

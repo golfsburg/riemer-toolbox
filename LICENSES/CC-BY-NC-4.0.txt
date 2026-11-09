@@ -12,13 +12,13 @@ Sie dürfen:
   - Bearbeiten: das Material remixen, verändern und darauf aufbauen
 
 Unter folgenden Bedingungen:
-  - Namensnennung: Sie müssen „Peter Riemer – RIEMER Toolbox (riemer.co)“
+  - Namensnennung: Sie müssen „Peter Riemer – RIEMER Toolbox (toolbox@riemer.co)“
     nennen, einen Link zur Lizenz beifügen und angeben, ob Änderungen
     vorgenommen wurden.
   - Nicht kommerziell: Sie dürfen das Material nicht für kommerzielle
     Zwecke nutzen.
 
-Kommerzielle Nutzung ist auf Anfrage möglich: https://riemer.co
+Kommerzielle Nutzung ist auf Anfrage möglich: toolbox@riemer.co
 
 Rechtsverbindlicher Lizenztext (Legal Code):
   https://creativecommons.org/licenses/by-nc/4.0/legalcode.de

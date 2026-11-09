@@ -127,7 +127,7 @@
       '<button class="eye" id="eye" type="button" aria-label="Lizenzschlüssel anzeigen" aria-pressed="false" title="Anzeigen">' + EYE + '</button></div>' +
       '<button id="b" type="submit">Freischalten</button>' +
       (msg ? '<div class="err">' + msg + '</div>' : '') +
-      '<div class="foot">Lizenz anfragen: <a href="https://riemer.co">riemer.co</a> · ' +
+      '<div class="foot">Lizenz anfragen: <a href="mailto:toolbox@riemer.co">toolbox@riemer.co</a> · ' +
       '<a href="../">RIEMER Toolbox</a></div>' +
       '</form>';
 

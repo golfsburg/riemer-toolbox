@@ -2,7 +2,7 @@
 <!--
   SPDX-License-Identifier: LicenseRef-Proprietary
   myTOOLBOX.ritl – RIEMER Tools
-  Copyright (c) 2026 Peter Riemer – https://riemer.co – Alle Rechte vorbehalten.
+  Copyright (c) 2026 Peter Riemer – toolbox@riemer.co – Alle Rechte vorbehalten.
 -->
 <html lang="de">
 <head>
@@ -180,7 +180,7 @@ footer a{color:var(--muted)}footer a:hover{color:var(--accent-text)}
    <a class="hbtn" href="../" aria-label="Alle Tools" title="Alle Tools"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg><span class="lbl">Alle Tools</span></a>
    <button class="hbtn" id="logout-btn" type="button" aria-label="Abmelden" title="Abmelden"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg><span class="lbl">Abmelden</span></button>
    <button class="theme-btn" id="theme-btn" type="button"></button>
-   <a class="brandmark" href="https://riemer.co" target="_blank" rel="noopener">RIEMER <span>Tools</span></a>
+   <a class="brandmark" href="mailto:toolbox@riemer.co">RIEMER <span>Tools</span></a>
   </nav>
  </div>
 </header>
@@ -196,13 +196,13 @@ footer a{color:var(--muted)}footer a:hover{color:var(--accent-text)}
  </div>
 </main>
 
-<footer><span>© 2026 Peter Riemer · <a href="https://riemer.co" target="_blank" rel="noopener">riemer.co</a> · RIEMER Tools</span><span>myTOOLBOX.ritl · <a href="../">RIEMER Toolbox</a></span></footer>
+<footer><span>© 2026 Peter Riemer · <a href="mailto:toolbox@riemer.co">toolbox@riemer.co</a> · RIEMER Tools</span><span>myTOOLBOX.ritl · <a href="../">RIEMER Toolbox</a></span></footer>
 <div id="toast" role="status"></div>
 
 <dialog id="teaser" class="wide">
  <div class="dh" id="tz-head"></div>
  <div class="db" id="tz-body"></div>
- <div class="df"><button class="btn" type="button" data-close="teaser">Schließen</button><a class="btn primary" id="tz-ask" href="https://riemer.co" target="_blank" rel="noopener">Lizenz anfragen</a></div>
+ <div class="df"><button class="btn" type="button" data-close="teaser">Schließen</button><a class="btn primary" id="tz-ask" href="mailto:toolbox@riemer.co">Lizenz anfragen</a></div>
 </dialog>
 
 <dialog id="help">
@@ -368,7 +368,8 @@ $("more").addEventListener("click", function (e) {
     '<p class="small" style="text-transform:uppercase;letter-spacing:1.5px;font-family:var(--mono)">' + esc(t.category || "") + "</p>" +
     "<p>" + esc(t.description || "") + "</p>" +
     '<p class="small">Dieses Tool ist nicht in deiner Lizenz enthalten.</p>';
-  $("tz-ask").href = "https://riemer.co";
+  $("tz-ask").href = "mailto:toolbox@riemer.co?subject=" + encodeURIComponent("Lizenzanfrage " + t.name) +
+    "&body=" + encodeURIComponent("Hallo Peter,\n\nich interessiere mich für eine Lizenz für " + t.name + ".\n\nMeine Login-E-Mail: " + email + "\n");
   openDlg("teaser");
 });
 

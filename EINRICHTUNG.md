@@ -30,7 +30,7 @@ Nach ~1 Minute erreichbar unter `https://golfsburg.github.io/riemer-toolbox/`
 
 ## 5. Eigene Domain tools.riemer.co (optional)
 1. Datei `CNAME.example` in `CNAME` umbenennen (Inhalt: `tools.riemer.co`).
-2. Beim DNS-Anbieter von riemer.co einen Eintrag anlegen:
+2. Beim DNS-Anbieter von toolbox@riemer.co einen Eintrag anlegen:
    `CNAME  tools  →  golfsburg.github.io`
 3. Settings → Pages → Custom domain `tools.riemer.co` → **Enforce HTTPS** anhaken.
 

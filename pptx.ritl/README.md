@@ -33,4 +33,4 @@ Sichert das gesamte Tool (beide Module) als `.json` oder als `.zip` inkl. PPTX-O
 
 Alle Daten werden lokal im Browser verarbeitet – nichts wird hochgeladen.
 
-© 2026 Peter Riemer · https://riemer.co
+© 2026 Peter Riemer · toolbox@riemer.co
