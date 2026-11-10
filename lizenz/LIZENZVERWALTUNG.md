@@ -100,6 +100,7 @@ Mögliche Ergebnisse: `ok`, `invalid_key`, `revoked`, `expired`, `tool_not_licen
 ```powershell
 $env:RIEMER_ADMIN_TOKEN = "RTA-…"
 .\lizenz\upload-tool.ps1 -Id pptx-manager -Version 1.1-beta -Kanal beta -Datei "C:\Pfad\pptx-manager.html" -Notiz "Neue Vorlagen"
+# Edition (optional): -Edition pro
 ```
 
 **Variante C – Datei an Claude schicken** und hochladen lassen.
@@ -129,7 +130,23 @@ Ausgeliefert wird jeweils die **zuletzt freigegebene aktive** Version aus den er
 - *Löschen* – Version endgültig entfernen.
 - Spalte *Aufrufe* zeigt, wie oft die Version geöffnet wurde (Protokoll speichert die Version mit).
 
-**Lizenz-Kanal ändern:** Lizenzen → Knopf *Kanal* (oder beim Anlegen auswählen).
+**Lizenz bearbeiten:** Lizenzen → *Bearbeiten* (oder *+ Neue Lizenz*) öffnet ein Fenster mit allen Einstellungen: Kunde, E-Mail, Ablauf (oder unbefristet), max. Geräte, Standard-Kanal, Status, Notiz – und darunter die Tool-Liste mit Häkchen, **Kanal je Tool** und **Edition je Tool**. Die Spalte *Bekommt* zeigt sofort, welche Version mit dieser Einstellung ausgeliefert wird.
+
+Ein Kunde kann so z. B. den MSX-Builder in **Beta** und alle anderen Tools **Stabil** bekommen (Standard-Kanal = Stabil, beim MSX-Builder Kanal = Beta).
+
+## 🧩 Editionen (Light, Pro, …)
+
+Editionen sind parallele Ausprägungen eines Tools – unabhängig vom Kanal. *Standard* gibt es immer.
+
+1. Tools → *Editionen* → z. B. `light` / Light und `pro` / Pro anlegen.
+2. Beim Hochladen die Edition wählen (oder in *Versionen* nachträglich umstellen). Jede Edition hat ihre eigenen Kanäle: Pro 2.1 kann in Beta liegen, während Pro 2.0 stabil ist.
+3. In der Lizenz beim Tool die Edition auswählen.
+
+Gibt es für eine Edition (im Kanal der Lizenz) noch keine Version, bekommt die Lizenz automatisch die **Standard**-Edition. Im Tool-Header erscheint ein Kennzeichen (z. B. **PRO**).
+
+**Variante „eine Datei für alle Editionen“:** Jedes Tool bekommt beim Laden `window.RITL = { tool, version, channel, edition, edition_name, customer, email }`. Ein Tool kann damit Funktionen selbst freischalten, z. B. `if (window.RITL && RITL.edition === "pro") { … }` – dann reicht eine einzige hochgeladene Standard-Version.
+
+Technik: `tool_editions` (Editionen je Tool), `tool_versions.edition`, `licenses.tool_cfg` = `{"msx-builder": {"channel": "beta", "edition": "pro"}}`.
 
 Technik: Tabelle `tool_versions` (Version, Kanal, HTML, Notiz, aktiv, freigegeben am). `tools.html` spiegelt immer die aktuelle stabile Version. Das GitHub-Repo bleibt unverändert – die Loader-Dateien laden je nach Lizenz die passende Version.
 

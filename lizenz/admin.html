@@ -118,6 +118,34 @@
   #login h2 span{color:var(--accent-text)}
   #login .eyebrow{font:500 12px/16px var(--mono);letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
   .login-top{max-width:440px;margin:24px auto 0;display:flex;justify-content:flex-end}
+  /* Dialoge (Lizenz bearbeiten, Editionen) */
+  dialog.dlg{width:min(1040px,calc(100vw - 32px));max-height:calc(100vh - 48px);padding:0;border:1px solid var(--line);border-radius:var(--radius-panel);background:var(--surface);color:var(--ink);box-shadow:0 24px 64px rgba(0,0,0,.35)}
+  dialog.dlg.sm{width:min(640px,calc(100vw - 32px))}
+  dialog.dlg::backdrop{background:rgba(15,18,22,.55)}
+  .dlg form,.dlg .frame{display:flex;flex-direction:column;max-height:calc(100vh - 50px)}
+  .dlg-head{display:flex;align-items:center;gap:12px;padding:18px 24px;border-bottom:1px solid var(--line)}
+  .dlg-head h2{margin:0;flex:1}
+  .dlg-body{padding:4px 24px 24px;overflow:auto}
+  .dlg-foot{display:flex;justify-content:flex-end;align-items:center;gap:8px;padding:14px 24px;border-top:1px solid var(--line);background:var(--surface-muted);border-radius:0 0 var(--radius-panel) var(--radius-panel)}
+  .dlg-foot .sp{flex:1}
+  label.chk{display:inline-flex;align-items:center;gap:8px;margin:0;font:400 14px/20px var(--sans);letter-spacing:0;text-transform:none;color:var(--ink);cursor:pointer}
+  label.chk input{width:18px;height:18px;margin:0;accent-color:var(--brand)}
+  .row{display:flex;gap:12px;align-items:center}
+  .row input[type=date]{flex:1}
+  .sect{margin:20px 0 8px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  .sect h3{margin:0;font:800 15px/20px var(--sans)}
+  .ttab td,.ttab th{padding:8px}
+  .ttab select{padding:6px 8px;font-size:13px;min-width:150px}
+  .ttab tr.dis td:not(:first-child){opacity:.45}
+  .ttab td:first-child{width:36px}
+  .ttab input[type=checkbox]{width:18px;height:18px;accent-color:var(--brand)}
+  .get{font:500 12px/16px var(--mono);white-space:nowrap}
+  .ch-ed{background:var(--brand);color:var(--on-brand)}
+  .tag .ch{margin-left:4px;padding:0 5px;font-size:10px;line-height:14px}
+  .tagdef{display:block;margin-bottom:2px}
+  .edlist td{padding:6px 8px}
+  .edlist input{padding:6px 8px}
+  .vsel{padding:5px 8px!important;font-size:13px!important;min-width:110px}
   .hide{display:none!important}
   @media(max-width:700px){:root{--gut:16px}}
 </style>
@@ -151,7 +179,7 @@
   </header>
   <nav>
     <button data-tab="lic" class="on">Lizenzen</button>
-    <button data-tab="new">+ Neue Lizenz</button>
+    <button type="button" id="lic-new">+ Neue Lizenz</button>
     <button data-tab="tools">Tools</button>
     <button data-tab="log">Protokoll</button>
   </nav>
@@ -159,33 +187,10 @@
     <section id="t-lic" class="card">
       <h2>Lizenzen</h2>
       <div class="wrap"><table>
-        <thead><tr><th>Kunde</th><th>Schlüssel</th><th>Tools</th><th>Kanal</th><th>Gültig bis</th><th>Geräte</th><th>Zuletzt genutzt</th><th>Status</th><th></th></tr></thead>
+        <thead><tr><th>Kunde</th><th>Schlüssel</th><th>Tools · Kanal · Edition</th><th>Gültig bis</th><th>Geräte</th><th>Zuletzt genutzt</th><th>Status</th><th></th></tr></thead>
         <tbody id="licrows"></tbody>
       </table></div>
-      <p class="hint">Schlüssel sind verdeckt. Auge = anzeigen/verbergen, Symbol daneben = kopieren. E-Mail leer = keine Prüfung, <span class="mono">@firma.at</span> = alle Adressen dieser Domain.</p>
-    </section>
-
-    <section id="t-new" class="card hide">
-      <h2>Neue Lizenz</h2>
-      <form id="nf">
-        <div class="grid">
-          <div><label>Kunde *</label><input name="customer" required placeholder="Firma XY GmbH"></div>
-          <div><label>E-Mail</label><input name="email" placeholder="name@firma.at oder @firma.at"><span class="hint">Login-Adresse · leer = keine Prüfung</span></div>
-          <div><label>Gültig bis</label><input name="expires_at" type="date"><span class="hint">leer = unbefristet</span></div>
-          <div><label>Max. Geräte</label><input name="max_devices" type="number" min="1" value="3"></div>
-          <div><label>Kanal</label><select name="channel"><option value="stable">Stabil</option><option value="beta">Beta</option><option value="dev">Entwicklung (Dev)</option></select>
-            <span class="hint">Beta sieht auch Stabil, Dev sieht alles</span></div>
-        </div>
-        <label>Tools *</label><div class="checks" id="toolchecks"></div>
-        <label>Notiz</label><input name="note" placeholder="z. B. Rechnung 2026-041">
-        <button class="b pri" style="margin-top:1rem">Lizenz erzeugen</button>
-      </form>
-      <div id="newkey" class="keybox hide">
-        <div class="hint">Neuer Lizenzschlüssel (später jederzeit in der Lizenzliste abrufbar):</div>
-        <div class="keyline"><div class="mono" id="nk"></div>
-          <button class="ib" id="nk-eye" type="button" aria-label="Schlüssel anzeigen" title="Anzeigen"></button>
-          <button class="ib" id="copy" type="button" aria-label="Schlüssel kopieren" title="Kopieren"></button></div>
-      </div>
+      <p class="hint">Schlüssel sind verdeckt. Auge = anzeigen/verbergen, Symbol daneben = kopieren. Oben in der Tools-Spalte steht der Standard-Kanal der Lizenz; abweichende Kanäle und Editionen sind beim jeweiligen Tool vermerkt.</p>
     </section>
 
     <section id="t-tools" class="hide">
@@ -223,9 +228,9 @@
       </div>
       <div class="card hide" id="vercard">
         <h2 id="ver-title">Versionen</h2>
-        <p class="hint" style="margin:-8px 0 12px">Jede Lizenz bekommt die neueste aktive Version aus ihrem Kanal (Dev sieht Dev + Beta + Stabil, Beta sieht Beta + Stabil). „Freigeben“ verschiebt eine Version in den nächsten Kanal, „Zurückziehen“ nimmt sie aus der Auslieferung – dann gilt automatisch wieder die vorige.</p>
+        <p class="hint" style="margin:-8px 0 12px">Jede Lizenz bekommt die neueste aktive Version aus ihrem Kanal und ihrer Edition (Dev sieht Dev + Beta + Stabil, Beta sieht Beta + Stabil; fehlt eine Edition, gilt Standard). Kanal und Edition lassen sich direkt in der Tabelle umstellen. „Freigeben“ verschiebt eine Version in den nächsten Kanal, „Zurückziehen“ nimmt sie aus der Auslieferung – dann gilt automatisch wieder die vorige.</p>
         <div class="wrap"><table>
-          <thead><tr><th>Version</th><th>Kanal</th><th>Freigegeben</th><th>Größe</th><th>Aufrufe</th><th>Notiz</th><th></th></tr></thead>
+          <thead><tr><th>Version</th><th>Edition</th><th>Kanal</th><th>Freigegeben</th><th>Größe</th><th>Aufrufe</th><th>Notiz</th><th></th></tr></thead>
           <tbody id="verrows"></tbody>
         </table></div>
         <div style="margin-top:12px"><button class="b" type="button" id="ver-close">Schließen</button></div>
@@ -240,6 +245,8 @@
             <div><label>Version *</label><input name="version" placeholder="1.0" required></div>
             <div><label>Kanal</label><select name="channel"><option value="dev">Entwicklung (Dev)</option><option value="beta">Beta</option><option value="stable">Stabil</option></select>
               <span class="hint">Neu meist zuerst in Dev oder Beta</span></div>
+            <div><label>Edition</label><select name="edition"><option value="standard">Standard</option></select>
+              <span class="hint">Editionen je Tool unter „Editionen“ anlegen</span></div>
           </div>
           <label>Notiz</label><input name="notes" placeholder="Was ist neu?">
           <label>HTML-Datei *</label><input name="file" type="file" accept=".html,.htm,text/html" required>
@@ -258,6 +265,58 @@
     </section>
   </main>
 </div>
+
+<dialog id="licdlg" class="dlg" aria-labelledby="lic-title">
+  <form id="lic-form" novalidate>
+    <div class="dlg-head"><h2 id="lic-title">Lizenz</h2><button type="button" class="ib" data-close aria-label="Schließen" title="Schließen">✕</button></div>
+    <div class="dlg-body">
+      <div id="newkey" class="keybox hide" style="margin-top:16px">
+        <div class="hint">Neuer Lizenzschlüssel (später jederzeit in der Lizenzliste abrufbar):</div>
+        <div class="keyline"><div class="mono" id="nk"></div>
+          <button class="ib" id="nk-eye" type="button" aria-label="Schlüssel anzeigen" title="Anzeigen"></button>
+          <button class="ib" id="copy" type="button" aria-label="Schlüssel kopieren" title="Kopieren"></button></div>
+      </div>
+      <div class="grid">
+        <div><label for="lf-customer">Kunde *</label><input id="lf-customer" name="customer" required placeholder="Firma XY GmbH"></div>
+        <div><label for="lf-email">E-Mail</label><input id="lf-email" name="email" placeholder="name@firma.at oder @firma.at"><span class="hint">Login-Adresse · leer = keine Prüfung · @firma.at = ganze Domain</span></div>
+      </div>
+      <div class="grid">
+        <div><label for="lf-exp">Gültig bis</label>
+          <input id="lf-exp" name="expires_at" type="date"><label class="chk" style="margin-top:8px"><input type="checkbox" name="unlimited"> unbefristet</label></div>
+        <div><label for="lf-dev">Max. Geräte</label><input id="lf-dev" name="max_devices" type="number" min="1" max="999" value="3"></div>
+        <div><label for="lf-ch">Standard-Kanal</label><select id="lf-ch" name="channel"><option value="stable">Stabil</option><option value="beta">Beta</option><option value="dev">Entwicklung (Dev)</option></select>
+          <span class="hint">gilt für alle Tools ohne eigene Einstellung</span></div>
+        <div><label>Status</label><label class="chk" style="margin-top:8px"><input type="checkbox" name="active" checked> Lizenz aktiv</label></div>
+      </div>
+      <label for="lf-note">Notiz</label><input id="lf-note" name="note" placeholder="z. B. Rechnung 2026-041">
+      <div class="sect"><h3>Tools</h3><label class="chk"><input type="checkbox" name="all"> <b>Alle Tools</b>&nbsp;– auch künftige</label></div>
+      <div class="wrap"><table class="ttab">
+        <thead><tr><th></th><th>Tool</th><th>Kanal</th><th>Edition</th><th>Bekommt</th></tr></thead>
+        <tbody id="lic-tools"></tbody>
+      </table></div>
+      <p class="hint">„Bekommt“ zeigt die Version, die mit dieser Einstellung ausgeliefert wird. Gibt es für eine Edition noch keine Version, gilt automatisch Standard.</p>
+    </div>
+    <div class="dlg-foot"><span class="hint" id="lic-sum"></span><span class="sp"></span>
+      <button type="button" class="b" data-close>Abbrechen</button><button type="submit" class="b pri" id="lic-save">Speichern</button></div>
+  </form>
+</dialog>
+
+<dialog id="eddlg" class="dlg sm" aria-labelledby="ed-title">
+  <div class="frame">
+    <div class="dlg-head"><h2 id="ed-title">Editionen</h2><button type="button" class="ib" data-close aria-label="Schließen" title="Schließen">✕</button></div>
+    <div class="dlg-body">
+      <p class="hint">Editionen sind parallele Ausprägungen eines Tools (z. B. Light, Pro) – unabhängig vom Kanal. „Standard“ gibt es immer. Jede Version wird für eine Edition hochgeladen; im Tool steht die Edition als <span class="mono">window.RITL.edition</span> zur Verfügung.</p>
+      <table class="edlist"><thead><tr><th>ID</th><th>Name</th><th>Sort.</th><th></th></tr></thead><tbody id="edrows"></tbody></table>
+      <form id="edf" class="row" style="margin-top:16px;align-items:flex-end">
+        <div style="flex:1"><label for="ed-id">ID</label><input id="ed-id" name="edition" required pattern="[a-z0-9-]{2,20}" placeholder="pro"></div>
+        <div style="flex:2"><label for="ed-name">Name</label><input id="ed-name" name="name" required placeholder="Pro"></div>
+        <div style="width:90px"><label for="ed-sort">Sort.</label><input id="ed-sort" name="sort" type="number" value="100"></div>
+        <button class="b pri">+ Hinzufügen</button>
+      </form>
+    </div>
+    <div class="dlg-foot"><span class="sp"></span><button type="button" class="b" data-close>Schließen</button></div>
+  </div>
+</dialog>
 <div id="toast"></div>
 
 <script>
@@ -275,7 +334,7 @@
 
   function toast(msg) { var t = $("toast"); t.textContent = msg; t.classList.add("show"); clearTimeout(t._h); t._h = setTimeout(function () { t.classList.remove("show"); }, 2600); }
 
-  var ERR = { key_not_stored: "Für diese Lizenz ist kein Klartext gespeichert.", unauthorized: "Admin-Token ungültig.", invalid_tool: "Ungültige Tool-ID oder leere Datei.", server_error: "Serverfehler.", network: "Keine Verbindung zum Server." };
+  var ERR = { key_not_stored: "Für diese Lizenz ist kein Klartext gespeichert.", unauthorized: "Admin-Token ungültig.", invalid_tool: "Ungültige Tool-ID oder leere Datei.", server_error: "Serverfehler.", network: "Keine Verbindung zum Server.", invalid_edition: "Ungültige Edition.", edition_in_use: "Edition hat noch Versionen – zuerst die Versionen löschen oder auf Standard umstellen." };
 
   function api(action, data) {
     return fetch(API, { method: "POST", headers: { "Content-Type": "application/json", "x-admin-token": token },
@@ -311,14 +370,40 @@
   });
 
   var CH = { stable: "Stabil", beta: "Beta", dev: "Dev" };
+  var CHANS = { dev: ["dev", "beta", "stable"], beta: ["beta", "stable"], stable: ["stable"] };
+  function toolById(id) { return state.tools.filter(function (t) { return t.id === id; })[0]; }
+  function edName(t, ed) {
+    if (!ed || ed === "standard") return "Standard";
+    var e = ((t && t.editions) || []).filter(function (x) { return x.id === ed; })[0];
+    return e ? e.name : ed;
+  }
+  function edPill(t, ed) { return '<span class="ch ch-ed">' + esc(edName(t, ed)).toUpperCase() + "</span>"; }
+  // Welche Version bekommt eine Lizenz mit Kanal ch und Edition ed? (gleiche Logik wie verify_license)
+  function deliver(t, ch, ed) {
+    var m = (t && t.matrix) || {}, chans = CHANS[ch] || CHANS.stable;
+    function pick(e) {
+      var best = null;
+      chans.forEach(function (c) { var x = (m[e] || {})[c]; if (x && (!best || x.at > best.at)) best = { v: x.v, at: x.at, c: c, e: e }; });
+      return best;
+    }
+    var r = pick(ed || "standard");
+    if (!r && ed && ed !== "standard") { r = pick("standard"); if (r) r.fallback = true; }
+    return r;
+  }
   var NEXT = { dev: "beta", beta: "stable" };
   function chPill(c) { c = c || "stable"; return '<span class="ch ch-' + c + '">' + (CH[c] || c).toUpperCase() + "</span>"; }
   function chSummary(t) {
-    var c = t.channels || {};
     if (!t.versions) return '<span class="hint">–</span>';
-    return '<div class="vlist">' + ["stable", "beta", "dev"].map(function (k) {
-      return "<div>" + chPill(k) + (c[k] ? esc(c[k]) : '<span class="hint">–</span>') + "</div>";
-    }).join("") + "</div>";
+    var m = t.matrix || {}, out = "";
+    ["standard"].concat((t.editions || []).map(function (e) { return e.id; })).forEach(function (ed) {
+      var row = m[ed] || {}, any = ["stable", "beta", "dev"].some(function (k) { return row[k]; });
+      if (ed !== "standard" && !any) return;
+      if (ed !== "standard") out += '<div style="margin-top:4px">' + edPill(t, ed) + "</div>";
+      out += ["stable", "beta", "dev"].map(function (k) {
+        return "<div>" + chPill(k) + (row[k] ? esc(row[k].v) : '<span class="hint">–</span>') + "</div>";
+      }).join("");
+    });
+    return '<div class="vlist">' + out + "</div>";
   }
   var verTool = null;
   function openVersions(id) {
@@ -330,35 +415,37 @@
     $("vercard").scrollIntoView({ behavior: "smooth", block: "start" });
     return api("versions", { tool_id: id }).then(function (r) {
       if (!r.ok) return;
-      var live = {};
-      ["stable", "beta", "dev"].forEach(function (k) {
-        var v = r.versions.filter(function (x) { return x.active && x.channel === k; })[0]; if (v) live[v.id] = 1;
-      });
+      var live = {}, t = toolById(id), eds = ["standard"].concat(((t && t.editions) || []).map(function (e) { return e.id; }));
+      r.versions.forEach(function (v) { var k = (v.edition || "standard") + "|" + v.channel; if (v.active && !live[k]) live[k] = v.id; });
       $("verrows").innerHTML = r.versions.map(function (v) {
-        var acts = "";
+        var acts = "", ed = v.edition || "standard";
         if (v.active && NEXT[v.channel]) acts += '<button class="b pri" data-vact="promote" data-vid="' + v.id + '" data-to="' + NEXT[v.channel] + '">Freigeben → ' + CH[NEXT[v.channel]] + "</button>";
-        acts += '<button class="b" data-vact="move" data-vid="' + v.id + '">Kanal …</button>';
         acts += v.active ? '<button class="b" data-vact="off" data-vid="' + v.id + '">Zurückziehen</button>'
                          : '<button class="b" data-vact="on" data-vid="' + v.id + '">Reaktivieren</button>';
         acts += '<button class="b dan" data-vact="del" data-vid="' + v.id + '">Löschen</button>';
+        var edSel = eds.length > 1
+          ? '<select class="vsel" data-vsel="edition" data-vid="' + v.id + '" aria-label="Edition">' + eds.map(function (e) {
+              return '<option value="' + esc(e) + '"' + (e === ed ? " selected" : "") + ">" + esc(edName(t, e)) + "</option>"; }).join("") + "</select>"
+          : '<span class="hint">Standard</span>';
+        var chSel = '<select class="vsel" data-vsel="channel" data-vid="' + v.id + '" aria-label="Kanal">' + ["stable", "beta", "dev"].map(function (c) {
+              return '<option value="' + c + '"' + (c === v.channel ? " selected" : "") + ">" + CH[c] + "</option>"; }).join("") + "</select>";
         return '<tr class="' + (v.active ? "" : "off") + '"><td class="mono"><b>' + esc(v.version) + "</b>" +
-          (live[v.id] ? ' <span class="pill p-ok">aktuell</span>' : "") + (v.active ? "" : ' <span class="pill p-bad">zurückgezogen</span>') + "</td>" +
-          "<td>" + chPill(v.channel) + "</td><td>" + fmtDT(v.released_at) + "</td><td>" + v.kb + " KB</td><td>" + v.opens + "</td>" +
+          (live[ed + "|" + v.channel] === v.id ? ' <span class="pill p-ok">aktuell</span>' : "") + (v.active ? "" : ' <span class="pill p-bad">zurückgezogen</span>') + "</td>" +
+          "<td>" + edSel + "</td><td>" + chSel + "</td><td>" + fmtDT(v.released_at) + "</td><td>" + v.kb + " KB</td><td>" + v.opens + "</td>" +
           '<td class="hint">' + esc(v.notes || "") + '</td><td><div class="acts">' + acts + "</div></td></tr>";
-      }).join("") || '<tr><td colspan="7" class="hint">Noch keine Versionen.</td></tr>';
+      }).join("") || '<tr><td colspan="8" class="hint">Noch keine Versionen.</td></tr>';
     });
   }
+  $("verrows").addEventListener("change", function (e) {
+    var sel = e.target.closest("select[data-vsel]"); if (!sel) return;
+    var d = { version_id: sel.dataset.vid }; d[sel.dataset.vsel] = sel.value;
+    api("version_set", d).then(function (r) { if (r.ok) { toast("Gespeichert ✓"); load().then(function () { openVersions(verTool); }); } });
+  });
   $("ver-close").addEventListener("click", function () { $("vercard").classList.add("hide"); verTool = null; });
   $("verrows").addEventListener("click", function (e) {
     var b = e.target.closest("button[data-vact]"); if (!b) return;
     var id = b.dataset.vid, a = b.dataset.vact, p;
     if (a === "promote") p = api("version_set", { version_id: id, channel: b.dataset.to });
-    if (a === "move") {
-      var c = prompt("In welchen Kanal? stable / beta / dev", "stable");
-      if (c === null) return; c = c.trim().toLowerCase();
-      if (["stable", "beta", "dev"].indexOf(c) < 0) return toast("Bitte stable, beta oder dev eingeben.");
-      p = api("version_set", { version_id: id, channel: c });
-    }
     if (a === "off") { if (!confirm("Version zurückziehen? Sie wird nicht mehr ausgeliefert.")) return; p = api("version_set", { version_id: id, active: false }); }
     if (a === "on") p = api("version_set", { version_id: id, active: true });
     if (a === "del") { if (!confirm("Version endgültig löschen?")) return; p = api("version_delete", { version_id: id }); }
@@ -372,6 +459,18 @@
     return '<span class="pill p-ok">aktiv</span>';
   }
 
+  function toolTags(l) {
+    var cfg = l.tool_cfg || {}, all = l.tools.indexOf("*") >= 0;
+    var ids = all ? Object.keys(cfg) : l.tools.slice();
+    var tag = function (id, label) {
+      var t = toolById(id), c = cfg[id] || {};
+      return '<span class="tag">' + esc(label || (t ? t.name : id)) +
+        (c.edition ? edPill(t, c.edition) : "") + (c.channel ? chPill(c.channel) : "") + "</span>";
+    };
+    return '<span class="tagdef">' + chPill(l.channel) + ' <span class="hint">Standard</span></span>' +
+      (all ? '<span class="tag">alle Tools</span>' : "") + ids.map(function (id) { return tag(id); }).join("");
+  }
+
   function renderAll() {
     $("licrows").innerHTML = state.licenses.length ? state.licenses.map(function (l) {
       return "<tr><td><b>" + esc(l.customer) + "</b>" + (l.email ? '<br><span class="hint">' + esc(l.email) + "</span>" : "") +
@@ -381,23 +480,18 @@
           : '<span class="keycell"><span class="keytxt" id="kt-' + l.id + '">' + esc(masked(l.key)) + "</span>" +
             '<button class="ib" data-a="reveal" data-id="' + l.id + '" aria-label="Schlüssel anzeigen" title="Anzeigen">' + EYE + "</button>" +
             '<button class="ib" data-a="copykey" data-id="' + l.id + '" aria-label="Schlüssel kopieren" title="Kopieren">' + COPY + "</button></span>") + "</td>" +
-        "<td>" + l.tools.map(function (t) { return '<span class="tag">' + esc(t === "*" ? "alle" : t) + "</span>"; }).join("") + "</td>" +
-        "<td>" + chPill(l.channel) + "</td>" +
+        "<td>" + toolTags(l) + "</td>" +
         "<td>" + (l.expires_at ? fmtD(l.expires_at) : "unbefristet") + "</td>" +
         "<td>" + l.devices + " / " + l.max_devices + "</td>" +
         "<td>" + fmtDT(l.last_use) + "</td>" +
         "<td>" + status(l) + "</td>" +
         '<td><div class="acts">' +
+          '<button class="b pri" data-a="edit" data-id="' + l.id + '">Bearbeiten</button>' +
           '<button class="b" data-a="toggle" data-id="' + l.id + '">' + (l.active ? "Sperren" : "Entsperren") + "</button>" +
-          '<button class="b" data-a="extend" data-id="' + l.id + '">Ablauf</button>' +
-          '<button class="b" data-a="tools" data-id="' + l.id + '">Tools</button>' +
-          '<button class="b" data-a="email" data-id="' + l.id + '">E-Mail</button>' +
-          '<button class="b" data-a="channel" data-id="' + l.id + '">Kanal</button>' +
-          '<button class="b" data-a="devmax" data-id="' + l.id + '">Max. Geräte</button>' +
           '<button class="b" data-a="reset" data-id="' + l.id + '">Geräte zurücksetzen</button>' +
           '<button class="b dan" data-a="delete" data-id="' + l.id + '">Löschen</button>' +
         "</div></td></tr>";
-    }).join("") : '<tr><td colspan="9" class="hint">Noch keine Lizenzen.</td></tr>';
+    }).join("") : '<tr><td colspan="8" class="hint">Noch keine Lizenzen.</td></tr>';
 
     $("toolrows").innerHTML = state.tools.map(function (t) {
       var flags = (t.listed ? "" : '<span class="pill p-warn">ausgeblendet</span>') +
@@ -409,13 +503,12 @@
              "<td>" + esc(t.category || "–") + '</td><td class="mono" style="font-size:12px">' + esc(t.url || "–") + "</td>" +
              "<td>" + t.sort + "</td><td>" + (t.teaser ? "✓" : "–") + '</td><td class="flags">' + flags + "</td>" +
              '<td><div class="acts">' + (t.versions ? '<button class="b" data-ver="' + esc(t.id) + '">Versionen (' + t.versions + ")</button>" : "") +
+             (t.free ? "" : '<button class="b" data-ed="' + esc(t.id) + '">Editionen (' + ((t.editions || []).length + 1) + ")</button>") +
              '<button class="b" data-cat="' + esc(t.id) + '">Katalog</button></div></td></tr>';
     }).join("") || '<tr><td colspan="9" class="hint">Noch keine Tools.</td></tr>';
 
     $("toolids").innerHTML = state.tools.map(function (t) { return '<option value="' + esc(t.id) + '">'; }).join("");
-    $("toolchecks").innerHTML = state.tools.filter(function (t) { return !t.free; }).map(function (t) {
-      return '<label><input type="checkbox" name="tools" value="' + esc(t.id) + '"> ' + esc(t.name) + "</label>";
-    }).join("") + '<label><input type="checkbox" name="tools" value="*"> <b>Alle Tools</b></label>';
+    upEditions();
   }
 
   function load() {
@@ -450,62 +543,157 @@
       });
     }
     if (a === "copykey") return getKey(l.id).then(function (k) { if (k) copyText(k, "Schlüssel kopiert ✓"); });
-    if (a === "email") {
-      var m = prompt("E-Mail-Adresse für den Login (leer = keine Prüfung, @firma.at = ganze Domain):", l.email || "");
-      if (m === null) return;
-      m = m.trim();
-      if (m && !/^([^@\s]+)?@[^@\s]+\.[^@\s]+$/.test(m)) return toast("Ungültige E-Mail-Adresse.");
-      p = api("update", { id: l.id, email: m });
-    }
+    if (a === "edit") return openLic(l);
     if (a === "toggle") p = api("update", { id: l.id, active: !l.active });
-    if (a === "extend") {
-      var v = prompt("Neues Ablaufdatum (JJJJ-MM-TT), leer = unbefristet:", l.expires_at ? l.expires_at.slice(0, 10) : "");
-      if (v === null) return;
-      if (v && !/^\d{4}-\d{2}-\d{2}$/.test(v.trim())) return toast("Format: JJJJ-MM-TT");
-      p = api("update", { id: l.id, expires_at: v.trim() ? v.trim() + "T23:59:59" : "" });
-    }
-    if (a === "tools") {
-      var t = prompt("Tool-IDs, mit Komma getrennt (* = alle).\nVerfügbar: " + state.tools.map(function (x) { return x.id; }).join(", "), l.tools.join(", "));
-      if (t === null) return;
-      var arr = t.split(",").map(function (s) { return s.trim(); }).filter(Boolean);
-      if (!arr.length) return toast("Mindestens ein Tool angeben.");
-      p = api("update", { id: l.id, tools: arr });
-    }
-    if (a === "channel") {
-      var c = prompt("Kanal für „" + l.customer + "“:\n  stable = nur freigegebene Versionen\n  beta   = Beta + Stabil\n  dev    = alle Versionen (auch Entwicklung)", l.channel || "stable");
-      if (c === null) return;
-      c = c.trim().toLowerCase();
-      if (["stable", "beta", "dev"].indexOf(c) < 0) return toast("Bitte stable, beta oder dev eingeben.");
-      p = api("update", { id: l.id, channel: c });
-    }
-    if (a === "devmax") {
-      var n = prompt("Maximale Anzahl Geräte:", l.max_devices);
-      if (n === null) return;
-      if (!(parseInt(n, 10) > 0)) return toast("Bitte eine Zahl > 0 eingeben.");
-      p = api("update", { id: l.id, max_devices: parseInt(n, 10) });
-    }
     if (a === "reset") { if (!confirm("Alle registrierten Geräte von „" + l.customer + "“ zurücksetzen?")) return; p = api("reset_devices", { id: l.id }); }
     if (a === "delete") { if (!confirm("Lizenz von „" + l.customer + "“ endgültig löschen?")) return; p = api("delete", { id: l.id }); }
     p && p.then(function (r) { if (r.ok) { toast("Gespeichert ✓"); load(); } });
   });
 
-  $("nf").addEventListener("submit", function (e) {
-    e.preventDefault();
-    var f = e.target, tools = [].slice.call(f.querySelectorAll('input[name=tools]:checked')).map(function (c) { return c.value; });
-    if (!tools.length) return toast("Bitte mindestens ein Tool wählen.");
-    var em = f.email.value.trim();
-    if (em && !/^([^@\s]+)?@[^@\s]+\.[^@\s]+$/.test(em)) return toast("Ungültige E-Mail-Adresse.");
-    if (tools.indexOf("*") >= 0) tools = ["*"];
-    api("create", { customer: f.customer.value.trim(), email: f.email.value.trim(), tools: tools,
-                    expires_at: f.expires_at.value ? f.expires_at.value + "T23:59:59" : "",
-                    max_devices: parseInt(f.max_devices.value, 10) || 3, note: f.note.value.trim(), channel: f.channel.value })
-      .then(function (r) {
-        if (!r.ok) return;
-        newKey = r.key; $("nk").textContent = masked(r.key); $("nk").classList.remove("shown");
-        $("nk-eye").innerHTML = EYE; $("newkey").classList.remove("hide");
-        f.reset(); load();
-      });
+  /* ── Lizenz-Dialog (neu / bearbeiten) ── */
+  var dlg = $("licdlg"), lf = $("lic-form"), editId = null, created = false;
+  function closeDlg(d) { if (d.open) d.close(); }
+  [].forEach.call(document.querySelectorAll("dialog [data-close]"), function (b) {
+    b.addEventListener("click", function () { closeDlg(b.closest("dialog")); });
   });
+  dlg.addEventListener("close", function () { if (created) load(); created = false; });
+  function licTools(l) {
+    var cfg = (l && l.tool_cfg) || {}, sel = (l && l.tools) || [];
+    return state.tools.filter(function (t) { return !t.free || sel.indexOf(t.id) >= 0; });
+  }
+  function openLic(l) {
+    editId = l ? l.id : null; created = false;
+    $("lic-title").textContent = l ? "Lizenz bearbeiten: " + l.customer : "Neue Lizenz";
+    $("lic-save").textContent = l ? "Speichern" : "Lizenz erzeugen"; $("lic-save").classList.remove("hide");
+    $("newkey").classList.add("hide");
+    lf.customer.value = l ? l.customer : ""; lf.email.value = l ? (l.email || "") : "";
+    lf.note.value = l ? (l.note || "") : "";
+    lf.expires_at.value = l && l.expires_at ? l.expires_at.slice(0, 10) : "";
+    lf.unlimited.checked = !(l && l.expires_at); lf.expires_at.disabled = lf.unlimited.checked;
+    lf.max_devices.value = l ? l.max_devices : 3;
+    lf.channel.value = (l && l.channel) || "stable";
+    lf.active.checked = l ? !!l.active : true;
+    var all = !!(l && l.tools.indexOf("*") >= 0); lf.all.checked = all;
+    var cfg = (l && l.tool_cfg) || {}, sel = (l && l.tools) || [];
+    $("lic-tools").innerHTML = licTools(l).map(function (t) {
+      var c = cfg[t.id] || {}, on = all || sel.indexOf(t.id) >= 0;
+      return '<tr data-tool="' + esc(t.id) + '"><td><input type="checkbox" class="tsel" aria-label="' + esc(t.name) + ' freischalten"' + (on ? " checked" : "") + "></td>" +
+        "<td><b>" + esc(t.name) + '</b><br><span class="hint mono">' + esc(t.id) + "</span></td>" +
+        '<td><select class="tch" aria-label="Kanal ' + esc(t.name) + '"><option value="">Standard</option>' +
+          ["stable", "beta", "dev"].map(function (k) { return '<option value="' + k + '"' + (c.channel === k ? " selected" : "") + ">" + CH[k] + "</option>"; }).join("") + "</select></td>" +
+        '<td><select class="ted" aria-label="Edition ' + esc(t.name) + '"><option value="">Standard</option>' +
+          (t.editions || []).map(function (e) { return '<option value="' + esc(e.id) + '"' + (c.edition === e.id ? " selected" : "") + ">" + esc(e.name) + "</option>"; }).join("") +
+          "</select></td>" +
+        '<td class="get"></td></tr>';
+    }).join("") || '<tr><td colspan="5" class="hint">Noch keine Tools.</td></tr>';
+    refreshLic();
+    dlg.showModal(); lf.customer.focus();
+  }
+  function refreshLic() {
+    var def = lf.channel.value, all = lf.all.checked, n = 0;
+    lf.expires_at.disabled = lf.unlimited.checked;
+    [].forEach.call($("lic-tools").querySelectorAll("tr[data-tool]"), function (tr) {
+      var t = toolById(tr.dataset.tool), cb = tr.querySelector(".tsel"), tch = tr.querySelector(".tch"), ted = tr.querySelector(".ted");
+      if (all) cb.checked = true;
+      cb.disabled = all;
+      var on = cb.checked; if (on) n++;
+      tr.classList.toggle("dis", !on); tch.disabled = !on; ted.disabled = !on || !(t.editions || []).length;
+      tch.options[0].textContent = "Standard (" + CH[def] + ")";
+      var ch = tch.value || def, ed = ted.value || "standard", r = deliver(t, ch, ed), get = tr.querySelector(".get");
+      if (!on) get.innerHTML = '<span class="hint">–</span>';
+      else if (r) get.innerHTML = (r.e !== "standard" ? edPill(t, r.e) + " " : "") + chPill(r.c) + " " + esc(r.v) +
+        (r.fallback ? '<br><span class="hint">keine ' + esc(edName(t, ed)) + "-Version → Standard</span>" : "");
+      else get.innerHTML = '<span class="hint">v' + esc(t.version || "–") + "</span>";
+    });
+    $("lic-sum").textContent = all ? "Alle Tools freigeschaltet" : n + (n === 1 ? " Tool" : " Tools") + " freigeschaltet";
+  }
+  lf.addEventListener("change", refreshLic);
+  lf.addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (created) return closeDlg(dlg);
+    var customer = lf.customer.value.trim(), em = lf.email.value.trim();
+    if (!customer) { lf.customer.focus(); return toast("Bitte einen Kunden eintragen."); }
+    if (em && !/^([^@\s]+)?@[^@\s]+\.[^@\s]+$/.test(em)) { lf.email.focus(); return toast("Ungültige E-Mail-Adresse."); }
+    if (!lf.unlimited.checked && !lf.expires_at.value) { lf.expires_at.focus(); return toast("Ablaufdatum wählen oder „unbefristet“ anhaken."); }
+    var tools = [], cfg = {};
+    [].forEach.call($("lic-tools").querySelectorAll("tr[data-tool]"), function (tr) {
+      var on = lf.all.checked || tr.querySelector(".tsel").checked; if (!on) return;
+      tools.push(tr.dataset.tool);
+      var c = {}, ch = tr.querySelector(".tch").value, ed = tr.querySelector(".ted").value;
+      if (ch) c.channel = ch; if (ed) c.edition = ed;
+      if (ch || ed) cfg[tr.dataset.tool] = c;
+    });
+    if (lf.all.checked) tools = ["*"];
+    if (!tools.length) return toast("Bitte mindestens ein Tool wählen.");
+    var d = { customer: customer, email: em, tools: tools, tool_cfg: cfg, note: lf.note.value.trim(),
+              expires_at: lf.unlimited.checked ? "" : lf.expires_at.value + "T23:59:59",
+              max_devices: Math.max(1, parseInt(lf.max_devices.value, 10) || 1), channel: lf.channel.value, active: lf.active.checked };
+    var btn = $("lic-save"); btn.disabled = true;
+    if (editId) {
+      d.id = editId;
+      api("update", d).then(function (r) { btn.disabled = false; if (r.ok) { toast("Gespeichert ✓"); closeDlg(dlg); load(); } });
+    } else {
+      api("create", d).then(function (r) {
+        btn.disabled = false; if (!r.ok) return;
+        if (!lf.active.checked) {
+          // neue Lizenz sofort gesperrt anlegen
+          load().then(function () {
+            var nl = state.licenses.filter(function (x) { return x.key && r.key.slice(-4) === x.key.slice(-4) && x.customer === customer; })[0];
+            if (nl) api("update", { id: nl.id, active: false }).then(load);
+          });
+        }
+        newKey = r.key; created = true;
+        $("nk").textContent = masked(r.key); $("nk-eye").innerHTML = EYE; $("newkey").classList.remove("hide");
+        btn.textContent = "Fertig"; $("lic-title").textContent = "Lizenz erzeugt: " + customer;
+        $("newkey").scrollIntoView({ block: "nearest" });
+        toast("Lizenz erzeugt ✓");
+      });
+    }
+  });
+  $("lic-new").addEventListener("click", function () { openLic(null); });
+
+  /* ── Editionen ── */
+  var edTool = null, eddlg = $("eddlg");
+  function openEditions(id) {
+    edTool = id; var t = toolById(id);
+    $("ed-title").textContent = "Editionen: " + (t ? t.name : id);
+    $("edrows").innerHTML = '<tr><td class="mono">standard</td><td>Standard</td><td>–</td><td><span class="hint">immer vorhanden</span></td></tr>' +
+      ((t && t.editions) || []).map(function (e) {
+        return '<tr data-ed="' + esc(e.id) + '"><td class="mono">' + esc(e.id) + '</td><td><input class="edn" value="' + esc(e.name) + '" aria-label="Name"></td>' +
+          '<td style="width:90px"><input class="eds" type="number" value="' + e.sort + '" aria-label="Sortierung"></td>' +
+          '<td><div class="acts"><button class="b" data-eact="save">Speichern</button><button class="b dan" data-eact="del">Löschen</button></div></td></tr>';
+      }).join("");
+    if (!eddlg.open) eddlg.showModal();
+  }
+  function edReload() { return load().then(function () { openEditions(edTool); }); }
+  $("edrows").addEventListener("click", function (e) {
+    var b = e.target.closest("button[data-eact]"); if (!b) return;
+    var tr = b.closest("tr"), ed = tr.dataset.ed;
+    if (b.dataset.eact === "save")
+      api("edition_save", { tool_id: edTool, edition: ed, name: tr.querySelector(".edn").value.trim(), sort: parseInt(tr.querySelector(".eds").value, 10) || 100 })
+        .then(function (r) { if (r.ok) { toast("Gespeichert ✓"); edReload(); } });
+    if (b.dataset.eact === "del") {
+      if (!confirm("Edition „" + ed + "“ löschen? Lizenzen mit dieser Edition bekommen danach Standard.")) return;
+      api("edition_delete", { tool_id: edTool, edition: ed }).then(function (r) { if (r.ok) { toast("Gelöscht ✓"); edReload(); } });
+    }
+  });
+  $("edf").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var f = e.target, id = f.edition.value.trim().toLowerCase();
+    if (!/^[a-z0-9-]{2,20}$/.test(id) || id === "standard") return toast("ID: 2–20 Zeichen, nur a–z, 0–9 und -");
+    api("edition_save", { tool_id: edTool, edition: id, name: f.name.value.trim(), sort: parseInt(f.sort.value, 10) || 100 })
+      .then(function (r) { if (r.ok) { toast("Edition angelegt ✓"); f.reset(); f.sort.value = 100; edReload(); } });
+  });
+
+  /* Upload: Editionen des gewählten Tools anbieten */
+  function upEditions() {
+    var f = $("uf"), t = toolById(f.tool_id.value.trim()), cur = f.edition.value;
+    f.edition.innerHTML = '<option value="standard">Standard</option>' + ((t && t.editions) || []).map(function (e) {
+      return '<option value="' + esc(e.id) + '">' + esc(e.name) + "</option>"; }).join("");
+    if ([].some.call(f.edition.options, function (o) { return o.value === cur; })) f.edition.value = cur;
+  }
+  $("uf").tool_id.addEventListener("input", upEditions);
+  $("uf").tool_id.addEventListener("change", upEditions);
   var newKey = "";
   $("copy").innerHTML = COPY; $("nk-eye").innerHTML = EYE;
   $("copy").addEventListener("click", function () { if (newKey) copyText(newKey, "Schlüssel kopiert ✓"); });
@@ -530,6 +718,7 @@
   }
   $("toolrows").addEventListener("click", function (e) {
     var vb = e.target.closest("button[data-ver]"); if (vb) return openVersions(vb.dataset.ver);
+    var eb = e.target.closest("button[data-ed]"); if (eb) return openEditions(eb.dataset.ed);
     var b = e.target.closest("button[data-cat]"); if (!b) return;
     openCat(state.tools.filter(function (t) { return t.id === b.dataset.cat; })[0], false);
   });
@@ -568,12 +757,12 @@
     var btn = f.querySelector("button"); btn.disabled = true; btn.textContent = "Lade hoch …";
     file.text().then(function (html) {
       return api("upload_tool", { tool_id: f.tool_id.value.trim(), name: f.name.value.trim(), version: f.version.value.trim(),
-                                  channel: f.channel.value, notes: f.notes.value.trim(), html: html });
+                                  channel: f.channel.value, edition: f.edition.value, notes: f.notes.value.trim(), html: html });
     }).then(function (r) {
       btn.disabled = false; btn.textContent = "Hochladen";
       if (r.ok) {
         var tid = f.tool_id.value.trim();
-        toast("Hochgeladen ✓ (" + r.kb + " KB, Kanal " + CH[f.channel.value] + ")"); f.reset(); f.channel.value = "dev";
+        toast("Hochgeladen ✓ (" + r.kb + " KB, Kanal " + CH[f.channel.value] + ", " + f.edition.options[f.edition.selectedIndex].text + ")"); f.reset(); f.channel.value = "dev"; upEditions();
         load().then(function () { openVersions(tid); });
       }
     });
@@ -582,9 +771,8 @@
   document.querySelector("nav").addEventListener("click", function (e) {
     var b = e.target.closest("button[data-tab]"); if (!b) return;
     [].forEach.call(document.querySelectorAll("nav button"), function (x) { x.classList.toggle("on", x === b); });
-    ["lic", "new", "tools", "log"].forEach(function (t) { $("t-" + t).classList.toggle("hide", t !== b.dataset.tab); });
+    ["lic", "tools", "log"].forEach(function (t) { $("t-" + t).classList.toggle("hide", t !== b.dataset.tab); });
     if (b.dataset.tab === "log") loadLog();
-    if (b.dataset.tab === "new") $("newkey").classList.add("hide");
   });
   $("reload").addEventListener("click", function () { load().then(function (r) { if (r.ok) toast("Aktualisiert ✓"); }); });
   $("logout").addEventListener("click", function () { logout(""); });
