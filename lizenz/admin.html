@@ -70,6 +70,14 @@
   button.dan:hover{border-color:var(--danger)}
   button:disabled{opacity:.6;cursor:wait}
   .acts{display:flex;gap:6px;flex-wrap:wrap}
+  .ch{display:inline-block;padding:2px 7px;border-radius:var(--radius-sm);font:500 11px/16px var(--mono);letter-spacing:1px}
+  .ch-stable{background:color-mix(in srgb,var(--brand) 14%,transparent);color:var(--accent-text)}
+  .ch-beta{background:color-mix(in srgb,var(--alt-teal) 16%,transparent);color:var(--ok-tx)}
+  .ch-dev{background:color-mix(in srgb,var(--alt-orange) 16%,transparent);color:var(--warn-tx)}
+  .vlist{display:flex;flex-direction:column;gap:3px;font:500 12px/16px var(--mono)}
+  .vlist .ch{min-width:58px;text-align:center;margin-right:6px}
+  tr.off td{opacity:.5}
+  select{width:100%;padding:9px 12px;border:1px solid var(--line);border-radius:var(--radius-ctl);background:var(--field);color:inherit;font:400 14px/20px var(--sans)}
   .keycell{display:inline-flex;align-items:center;gap:4px;white-space:nowrap}
   .keytxt{font:500 13px/18px var(--mono);letter-spacing:.5px;padding:4px 8px;border:1px dashed var(--line);border-radius:var(--radius-sm);background:var(--surface)}
   .keytxt.shown{border-style:solid;border-color:var(--brand);color:var(--accent-text)}
@@ -149,7 +157,7 @@
     <section id="t-lic" class="card">
       <h2>Lizenzen</h2>
       <div class="wrap"><table>
-        <thead><tr><th>Kunde</th><th>Schlüssel</th><th>Tools</th><th>Gültig bis</th><th>Geräte</th><th>Zuletzt genutzt</th><th>Status</th><th></th></tr></thead>
+        <thead><tr><th>Kunde</th><th>Schlüssel</th><th>Tools</th><th>Kanal</th><th>Gültig bis</th><th>Geräte</th><th>Zuletzt genutzt</th><th>Status</th><th></th></tr></thead>
         <tbody id="licrows"></tbody>
       </table></div>
       <p class="hint">Schlüssel sind verdeckt. Auge = anzeigen/verbergen, Symbol daneben = kopieren. E-Mail leer = keine Prüfung, <span class="mono">@firma.at</span> = alle Adressen dieser Domain.</p>
@@ -163,6 +171,8 @@
           <div><label>E-Mail</label><input name="email" placeholder="name@firma.at oder @firma.at"><span class="hint">Login-Adresse · leer = keine Prüfung</span></div>
           <div><label>Gültig bis</label><input name="expires_at" type="date"><span class="hint">leer = unbefristet</span></div>
           <div><label>Max. Geräte</label><input name="max_devices" type="number" min="1" value="3"></div>
+          <div><label>Kanal</label><select name="channel"><option value="stable">Stabil</option><option value="beta">Beta</option><option value="dev">Entwicklung (Dev)</option></select>
+            <span class="hint">Beta sieht auch Stabil, Dev sieht alles</span></div>
         </div>
         <label>Tools *</label><div class="checks" id="toolchecks"></div>
         <label>Notiz</label><input name="note" placeholder="z. B. Rechnung 2026-041">
@@ -181,7 +191,7 @@
         <h2>Tools &amp; Katalog</h2>
         <p class="hint" style="margin:-8px 0 12px">Was hier steht, zeigen die Toolbox-Startseite und myTOOLBOX.ritl. Reihenfolge nach „Sort.“.</p>
         <div class="wrap"><table>
-          <thead><tr><th></th><th>Tool</th><th>Kategorie</th><th>Link</th><th>Sort.</th><th>Vorschau</th><th>Status</th><th>Größe</th><th></th></tr></thead>
+          <thead><tr><th></th><th>Tool</th><th>Versionen</th><th>Kategorie</th><th>Link</th><th>Sort.</th><th>Vorschau</th><th>Status</th><th></th></tr></thead>
           <tbody id="toolrows"></tbody>
         </table></div>
         <button class="b" id="cat-new" type="button" style="margin-top:12px">+ Katalogeintrag ohne Lizenzschutz (Demo / extern)</button>
@@ -209,15 +219,27 @@
           <div style="display:flex;gap:8px;margin-top:16px"><button class="b pri">Speichern</button><button class="b" type="button" id="cf-cancel">Abbrechen</button></div>
         </form>
       </div>
+      <div class="card hide" id="vercard">
+        <h2 id="ver-title">Versionen</h2>
+        <p class="hint" style="margin:-8px 0 12px">Jede Lizenz bekommt die neueste aktive Version aus ihrem Kanal (Dev sieht Dev + Beta + Stabil, Beta sieht Beta + Stabil). „Freigeben“ verschiebt eine Version in den nächsten Kanal, „Zurückziehen“ nimmt sie aus der Auslieferung – dann gilt automatisch wieder die vorige.</p>
+        <div class="wrap"><table>
+          <thead><tr><th>Version</th><th>Kanal</th><th>Freigegeben</th><th>Größe</th><th>Aufrufe</th><th>Notiz</th><th></th></tr></thead>
+          <tbody id="verrows"></tbody>
+        </table></div>
+        <div style="margin-top:12px"><button class="b" type="button" id="ver-close">Schließen</button></div>
+      </div>
       <div class="card">
-        <h2>Tool hochladen / aktualisieren</h2>
+        <h2>Neue Version hochladen</h2>
         <form id="uf">
           <div class="grid">
             <div><label>Tool-ID *</label><input name="tool_id" required pattern="[a-z0-9-]{2,40}" placeholder="pptx-manager" list="toolids">
               <datalist id="toolids"></datalist><span class="hint">= Ordnername im Repo</span></div>
             <div><label>Name</label><input name="name" placeholder="PPTX Manager"></div>
-            <div><label>Version</label><input name="version" placeholder="1.0"></div>
+            <div><label>Version *</label><input name="version" placeholder="1.0" required></div>
+            <div><label>Kanal</label><select name="channel"><option value="dev">Entwicklung (Dev)</option><option value="beta">Beta</option><option value="stable">Stabil</option></select>
+              <span class="hint">Neu meist zuerst in Dev oder Beta</span></div>
           </div>
+          <label>Notiz</label><input name="notes" placeholder="Was ist neu?">
           <label>HTML-Datei *</label><input name="file" type="file" accept=".html,.htm,text/html" required>
           <button class="b pri" style="margin-top:1rem">Hochladen</button>
         </form>
@@ -286,6 +308,61 @@
     });
   });
 
+  var CH = { stable: "Stabil", beta: "Beta", dev: "Dev" };
+  var NEXT = { dev: "beta", beta: "stable" };
+  function chPill(c) { c = c || "stable"; return '<span class="ch ch-' + c + '">' + (CH[c] || c).toUpperCase() + "</span>"; }
+  function chSummary(t) {
+    var c = t.channels || {};
+    if (!t.versions) return '<span class="hint">–</span>';
+    return '<div class="vlist">' + ["stable", "beta", "dev"].map(function (k) {
+      return "<div>" + chPill(k) + (c[k] ? esc(c[k]) : '<span class="hint">–</span>') + "</div>";
+    }).join("") + "</div>";
+  }
+  var verTool = null;
+  function openVersions(id) {
+    var t = state.tools.filter(function (x) { return x.id === id; })[0];
+    verTool = id;
+    $("ver-title").textContent = "Versionen: " + (t ? t.name : id);
+    $("verrows").innerHTML = '<tr><td colspan="7" class="hint">Lade …</td></tr>';
+    $("vercard").classList.remove("hide");
+    $("vercard").scrollIntoView({ behavior: "smooth", block: "start" });
+    return api("versions", { tool_id: id }).then(function (r) {
+      if (!r.ok) return;
+      var live = {};
+      ["stable", "beta", "dev"].forEach(function (k) {
+        var v = r.versions.filter(function (x) { return x.active && x.channel === k; })[0]; if (v) live[v.id] = 1;
+      });
+      $("verrows").innerHTML = r.versions.map(function (v) {
+        var acts = "";
+        if (v.active && NEXT[v.channel]) acts += '<button class="b pri" data-vact="promote" data-vid="' + v.id + '" data-to="' + NEXT[v.channel] + '">Freigeben → ' + CH[NEXT[v.channel]] + "</button>";
+        acts += '<button class="b" data-vact="move" data-vid="' + v.id + '">Kanal …</button>';
+        acts += v.active ? '<button class="b" data-vact="off" data-vid="' + v.id + '">Zurückziehen</button>'
+                         : '<button class="b" data-vact="on" data-vid="' + v.id + '">Reaktivieren</button>';
+        acts += '<button class="b dan" data-vact="del" data-vid="' + v.id + '">Löschen</button>';
+        return '<tr class="' + (v.active ? "" : "off") + '"><td class="mono"><b>' + esc(v.version) + "</b>" +
+          (live[v.id] ? ' <span class="pill p-ok">aktuell</span>' : "") + (v.active ? "" : ' <span class="pill p-bad">zurückgezogen</span>') + "</td>" +
+          "<td>" + chPill(v.channel) + "</td><td>" + fmtDT(v.released_at) + "</td><td>" + v.kb + " KB</td><td>" + v.opens + "</td>" +
+          '<td class="hint">' + esc(v.notes || "") + '</td><td><div class="acts">' + acts + "</div></td></tr>";
+      }).join("") || '<tr><td colspan="7" class="hint">Noch keine Versionen.</td></tr>';
+    });
+  }
+  $("ver-close").addEventListener("click", function () { $("vercard").classList.add("hide"); verTool = null; });
+  $("verrows").addEventListener("click", function (e) {
+    var b = e.target.closest("button[data-vact]"); if (!b) return;
+    var id = b.dataset.vid, a = b.dataset.vact, p;
+    if (a === "promote") p = api("version_set", { version_id: id, channel: b.dataset.to });
+    if (a === "move") {
+      var c = prompt("In welchen Kanal? stable / beta / dev", "stable");
+      if (c === null) return; c = c.trim().toLowerCase();
+      if (["stable", "beta", "dev"].indexOf(c) < 0) return toast("Bitte stable, beta oder dev eingeben.");
+      p = api("version_set", { version_id: id, channel: c });
+    }
+    if (a === "off") { if (!confirm("Version zurückziehen? Sie wird nicht mehr ausgeliefert.")) return; p = api("version_set", { version_id: id, active: false }); }
+    if (a === "on") p = api("version_set", { version_id: id, active: true });
+    if (a === "del") { if (!confirm("Version endgültig löschen?")) return; p = api("version_delete", { version_id: id }); }
+    p && p.then(function (r) { if (r.ok) { toast("Gespeichert ✓"); load().then(function () { openVersions(verTool); }); } });
+  });
+
   function status(l) {
     if (!l.active) return '<span class="pill p-bad">gesperrt</span>';
     if (l.expires_at && new Date(l.expires_at) < new Date()) return '<span class="pill p-bad">abgelaufen</span>';
@@ -303,6 +380,7 @@
             '<button class="ib" data-a="reveal" data-id="' + l.id + '" aria-label="Schlüssel anzeigen" title="Anzeigen">' + EYE + "</button>" +
             '<button class="ib" data-a="copykey" data-id="' + l.id + '" aria-label="Schlüssel kopieren" title="Kopieren">' + COPY + "</button></span>") + "</td>" +
         "<td>" + l.tools.map(function (t) { return '<span class="tag">' + esc(t === "*" ? "alle" : t) + "</span>"; }).join("") + "</td>" +
+        "<td>" + chPill(l.channel) + "</td>" +
         "<td>" + (l.expires_at ? fmtD(l.expires_at) : "unbefristet") + "</td>" +
         "<td>" + l.devices + " / " + l.max_devices + "</td>" +
         "<td>" + fmtDT(l.last_use) + "</td>" +
@@ -312,11 +390,12 @@
           '<button class="b" data-a="extend" data-id="' + l.id + '">Ablauf</button>' +
           '<button class="b" data-a="tools" data-id="' + l.id + '">Tools</button>' +
           '<button class="b" data-a="email" data-id="' + l.id + '">E-Mail</button>' +
+          '<button class="b" data-a="channel" data-id="' + l.id + '">Kanal</button>' +
           '<button class="b" data-a="devmax" data-id="' + l.id + '">Max. Geräte</button>' +
           '<button class="b" data-a="reset" data-id="' + l.id + '">Geräte zurücksetzen</button>' +
           '<button class="b dan" data-a="delete" data-id="' + l.id + '">Löschen</button>' +
         "</div></td></tr>";
-    }).join("") : '<tr><td colspan="8" class="hint">Noch keine Lizenzen.</td></tr>';
+    }).join("") : '<tr><td colspan="9" class="hint">Noch keine Lizenzen.</td></tr>';
 
     $("toolrows").innerHTML = state.tools.map(function (t) {
       var flags = (t.listed ? "" : '<span class="pill p-warn">ausgeblendet</span>') +
@@ -324,9 +403,11 @@
       return "<tr><td>" + (t.icon_svg || "") + "</td>" +
              "<td><b>" + esc(t.name) + '</b><br><span class="hint mono">' + esc(t.id) + " · v" + esc(t.version) + "</span>" +
              (t.description ? '<br><span class="hint">' + esc(t.description) + "</span>" : "") + "</td>" +
+             "<td>" + chSummary(t) + "</td>" +
              "<td>" + esc(t.category || "–") + '</td><td class="mono" style="font-size:12px">' + esc(t.url || "–") + "</td>" +
              "<td>" + t.sort + "</td><td>" + (t.teaser ? "✓" : "–") + '</td><td class="flags">' + flags + "</td>" +
-             "<td>" + (t.kb > 0 ? t.kb + " KB" : "–") + '</td><td><button class="b" data-cat="' + esc(t.id) + '">Bearbeiten</button></td></tr>';
+             '<td><div class="acts">' + (t.versions ? '<button class="b" data-ver="' + esc(t.id) + '">Versionen (' + t.versions + ")</button>" : "") +
+             '<button class="b" data-cat="' + esc(t.id) + '">Katalog</button></div></td></tr>';
     }).join("") || '<tr><td colspan="9" class="hint">Noch keine Tools.</td></tr>';
 
     $("toolids").innerHTML = state.tools.map(function (t) { return '<option value="' + esc(t.id) + '">'; }).join("");
@@ -388,6 +469,13 @@
       if (!arr.length) return toast("Mindestens ein Tool angeben.");
       p = api("update", { id: l.id, tools: arr });
     }
+    if (a === "channel") {
+      var c = prompt("Kanal für „" + l.customer + "“:\n  stable = nur freigegebene Versionen\n  beta   = Beta + Stabil\n  dev    = alle Versionen (auch Entwicklung)", l.channel || "stable");
+      if (c === null) return;
+      c = c.trim().toLowerCase();
+      if (["stable", "beta", "dev"].indexOf(c) < 0) return toast("Bitte stable, beta oder dev eingeben.");
+      p = api("update", { id: l.id, channel: c });
+    }
     if (a === "devmax") {
       var n = prompt("Maximale Anzahl Geräte:", l.max_devices);
       if (n === null) return;
@@ -408,7 +496,7 @@
     if (tools.indexOf("*") >= 0) tools = ["*"];
     api("create", { customer: f.customer.value.trim(), email: f.email.value.trim(), tools: tools,
                     expires_at: f.expires_at.value ? f.expires_at.value + "T23:59:59" : "",
-                    max_devices: parseInt(f.max_devices.value, 10) || 3, note: f.note.value.trim() })
+                    max_devices: parseInt(f.max_devices.value, 10) || 3, note: f.note.value.trim(), channel: f.channel.value })
       .then(function (r) {
         if (!r.ok) return;
         newKey = r.key; $("nk").textContent = masked(r.key); $("nk").classList.remove("shown");
@@ -439,6 +527,7 @@
     $("catcard").classList.remove("hide"); $("catcard").scrollIntoView({ behavior: "smooth", block: "start" });
   }
   $("toolrows").addEventListener("click", function (e) {
+    var vb = e.target.closest("button[data-ver]"); if (vb) return openVersions(vb.dataset.ver);
     var b = e.target.closest("button[data-cat]"); if (!b) return;
     openCat(state.tools.filter(function (t) { return t.id === b.dataset.cat; })[0], false);
   });
@@ -476,10 +565,15 @@
     var f = e.target, file = f.file.files[0]; if (!file) return;
     var btn = f.querySelector("button"); btn.disabled = true; btn.textContent = "Lade hoch …";
     file.text().then(function (html) {
-      return api("upload_tool", { tool_id: f.tool_id.value.trim(), name: f.name.value.trim(), version: f.version.value.trim(), html: html });
+      return api("upload_tool", { tool_id: f.tool_id.value.trim(), name: f.name.value.trim(), version: f.version.value.trim(),
+                                  channel: f.channel.value, notes: f.notes.value.trim(), html: html });
     }).then(function (r) {
       btn.disabled = false; btn.textContent = "Hochladen";
-      if (r.ok) { toast("Hochgeladen ✓ (" + r.kb + " KB)"); f.reset(); load(); }
+      if (r.ok) {
+        var tid = f.tool_id.value.trim();
+        toast("Hochgeladen ✓ (" + r.kb + " KB, Kanal " + CH[f.channel.value] + ")"); f.reset(); f.channel.value = "dev";
+        load().then(function () { openVersions(tid); });
+      }
     });
   });
 

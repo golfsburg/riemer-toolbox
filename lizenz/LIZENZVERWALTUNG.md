@@ -93,14 +93,45 @@ Mögliche Ergebnisse: `ok`, `invalid_key`, `revoked`, `expired`, `tool_not_licen
 
 ## Tool hochladen oder aktualisieren
 
-**Variante A – PowerShell** (empfohlen, auch für große Dateien):
+**Variante A – Admin-Seite** → Tab *Tools* → *Neue Version hochladen*: Tool-ID, Version, Kanal, Notiz, Datei.
+
+**Variante B – PowerShell** (für Skripte/große Dateien, nutzt den Admin-Token):
 
 ```powershell
-$env:RIEMER_SERVICE_KEY = "<secret key aus Supabase → Project Settings → API Keys>"
-.\lizenz\upload-tool.ps1 -Id pptx-manager -Name "PPTX Manager" -Version 1.0 -Datei "C:\Pfad\pptx-manager.html"
+$env:RIEMER_ADMIN_TOKEN = "RTA-…"
+.\lizenz\upload-tool.ps1 -Id pptx-manager -Version 1.1-beta -Kanal beta -Datei "C:\Pfad\pptx-manager.html" -Notiz "Neue Vorlagen"
 ```
 
-**Variante B – Datei an Claude schicken** und hochladen lassen.
+**Variante C – Datei an Claude schicken** und hochladen lassen.
+
+---
+
+## 🚦 Release-Kanäle (Entwicklung · Beta · Stabil)
+
+Jedes Tool kann mehrere Versionen gleichzeitig haben. Jede **Lizenz** hat einen Kanal:
+
+| Lizenz-Kanal | bekommt Versionen aus | gedacht für |
+|---|---|---|
+| **Stabil** (Standard) | Stabil | Kunden, Trainerteam |
+| **Beta** | Beta + Stabil | Tester |
+| **Entwicklung** | Entwicklung + Beta + Stabil | du selbst |
+
+Ausgeliefert wird jeweils die **zuletzt freigegebene aktive** Version aus den erlaubten Kanälen. Gibt es z. B. keine aktive Beta, bekommt ein Beta-Tester automatisch die stabile Version.
+
+**Ablauf einer neuen Version**
+1. Hochladen mit Kanal **Entwicklung** → nur du siehst sie (Badge **DEV** im Tool-Header).
+2. *Tools → Versionen → Freigeben → Beta* → Tester sehen sie (Badge **BETA**).
+3. *Freigeben → Stabil* → alle Kunden bekommen sie, kein Badge.
+
+**Weitere Aktionen** (Tools → Versionen)
+- *Kanal …* – Version direkt in einen beliebigen Kanal verschieben.
+- *Zurückziehen* – Version wird nicht mehr ausgeliefert, es gilt sofort wieder die vorige (Rollback). *Reaktivieren* macht das rückgängig.
+- *Löschen* – Version endgültig entfernen.
+- Spalte *Aufrufe* zeigt, wie oft die Version geöffnet wurde (Protokoll speichert die Version mit).
+
+**Lizenz-Kanal ändern:** Lizenzen → Knopf *Kanal* (oder beim Anlegen auswählen).
+
+Technik: Tabelle `tool_versions` (Version, Kanal, HTML, Notiz, aktiv, freigegeben am). `tools.html` spiegelt immer die aktuelle stabile Version. Das GitHub-Repo bleibt unverändert – die Loader-Dateien laden je nach Lizenz die passende Version.
 
 ## Neues geschütztes Tool anlegen
 
@@ -109,7 +140,7 @@ $env:RIEMER_SERVICE_KEY = "<secret key aus Supabase → Project Settings → API
    <script src="../lizenz/loader.js" data-tool="rohr-rechner" data-name="Rohr-Rechner"></script>
    ```
    (Vorlage: `pptx-manager/index.html`)
-2. Echte Tool-Datei mit `upload-tool.ps1 -Id rohr-rechner …` hochladen.
+2. Echte Tool-Datei hochladen (Admin-Seite oder `upload-tool.ps1 -Id rohr-rechner -Kanal stable …`).
 3. In `README.md` und Startseite `index.html` mit 🔒 eintragen.
 4. Lizenzen mit `array['rohr-rechner']` vergeben.
 

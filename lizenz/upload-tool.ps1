@@ -1,35 +1,40 @@
-# RIEMER Toolbox – geschütztes Tool hochladen / aktualisieren
+# RIEMER Toolbox – geschütztes Tool hochladen / neue Version veröffentlichen
 # Copyright (c) 2026 Peter Riemer
 #
 # Aufruf (PowerShell):
-#   $env:RIEMER_SERVICE_KEY = "<service_role / secret key aus Supabase>"
-#   .\upload-tool.ps1 -Id pptx-manager -Name "PPTX Manager" -Version 1.0 -Datei "C:\Pfad\pptx-manager.html"
+#   $env:RIEMER_ADMIN_TOKEN = "RTA-…"      (derselbe Token wie für lizenz/admin.html)
+#   .\upload-tool.ps1 -Id msx-builder -Version 4.5-dev -Kanal dev -Datei "C:\Pfad\msx-builder.html" -Notiz "Neuer Import"
 #
-# Den Service-Key NIEMALS in dieses Repo schreiben!
-# Zu finden unter: Supabase → Projekt RIEMER-Lizenzen → Project Settings → API Keys → secret / service_role
+# -Kanal:  dev | beta | stable   (Standard: dev)
+#   dev    → nur Lizenzen im Kanal Entwicklung sehen die Version
+#   beta   → Lizenzen im Kanal Beta und Entwicklung
+#   stable → alle Lizenzen
+# Freigeben (dev → beta → stabil) danach in admin.html → Tools → Versionen.
+#
+# Den Admin-Token NIEMALS in dieses Repo schreiben!
 
 param(
   [Parameter(Mandatory)] [string] $Id,
-  [Parameter(Mandatory)] [string] $Name,
   [Parameter(Mandatory)] [string] $Version,
-  [Parameter(Mandatory)] [string] $Datei
+  [Parameter(Mandatory)] [string] $Datei,
+  [ValidateSet("dev","beta","stable")] [string] $Kanal = "dev",
+  [string] $Name = "",
+  [string] $Notiz = ""
 )
 
 $ErrorActionPreference = "Stop"
-$Url = "https://hcluxhlvshydnncprpbl.supabase.co/rest/v1/tools?on_conflict=id"
-$Key = $env:RIEMER_SERVICE_KEY
-if (-not $Key) { throw "Umgebungsvariable RIEMER_SERVICE_KEY ist nicht gesetzt." }
+$Url = "https://hcluxhlvshydnncprpbl.supabase.co/functions/v1/license-admin"
+$Token = $env:RIEMER_ADMIN_TOKEN
+if (-not $Token) { throw "Umgebungsvariable RIEMER_ADMIN_TOKEN ist nicht gesetzt." }
 if (-not (Test-Path $Datei)) { throw "Datei nicht gefunden: $Datei" }
 
 $html = [System.IO.File]::ReadAllText((Resolve-Path $Datei), [System.Text.Encoding]::UTF8)
-$body = @{ id = $Id; name = $Name; version = $Version; html = $html; updated_at = (Get-Date).ToUniversalTime().ToString("o") } | ConvertTo-Json -Compress
+$body = @{
+  action = "upload_tool"
+  data   = @{ tool_id = $Id; name = $Name; version = $Version; channel = $Kanal; notes = $Notiz; html = $html }
+} | ConvertTo-Json -Compress -Depth 4
 $bytes = [System.Text.Encoding]::UTF8.GetBytes($body)
 
-$headers = @{
-  apikey          = $Key
-  Authorization   = "Bearer $Key"
-  Prefer          = "resolution=merge-duplicates,return=minimal"
-}
-
-Invoke-RestMethod -Method Post -Uri $Url -Headers $headers -ContentType "application/json; charset=utf-8" -Body $bytes
-Write-Host "✔ $Name ($Id) Version $Version hochgeladen – $([math]::Round($bytes.Length/1KB)) KB" -ForegroundColor Green
+$res = Invoke-RestMethod -Method Post -Uri $Url -Headers @{ "x-admin-token" = $Token } -ContentType "application/json; charset=utf-8" -Body $bytes
+if (-not $res.ok) { throw "Fehler: $($res.error)" }
+Write-Host "✔ $Id Version $Version im Kanal '$Kanal' hochgeladen – $([math]::Round($bytes.Length/1KB)) KB" -ForegroundColor Green
