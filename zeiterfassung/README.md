@@ -1,7 +1,7 @@
 # Zeiterfassung.ritl
 
 Projektbezogene Zeiterfassung mit Timer (Start/Pause/Stopp) oder manueller Eingabe – mehrere Projekte parallel,
-Kategorien, Auswertung je Projekt (inkl. Druck/PDF), CSV-Export und -Import. Optional Hybrid-Modus mit SharePoint-Liste (RIEMER Tools).
+Kategorien, Auswertung je Projekt (inkl. Druck/PDF), CSV-Export und -Import. Optional Datei-Modus: schreibt automatisch in eine Excel- oder CSV-Datei in einem OneDrive-/SharePoint-Ordner (RIEMER Tools).
 
 **Online:** https://golfsburg.github.io/riemer-toolbox/zeiterfassung/
 **Lizenz:** `LicenseRef-Proprietary` – siehe [LICENSE](LICENSE)
@@ -15,7 +15,7 @@ Kategorien, Auswertung je Projekt (inkl. Druck/PDF), CSV-Export und -Import. Opt
 - Frei pflegbare Kategorien mit Farbe (Einstellungen)
 - Auswertung je Projekt mit Summen, formschöner Druck-/PDF-Ansicht
 - CSV-Export und -Import je Projekt
-- Lokaler Modus (Browser-Speicher) oder Hybrid-Modus mit SharePoint-Liste für mehrere Mitarbeiter
+- Lokaler Modus (Browser-Speicher) oder Datei-Modus: synchronisierter OneDrive-/SharePoint-Ordner, automatisch in Excel (.xlsx) oder CSV geschrieben (Chrome/Edge)
 - Eingebauter Changelog
 
 Im lokalen Modus bleiben alle Daten im Browser – nichts wird an den Lizenzserver übertragen.
