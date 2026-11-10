@@ -36,18 +36,20 @@
   *{box-sizing:border-box}
   body{margin:0;font:400 14px/20px var(--sans);background:var(--surface);color:var(--ink)}
   a{color:var(--accent-text)}
-  header{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:20px 40px;background:var(--surface);border-bottom:1px solid var(--line)}
+  /* Layout-Regel RIEMER Tools: volle Fensterbreite, Inhalt max. 2048 px (zentriert) */
+  :root{--maxw:2048px;--gut:40px;--padx:max(var(--gut),calc((100% - var(--maxw)) / 2 + var(--gut)))}
+  header{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:20px var(--padx);background:var(--surface);border-bottom:1px solid var(--line)}
   header .eyebrow{display:block;font:500 12px/16px var(--mono);letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
   header h1{margin:0;font:800 24px/30px var(--sans);letter-spacing:-.5px}
   header h1 span{color:var(--accent-text)}
   header .sp{flex:1}
   .tblink{display:inline-flex;line-height:0;border-radius:10px;flex:none}
   .tblink:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
-  nav{display:flex;gap:4px;padding:0 40px;background:var(--surface);border-bottom:1px solid var(--line);overflow-x:auto}
+  nav{display:flex;gap:4px;padding:0 var(--padx);background:var(--surface);border-bottom:1px solid var(--line);overflow-x:auto}
   nav button{background:none;border:0;border-bottom:3px solid transparent;padding:12px 16px;font:500 14px/20px var(--sans);color:var(--muted);cursor:pointer;white-space:nowrap}
   nav button:hover{color:var(--ink)}
   nav button.on{color:var(--ink);border-color:var(--brand);font-weight:700}
-  main{max-width:1240px;margin:auto;padding:24px 40px 48px}
+  main{max-width:var(--maxw);margin:auto;padding:24px var(--gut) 48px}
   .card{background:var(--surface-muted);border:1px solid var(--line);border-radius:var(--radius-panel);padding:24px;margin-bottom:24px}
   h2{margin:0 0 16px;font:800 18px/24px var(--sans);letter-spacing:-.3px}
   table{width:100%;border-collapse:collapse}
@@ -117,7 +119,7 @@
   #login .eyebrow{font:500 12px/16px var(--mono);letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
   .login-top{max-width:440px;margin:24px auto 0;display:flex;justify-content:flex-end}
   .hide{display:none!important}
-  @media(max-width:700px){header,nav,main{padding-left:16px;padding-right:16px}}
+  @media(max-width:700px){:root{--gut:16px}}
 </style>
 </head>
 <body>
