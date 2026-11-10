@@ -14,6 +14,9 @@
 
   var API = "https://hcluxhlvshydnncprpbl.supabase.co/functions/v1/license-check";
   var script = document.currentScript;
+  // Toolbox-Startseite relativ zu loader.js – funktioniert auch, wenn der Loader aus einem anderen Repo eingebunden wird
+  var TB_HOME = "https://golfsburg.github.io/riemer-toolbox/";
+  try { if (script && script.src) TB_HOME = new URL("../", script.src).href; } catch (e) {}
   var TOOL = script.getAttribute("data-tool");
   var NAME = script.getAttribute("data-name") || TOOL;
   var KEY_STORE = "riemer-lizenz:" + TOOL;
@@ -118,7 +121,7 @@
       '.foot{margin-top:24px;font-size:13px;color:var(--muted);text-align:center}.foot a{color:var(--muted)}.foot a:hover{color:var(--accent-text)}' +
       '</style>' +
       '<form class="card" id="f" method="post" action="#">' +
-      '<a class="tblink" href="../" title="RIEMER Toolbox – alle Tools" aria-label="Zur RIEMER Toolbox"><svg width="44" height="44" viewBox="0 0 48 48" aria-hidden="true"><rect x="4" y="4" width="18" height="18" rx="5" fill="#C9DAF5"/><rect x="26" y="4" width="18" height="18" rx="5" fill="#8FB0E3"/><rect x="4" y="26" width="18" height="18" rx="5" fill="#8FB0E3"/><rect x="26" y="26" width="18" height="18" rx="5" fill="#1F5FC2"/><rect x="31" y="33.5" width="8" height="3" rx="1.5" fill="#FFFFFF"/><rect x="33.5" y="31" width="3" height="8" rx="1.5" fill="#FFFFFF"/></svg></a>' +
+      '<a class="tblink" href="' + TB_HOME + '" title="RIEMER Toolbox – alle Tools" aria-label="Zur RIEMER Toolbox"><svg width="44" height="44" viewBox="0 0 48 48" aria-hidden="true"><rect x="4" y="4" width="18" height="18" rx="5" fill="#C9DAF5"/><rect x="26" y="4" width="18" height="18" rx="5" fill="#8FB0E3"/><rect x="4" y="26" width="18" height="18" rx="5" fill="#8FB0E3"/><rect x="26" y="26" width="18" height="18" rx="5" fill="#1F5FC2"/><rect x="31" y="33.5" width="8" height="3" rx="1.5" fill="#FFFFFF"/><rect x="33.5" y="31" width="3" height="8" rx="1.5" fill="#FFFFFF"/></svg></a>' +
       '<p class="eyebrow">RIEMER Tools · 🔒 Lizenz</p>' +
       '<h1>' + NAME + '</h1>' +
       '<p class="sub">Für dieses Tool ist eine gültige Lizenz erforderlich.</p>' +
@@ -130,7 +133,7 @@
       '<button id="b" type="submit">Freischalten</button>' +
       (msg ? '<div class="err">' + msg + '</div>' : '') +
       '<div class="foot">Lizenz anfragen: <a href="mailto:toolbox@riemer.co">toolbox@riemer.co</a> · ' +
-      '<a href="../">RIEMER Toolbox</a></div>' +
+      '<a href="' + TB_HOME + '">RIEMER Toolbox</a></div>' +
       '</form>';
 
     var input = document.getElementById("k");
