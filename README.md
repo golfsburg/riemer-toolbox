@@ -14,6 +14,7 @@ Alle Tools laufen direkt im Browser, ohne Installation.
 | Tool | Beschreibung | Lizenz | Kommerzielle Nutzung |
 |------|--------------|--------|----------------------|
 | 🔒 [Trainingsmanager](trainingsmanager/) | Trainingsübungen, Taktiktafel & Bewegungsübungen als Animation | Proprietär · **Lizenzschlüssel erforderlich** | ❌ nur nach Vereinbarung |
+| 🔒 [FCPF-Ergebnisse](fcpf-ergebnisse/) | Ergebnisse, Bilanz, Torschützen & Termine aller FCPF-Mannschaften – automatisch von oefb.at | Proprietär · **Lizenzschlüssel erforderlich** | ❌ nur nach Vereinbarung |
 | 🔒 [PV Tracker](https://pv.riemer.co/) | PV-Ertrag, Verbrauch, Autarkie & Kosten der eigenen PV-Anlage – Code im Repo [`golfsburg/we7`](https://github.com/golfsburg/we7) | Proprietär · **Lizenzschlüssel erforderlich** | ❌ nur nach Vereinbarung |
 | 🔒 [PPTX.ritl](pptx.ritl/) | Präsentationen & Meetings: DECK.ritl (Folien aus Abschnitten) und TIMING.ritl (Agenda, Räume, Live-Modus) | Proprietär · **Lizenzschlüssel erforderlich** | ❌ nur nach Vereinbarung |
 | 🔒 [PPTX Manager](pptx-manager/) | Präsentationen aus PowerPoint-Abschnitten zusammenstellen | Proprietär · **Lizenzschlüssel erforderlich** | ❌ nur nach Vereinbarung |

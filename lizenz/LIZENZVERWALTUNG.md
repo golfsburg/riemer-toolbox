@@ -146,6 +146,34 @@ Technik: Tabelle `tool_versions` (Version, Kanal, HTML, Notiz, aktiv, freigegebe
 
 ---
 
+## ⚽ FCPF-Ergebnisse (Live-Daten)
+
+Das Dashboard `fcpf-ergebnisse/` kommt wie jedes Tool aus Supabase. Zusätzlich setzt `license-check` nach erfolgreicher Prüfung den **aktuellen Datenstand** in die Seite ein (Funktion `tool_payload`, Block `<script id="fcpf-snapshot">`). Ohne gültige Lizenz gibt es weder Code noch Daten.
+
+**Automatischer Import** – `fcpf_import()` läuft alle 3 Stunden (pg_cron `fcpf-import`) und liest die Spielpläne von vereine.oefb.at:
+- neue Spiele werden ergänzt (mit Runde und Zuschauern aus dem Spielbericht),
+- geänderte Ergebnisse werden korrigiert, **Kurzberichte und Namen bleiben erhalten**,
+- Torschützenliste und Termine (nächste 4 Wochen) werden neu berechnet.
+
+| Tabelle | Inhalt |
+|---|---|
+| `fcpf_data` | Datenstand: `spiele`, `torschuetzen`, `termine`, `teams` |
+| `fcpf_team_cfg` | Mannschaften, oefb-Link, Erkennung der eigenen Mannschaft |
+| `fcpf_settings` | `saisonstart` (Spiele davor werden ignoriert), `torschuetzen_testspiele` (ja/nein) |
+| `fcpf_name_alias` | oefb-Gegnername → Anzeigename (wird aus vorhandenen Spielen gelernt) |
+| `fcpf_player_alias` | oefb-Spielername → Anzeigename |
+| `fcpf_import_log` | Protokoll jedes Laufs |
+
+**Kurzbericht nachtragen** (z. B. durch Claude):
+```sql
+update fcpf_data set rows = (select jsonb_agg(case when x->>'team'='KM' and x->>'datum'='2026-11-15'
+  then x || '{"bericht":"…"}' else x end) from jsonb_array_elements(rows) x) where doc='spiele';
+```
+**Sofort aktualisieren:** `select fcpf_import();` · **Probelauf:** `select fcpf_import(true);`
+**Neue Saison:** URLs in `fcpf_team_cfg` (Saison-2027-28) und `saisonstart` anpassen.
+
+---
+
 ## E-Mail-Prüfung
 
 Jede Lizenz kann eine Login-E-Mail haben (Admin → Spalte E-Mail bzw. Knopf **E-Mail**):
