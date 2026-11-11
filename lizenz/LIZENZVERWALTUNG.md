@@ -193,8 +193,9 @@ Das Dashboard `fcpf-ergebnisse/` kommt wie jedes Tool aus Supabase. Nach erfolgr
 Ohne gültige Lizenz gibt es weder Code noch Daten; eine Lizenz **ohne Verein** bekommt leere Daten (die Seite zeigt
 „noch kein Verein verknüpft“) – niemals Daten eines anderen Vereins. Die hochgeladene Tool-Datei enthält selbst keine Vereinsdaten.
 
-**Verein einer Lizenz:** `licenses.tool_cfg` → `{"fcpf-ergebnisse": {"club": "fcpf", "edition": "fcpf"}}`.
-Mehrere Lizenzen (z. B. alle Trainer eines Vereins) können denselben Verein haben.
+**Verein einer Lizenz:** Tabelle `score_license_clubs` (`license_id` → `club_id`). Eigene Tabelle, weil das Admin-Tool
+`licenses.tool_cfg` beim Speichern komplett neu schreibt. Mehrere Lizenzen (z. B. alle Trainer eines Vereins) können denselben
+Verein haben. Edition („FCPF“ oder Standard) und Kanal werden weiterhin im Admin-Tool je Lizenz und Tool eingestellt.
 
 **Automatischer Import** – `fcpf_import()` läuft alle 3 Stunden (pg_cron `fcpf-import`) und ruft für jeden aktiven Verein
 `score_import_club(verein)` auf, das die Spielpläne von vereine.oefb.at liest:
@@ -219,8 +220,9 @@ insert into score_clubs (id, name, kurz, oefb_url, saisonstart)
 values ('sv-muster', 'SV Musterdorf', 'SVM', 'https://vereine.oefb.at/SVMusterdorf/', '2026-08-01');
 insert into fcpf_team_cfg (club_id, team, team_order, name, bewerb, oefb_url, own_regex, own_label, active) values
  ('sv-muster', 'KM', 1, 'Kampfmannschaft', 'Gebietsliga', 'https://vereine.oefb.at/SVMusterdorf/Mannschaften/Saison-2026-27/KM/Spiele/', 'Musterdorf', 'SV Musterdorf', true);
-update licenses set tool_cfg = jsonb_set(coalesce(tool_cfg,'{}'), '{fcpf-ergebnisse}',
-  coalesce(tool_cfg->'fcpf-ergebnisse','{}') || '{"club":"sv-muster"}') where customer = 'SV Musterdorf';
+insert into score_license_clubs (license_id, club_id)
+select id, 'sv-muster' from licenses where customer = 'SV Musterdorf'
+on conflict (license_id) do update set club_id = excluded.club_id;
 select score_import_club('sv-muster');   -- erster Import sofort
 ```
 
