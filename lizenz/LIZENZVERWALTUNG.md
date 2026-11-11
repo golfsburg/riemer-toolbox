@@ -197,7 +197,7 @@ Ohne gültige Lizenz gibt es weder Code noch Daten; eine Lizenz **ohne Verein** 
 `licenses.tool_cfg` beim Speichern komplett neu schreibt. Mehrere Lizenzen (z. B. alle Trainer eines Vereins) können denselben
 Verein haben. Edition („FCPF“ oder Standard) und Kanal werden weiterhin im Admin-Tool je Lizenz und Tool eingestellt.
 
-**Automatischer Import** – `fcpf_import()` läuft alle 3 Stunden (pg_cron `fcpf-import`) und ruft für jeden aktiven Verein
+**Automatischer Import** – `fcpf_import()` läuft täglich um 21:30 Uhr Wiener Zeit (pg_cron `fcpf-import`: `30 19,20 * * *` UTC, der Lauf prüft die Wiener Uhrzeit – so stimmt es in Sommer- und Winterzeit) und ruft für jeden aktiven Verein
 `score_import_club(verein)` auf, das die Spielpläne von vereine.oefb.at liest:
 - neue Spiele werden ergänzt (mit Runde und Zuschauern aus dem Spielbericht),
 - geänderte Ergebnisse werden korrigiert, **Kurzberichte und Namen bleiben erhalten**,
