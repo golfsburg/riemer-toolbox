@@ -186,31 +186,53 @@ Technik: Tabelle `tool_versions` (Version, Kanal, HTML, Notiz, aktiv, freigegebe
 
 ---
 
-## ⚽ FCPF-Ergebnisse (Live-Daten)
+## ⚽ SCORE.ritl / FCPF-Ergebnisse (Live-Daten, je Verein)
 
-Das Dashboard `fcpf-ergebnisse/` kommt wie jedes Tool aus Supabase. Zusätzlich setzt `license-check` nach erfolgreicher Prüfung den **aktuellen Datenstand** in die Seite ein (Funktion `tool_payload`, Block `<script id="fcpf-snapshot">`). Ohne gültige Lizenz gibt es weder Code noch Daten.
+Das Dashboard `fcpf-ergebnisse/` kommt wie jedes Tool aus Supabase. Nach erfolgreicher Prüfung setzt `license-check` den
+**Datenstand des Vereins dieser Lizenz** in die Seite ein (Funktion `tool_payload_lic`, Block `<script id="fcpf-snapshot">`).
+Ohne gültige Lizenz gibt es weder Code noch Daten; eine Lizenz **ohne Verein** bekommt leere Daten (die Seite zeigt
+„noch kein Verein verknüpft“) – niemals Daten eines anderen Vereins. Die hochgeladene Tool-Datei enthält selbst keine Vereinsdaten.
 
-**Automatischer Import** – `fcpf_import()` läuft alle 3 Stunden (pg_cron `fcpf-import`) und liest die Spielpläne von vereine.oefb.at:
+**Verein einer Lizenz:** Tabelle `score_license_clubs` (`license_id` → `club_id`). Eigene Tabelle, weil das Admin-Tool
+`licenses.tool_cfg` beim Speichern komplett neu schreibt. Mehrere Lizenzen (z. B. alle Trainer eines Vereins) können denselben
+Verein haben. Edition („FCPF“ oder Standard) und Kanal werden weiterhin im Admin-Tool je Lizenz und Tool eingestellt.
+
+**Automatischer Import** – `fcpf_import()` läuft alle 3 Stunden (pg_cron `fcpf-import`) und ruft für jeden aktiven Verein
+`score_import_club(verein)` auf, das die Spielpläne von vereine.oefb.at liest:
 - neue Spiele werden ergänzt (mit Runde und Zuschauern aus dem Spielbericht),
 - geänderte Ergebnisse werden korrigiert, **Kurzberichte und Namen bleiben erhalten**,
-- Torschützenliste und Termine (nächste 4 Wochen) werden neu berechnet.
+- Torschützenliste, Termine (nächste 4 Wochen) und Mannschaftsliste werden neu berechnet (Tabellenplatz bleibt erhalten).
 
 | Tabelle | Inhalt |
 |---|---|
-| `fcpf_data` | Datenstand: `spiele`, `torschuetzen`, `termine`, `teams` |
-| `fcpf_team_cfg` | Mannschaften, oefb-Link, Erkennung der eigenen Mannschaft |
-| `fcpf_settings` | `saisonstart` (Spiele davor werden ignoriert), `torschuetzen_testspiele` (ja/nein) |
-| `fcpf_name_alias` | oefb-Gegnername → Anzeigename (wird aus vorhandenen Spielen gelernt) |
-| `fcpf_player_alias` | oefb-Spielername → Anzeigename |
-| `fcpf_import_log` | Protokoll jedes Laufs |
+| `score_clubs` | Vereine: `id` (Kürzel, z. B. `fcpf`), Name, Kurzname, oefb-Vereinsseite, `saisonstart`, `torschuetzen_testspiele`, aktiv |
+| `fcpf_data` | Datenstand je Verein (`club_id`, `doc`): `spiele`, `torschuetzen`, `termine`, `teams` |
+| `fcpf_team_cfg` | Mannschaften je Verein: oefb-Spielplan-Link, Erkennung (`own_regex`), Anzeigename (`own_label`) |
+| `fcpf_name_alias` | oefb-Gegnername → Anzeigename je Verein (wird aus vorhandenen Spielen gelernt) |
+| `fcpf_player_alias` | oefb-Spielername → Anzeigename je Verein |
+| `fcpf_import_log` | Protokoll jedes Laufs (mit `club_id`) |
+
+(`fcpf_settings` wird nicht mehr verwendet – Saisonstart und Testspiel-Tore stehen jetzt in `score_clubs`.)
+
+**Neuen Verein anlegen** (bis das Admin-Tool das kann):
+```sql
+insert into score_clubs (id, name, kurz, oefb_url, saisonstart)
+values ('sv-muster', 'SV Musterdorf', 'SVM', 'https://vereine.oefb.at/SVMusterdorf/', '2026-08-01');
+insert into fcpf_team_cfg (club_id, team, team_order, name, bewerb, oefb_url, own_regex, own_label, active) values
+ ('sv-muster', 'KM', 1, 'Kampfmannschaft', 'Gebietsliga', 'https://vereine.oefb.at/SVMusterdorf/Mannschaften/Saison-2026-27/KM/Spiele/', 'Musterdorf', 'SV Musterdorf', true);
+insert into score_license_clubs (license_id, club_id)
+select id, 'sv-muster' from licenses where customer = 'SV Musterdorf'
+on conflict (license_id) do update set club_id = excluded.club_id;
+select score_import_club('sv-muster');   -- erster Import sofort
+```
 
 **Kurzbericht nachtragen** (z. B. durch Claude):
 ```sql
 update fcpf_data set rows = (select jsonb_agg(case when x->>'team'='KM' and x->>'datum'='2026-11-15'
-  then x || '{"bericht":"…"}' else x end) from jsonb_array_elements(rows) x) where doc='spiele';
+  then x || '{"bericht":"…"}' else x end) from jsonb_array_elements(rows) x) where club_id='fcpf' and doc='spiele';
 ```
-**Sofort aktualisieren:** `select fcpf_import();` · **Probelauf:** `select fcpf_import(true);`
-**Neue Saison:** URLs in `fcpf_team_cfg` (Saison-2027-28) und `saisonstart` anpassen.
+**Sofort aktualisieren:** `select fcpf_import();` (alle Vereine) oder `select score_import_club('fcpf');` · **Probelauf:** `select fcpf_import(true);`
+**Neue Saison:** URLs in `fcpf_team_cfg` (Saison-2027-28) und `score_clubs.saisonstart` anpassen.
 
 ### 🎨 SCORE.ritl – neutral, Edition „FCPF“ und Design je Lizenz (ab 2.0)
 
