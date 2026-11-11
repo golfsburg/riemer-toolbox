@@ -235,7 +235,13 @@
             <label><input type="checkbox" name="free"> Ohne Lizenz nutzbar (Demo)</label>
           </div>
           <div class="grid">
-            <div><label>Vorschaubild (Teaser)</label><input name="teaser" type="file" accept="image/*"><span class="hint">wird auf 960 px verkleinert</span>
+            <div><label>Vorschaubild (Teaser)</label><input name="teaser" type="file" accept="image/*">
+              <ul class="hint" style="margin:6px 0 0;padding-left:18px;line-height:1.5">
+                <li>Seitenverhältnis 16:9. Die Kachel schneidet andere Formate mittig zu.</li>
+                <li>Mindestgröße 960 × 540 px. Kleinere Bilder werden nicht hochskaliert und wirken im Vorschaufenster (bis ca. 720 px breit) unscharf.</li>
+                <li>Ideal zum Hochladen 1920 × 1080 px, z. B. ein Screenshot.</li>
+                <li>Dateigröße beim Hochladen ist egal, auch mehrere MB. Verkleinert wird im Browser, bevor etwas gespeichert wird.</li>
+              </ul>
               <div style="margin-top:8px;display:flex;gap:8px;align-items:center"><img id="cf-teaser" class="teaserthumb hide" alt=""><button class="b dan hide" type="button" id="cf-teaser-del">Bild entfernen</button></div></div>
             <div><label>App-Bild (SVG)</label><textarea name="icon_svg" spellcheck="false" placeholder='<svg class="appimg" viewBox="0 0 48 48">…</svg>'></textarea></div>
           </div>
