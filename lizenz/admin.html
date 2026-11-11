@@ -230,9 +230,11 @@
         <h2 id="ver-title">Versionen</h2>
         <p class="hint" style="margin:-8px 0 12px">Jede Lizenz bekommt die neueste aktive Version aus ihrem Kanal und ihrer Edition (Dev sieht Dev + Beta + Stabil, Beta sieht Beta + Stabil; fehlt eine Edition, gilt Standard). Kanal und Edition lassen sich direkt in der Tabelle umstellen. „Freigeben“ verschiebt eine Version in den nächsten Kanal, „Zurückziehen“ nimmt sie aus der Auslieferung – dann gilt automatisch wieder die vorige.</p>
         <div class="wrap"><table>
-          <thead><tr><th>Version</th><th>Edition</th><th>Kanal</th><th>Freigegeben</th><th>Größe</th><th>Aufrufe</th><th>Notiz</th><th></th></tr></thead>
+          <thead><tr><th>Version</th><th>Edition</th><th>Kanal</th><th>Freigegeben</th><th>Größe</th><th>Aufrufe</th><th>Notiz</th><th>Quellen</th><th></th></tr></thead>
           <tbody id="verrows"></tbody>
         </table></div>
+        <p class="hint" style="margin-top:10px">Quellen = Sicherung der Quelldateien je Version (z. B. ZIP mit Modulen und Build-Skript). Nur Admins können sie sehen und herunterladen.</p>
+        <input type="file" id="src-file" hidden>
         <div style="margin-top:12px"><button class="b" type="button" id="ver-close">Schließen</button></div>
       </div>
       <div class="card">
@@ -250,6 +252,8 @@
           </div>
           <label>Notiz</label><input name="notes" placeholder="Was ist neu?">
           <label>HTML-Datei *</label><input name="file" type="file" accept=".html,.htm,text/html" required>
+          <label>Quelldateien (optional)</label><input name="src" type="file">
+          <span class="hint">Sicherung der Quellen dieser Version, am besten als ZIP (Module, Build-Skript, Assets). Nur für Admins sichtbar.</span>
           <button class="b pri" style="margin-top:1rem">Hochladen</button>
         </form>
         <p class="hint">Das ist die vollständige Tool-Datei. Im Repo liegt im Tool-Ordner nur die Schlüssel-Abfrage (siehe pptx-manager/index.html).</p>
@@ -334,7 +338,7 @@
 
   function toast(msg) { var t = $("toast"); t.textContent = msg; t.classList.add("show"); clearTimeout(t._h); t._h = setTimeout(function () { t.classList.remove("show"); }, 2600); }
 
-  var ERR = { key_not_stored: "Für diese Lizenz ist kein Klartext gespeichert.", unauthorized: "Admin-Token ungültig.", invalid_tool: "Ungültige Tool-ID oder leere Datei.", server_error: "Serverfehler.", network: "Keine Verbindung zum Server.", invalid_edition: "Ungültige Edition.", edition_in_use: "Edition hat noch Versionen – zuerst die Versionen löschen oder auf Standard umstellen." };
+  var ERR = { key_not_stored: "Für diese Lizenz ist kein Klartext gespeichert.", unauthorized: "Admin-Token ungültig.", invalid_tool: "Ungültige Tool-ID oder leere Datei.", server_error: "Serverfehler.", network: "Keine Verbindung zum Server.", invalid_edition: "Ungültige Edition.", invalid_source: "Quelldatei unvollständig.", too_large: "Datei zu groß (max. 50 MB).", not_found: "Nicht gefunden.", edition_in_use: "Edition hat noch Versionen – zuerst die Versionen löschen oder auf Standard umstellen." };
 
   function api(action, data) {
     return fetch(API, { method: "POST", headers: { "Content-Type": "application/json", "x-admin-token": token },
@@ -413,8 +417,10 @@
     $("verrows").innerHTML = '<tr><td colspan="7" class="hint">Lade …</td></tr>';
     $("vercard").classList.remove("hide");
     $("vercard").scrollIntoView({ behavior: "smooth", block: "start" });
-    return api("versions", { tool_id: id }).then(function (r) {
+    return Promise.all([api("versions", { tool_id: id }), api("source_list", { tool_id: id })]).then(function (rs) {
+      var r = rs[0], srcs = (rs[1] && rs[1].ok && rs[1].sources) || [];
       if (!r.ok) return;
+      var srcOf = function (v) { var ed = v.edition || "standard"; return srcs.filter(function (x) { return x.version === v.version && (x.edition || "standard") === ed; }); };
       var live = {}, t = toolById(id), eds = ["standard"].concat(((t && t.editions) || []).map(function (e) { return e.id; }));
       r.versions.forEach(function (v) { var k = (v.edition || "standard") + "|" + v.channel; if (v.active && !live[k]) live[k] = v.id; });
       $("verrows").innerHTML = r.versions.map(function (v) {
@@ -432,14 +438,59 @@
         return '<tr class="' + (v.active ? "" : "off") + '"><td class="mono"><b>' + esc(v.version) + "</b>" +
           (live[ed + "|" + v.channel] === v.id ? ' <span class="pill p-ok">aktuell</span>' : "") + (v.active ? "" : ' <span class="pill p-bad">zurückgezogen</span>') + "</td>" +
           "<td>" + edSel + "</td><td>" + chSel + "</td><td>" + fmtDT(v.released_at) + "</td><td>" + v.kb + " KB</td><td>" + v.opens + "</td>" +
-          '<td class="hint">' + esc(v.notes || "") + '</td><td><div class="acts">' + acts + "</div></td></tr>";
-      }).join("") || '<tr><td colspan="8" class="hint">Noch keine Versionen.</td></tr>';
+          '<td class="hint">' + esc(v.notes || "") + "</td><td>" + srcCell(srcOf(v), v) + '</td><td><div class="acts">' + acts + "</div></td></tr>";
+      }).join("") || '<tr><td colspan="9" class="hint">Noch keine Versionen.</td></tr>';
     });
   }
   $("verrows").addEventListener("change", function (e) {
     var sel = e.target.closest("select[data-vsel]"); if (!sel) return;
     var d = { version_id: sel.dataset.vid }; d[sel.dataset.vsel] = sel.value;
     api("version_set", d).then(function (r) { if (r.ok) { toast("Gespeichert ✓"); load().then(function () { openVersions(verTool); }); } });
+  });
+  /* ── Quellen (Sicherung der Quelldateien je Version) ── */
+  function srcCell(list, v) {
+    return '<div class="acts">' + list.map(function (x) {
+      return '<button class="b" data-src-get="' + x.id + '" title="' + esc(x.filename + " · " + x.kb + " KB · " + fmtDT(x.created_at) + (x.created_by ? " · " + x.created_by : "") + (x.notes ? "\n" + x.notes : "")) + '">⬇ ' + x.kb + " KB</button>";
+    }).join("") + '<button class="b" data-src-add="' + esc(v.version) + '" data-src-ed="' + esc(v.edition || "standard") + '" title="Quelldateien für diese Version hochladen">＋</button></div>';
+  }
+  function fileB64(file) {
+    return new Promise(function (res, rej) {
+      var fr = new FileReader();
+      fr.onload = function () { var s = String(fr.result); res(s.slice(s.indexOf(",") + 1)); };
+      fr.onerror = function () { rej(fr.error); };
+      fr.readAsDataURL(file);
+    });
+  }
+  function uploadSource(tool, version, edition, file, notes) {
+    if (file.size > 50 * 1024 * 1024) { toast("Quelldatei ist größer als 50 MB."); return Promise.resolve({ ok: false }); }
+    return fileB64(file).then(function (b64) {
+      return api("source_upload", { tool_id: tool, version: version, edition: edition, filename: file.name, mime: file.type, b64: b64, notes: notes || "" });
+    });
+  }
+  var srcTarget = null;
+  $("verrows").addEventListener("click", function (e) {
+    var g = e.target.closest("button[data-src-get]");
+    if (g) {
+      g.disabled = true;
+      api("source_get", { id: g.dataset.srcGet }).then(function (r) {
+        g.disabled = false; if (!r.ok) return;
+        var bin = atob(r.b64), u = new Uint8Array(bin.length);
+        for (var i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i);
+        var a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([u], { type: r.mime }));
+        a.download = r.filename; document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(function () { URL.revokeObjectURL(a.href); }, 4000);
+      });
+      return;
+    }
+    var add = e.target.closest("button[data-src-add]");
+    if (add) { srcTarget = { version: add.dataset.srcAdd, edition: add.dataset.srcEd }; $("src-file").value = ""; $("src-file").click(); }
+  });
+  $("src-file").addEventListener("change", function () {
+    var file = this.files[0]; if (!file || !srcTarget || !verTool) return;
+    toast("Lade Quellen hoch …");
+    uploadSource(verTool, srcTarget.version, srcTarget.edition, file, "").then(function (r) {
+      if (r.ok) { toast("Quellen gespeichert ✓ (" + r.kb + " KB)"); openVersions(verTool); }
+    });
   });
   $("ver-close").addEventListener("click", function () { $("vercard").classList.add("hide"); verTool = null; });
   $("verrows").addEventListener("click", function (e) {
@@ -760,6 +811,14 @@
                                   channel: f.channel.value, edition: f.edition.value, notes: f.notes.value.trim(), html: html });
     }).then(function (r) {
       btn.disabled = false; btn.textContent = "Hochladen";
+      if (r.ok && f.src.files[0]) {
+        btn.disabled = true; btn.textContent = "Lade Quellen hoch …";
+        var rr = r;
+        return uploadSource(f.tool_id.value.trim(), f.version.value.trim(), f.edition.value, f.src.files[0], f.notes.value.trim())
+          .then(function (s) { btn.disabled = false; btn.textContent = "Hochladen"; if (!s.ok) toast("Version hochgeladen, Quellen fehlgeschlagen."); return rr; });
+      }
+      return r;
+    }).then(function (r) {
       if (r.ok) {
         var tid = f.tool_id.value.trim();
         toast("Hochgeladen ✓ (" + r.kb + " KB, Kanal " + CH[f.channel.value] + ", " + f.edition.options[f.edition.selectedIndex].text + ")"); f.reset(); f.channel.value = "dev"; upEditions();

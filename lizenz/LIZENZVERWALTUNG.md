@@ -107,6 +107,29 @@ $env:RIEMER_ADMIN_TOKEN = "RTA-…"
 
 ---
 
+## 🗄️ Quelldateien sichern (alle Tools)
+
+Zu **jeder Version** werden zusätzlich die Quelldateien in Supabase abgelegt – nur für Admins lesbar
+(Tabelle `tool_sources`, Row Level Security ohne Freigaben; Zugriff nur über den Admin-Token).
+
+- **Admin-Seite:** beim Hochladen einer neuen Version im Feld *Quelldateien* eine Datei (am besten ZIP) mitgeben,
+  oder nachträglich unter *Tools → Versionen*, Spalte **Quellen**: `＋` lädt hoch, `⬇ … KB` lädt herunter.
+- **PowerShell:** `upload-tool.ps1 … -Quellen "C:\Pfad\tool-src.zip"` (ein Ordner wird automatisch gezippt).
+- **Claude-Sitzungen:** legen Quellen und Versionen über die verschlüsselte Übergabe ab (siehe unten).
+- Inhalt des ZIP: alles, was man zum erneuten Bauen braucht (Module, Build-Skript, Assets, kurze `README-BUILD.md`) –
+  keine Kundendaten, keine Fotos von Personen, keine Schlüssel.
+
+SQL: `select id, tool_id, version, filename, bytes, created_at, created_by from tool_sources order by created_at desc;`
+
+### Verschlüsselte Übergabe (für Claude)
+
+Der Lizenzserver ist aus Claude-Sitzungen nicht direkt erreichbar, und die Repos sind öffentlich. Dateien werden daher
+mit AES-256 verschlüsselt in den Branch `transfer` von `riemer-toolbox` gelegt und von der Datenbank mit
+`public._transfer_decrypt(url, iv, sha256)` geholt und entschlüsselt (Schlüssel im Supabase Vault: `ritl_transfer_key`,
+Erweiterung `http` dafür eingeschaltet). Ohne den Schlüssel ist der Inhalt des Branches nicht lesbar.
+Schlüssel wechseln: `update vault.secrets set secret = '<64 Hex-Zeichen>' where name = 'ritl_transfer_key';`
+(oder `select vault.update_secret(id, '<neu>') from vault.secrets where name = 'ritl_transfer_key';`).
+
 ## 🚦 Release-Kanäle (Entwicklung · Beta · Stabil)
 
 Jedes Tool kann mehrere Versionen gleichzeitig haben. Jede **Lizenz** hat einen Kanal:
