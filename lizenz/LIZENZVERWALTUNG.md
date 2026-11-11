@@ -214,7 +214,20 @@ Verein haben. Edition („FCPF“ oder Standard) und Kanal werden weiterhin im A
 
 (`fcpf_settings` wird nicht mehr verwendet – Saisonstart und Testspiel-Tore stehen jetzt in `score_clubs`.)
 
-**Neuen Verein anlegen** (bis das Admin-Tool das kann):
+**Vereine im Admin-Tool** (Reiter **Vereine**):
+- **+ Neuer Verein** → Name, Kurzname, Kürzel (ID, z. B. `sv-musterdorf`) und den Link irgendeiner Vereinsseite auf vereine.oefb.at eintragen.
+- **Mannschaften laden** liest die Mannschaften der aktuellen Saison und prüft jeden Spielplan: eigener ÖFB-Teamname
+  (über den Vereinslink im Spielplan, daraus wird die *Erkennung*), Bewerb und gespielte Spiele. Teams ohne Ergebnisse
+  (Kinderfußball) werden vorgeschlagen, sind aber nicht aktiv.
+- **+ Hinzufügen** übernimmt eine einzelne Mannschaft per Link – auch von einem Partnerverein (Spielgemeinschaft).
+- Kürzel (Filter-Knopf), Anzeigename, Bewerb, „Name in Spielen“ und Reihenfolge sind frei änderbar.
+- **Lizenzen mit diesem Verein** anhaken – oder in der Lizenz unter „Verein für SCORE.ritl“ wählen (Tabelle `score_license_clubs`).
+- Nach dem ersten Speichern startet der erste Import automatisch, sonst per **↻ Import jetzt** (läuft innerhalb einer Minute
+  im Hintergrund über pg_cron). Status und Protokoll stehen in der Vereinsliste und im Vereinsdialog.
+- Server: Admin-Aktionen `score_*` in `license-admin` → Funktion `admin_score(token, aktion, daten)`;
+  ÖFB-Hilfsfunktionen `_oefb_get`, `_oefb_mannschaften`, `_oefb_team_probe`.
+
+Per SQL geht es weiterhin so:
 ```sql
 insert into score_clubs (id, name, kurz, oefb_url, saisonstart)
 values ('sv-muster', 'SV Musterdorf', 'SVM', 'https://vereine.oefb.at/SVMusterdorf/', '2026-08-01');
