@@ -4,6 +4,19 @@
 Start: index.html im Browser öffnen (Chrome/Edge/Firefox) oder auf GitHub Pages ablegen.
 Beim Öffnen wird die Beispielzeichnung „Beispiel_Schnitt.dxf“ geladen.
 
+Neu in 4.4 (11.11.2026)
+- Automatisch erkannte Objekte (Rohre, Kanäle, Decken/Wände, Rechtecke, Stäbe aus MSX) lassen sich löschen:
+  sie verschwinden aus Modellbereich, Rohrliste (08), Bauteil-/Kanalliste (09) und Export.
+  „Wiederherstellen (n)“ holt alle zurück, „Rückgängig“ den letzten Schritt. Löschen-Knopf in jeder Listenzeile.
+- Auswahl-Fenster rechts im Modellbereich: Alle abwählen, Löschen, Export EIN/AUS, Wasser EIN/AUS,
+  Rohr-Vorgaben anwenden, Typ (Bauteil/Kanal), Stabtyp, In der Liste zeigen. Klick ins Leere hebt die Auswahl auf.
+- Erkennungsmodus: „Automatische Erkennung“ (Standard) oder „Manuelle Auswahl“ – erkannte Objekte erscheinen
+  gestrichelt, Mausover zeigt die Info (z. B. Ø und passende Katalog-Größe), Klick übernimmt; „Alle übernehmen“.
+- Mausover-Info für alle Objekte im Modellbereich.
+- Zeichnung um 90° drehen (⟲ / ⟳); Erkennung, manuelle Objekte und Export folgen der Drehung (nicht bei MSX-Quellen).
+- Texte aus DXF (TEXT, MTEXT, Attribute), DWG und PDF werden eingelesen und auf den eigenen Layer „Texte“ gelegt;
+  ein-/ausblendbar im Modellbereich und unter Layer, nicht für die Erkennung verwendet.
+
 Neu in 4.3 (09.11.2026)
 - „+ Unterprojekt“ entfernt (jeder Import legt automatisch ein Unterprojekt an).
 - Export & Import im Projektbereich einklappbar (Zustand bleibt gespeichert).
