@@ -171,6 +171,8 @@
   .mtab td.n{white-space:nowrap;font:500 12px/16px var(--mono)}
   .mtab .ib{width:26px;height:26px}
   .mtab .acts{flex-wrap:nowrap;gap:2px}
+  .mtab tr.bad td{background:color-mix(in srgb,var(--danger) 10%,transparent)}
+  #cf-err{max-width:520px;white-space:normal;font-family:var(--sans)}
   #cf-log div{margin:2px 0}
   @media(max-width:700px){:root{--gut:16px}}
 </style>
@@ -394,7 +396,7 @@
       <div class="sect"><h3>Import-Protokoll</h3></div>
       <div id="cf-log" class="hint"></div>
     </div>
-    <div class="dlg-foot"><button type="button" class="b dan" id="cf-del">Verein löschen</button><span class="sp"></span>
+    <div class="dlg-foot"><button type="button" class="b dan" id="cf-del">Verein löschen</button><span class="sp"></span><span class="pill p-bad hide" id="cf-err" role="alert"></span>
       <button type="button" class="b" data-close>Abbrechen</button><button type="submit" class="b pri" id="cf-save">Speichern</button></div>
   </form>
 </dialog>
@@ -992,7 +994,7 @@
       return '<div><span class="pill ' + (g.ok ? "p-ok" : "p-bad") + '">' + (g.ok ? "OK" : "Fehler") + "</span> " + fmtDT(g.started_at) +
         " · " + g.neu + " neu · " + g.geaendert + " geändert" + (g.info ? " · " + esc(g.info) : "") + "</div>";
     }).join("") : "Noch kein Import.";
-    $("cf-del").classList.toggle("hide", !c);
+    $("cf-del").classList.toggle("hide", !c); $("cf-err").classList.add("hide");
     cdlg.showModal(); cf.name.focus();
   }
   cf.name.addEventListener("input", function () { if (!cEdit && !cf.club_id.dataset.touched) cf.club_id.value = slugify(cf.name.value); });
@@ -1077,14 +1079,20 @@
     if (!name) { cf.name.focus(); return toast("Bitte den Vereinsnamen eintragen."); }
     if (!/^[a-z0-9][a-z0-9-]{1,40}$/.test(id)) { cf.club_id.focus(); return toast("Kürzel: nur a–z, 0–9 und Bindestrich."); }
     if (!cEdit && SC.clubs.some(function (c) { return c.id === id; })) { cf.club_id.focus(); return toast("Dieses Kürzel ist schon vergeben."); }
-    var seen = {};
-    for (var i = 0; i < cTeams.length; i++) {
-      var t = cTeams[i]; t.team = String(t.team || "").trim();
-      if (!t.team) return toast("Jede Mannschaft braucht ein Kürzel.");
-      if (seen[t.team]) return toast("Das Kürzel „" + t.team + "“ kommt doppelt vor.");
-      if (!String(t.own_regex || "").trim()) return toast("Mannschaft „" + t.team + "“: Erkennung fehlt.");
+    var seen = {}, bad = -1, msg = "";
+    for (var i = 0; i < cTeams.length && bad < 0; i++) {
+      var t = cTeams[i]; t.team = String(t.team || "").trim(); t.own_regex = String(t.own_regex || "").trim();
+      // inaktive Teams ohne Spiele (Kinderfußball): Erkennung aus dem Namen ableiten, damit gespeichert werden kann
+      if (!t.own_regex && !t.active) t.own_regex = "^" + String(t.own_label || t.team).replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "$";
+      if (!t.team) { bad = i; msg = "Mannschaft " + (i + 1) + ": Kürzel fehlt."; }
+      else if (seen[t.team]) { bad = i; msg = "Das Kürzel „" + t.team + "“ kommt doppelt vor."; }
+      else if (!t.own_regex) { bad = i; msg = "Mannschaft „" + t.team + "“: Erkennung fehlt (ÖFB-Teamname eintragen oder Mannschaft deaktivieren)."; }
+      else { try { new RegExp(t.own_regex); } catch (x) { bad = i; msg = "Mannschaft „" + t.team + "“: Erkennung ist kein gültiger Ausdruck."; } }
       seen[t.team] = 1;
     }
+    $("cf-err").textContent = msg; $("cf-err").classList.toggle("hide", !msg);
+    [].forEach.call($("cf-teams").querySelectorAll("tr[data-i]"), function (tr) { tr.classList.toggle("bad", +tr.dataset.i === bad); });
+    if (bad >= 0) { var row = $("cf-teams").querySelector('tr[data-i="' + bad + '"]'); if (row) row.scrollIntoView({ block: "center" }); return toast(msg); }
     var teams = cTeams.map(function (t, i) { return { team: t.team, team_order: i + 1, name: t.name, bewerb: t.bewerb, oefb_url: t.oefb_url, own_regex: t.own_regex, own_label: t.own_label, active: !!t.active }; });
     var lics = [].map.call($("cf-lics").querySelectorAll("input[data-lic]"), function (x) { return { id: x.dataset.lic, on: x.checked }; });
     var first = !cEdit, btn = $("cf-save"); btn.disabled = true;
@@ -1100,7 +1108,7 @@
         toast("Gespeichert ✓"); closeDlg(cdlg);
         return loadClubs().then(function () { if (first && teams.some(function (t) { return t.active; })) queueImport(id, "Gespeichert – der erste Import startet innerhalb einer Minute ✓"); });
       })
-      .catch(function () {})
+      .catch(function () { $("cf-err").textContent = "Nicht gespeichert – Details in der Meldung unten."; $("cf-err").classList.remove("hide"); })
       .then(function () { btn.disabled = false; });
   });
   $("cf-del").addEventListener("click", function () {
