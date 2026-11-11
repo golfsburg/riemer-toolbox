@@ -91,7 +91,10 @@
   .ch-beta{background:color-mix(in srgb,var(--alt-teal) 16%,transparent);color:var(--ok-tx)}
   .ch-dev{background:color-mix(in srgb,var(--alt-orange) 16%,transparent);color:var(--warn-tx)}
   .vlist{display:flex;flex-direction:column;gap:3px;font:500 12px/16px var(--mono)}
-  .vlist .ch{min-width:58px;text-align:center;margin-right:6px}
+  .vline{display:flex;align-items:center;gap:6px;white-space:nowrap}
+  .vline .vv{min-width:84px}
+  .vline .ch{min-width:58px;text-align:center}
+  .ch-std{background:color-mix(in srgb,var(--muted) 16%,transparent);color:var(--muted)}
   tr.off td{opacity:.5}
   select{width:100%;padding:9px 12px;border:1px solid var(--line);border-radius:var(--radius-ctl);background:var(--field);color:inherit;font:400 14px/20px var(--sans)}
   .keycell{display:inline-flex;align-items:center;gap:4px;white-space:nowrap}
@@ -418,18 +421,18 @@
   }
   var NEXT = { dev: "beta", beta: "stable" };
   function chPill(c) { c = c || "stable"; return '<span class="ch ch-' + c + '">' + (CH[c] || c).toUpperCase() + "</span>"; }
+  // Versionen-Spalte: je Zeile VERSION · EDITION · KANAL (aktuelle aktive Version je Edition und Kanal)
   function chSummary(t) {
     if (!t.versions) return '<span class="hint">–</span>';
     var m = t.matrix || {}, out = "";
     ["standard"].concat((t.editions || []).map(function (e) { return e.id; })).forEach(function (ed) {
-      var row = m[ed] || {}, any = ["stable", "beta", "dev"].some(function (k) { return row[k]; });
-      if (ed !== "standard" && !any) return;
-      if (ed !== "standard") out += '<div style="margin-top:4px">' + edPill(t, ed) + "</div>";
-      out += ["stable", "beta", "dev"].map(function (k) {
-        return "<div>" + chPill(k) + (row[k] ? esc(row[k].v) : '<span class="hint">–</span>') + "</div>";
-      }).join("");
+      ["stable", "beta", "dev"].forEach(function (k) {
+        var x = (m[ed] || {})[k]; if (!x) return;
+        out += '<div class="vline"><span class="vv">' + esc(x.v) + "</span>" +
+          (ed === "standard" ? '<span class="ch ch-std">STANDARD</span>' : edPill(t, ed)) + chPill(k) + "</div>";
+      });
     });
-    return '<div class="vlist">' + out + "</div>";
+    return out ? '<div class="vlist">' + out + "</div>" : '<span class="hint">keine aktive Version</span>';
   }
   var verTool = null;
   function openVersions(id) {
