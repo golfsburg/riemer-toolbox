@@ -57,6 +57,20 @@
   tr:last-child td{border-bottom:0}
   th{font:500 12px/16px var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:1px}
   .wrap{overflow-x:auto}
+  /* Verstellbare Spaltenbreiten */
+  table[data-rz] thead th{position:relative}
+  table.rzfix{table-layout:fixed}
+  table.rzfix td,table.rzfix th{overflow:hidden;overflow-wrap:break-word}
+  table.rzfix th{white-space:nowrap;text-overflow:ellipsis}
+  table.rzfix .pill,table.rzfix .ch,table.rzfix .keycell{white-space:nowrap}
+  .rzh{position:absolute;top:0;right:-4px;width:9px;height:100%;cursor:col-resize;z-index:2;touch-action:none}
+  .rzh::after{content:"";position:absolute;top:22%;bottom:22%;left:4px;width:1px;background:var(--line);transition:background .12s}
+  thead th:hover .rzh::after{background:color-mix(in srgb,var(--brand) 55%,var(--line))}
+  .rzh:hover::after,.rzing .rzh.act::after{left:3px;width:3px;border-radius:2px;background:var(--brand)}
+  .rzing,.rzing *{cursor:col-resize!important;user-select:none!important}
+  thead th:last-child .rzh{right:0}
+  nav .sp{flex:1}
+  nav button.rzreset{font-size:13px}
   .mono{font-family:var(--mono)}
   .pill{display:inline-block;padding:3px 8px;border-radius:var(--radius-sm);font:500 12px/16px var(--mono)}
   .p-ok{background:color-mix(in srgb,var(--alt-teal) 16%,transparent);color:var(--ok-tx)}
@@ -182,11 +196,13 @@
     <button type="button" id="lic-new">+ Neue Lizenz</button>
     <button data-tab="tools">Tools</button>
     <button data-tab="log">Protokoll</button>
+    <span class="sp"></span>
+    <button type="button" class="rzreset" id="rz-reset" title="Alle Spaltenbreiten auf Automatisch zurücksetzen">⇔ Spaltenbreiten zurücksetzen</button>
   </nav>
   <main>
     <section id="t-lic" class="card">
       <h2>Lizenzen</h2>
-      <div class="wrap"><table>
+      <div class="wrap"><table data-rz="lic">
         <thead><tr><th>Kunde</th><th>Schlüssel</th><th>Tools · Kanal · Edition</th><th>Gültig bis</th><th>Geräte</th><th>Zuletzt genutzt</th><th>Status</th><th></th></tr></thead>
         <tbody id="licrows"></tbody>
       </table></div>
@@ -197,7 +213,7 @@
       <div class="card">
         <h2>Tools &amp; Katalog</h2>
         <p class="hint" style="margin:-8px 0 12px">Was hier steht, zeigen die Toolbox-Startseite und myTOOLBOX.ritl. Reihenfolge nach „Sort.“.</p>
-        <div class="wrap"><table>
+        <div class="wrap"><table data-rz="tools">
           <thead><tr><th></th><th>Tool</th><th>Versionen</th><th>Kategorie</th><th>Link</th><th>Sort.</th><th>Vorschau</th><th>Status</th><th></th></tr></thead>
           <tbody id="toolrows"></tbody>
         </table></div>
@@ -229,7 +245,7 @@
       <div class="card hide" id="vercard">
         <h2 id="ver-title">Versionen</h2>
         <p class="hint" style="margin:-8px 0 12px">Jede Lizenz bekommt die neueste aktive Version aus ihrem Kanal und ihrer Edition (Dev sieht Dev + Beta + Stabil, Beta sieht Beta + Stabil; fehlt eine Edition, gilt Standard). Kanal und Edition lassen sich direkt in der Tabelle umstellen. „Freigeben“ verschiebt eine Version in den nächsten Kanal, „Zurückziehen“ nimmt sie aus der Auslieferung – dann gilt automatisch wieder die vorige.</p>
-        <div class="wrap"><table>
+        <div class="wrap"><table data-rz="ver">
           <thead><tr><th>Version</th><th>Edition</th><th>Kanal</th><th>Freigegeben</th><th>Größe</th><th>Aufrufe</th><th>Notiz</th><th>Quellen</th><th></th></tr></thead>
           <tbody id="verrows"></tbody>
         </table></div>
@@ -262,7 +278,7 @@
 
     <section id="t-log" class="card hide">
       <h2>Letzte 100 Zugriffe</h2>
-      <div class="wrap"><table>
+      <div class="wrap"><table data-rz="log">
         <thead><tr><th>Zeit</th><th>Kunde</th><th>Tool</th><th>Gerät</th><th>Ergebnis</th></tr></thead>
         <tbody id="logrows"></tbody>
       </table></div>
@@ -294,7 +310,7 @@
       </div>
       <label for="lf-note">Notiz</label><input id="lf-note" name="note" placeholder="z. B. Rechnung 2026-041">
       <div class="sect"><h3>Tools</h3><label class="chk"><input type="checkbox" name="all"> <b>Alle Tools</b>&nbsp;– auch künftige</label></div>
-      <div class="wrap"><table class="ttab">
+      <div class="wrap"><table class="ttab" data-rz="dlg-tools">
         <thead><tr><th></th><th>Tool</th><th>Kanal</th><th>Edition</th><th>Bekommt</th></tr></thead>
         <tbody id="lic-tools"></tbody>
       </table></div>
@@ -829,10 +845,64 @@
 
   document.querySelector("nav").addEventListener("click", function (e) {
     var b = e.target.closest("button[data-tab]"); if (!b) return;
-    [].forEach.call(document.querySelectorAll("nav button"), function (x) { x.classList.toggle("on", x === b); });
+    [].forEach.call(document.querySelectorAll("nav button[data-tab]"), function (x) { x.classList.toggle("on", x === b); });
     ["lic", "tools", "log"].forEach(function (t) { $("t-" + t).classList.toggle("hide", t !== b.dataset.tab); });
     if (b.dataset.tab === "log") loadLog();
   });
+  /* ── Spaltenbreiten: am rechten Rand eines Spaltenkopfs ziehen, Doppelklick = automatisch ── */
+  var RZ_KEY = "riemer-admin-spalten";
+  function rzLoad() { try { return JSON.parse(localStorage.getItem(RZ_KEY)) || {}; } catch (e) { return {}; } }
+  function rzStore(o) { try { localStorage.setItem(RZ_KEY, JSON.stringify(o)); } catch (e) {} }
+  function rzCells(tbl) { return tbl.tHead.rows[0].cells; }
+  function rzSet(tbl, w) {
+    var ths = rzCells(tbl), sum = 0;
+    if (!w || w.length !== ths.length) {
+      tbl.classList.remove("rzfix"); tbl.style.width = "";
+      [].forEach.call(ths, function (th) { th.style.width = ""; });
+      return;
+    }
+    tbl.classList.add("rzfix");
+    [].forEach.call(ths, function (th, i) { th.style.width = w[i] + "px"; sum += w[i]; });
+    tbl.style.width = sum + "px";
+  }
+  function rzInit(tbl) {
+    var key = tbl.dataset.rz;
+    [].forEach.call(rzCells(tbl), function (th, i) {
+      var h = document.createElement("span");
+      h.className = "rzh"; h.setAttribute("aria-hidden", "true");
+      h.title = "Ziehen = Spaltenbreite ändern · Doppelklick = automatisch";
+      th.appendChild(h);
+      h.addEventListener("pointerdown", function (e) {
+        if (e.button !== 0) return;
+        e.preventDefault(); e.stopPropagation();
+        var cur = [].map.call(rzCells(tbl), function (c) { return Math.round(c.getBoundingClientRect().width); });
+        var x0 = e.clientX, w0 = cur[i];
+        rzSet(tbl, cur);
+        document.body.classList.add("rzing"); h.classList.add("act");
+        try { h.setPointerCapture(e.pointerId); } catch (err) {}
+        function move(ev) { cur[i] = Math.max(36, w0 + ev.clientX - x0); rzSet(tbl, cur); }
+        function up() {
+          h.removeEventListener("pointermove", move); h.removeEventListener("pointerup", up); h.removeEventListener("pointercancel", up);
+          document.body.classList.remove("rzing"); h.classList.remove("act");
+          var all = rzLoad(); all[key] = cur; rzStore(all);
+        }
+        h.addEventListener("pointermove", move); h.addEventListener("pointerup", up); h.addEventListener("pointercancel", up);
+      });
+      h.addEventListener("dblclick", function (e) {
+        e.preventDefault(); e.stopPropagation();
+        var all = rzLoad(); delete all[key]; rzStore(all); rzSet(tbl, null);
+        toast("Spaltenbreiten automatisch");
+      });
+    });
+    rzSet(tbl, rzLoad()[key]);
+  }
+  [].forEach.call(document.querySelectorAll("table[data-rz]"), rzInit);
+  $("rz-reset").addEventListener("click", function () {
+    rzStore({});
+    [].forEach.call(document.querySelectorAll("table[data-rz]"), function (t) { rzSet(t, null); });
+    toast("Alle Spaltenbreiten zurückgesetzt ✓");
+  });
+
   $("reload").addEventListener("click", function () { load().then(function (r) { if (r.ok) toast("Aktualisiert ✓"); }); });
   $("logout").addEventListener("click", function () { logout(""); });
 
