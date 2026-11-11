@@ -212,6 +212,29 @@ update fcpf_data set rows = (select jsonb_agg(case when x->>'team'='KM' and x->>
 **Sofort aktualisieren:** `select fcpf_import();` · **Probelauf:** `select fcpf_import(true);`
 **Neue Saison:** URLs in `fcpf_team_cfg` (Saison-2027-28) und `saisonstart` anpassen.
 
+### 🎨 SCORE.ritl – neutral, Edition „FCPF“ und Design je Lizenz (ab 2.0)
+
+Dieselbe Datei liefert zwei Ausprägungen, gesteuert über die **Edition der Lizenz** (`window.RITL.edition`):
+
+| Edition | Aussehen |
+|---|---|
+| *Standard* | **SCORE.ritl** im RIEMER-Tools-Design (Kopfzeile, Inter, Hell/Dunkel), Kopfbereich in den Vereinsfarben |
+| `fcpf` – FCPF | bisheriges Vereinsdesign: Wappen, Stadionfoto, Barlow, Sponsorenleiste, Link zur FCPF-Übersicht |
+
+Zum Testen ohne Lizenz: `…/index.html?edition=fcpf`.
+
+**Design-Fenster** (Knopf *Design*): Vereinsname, Kurzname, Hashtag, Wappen (Upload, wird auf 320 px verkleinert) und **jede Farbe** getrennt für Hell und Dunkel
+(18 Farben + Mannschaftsfarben). Die Vorschau im Fenster zeigt jede Änderung sofort, inkl. Lesbarkeitswarnung. *Farben aus Wappen* übernimmt die
+kräftigsten Farbtöne des Wappens. *Speichern* gilt für **alle Geräte der Lizenz** (jedes Gerät darf ändern).
+
+**PowerPoint:** RIEMER-Vorlage (Titelfolie mit Farbfeld + Wappen, Inhaltsfolien mit Kopfbalken, Fußzeile „erstellt mit SCORE.ritl · RIEMER Tools“),
+gefärbt mit den Hell-Farben und dem Wappen der Lizenz.
+
+Technik: Tabelle `tool_settings` (`license_id`, `tool`, `data` jsonb), Funktion `tool_settings_api(key, email, device, tool, 'get'|'save'|'reset', data)`,
+Edge Function **`tool-settings`** (gleiche Lizenzprüfung wie `license-check`, max. ~350 kB je Lizenz und Tool). Das Tool hält eine Kopie im Browser
+(`riemer-design:<tool>`), damit beim Öffnen nichts aufblitzt, und gleicht sie danach mit dem Server ab.
+Design zurücksetzen per SQL: `delete from tool_settings where license_id = '…' and tool = 'fcpf-ergebnisse';`
+
 ---
 
 ## E-Mail-Prüfung
