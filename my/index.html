@@ -387,7 +387,7 @@ function card(t, base, active, info) {
     '<div class="body"><div class="top">' + (t.teaser_img ? icon : "") +
     '<div><p class="kicker">' + esc(t.category || "") + "</p><h3>" + esc(t.name) + "</h3></div></div>" +
     '<p class="desc">' + esc(t.description || "") + "</p>" + verLine(info) +
-    '<div class="foot">' + badge + (active === false ? '<span class="go">Vorschau ' + ICON.arrow + "</span>" : '<span class="go">Öffnen ' + ICON.arrow + "</span>") + "</div></div>";
+    '<div class="foot">' + badge + (active === false ? '<span class="go">Vorschau ' + ICON.arrow + "</span>" : "") + "</div></div>";
   if (active === false) return '<button type="button" class="tool locked" data-teaser="' + esc(t.id) + '">' + inner + "</button>";
   return '<a class="tool" href="' + esc(toolUrl(t, base)) + '">' + inner + "</a>";
 }
