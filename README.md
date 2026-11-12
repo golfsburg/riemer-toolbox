@@ -19,6 +19,7 @@ Alle Tools laufen direkt im Browser, ohne Installation.
 | 🔒 [PPTX.ritl](pptx.ritl/) | Präsentationen & Meetings: DECK.ritl (Folien aus Abschnitten) und TIMING.ritl (Agenda, Räume, Live-Modus) | Proprietär · **Lizenzschlüssel erforderlich** | ❌ nur nach Vereinbarung |
 | 🔒 [PDF.ritl](pdf.ritl/) | PDF-Dokumente aus Lesezeichen-Abschnitten und Einzelseiten zusammenstellen – mit verlinktem Inhaltsverzeichnis | Proprietär · **Lizenzschlüssel erforderlich** | ❌ nur nach Vereinbarung |
 | 🔒 [PPTX Manager](pptx-manager/) | Präsentationen aus PowerPoint-Abschnitten zusammenstellen | Proprietär · **Lizenzschlüssel erforderlich** | ❌ nur nach Vereinbarung |
+| 🔒 [LV.ritl – LV-Manager](lv-manager/) | Leistungsverzeichnisse nach ÖNORM A 2063 mit Materiallisten, Bieterangeboten und ONLV-Export (Ausschreibungs- und Angebots-LV) | Proprietär · **Lizenzschlüssel erforderlich** | ❌ nur nach Vereinbarung |
 | 🔒 [MSX-Builder](msx-builder/) | Schnitte aus DWG/PDF/MSX/Revit-Platzhaltern in Hilti PROFIS MSE Importdateien (.msx) umwandeln | Proprietär · **Lizenzschlüssel erforderlich** | ❌ nur nach Vereinbarung |
 | 🔒 [Zeiterfassung.ritl](zeiterfassung/) | Projektbezogene Zeiterfassung mit Timer, Kategorien, Auswertung (Druck/PDF) und optionaler Ablage in Excel/CSV im OneDrive-/SharePoint-Ordner | Proprietär · **Lizenzschlüssel erforderlich** | ❌ nur nach Vereinbarung |
 | ▶ [LS.ritl – Lieferschein-Manager](ls-manager/) | Lieferscheine automatisch auslesen und je Lieferant archivieren | Demoversion · frei testbar, **kein Lizenzschlüssel** | ❌ Firmenlizenz nach Vereinbarung |
