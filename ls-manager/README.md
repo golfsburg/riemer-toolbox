@@ -1,4 +1,4 @@
-# Lieferschein-Manager (Demo)
+# LS.ritl – Lieferschein-Manager (Demo)
 
 Lieferscheine automatisch auslesen und je Lieferant im eigenen Archivordner ablegen (RIEMER Tools).
 
