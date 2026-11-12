@@ -171,6 +171,9 @@
   .mtab td.n{white-space:nowrap;font:500 12px/16px var(--mono)}
   .mtab .ib{width:26px;height:26px}
   .mtab .acts{flex-wrap:nowrap;gap:2px}
+  .mtab select{padding:6px 8px;font-size:13px}
+  .mtab td.na{color:var(--muted);font-size:12px;padding-top:12px}
+  .licpin{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:4px 0}
   .mtab tr.bad td{background:color-mix(in srgb,var(--danger) 10%,transparent)}
   #cf-err{max-width:520px;white-space:normal;font-family:var(--sans)}
   #cf-log div{margin:2px 0}
@@ -386,12 +389,12 @@
       </div>
       <div class="sect"><h3>Mannschaften</h3><span class="hint" id="cf-prog"></span></div>
       <div class="wrap"><table class="ttab mtab">
-        <thead><tr><th>Aktiv</th><th>Kürzel</th><th>Anzeigename</th><th>Bewerb</th><th>Name in Spielen</th><th>Erkennung (ÖFB-Name)</th><th>Spiele</th><th></th></tr></thead>
+        <thead><tr><th>Aktiv</th><th>Quelle</th><th>Kürzel</th><th>Anzeigename</th><th>Bewerb</th><th>Name in Spielen</th><th>Erkennung (ÖFB-Name)</th><th>Spiele</th><th></th></tr></thead>
         <tbody id="cf-teams"></tbody>
       </table></div>
-      <div class="row" style="margin-top:10px"><input id="cf-add-url" placeholder="Weitere Mannschaft: Link zur Mannschaft auf vereine.oefb.at (auch Partnerverein, z. B. Spielgemeinschaft)"><button type="button" class="b" id="cf-add">+ Hinzufügen</button></div>
-      <p class="hint">Kürzel = Filter-Knopf in der Webapp · Anzeigename = Überschrift der Mannschaftskarte · Name in Spielen = so steht das eigene Team bei Heim/Gast · Erkennung = ÖFB-Teamname(n), an denen das eigene Team im Spielplan erkannt wird (wird automatisch ausgefüllt). Mannschaften ohne Ergebnisse (Kinderfußball) werden vorgeschlagen, sind aber nicht aktiv.</p>
-      <div class="sect"><h3>Lizenzen mit diesem Verein</h3></div>
+      <div class="row" style="margin-top:10px"><input id="cf-add-url" placeholder="Weitere Mannschaft: Link zur Mannschaft auf vereine.oefb.at (auch Partnerverein, z. B. Spielgemeinschaft)"><button type="button" class="b" id="cf-add">+ Hinzufügen</button><button type="button" class="b" id="cf-add-man">+ Manuelle Mannschaft</button></div>
+      <p class="hint">Kürzel = Filter-Knopf in der Webapp · Anzeigename = Überschrift der Mannschaftskarte · Name in Spielen = so steht das eigene Team bei Heim/Gast · Erkennung = ÖFB-Teamname(n), an denen das eigene Team im Spielplan erkannt wird (wird automatisch ausgefüllt). Mannschaften ohne Ergebnisse (Kinderfußball) werden vorgeschlagen, sind aber nicht aktiv.<br><b>Quelle:</b> ÖFB-Mannschaften werden automatisch aktualisiert, manuelle Mannschaften pflegt der Verein selbst (Spiele, Ergebnisse, Torschützen). Beides ist streng getrennt – beim Wechsel der Quelle werden alle bisherigen Daten der Mannschaft gelöscht. Kurzberichte sind bei allen Spielen möglich.</p>
+      <div class="sect"><h3>Lizenzen mit diesem Verein</h3><span class="hint">Mit Vereins-Admin-PIN kann der Lizenznehmer den Verein in der Webapp selbst verwalten.</span></div>
       <div class="checks" id="cf-lics"></div>
       <div class="sect"><h3>Import-Protokoll</h3></div>
       <div id="cf-log" class="hint"></div>
@@ -920,7 +923,7 @@
   function licName(id) { var l = find(id); return l ? l.customer : "gelöschte Lizenz"; }
   function loadClubs() {
     return api("score_overview").then(function (r) {
-      if (r.ok) { SC.clubs = r.clubs || []; SC.assign = r.assign || {}; renderClubs(); fillClubSelect(); }
+      if (r.ok) { SC.clubs = r.clubs || []; SC.assign = r.assign || {}; SC.pins = r.pins || []; renderClubs(); fillClubSelect(); }
       return r;
     });
   }
@@ -983,13 +986,9 @@
     cf.oefb_url.value = c ? (c.oefb_url || "") : "";
     cf.saisonstart.value = c ? c.saisonstart : (new Date().getMonth() >= 6 ? new Date().getFullYear() : new Date().getFullYear() - 1) + "-08-01";
     cf.testtore.checked = c ? !!c.torschuetzen_testspiele : true; cf.active.checked = c ? !!c.active : true;
-    cTeams = c ? c.teams.map(function (t) { return { team: t.team, name: t.name, bewerb: t.bewerb, own_label: t.own_label, own_regex: t.own_regex, oefb_url: t.oefb_url, active: !!t.active }; }) : [];
+    cTeams = c ? c.teams.map(function (t) { return { id: t.id, quelle: t.quelle || "oefb", _q0: t.quelle || "oefb", team: t.team, name: t.name, bewerb: t.bewerb, own_label: t.own_label, own_regex: t.own_regex || "", oefb_url: t.oefb_url || "", active: !!t.active }; }) : [];
     renderTeams(); $("cf-prog").textContent = ""; $("cf-add-url").value = "";
-    $("cf-lics").innerHTML = state.licenses.filter(scoreTool).map(function (l) {
-      var cur = SC.assign[l.id];
-      return '<label class="chk"><input type="checkbox" data-lic="' + esc(l.id) + '"' + (c && cur === c.id ? " checked" : "") + "> " + esc(l.customer) +
-        (cur && (!c || cur !== c.id) ? '&nbsp;<span class="hint">(derzeit ' + esc(clubName(cur)) + ")</span>" : "") + "</label>";
-    }).join("") || '<span class="hint">Keine Lizenz enthält SCORE.ritl (fcpf-ergebnisse).</span>';
+    renderLics(c);
     $("cf-log").innerHTML = c && c.log.length ? c.log.map(function (g) {
       return '<div><span class="pill ' + (g.ok ? "p-ok" : "p-bad") + '">' + (g.ok ? "OK" : "Fehler") + "</span> " + fmtDT(g.started_at) +
         " · " + g.neu + " neu · " + g.geaendert + " geändert" + (g.info ? " · " + esc(g.info) : "") + "</div>";
@@ -1000,24 +999,61 @@
   cf.name.addEventListener("input", function () { if (!cEdit && !cf.club_id.dataset.touched) cf.club_id.value = slugify(cf.name.value); });
   cf.club_id.addEventListener("input", function () { cf.club_id.dataset.touched = "1"; });
 
+  function renderLics(c) {
+    $("cf-lics").innerHTML = state.licenses.filter(scoreTool).map(function (l) {
+      var cur = SC.assign[l.id], mine = c && cur === c.id, pin = (SC.pins || []).indexOf(l.id) >= 0;
+      return '<div class="licpin"><label class="chk"><input type="checkbox" data-lic="' + esc(l.id) + '"' + (mine ? " checked" : "") + "> " + esc(l.customer) +
+        (cur && !mine ? '&nbsp;<span class="hint">(derzeit ' + esc(clubName(cur)) + ")</span>" : "") + "</label>" +
+        (mine ? '<span class="pill ' + (pin ? "p-ok" : "") + '">' + (pin ? "Vereins-Admin-PIN gesetzt" : "keine Vereins-Verwaltung") + "</span>" +
+          '<button type="button" class="b" data-pin="' + esc(l.id) + '">' + (pin ? "PIN ändern" : "PIN vergeben") + "</button>" +
+          (pin ? '<button type="button" class="b" data-pinrm="' + esc(l.id) + '">PIN entfernen</button>' : "") : "") + "</div>";
+    }).join("") || '<span class="hint">Keine Lizenz enthält SCORE.ritl (fcpf-ergebnisse).</span>';
+  }
+  $("cf-lics").addEventListener("click", function (e) {
+    var b = e.target.closest("button[data-pin],button[data-pinrm]"); if (!b) return;
+    var lid = b.dataset.pin || b.dataset.pinrm, c = SC.clubs.filter(function (x) { return x.id === cEdit; })[0];
+    if (b.dataset.pinrm) {
+      if (!confirm("Vereins-Admin-PIN für „" + licName(lid) + "“ entfernen? Die Vereins-Verwaltung in der Webapp ist dann für diese Lizenz gesperrt.")) return;
+      return api("score_license_pin", { license_id: lid, pin: null }).then(function (r) { if (r.ok) { toast("PIN entfernt"); SC.pins = SC.pins.filter(function (x) { return x !== lid; }); renderLics(c); } });
+    }
+    var pin = prompt("Vereins-Admin-PIN für „" + licName(lid) + "“ (4–12 Ziffern oder Buchstaben).\nGib sie der verantwortlichen Person im Verein weiter:", String(Math.floor(100000 + Math.random() * 900000)));
+    if (pin === null) return;
+    pin = pin.trim();
+    if (!/^[0-9A-Za-z]{4,12}$/.test(pin)) return toast("PIN: 4–12 Ziffern oder Buchstaben.");
+    api("score_license_pin", { license_id: lid, pin: pin }).then(function (r) {
+      if (r.ok) { if (SC.pins.indexOf(lid) < 0) SC.pins.push(lid); renderLics(c); toast("PIN gesetzt ✓ – bitte an den Verein weitergeben"); }
+    });
+  });
+
   function renderTeams() {
     $("cf-teams").innerHTML = cTeams.length ? cTeams.map(function (t, i) {
       var p = t._probe;
+      var man = t.quelle === "manuell";
       return '<tr data-i="' + i + '"' + (t.active ? "" : ' class="dis"') + '><td><input type="checkbox" data-f="active"' + (t.active ? " checked" : "") + ' aria-label="Mannschaft aktiv"></td>' +
+        '<td><select data-f="quelle" aria-label="Quelle"><option value="oefb"' + (man ? "" : " selected") + '>ÖFB</option><option value="manuell"' + (man ? " selected" : "") + ">Manuell</option></select></td>" +
         '<td><input data-f="team" value="' + esc(t.team) + '" aria-label="Kürzel"></td>' +
         '<td><input data-f="name" value="' + esc(t.name) + '" aria-label="Anzeigename"></td>' +
         '<td><input data-f="bewerb" value="' + esc(t.bewerb) + '" aria-label="Bewerb"></td>' +
         '<td><input data-f="own_label" value="' + esc(t.own_label) + '" aria-label="Name in Spielen"></td>' +
+        (man ? '<td class="na">– (vom Verein gepflegt)</td><td class="na">manuell</td>' :
         '<td><input class="rx" data-f="own_regex" value="' + esc(t.own_regex) + '" aria-label="Erkennung" title="' + esc(p && p.eigene_namen ? p.eigene_namen.join(" · ") : t.own_regex) + '"></td>' +
-        '<td class="n">' + (p ? p.gespielt + " von " + p.spiele + '<br><span class="hint">gespielt</span><br>' : "") + '<a href="' + esc(t.oefb_url) + '" target="_blank" rel="noopener">Spielplan ↗</a></td>' +
+        '<td class="n">' + (p ? p.gespielt + " von " + p.spiele + '<br><span class="hint">gespielt</span><br>' : "") + (t.oefb_url ? '<a href="' + esc(t.oefb_url) + '" target="_blank" rel="noopener">Spielplan ↗</a>' : '<span class="hint">kein Link</span>') + "</td>") +
         '<td><div class="acts"><button type="button" class="ib" data-mv="-1" title="nach oben" aria-label="nach oben">↑</button>' +
           '<button type="button" class="ib" data-mv="1" title="nach unten" aria-label="nach unten">↓</button>' +
           '<button type="button" class="ib" data-rm title="entfernen" aria-label="Mannschaft entfernen">✕</button></div></td></tr>';
-    }).join("") : '<tr><td colspan="8" class="hint">Noch keine Mannschaften. Oben „Mannschaften laden“ oder unten einen Link zur Mannschaft einfügen.</td></tr>';
+    }).join("") : '<tr><td colspan="9" class="hint">Noch keine Mannschaften. Oben „Mannschaften laden“, unten einen Link einfügen oder eine manuelle Mannschaft anlegen.</td></tr>';
   }
   function teamInput(e) {
     var tr = e.target.closest("tr[data-i]"), f = e.target.dataset.f; if (!tr || !f) return;
-    var t = cTeams[+tr.dataset.i]; t[f] = f === "active" ? e.target.checked : e.target.value;
+    var t = cTeams[+tr.dataset.i];
+    if (f === "quelle") {
+      if (e.type !== "change" || e.target.value === t.quelle) return;
+      if (t.id && e.target.value !== t._q0 && !confirm("Quelle von „" + t.team + "“ auf " + (e.target.value === "manuell" ? "Manuell" : "ÖFB") + " umstellen?\n\nBeim Speichern werden ALLE bisherigen Spiele, Torschützen und Kurzberichte dieser Mannschaft gelöscht.")) { e.target.value = t.quelle; return; }
+      t.quelle = e.target.value;
+      if (t.quelle === "oefb" && !t.oefb_url) toast("Für ÖFB-Mannschaften fehlt noch der Link – Mannschaft am besten über „+ Hinzufügen“ per Link anlegen.");
+      return renderTeams();
+    }
+    t[f] = f === "active" ? e.target.checked : e.target.value;
     if (f === "active") tr.classList.toggle("dis", !t.active);
   }
   $("cf-teams").addEventListener("input", teamInput);
@@ -1025,13 +1061,13 @@
   $("cf-teams").addEventListener("click", function (e) {
     var b = e.target.closest("button"), tr = e.target.closest("tr[data-i]"); if (!b || !tr) return;
     var i = +tr.dataset.i;
-    if (b.hasAttribute("data-rm")) cTeams.splice(i, 1);
+    if (b.hasAttribute("data-rm")) { if (cTeams[i].id && !confirm("Mannschaft „" + cTeams[i].team + "“ entfernen?\n\nBeim Speichern werden auch alle ihre Spiele, Torschützen und Kurzberichte gelöscht.")) return; cTeams.splice(i, 1); }
     else if (b.dataset.mv) { var j = i + (+b.dataset.mv); if (j < 0 || j >= cTeams.length) return; var x = cTeams[i]; cTeams[i] = cTeams[j]; cTeams[j] = x; }
     renderTeams();
   });
   function fromProbe(p, bez) {
     var key = bez || p.bezeichnung || "Team";
-    return { team: key, name: p.bezeichnung || key, bewerb: p.bewerb || "", own_label: p.own_label || key,
+    return { quelle: "oefb", team: key, name: p.bezeichnung || key, bewerb: p.bewerb || "", own_label: p.own_label || key,
              own_regex: p.own_regex || "", oefb_url: p.url, active: (p.gespielt || 0) > 0, _probe: p };
   }
   // Spielpläne nacheinander prüfen (eigener Teamname, Bewerb, gespielte Spiele)
@@ -1073,6 +1109,11 @@
     b.disabled = true;
     probeAll([{ bezeichnung: "", spiele_url: m[1] + "/Spiele/" }]).then(function () { b.disabled = false; $("cf-add-url").value = ""; });
   });
+  $("cf-add-man").addEventListener("click", function () {
+    var n = 1, key = "Neu"; while (cTeams.some(function (x) { return x.team === key; })) key = "Neu " + (++n);
+    cTeams.push({ quelle: "manuell", team: key, name: "", bewerb: "", own_label: "", own_regex: "", oefb_url: "", active: true });
+    renderTeams(); var inp = $("cf-teams").querySelector('tr[data-i="' + (cTeams.length - 1) + '"] input[data-f="team"]'); if (inp) { inp.focus(); inp.select(); }
+  });
   cf.addEventListener("submit", function (e) {
     e.preventDefault();
     var id = cf.club_id.value.trim(), name = cf.name.value.trim();
@@ -1083,17 +1124,19 @@
     for (var i = 0; i < cTeams.length && bad < 0; i++) {
       var t = cTeams[i]; t.team = String(t.team || "").trim(); t.own_regex = String(t.own_regex || "").trim();
       // inaktive Teams ohne Spiele (Kinderfußball): Erkennung aus dem Namen ableiten, damit gespeichert werden kann
-      if (!t.own_regex && !t.active) t.own_regex = "^" + String(t.own_label || t.team).replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "$";
+      if (t.quelle !== "manuell" && !t.own_regex && !t.active) t.own_regex = "^" + String(t.own_label || t.team).replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "$";
       if (!t.team) { bad = i; msg = "Mannschaft " + (i + 1) + ": Kürzel fehlt."; }
       else if (seen[t.team]) { bad = i; msg = "Das Kürzel „" + t.team + "“ kommt doppelt vor."; }
+      else if (t.quelle === "manuell") { /* keine Erkennung nötig */ }
+      else if (!t.oefb_url) { bad = i; msg = "Mannschaft „" + t.team + "“: ÖFB-Link fehlt."; }
       else if (!t.own_regex) { bad = i; msg = "Mannschaft „" + t.team + "“: Erkennung fehlt (ÖFB-Teamname eintragen oder Mannschaft deaktivieren)."; }
-      else { try { new RegExp(t.own_regex); } catch (x) { bad = i; msg = "Mannschaft „" + t.team + "“: Erkennung ist kein gültiger Ausdruck."; } }
+      if (bad < 0 && t.quelle !== "manuell") { try { new RegExp(t.own_regex); } catch (x) { bad = i; msg = "Mannschaft „" + t.team + "“: Erkennung ist kein gültiger Ausdruck."; } }
       seen[t.team] = 1;
     }
     $("cf-err").textContent = msg; $("cf-err").classList.toggle("hide", !msg);
     [].forEach.call($("cf-teams").querySelectorAll("tr[data-i]"), function (tr) { tr.classList.toggle("bad", +tr.dataset.i === bad); });
     if (bad >= 0) { var row = $("cf-teams").querySelector('tr[data-i="' + bad + '"]'); if (row) row.scrollIntoView({ block: "center" }); return toast(msg); }
-    var teams = cTeams.map(function (t, i) { return { team: t.team, team_order: i + 1, name: t.name, bewerb: t.bewerb, oefb_url: t.oefb_url, own_regex: t.own_regex, own_label: t.own_label, active: !!t.active }; });
+    var teams = cTeams.map(function (t, i) { return { id: t.id || null, quelle: t.quelle || "oefb", team: t.team, team_order: i + 1, name: t.name, bewerb: t.bewerb, oefb_url: t.oefb_url, own_regex: t.own_regex, own_label: t.own_label, active: !!t.active }; });
     var lics = [].map.call($("cf-lics").querySelectorAll("input[data-lic]"), function (x) { return { id: x.dataset.lic, on: x.checked }; });
     var first = !cEdit, btn = $("cf-save"); btn.disabled = true;
     api("score_club_save", { club_id: id, name: name, kurz: cf.kurz.value.trim(), oefb_url: cf.oefb_url.value.trim(),
