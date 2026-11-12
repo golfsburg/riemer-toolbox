@@ -4,6 +4,15 @@
 Start: index.html im Browser öffnen (Chrome/Edge/Firefox) oder auf GitHub Pages ablegen.
 Beim Öffnen wird die Beispielzeichnung „Beispiel_Schnitt.dxf“ geladen.
 
+Neu in 4.5 (12.11.2026)
+- Löschen ist endgültig: gelöschte erkannte Objekte sind komplett entfernt (kein „Wiederherstellen“, kein Rückgängig)
+  und müssen ggf. manuell neu gezeichnet werden – auch nach Wechsel zwischen automatisch und manuell.
+- Manuelle Auswahl: „Nicht übernommene löschen (n)“ entfernt alle nicht übernommenen erkannten Objekte auf einmal.
+- Sprachumschalter DE / EN im Header (neben Hell/Dunkel), Einstellung `riemer-lang` wie `riemer-theme`.
+  Wörterbuch in Supabase, Tabelle `translations` (app = msx-builder, kind = text | phrase, Zahlen als {0}, {1} …);
+  Änderungen dort wirken beim nächsten Start. Eingebauter Startstand für offline: msx-builder/i18n-de-en.json.
+  Medien- und Werkstoffnamen erscheinen im Englischen mit den Originalnamen aus PROFIS MSE.
+
 Neu in 4.4 (11.11.2026)
 - Automatisch erkannte Objekte (Rohre, Kanäle, Decken/Wände, Rechtecke, Stäbe aus MSX) lassen sich löschen:
   sie verschwinden aus Modellbereich, Rohrliste (08), Bauteil-/Kanalliste (09) und Export.
