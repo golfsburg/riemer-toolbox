@@ -92,7 +92,7 @@
   function render(msg, typed, typedEmail) {
     document.title = NAME + " – Lizenz erforderlich";
     document.body.innerHTML =
-      '<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">' +
+      '<link rel="stylesheet" href="https://golfsburg.github.io/riemer-toolbox/fonts/fonts.css">' +
       '<style>' +
       ':root{--brand:#1F5FC2;--accent-text:#1F5FC2;--ink:#1B1F24;--muted:#5F6773;--surface:#FFFFFF;--surface-muted:#F4F5F7;' +
       '--line:#E3E6EB;--field:#FFFFFF;--danger:#B42318;--sans:"Inter",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace;color-scheme:light}' +
