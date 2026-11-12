@@ -227,6 +227,27 @@ Verein haben. Edition („FCPF“ oder Standard) und Kanal werden weiterhin im A
 - Server: Admin-Aktionen `score_*` in `license-admin` → Funktion `admin_score(token, aktion, daten)`;
   ÖFB-Hilfsfunktionen `_oefb_get`, `_oefb_mannschaften`, `_oefb_team_probe`.
 
+**ÖFB- und manuelle Mannschaften (Spalte „Quelle“):**
+- *ÖFB*: Ergebnisse und Torschützen kommen automatisch (täglich 21:30 Uhr). Nur der **Kurzbericht** ist änderbar.
+- *Manuell*: der Verein pflegt Spiele, Ergebnisse, Torschützen und Kurzberichte selbst (Tabelle `score_manual_games`).
+- Beides ist **streng getrennt**. Wechsel der Quelle → Warnung, beim Speichern werden alle bisherigen Daten der Mannschaft gelöscht.
+- Kurzberichte für alle Spiele stehen in `score_comments` (Schlüssel Verein + Mannschaft + Datum), Änderungen im Protokoll `score_audit`.
+- Die Webapp bekommt alles zusammengeführt über `_score_payload(verein)` (→ `tool_payload_lic` in `license-check`).
+
+**Vereins-Admin (Lizenznehmer) – „Verein verwalten“ in der Webapp:**
+- Im Vereinsdialog bei einer zugeordneten Lizenz **PIN vergeben** (4–12 Zeichen) und der verantwortlichen Person im Verein geben.
+  Ohne PIN ist die Verwaltung für die Lizenz gesperrt; 5 falsche Eingaben → 15 Minuten Sperre.
+- Der Vereins-Admin kann: Mannschaften anlegen (ÖFB nur aus dem **eigenen** ÖFB-Verein oder manuell), umbenennen, sortieren,
+  aktivieren/deaktivieren, Quelle wechseln, entfernen; manuelle Spiele erfassen/ändern/löschen; Kurzberichte zu allen Spielen schreiben;
+  ÖFB-Daten **einmal pro Tag** manuell laden.
+- Der Vereins-Admin kann **nicht**: den ÖFB-Link des Vereins ändern, Link/Erkennung bestehender ÖFB-Mannschaften ändern,
+  Mannschaften fremder ÖFB-Vereine (Spielgemeinschaft) hinzufügen, Vereine anlegen/löschen, Lizenzen zuordnen – das bleibt im Admin-Tool.
+- Server: Edge Function `score-club` (Lizenzschlüssel + Gerät + PIN) → `score_club_api(…)`. Gleichzeitiges Bearbeiten wird erkannt
+  (Hinweis „inzwischen von … geändert“ statt stillem Überschreiben).
+
+> ⚠️ `license-check` muss die Daten **je Lizenz** über `tool_payload_lic(tool, key, email)` laden. Die alte Funktion `tool_payload(tool)`
+> ist stillgelegt (liefert absichtlich nichts) – wer `license-check` neu ausrollt, bitte nicht auf einen alten Stand zurückfallen.
+
 Per SQL geht es weiterhin so:
 ```sql
 insert into score_clubs (id, name, kurz, oefb_url, saisonstart)
