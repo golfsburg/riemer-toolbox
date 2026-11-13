@@ -593,7 +593,7 @@
 
   function toolTags(l) {
     var cfg = l.tool_cfg || {}, all = l.tools.indexOf("*") >= 0;
-    var ids = all ? Object.keys(cfg) : l.tools.slice();
+    var ids = all ? Object.keys(cfg).concat(l.tools.filter(function (x) { return x !== "*" && !cfg[x]; })) : l.tools.slice();
     var tag = function (id, label) {
       var t = toolById(id), c = cfg[id] || {};
       return '<span class="tag">' + esc(label || (t ? t.name : id)) +
@@ -708,9 +708,10 @@
     var all = !!(l && l.tools.indexOf("*") >= 0); lf.all.checked = all;
     var cfg = (l && l.tool_cfg) || {}, sel = (l && l.tools) || [];
     $("lic-tools").innerHTML = licTools(l).map(function (t) {
-      var c = cfg[t.id] || {}, on = all || sel.indexOf(t.id) >= 0;
+      var c = cfg[t.id] || {}, priv = t.listed === false, on = sel.indexOf(t.id) >= 0 || (all && !priv);
       return '<tr data-tool="' + esc(t.id) + '"><td><input type="checkbox" class="tsel" aria-label="' + esc(t.name) + ' freischalten"' + (on ? " checked" : "") + "></td>" +
-        "<td><b>" + esc(t.name) + '</b><br><span class="hint mono">' + esc(t.id) + "</span></td>" +
+        "<td><b>" + esc(t.name) + '</b><br><span class="hint mono">' + esc(t.id) + "</span>" +
+          (priv ? '<br><span class="hint">ausgeblendet · Haken = in myTOOLBOX zeigen</span>' : "") + "</td>" +
         '<td><select class="tch" aria-label="Kanal ' + esc(t.name) + '"><option value="">Standard</option>' +
           ["stable", "beta", "dev"].map(function (k) { return '<option value="' + k + '"' + (c.channel === k ? " selected" : "") + ">" + CH[k] + "</option>"; }).join("") + "</select></td>" +
         '<td><select class="ted" aria-label="Edition ' + esc(t.name) + '"><option value="">Standard</option>' +
@@ -727,9 +728,10 @@
     lf.expires_at.disabled = lf.unlimited.checked;
     [].forEach.call($("lic-tools").querySelectorAll("tr[data-tool]"), function (tr) {
       var t = toolById(tr.dataset.tool), cb = tr.querySelector(".tsel"), tch = tr.querySelector(".tch"), ted = tr.querySelector(".ted");
-      if (all) cb.checked = true;
-      cb.disabled = all;
-      var on = cb.checked; if (on) n++;
+      var priv = t.listed === false;
+      if (all && !priv) cb.checked = true;
+      cb.disabled = all && !priv;
+      var on = cb.checked || all; if (cb.checked) n++;
       tr.classList.toggle("dis", !on); tch.disabled = !on; ted.disabled = !on || !(t.editions || []).length;
       tch.options[0].textContent = "Standard (" + CH[def] + ")";
       var ch = tch.value || def, ed = ted.value || "standard", r = deliver(t, ch, ed), get = tr.querySelector(".get");
@@ -756,7 +758,10 @@
       if (ch) c.channel = ch; if (ed) c.edition = ed;
       if (ch || ed) cfg[tr.dataset.tool] = c;
     });
-    if (lf.all.checked) tools = ["*"];
+    // Alle Tools: "*" + ausgeblendete Tools, die ausdrücklich in myTOOLBOX erscheinen sollen
+    if (lf.all.checked) tools = ["*"].concat([].filter.call($("lic-tools").querySelectorAll("tr[data-tool]"), function (tr) {
+      var t = toolById(tr.dataset.tool); return t && t.listed === false && tr.querySelector(".tsel").checked;
+    }).map(function (tr) { return tr.dataset.tool; }));
     if (!tools.length) return toast("Bitte mindestens ein Tool wählen.");
     var d = { customer: customer, email: em, tools: tools, tool_cfg: cfg, note: lf.note.value.trim(),
               expires_at: lf.unlimited.checked ? "" : lf.expires_at.value + "T23:59:59",
