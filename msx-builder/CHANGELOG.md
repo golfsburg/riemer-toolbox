@@ -4,6 +4,16 @@
 Start: index.html im Browser öffnen (Chrome/Edge/Firefox) oder auf GitHub Pages ablegen.
 Beim Öffnen wird die Beispielzeichnung „Beispiel_Schnitt.dxf“ geladen.
 
+Neu in 4.6 (13.11.2026)
+- Projekt-ZIP aus RIEMER Tools V3 (ab PlatzhalterAddinV3 V0.29, „⬇ MSE-Projekt (ZIP)“) in „02 Zeichnung“ (und im
+  Projektbereich) einlesen: Erkennung an project.json (format „riemer-mse-project“), Ordner = source.project
+  (leer: „RIEMER-Projekt“) in der gewählten Ebene, je Gruppe mit ok:true ein Unterprojekt (Name = groups[].name).
+- Übersprungene Gruppen (ok:false, Datei fehlt, falsches Format) werden mit Fehlertext gemeldet:
+  „X von Y Gruppen importiert“. Revit-Rohrtypen ohne gemerkte Rohrnorm werden aufgelistet (Zuordnung wie bisher
+  je Revit-Rohrtyp in msxb.revitmap). Andere ZIPs: klare Meldung, nichts importiert.
+- Mehrere einzelne .mse.json gleichzeitig weiterhin möglich. Anleitung, Hinweise und DE/EN ergänzt.
+- Übersetzung: Teilphrasen ändern keine Namen mehr (z. B. „Platzhalter_3“ bleibt).
+
 Neu in 4.5 (12.11.2026)
 - Löschen ist endgültig: gelöschte erkannte Objekte sind komplett entfernt (kein „Wiederherstellen“, kein Rückgängig)
   und müssen ggf. manuell neu gezeichnet werden – auch nach Wechsel zwischen automatisch und manuell.
