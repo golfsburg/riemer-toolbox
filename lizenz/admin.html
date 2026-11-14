@@ -121,6 +121,39 @@
   .ico-l3{fill:var(--brand)}
   .ico-d{fill:var(--on-brand)}
   .teaserthumb{width:72px;height:44px;object-fit:cover;border-radius:6px;border:1px solid var(--line);display:block}
+  /* Tools & Katalog: Kategorien und Tools auf-/zuklappbar */
+  .tbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:0 0 12px}
+  .tbar input{max-width:280px}
+  .tbar .sp{flex:1}
+  .tgrp{margin-bottom:8px}
+  .tcat{display:flex;align-items:center;gap:10px;width:100%;padding:10px 4px;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--ink);font:800 16px/22px var(--sans);letter-spacing:-.2px;text-align:left;cursor:pointer}
+  .tcat:hover{color:var(--accent-text)}
+  .tcat .n{font:500 12px/16px var(--mono);color:var(--muted);letter-spacing:1px}
+  .chev{width:16px;height:16px;flex:none;color:var(--muted);transition:transform .15s}
+  .tgrp.zu>.tcat .chev,.titem.zu .chev{transform:rotate(-90deg)}
+  .tgrp.zu>.tlist{display:none}
+  .tlist{display:flex;flex-direction:column;gap:8px;margin:10px 0 18px}
+  .titem{background:var(--surface);border:1px solid var(--line);border-radius:12px}
+  .titem.open{border-color:color-mix(in srgb,var(--brand) 45%,var(--line))}
+  .thead{display:flex;align-items:center;gap:12px;padding:10px 14px;cursor:pointer;flex-wrap:wrap}
+  .thead:hover .tnm b{color:var(--accent-text)}
+  .thead .appimg,.thead svg.appimg{width:30px;height:30px}
+  .tico{width:30px;height:30px;flex:none;display:flex;align-items:center;justify-content:center}
+  .tico svg{width:30px;height:30px}
+  .tnm{min-width:180px;flex:1 1 220px}
+  .tnm b{font:700 15px/20px var(--sans)}
+  .tnm .hint{display:block;font-size:12px}
+  .tsum{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+  .tsum .vv{font:500 12px/16px var(--mono)}
+  .thead .acts{margin-left:auto}
+  .tbody{border-top:1px solid var(--line);padding:14px 16px 16px;display:grid;grid-template-columns:minmax(220px,1.2fr) minmax(220px,1fr);gap:16px 28px}
+  .titem.zu .tbody{display:none}
+  .tbody dl{margin:0;display:grid;grid-template-columns:max-content 1fr;gap:6px 14px;font-size:13px}
+  .tbody dt{font:500 11px/18px var(--mono);letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
+  .tbody dd{margin:0;word-break:break-all}
+  .tbody .tdesc{grid-column:1/-1;margin:0;color:var(--ink)}
+  .tbody .acts{grid-column:1/-1}
+  @media(max-width:860px){.tbody{grid-template-columns:1fr}.thead .acts{margin-left:0}}
   .flags .pill{margin-right:4px}
   textarea{min-height:90px;resize:vertical;font:400 13px/18px var(--mono)}
   .keybtn{background:var(--surface);border:1px dashed var(--line);border-radius:var(--radius-sm);padding:4px 8px;color:inherit;font:500 13px/18px var(--mono);cursor:pointer;white-space:nowrap}
@@ -237,11 +270,9 @@
     <section id="t-tools" class="hide">
       <div class="card">
         <h2>Tools &amp; Katalog</h2>
-        <p class="hint" style="margin:-8px 0 12px">Was hier steht, zeigen die Toolbox-Startseite und myTOOLBOX.ritl. Reihenfolge nach „Sort.“.</p>
-        <div class="wrap"><table data-rz="tools">
-          <thead><tr><th></th><th>Tool</th><th>Versionen</th><th>Kategorie</th><th>Link</th><th>Sort.</th><th>Vorschau</th><th>Status</th><th></th></tr></thead>
-          <tbody id="toolrows"></tbody>
-        </table></div>
+        <p class="hint" style="margin:-8px 0 12px">Was hier steht, zeigen die Toolbox-Startseite und myTOOLBOX.ritl – gruppiert nach Kategorie (Teil vor „·“), Reihenfolge nach „Sort.“. Klick auf ein Tool zeigt alle Angaben.</p>
+        <div class="tbar"><input type="search" id="tool-q" placeholder="Tool suchen …" aria-label="Tool suchen"><span class="sp"></span><button class="b" type="button" data-tfold="open">Alle auf</button><button class="b" type="button" data-tfold="close">Alle zu</button></div>
+        <div id="toolrows" class="tgrps"></div>
         <button class="b" id="cat-new" type="button" style="margin-top:12px">+ Katalogeintrag ohne Lizenzschutz (Demo / extern)</button>
       </div>
       <div class="card hide" id="catcard">
@@ -739,19 +770,7 @@
         "</div></td></tr>";
     }).join("") : '<tr><td colspan="8" class="hint">Noch keine Lizenzen.</td></tr>';
 
-    $("toolrows").innerHTML = state.tools.map(function (t) {
-      var flags = (t.listed ? "" : '<span class="pill p-warn">ausgeblendet</span>') +
-                  (t.free ? '<span class="pill p-ok">Demo</span>' : '<span class="pill" style="background:color-mix(in srgb,var(--brand) 14%,transparent);color:var(--accent-text)">Lizenz</span>');
-      return "<tr><td>" + (t.icon_svg || "") + "</td>" +
-             "<td><b>" + esc(t.name) + '</b><br><span class="hint mono">' + esc(t.id) + " · v" + esc(t.version) + "</span>" +
-             (t.description ? '<br><span class="hint">' + esc(t.description) + "</span>" : "") + "</td>" +
-             "<td>" + chSummary(t) + "</td>" +
-             "<td>" + esc(t.category || "–") + '</td><td class="mono" style="font-size:12px">' + esc(t.url || "–") + "</td>" +
-             "<td>" + t.sort + "</td><td>" + (t.teaser ? "✓" : "–") + '</td><td class="flags">' + flags + "</td>" +
-             '<td><div class="acts">' + (t.versions ? '<button class="b" data-ver="' + esc(t.id) + '">Versionen (' + t.versions + ")</button>" : "") +
-             (t.free ? "" : '<button class="b" data-ed="' + esc(t.id) + '">Editionen (' + ((t.editions || []).length + 1) + ")</button>") +
-             '<button class="b" data-cat="' + esc(t.id) + '">Katalog</button></div></td></tr>';
-    }).join("") || '<tr><td colspan="9" class="hint">Noch keine Tools.</td></tr>';
+    renderTools();
 
     $("toolids").innerHTML = state.tools.map(function (t) { return '<option value="' + esc(t.id) + '">'; }).join("");
     upEditions();
@@ -959,6 +978,78 @@
     var show = $("nk").textContent !== newKey;
     $("nk").textContent = show ? newKey : masked(newKey);
     this.innerHTML = show ? EYE_OFF : EYE; this.title = show ? "Verbergen" : "Anzeigen";
+  });
+
+
+  /* ── Tools & Katalog: nach Kategorie gruppiert, Kategorien und Tools auf-/zuklappbar ── */
+  var TZ_KEY = "riemer-admin-tools";
+  function tzGet() { try { return JSON.parse(localStorage.getItem(TZ_KEY)) || { zu: [], auf: [] }; } catch (e) { return { zu: [], auf: [] }; } }
+  function tzSet(o) { try { localStorage.setItem(TZ_KEY, JSON.stringify(o)); } catch (e) {} }
+  var TCHEV = '<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
+  function tCat(t) { return (String(t.category || "").split("·")[0] || "").trim() || "Weitere"; }
+  // kurz: aktuelle Version je Kanal (Standard-Edition), weitere Editionen nur als Anzahl
+  function tShort(t) {
+    if (!t.versions) return '<span class="hint">keine Versionen</span>';
+    var m = (t.matrix || {}).standard || {}, out = "";
+    ["stable", "beta", "dev"].forEach(function (k) { var x = m[k]; if (x) out += '<span class="vv">' + esc(x.v) + "</span>" + chPill(k); });
+    var ne = (t.editions || []).length;
+    return (out || '<span class="vv">v' + esc(t.version) + "</span>") + (ne ? '<span class="pill" title="weitere Editionen">+' + ne + " Ed.</span>" : "");
+  }
+  function tFlags(t) {
+    return (t.free ? '<span class="pill p-ok">Demo</span>' : '<span class="pill" style="background:color-mix(in srgb,var(--brand) 14%,transparent);color:var(--accent-text)">Lizenz</span>') +
+           (t.listed ? "" : '<span class="pill p-warn">ausgeblendet</span>');
+  }
+  function tActs(t, all) {
+    return (t.versions ? '<button class="b" data-ver="' + esc(t.id) + '">Versionen (' + t.versions + ")</button>" : "") +
+           (all && !t.free ? '<button class="b" data-ed="' + esc(t.id) + '">Editionen (' + ((t.editions || []).length + 1) + ")</button>" : "") +
+           '<button class="b" data-cat="' + esc(t.id) + '">Katalog</button>';
+  }
+  function renderTools() {
+    var q = ($("tool-q").value || "").trim().toLowerCase(), st = tzGet(), order = [], by = {};
+    state.tools.filter(function (t) { return !q || (t.name + " " + t.id + " " + (t.category || "") + " " + (t.description || "")).toLowerCase().indexOf(q) >= 0; })
+      .forEach(function (t) { var c = tCat(t); if (!by[c]) { by[c] = []; order.push(c); } by[c].push(t); });
+    $("toolrows").innerHTML = order.map(function (c) {
+      var zu = !q && st.zu.indexOf(c) >= 0;
+      return '<section class="tgrp' + (zu ? " zu" : "") + '" data-tg="' + esc(c) + '"><button type="button" class="tcat" aria-expanded="' + !zu + '">' + TCHEV + "<span>" + esc(c) + '</span><span class="n">' + by[c].length + "</span></button>" +
+        '<div class="tlist">' + by[c].map(function (t) {
+          var auf = st.auf.indexOf(t.id) >= 0;
+          return '<article class="titem ' + (auf ? "open" : "zu") + '" data-ti="' + esc(t.id) + '">' +
+            '<div class="thead" role="button" tabindex="0" aria-expanded="' + auf + '">' + TCHEV + '<span class="tico">' + (t.icon_svg || "") + "</span>" +
+              '<span class="tnm"><b>' + esc(t.name) + '</b><span class="hint mono">' + esc(t.id) + "</span></span>" +
+              '<span class="tsum">' + tShort(t) + "</span><span class=\"tsum flags\">" + tFlags(t) + "</span>" +
+              '<div class="acts">' + tActs(t, false) + "</div></div>" +
+            '<div class="tbody">' + (t.description ? '<p class="tdesc">' + esc(t.description) + "</p>" : "") +
+              "<dl><dt>Kategorie</dt><dd>" + esc(t.category || "–") + '</dd><dt>Link</dt><dd class="mono" style="font-size:12px">' + esc(t.url || "–") +
+              "</dd><dt>Sort.</dt><dd>" + t.sort + "</dd><dt>Vorschau</dt><dd>" + (t.teaser ? "✓ Vorschaubild" : "–") + "</dd><dt>Version</dt><dd class=\"mono\">v" + esc(t.version) + "</dd></dl>" +
+              '<div><dl><dt>Versionen</dt><dd>' + chSummary(t) + "</dd></dl></div>" +
+              '<div class="acts">' + tActs(t, true) + "</div></div></article>";
+        }).join("") + "</div></section>";
+    }).join("") || '<p class="hint">' + (q ? "Kein Tool passt zur Suche." : "Noch keine Tools.") + "</p>";
+  }
+  function tToggle(el) {
+    var st = tzGet();
+    if (el.classList.contains("tgrp")) {
+      var c = el.dataset.tg, zu = el.classList.toggle("zu"); el.querySelector(".tcat").setAttribute("aria-expanded", String(!zu));
+      st.zu = st.zu.filter(function (x) { return x !== c; }); if (zu) st.zu.push(c);
+    } else {
+      var id = el.dataset.ti, auf = el.classList.toggle("open"); el.classList.toggle("zu", !auf); el.querySelector(".thead").setAttribute("aria-expanded", String(auf));
+      st.auf = st.auf.filter(function (x) { return x !== id; }); if (auf) st.auf.push(id);
+    }
+    tzSet(st);
+  }
+  $("toolrows").addEventListener("click", function (e) {
+    if (e.target.closest("button[data-ver],button[data-ed],button[data-cat],a,input,select")) return;
+    var c = e.target.closest(".tcat"); if (c) return tToggle(c.parentNode);
+    var h = e.target.closest(".thead"); if (h) tToggle(h.parentNode);
+  });
+  $("toolrows").addEventListener("keydown", function (e) {
+    var h = e.target.closest(".thead"); if (h && (e.key === "Enter" || e.key === " ") && e.target === h) { e.preventDefault(); tToggle(h.parentNode); }
+  });
+  $("tool-q").addEventListener("input", renderTools);
+  document.querySelector("#t-tools .tbar").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-tfold]"); if (!b) return;
+    var open = b.dataset.tfold === "open", st = { zu: open ? [] : state.tools.map(tCat).filter(function (c, i, a) { return a.indexOf(c) === i; }), auf: open ? state.tools.map(function (t) { return t.id; }) : [] };
+    tzSet(st); renderTools();
   });
 
   /* ── Katalog bearbeiten ── */
