@@ -3,6 +3,13 @@
 Vorlage und Spielwiese für den Skill `/riemer-webapp-design` · #ritl_muster
 Neueste Version oben. Versionen ≤ V2.2 nachträglich aus den veröffentlichten Ständen (Tabelle `tool_versions`) rekonstruiert.
 
+## V2.4 · 14.11.2026
+**Geändert**
+- Backup ist immer **eine** Datei `Backup_MUSTER-ritl.json`, die bei jedem Sichern überschrieben wird (vorher eine neue Datei mit Zeitstempel je Sicherung).
+  - Lokal (Chrome/Edge): beim ersten „Backup speichern“ den Speicherort wählen, danach wird die Datei ohne Nachfrage überschrieben; „Anderer Speicherort …“ wechselt die Datei. Andere Browser laden die Datei herunter.
+  - OneDrive/SharePoint: „Jetzt im Ordner sichern“ und „automatisch sichern“ überschreiben dieselbe Datei.
+  - Ältere Sicherungen mit Zeitstempel im Ordner werden weiter angezeigt und lassen sich wiederherstellen.
+
 ## V2.3 · 14.11.2026
 **Neu**
 - **FOKUS in MAP.ritl** (Idee MAP-01): je Firma, Ansprechpartner oder Projekt eine eigene Mappe für das R-S-Netzwerk (Relationship & Stakeholder).
