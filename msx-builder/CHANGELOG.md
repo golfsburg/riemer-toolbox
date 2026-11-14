@@ -4,6 +4,17 @@
 Start: index.html im Browser öffnen (Chrome/Edge/Firefox) oder auf GitHub Pages ablegen.
 Beim Öffnen wird die Beispielzeichnung „Beispiel_Schnitt.dxf“ geladen.
 
+Neu in 4.7 (14.11.2026)
+- Anzahl (Stückzahl der Konstruktion) je Unterprojekt: aus RIEMER Tools automatisch = Anzahl der Platzhalter
+  der Gruppe (group.count, bzw. groups[].count im Projekt-ZIP), sonst im Projektbereich unter „Anzahl“ eintragen.
+  Anzeige „27×“ im Projektbaum.
+- PROFIS MSE übernimmt keine Mengen aus .msx/.mspx (in 4 Testrunden geprüft: weder Datei, Unterprojekt-Nummer,
+  Kennung noch Name tragen die Menge; der Import-Dialog startet immer mit 1). Daher:
+  „Anzahl im Namen exportieren“ (Standard ein): „Platzhalter_1 · 27 Stk“ in .mspx, .msx und ZIP – im Import-Dialog
+  steht die Zahl so direkt neben dem Mengenfeld. Beim Einlesen einer .mspx wird der Zusatz wieder zur Anzahl.
+- „Stückliste (Excel)“: Ordner, Unterprojekt, Anzahl, Name in PROFIS MSE, Rohre, Kanäle, Decken/Wände, Stäbe,
+  Quelle, exportbereit, Summe der Konstruktionen.
+
 Neu in 4.6 (13.11.2026)
 - Projekt-ZIP aus RIEMER Tools V3 (ab PlatzhalterAddinV3 V0.29, „⬇ MSE-Projekt (ZIP)“) in „02 Zeichnung“ (und im
   Projektbereich) einlesen: Erkennung an project.json (format „riemer-mse-project“), Ordner = source.project

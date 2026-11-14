@@ -127,3 +127,11 @@ Details der Umsetzung (MSX-Builder 4.6):
 - Abschlussmeldung „X von Y Gruppen importiert“ mit allen Fehlertexten; Revit-Rohrtypen ohne gemerkte Rohrnorm werden aufgelistet. Die Zuordnung wird wie bisher beim Ändern der Norm in der Rohrliste je Revit-Rohrtyp gemerkt (`msxb.revitmap`) und für alle weiteren Gruppen verwendet.
 - `project.json` mit `version` > 1: Warnung, Import wird trotzdem versucht.
 - Mehrere einzelne `.mse.json` gleichzeitig bleiben möglich (je Datei ein Unterprojekt).
+
+
+## Anzahl (ab MSX-Builder 4.7)
+
+- Die Stückzahl einer Konstruktion = `group.count` (Anzahl der Platzhalter der Gruppe); im Projekt-ZIP zusätzlich `groups[].count` (Fallback).
+- PROFIS MSE übernimmt Mengen **nicht** aus `.msx`/`.mspx` (getestet 14.11.2026). Der MSX-Builder hängt die Anzahl daher optional an den Namen
+  des Unterprojekts an („Platzhalter_1 · 27 Stk“) und erstellt eine Stückliste (Excel). Die Menge wird im PMSE-Import-Dialog eingetragen.
+- `group.count` sollte daher immer gesetzt sein (≥ 1).
