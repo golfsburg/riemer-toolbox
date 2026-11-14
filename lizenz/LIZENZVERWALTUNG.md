@@ -245,6 +245,11 @@ Verein haben. Edition („FCPF“ oder Standard) und Kanal werden weiterhin im A
 - Server: Edge Function `score-club` (Lizenzschlüssel + Gerät + PIN) → `score_club_api(…)`. Gleichzeitiges Bearbeiten wird erkannt
   (Hinweis „inzwischen von … geändert“ statt stillem Überschreiben).
 
+**Versionsarchiv als ZIP:** Jede neue oder geänderte Version von `fcpf-ergebnisse` wird automatisch als
+`fcpf-ergebnisse-<version>-src.zip` (index.html + LIESMICH.txt) in den Quelldateien des Admin-Tools abgelegt
+(Trigger `tool_versions_zip` → `tool_version_archive(version_id)`, ZIP-Bausteine `_zip_store`, `_crc32`).
+Für andere Tools manuell: `select tool_version_archive(<id aus tool_versions>);`
+
 > ⚠️ `license-check` muss die Daten **je Lizenz** über `tool_payload_lic(tool, key, email)` laden. Die alte Funktion `tool_payload(tool)`
 > ist stillgelegt (liefert absichtlich nichts) – wer `license-check` neu ausrollt, bitte nicht auf einen alten Stand zurückfallen.
 
