@@ -10,6 +10,7 @@ Speisekarten & Menü-Designer – RIEMER Tools `#ritl_menu`.
 
 ## Module
 - **SETS.ritl** – Speisekarten-Sets anlegen, importieren, Vorlagen, Offline-Kopie
+- **MAP.ritl** – Modellbereich: Live-Vorschau als Arbeitsfläche, Hover zeigt das Objekt, Klick öffnet das Bearbeiten-Fenster (Inhalt, Platzierung, Bereich, Seite, Format, Stil, Farben, Logos, Kennzeichnung, Ausgabe), Doppelklick + Pfeiltasten verschiebt im Raster bis zur Blattgrenze
 - **CARD.ritl** – Kopf, Gänge, Textblöcke und Fuß bearbeiten; Reihenfolge per Drag & Drop im Block-Ribbon
 - **STYLE.ritl** – Format, Modellbereich (Seite, Bereiche, Blöcke: Ausrichtung, Größe, Schrift, Abstände, ein-/ausblenden), Stil, Farben, Logos, Kennzeichnung
 - **DISHES.ritl** – Speisendatenbank mit Allergenen A–R (LMIV), Excel-Import/-Export, Saison-Aktionen
