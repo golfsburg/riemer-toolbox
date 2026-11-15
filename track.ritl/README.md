@@ -13,6 +13,7 @@ GPS-Tracks – RIEMER Tools `#ritl_track`.
 - **ANALYSE.ritl** – Abschnitte, Fotos per EXIF, Puls-Zonen, Extremwerte
 - **EDITOR.ritl** – Bereinigen, Schneiden, Glätten
 - **EXPORT.ritl** – GPX, KML, SVG, Social Card, WebM-Video, Tour-Bericht
+- **PANO.ritl** – 360°-Video (z. B. Insta360 X6) zur Spur: Zeitkopplung, Blickfächer auf der Karte, Markierungen mit Blickrichtung (ab V2.1, DEV)
 
 Änderungen je Version: [CHANGELOG](CHANGELOG.md)
 

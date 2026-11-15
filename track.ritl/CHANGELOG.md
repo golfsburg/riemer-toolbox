@@ -3,6 +3,19 @@
 GPS-Tracks (GPX) lokal im Browser in 2D und 3D darstellen, analysieren, bearbeiten und animieren · #ritl_track
 Neueste Version oben. Versionen ≤ V1.9 in Google AI Studio entwickelt und nachträglich zusammengefasst (keine Einzelstände erhalten).
 
+## V2.1 · 15.11.2026 · DEV
+**Neu**
+- Modul **PANO.ritl** (5. Ribbon, #ritl_pano): 360°-Video (equirektangulares MP4/MOV, z. B. Insta360 X6 über Insta360 Studio) lokal abspielen, Blick mit der Maus drehen, Mausrad zoomt
+- Kopplung über die Uhrzeit: Videostart aus den MP4-Metadaten (volle Stunden Zeitzone werden ausgeglichen) oder Trackbeginn, Versatz ±s, „Hier abgleichen“; Abgleich je Videodatei gespeichert
+- Punkt und Blickfächer auf der Karte, Höhenprofil mit Wiedergabe-Strich; Klick auf Karte, Profil oder Markierung springt im Video
+- Markierungen (Info, Achtung, Mangel, Fotomotiv) mit Zeit, Position und Blickrichtung; Übernahme als Wegpunkt
+- Standbild der aktuellen Blickrichtung als JPG speichern oder als Foto an der Position ablegen (ANALYSE.ritl › Fotos)
+- Arbeitsfläche fixieren (Esc löst)
+
+**Geändert**
+- Ribbon mit 5 Modulen: schmale Fenster blenden Hashtags und Kurzbeschreibungen aus statt über den Rand zu ragen
+- Markierungen und Abgleich gehören zum Backup (Stufe datenbank); das Video selbst nicht
+
 ## V2.0 · 15.11.2026
 **Neu**
 - In die RIEMER Toolbox übernommen: Aufruf mit Lizenzschlüssel, Edition, Kanal (BETA/DEV) und Version kommen vom Lizenzserver
