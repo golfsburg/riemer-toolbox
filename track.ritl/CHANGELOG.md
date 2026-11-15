@@ -3,6 +3,10 @@
 GPS-Tracks (GPX) lokal im Browser in 2D und 3D darstellen, analysieren, bearbeiten und animieren · #ritl_track
 Neueste Version oben. Versionen ≤ V1.9 in Google AI Studio entwickelt und nachträglich zusammengefasst (keine Einzelstände erhalten).
 
+## V2.3 · 15.11.2026 · DEV
+**Geändert**
+- Header: Anleitung nur noch als runder „?“-Knopf; die Arbeitsschritte (Daten laden, Auswählen, Animieren, Exportieren) entfallen
+
 ## V2.2 · 15.11.2026 · DEV
 **Geändert**
 - Header rechts: RIEMER-Tools-Logo (Link zur Toolbox) vor der Wortmarke „RIEMER Tools“, links daneben dezent „Abmelden“ (angemeldet über die Toolbox) bzw. „Anmelden“ (Datei ohne Lizenz)
