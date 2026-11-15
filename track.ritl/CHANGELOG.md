@@ -3,6 +3,11 @@
 GPS-Tracks (GPX) lokal im Browser in 2D und 3D darstellen, analysieren, bearbeiten und animieren · #ritl_track
 Neueste Version oben. Versionen ≤ V1.9 in Google AI Studio entwickelt und nachträglich zusammengefasst (keine Einzelstände erhalten).
 
+## V2.2 · 15.11.2026 · DEV
+**Geändert**
+- Header rechts: RIEMER-Tools-Logo (Link zur Toolbox) vor der Wortmarke „RIEMER Tools“, links daneben dezent „Abmelden“ (angemeldet über die Toolbox) bzw. „Anmelden“ (Datei ohne Lizenz)
+- Die schwebende Leiste unten links (Logo, Version, Abmelden) entfällt
+
 ## V2.1 · 15.11.2026 · DEV
 **Neu**
 - Modul **PANO.ritl** (5. Ribbon, #ritl_pano): 360°-Video (equirektangulares MP4/MOV, z. B. Insta360 X6 über Insta360 Studio) lokal abspielen, Blick mit der Maus drehen, Mausrad zoomt
