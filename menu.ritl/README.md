@@ -19,6 +19,8 @@ Speisekarten & Menü-Designer – RIEMER Tools `#ritl_menu`.
 A4 Hoch 2-spaltig · A4 Hoch 1-spaltig · A5 Hoch · A4 Klappkarte · A4 Wickelfalz · A5 Tischaufsteller (1 oder 2 Spalten, Druckbogen A4 mit Schnittmarke).
 Auto-Fit: jeder Export ist exakt eine Seite bzw. Vorder- und Rückseite – Druck, PDF, PPTX.
 
+Änderungen je Version: [CHANGELOG](CHANGELOG.md)
+
 Alle Daten bleiben lokal im Browser (IndexedDB); Backup als `.json`, optional im OneDrive-/SharePoint-Ordner.
 
 © 2026 Peter Riemer · toolbox@riemer.co
