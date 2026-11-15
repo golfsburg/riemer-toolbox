@@ -3,6 +3,14 @@
 Vorlage und Spielwiese für den Skill `/riemer-webapp-design` · #ritl_muster
 Neueste Version oben. Versionen ≤ V2.2 nachträglich aus den veröffentlichten Ständen (Tabelle `tool_versions`) rekonstruiert.
 
+## V2.6 · 15.11.2026
+**Neu**
+- Backup-Knopf im Header zeigt den Zustand als Symbol: Ordner = Lokal (OneDrive/SharePoint), Wolke = Server (zentral). Grau = aus, Grün = aktiv, Orange = Achtung (kein Ordner, Zugriff erneuern, Serverfehler), Wolke durchgestrichen = offline. Tooltip mit Details.
+- Offline: zentrales Sichern wartet und läuft automatisch, sobald wieder eine Verbindung besteht; Hinweis im Abschnitt „03 Zentral“.
+
+**Geändert**
+- Der grüne Punkt am Backup-Knopf entfällt (ersetzt durch das Symbol).
+
 ## V2.5 · 15.11.2026
 **Neu**
 - Backup-Stufen: **settings** (Farben, Ansichten, Filter, Favoriten, Sprache) und **datenbank** (settings + Map, Matrix, Gewerke, FOKUS). Stufe **storage** (inkl. Dateien) folgt später.
