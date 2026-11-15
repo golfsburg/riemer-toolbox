@@ -3,6 +3,17 @@
 Vorlage und Spielwiese für den Skill `/riemer-webapp-design` · #ritl_muster
 Neueste Version oben. Versionen ≤ V2.2 nachträglich aus den veröffentlichten Ständen (Tabelle `tool_versions`) rekonstruiert.
 
+## V2.5 · 15.11.2026
+**Neu**
+- Backup-Stufen: **settings** (Farben, Ansichten, Filter, Favoriten, Sprache) und **datenbank** (settings + Map, Matrix, Gewerke, FOKUS). Stufe **storage** (inkl. Dateien) folgt später.
+- Zentrales Backup über die RIEMER Toolbox (Supabase, EU): je Lizenz und Tool, ein Stand je Tag und Stufe, Historie 10 Tage, gzip-komprimiert, nur bei Änderung (SHA-256). Kontingent 50 MB je Lizenz. Edge Function `tool-backup`, Tabelle `tool_backups`.
+- Modal „Backup einrichten“ beim ersten Laden: Lokal (OneDrive/SharePoint) und Zentral je mit Stufe, zu erwartende komprimierte Größe und Historien-Schätzung. Später über Backup › „Backup einrichten …“.
+- Backup-Dialog: Abschnitt **03 Zentral** mit Status, „Jetzt zentral sichern“ und Historie zum Wiederherstellen.
+
+**Geändert**
+- Lokales Backup folgt der gewählten Stufe; der Kopf `ritl` trägt `stufe`.
+- Wiederherstellen eines settings-Backups übernimmt nur die Einstellungen (inkl. Hell/Dunkel und Sprache), die Daten bleiben unverändert.
+
 ## V2.4 · 14.11.2026
 **Geändert**
 - Backup ist immer **eine** Datei `Backup_MUSTER-ritl.json`, die bei jedem Sichern überschrieben wird (vorher eine neue Datei mit Zeitstempel je Sicherung).
