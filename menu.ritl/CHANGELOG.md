@@ -3,6 +3,13 @@
 Speisekarten- & Menü-Designer: Sets, Gänge, Speisendatenbank mit Allergenen (LMIV), 6 Druckformate, Export als PDF, PPTX und Druck in exakt einer Seite · #ritl_menu
 Neueste Version oben. Versionen ≤ V1.7 nachträglich rekonstruiert (aus `tool_versions`, Quellen-ZIPs und Repo-Historie).
 
+## V2.1 · 15.11.2026
+**Neu**
+- SETS.ritl: Jede Set-Karte hat den Link „MAP.ritl ›“ – aktiviert das Set und öffnet es direkt im Modellbereich zur Bearbeitung (auch als Adresse `#map=<Set>` bzw. Strg+Klick in neuem Tab).
+
+**Geändert**
+- Knopf „Laden & aktivieren“ heißt kurz „Aktivieren“; die Knöpfe der Set-Karten brechen bei schmalen Karten um.
+
 ## V2.0 · 15.11.2026
 **Neu**
 - Backup-Stufen: `settings` (Hell/Dunkel, auf-/zugeklappte Bereiche, Ansicht, Raster, Design-Favoriten) und `datenbank` (settings + Sets, Gerichte, Saison-Aktionen, Bilder); `storage` folgt später.
