@@ -3,6 +3,16 @@
 Vorlage und Spielwiese für den Skill `/riemer-webapp-design` · #ritl_muster
 Neueste Version oben. Versionen ≤ V2.2 nachträglich aus den veröffentlichten Ständen (Tabelle `tool_versions`) rekonstruiert.
 
+## V2.7 · 15.11.2026
+**Neu**
+- MAP.ritl: **🔒 Fixieren** im Kopf des Panels Map/Matrix (Skill-Regel 22). Fixiert füllen Panelkopf, Filter, Werkzeuge und Map bzw. Matrix das ganze Browserfenster; die Seite scrollt nicht mehr.
+  - Map wird nach Breite und Höhe eingepasst, bei Fenstergröße neu; Zoom ist fixiert automatisch frei (Mausrad zoomt zum Mauszeiger, Ziehen verschiebt), beim Lösen wieder wie vorher.
+  - Touch: zwei Finger zoomen (Pinch).
+  - Esc löst – zuerst werden Auswahl bzw. Werkzeug zurückgesetzt, offene Dialoge haben Vorrang. Zustand bleibt nach Neuladen erhalten.
+
+**Geändert**
+- Verschieben auf leerer Fläche erst ab 5 px Bewegung; ein kurzer Klick hebt die Auswahl auf.
+
 ## V2.6 · 15.11.2026
 **Neu**
 - Backup-Knopf im Header zeigt den Zustand als Symbol: Ordner = Lokal (OneDrive/SharePoint), Wolke = Server (zentral). Grau = aus, Grün = aktiv, Orange = Achtung (kein Ordner, Zugriff erneuern, Serverfehler), Wolke durchgestrichen = offline. Tooltip mit Details.

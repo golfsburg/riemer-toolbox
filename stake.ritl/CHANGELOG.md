@@ -3,6 +3,18 @@
 Beziehungs- und Stakeholder-Map für Firmen, Ansprechpartner, Projekte und Gewerke · #ritl_stake
 Neueste Version oben.
 
+## V1.2 · 15.11.2026 · DEV
+**Neu**
+- **🔒 Fixieren** im Kopf des Panels Map/Matrix (Skill-Regel 22, wie MUSTER.ritl V2.7): Map bzw. Matrix füllen das ganze Browserfenster, Seite scrollt nicht, Einpassen nach Breite und Höhe, Mausrad zoomt, Ziehen verschiebt, Esc löst, Zustand bleibt erhalten.
+
+**Geändert**
+- Verschieben auf leerer Fläche erst ab 5 px Bewegung; ein kurzer Klick hebt die Auswahl auf.
+
+## V1.1 · 14.11.2026 · DEV
+**Geändert** (Korrektur Modellbereich – nachgetragen aus `tool_versions`)
+- Touch: zwei Finger = Pinch-Zoom und Verschieben (bei „Zoom frei“), Doppeltippen auf ein Element öffnet die Bearbeitung, Safari-eigene Gesten in der Map unterdrückt.
+- CSS der Map-Vorschau präzisiert (Legenden-Symbole, Textauswahl auf iOS).
+
 ## V1.0 · 14.11.2026 · DEV
 **Neu**
 - Eigenes Tool, abgeleitet aus **MUSTER.ritl V2.4 › MAP.ritl** (Idee STAKE-01). Funktionsumfang wie MAP.ritl in MUSTER V2.4: Map und Matrix (Firmen & Ansprechpartner, Projekte & Gewerke), Beziehungsarten, Filter unabhängig/gekoppelt, Favoriten, FOKUS-Mappen, Rückgängig/Wiederherstellen, Rollen-Auswahl, Sprache DE/EN.
