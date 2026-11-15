@@ -3,6 +3,19 @@
 Beziehungs- und Stakeholder-Map für Firmen, Ansprechpartner, Projekte und Gewerke · #ritl_stake
 Neueste Version oben.
 
+## V1.3 · 15.11.2026 · DEV
+**Neu**
+- Backup-Stufen wie MUSTER.ritl V2.5 (Skill-Regel 21): **settings** (Farben, Ansichten, Filter, Favoriten, Sprache) und **datenbank** (settings + Map, Matrix, Gewerke, FOKUS). Stufe **storage** folgt später.
+- Zentrales Backup über die RIEMER Toolbox (Supabase, EU): je Lizenz und Tool, ein Stand je Tag und Stufe, Historie 10 Tage, nur bei Änderung; Kontingent 50 MB je Lizenz.
+- Modal „Backup einrichten“ beim ersten Laden: Lokal (OneDrive/SharePoint) und Zentral je mit Stufe und zu erwartender Größe; später über Backup › „Backup einrichten …“.
+- Backup-Dialog: Abschnitt **03 Zentral** mit Status, „Jetzt zentral sichern“ und Historie zum Wiederherstellen.
+- Backup-Knopf zeigt den Zustand als Symbol (Ordner = Lokal, Wolke = Server; grau/grün/orange, Wolke durchgestrichen = offline). Offline wird zentral nachgesichert, sobald wieder eine Verbindung besteht.
+
+**Geändert**
+- Lokales Backup folgt der gewählten Stufe; der Kopf `ritl` trägt `stufe`. Ein bereits eingeschaltetes „automatisch im Ordner sichern“ wird übernommen.
+- Wiederherstellen eines settings-Backups übernimmt nur Einstellungen (inkl. Hell/Dunkel und Sprache), die Daten bleiben unverändert.
+- Der grüne Punkt am Backup-Knopf entfällt.
+
 ## V1.2 · 15.11.2026 · DEV
 **Neu**
 - **🔒 Fixieren** im Kopf des Panels Map/Matrix (Skill-Regel 22, wie MUSTER.ritl V2.7): Map bzw. Matrix füllen das ganze Browserfenster, Seite scrollt nicht, Einpassen nach Breite und Höhe, Mausrad zoomt, Ziehen verschiebt, Esc löst, Zustand bleibt erhalten.
