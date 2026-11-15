@@ -3,6 +3,16 @@
 Speisekarten- & Menü-Designer: Sets, Gänge, Speisendatenbank mit Allergenen (LMIV), 6 Druckformate, Export als PDF, PPTX und Druck in exakt einer Seite · #ritl_menu
 Neueste Version oben. Versionen ≤ V1.7 nachträglich rekonstruiert (aus `tool_versions`, Quellen-ZIPs und Repo-Historie).
 
+## V2.0 · 15.11.2026
+**Neu**
+- Backup-Stufen: `settings` (Hell/Dunkel, auf-/zugeklappte Bereiche, Ansicht, Raster, Design-Favoriten) und `datenbank` (settings + Sets, Gerichte, Saison-Aktionen, Bilder); `storage` folgt später.
+- Zentrales Backup in der RIEMER Toolbox (Supabase, EU) je Lizenz und Tool: automatisch nach Änderungen, „Jetzt zentral sichern“, Historie 10 Tage zum Wiederherstellen, Anzeige des belegten Kontingents (50 MB je Lizenz); offline wird nachgesichert, sobald wieder online.
+- Modal „Backup einrichten“ beim ersten Start (später unter Backup › „Backup einrichten …“): Lokal und Zentral je mit Stufe und komprimierter Größe.
+- Symbol am Backup-Knopf: Ordner = Lokal, Wolke = Server; grün aktiv, orange Achtung, grau aus, Wolke durchgestrichen = offline; Tooltip mit Klartext.
+
+**Geändert**
+- Lokales Backup und Ordner-Backup schreiben die gewählte Stufe in `Backup_MENU-ritl.json`; ein settings-Backup übernimmt beim Wiederherstellen nur Einstellungen, Daten bleiben unverändert.
+
 ## V1.8 · 15.11.2026
 **Neu**
 - MAP.ritl: „🔒 Fixieren“ sperrt die ganze Box „01 Modellbereich“ auf das Browserfenster – Werkzeuge (Format, + Gang, + Text, Saison, Raster), Übersicht, Vorschau-Leiste und Vorschau.
