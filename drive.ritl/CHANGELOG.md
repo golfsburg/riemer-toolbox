@@ -3,6 +3,16 @@
 Fahrtenbuch, Fahrzeuge, Tanken, Werkstatt, Pickerl §57a und Statistik · #ritl_drive
 Neueste Version oben.
 
+## V1.2 · 16.11.2026 · DEV
+**Neu**
+- Driverslog-Pro-Export wird erkannt (Fahrten und Ausgaben): Spalten fertig zugeordnet, Kategorie aus Fahrtzweck bzw. distanceBusiness/Commute/…, Ausgaben-Datei wird in Tankvorgänge, Ausgaben und Pickerl-Begutachtungen aufgeteilt, Werkstätten aus dem Ort übernommen.
+- Neues Fahrzeug beim Import: Name aus dem Dateinamen, Bauart und „historisch“ wählbar.
+
+**Behoben**
+- Beträge wie „€ 7.500“ werden je Spalte richtig als Tausender erkannt.
+- Ø Preis in TANK.ritl ignoriert Tankvorgänge ohne Menge.
+- Pickerl-Frist für historische Fahrzeuge auch ohne Erstzulassung (aus letzter Begutachtung).
+
 ## V1.1 · 16.11.2026 · DEV
 **Neu**
 - Import CSV/XLSX für Fahrten, Tanken/Laden und Ausgaben (in LOG, TANK, SERVICE und GARAGE): erkennt Spalten von Driverslog Pro und anderen Fahrtenbüchern automatisch (Deutsch/Englisch), Zuordnung anpassbar, Vorschau, legt fehlende Fahrzeuge an, überspringt Doppelte.
