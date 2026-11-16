@@ -3,6 +3,14 @@
 Fahrtenbuch, Fahrzeuge, Tanken, Werkstatt, Pickerl §57a und Statistik · #ritl_drive
 Neueste Version oben.
 
+## V1.6 · 16.11.2026 · DEV
+**Neu**
+- GPS-Strecken direkt an TRACK.ritl übergeben (Fahrt › „→ TRACK.ritl“, LOG › „GPX → TRACK.ritl“ für alle gefilterten Fahrten mit Strecke); Übergabe über „ritl-handoff“ auf der Toolbox-Domain, TRACK.ritl öffnet sich mit #ritl-handoff.
+
+**Geändert**
+- Zahlen mit Tausenderpunkt (153.621 km, 1.833,84 €); Kilometer mit einer Kommastelle, wenn nicht ganzzahlig (z. B. GPS-Strecken).
+- GPX-Dateiname einer einzelnen Fahrt: Datum_Start-Ziel.gpx.
+
 ## V1.5 · 16.11.2026 · DEV
 **Neu**
 - Eigenes App-Symbol für „Zum Home-Bildschirm“ (iPhone/iPad) statt Buchstabe „D“.
