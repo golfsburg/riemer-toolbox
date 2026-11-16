@@ -3,6 +3,14 @@
 Fahrtenbuch, Fahrzeuge, Tanken, Werkstatt, Pickerl §57a und Statistik · #ritl_drive
 Neueste Version oben.
 
+## V1.4 · 16.11.2026 · DEV
+**Neu**
+- STATS.ritl: zu „Alle“ gibt es immer auch „Keine“ (Fahrzeugauswahl).
+- Kilometer, die nicht im Fahrtenbuch stehen (z. B. Fahrzeuge nur mit Tank- und Ausgaben-Daten), werden aus den km-Ständen von Tanken, Ausgaben und Pickerl ergänzt – in Diagramm, Tabelle, Kennzahlen, Fahrtzwecken (eigene Farbe „nicht im Fahrtenbuch“) und Kosten je 100 km.
+
+**Geändert**
+- Diagramm und Tabelle zeigen alle gewählten Fahrzeuge; Fahrzeuge ohne Daten im Zeitraum werden genannt. Bereich 04 listet alle gewählten Fahrzeuge.
+
 ## V1.3 · 16.11.2026 · DEV
 **Neu**
 - Geräte-Abgleich über das zentrale Backup (Stufe datenbank): Änderungen gehen automatisch auf den Server, beim Öffnen und beim Zurückkehren in die App wird der neueste Stand der anderen Geräte geholt; bei Konflikt Rückfrage (Server-Stand übernehmen oder eigenen hochladen). „Jetzt abgleichen“ im Backup-Dialog.
