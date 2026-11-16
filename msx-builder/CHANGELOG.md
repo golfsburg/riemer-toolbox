@@ -4,6 +4,14 @@
 Start: index.html im Browser öffnen (Chrome/Edge/Firefox) oder auf GitHub Pages ablegen.
 Beim Öffnen wird die Beispielzeichnung „Beispiel_Schnitt.dxf“ geladen.
 
+## V4.9 · 16.11.2026 · DEV
+**Behoben**
+- Header-Anzeige: App-Bild nach Vorlage neu (38 px, Ebenen l1/l2/l3 mit zwei Rohröffnungen, wie MUSTER.ritl/PPTX.ritl) – das alte 48er-Bild lief bis an den Rand und wirkte abgeschnitten und zu groß; Favicon mit demselben Motiv.
+- Seitenränder auf 22 px wie der Header (vorher 40 px), Header und Inhalt fluchten jetzt links und rechts.
+
+**Entfernt**
+- Alte Header-Stile (52-px-Bild, 32-px-Titel, 44-px-Knöpfe, eigener Hell/Dunkel-Knopf) – der Header kommt nur noch aus RITL-UI.
+
 ## V4.8 · 16.11.2026 · DEV
 **Neu**
 - Header über den zentralen Header RITL-UI 1.1 (wie MUSTER.ritl V2.8): Titel MSX.ritl mit Edition, Kanal und Version · Datum, Tool-Knöpfe Beispiel / .msx / ZIP als Symbol-Chips, dazu Anleitung, DE/EN, Hell/Dunkel, An-/Abmelden, Toolbox-Logo und RIEMER Tools. Header-Updates kommen künftig zentral vom Lizenzserver.
