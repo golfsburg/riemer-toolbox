@@ -3,6 +3,14 @@
 Speisekarten- & Menü-Designer: Sets, Gänge, Speisendatenbank mit Allergenen (LMIV), 6 Druckformate, Export als PDF, PPTX und Druck in exakt einer Seite · #ritl_menu
 Neueste Version oben. Versionen ≤ V1.7 nachträglich rekonstruiert (aus `tool_versions`, Quellen-ZIPs und Repo-Historie).
 
+## V2.3 · 16.11.2026 · DEV
+**Geändert**
+- Header auf den zentralen Header RITL-UI umgestellt (Kit RITL-UI 1.1, Vorbild MUSTER.ritl V2.8): App-Bild, Eyebrow, MENU.ritl mit Edition, DEV/BETA und Version · Datum; rechts kompakte Chips für Favoriten (mit Zähler), Backup (mit Symbol Ordner/Wolke) und Zurücksetzen, dann Anleitung, Hell/Dunkel, An-/Abmelden, Toolbox-Logo und „RIEMER Tools“. Der Header bleibt beim Scrollen oben.
+- Künftige Header-Versionen kommen zentral über den Lizenzserver, ohne neue MENU.ritl-Version.
+
+**Behoben**
+- Offline-Kopie: der Header wird dort neu aufgebaut (Knöpfe funktionieren).
+
 ## V2.2 · 15.11.2026
 **Neu**
 - SETS.ritl: Jede Set-Karte zeigt eine kleine Vorschau der Karte (bei Klappkarte und Wickelfalz die Innenseite, mit Seitenzahl); mit dem Mauszeiger darauf erscheinen alle Seiten groß mit Seitenbezeichnung.
