@@ -4,6 +4,12 @@ Quelle: `ritl-ui/ritl-ui.html` · verwaltet im Lizenz-Admin unter **Header · RI
 Der Lizenzserver ersetzt in jedem Tool den Block `<!--ritl-ui:start--> … <!--ritl-ui:end-->` beim Ausliefern durch die neueste aktive Version aus dem Kanal der Lizenz (Dev sieht Dev + Beta + Stabil, Beta sieht Beta + Stabil).
 Neueste Version oben.
 
+## 1.1 · 16.11.2026 · Stabil
+**Geändert**
+- Maße nach PPTX.ritl als Standard: Header 64 px, App-Bild 38 px, Eyebrow 10,5 px (Inter 600), Titel 22 px, Chips 34 px, Toolbox-Logo 30 px, Schriftzug 15 px.
+- Rechts immer kompakt: Tool-Knöpfe als eckige Chips nur mit Symbol (Beschriftung als Tooltip und `aria-label`), danach die runden Chips `?` · DE/EN · Hell/Dunkel · An-/Abmelden.
+- Arbeitsschritte in der Mitte ab 1500 px, Version ab 1000 px, Schriftzug ab 900 px.
+
 ## 1.0 · 16.11.2026 · Stabil
 **Neu**
 - Header wird aus `<header data-ritl-header data-name … data-eyebrow … data-tool … data-ver … data-date>` aufgebaut.

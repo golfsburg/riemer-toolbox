@@ -418,6 +418,24 @@
   </form>
 </dialog>
 
+<dialog id="uiprev" class="dlg" aria-labelledby="uiprev-title" style="width:min(1680px,calc(100vw - 32px))">
+  <div class="frame">
+    <div class="dlg-head"><h2 id="uiprev-title">Vorschau Header</h2><button type="button" class="ib" data-close aria-label="Schließen" title="Schließen">✕</button></div>
+    <div class="dlg-body">
+      <div class="row" style="gap:10px;flex-wrap:wrap;align-items:flex-end;margin-bottom:12px">
+        <div><label for="uip-w">Breite</label><select id="uip-w" class="vsel"><option value="1600">Desktop 1600 px</option><option value="1280" selected>Laptop 1280 px</option><option value="1000">Tablet quer 1000 px</option><option value="820">Tablet 820 px</option><option value="390">Mobil 390 px</option></select></div>
+        <div><label for="uip-t">Modus</label><select id="uip-t" class="vsel"><option value="light">Hell</option><option value="dark">Dunkel</option></select></div>
+        <div><label for="uip-c">Kanal</label><select id="uip-c" class="vsel"><option value="stable">Stabil</option><option value="beta">Beta</option><option value="dev">Entwicklung</option></select></div>
+        <div><label for="uip-e">Edition</label><select id="uip-e" class="vsel"><option value="standard">Standard</option><option value="pro">Pro</option></select></div>
+        <div><label for="uip-l">Lizenz</label><select id="uip-l" class="vsel"><option value="1">angemeldet</option><option value="0">nicht angemeldet</option></select></div>
+        <div><label for="uip-m">Mitte</label><select id="uip-m" class="vsel"><option value="1">mit Arbeitsschritten</option><option value="0">ohne</option></select></div>
+      </div>
+      <div style="overflow:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface-muted)"><iframe id="uip-frame" title="Vorschau Header" style="display:block;border:0;height:230px;background:#fff"></iframe></div>
+      <p class="hint" style="margin-top:8px">Beispiel-Tool DEMO.ritl mit drei Tool-Knöpfen (Favoriten, Backup, Neu beginnen). Klicks im Header funktionieren (Hell/Dunkel, DE/EN); Anmelden/Abmelden ist in der Vorschau ohne Wirkung.</p>
+    </div>
+    <div class="dlg-foot"><span class="sp"></span><button type="button" class="b" data-close>Schließen</button></div>
+  </div>
+</dialog>
 <dialog id="eddlg" class="dlg sm" aria-labelledby="ed-title">
   <div class="frame">
     <div class="dlg-head"><h2 id="ed-title">Editionen</h2><button type="button" class="ib" data-close aria-label="Schließen" title="Schließen">✕</button></div>
@@ -804,7 +822,7 @@
         var live = ["stable", "beta", "dev"].filter(function (c) { return L[c] === v.version && v.active; });
         var chSel = '<select class="vsel" data-uisel="channel" data-uid="' + v.id + '" aria-label="Kanal">' + ["stable", "beta", "dev"].map(function (c) {
           return '<option value="' + c + '"' + (c === v.channel ? " selected" : "") + ">" + UI_CH[c] + "</option>"; }).join("") + "</select>";
-        var acts = '<button class="b" data-uiact="get" data-uid="' + v.id + '" data-ver="' + esc(v.version) + '">⬇ Datei</button>' +
+        var acts = '<button class="b" data-uiact="prev" data-uid="' + v.id + '" data-ver="' + esc(v.version) + '">👁 Vorschau</button>' + '<button class="b" data-uiact="get" data-uid="' + v.id + '" data-ver="' + esc(v.version) + '">⬇ Datei</button>' +
           (v.active ? '<button class="b" data-uiact="off" data-uid="' + v.id + '">Zurückziehen</button>' : '<button class="b" data-uiact="on" data-uid="' + v.id + '">Reaktivieren</button>') +
           '<button class="b dan" data-uiact="del" data-uid="' + v.id + '">Löschen</button>';
         return '<tr class="' + (v.active ? "" : "off") + '"><td class="mono"><b>' + esc(v.version) + "</b>" +
@@ -821,6 +839,7 @@
   $("uirows").addEventListener("click", function (e) {
     var b = e.target.closest("button[data-uiact]"); if (!b) return;
     var id = b.dataset.uid, a = b.dataset.uiact, p;
+    if (a === "prev") { uiPreview(id, b.dataset.ver); return; }
     if (a === "get") { api("ui_get", { id: id }).then(function (r) { if (!r.ok) return;
       var u = URL.createObjectURL(new Blob([r.block], { type: "text/html" })), l = document.createElement("a");
       l.href = u; l.download = "ritl-ui_V" + r.version + ".html"; document.body.appendChild(l); l.click(); l.remove(); setTimeout(function () { URL.revokeObjectURL(u); }, 4000); }); return; }
@@ -839,6 +858,39 @@
       });
     });
   });
+  /* Vorschau einer Header-Version im Modal: Beispiel-Tool in wählbarer Breite, Hell/Dunkel, Kanal, Edition, Lizenz */
+  var UIP = { block: "", ver: "" };
+  var UIP_TOKENS = ':root{--brand:#1F5FC2;--brand-hover:#174C9E;--accent-text:#1F5FC2;--ink:#1B1F24;--ink2:#2D333B;--muted:#5F6773;--surface:#FFFFFF;--surface-muted:#F4F5F7;--on-brand:#FFFFFF;--tint:#C9DAF5;--line:#E3E6EB;--line2:#CDD2D9;--good:#0F7B6C;--warn:#C2410C;--red:#C53030;--radius-sm:3px;--radius:8px;--sans:"Inter",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace;color-scheme:light}' +
+    '[data-theme="dark"]{--accent-text:#6EA2FF;--ink:#F4F5F7;--ink2:#D6DAE0;--muted:#9AA3AF;--surface:#1B1F24;--surface-muted:#23272E;--line:#323843;--line2:#3D4450;--good:#4FC7B5;--warn:#FB8A55;--red:#F87171;color-scheme:dark}' +
+    'body{margin:0;background:var(--surface-muted);color:var(--ink);font:400 14px/20px var(--sans)}.ico-l1{fill:color-mix(in srgb,var(--brand) 30%,var(--surface))}.ico-l2{fill:color-mix(in srgb,var(--brand) 60%,var(--surface))}.ico-l3{fill:var(--brand)}.ico-d{fill:var(--on-brand)}' +
+    '.steps{display:flex;gap:8px;align-items:center;font:600 13px var(--sans);color:var(--muted)}.steps i{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;border:1px solid var(--line2);font:600 11px var(--mono);font-style:normal;margin-right:6px}.steps .now{color:var(--accent-text)}.steps .now i{background:var(--brand);border-color:var(--brand);color:var(--on-brand)}' +
+    'main{padding:22px;color:var(--muted)}';
+  function uiPreview(id, ver) {
+    api("ui_get", { id: id }).then(function (r) {
+      if (!r.ok) return;
+      UIP.block = r.block; UIP.ver = r.version;
+      $("uiprev-title").textContent = "Vorschau Header · RITL-UI " + r.version;
+      uiRender(); $("uiprev").showModal();
+    });
+  }
+  function uiRender() {
+    var w = +$("uip-w").value, th = $("uip-t").value, ch = $("uip-c").value, ed = $("uip-e").value, lic = $("uip-l").value === "1", mid = $("uip-m").value === "1";
+    var ritl = lic ? { tool: "demo-ritl", version: "1.4", version_label: "V1.4", release_date: "16.11.2026", channel: ch, edition: ed, edition_name: ed === "pro" ? "Pro" : "Standard", customer: "Vorschau", email: null }
+                   : (ch !== "stable" || ed !== "standard" ? { tool: "demo-ritl", version: "1.4", version_label: "V1.4", release_date: "16.11.2026", channel: ch, edition: ed, edition_name: ed === "pro" ? "Pro" : "Standard", preview: true } : null);
+    var icon = '<svg data-ritl-icon viewBox="0 0 48 48"><rect class="ico-l1" x="16" y="4" width="28" height="22" rx="5"/><rect class="ico-l2" x="10" y="10" width="28" height="22" rx="5"/><rect class="ico-l3" x="4" y="16" width="30" height="22" rx="5"/><rect class="ico-d" x="10" y="23" width="16" height="3" rx="1.5"/><rect class="ico-d" x="10" y="29" width="11" height="3" rx="1.5"/></svg>';
+    var steps = mid ? '<div data-ritl-center><nav class="steps"><span><i>✓</i>Laden</span>—<span class="now"><i>2</i>Auswählen</span>—<span><i>3</i>Ordnen</span>—<span><i>4</i>Erzeugen</span></nav></div>' : "";
+    var acts = '<div data-ritl-actions><button type="button">★<span class="lbl">Favoriten</span></button>' +
+      '<button type="button"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 4h10v8H2zM2 4l1.5-2.5h7L12 4M5 8h4"/></svg><span class="lbl">Backup</span></button>' +
+      '<button type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg><span class="lbl">Neu beginnen</span></button></div>';
+    var doc = '<!doctype html><html lang="de" data-theme="' + th + '"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">' +
+      '<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">' +
+      "<style>" + UIP_TOKENS + "</style>" + (ritl ? "<script>window.RITL=Object.freeze(" + JSON.stringify(ritl) + ");<\/script>" : "") +
+      "<script>try{Object.defineProperty(window,'localStorage',{value:(function(){var S={riemer-theme:''};return{getItem:function(k){return S[k]||null},setItem:function(k,v){S[k]=String(v)},removeItem:function(k){delete S[k]}}})(),configurable:true})}catch(e){}<\/script>".replace("riemer-theme:''", "'riemer-theme':'" + th + "'") +
+      '</head><body><header data-ritl-header data-name="DEMO" data-eyebrow="BEISPIEL-TOOL · #ritl_demo" data-tool="demo-ritl" data-ver="V1.4" data-date="16.11.2026">' + icon + steps + acts + "</header>" +
+      UIP.block + "<main>Inhalt des Tools …</main><script>document.getElementById('helpBtn').onclick=function(){alert('Anleitung')};<\/script></body></html>";
+    var f = $("uip-frame"); f.style.width = w + "px"; f.setAttribute("sandbox", "allow-scripts allow-modals"); f.srcdoc = doc;
+  }
+  ["uip-w", "uip-t", "uip-c", "uip-e", "uip-l", "uip-m"].forEach(function (k) { $(k).addEventListener("change", uiRender); });
   function status(l) {
     if (!l.active) return '<span class="pill p-bad">gesperrt</span>';
     if (l.expires_at && new Date(l.expires_at) < new Date()) return '<span class="pill p-bad">abgelaufen</span>';

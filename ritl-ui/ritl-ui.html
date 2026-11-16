@@ -1,63 +1,60 @@
 <!--ritl-ui:start-->
 <style id="ritl-ui-css">
-/* RITL-UI 1.0 – zentraler Header der RIEMER Tools. Wird vom Lizenzserver beim Ausliefern durch die aktuelle Version ersetzt.
-   Nur Tokens der Farbkarte (--brand, --ink, --muted, --line2, --surface …). */
+/* RITL-UI 1.1 – zentraler Header der RIEMER Tools. Wird vom Lizenzserver beim Ausliefern durch die aktuelle Version ersetzt.
+   Maße nach PPTX.ritl (Standard): Header 64 px, App-Bild 38 px, Titel 22 px, Eyebrow 10,5 px, Chips 34 px.
+   Rechts immer kompakt: Tool-Knöpfe als eckige Chips nur mit Symbol, System-Knöpfe als runde Chips. Nur Tokens der Farbkarte. */
 header[data-ritl-header]{position:sticky;top:0;z-index:40;background:var(--surface);border-bottom:1px solid var(--line);font-family:var(--sans,"Inter",system-ui,sans-serif)}
 header[data-ritl-header]:not(.ritl-h)>*{visibility:hidden}
-.ritl-in{max-width:var(--page-max,2048px);margin:0 auto;height:80px;padding:0 40px;display:flex;align-items:center;gap:24px;box-sizing:border-box}
-.ritl-id{display:flex;align-items:center;gap:16px;min-width:0;flex:none}
-.ritl-icon{width:52px!important;height:52px!important;flex:none;display:block}
+.ritl-in{max-width:var(--page-max,2048px);margin:0 auto;height:64px;padding:0 22px;display:flex;align-items:center;gap:20px;box-sizing:border-box}
+.ritl-id{display:flex;align-items:center;gap:12px;min-width:0;flex:none}
+.ritl-icon{width:38px!important;height:38px!important;flex:none;display:block}
 .ritl-tt{min-width:0}
-.ritl-eb{margin:0 0 3px;font:500 12px/16px var(--mono,"JetBrains Mono",ui-monospace,monospace);letter-spacing:2.2px;text-transform:uppercase;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ritl-title{margin:0;display:flex;align-items:center;gap:0;min-width:0;font:800 28px/1.05 var(--sans,"Inter",system-ui,sans-serif);letter-spacing:-.6px;color:var(--ink);white-space:nowrap}
+.ritl-eb{margin:0 0 2px;font:600 10.5px/14px var(--sans,"Inter",system-ui,sans-serif);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ritl-title{margin:0;display:flex;align-items:center;min-width:0;font:800 22px/1.05 var(--sans,"Inter",system-ui,sans-serif);letter-spacing:-.02em;color:var(--ink);white-space:nowrap}
 .ritl-title .ritl-nm{overflow:hidden;text-overflow:ellipsis}
 .ritl-title .ritl-nm span{color:var(--accent-text)}
-.ritl-pill{flex:none;display:inline-block;margin-left:10px;padding:3px 8px;border-radius:var(--radius-sm,3px);font:600 11px/15px var(--mono,"JetBrains Mono",ui-monospace,monospace);letter-spacing:1px;background:var(--brand);color:var(--on-brand,#fff)}
+.ritl-pill{flex:none;display:inline-block;margin-left:10px;padding:2px 7px;border-radius:var(--radius-sm,3px);font:600 11px/15px var(--mono,"JetBrains Mono",ui-monospace,monospace);letter-spacing:1px;background:var(--brand);color:var(--on-brand,#fff)}
 .ritl-pill.std{background:color-mix(in srgb,var(--muted) 16%,transparent);color:var(--muted)}
 .ritl-pill.beta{margin-left:6px;background:color-mix(in srgb,var(--good) 16%,transparent);color:var(--good)}
 .ritl-pill.dev{margin-left:6px;background:color-mix(in srgb,var(--warn) 16%,transparent);color:var(--warn)}
 .ritl-pill[hidden]{display:none}
-.ritl-ver{flex:none;margin-left:12px;font:500 12px/16px var(--mono,"JetBrains Mono",ui-monospace,monospace);letter-spacing:1.5px;color:var(--muted)}
+.ritl-ver{flex:none;margin-left:10px;font:500 12px/16px var(--mono,"JetBrains Mono",ui-monospace,monospace);letter-spacing:1.5px;color:var(--muted)}
 .ritl-mid{flex:1 1 0;min-width:0;display:flex;justify-content:center;overflow:hidden}
-.ritl-mid:empty{display:block}
-.ritl-act{flex:none;display:flex;align-items:center;gap:10px;margin-left:auto}
-.ritl-tool{display:flex;align-items:center;gap:8px}
-.ritl-tool>button,.ritl-tool>a{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 16px;border:1px solid var(--line2);border-radius:10px;background:var(--surface);color:var(--ink);font:600 14px/1 var(--sans,"Inter",system-ui,sans-serif);cursor:pointer;white-space:nowrap;text-decoration:none;box-sizing:border-box;transition:border-color .15s,color .15s}
+.ritl-act{flex:none;display:flex;align-items:center;gap:12px;margin-left:auto}
+.ritl-tool,.ritl-sys{display:flex;align-items:center;gap:6px}
+.ritl-tool>button,.ritl-tool>a{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:6px;height:34px;min-width:34px;padding:0 9px;border:1px solid var(--line2);border-radius:9px;background:var(--surface);color:var(--ink);font:600 13px/1 var(--sans,"Inter",system-ui,sans-serif);cursor:pointer;white-space:nowrap;text-decoration:none;box-sizing:border-box;transition:border-color .15s,color .15s}
 .ritl-tool>button:hover,.ritl-tool>a:hover{border-color:var(--brand);color:var(--accent-text)}
-.ritl-tool>button svg,.ritl-tool>a svg{width:16px;height:16px;flex:none}
-.ritl-sys{display:flex;align-items:center;gap:8px;padding-left:6px}
-.ritl-chip{flex:none;display:inline-grid;place-items:center;width:40px;height:40px;padding:0;border-radius:50%;border:1px solid var(--line2);background:var(--surface);color:var(--ink);cursor:pointer;font:700 13px/1 var(--sans,"Inter",system-ui,sans-serif);letter-spacing:.3px;box-sizing:border-box;transition:border-color .15s,color .15s,background .15s}
+.ritl-tool>button svg,.ritl-tool>a svg{width:15px;height:15px;flex:none}
+.ritl-tool .lbl{display:none}
+.ritl-chip{flex:none;display:inline-grid;place-items:center;width:34px;height:34px;padding:0;border-radius:50%;border:1px solid var(--line2);background:var(--surface);color:var(--ink);cursor:pointer;font:700 12px/1 var(--sans,"Inter",system-ui,sans-serif);letter-spacing:.3px;box-sizing:border-box;transition:border-color .15s,color .15s}
 .ritl-chip:hover{border-color:var(--brand);color:var(--accent-text)}
-.ritl-chip svg{width:17px;height:17px;display:block}
-.ritl-chip.q{font-size:17px;font-weight:800}
-.ritl-chip.on{border-color:var(--brand);color:var(--accent-text)}
+.ritl-chip svg{width:15px;height:15px;display:block}
+.ritl-chip.q{font-size:15px;font-weight:800}
 .ritl-chip:disabled{opacity:.45;cursor:default}
-.ritl-tb{flex:none;display:inline-flex;margin-left:10px;line-height:0;border-radius:8px}
-.ritl-tb svg{width:34px;height:34px}
-.ritl-wm{flex:none;margin-left:2px;font:800 19px/1 var(--sans,"Inter",system-ui,sans-serif);letter-spacing:-.4px;color:var(--ink);text-decoration:none;white-space:nowrap}
+.ritl-tb{flex:none;display:inline-flex;margin-left:4px;line-height:0;border-radius:7px}
+.ritl-tb svg{width:30px;height:30px}
+.ritl-wm{flex:none;margin-left:2px;font:800 15px/1 var(--sans,"Inter",system-ui,sans-serif);letter-spacing:-.01em;color:var(--ink);text-decoration:none;white-space:nowrap}
 .ritl-wm span{color:var(--accent-text)}
 header[data-ritl-header] :is(button,a):focus-visible{outline:2px solid var(--brand);outline-offset:2px}
-@media(max-width:1700px){.ritl-mid{display:none}}
-@media(max-width:1080px){.ritl-wm{display:none}.ritl-in{gap:16px}}
-@media(max-width:1100px){.ritl-tool .lbl{display:none}.ritl-tool>button,.ritl-tool>a{padding:0 12px}.ritl-ver{display:none}}
-@media(max-width:860px){.ritl-in{height:64px;padding:0 20px;gap:12px}.ritl-eb{display:none}.ritl-icon{width:40px!important;height:40px!important}.ritl-id{gap:10px}
- .ritl-title{font-size:21px;letter-spacing:-.4px}.ritl-pill{margin-left:8px}.ritl-act,.ritl-tool,.ritl-sys{gap:6px}
- .ritl-chip,.ritl-tool>button,.ritl-tool>a{width:auto;min-width:36px;height:36px}.ritl-chip{width:36px}.ritl-wm{display:none}.ritl-tb{margin-left:4px}.ritl-tb svg{width:30px;height:30px}}
-@media(max-width:620px){.ritl-in{height:auto;flex-wrap:wrap;padding:10px 16px;row-gap:10px}.ritl-id{flex:1 1 auto}.ritl-ver{display:none}
- .ritl-act{order:3;width:100%;margin-left:0;justify-content:space-between;flex-wrap:wrap;row-gap:8px}.ritl-sys{padding-left:0}.ritl-tb{margin-left:auto}}
-@media(max-width:440px){.ritl-tb{display:none}.ritl-act,.ritl-tool,.ritl-sys{gap:5px}}
+@media(max-width:1500px){.ritl-mid{display:none}}
+@media(max-width:1000px){.ritl-ver{display:none}}
+@media(max-width:900px){.ritl-wm{display:none}}
+@media(max-width:860px){.ritl-in{height:56px;padding:0 16px;gap:12px}.ritl-eb{display:none}.ritl-icon{width:32px!important;height:32px!important}.ritl-id{gap:10px}.ritl-title{font-size:19px}.ritl-act{gap:8px}}
+@media(max-width:620px){.ritl-in{height:auto;flex-wrap:wrap;padding:8px 14px;row-gap:8px}.ritl-id{flex:1 1 auto}
+ .ritl-act{order:3;width:100%;margin-left:0;justify-content:space-between;flex-wrap:wrap;row-gap:6px}.ritl-tb{margin-left:auto}}
+@media(max-width:400px){.ritl-tb{display:none}.ritl-tool,.ritl-sys{gap:4px}}
 @media print{header[data-ritl-header]{position:static}.ritl-act{display:none}}
 </style>
 <script id="ritl-ui-js">
-/* RITL-UI 1.0 – baut den Header aus <header data-ritl-header …> auf. Attribute:
+/* RITL-UI 1.1 – baut den Header aus <header data-ritl-header …> auf. Attribute:
    data-name="MUSTER" (Pflicht) · data-eyebrow="…" · data-tool="muster-ritl" · data-ver="V2.8" · data-date="16.11.2026"
    data-help="none" (ohne Anleitung) · data-lang="none" (ohne DE/EN) · data-login="URL" (Anmelden-Ziel)
-   Kinder: [data-ritl-icon] (App-Bild, SVG) · [data-ritl-center] (optional, Mitte) · [data-ritl-actions] (Tool-Knöpfe, Text in <span class="lbl">)
+   Kinder: [data-ritl-icon] (App-Bild, SVG) · [data-ritl-center] (optional, Mitte) · [data-ritl-actions] (Tool-Knöpfe: Symbol + Text in <span class="lbl"> – der Text erscheint als Tooltip)
    IDs für das Tool: #helpBtn (Anleitung, onclick setzt das Tool) · #lang-btn · #theme-btn · #ritl-auth · #ritl-edition · #ritl-chan · #ritl-ver
    Ereignisse: ritl:theme {theme} · ritl:lang {lang}. API: window.RITLUI.lang(l) · .theme(t) · .version */
 (function () {
   "use strict";
-  var VERSION = "1.0";
+  var VERSION = "1.1";
   var h = document.querySelector("header[data-ritl-header]");
   if (!h || h.classList.contains("ritl-h")) return;
   var d = h.dataset, R = window.RITL || {}, root = document.documentElement;
@@ -104,7 +101,11 @@ header[data-ritl-header] :is(button,a):focus-visible{outline:2px solid var(--bra
   // ── Rechts: Tool-Knöpfe · ? · DE/EN · Hell/Dunkel · An-/Abmelden · Toolbox-Logo · RIEMER Tools ──
   var act = E("nav", { cls: "ritl-act", "aria-label": "App-Aktionen" });
   var tool = E("div", { cls: "ritl-tool" });
-  if (acts) while (acts.firstElementChild) tool.appendChild(acts.firstElementChild);
+  if (acts) while (acts.firstElementChild) {
+    var b = acts.firstElementChild, lb = b.querySelector(".lbl"), tx = (lb ? lb.textContent : b.textContent).trim();
+    if (tx && !b.title) b.title = tx; if (tx && !b.getAttribute("aria-label")) b.setAttribute("aria-label", tx);
+    tool.appendChild(b);
+  }
   if (tool.children.length) act.appendChild(tool);
   var sys = E("div", { cls: "ritl-sys" });
   if (d.help !== "none") sys.appendChild(E("button", { type: "button", cls: "ritl-chip q", id: "helpBtn", title: "Anleitung", "aria-label": "Anleitung" }, "?"));
