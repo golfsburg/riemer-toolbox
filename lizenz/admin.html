@@ -252,6 +252,7 @@
     <button data-tab="lic" class="on">Lizenzen</button>
     <button type="button" id="lic-new">+ Neue Lizenz</button>
     <button data-tab="tools">Tools</button>
+    <button data-tab="ui">Header · RITL-UI</button>
     <button data-tab="clubs">Vereine</button>
     <button data-tab="log">Protokoll</button>
     <span class="sp"></span>
@@ -338,6 +339,27 @@
         </form>
         <p class="hint">Das ist die vollständige Tool-Datei. Im Repo liegt im Tool-Ordner nur die Schlüssel-Abfrage (siehe pptx-manager/index.html).</p>
       </div>
+    </section>
+
+    <section id="t-ui" class="card hide">
+      <h2>Zentraler Header · RITL-UI</h2>
+      <p class="hint" style="margin:-8px 0 12px">Der Header aller umgestellten Tools (Block <code>&lt;!--ritl-ui:start--&gt; … &lt;!--ritl-ui:end--&gt;</code>) wird beim Ausliefern durch die neueste aktive Version aus dem Kanal der Lizenz ersetzt – Dev sieht Dev + Beta + Stabil, Beta sieht Beta + Stabil. Änderungen also zuerst in Dev testen, dann freigeben. Quelle im Repo: <code>ritl-ui/ritl-ui.html</code>.</p>
+      <div class="srcsum" id="ui-live"></div>
+      <div class="wrap"><table data-rz="ui">
+        <thead><tr><th>Version</th><th>Kanal</th><th>Freigegeben</th><th>Größe</th><th>Notiz</th><th></th></tr></thead>
+        <tbody id="uirows"></tbody>
+      </table></div>
+      <h2 style="margin-top:22px">Neue Header-Version hochladen</h2>
+      <form id="uiform">
+        <div class="grid">
+          <div><label>Version *</label><input name="version" placeholder="1.1" required pattern="[0-9]+\.[0-9]+(\.[0-9]+)?"></div>
+          <div><label>Kanal</label><select name="channel"><option value="dev">Entwicklung (Dev)</option><option value="beta">Beta</option><option value="stable">Stabil</option></select></div>
+        </div>
+        <label>Notiz</label><input name="notes" placeholder="Was ist neu?">
+        <label>Datei <code>ritl-ui.html</code> *</label><input name="file" type="file" accept=".html,.htm,text/html" required>
+        <span class="hint">Muss mit <code>&lt;!--ritl-ui:start--&gt;</code> beginnen und mit <code>&lt;!--ritl-ui:end--&gt;</code> enden.</span>
+        <button class="b pri" style="margin-top:1rem">Hochladen</button>
+      </form>
     </section>
 
     <section id="t-clubs" class="card hide">
@@ -770,6 +792,53 @@
       '<div class="pvbar"><span class="tag">ADMIN-VORSCHAU</span><span>' + bar + '</span><span class="hint">Daten = Kopie aus diesem Browser · Änderungen werden nicht gespeichert · keine Lizenz, kein zentrales Backup</span></div>' +
       '<iframe sandbox="allow-scripts allow-modals allow-popups allow-popups-to-escape-sandbox allow-downloads allow-forms" title="' + esc(title) + '" srcdoc="' + html.replace(/&/g, "&amp;").replace(/"/g, "&quot;") + '"></iframe></body></html>';
   }
+  /* ── Zentraler Header RITL-UI: Versionen und Kanäle ── */
+  var UI_CH = { stable: "Stabil", beta: "Beta", dev: "Entwicklung" };
+  function loadUi() {
+    $("uirows").innerHTML = '<tr><td colspan="6" class="hint">Lade …</td></tr>';
+    return api("ui_list").then(function (r) {
+      if (!r.ok) return;
+      var L = r.live || {};
+      $("ui-live").innerHTML = "Ausgeliefert: " + ["stable", "beta", "dev"].map(function (c) { return "<b>" + UI_CH[c] + "</b> " + esc(L[c] || "–"); }).join(" · ");
+      $("uirows").innerHTML = r.versions.map(function (v) {
+        var live = ["stable", "beta", "dev"].filter(function (c) { return L[c] === v.version && v.active; });
+        var chSel = '<select class="vsel" data-uisel="channel" data-uid="' + v.id + '" aria-label="Kanal">' + ["stable", "beta", "dev"].map(function (c) {
+          return '<option value="' + c + '"' + (c === v.channel ? " selected" : "") + ">" + UI_CH[c] + "</option>"; }).join("") + "</select>";
+        var acts = '<button class="b" data-uiact="get" data-uid="' + v.id + '" data-ver="' + esc(v.version) + '">⬇ Datei</button>' +
+          (v.active ? '<button class="b" data-uiact="off" data-uid="' + v.id + '">Zurückziehen</button>' : '<button class="b" data-uiact="on" data-uid="' + v.id + '">Reaktivieren</button>') +
+          '<button class="b dan" data-uiact="del" data-uid="' + v.id + '">Löschen</button>';
+        return '<tr class="' + (v.active ? "" : "off") + '"><td class="mono"><b>' + esc(v.version) + "</b>" +
+          (live.length ? ' <span class="pill p-ok">aktuell · ' + live.map(function (c) { return UI_CH[c]; }).join(", ") + "</span>" : "") +
+          (v.active ? "" : ' <span class="pill p-bad">zurückgezogen</span>') + "</td><td>" + chSel + "</td><td>" + fmtDT(v.released_at) + "</td><td>" + v.kb + " KB</td>" +
+          '<td class="hint">' + esc(v.notes || "") + '</td><td><div class="acts">' + acts + "</div></td></tr>";
+      }).join("") || '<tr><td colspan="6" class="hint">Noch keine Header-Version.</td></tr>';
+    });
+  }
+  $("uirows").addEventListener("change", function (e) {
+    var sel = e.target.closest("select[data-uisel]"); if (!sel) return;
+    api("ui_set", { id: sel.dataset.uid, channel: sel.value }).then(function (r) { if (r.ok) { toast("Gespeichert ✓"); loadUi(); } });
+  });
+  $("uirows").addEventListener("click", function (e) {
+    var b = e.target.closest("button[data-uiact]"); if (!b) return;
+    var id = b.dataset.uid, a = b.dataset.uiact, p;
+    if (a === "get") { api("ui_get", { id: id }).then(function (r) { if (!r.ok) return;
+      var u = URL.createObjectURL(new Blob([r.block], { type: "text/html" })), l = document.createElement("a");
+      l.href = u; l.download = "ritl-ui_V" + r.version + ".html"; document.body.appendChild(l); l.click(); l.remove(); setTimeout(function () { URL.revokeObjectURL(u); }, 4000); }); return; }
+    if (a === "off") { if (!confirm("Header-Version zurückziehen? Die Tools bekommen dann die vorherige aktive Version.")) return; p = api("ui_set", { id: id, active: false }); }
+    if (a === "on") p = api("ui_set", { id: id, active: true });
+    if (a === "del") { if (!confirm("Header-Version endgültig löschen?")) return; p = api("ui_delete", { id: id }); }
+    p && p.then(function (r) { if (r.ok) { toast("Gespeichert ✓"); loadUi(); } });
+  });
+  $("uiform").addEventListener("submit", function (e) {
+    e.preventDefault(); var f = e.target, file = f.file.files[0]; if (!file) return;
+    file.text().then(function (txt) {
+      txt = txt.trim();
+      if (txt.indexOf("<!--ritl-ui:start-->") !== 0 || txt.slice(-18) !== "<!--ritl-ui:end-->") { toast("Datei muss mit <!--ritl-ui:start--> beginnen und mit <!--ritl-ui:end--> enden."); return; }
+      api("ui_upload", { version: f.version.value.trim(), channel: f.channel.value, notes: f.notes.value.trim(), block: txt }).then(function (r) {
+        if (r.ok) { toast("Header-Version hochgeladen ✓"); f.reset(); loadUi(); }
+      });
+    });
+  });
   function status(l) {
     if (!l.active) return '<span class="pill p-bad">gesperrt</span>';
     if (l.expires_at && new Date(l.expires_at) < new Date()) return '<span class="pill p-bad">abgelaufen</span>';
@@ -1414,7 +1483,8 @@
   document.querySelector("nav").addEventListener("click", function (e) {
     var b = e.target.closest("button[data-tab]"); if (!b) return;
     [].forEach.call(document.querySelectorAll("nav button[data-tab]"), function (x) { x.classList.toggle("on", x === b); });
-    ["lic", "tools", "clubs", "log"].forEach(function (t) { $("t-" + t).classList.toggle("hide", t !== b.dataset.tab); });
+    ["lic", "tools", "ui", "clubs", "log"].forEach(function (t) { $("t-" + t).classList.toggle("hide", t !== b.dataset.tab); });
+    if (b.dataset.tab === "ui") loadUi();
     if (b.dataset.tab === "log") loadLog();
     if (b.dataset.tab === "clubs") loadClubs();
   });

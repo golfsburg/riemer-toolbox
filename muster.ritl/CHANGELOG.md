@@ -3,6 +3,14 @@
 Vorlage und Spielwiese für den Skill `/riemer-webapp-design` · #ritl_muster
 Neueste Version oben. Versionen ≤ V2.2 nachträglich aus den veröffentlichten Ständen (Tabelle `tool_versions`) rekonstruiert.
 
+## V2.8 · 16.11.2026
+**Neu**
+- Header über den zentralen **RITL-UI 1.0** (wird vom Lizenzserver aktuell gehalten): App-Bild 52 px, Eyebrow, MUSTER.ritl mit Edition, DEV/BETA und Version · Datum; rechts Favoriten · Backup · Neu beginnen · `?` · DE/EN · Hell/Dunkel · An-/Abmelden als runde Chips · Toolbox-Logo · RIEMER Tools.
+- „Neu beginnen“ mit Symbol; unter 1100 px zeigen die Knöpfe nur noch Symbole.
+
+**Geändert**
+- Hell/Dunkel und der Klick auf DE/EN laufen über RITL-UI (eigener Code dafür entfernt).
+
 ## V2.7 · 15.11.2026
 **Neu**
 - MAP.ritl: **🔒 Fixieren** im Kopf des Panels Map/Matrix (Skill-Regel 22). Fixiert füllen Panelkopf, Filter, Werkzeuge und Map bzw. Matrix das ganze Browserfenster; die Seite scrollt nicht mehr.
