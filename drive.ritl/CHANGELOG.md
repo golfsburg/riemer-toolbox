@@ -3,6 +3,12 @@
 Fahrtenbuch, Fahrzeuge, Tanken, Werkstatt, Pickerl §57a und Statistik · #ritl_drive
 Neueste Version oben.
 
+## V1.5 · 16.11.2026 · DEV
+**Neu**
+- Eigenes App-Symbol für „Zum Home-Bildschirm“ (iPhone/iPad) statt Buchstabe „D“.
+- Home-Bildschirm-App: oben nach unten ziehen zum Aktualisieren (mit Geräte-Abgleich: Daten vom Server holen, sonst neu laden).
+- Mehr › „Aktualisieren“ und „App neu laden“.
+
 ## V1.4 · 16.11.2026 · DEV
 **Neu**
 - STATS.ritl: zu „Alle“ gibt es immer auch „Keine“ (Fahrzeugauswahl).
