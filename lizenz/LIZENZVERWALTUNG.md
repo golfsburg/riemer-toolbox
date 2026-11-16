@@ -298,6 +298,15 @@ Design zurücksetzen per SQL: `delete from tool_settings where license_id = '…
 
 ---
 
+## 📲 Dateien zwischen den Geräten einer Lizenz (tool-transfer)
+
+Kurzzeit-Ablage für Dateien, die ein Tool von einem Gerät zum anderen bringen will – zuerst TRACK.ritl (ab V2.6): unterwegs geladene GPX-Strecken liegen 7 Tage auf dem Server und werden von den anderen Geräten derselben Lizenz übernommen.
+
+- Edge Function `tool-transfer` (POST `{key, email, device, tool, action: list|get|put|delete, data}`) → RPC `tool_transfer_api` → Tabelle `tool_transfers` (gzip, je Lizenz und Tool, gleiche Datei per SHA-256 nur einmal).
+- Einträge verfallen nach **7 Tagen** (beim nächsten Aufruf gelöscht). Höchstens 4 MB komprimiert je Datei.
+- Kontingent: **50 MB je Lizenz zusammen mit den zentralen Backups** (`tool_backups`).
+- Gleiche Lizenzprüfung wie `tool-backup` (Schlüssel, E-Mail, Tool in der Lizenz, Geräteplatz). Kein Zugriff ohne Lizenz, kein Service-Role-Key im Browser.
+
 ## E-Mail-Prüfung
 
 Jede Lizenz kann eine Login-E-Mail haben (Admin → Spalte E-Mail bzw. Knopf **E-Mail**):

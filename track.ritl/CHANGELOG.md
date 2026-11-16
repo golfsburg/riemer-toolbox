@@ -3,6 +3,11 @@
 GPS-Tracks (GPX) lokal im Browser in 2D und 3D darstellen, analysieren, bearbeiten und animieren · #ritl_track
 Neueste Version oben. Versionen ≤ V1.9 in Google AI Studio entwickelt und nachträglich zusammengefasst (keine Einzelstände erhalten).
 
+## V2.6 · 16.11.2026 · DEV
+**Neu**
+- Strecken zwischen meinen Geräten: unterwegs geladene GPX-Strecken (auch aus DRIVE.ritl) gehen automatisch für 7 Tage auf den Server der RIEMER Toolbox und werden von den anderen Geräten derselben Lizenz übernommen (beim Start, beim Zurückkehren in den Tab, nach Wiederverbindung, jede Minute). Keine dauerhafte Speicherung, zählt zum Kontingent der Lizenz.
+- Backup › **04 Strecken zwischen meinen Geräten**: automatisch ein/aus, aktiven Track oder alle senden, jetzt abholen, Liste auf dem Server mit Laden und Löschen.
+
 ## V2.5 · 16.11.2026 · DEV
 **Neu**
 - Übergabe aus DRIVE.ritl: Strecken (GPX) aus anderen RIEMER Tools werden beim Start bzw. bei `#ritl-handoff` aus der Übergabe im Browser übernommen, auch wenn TRACK.ritl schon offen ist (BroadcastChannel). Nur Übergaben an TRACK.ritl, höchstens 10 Minuten alt; danach wird die Übergabe gelöscht. Hinweis „n Strecke(n) aus DRIVE.ritl übernommen“, TRACK.ritl öffnet das Modul TRACK.ritl.
