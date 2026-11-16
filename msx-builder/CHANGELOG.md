@@ -4,6 +4,18 @@
 Start: index.html im Browser öffnen (Chrome/Edge/Firefox) oder auf GitHub Pages ablegen.
 Beim Öffnen wird die Beispielzeichnung „Beispiel_Schnitt.dxf“ geladen.
 
+## V5.0 · 16.11.2026 · DEV
+**Neu**
+- Download-Chips „.msx herunterladen“ und „msx.ZIP herunterladen“ direkt neben der Überschrift 07 Modellbereich (zusätzlich zu den Symbol-Chips im Header).
+
+**Geändert**
+- Header-Knöpfe umbenannt: „.msx herunterladen“ (vorher „Nur .msx herunterladen“) und „msx.ZIP herunterladen“ (vorher „ZIP herunterladen (MSX + Listen)“).
+- „Fixiert“ passt den Modellbereich weiterhin an die Fensterhöhe an, hält ihn aber nicht mehr oben fest.
+
+**Behoben**
+- Bereiche 08–11 scrollten hinter dem Modellbereich 07 – jetzt scrollen 07–11 gemeinsam.
+- Enter/Leertaste auf einem Knopf in einer Bereichsüberschrift klappt den Bereich nicht mehr mit zu.
+
 ## V4.9 · 16.11.2026 · DEV
 **Behoben**
 - Header-Anzeige: App-Bild nach Vorlage neu (38 px, Ebenen l1/l2/l3 mit zwei Rohröffnungen, wie MUSTER.ritl/PPTX.ritl) – das alte 48er-Bild lief bis an den Rand und wirkte abgeschnitten und zu groß; Favicon mit demselben Motiv.
