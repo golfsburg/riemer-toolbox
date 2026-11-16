@@ -3,6 +3,14 @@
 GPS-Tracks (GPX) lokal im Browser in 2D und 3D darstellen, analysieren, bearbeiten und animieren · #ritl_track
 Neueste Version oben. Versionen ≤ V1.9 in Google AI Studio entwickelt und nachträglich zusammengefasst (keine Einzelstände erhalten).
 
+## V2.4 · 16.11.2026 · DEV
+**Geändert**
+- Header auf den zentralen Header RITL-UI umgestellt (Kit `ritl-ui`, Stand 1.1): App-Bild, Eyebrow, TRACK.ritl mit Edition, Kanal und Version · Datum; rechts Favoriten, Backup (mit Backup-Symbol) und Neu beginnen als eckige Chips, dann `?` · DE/EN · Hell/Dunkel · An-/Abmelden als runde Chips, Toolbox-Logo und „RIEMER Tools“
+- Hell/Dunkel, Sprache und Anmelden/Abmelden übernimmt das Kit; künftige Header-Versionen kommen automatisch über den Lizenzserver
+
+**Entfernt**
+- Eigener Header-Code der App (React-Header, eigene Knöpfe für Hell/Dunkel, Sprache, Abmelden)
+
 ## V2.3 · 15.11.2026 · DEV
 **Geändert**
 - Header: Anleitung nur noch als runder „?“-Knopf; die Arbeitsschritte (Daten laden, Auswählen, Animieren, Exportieren) entfallen
