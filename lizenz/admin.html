@@ -548,7 +548,7 @@
       var live = {}, t = toolById(id), eds = ["standard"].concat(((t && t.editions) || []).map(function (e) { return e.id; }));
       r.versions.forEach(function (v) { var k = (v.edition || "standard") + "|" + v.channel; if (v.active && !live[k]) live[k] = v.id; });
       $("verrows").innerHTML = r.versions.map(function (v) {
-        var acts = "", ed = v.edition || "standard";
+        var acts = '<button class="b" data-vact="open" data-vid="' + v.id + '" title="Diese Version in einem neuen Tab öffnen (Admin-Vorschau, Daten als Kopie)">↗ Öffnen</button>', ed = v.edition || "standard";
         if (v.active && NEXT[v.channel]) acts += '<button class="b pri" data-vact="promote" data-vid="' + v.id + '" data-to="' + NEXT[v.channel] + '">Freigeben → ' + CH[NEXT[v.channel]] + "</button>";
         acts += v.active ? '<button class="b" data-vact="off" data-vid="' + v.id + '">Zurückziehen</button>'
                          : '<button class="b" data-vact="on" data-vid="' + v.id + '">Reaktivieren</button>';
@@ -722,6 +722,7 @@
   $("verrows").addEventListener("click", function (e) {
     var b = e.target.closest("button[data-vact]"); if (!b) return;
     var id = b.dataset.vid, a = b.dataset.vact, p;
+    if (a === "open") { openVersion(id); return; }
     if (a === "promote") p = api("version_set", { version_id: id, channel: b.dataset.to });
     if (a === "off") { if (!confirm("Version zurückziehen? Sie wird nicht mehr ausgeliefert.")) return; p = api("version_set", { version_id: id, active: false }); }
     if (a === "on") p = api("version_set", { version_id: id, active: true });
@@ -729,6 +730,46 @@
     p && p.then(function (r) { if (r.ok) { toast("Gespeichert ✓"); load().then(function () { openVersions(verTool); }); } });
   });
 
+  /* ── Admin-Vorschau einer bestimmten Version („↗ Öffnen“) ──
+     Holt das HTML genau dieser Version und öffnet es in einem neuen Tab, in einem isolierten Rahmen (sandbox, eigener Ursprung):
+     - window.RITL wie vom Lizenzserver (Version, Datum, Kanal, Edition) → Header zeigt V#.# · Datum
+     - localStorage = KOPIE der Daten dieses Browsers ohne Lizenzschlüssel; Änderungen gehen beim Schließen verloren,
+       zentrale Backups/Einstellungen werden aus der Vorschau nie geschrieben. */
+  function openVersion(id) {
+    var w = window.open("", "_blank");
+    if (!w) { toast("Bitte Pop-ups für diese Seite erlauben."); return; }
+    try { w.document.write('<p style="font:14px Inter,system-ui,sans-serif;padding:24px;color:#5F6773">Lade Version …</p>'); } catch (e) {}
+    api("version_html", { version_id: id }).then(function (r) {
+      if (!r || !r.ok) { try { w.close(); } catch (e) {} toast("Version konnte nicht geladen werden" + (r && r.error ? " (" + r.error + ")" : "")); return; }
+      w.location.href = URL.createObjectURL(new Blob([previewPage(r)], { type: "text/html" }));
+    }).catch(function () { try { w.close(); } catch (e) {} toast("Keine Verbindung zum Lizenzserver"); });
+  }
+  function vLabel(v) { var m = /(\d+)(?:\.(\d+))?/.exec(String(v || "")); return m ? "V" + m[1] + "." + (m[2] || "0") : ""; }
+  function vDate(iso) { var d = new Date(iso); if (isNaN(d)) return ""; return d.toLocaleDateString("de-AT", { timeZone: "Europe/Vienna", day: "2-digit", month: "2-digit", year: "numeric" }); }
+  function previewPage(r) {
+    var seed = {};
+    try { Object.keys(localStorage).forEach(function (k) { if (!/^riemer-(lizenz|portal|admin)/.test(k)) seed[k] = localStorage.getItem(k); }); } catch (e) {}
+    var info = { tool: r.tool, version: r.version, version_label: vLabel(r.version), release_date: vDate(r.released_at), channel: r.channel,
+                 edition: r.edition, edition_name: r.edition_name, customer: "Admin-Vorschau", email: null, preview: true };
+    var J = function (o) { return JSON.stringify(o).replace(/</g, "\\u003c"); };
+    var shim = "<script>(function(){var mk=function(seed){var S=Object.assign({},seed),A={getItem:function(k){return Object.prototype.hasOwnProperty.call(S,k)?S[k]:null},setItem:function(k,v){S[k]=String(v)},removeItem:function(k){delete S[k]},clear:function(){Object.keys(S).forEach(function(k){delete S[k]})},key:function(i){var k=Object.keys(S);return i<k.length?k[i]:null}};" +
+      "return new Proxy(S,{get:function(t,p){if(p==='length')return Object.keys(t).length;if(Object.prototype.hasOwnProperty.call(A,p))return A[p];return t[p]},set:function(t,p,v){t[p]=String(v);return true}})};" +
+      "try{Object.defineProperty(window,'localStorage',{value:mk(" + J(seed) + "),configurable:true})}catch(e){}try{Object.defineProperty(window,'sessionStorage',{value:mk({}),configurable:true})}catch(e){}" +
+      "})();window.RITL=Object.freeze(" + J(info) + ");<\/script>";
+    var html = String(r.html), m = /<head[^>]*>/i.exec(html);
+    html = m ? html.slice(0, m.index + m[0].length) + shim + html.slice(m.index + m[0].length) : shim + html;
+    var CHN = { stable: "Stabil", beta: "Beta", dev: "Entwicklung" }[r.channel] || r.channel;
+    var title = (r.tool_name || r.tool) + " " + vLabel(r.version) + " · Admin-Vorschau";
+    var bar = esc(r.tool_name || r.tool) + " · <b>" + esc(vLabel(r.version)) + "</b> (" + esc(r.version) + ") · " + esc(vDate(r.released_at)) + " · " + esc(CHN) + " · " + esc(r.edition_name || "Standard") + (r.active ? "" : " · zurückgezogen");
+    return '<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>' + esc(title) + "</title>" +
+      "<style>html,body{margin:0;height:100%;background:#1B1F24}body{display:flex;flex-direction:column}" +
+      ".pvbar{flex:none;display:flex;align-items:center;gap:12px;padding:7px 14px;background:#1B1F24;color:#D6DAE0;font:500 12.5px/18px Inter,system-ui,sans-serif;border-bottom:2px solid #C2410C}" +
+      ".pvbar .tag{font:600 11px/16px 'JetBrains Mono',ui-monospace,monospace;letter-spacing:1px;padding:2px 7px;border-radius:3px;background:#C2410C;color:#fff}" +
+      ".pvbar .hint{margin-left:auto;color:#9AA3AF;font-size:12px}iframe{flex:1;border:0;width:100%;background:#fff}" +
+      "@media(max-width:860px){.pvbar .hint{display:none}}</style></head><body>" +
+      '<div class="pvbar"><span class="tag">ADMIN-VORSCHAU</span><span>' + bar + '</span><span class="hint">Daten = Kopie aus diesem Browser · Änderungen werden nicht gespeichert · keine Lizenz, kein zentrales Backup</span></div>' +
+      '<iframe sandbox="allow-scripts allow-modals allow-popups allow-popups-to-escape-sandbox allow-downloads allow-forms" title="' + esc(title) + '" srcdoc="' + html.replace(/&/g, "&amp;").replace(/"/g, "&quot;") + '"></iframe></body></html>';
+  }
   function status(l) {
     if (!l.active) return '<span class="pill p-bad">gesperrt</span>';
     if (l.expires_at && new Date(l.expires_at) < new Date()) return '<span class="pill p-bad">abgelaufen</span>';
