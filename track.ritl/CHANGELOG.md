@@ -3,6 +3,10 @@
 GPS-Tracks (GPX) lokal im Browser in 2D und 3D darstellen, analysieren, bearbeiten und animieren · #ritl_track
 Neueste Version oben. Versionen ≤ V1.9 in Google AI Studio entwickelt und nachträglich zusammengefasst (keine Einzelstände erhalten).
 
+## V2.5 · 16.11.2026 · DEV
+**Neu**
+- Übergabe aus DRIVE.ritl: Strecken (GPX) aus anderen RIEMER Tools werden beim Start bzw. bei `#ritl-handoff` aus der Übergabe im Browser übernommen, auch wenn TRACK.ritl schon offen ist (BroadcastChannel). Nur Übergaben an TRACK.ritl, höchstens 10 Minuten alt; danach wird die Übergabe gelöscht. Hinweis „n Strecke(n) aus DRIVE.ritl übernommen“, TRACK.ritl öffnet das Modul TRACK.ritl.
+
 ## V2.4 · 16.11.2026 · DEV
 **Geändert**
 - Header auf den zentralen Header RITL-UI umgestellt (Kit `ritl-ui`, Stand 1.1): App-Bild, Eyebrow, TRACK.ritl mit Edition, Kanal und Version · Datum; rechts Favoriten, Backup (mit Backup-Symbol) und Neu beginnen als eckige Chips, dann `?` · DE/EN · Hell/Dunkel · An-/Abmelden als runde Chips, Toolbox-Logo und „RIEMER Tools“
