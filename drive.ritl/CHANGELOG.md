@@ -3,6 +3,17 @@
 Fahrtenbuch, Fahrzeuge, Tanken, Werkstatt, Pickerl §57a und Statistik · #ritl_drive
 Neueste Version oben.
 
+## V1.3 · 16.11.2026 · DEV
+**Neu**
+- Geräte-Abgleich über das zentrale Backup (Stufe datenbank): Änderungen gehen automatisch auf den Server, beim Öffnen und beim Zurückkehren in die App wird der neueste Stand der anderen Geräte geholt; bei Konflikt Rückfrage (Server-Stand übernehmen oder eigenen hochladen). „Jetzt abgleichen“ im Backup-Dialog.
+- Tanken: aus zwei von Menge, Preis je Einheit und Betrag wird der dritte berechnet (die zuletzt eingegebenen zwei zählen).
+
+**Geändert**
+- Zentrales Backup startet mit Stufe datenbank.
+
+**Behoben**
+- iPhone/iPad: JSON-Dateien (Backup, Favoriten) lassen sich in der Dateiauswahl wählen.
+
 ## V1.2 · 16.11.2026 · DEV
 **Neu**
 - Driverslog-Pro-Export wird erkannt (Fahrten und Ausgaben): Spalten fertig zugeordnet, Kategorie aus Fahrtzweck bzw. distanceBusiness/Commute/…, Ausgaben-Datei wird in Tankvorgänge, Ausgaben und Pickerl-Begutachtungen aufgeteilt, Werkstätten aus dem Ort übernommen.
