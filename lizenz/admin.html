@@ -883,7 +883,7 @@
       '<button type="button"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 4h10v8H2zM2 4l1.5-2.5h7L12 4M5 8h4"/></svg><span class="lbl">Backup</span></button>' +
       '<button type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg><span class="lbl">Neu beginnen</span></button></div>';
     var doc = '<!doctype html><html lang="de" data-theme="' + th + '"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">' +
-      '<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">' +
+      '<link rel="stylesheet" href="https://golfsburg.github.io/riemer-toolbox/fonts/fonts.css">' +
       "<style>" + UIP_TOKENS + "</style>" + (ritl ? "<script>window.RITL=Object.freeze(" + JSON.stringify(ritl) + ");<\/script>" : "") +
       "<script>try{Object.defineProperty(window,'localStorage',{value:(function(){var S={riemer-theme:''};return{getItem:function(k){return S[k]||null},setItem:function(k,v){S[k]=String(v)},removeItem:function(k){delete S[k]}}})(),configurable:true})}catch(e){}<\/script>".replace("riemer-theme:''", "'riemer-theme':'" + th + "'") +
       '</head><body><header data-ritl-header data-name="DEMO" data-eyebrow="BEISPIEL-TOOL · #ritl_demo" data-tool="demo-ritl" data-ver="V1.4" data-date="16.11.2026">' + icon + steps + acts + "</header>" +
