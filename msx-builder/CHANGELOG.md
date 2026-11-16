@@ -4,6 +4,18 @@
 Start: index.html im Browser öffnen (Chrome/Edge/Firefox) oder auf GitHub Pages ablegen.
 Beim Öffnen wird die Beispielzeichnung „Beispiel_Schnitt.dxf“ geladen.
 
+## V4.8 · 16.11.2026 · DEV
+**Neu**
+- Header über den zentralen Header RITL-UI 1.1 (wie MUSTER.ritl V2.8): Titel MSX.ritl mit Edition, Kanal und Version · Datum, Tool-Knöpfe Beispiel / .msx / ZIP als Symbol-Chips, dazu Anleitung, DE/EN, Hell/Dunkel, An-/Abmelden, Toolbox-Logo und RIEMER Tools. Header-Updates kommen künftig zentral vom Lizenzserver.
+- Modellbereich „Fixiert“ (Standard ein, Idee I001): Modell bleibt oben stehen und passt sich der Fensterhöhe an, die Spalten scrollen eigenständig; Aufteilung über den Griff unter dem Modell, Doppelklick setzt zurück.
+
+**Geändert**
+- Schriften selbst gehostet über riemer-toolbox/fonts (keine Google Fonts mehr).
+- Eigener Code für Hell/Dunkel und den DE/EN-Knopf entfernt (macht das Kit).
+
+**Behoben**
+- Fangsymbol im Modellbereich blockiert keine Klicks mehr.
+
 Neu in 4.7 (14.11.2026)
 - Anzahl (Stückzahl der Konstruktion) je Unterprojekt: aus RIEMER Tools automatisch = Anzahl der Platzhalter
   der Gruppe (group.count, bzw. groups[].count im Projekt-ZIP), sonst im Projektbereich unter „Anzahl“ eintragen.
