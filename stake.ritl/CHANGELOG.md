@@ -3,6 +3,11 @@
 Beziehungs- und Stakeholder-Map für Firmen, Ansprechpartner, Projekte und Gewerke · #ritl_stake
 Neueste Version oben.
 
+## V1.4 · 16.11.2026 · DEV
+**Geändert**
+- Header auf den zentralen Header **RITL-UI 1.1** umgestellt (wie MUSTER.ritl V2.8): Favoriten, Backup und Neu beginnen als Symbol-Chips (Text als Tooltip, Backup-Symbol bleibt sichtbar), dazu `?` Anleitung, DE/EN, Hell/Dunkel, An-/Abmelden, Toolbox-Logo und „RIEMER Tools“. Künftige Header-Versionen kommen über den Lizenzserver, ohne neue STAKE-Version.
+- Hell/Dunkel und der Sprachknopf werden vom Header gesteuert; STAKE.ritl hat dafür keinen eigenen Code mehr.
+
 ## V1.3 · 15.11.2026 · DEV
 **Neu**
 - Backup-Stufen wie MUSTER.ritl V2.5 (Skill-Regel 21): **settings** (Farben, Ansichten, Filter, Favoriten, Sprache) und **datenbank** (settings + Map, Matrix, Gewerke, FOKUS). Stufe **storage** folgt später.
