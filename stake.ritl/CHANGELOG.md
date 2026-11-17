@@ -3,6 +3,19 @@
 Beziehungs- und Stakeholder-Map für Firmen, Ansprechpartner, Projekte und Gewerke · #ritl_stake
 Neueste Version oben.
 
+## V1.5 · 17.11.2026 · DEV
+**Neu**
+- **Import Excel/CSV** (Idee STAKE-03, Stufe Firmen): Salesforce-Blatt „Accounts Involved“ – Account Name = Firma, Related Project Element = Projekt, Rolle = Rolle der Firma im Projekt. Mehrere Zeilen einer Firma werden zu einer Firma mit mehreren SAP-Konten (Kunden-ID · Kontengruppe · Ort); dazu Fokus Level. Spalten werden automatisch erkannt und lassen sich zuordnen, Vorschau mit neu/vorhanden, keine Dubletten bei erneutem Import, Rückgängig möglich.
+- **FOKUS aktualisieren**: überschreibt den aktiven FOKUS mit den aktuellen Filtern (neue Ausgangsfilter), dem Filtermodus und der aktuellen Anordnung als Startansicht.
+- Auswahlfenster einer Firma zeigt Fokus Level und SAP-Konten.
+
+**Geändert**
+- FOKUS: Die Filter, mit denen ein FOKUS angelegt wurde, sind darin fest (Schloss). Weitere Filter lassen sich dazu setzen und unabhängig oder gekoppelt kombinieren; sie bleiben je FOKUS gespeichert. „Filter zurücksetzen“ führt im FOKUS auf die Ausgangsfilter zurück.
+- Beteiligungen ohne Gewerk zeigen die Rolle der Firma als Beschriftung.
+
+**Behoben**
+- „Filter zurücksetzen“ war auch ohne gesetzte Filter sichtbar.
+
 ## V1.4 · 16.11.2026 · DEV
 **Geändert**
 - Header auf den zentralen Header **RITL-UI 1.1** umgestellt (wie MUSTER.ritl V2.8): Favoriten, Backup und Neu beginnen als Symbol-Chips (Text als Tooltip, Backup-Symbol bleibt sichtbar), dazu `?` Anleitung, DE/EN, Hell/Dunkel, An-/Abmelden, Toolbox-Logo und „RIEMER Tools“. Künftige Header-Versionen kommen über den Lizenzserver, ohne neue STAKE-Version.
