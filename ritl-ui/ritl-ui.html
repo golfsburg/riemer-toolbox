@@ -1,8 +1,9 @@
 <!--ritl-ui:start-->
 <style id="ritl-ui-css">
-/* RITL-UI 1.1 – zentraler Header der RIEMER Tools. Wird vom Lizenzserver beim Ausliefern durch die aktuelle Version ersetzt.
+/* RITL-UI 1.2 – zentraler Header der RIEMER Tools. Wird vom Lizenzserver beim Ausliefern durch die aktuelle Version ersetzt.
    Maße nach PPTX.ritl (Standard): Header 64 px, App-Bild 38 px, Titel 22 px, Eyebrow 10,5 px, Chips 34 px.
-   Rechts immer kompakt: Tool-Knöpfe als eckige Chips nur mit Symbol, System-Knöpfe als runde Chips. Nur Tokens der Farbkarte. */
+   Rechts immer kompakt: Tool-Knöpfe als eckige Chips nur mit Symbol, System-Knöpfe als runde Chips. Nur Tokens der Farbkarte –
+   Ausnahme: Schriftzug „RIEMER Tools“ und Toolbox-Logo bleiben auch bei Lizenz-Farben im RIEMER-Blau (Marke). */
 header[data-ritl-header]{position:sticky;top:0;z-index:40;background:var(--surface);border-bottom:1px solid var(--line);font-family:var(--sans,"Inter",system-ui,sans-serif)}
 header[data-ritl-header]:not(.ritl-h)>*{visibility:hidden}
 .ritl-in{max-width:var(--page-max,2048px);margin:0 auto;height:64px;padding:0 22px;display:flex;align-items:center;gap:20px;box-sizing:border-box}
@@ -34,7 +35,8 @@ header[data-ritl-header]:not(.ritl-h)>*{visibility:hidden}
 .ritl-tb{flex:none;display:inline-flex;margin-left:4px;line-height:0;border-radius:7px}
 .ritl-tb svg{width:30px;height:30px}
 .ritl-wm{flex:none;margin-left:2px;font:800 15px/1 var(--sans,"Inter",system-ui,sans-serif);letter-spacing:-.01em;color:var(--ink);text-decoration:none;white-space:nowrap}
-.ritl-wm span{color:var(--accent-text)}
+.ritl-wm span{color:#1F5FC2}
+[data-theme="dark"] .ritl-wm span{color:#6EA2FF}
 header[data-ritl-header] :is(button,a):focus-visible{outline:2px solid var(--brand);outline-offset:2px}
 @media(max-width:1500px){.ritl-mid{display:none}}
 @media(max-width:1000px){.ritl-ver{display:none}}
@@ -46,7 +48,7 @@ header[data-ritl-header] :is(button,a):focus-visible{outline:2px solid var(--bra
 @media print{header[data-ritl-header]{position:static}.ritl-act{display:none}}
 </style>
 <script id="ritl-ui-js">
-/* RITL-UI 1.1 – baut den Header aus <header data-ritl-header …> auf. Attribute:
+/* RITL-UI 1.2 – baut den Header aus <header data-ritl-header …> auf. Attribute:
    data-name="MUSTER" (Pflicht) · data-eyebrow="…" · data-tool="muster-ritl" · data-ver="V2.8" · data-date="16.11.2026"
    data-help="none" (ohne Anleitung) · data-lang="none" (ohne DE/EN) · data-login="URL" (Anmelden-Ziel)
    Kinder: [data-ritl-icon] (App-Bild, SVG) · [data-ritl-center] (optional, Mitte) · [data-ritl-actions] (Tool-Knöpfe: Symbol + Text in <span class="lbl"> – der Text erscheint als Tooltip)
@@ -54,7 +56,7 @@ header[data-ritl-header] :is(button,a):focus-visible{outline:2px solid var(--bra
    Ereignisse: ritl:theme {theme} · ritl:lang {lang}. API: window.RITLUI.lang(l) · .theme(t) · .version */
 (function () {
   "use strict";
-  var VERSION = "1.1";
+  var VERSION = "1.2";
   var h = document.querySelector("header[data-ritl-header]");
   if (!h || h.classList.contains("ritl-h")) return;
   var d = h.dataset, R = window.RITL || {}, root = document.documentElement;

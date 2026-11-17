@@ -179,6 +179,13 @@
   /* Dialoge (Lizenz bearbeiten, Editionen) */
   dialog.dlg{width:min(1040px,calc(100vw - 32px));max-height:calc(100vh - 48px);padding:0;border:1px solid var(--line);border-radius:var(--radius-panel);background:var(--surface);color:var(--ink);box-shadow:0 24px 64px rgba(0,0,0,.35)}
   dialog.dlg.sm{width:min(640px,calc(100vw - 32px))}
+  .thsugg{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.thsugg:empty{display:none}
+  .thsugg button{display:inline-flex;align-items:center;gap:8px;padding:5px 10px 5px 5px;border:1px solid var(--line2);border-radius:99px;background:var(--surface);color:var(--ink);font:500 12px var(--mono);cursor:pointer}
+  .thsugg button:hover{border-color:var(--brand)}.thsugg i{width:22px;height:22px;border-radius:50%;border:1px solid rgba(0,0,0,.15)}
+  .thout{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin-top:12px}
+  .thout .sw{border:1px solid var(--line);border-radius:10px;overflow:hidden;font-size:12px}
+  .thout .sw div{height:34px}.thout .sw span{display:block;padding:6px 8px;color:var(--ink2)}.thout .sw b{font:500 11px var(--mono);color:var(--muted)}
+  .thout .ok{color:var(--good)}.thout .bad{color:var(--warn)}
   dialog.dlg::backdrop{background:rgba(15,18,22,.55)}
   .dlg form,.dlg .frame{display:flex;flex-direction:column;max-height:calc(100vh - 50px)}
   .dlg-head{display:flex;align-items:center;gap:12px;padding:18px 24px;border-bottom:1px solid var(--line)}
@@ -412,6 +419,21 @@
       <p class="hint">„Bekommt“ zeigt die Version, die mit dieser Einstellung ausgeliefert wird. Gibt es für eine Edition noch keine Version, gilt automatisch Standard.</p>
       <div class="grid"><div><label for="lf-club">Verein für SCORE.ritl (Ergebnisse)</label><select id="lf-club"><option value="">– kein Verein –</option></select>
         <span class="hint">bestimmt, welche Ergebnisdaten diese Lizenz sieht · Vereine verwaltest du im Reiter „Vereine“</span></div></div>
+      <div id="thsec">
+      <div class="sect"><h3>Farben · Corporate Design</h3><span class="hint" id="th-state"></span></div>
+      <p class="hint" style="margin-top:-4px">Hauptfarbe der Firma statt RIEMER-Blau – gilt für alle Tools mit RIEMER-Design (Knöpfe, Reiter, App-Bild, Header). Grün/Orange/Rot und der Schriftzug „RIEMER Tools“ bleiben. Wird unabhängig von „Speichern“ gesichert.</p>
+      <div class="grid">
+        <div><label for="th-tool">Gilt für</label><select id="th-tool"></select></div>
+        <div><label for="th-hex">Hauptfarbe</label><div class="row" style="gap:8px;align-items:center"><input type="color" id="th-pick" value="#1F5FC2" style="width:46px;height:38px;padding:2px;flex:none" aria-label="Farbe wählen"><input id="th-hex" class="mono" value="#1F5FC2" maxlength="7" style="width:110px"></div></div>
+      </div>
+      <div class="grid">
+        <div><label for="th-file">Aus Logo oder Bild der Farbskala</label><input type="file" id="th-file" accept="image/png,image/jpeg,image/svg+xml,image/webp,image/gif"></div>
+        <div><label for="th-scale">Aus Farbskala (Hex-Werte)</label><div class="row" style="gap:8px"><input id="th-scale" class="mono" placeholder="#E30613, #1D1D1B, #F2F2F2"><button type="button" class="b" id="th-scale-go">Übernehmen</button></div></div>
+      </div>
+      <div id="th-sugg" class="thsugg"></div>
+      <div id="th-out" class="thout"></div>
+      <div class="row" style="gap:8px;margin-top:10px;flex-wrap:wrap"><button type="button" class="b" id="th-prev">👁 Vorschau</button><span class="sp"></span><button type="button" class="b dan" id="th-del">Auf RIEMER-Blau zurücksetzen</button><button type="button" class="b pri" id="th-save">Farben speichern</button></div>
+      </div>
     </div>
     <div class="dlg-foot"><span class="hint" id="lic-sum"></span><span class="sp"></span>
       <button type="button" class="b" data-close>Abbrechen</button><button type="submit" class="b pri" id="lic-save">Speichern</button></div>
@@ -839,7 +861,7 @@
   $("uirows").addEventListener("click", function (e) {
     var b = e.target.closest("button[data-uiact]"); if (!b) return;
     var id = b.dataset.uid, a = b.dataset.uiact, p;
-    if (a === "prev") { uiPreview(id, b.dataset.ver); return; }
+    if (a === "prev") { UIP.theme = null; uiPreview(id, b.dataset.ver); return; }
     if (a === "get") { api("ui_get", { id: id }).then(function (r) { if (!r.ok) return;
       var u = URL.createObjectURL(new Blob([r.block], { type: "text/html" })), l = document.createElement("a");
       l.href = u; l.download = "ritl-ui_V" + r.version + ".html"; document.body.appendChild(l); l.click(); l.remove(); setTimeout(function () { URL.revokeObjectURL(u); }, 4000); }); return; }
@@ -864,12 +886,13 @@
     '[data-theme="dark"]{--accent-text:#6EA2FF;--ink:#F4F5F7;--ink2:#D6DAE0;--muted:#9AA3AF;--surface:#1B1F24;--surface-muted:#23272E;--line:#323843;--line2:#3D4450;--good:#4FC7B5;--warn:#FB8A55;--red:#F87171;color-scheme:dark}' +
     'body{margin:0;background:var(--surface-muted);color:var(--ink);font:400 14px/20px var(--sans)}.ico-l1{fill:color-mix(in srgb,var(--brand) 30%,var(--surface))}.ico-l2{fill:color-mix(in srgb,var(--brand) 60%,var(--surface))}.ico-l3{fill:var(--brand)}.ico-d{fill:var(--on-brand)}' +
     '.steps{display:flex;gap:8px;align-items:center;font:600 13px var(--sans);color:var(--muted)}.steps i{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;border:1px solid var(--line2);font:600 11px var(--mono);font-style:normal;margin-right:6px}.steps .now{color:var(--accent-text)}.steps .now i{background:var(--brand);border-color:var(--brand);color:var(--on-brand)}' +
-    'main{padding:22px;color:var(--muted)}';
+    'main{padding:18px 22px;color:var(--muted)}.rb{display:flex;gap:4px;margin:-18px -22px 16px;padding:8px 22px 0;background:var(--surface-muted);border-bottom:1px solid var(--line)}.rb span{padding:8px 16px;border-radius:10px 10px 0 0;font:800 14px var(--sans);color:var(--ink2)}.rb .on{background:var(--surface);box-shadow:inset 0 3px 0 var(--brand);color:var(--ink)}.rb em{font-style:normal;color:var(--accent-text)}' +
+    '.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.p,.s{border-radius:8px;padding:9px 16px;font:600 13px var(--sans);border:1px solid var(--brand)}.p{background:var(--brand);color:var(--on-brand)}.p:hover{background:var(--brand-hover)}.s{background:var(--surface);color:var(--ink);border-color:var(--line2)}a{color:var(--accent-text);font-weight:600}.bd{font:600 11px var(--mono);padding:3px 8px;border-radius:3px;background:var(--brand);color:var(--on-brand)}.pr{width:160px;height:8px;border-radius:9px;background:var(--line)}.pr i{display:block;height:100%;border-radius:9px;background:var(--brand)}';
   function uiPreview(id, ver) {
     api("ui_get", { id: id }).then(function (r) {
       if (!r.ok) return;
       UIP.block = r.block; UIP.ver = r.version;
-      $("uiprev-title").textContent = "Vorschau Header · RITL-UI " + r.version;
+      $("uiprev-title").textContent = "Vorschau Header · RITL-UI " + r.version + (UIP.theme ? " · Farben " + UIP.theme.light["--brand"] : "");
       uiRender(); $("uiprev").showModal();
     });
   }
@@ -884,13 +907,139 @@
       '<button type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg><span class="lbl">Neu beginnen</span></button></div>';
     var doc = '<!doctype html><html lang="de" data-theme="' + th + '"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">' +
       '<link rel="stylesheet" href="https://golfsburg.github.io/riemer-toolbox/fonts/fonts.css">' +
-      "<style>" + UIP_TOKENS + "</style>" + (ritl ? "<script>window.RITL=Object.freeze(" + JSON.stringify(ritl) + ");<\/script>" : "") +
+      "<style>" + UIP_TOKENS + "</style>" + (UIP.theme ? "<style>:root{" + Object.keys(UIP.theme.light).map(function (k) { return k + ":" + UIP.theme.light[k]; }).join(";") + '}[data-theme="dark"]{' + Object.keys(UIP.theme.dark).map(function (k) { return k + ":" + UIP.theme.dark[k]; }).join(";") + "}</style>" : "") + (ritl ? "<script>window.RITL=Object.freeze(" + JSON.stringify(ritl) + ");<\/script>" : "") +
       "<script>try{Object.defineProperty(window,'localStorage',{value:(function(){var S={riemer-theme:''};return{getItem:function(k){return S[k]||null},setItem:function(k,v){S[k]=String(v)},removeItem:function(k){delete S[k]}}})(),configurable:true})}catch(e){}<\/script>".replace("riemer-theme:''", "'riemer-theme':'" + th + "'") +
       '</head><body><header data-ritl-header data-name="DEMO" data-eyebrow="BEISPIEL-TOOL · #ritl_demo" data-tool="demo-ritl" data-ver="V1.4" data-date="16.11.2026">' + icon + steps + acts + "</header>" +
-      UIP.block + "<main>Inhalt des Tools …</main><script>document.getElementById('helpBtn').onclick=function(){alert('Anleitung')};<\/script></body></html>";
+      UIP.block + '<main><nav class="rb"><span class="on">AKTIV<em>.ritl</em></span><span>MODUL<em>.ritl</em></span></nav><div class="row"><button class="p">Hauptaktion</button><button class="s">Nebenaktion</button><a href="#">Link</a><span class="bd">IN ARBEIT</span><span class="pr"><i style="width:62%"></i></span></div></main>' + "<script>document.getElementById('helpBtn').onclick=function(){alert('Anleitung')};<\/script></body></html>";
     var f = $("uip-frame"); f.style.width = w + "px"; f.setAttribute("sandbox", "allow-scripts allow-modals"); f.srcdoc = doc;
   }
   ["uip-w", "uip-t", "uip-c", "uip-e", "uip-l", "uip-m"].forEach(function (k) { $(k).addEventListener("change", uiRender); });
+  /* ── Farbpalette je Lizenz (Corporate Design) ──
+     Aus einer Hauptfarbe werden Hover, Akzentfarbe (Hell/Dunkel) und Tönung abgeleitet; Kontrast mind. 4,5:1.
+     Gespeichert werden nur die Tokens; der Lizenzserver setzt sie beim Ausliefern als <style id="ritl-theme"> ein. */
+  var TH = { lic: null, themes: [], sugg: [] };
+  function hx2rgb(h) { h = h.replace("#", ""); return [0, 2, 4].map(function (i) { return parseInt(h.substr(i, 2), 16); }); }
+  function rgb2hx(r) { return "#" + r.map(function (v) { return ("0" + Math.round(Math.max(0, Math.min(255, v))).toString(16)).slice(-2); }).join("").toUpperCase(); }
+  function lum(h) { return hx2rgb(h).map(function (v) { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }).reduce(function (a, v, i) { return a + v * [0.2126, 0.7152, 0.0722][i]; }, 0); }
+  function contrast(a, b) { var x = lum(a), y = lum(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); }
+  function rgb2hsl(r) { var R = r[0] / 255, G = r[1] / 255, B = r[2] / 255, mx = Math.max(R, G, B), mn = Math.min(R, G, B), l = (mx + mn) / 2, h = 0, s = 0;
+    if (mx !== mn) { var d = mx - mn; s = l > 0.5 ? d / (2 - mx - mn) : d / (mx + mn);
+      h = mx === R ? (G - B) / d + (G < B ? 6 : 0) : mx === G ? (B - R) / d + 2 : (R - G) / d + 4; h /= 6; } return [h, s, l]; }
+  function hsl2hx(h, s, l) { function f(p, q, t) { if (t < 0) t += 1; if (t > 1) t -= 1; return t < 1 / 6 ? p + (q - p) * 6 * t : t < 1 / 2 ? q : t < 2 / 3 ? p + (q - p) * (2 / 3 - t) * 6 : p; }
+    if (!s) return rgb2hx([l * 255, l * 255, l * 255]); var q = l < 0.5 ? l * (1 + s) : l + s - l * s, p = 2 * l - q;
+    return rgb2hx([f(p, q, h + 1 / 3) * 255, f(p, q, h) * 255, f(p, q, h - 1 / 3) * 255]); }
+  function deriveTheme(hex) {
+    hex = hex.toUpperCase();
+    var hsl = rgb2hsl(hx2rgb(hex)), h = hsl[0], s = hsl[1], l = hsl[2], b = hex, on = "#FFFFFF", n = 0;
+    if (contrast("#FFFFFF", hex) < 4.5 && contrast("#1B1F24", hex) >= 4.5 && l >= 0.5) {
+      on = "#1B1F24";                                   // helle Firmenfarbe (z. B. Gelb): bleibt, Schrift darauf dunkel
+    } else {
+      while (contrast("#FFFFFF", b) < 4.5 && l > 0.05 && n++ < 60) { l -= 0.02; b = hsl2hx(h, s, l); }
+    }
+    var bl = rgb2hsl(hx2rgb(b))[2], hover = hsl2hx(h, s, Math.max(0.04, bl - 0.08)), tint = hsl2hx(h, Math.min(s, 0.65), 0.88);
+    var al = hsl[2], acc = hex; n = 0;                  // Akzent für Text auf Weiß
+    while (contrast(acc, "#FFFFFF") < 4.5 && al > 0.05 && n++ < 60) { al -= 0.02; acc = hsl2hx(h, s, al); }
+    var dl = Math.max(hsl[2], 0.6), accD = hsl2hx(h, s, dl); n = 0;  // Akzent für Text auf Dunkel
+    while (contrast(accD, "#1B1F24") < 4.5 && dl < 0.95 && n++ < 40) { dl += 0.02; accD = hsl2hx(h, s, dl); }
+    return { light: { "--brand": b, "--brand-hover": hover, "--accent-text": acc, "--tint": tint, "--on-brand": on }, dark: { "--accent-text": accD },
+             checks: { onBrand: contrast(on, b), accLight: contrast(acc, "#FFFFFF"), accDark: contrast(accD, "#1B1F24") }, adjusted: b !== hex, darkText: on !== "#FFFFFF" };
+  }
+  function thHex() { var v = $("th-hex").value.trim(); if (!/^#/.test(v)) v = "#" + v; return /^#[0-9a-fA-F]{6}$/.test(v) ? v.toUpperCase() : null; }
+  function thRender() {
+    var hx = thHex(); if (!hx) { $("th-out").innerHTML = '<span class="hint">Bitte Farbe als #RRGGBB angeben.</span>'; return; }
+    var t = deriveTheme(hx), c = t.checks, ck = function (v) { return '<em class="' + (v >= 4.5 ? "ok" : "bad") + '">' + v.toFixed(1).replace(".", ",") + ":1 " + (v >= 4.5 ? "✓" : "!") + "</em>"; };
+    var sw = function (col, name, info) { return '<div class="sw"><div style="background:' + col + '"></div><span>' + name + '<br><b>' + col + "</b>" + (info ? "<br>" + info : "") + "</span></div>"; };
+    $("th-out").innerHTML = sw(t.light["--brand"], "Hauptfarbe" + (t.adjusted ? " (abgedunkelt)" : ""), (t.darkText ? "Dunkle Schrift darauf " : "Weiß darauf ") + ck(c.onBrand)) +
+      sw(t.light["--brand-hover"], "Hover") + sw(t.light["--tint"], "Tönung") +
+      sw(t.light["--accent-text"], "Akzent hell", "auf Weiß " + ck(c.accLight)) +
+      sw(t.dark["--accent-text"], "Akzent dunkel", "auf Dunkel " + ck(c.accDark));
+    var hs = rgb2hsl(hx2rgb(hx)), red = (hs[0] < 0.035 || hs[0] > 0.95) && hs[1] > 0.45, grn = hs[0] > 0.4 && hs[0] < 0.5 && hs[1] > 0.4;
+    if (red || grn) $("th-out").insertAdjacentHTML("beforeend", '<div class="hint" style="grid-column:1/-1;color:var(--warn)">Hinweis: Die Farbe liegt nahe an ' + (red ? "Rot (Löschen/Fehler)" : "Grün (Erfolg)") + ' – Zustände sind dann schwerer zu unterscheiden. Ggf. eine andere Farbe der Firma wählen.</div>');
+  }
+  function thSet(hx) { $("th-hex").value = hx; $("th-pick").value = hx.toLowerCase(); thRender(); }
+  function thSugg(list, src) {
+    TH.sugg = list; TH.src = src;
+    $("th-sugg").innerHTML = list.length ? '<span class="hint" style="align-self:center">Vorschläge' + (src ? " aus " + esc(src) : "") + ":</span>" + list.map(function (h) {
+      return '<button type="button" data-th="' + h + '" title="Als Hauptfarbe übernehmen"><i style="background:' + h + '"></i>' + h + "</button>"; }).join("")
+      : '<span class="hint">Keine kräftigen Farben gefunden (nur Weiß, Schwarz oder Grau).</span>';
+    if (list.length) thSet(list[0]);
+  }
+  function analyzeImage(file) {
+    return new Promise(function (ok, bad) {
+      var rd = new FileReader();
+      rd.onerror = bad;
+      rd.onload = function () {
+        var img = new Image();
+        img.onerror = function () { bad(new Error("Bild konnte nicht gelesen werden")); };
+        img.onload = function () {
+          var W = 120, k = Math.min(W / (img.naturalWidth || W), W / (img.naturalHeight || W)), w = Math.max(1, Math.round((img.naturalWidth || W) * k)), h = Math.max(1, Math.round((img.naturalHeight || W) * k));
+          var cv = document.createElement("canvas"); cv.width = w; cv.height = h; var cx = cv.getContext("2d"); cx.drawImage(img, 0, 0, w, h);
+          var d = cx.getImageData(0, 0, w, h).data, B = {};
+          for (var i = 0; i < d.length; i += 4) {
+            if (d[i + 3] < 128) continue;
+            var r = [d[i], d[i + 1], d[i + 2]], hs = rgb2hsl(r);
+            if (hs[2] > 0.92 || hs[2] < 0.08 || hs[1] < 0.18) continue;
+            var key = r.map(function (v) { return v >> 4; }).join(",");
+            var e = B[key] || (B[key] = { n: 0, r: 0, g: 0, b: 0 }); e.n++; e.r += r[0]; e.g += r[1]; e.b += r[2];
+          }
+          var arr = Object.keys(B).map(function (k) { var e = B[k]; return { n: e.n, c: [e.r / e.n, e.g / e.n, e.b / e.n] }; }).sort(function (a, b) { return b.n - a.n; });
+          var out = [];
+          arr.forEach(function (x) { if (out.length >= 5) return;
+            var hx2 = rgb2hsl(x.c);
+            if (out.every(function (o) { var ho = rgb2hsl(o.c), dh = Math.abs(ho[0] - hx2[0]); dh = Math.min(dh, 1 - dh);
+              return dh > 0.045 && Math.hypot(o.c[0] - x.c[0], o.c[1] - x.c[1], o.c[2] - x.c[2]) > 48; })) out.push(x); });
+          ok(out.map(function (o) { return rgb2hx(o.c); }));
+        };
+        img.src = rd.result;
+      };
+      rd.readAsDataURL(file);
+    });
+  }
+  function thLoad(l) {
+    TH.lic = l; $("thsec").classList.toggle("hide", !l); if (!l) return;
+    var opts = [["*", "Alle Tools dieser Lizenz"]].concat(licTools(l).filter(function (t) { return l.tools.indexOf("*") >= 0 || l.tools.indexOf(t.id) >= 0; }).map(function (t) { return [t.id, t.name]; }));
+    $("th-tool").innerHTML = opts.map(function (o) { return '<option value="' + esc(o[0]) + '">' + esc(o[1]) + "</option>"; }).join("");
+    $("th-sugg").innerHTML = ""; $("th-file").value = ""; $("th-scale").value = ""; $("th-state").textContent = "lade …";
+    api("theme_get", { license_id: l.id }).then(function (r) { TH.themes = (r && r.themes) || []; thShow(); });
+  }
+  function thShow() {
+    var tl = $("th-tool").value, t = TH.themes.filter(function (x) { return x.tool === tl; })[0], all = TH.themes.filter(function (x) { return x.tool === "*"; })[0];
+    var eff = t || all;
+    $("th-state").innerHTML = t ? "eigene Farben aktiv · " + esc(t.brand) + " · " + fmtDT(t.updated_at) : all && tl !== "*" ? "übernimmt die Farben für alle Tools (" + esc(all.brand) + ")" : "RIEMER-Blau (Standard)";
+    thSet(eff ? eff.brand : "#1F5FC2"); $("th-del").disabled = !t;
+  }
+  $("th-tool").addEventListener("change", thShow);
+  $("th-pick").addEventListener("input", function () { $("th-hex").value = this.value.toUpperCase(); thRender(); });
+  $("th-hex").addEventListener("input", function () { var hx = thHex(); if (hx) $("th-pick").value = hx.toLowerCase(); thRender(); });
+  $("th-sugg").addEventListener("click", function (e) { var b = e.target.closest("button[data-th]"); if (b) thSet(b.dataset.th); });
+  $("th-file").addEventListener("change", function () { var f = this.files[0]; if (!f) return;
+    analyzeImage(f).then(function (list) { thSugg(list, f.name); }).catch(function (e) { toast(e.message || "Bild konnte nicht gelesen werden"); }); });
+  $("th-scale-go").addEventListener("click", function () {
+    var list = ($("th-scale").value.match(/#?[0-9a-fA-F]{6}\b/g) || []).map(function (h) { return ("#" + h.replace("#", "")).toUpperCase(); })
+      .filter(function (h, i, a) { return a.indexOf(h) === i; })
+      .sort(function (a, b) { var sc = function (h) { var x = rgb2hsl(hx2rgb(h)); return x[1] * (1 - Math.abs(x[2] - 0.45)) + (contrast("#FFFFFF", h) >= 4.5 ? 0.5 : 0) - (x[1] < 0.18 ? 1 : 0); }; return sc(b) - sc(a); });
+    if (!list.length) { toast("Keine Hex-Werte gefunden (Format #RRGGBB)."); return; }
+    thSugg(list.slice(0, 8), "Farbskala");
+  });
+  $("th-save").addEventListener("click", function () {
+    var hx = thHex(); if (!hx || !TH.lic) return; var t = deriveTheme(hx);
+    api("theme_set", { license_id: TH.lic.id, tool: $("th-tool").value, brand: hx, tokens: { light: t.light, dark: t.dark },
+      source: { from: TH.src || "manuell", vorschlaege: TH.sugg || [] } }).then(function (r) {
+      if (r.ok) { toast("Farben gespeichert ✓ – gelten ab dem nächsten Öffnen der Tools"); thLoad(TH.lic); }
+    });
+  });
+  $("th-del").addEventListener("click", function () {
+    if (!TH.lic || !confirm("Eigene Farben für „" + $("th-tool").selectedOptions[0].textContent + "“ entfernen und auf RIEMER-Blau zurücksetzen?")) return;
+    api("theme_delete", { license_id: TH.lic.id, tool: $("th-tool").value }).then(function (r) { if (r.ok) { toast("Zurückgesetzt ✓"); thLoad(TH.lic); } });
+  });
+  $("th-prev").addEventListener("click", function () {
+    var hx = thHex(); if (!hx) return; var t = deriveTheme(hx);
+    api("ui_list").then(function (r) {
+      if (!r.ok) return; var live = (r.live || {}).stable, v = r.versions.filter(function (x) { return x.active && x.version === live; })[0] || r.versions[0];
+      if (!v) { toast("Keine Header-Version vorhanden."); return; }
+      UIP.theme = t; uiPreview(v.id, v.version);
+    });
+  });
   function status(l) {
     if (!l.active) return '<span class="pill p-bad">gesperrt</span>';
     if (l.expires_at && new Date(l.expires_at) < new Date()) return '<span class="pill p-bad">abgelaufen</span>';
@@ -990,6 +1139,7 @@
   }
   function openLic(l) {
     editId = l ? l.id : null; created = false;
+    try { thLoad(l || null); } catch (e) { console.error(e); }
     $("lic-title").textContent = l ? "Lizenz bearbeiten: " + l.customer : "Neue Lizenz";
     $("lic-save").textContent = l ? "Speichern" : "Lizenz erzeugen"; $("lic-save").classList.remove("hide");
     $("newkey").classList.add("hide");
