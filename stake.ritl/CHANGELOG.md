@@ -3,6 +3,16 @@
 Beziehungs- und Stakeholder-Map für Firmen, Ansprechpartner, Projekte und Gewerke · #ritl_stake
 Neueste Version oben.
 
+## V1.7 · 17.11.2026 · DEV
+**Neu**
+- Matrix Projekte × Gewerke: Die **Firma hängt mit ihrer Rolle am Gewerk**, darunter lassen sich keiner, einer oder mehrere **Ansprechpartner dieser Firma** zuordnen – je mit **Haltung und Einfluss auf das Projekt** (gilt nur für dieses Projekt und Gewerk; vorgeschlagen werden die allgemeinen Werte der Person).
+- Backup einrichten › 02 Zentral: Option **„kein Backup zentral erstellen“** (ersetzt das Häkchen).
+
+**Geändert**
+- Bisherige Zuordnungen „Ansprechpartner direkt am Gewerk“ werden automatisch unter ihre Firma gestellt; Haltung und Einfluss der Person werden als Projektwerte übernommen. Ansprechpartner ohne Firma bleiben mit dem Hinweis „ohne Firma“ stehen.
+- Firma in der Zelle entfernen oder wechseln entfernt auch ihre Ansprechpartner aus diesem Gewerk.
+- Map: Linie Ansprechpartner → Projekt zeigt Haltung und Einfluss im Projekt; bei zugeklappter Firmenbox wird nur die Linie der Firma gezeichnet.
+
 ## V1.6 · 17.11.2026 · DEV
 **Neu**
 - Ribbon **DATA.ritl · Verwaltung** (Idee STAKE-03): Import, Bestand und Daten (Beispiel laden, Leeren) an einem Ort; MAP.ritl bleibt für Map, Matrix, Filter und FOKUS.
