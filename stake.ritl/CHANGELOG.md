@@ -3,6 +3,22 @@
 Beziehungs- und Stakeholder-Map für Firmen, Ansprechpartner, Projekte und Gewerke · #ritl_stake
 Neueste Version oben.
 
+## V1.6 · 17.11.2026 · DEV
+**Neu**
+- Ribbon **DATA.ritl · Verwaltung** (Idee STAKE-03): Import, Bestand und Daten (Beispiel laden, Leeren) an einem Ort; MAP.ritl bleibt für Map, Matrix, Filter und FOKUS.
+- **Import Ansprechpartner** (Salesforce „Zugehörige Kontakte“): Kontaktname = Ansprechpartner, Funktion = Rolle, dazu Berufsbezeichnung, Telefon, E-Mail; jeder Ansprechpartner gehört genau zu einer Firma (Firma wählen oder aus Spalte).
+- **Import Firmen mit Projekt**: Projekt aus Spalte oder im Import wählen bzw. neu anlegen; Rolle = Rolle der Firma im Projekt und zugleich Eigenschaft der Firma. Neue Firmen werden angelegt, die Branche wird danach manuell in DATA.ritl eingetragen.
+- **Copy & Paste im Import**: Daten mit Spaltenüberschriften einfügen (Excel-Bereich, CSV) – Spalten werden wie beim Excel-Import erkannt; auch kopierte **Salesforce-Listen** („Sortieren nach: …“, „Element auswählen n“).
+- DATA.ritl › Bestand: Zeile anklicken öffnet ein **Bearbeiten-Modal** (Firma: Branche, Rollen, Fokus Level, SAP-Konten; Ansprechpartner: Funktion, Firma, Kontakt, Haltung, Einfluss; Projekt: Status). Auswahlfilter Art / Firma / Rolle, **Mehrfachauswahl** mit Aktionen: in MAP.ritl filtern, FOKUS anlegen, Firma zuweisen, löschen.
+- Map: **Ansprechpartner in der Box ihrer Firma** – kompakt mit Rolle, Haltung (Pfeil) und Einfluss (Balken); umschaltbar „Ansprechpartner in Firmen“. Die Firmenbox ist **auf- und zuklappbar** (Zähler-Pille, Standard zu); Beziehungen setzen an der Person bzw. bei zugeklappter Box an der Firma an.
+- „Alle auf / Alle zu“ als Symbole rechts im Ribbon, wirken auf das aktive Modul.
+
+**Geändert**
+- Matrix zeigt bei Projektfilter weiterhin **alle Gewerke** (dort werden Firmen zugeordnet).
+- Popup eines Ansprechpartners in der Map: nur noch **Haltung und Einfluss** änderbar; Name, Funktion, Firma, Telefon, E-Mail sind Stammdaten („Stammdaten in DATA.ritl bearbeiten“). Neue Ansprechpartner und Doppelklick öffnen das Bearbeiten-Modal.
+- „SVG exportieren“ steht im Kopf von Bereich 01 (Map); der Einleitungstext ist in die Anleitung gewandert.
+- Bereich „Daten“ in DATA.ritl ist standardmäßig zugeklappt.
+
 ## V1.5 · 17.11.2026 · DEV
 **Neu**
 - **Import Excel/CSV** (Idee STAKE-03, Stufe Firmen): Salesforce-Blatt „Accounts Involved“ – Account Name = Firma, Related Project Element = Projekt, Rolle = Rolle der Firma im Projekt. Mehrere Zeilen einer Firma werden zu einer Firma mit mehreren SAP-Konten (Kunden-ID · Kontengruppe · Ort); dazu Fokus Level. Spalten werden automatisch erkannt und lassen sich zuordnen, Vorschau mit neu/vorhanden, keine Dubletten bei erneutem Import, Rückgängig möglich.
