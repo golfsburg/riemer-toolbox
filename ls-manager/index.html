@@ -136,10 +136,47 @@ footer a{color:var(--muted)}footer a:hover{color:var(--accent-text)}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
 @media(max-width:860px){.layout{grid-template-columns:1fr}.fields{grid-template-columns:1fr}.field.full{grid-column:auto}main,footer{padding-left:20px;padding-right:20px}}
+/* ── Backup-Dialoge (Stufen, Lokal, OneDrive/SharePoint, Zentral) – wie MUSTER.ritl V3.0 ── */
+dialog.iodlg{width:min(640px,94vw)}
+dialog.iodlg .dh{display:flex;justify-content:space-between;align-items:center;gap:12px}
+dialog.iodlg .dh small{font:500 11px var(--mono);color:var(--muted);letter-spacing:1px}
+dialog.iodlg .db{max-height:min(72vh,720px);overflow:auto}
+dialog.iodlg .df{justify-content:space-between}
+.iosec{border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;margin-top:14px}
+.iosec:first-child{margin-top:0}
+.iosec h3{margin:0 0 4px;font:800 14px/20px var(--sans);letter-spacing:-.2px}
+.iosec h3 i{font:500 11px/16px var(--mono);font-style:normal;letter-spacing:1.5px;color:var(--accent-text);margin-right:8px}
+.iosec h3 .badge{margin-left:8px;vertical-align:1px}
+.iosec>.small{margin:0;line-height:18px}
+.iosec .status{margin-top:10px;line-height:18px}
+.iorow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.iorow:empty{display:none}
+.iochk{display:flex;justify-content:flex-start;gap:8px;align-items:center;margin:10px 0 0;font:500 13px var(--sans);color:var(--ink2);cursor:pointer}
+.iochk input{width:16px;height:16px;margin:0;accent-color:var(--brand)}
+.bkstl{display:grid;gap:6px;margin-top:10px}
+.bkst{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;margin:0;padding:8px 10px;border:1px solid var(--line);border-radius:var(--radius);cursor:pointer;font:500 12px var(--sans);color:var(--ink2)}
+.bkst input{width:16px;height:16px;margin:0;accent-color:var(--brand)}
+.bkst b{display:block;font:700 13px var(--mono);color:var(--ink)}
+.bkst small{color:var(--muted)}
+.bkst em{font:500 12px var(--mono);font-style:normal;color:var(--muted);white-space:nowrap}
+.bkst.on{border-color:var(--brand);background:color-mix(in srgb,var(--brand) 7%,var(--surface))}
+.bkst.dis{opacity:.5;cursor:not-allowed}
+.iolist{margin-top:10px;display:grid;gap:4px}
+.iolist:empty{display:none}
+.iolist .fi{display:flex;justify-content:space-between;gap:10px;align-items:center;width:100%;text-align:left;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:var(--radius);padding:7px 10px;font:500 12px var(--mono);cursor:pointer}
+.iolist .fi:hover{border-color:var(--brand);color:var(--accent-text)}
+.iolist .fi small{font:500 11px var(--sans);color:var(--muted);white-space:nowrap}
+.bkind{display:inline-flex;gap:3px;align-items:center;margin-left:2px;padding:2px 4px;border-radius:6px;background:var(--surface-muted)}
+.bkind svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.bkind .off{color:var(--muted);opacity:.45}
+.bkind .ok{color:var(--good)}
+.bkind .warn{color:var(--warn)}
+.bkind .offl{color:var(--muted)}
+.btn.sm{padding:6px 12px;font-size:12px}
 </style>
 </head>
 <body>
-<header data-ritl-header data-name="LS" data-eyebrow="Lieferscheine · #ritl_ls" data-tool="ls-manager" data-ver="V1.1" data-date="16.11.2026" data-lang="none">
+<header data-ritl-header data-name="LS" data-eyebrow="Lieferscheine · #ritl_ls" data-tool="ls-manager" data-ver="V1.2" data-date="18.11.2026" data-lang="none">
  <svg data-ritl-icon viewBox="0 0 48 48">
   <rect class="ico-l1" x="18" y="2" width="24" height="30" rx="5"/>
   <rect class="ico-l2" x="12" y="7" width="24" height="32" rx="5"/>
@@ -150,14 +187,15 @@ footer a{color:var(--muted)}footer a:hover{color:var(--accent-text)}
    </svg>
  <div data-ritl-actions>
   <button type="button" id="settingsBtn" aria-label="Einstellungen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg><span class="lbl">Einstellungen</span></button>
-  <button type="button" id="exportJson" aria-label="Backup"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M10 13h4"/></svg><span class="lbl">Backup</span></button>
+  <button type="button" id="backupBtn" aria-label="Backup"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M10 13h4"/></svg><span class="lbl">Backup</span><span class="bkind" id="bkInd" aria-hidden="true"></span></button>
  </div>
 </header>
 <!--ritl-ui:start-->
 <style id="ritl-ui-css">
-/* RITL-UI 1.1 – zentraler Header der RIEMER Tools. Wird vom Lizenzserver beim Ausliefern durch die aktuelle Version ersetzt.
+/* RITL-UI 1.3 – zentraler Header der RIEMER Tools. Wird vom Lizenzserver beim Ausliefern durch die aktuelle Version ersetzt.
    Maße nach PPTX.ritl (Standard): Header 64 px, App-Bild 38 px, Titel 22 px, Eyebrow 10,5 px, Chips 34 px.
-   Rechts immer kompakt: Tool-Knöpfe als eckige Chips nur mit Symbol, System-Knöpfe als runde Chips. Nur Tokens der Farbkarte. */
+   Rechts immer kompakt: Tool-Knöpfe als eckige Chips nur mit Symbol, System-Knöpfe als runde Chips. Nur Tokens der Farbkarte –
+   Ausnahme: Schriftzug „RIEMER Tools“ und Toolbox-Logo bleiben auch bei Lizenz-Farben im RIEMER-Blau (Marke). */
 header[data-ritl-header]{position:sticky;top:0;z-index:40;background:var(--surface);border-bottom:1px solid var(--line);font-family:var(--sans,"Inter",system-ui,sans-serif)}
 header[data-ritl-header]:not(.ritl-h)>*{visibility:hidden}
 .ritl-in{max-width:var(--page-max,2048px);margin:0 auto;height:64px;padding:0 22px;display:flex;align-items:center;gap:20px;box-sizing:border-box}
@@ -189,8 +227,19 @@ header[data-ritl-header]:not(.ritl-h)>*{visibility:hidden}
 .ritl-tb{flex:none;display:inline-flex;margin-left:4px;line-height:0;border-radius:7px}
 .ritl-tb svg{width:30px;height:30px}
 .ritl-wm{flex:none;margin-left:2px;font:800 15px/1 var(--sans,"Inter",system-ui,sans-serif);letter-spacing:-.01em;color:var(--ink);text-decoration:none;white-space:nowrap}
-.ritl-wm span{color:var(--accent-text)}
+.ritl-wm span{color:#1F5FC2}
+[data-theme="dark"] .ritl-wm span{color:#6EA2FF}
 header[data-ritl-header] :is(button,a):focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.ritl-pill.off{margin-left:6px;background:var(--warn);color:#fff}
+.ritl-eb.off{color:var(--warn)}
+.ritl-offnote{margin:0 0 14px;padding:10px 12px;border-radius:8px;border:1px solid color-mix(in srgb,var(--warn) 35%,transparent);background:color-mix(in srgb,var(--warn) 8%,var(--surface));color:var(--warn);font:500 13px/1.45 var(--sans,"Inter",system-ui,sans-serif)}
+#ritl-expired{position:fixed;inset:0;z-index:2147483000;display:grid;place-items:center;background:rgba(15,20,28,.72);padding:20px}
+#ritl-expired>div{max-width:520px;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:16px;padding:24px 26px;box-shadow:0 20px 60px rgba(0,0,0,.3);font:400 14px/1.5 var(--sans,"Inter",system-ui,sans-serif)}
+#ritl-expired h2{margin:0 0 8px;font:800 19px var(--sans,"Inter",system-ui,sans-serif);color:var(--warn)}
+#ritl-expired p{margin:0 0 10px;color:var(--ink2)}
+#ritl-expired .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+#ritl-expired button,#ritl-expired a{display:inline-flex;align-items:center;height:36px;padding:0 14px;border-radius:8px;border:1px solid var(--line2);background:var(--surface);color:var(--ink);font:600 13px var(--sans,"Inter",system-ui,sans-serif);cursor:pointer;text-decoration:none}
+#ritl-expired .pri{background:var(--brand);border-color:var(--brand);color:var(--on-brand,#fff)}
 @media(max-width:1500px){.ritl-mid{display:none}}
 @media(max-width:1000px){.ritl-ver{display:none}}
 @media(max-width:900px){.ritl-wm{display:none}}
@@ -201,15 +250,18 @@ header[data-ritl-header] :is(button,a):focus-visible{outline:2px solid var(--bra
 @media print{header[data-ritl-header]{position:static}.ritl-act{display:none}}
 </style>
 <script id="ritl-ui-js">
-/* RITL-UI 1.1 – baut den Header aus <header data-ritl-header …> auf. Attribute:
+/* RITL-UI 1.3 – baut den Header aus <header data-ritl-header …> auf. Attribute:
    data-name="MUSTER" (Pflicht) · data-eyebrow="…" · data-tool="muster-ritl" · data-ver="V2.8" · data-date="16.11.2026"
    data-help="none" (ohne Anleitung) · data-lang="none" (ohne DE/EN) · data-login="URL" (Anmelden-Ziel)
    Kinder: [data-ritl-icon] (App-Bild, SVG) · [data-ritl-center] (optional, Mitte) · [data-ritl-actions] (Tool-Knöpfe: Symbol + Text in <span class="lbl"> – der Text erscheint als Tooltip)
    IDs für das Tool: #helpBtn (Anleitung, onclick setzt das Tool) · #lang-btn · #theme-btn · #ritl-auth · #ritl-edition · #ritl-chan · #ritl-ver
-   Ereignisse: ritl:theme {theme} · ritl:lang {lang}. API: window.RITLUI.lang(l) · .theme(t) · .version */
+   Ereignisse: ritl:theme {theme} · ritl:lang {lang}. API: window.RITLUI.lang(l) · .theme(t) · .version · .offline
+   Offline-Version (ab 1.3): window.RITL.offline = true, offline_for (Kunde), offline_created (TT.MM.JJJJ), offline_until (JJJJ-MM-TT oder leer)
+   → Kennzeichen OFFLINE, Eyebrow „Offline-Version für … · erstellt … · gültig bis …“, Hinweis oben in der Anleitung,
+     kein An-/Abmelden, Toolbox-Logo ohne Link; 14 Tage vor Ablauf Warnung, danach Sperrfenster (Backup bleibt möglich). */
 (function () {
   "use strict";
-  var VERSION = "1.1";
+  var VERSION = "1.3";
   var h = document.querySelector("header[data-ritl-header]");
   if (!h || h.classList.contains("ritl-h")) return;
   var d = h.dataset, R = window.RITL || {}, root = document.documentElement;
@@ -239,7 +291,14 @@ header[data-ritl-header] :is(button,a):focus-visible{outline:2px solid var(--bra
   var id = E("div", { cls: "ritl-id" });
   if (icon) { icon.classList.add("ritl-icon"); icon.setAttribute("aria-hidden", "true"); id.appendChild(icon); }
   var tt = E("div", { cls: "ritl-tt" });
-  if (d.eyebrow) tt.appendChild(E("p", { cls: "ritl-eb" }, esc(d.eyebrow)));
+  var OFF = !!R.offline, offTxt = "", left = null;
+  if (OFF) {
+    if (R.offline_until) { var u = new Date(R.offline_until + "T23:59:59"); left = Math.ceil((u - new Date()) / 864e5); }
+    var dUntil = R.offline_until ? R.offline_until.split("-").reverse().join(".") : "";
+    offTxt = "Offline-Version" + (R.offline_for ? " für " + R.offline_for : "") + (R.offline_created ? " · erstellt " + R.offline_created : "") + (dUntil ? " · gültig bis " + dUntil : "");
+  }
+  if (OFF) tt.appendChild(E("p", { cls: "ritl-eb off", title: offTxt }, esc(offTxt)));
+  else if (d.eyebrow) tt.appendChild(E("p", { cls: "ritl-eb" }, esc(d.eyebrow)));
   var vl = R.version_label || d.ver || "", vd = R.release_date || d.date || "";
   var edn = String(R.edition_name || "Standard"), std = !R.edition || R.edition === "standard";
   var ch = R.channel === "dev" || R.channel === "beta" ? R.channel : "";
@@ -247,6 +306,7 @@ header[data-ritl-header] :is(button,a):focus-visible{outline:2px solid var(--bra
     '<span class="ritl-nm notr">' + esc(d.name || document.title) + "<span>.ritl</span></span>" +
     '<b class="ritl-pill notr' + (std ? " std" : "") + '" id="ritl-edition" title="Edition ' + esc(edn) + '">' + esc(edn.toUpperCase()) + "</b>" +
     '<b class="ritl-pill notr ' + ch + '" id="ritl-chan"' + (ch ? ' title="' + (ch === "dev" ? "Entwicklungsversion" : "Beta-Version") + '"' : " hidden") + ">" + ch.toUpperCase() + "</b>" +
+    (OFF ? '<b class="ritl-pill off notr" id="ritl-offline" title="' + esc(offTxt) + '">' + (left != null && left <= 14 ? (left > 0 ? "OFFLINE · NOCH " + left + " TAGE" : "OFFLINE · ABGELAUFEN") : "OFFLINE") + "</b>" : "") +
     '<small class="ritl-ver notr" id="ritl-ver">' + esc(vl + (vd ? " · " + vd : "")) + "</small>");
   tt.appendChild(h1); id.appendChild(tt);
 
@@ -272,9 +332,10 @@ header[data-ritl-header] :is(button,a):focus-visible{outline:2px solid var(--bra
   auth.title = licensed ? "Abmelden" + (R.email ? " – angemeldet als " + R.email : "") + (R.customer ? " · Lizenz: " + R.customer : "") : (R.preview ? "Admin-Vorschau – keine Anmeldung" : "Anmelden über die RIEMER Toolbox");
   auth.setAttribute("aria-label", licensed ? "Abmelden" : "Anmelden");
   if (R.preview) auth.disabled = true;
-  sys.appendChild(auth);
+  if (!OFF) sys.appendChild(auth);
   act.appendChild(sys);
-  act.appendChild(E("a", { cls: "ritl-tb", id: "ritl-toolbox", href: TB, title: "RIEMER Toolbox – alle Tools", "aria-label": "Zur RIEMER Toolbox" }, I.tb));
+  act.appendChild(OFF ? E("span", { cls: "ritl-tb", id: "ritl-toolbox", title: "RIEMER Toolbox · " + offTxt }, I.tb)
+                      : E("a", { cls: "ritl-tb", id: "ritl-toolbox", href: TB, title: "RIEMER Toolbox – alle Tools", "aria-label": "Zur RIEMER Toolbox" }, I.tb));
   act.appendChild(E("a", { cls: "ritl-wm notr", href: "https://riemer.co", title: "riemer.co" }, "RIEMER <span>Tools</span>"));
   // Marker: der Lizenzserver fügt bei vorhandenem Kit keinen eigenen Abmelden-Knopf / kein Logo ein
   var mk = E("span", { id: "ritl-logout", hidden: "" }); act.appendChild(mk);
@@ -319,7 +380,30 @@ header[data-ritl-header] :is(button,a):focus-visible{outline:2px solid var(--bra
     setTimeout(done, 2500);
   });
 
-  window.RITLUI = { version: VERSION, mounted: true, lang: langUi, theme: setTheme };
+  // ── Offline-Version: Hinweis in der Anleitung, Ablaufdatum ──
+  if (OFF) {
+    var hb = document.getElementById("helpBtn");
+    if (hb) hb.addEventListener("click", function () {
+      setTimeout(function () {
+        var dl = document.querySelector("dialog[open]"); if (!dl || dl.querySelector(".ritl-offnote")) return;
+        var body = dl.querySelector(".db,.dlg-body,.body") || dl;
+        var n = E("p", { cls: "ritl-offnote" }, "<b>" + esc(offTxt) + ".</b> Diese Datei läuft ohne Internet und ohne Lizenzprüfung; Updates kommen nicht automatisch. Ihre Daten bleiben im Browser dieses Geräts – bitte regelmäßig ein Backup speichern.");
+        body.insertBefore(n, body.firstChild);
+      }, 0);
+    });
+    if (left != null && left <= 0) {
+      var ov = E("div", { id: "ritl-expired", role: "alertdialog", "aria-modal": "true", "aria-labelledby": "ritl-exp-h" },
+        '<div><h2 id="ritl-exp-h">Offline-Version abgelaufen</h2><p>' + esc(offTxt) + '.</p>' +
+        "<p>Bitte eine neue Version anfordern. Ihre Daten sind nicht verloren: Mit „Backup speichern“ sichern Sie sie und laden sie in der neuen Version wieder.</p>" +
+        '<div class="row"><button type="button" class="pri" id="ritl-exp-bk">Backup speichern …</button><a href="mailto:toolbox@riemer.co?subject=' + encodeURIComponent("Neue Offline-Version " + (d.name || "") + ".ritl") + '">Neue Version anfordern</a></div></div>');
+      var mountOv = function () { if (!document.getElementById("ritl-expired")) document.body.appendChild(ov); };
+      if (document.body) mountOv(); else document.addEventListener("DOMContentLoaded", mountOv);
+      ov.addEventListener("click", function (e) { if (e.target.id === "ritl-exp-bk") { var b = document.getElementById("backupBtn") || document.querySelector('[data-act="backup"]'); if (b) b.click(); } });
+      document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !document.querySelector("dialog[open]")) e.stopImmediatePropagation(); }, true);
+    }
+  }
+
+  window.RITLUI = { version: VERSION, mounted: true, lang: langUi, theme: setTheme, offline: OFF, expiresInDays: left };
 })();
 </script>
 <!--ritl-ui:end-->
@@ -360,6 +444,17 @@ header[data-ritl-header] :is(button,a):focus-visible{outline:2px solid var(--bra
 <footer><span>© 2026 Peter Riemer · <a href="mailto:toolbox@riemer.co">toolbox@riemer.co</a> · RIEMER Tools</span><span>LS.ritl · #ritl_ls · lokal im Browser · keine Cloud</span></footer>
 <div id="toast" role="status"></div>
 
+<dialog id="bkdlg" class="iodlg" aria-labelledby="bkdlg-t">
+ <div class="dh"><span id="bkdlg-t">Backup</span><small>LS.ritl V1.2</small></div>
+ <div class="db" id="bk-body"></div>
+ <div class="df"><button class="btn ghost" type="button" id="bk-setup">Backup einrichten …</button><button class="btn" type="button" id="bk-close">Schließen</button></div>
+</dialog>
+<dialog id="bksetup" class="iodlg" aria-labelledby="bks-t">
+ <div class="dh"><span id="bks-t">Backup einrichten</span><small>LS.ritl V1.2</small></div>
+ <div class="db" id="bks-body"></div>
+ <div class="df"><span></span><span class="row"><button class="btn" type="button" id="bks-later">Später</button><button class="btn primary" type="button" id="bks-ok">Übernehmen</button></span></div>
+</dialog>
+<input type="file" id="bk-file" accept=".json,application/json" hidden>
 <dialog id="help" class="help">
  <div class="dh">Anleitung</div>
  <div class="db"><ol>
@@ -367,8 +462,9 @@ header[data-ritl-header] :is(button,a):focus-visible{outline:2px solid var(--bra
   <li><b>Lieferscheine ablegen</b> – PDF, Foto oder Scan in das Feld ziehen. Die Daten werden automatisch erkannt.</li>
   <li><b>Prüfen</b> – automatisch gefüllte Felder sind blau hinterlegt. Korrekturen bleiben erhalten.</li>
   <li><b>Archivieren</b> – speichert unter <span class="path">Archivordner / Lieferant / Datum_Nummer.pdf</span> samt Datensatz.</li>
+  <li><b>Sichern</b> – <b>Backup</b> speichert neue Lieferscheine samt Dateien (Stufe storage) lokal, im OneDrive-/SharePoint-Ordner oder zentral.</li>
   <li><b>Archiv durchsuchen</b> – links nach Monaten gruppiert, mit Suche, Summe und Export als CSV.</li>
- </ol><p class="small" style="margin:12px 0 0">Unter <b>Einstellungen</b> trägst du deine eigene Firma ein, damit sie nie als Lieferant übernommen wird. <b>Backup</b> sichert alle erfassten Daten als JSON.</p></div>
+ </ol><p class="small" style="margin:12px 0 0">Unter <b>Einstellungen</b> trägst du deine eigene Firma ein, damit sie nie als Lieferant übernommen wird. <b>Backup</b> sichert neue Lieferscheine und Einstellungen in <code>Backup_LS-ritl.json</code>.</p></div>
  <div class="df"><button class="btn primary" id="helpClose" type="button">Verstanden</button></div>
 </dialog>
 <dialog id="settings">
@@ -417,7 +513,7 @@ const idb={
 function addFiles(files){
  const added=[...files].filter(f=>/\.(pdf|jpe?g|png|txt)$/i.test(f.name)||/^(image\/|application\/pdf|text\/)/.test(f.type)).map(file=>newDoc({file,name:file.name,type:file.type||mime(extOf(file.name)),url:URL.createObjectURL(file)}));
  if(!added.length){toast('Keine unterstützten Dateien (PDF, JPG, PNG, TXT)');return}
- docs.push(...added);openMonths.add('neu');
+ docs.push(...added);added.forEach(d=>LSB.store(d));openMonths.add('neu');
  if(!cur())select(added[0].id);else renderQueue();
  processQueue();
 }
@@ -643,7 +739,7 @@ async function processQueue(forceText){
    const onP=p=>{d.progress=p;const now=Date.now();if(now-last>250){last=now;renderQueue();setStatus(d)}};
    let filled=[];
    try{
-    const text=await extractText(d,onP);
+    if(!d.file)await getDocFile(d);if(!d.file)throw new Error('Originaldatei nicht mehr vorhanden.');const text=await extractText(d,onP);
     if(!d.text.trim()||forceText)d.text=text;
     filled=applyParse(d,false);
     d.status=filled.length?'done':'nodata';
@@ -920,7 +1016,7 @@ async function archive(d,quiet){
    await writeFile(sub,json,JSON.stringify(buildMeta(d,base+'.'+ext),null,2));
    if(same&&d.loc.json&&d.loc.json!==json)await sub.removeEntry(d.loc.json).catch(()=>{});
    d.loc={folder,base,ext,json};
-   Object.assign(d,{archived:true,dirty:false,misplaced:false,status:'archived',duplicate:null});
+   Object.assign(d,{archived:true,dirty:false,misplaced:false,status:'archived',duplicate:null});LSB.drop(d);
    openMonths.add(monthKey(d));
    return true;
   }catch(e){toast('Speichern nicht möglich: '+errText(e));return false}
@@ -930,7 +1026,7 @@ async function archive(d,quiet){
  download(file,base+'.'+ext);
  download(new Blob([JSON.stringify(buildMeta(d,base+'.'+ext),null,2)],{type:'application/json'}),base+'.json');
  d.loc={folder,base,ext,json:base+'.json'};
- Object.assign(d,{archived:true,dirty:false,misplaced:false,status:'archived',duplicate:null});
+ Object.assign(d,{archived:true,dirty:false,misplaced:false,status:'archived',duplicate:null});LSB.drop(d);
  toast('Heruntergeladen – bitte in den Ordner „'+folder+'“ im Archiv verschieben');
  return true;
 }
@@ -954,7 +1050,7 @@ async function removeDoc(d){
   if(!await ensurePerm()){toast('Kein Schreibzugriff');return}
   await removeFromDisk(d.loc);toast('Aus dem Archiv gelöscht');
  }
- if(d.url)URL.revokeObjectURL(d.url);d.removed=true;
+ if(d.url)URL.revokeObjectURL(d.url);d.removed=true;LSB.drop(d);
  const idx=docs.indexOf(d);docs.splice(idx,1);
  const next=docs[Math.min(idx,docs.length-1)];activeId=next?next.id:null;
  docs.filter(x=>!x.archived).forEach(x=>x.duplicate=findDuplicate(x));
@@ -1048,6 +1144,238 @@ Total 0,00`];
  $('#demoSample').onclick=()=>{const t=SAMPLES[n%SAMPLES.length];n++;addFiles([new File([t],'Beispiel-Lieferschein-'+n+'.txt',{type:'text/plain'})])};
 }
 
+/* ======================= Dateiablage RITLF (Baustein ritl-bk/ritl-files.js) ======================= */
+/* RITL-Dateien (RITLF) – Dateiablage für hochgeladene Dateien, Backup-Stufe „storage“
+   RIEMER Tools · Vorbild MUSTER.ritl V3.0 · Skill /riemer-webapp-design, Abschnitt „Backup-Stufe storage“
+   ls zweimal ersetzen (z. B. muster): IndexedDB „ls_files“, Ereignis „ls:change“.
+   In das Tool-Skript vor den Backup-Block kopieren (Single-File, kein externes Skript). */
+// ── Dateiablage (RITL-Dateien): hochgeladene Dateien im Browser (IndexedDB) – Backup-Stufe „storage“ ──
+window.RITLF=(function(){const DB='ls_files',EV='ls:change';let db=null;
+ const open=()=>db||(db=new Promise((res,rej)=>{const r=indexedDB.open(DB,1);r.onupgradeneeded=()=>r.result.createObjectStore('f',{keyPath:'id'});r.onsuccess=()=>res(r.result);r.onerror=()=>{db=null;rej(r.error)}}));
+ const tx=async(mode,fn)=>{const d=await open();return new Promise((res,rej)=>{const t=d.transaction('f',mode),q=fn(t.objectStore('f'));t.oncomplete=()=>res(q&&q.result);t.onerror=()=>rej(t.error);t.onabort=()=>rej(t.error)})};
+ const ch=()=>document.dispatchEvent(new Event(EV)),nid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+ const b64=async bl=>{const u=new Uint8Array(await bl.arrayBuffer());let s='';for(let i=0;i<u.length;i+=32768)s+=String.fromCharCode.apply(null,u.subarray(i,i+32768));return btoa(s)};
+ const unb=(s,type)=>{const b=atob(s),u=new Uint8Array(b.length);for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return new Blob([u],{type})};
+ const meta=({blob,...m})=>m;
+ return{
+  ok:typeof indexedDB!=='undefined',
+  async put(file,o={}){const r={id:o.id||nid(),name:o.name||file.name||'Datei',type:file.type||'application/octet-stream',size:file.size,at:new Date().toISOString(),ref:o.ref||'',blob:file};await tx('readwrite',s=>s.put(r));ch();return r.id},
+  async list(){return((await tx('readonly',s=>s.getAll()))||[]).map(meta).sort((a,b)=>a.at<b.at?-1:1)},
+  async get(id){return tx('readonly',s=>s.get(id))},
+  async del(id){await tx('readwrite',s=>s.delete(id));ch()},
+  async stats(){const l=await this.list();return{n:l.length,bytes:l.reduce((a,x)=>a+(x.size||0),0)}},
+  async dump(){const a=(await tx('readonly',s=>s.getAll()))||[],out=[];for(const r of a)out.push({...meta(r),b64:await b64(r.blob)});return out},
+  async load(list){const recs=(list||[]).filter(x=>x&&x.id&&typeof x.b64==='string').map(({b64:x,...m})=>({...m,blob:unb(x,m.type)}));await tx('readwrite',s=>{s.clear();recs.forEach(r=>s.put(r))});ch();return recs.length}
+ }})();
+
+/* ======================= Backup: Stufen settings · datenbank · storage, Lokal, OneDrive & SharePoint, Zentral ======================= */
+const LSB=(function(){
+ const TOOL='ls-manager',NAME='LS.ritl',FORMAT=1,VER='V1.2',BKNAME='Backup_LS-ritl.json',EV='ls:change';
+ const BKCFG='riemer-ls-bkcfg',EKEY='riemer-ls-eingang',ZB_API='https://hcluxhlvshydnncprpbl.supabase.co/functions/v1/tool-backup';
+ const $i=id=>document.getElementById(id);
+ const LSg=k=>{try{return localStorage.getItem(k)}catch(e){return null}};
+ const LSs=(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}};
+ const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+ const zeit=d=>d.toLocaleString('de-AT',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+ const ver=()=>{const R=window.RITL||{};const m=String(R.version_label||VER).match(/\d+(\.\d+)?/);return m?'V'+(m[0].includes('.')?m[0]:m[0]+'.0'):VER};
+ const head=inhalt=>({tool:TOOL,name:NAME,version:ver(),format:FORMAT,inhalt,erstellt:new Date().toISOString()});
+ const OFFLINE=!!(window.RITL&&window.RITL.offline);
+ const fmtB=n=>n<1024?n+' B':n<1048576?(n/1024).toFixed(n<10240?1:0).replace('.',',')+' KB':(n/1048576).toFixed(1).replace('.',',')+' MB';
+
+ // ── Konfiguration ──
+ let CFG={lokal:{on:false,stufe:'datenbank'},zentral:{on:false,stufe:'settings'},seen:false};
+ try{const c=JSON.parse(LSg(BKCFG)||'null');if(c)CFG={...CFG,...c,lokal:{...CFG.lokal,...(c.lokal||{})},zentral:{...CFG.zentral,...(c.zentral||{})}}}catch(e){}
+ const cfgSave=()=>LSs(BKCFG,JSON.stringify(CFG));
+
+ // ── Eingang (neue, noch nicht archivierte Lieferscheine) dauerhaft im Browser; Dateien in RITLF ──
+ const META=['name','type','fid','text','lieferant','nummer','datum','bestellnummer','betrag','kategorie','notiz','status','source','auto','manual','error'];
+ const inboxData=()=>docs.filter(d=>!d.archived&&!d.removed).map(d=>{const o={};META.forEach(k=>o[k]=d[k]);if(o.status==='working')o.status='pending';return o});
+ let lastInbox='',pT=null;
+ function persist(){const j=JSON.stringify(inboxData());if(j===lastInbox)return;lastInbox=j;LSs(EKEY,j);document.dispatchEvent(new Event(EV))}
+ const persistSoon=()=>{clearTimeout(pT);pT=setTimeout(persist,400)};
+ const fileGetter=fid=>async()=>{const r=await RITLF.get(fid);return r?new File([r.blob],r.name,{type:r.type}):null};
+ function inboxLoad(list,replace){
+  if(replace){docs.filter(x=>!x.archived&&x.url).forEach(x=>URL.revokeObjectURL(x.url));docs=docs.filter(x=>x.archived)}
+  const add=(Array.isArray(list)?list:[]).filter(m=>m&&typeof m==='object').map(m=>{const d=newDoc({});META.forEach(k=>{if(m[k]!==undefined&&m[k]!==null)d[k]=m[k]});
+   d.auto=d.auto||{};d.manual=d.manual||{};d.getFile=d.fid&&RITLF.ok?fileGetter(d.fid):null;d.archived=false;
+   if(d.status==='pending'||d.status==='working')d.status=d.getFile?'pending':'nodata';return d});
+  docs.push(...add);add.forEach(d=>d.duplicate=findDuplicate(d));lastInbox=JSON.stringify(inboxData());return add.length}
+ // Neue Uploads in die Dateiablage
+ function store(d){if(!RITLF.ok||!d.file)return;RITLF.put(d.file,{ref:'eingang'}).then(id=>{d.fid=id;persistSoon()}).catch(()=>{})}
+ function drop(d){if(d&&d.fid&&RITLF.ok){RITLF.del(d.fid).catch(()=>{});d.fid=null}}
+
+ // ── Stufen ──
+ const settingsObj=()=>({theme:document.documentElement.getAttribute('data-theme')||'light',eigeneFirma:LSg('lsm-own')||''});
+ function stufeObj(st){const s=settingsObj();if(st==='settings')return{ritl:{...head('backup'),stufe:'settings'},daten:s};return{ritl:{...head('backup'),stufe:'datenbank'},daten:{...s,eingang:inboxData()}}}
+ async function stufeObjA(st){if(st!=='storage')return stufeObj(st);const o=stufeObj('datenbank');o.ritl.stufe='storage';o.daten.dateien=RITLF.ok?await RITLF.dump().catch(()=>[]):[];return o}
+ const backupObj=()=>stufeObjA(CFG.lokal.stufe);
+ async function gzip(str){const s=new Blob([str]).stream().pipeThrough(new CompressionStream('gzip'));return new Uint8Array(await new Response(s).arrayBuffer())}
+ async function gunzip(u8){const s=new Blob([u8]).stream().pipeThrough(new DecompressionStream('gzip'));return await new Response(s).text()}
+ async function sha(str){const h=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(str));return [...new Uint8Array(h)].map(b=>b.toString(16).padStart(2,'0')).join('')}
+ const b64=u8=>{let s='';for(let i=0;i<u8.length;i+=32768)s+=String.fromCharCode.apply(null,u8.subarray(i,i+32768));return btoa(s)};
+ const unb64=s=>{const b=atob(s),u=new Uint8Array(b.length);for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u};
+ async function sizes(){const out={};for(const st of ['settings','datenbank','storage']){const raw=JSON.stringify(await stufeObjA(st));out[st]={raw:raw.length,gz:typeof CompressionStream==='function'?(await gzip(raw)).length:raw.length}}out.dateien=RITLF.ok?await RITLF.stats().catch(()=>null):null;return out}
+
+ // ── Prüfen und Wiederherstellen ──
+ function check(o){
+  if(!o||typeof o!=='object'||Array.isArray(o))throw new Error(Array.isArray(o)?'Das ist eine Datenübersicht (Export), keine Sicherung von LS.ritl.':'Keine gültige Sicherung.');
+  const r=o.ritl;if(!r){if(Array.isArray(o.eingang))return{ritl:{tool:TOOL,stufe:'datenbank'},daten:o};throw new Error('Keine gültige Sicherung von LS.ritl.')}
+  if(r.tool!==TOOL)throw new Error(`Diese Sicherung stammt aus ${r.name||r.tool}, nicht aus ${NAME}.`);
+  if(r.inhalt&&r.inhalt!=='backup')throw new Error(r.inhalt==='favoriten'?'Das ist eine Favoriten-Datei, keine Sicherung.':'Keine Sicherung.');
+  if((r.format||1)>FORMAT)throw new Error('Die Sicherung ist neuer als diese App. Bitte App aktualisieren.');
+  return o}
+ function applySettings(d){
+  if(d.theme==='light'||d.theme==='dark'){if(window.RITLUI&&typeof RITLUI.theme==='function')RITLUI.theme(d.theme);else{document.documentElement.setAttribute('data-theme',d.theme);LSs('riemer-theme',d.theme)}}
+  if(typeof d.eigeneFirma==='string'){LSs('lsm-own',d.eigeneFirma);if(typeof loadOwn==='function')loadOwn()}}
+ function restore(o,quelle){
+  const st=o.ritl.stufe||'datenbank',d=o.daten||{},nf=Array.isArray(d.dateien)?d.dateien.length:0,ne=Array.isArray(d.eingang)?d.eingang.length:0;
+  const msg=st==='settings'
+   ?`Einstellungen aus „${quelle}“ übernehmen?\n\nNur Hell/Dunkel und „Eigene Firma“ – die Lieferscheine bleiben unverändert.`
+   :`Sicherung „${quelle}“ (${st}) wiederherstellen?\n\nDie neuen, noch nicht archivierten Lieferscheine werden ersetzt (${ne} ${ne===1?'Eintrag':'Einträge'}).`+(nf?`\nEnthält ${nf} Datei(en) – die Dateiablage wird ersetzt.`:'')+`\nDas Archiv im Archivordner bleibt unverändert.`;
+  if(!confirm(msg))return false;
+  applySettings(d);
+  if(st==='settings'){toast('Einstellungen übernommen');return true}
+  (async()=>{try{if(nf&&RITLF.ok)await RITLF.load(d.dateien);inboxLoad(d.eingang||[],true);activeId=null;persist();
+   const first=docs.find(x=>!x.archived);if(first)await select(first.id);else{renderQueue();renderEditor()}
+   processQueue();toast(`Wiederhergestellt: ${ne} ${ne===1?'Lieferschein':'Lieferscheine'}${nf?` · ${nf} Datei(en)`:''}`)}catch(e){toast('Wiederherstellen fehlgeschlagen: '+e.message)}})();
+  return true}
+ async function restoreFile(file){try{const o=check(JSON.parse(await file.text()));if(restore(o,file.name))$i('bkdlg').close()}catch(e){toast(e instanceof SyntaxError?'Die Datei ist kein gültiges JSON.':e.message)}}
+
+ // ── Speicher für Datei- und Ordner-Handles ──
+ const IDB={db:null,open(){return this.db||(this.db=new Promise((res,rej)=>{const r=indexedDB.open('ls_fs',1);r.onupgradeneeded=()=>r.result.createObjectStore('h');r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)}))},
+  async get(k){const d=await this.open();return new Promise((res,rej)=>{const q=d.transaction('h').objectStore('h').get(k);q.onsuccess=()=>res(q.result);q.onerror=()=>rej(q.error)})},
+  async set(k,v){const d=await this.open();return new Promise((res,rej)=>{const t=d.transaction('h','readwrite');t.objectStore('h').put(v,k);t.oncomplete=()=>res();t.onerror=()=>rej(t.error)})},
+  async del(k){const d=await this.open();return new Promise(res=>{const t=d.transaction('h','readwrite');t.objectStore('h').delete(k);t.oncomplete=()=>res();t.onerror=()=>res()})}};
+ function fsErr(e){const n=e&&e.name;return n==='NoModificationAllowedError'||n==='InvalidStateError'?'Datei ist gesperrt – OneDrive synchronisiert gerade oder die Datei ist geöffnet. Bitte gleich nochmals versuchen.'
+  :n==='NotAllowedError'||n==='SecurityError'?'Kein Schreibzugriff auf den Ordner – bitte „Zugriff erneuern“ wählen.':n==='NotFoundError'?'Ordner oder Datei nicht gefunden – bitte Ordner neu verknüpfen.':'Speichern nicht möglich: '+((e&&e.message)||n)}
+
+ // ── 01 Lokal: eine Datei, wird überschrieben ──
+ const LOK={fh:null,last:null};
+ async function lokSave(neu){
+  const o=await backupObj(),txt=JSON.stringify(o,null,1);
+  if(typeof window.showSaveFilePicker==='function'){
+   try{let fh=neu?null:LOK.fh;
+    if(fh){const q=await fh.queryPermission({mode:'readwrite'});if(q!=='granted'&&(await fh.requestPermission({mode:'readwrite'}))!=='granted')fh=null}
+    if(!fh){fh=await showSaveFilePicker({suggestedName:BKNAME,id:'ls-ritl-bk',types:[{description:'RITL-Backup',accept:{'application/json':['.json']}}]});LOK.fh=fh;IDB.set('file',fh).catch(()=>{})}
+    const w=await fh.createWritable();await w.write(txt);await w.close();LOK.last=new Date();toast(`Gesichert (${o.ritl.stufe}): ${fh.name}`)}
+   catch(e){if(e&&e.name==='AbortError')return;toast(fsErr(e))}}
+  else{download(new Blob([txt],{type:'application/json'}),BKNAME);LOK.last=new Date();toast(`Heruntergeladen: ${BKNAME} – ältere Datei im Download-Ordner ersetzen`)}
+  render()}
+
+ // ── 02 OneDrive & SharePoint: synchronisierter Ordner ──
+ const FS={handle:null,ok:false,err:'',last:null,t:null,files:[]};
+ const fsSupported=()=>typeof window.showDirectoryPicker==='function';
+ async function fsPerm(ask){if(!FS.handle)return false;const o={mode:'readwrite'};
+  try{if((await FS.handle.queryPermission(o))==='granted')return FS.ok=true;if(ask&&(await FS.handle.requestPermission(o))==='granted')return FS.ok=true}catch(e){}return FS.ok=false}
+ async function fsWrite(ask){const o=await backupObj();if(!await fsPerm(ask)){const e=new Error();e.name='NotAllowedError';throw e}
+  const fh=await FS.handle.getFileHandle(BKNAME,{create:true}),w=await fh.createWritable();await w.write(JSON.stringify(o,null,1));await w.close();FS.last=new Date();FS.err=''}
+ async function fsLink(){try{FS.handle=await showDirectoryPicker({id:'ls-ritl-bkdir',mode:'readwrite'});await IDB.set('dir',FS.handle).catch(()=>{});await fsPerm(true);FS.err='';CFG.lokal.on=true;cfgSave();await fsList();toast(`Ordner „${FS.handle.name}“ verknüpft`)}catch(e){if(!e||e.name!=='AbortError')toast(fsErr(e))}render()}
+ async function fsUnlink(){if(!confirm('Verknüpfung mit dem Ordner lösen? Die Dateien im Ordner bleiben erhalten.'))return;FS.handle=null;FS.ok=false;FS.files=[];CFG.lokal.on=false;cfgSave();await IDB.del('dir');render()}
+ async function fsSaveNow(){try{await fsWrite(true);await fsList();toast(`Im Ordner „${FS.handle.name}“ gesichert (${CFG.lokal.stufe})`)}catch(e){FS.err=fsErr(e);toast(FS.err)}render()}
+ async function fsList(){FS.files=[];if(!FS.handle||!FS.ok)return;try{for await(const [n,h] of FS.handle.entries()){if(h.kind!=='file')continue;if(n===BKNAME||/^\d{8}-\d{4}_LS-ritl_Backup\.json$/.test(n)){const f=await h.getFile();FS.files.push({name:n,at:f.lastModified,size:f.size,h})}}
+  FS.files.sort((a,b)=>(a.name===BKNAME?-1:b.name===BKNAME?1:b.at-a.at))}catch(e){}}
+ function fsSchedule(){if(!CFG.lokal.on||!FS.handle)return;clearTimeout(FS.t);FS.t=setTimeout(async()=>{if(!await fsPerm(false)){FS.err='Zugriff erneuern – automatisches Sichern pausiert.';render();return}try{await fsWrite(false)}catch(e){FS.err=fsErr(e)}render()},2500)}
+
+ // ── 03 Zentral (RIEMER Toolbox, Supabase) ──
+ const ZB={busy:false,last:null,lastSha:{},err:'',items:[],used:0,quota:0,t:null,pending:false};
+ const creds=()=>({key:LSg('riemer-lizenz:'+TOOL)||LSg('riemer-lizenz')||'',email:LSg('riemer-email')||'',device:LSg('riemer-geraet')||''});
+ const zbOk=()=>{if(OFFLINE)return false;const c=creds();return /^(RITL|RT)-/.test(c.key)&&c.device.length>=8&&typeof CompressionStream==='function'};
+ const ZBERR={invalid_key:'Lizenz ungültig',email_required:'E-Mail der Lizenz fehlt',invalid_login:'Lizenz und E-Mail passen nicht',revoked:'Lizenz deaktiviert',expired:'Lizenz abgelaufen',tool_not_licensed:'Tool nicht in der Lizenz',device_limit:'Geräte-Limit der Lizenz erreicht',too_large:'Backup zu groß für diese Stufe',quota:'Kontingent der Lizenz (50 MB) erreicht',server_error:'Serverfehler',network:'Keine Verbindung zum Server'};
+ async function zbApi(action,data){const c=creds();let r;try{r=await fetch(ZB_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({key:c.key,email:c.email||null,device:c.device,tool:TOOL,action,data})})}catch(e){throw new Error(ZBERR.network)}
+  let j={};try{j=await r.json()}catch(e){}if(!j.ok)throw new Error(ZBERR[j.error]||ZBERR.server_error);return j}
+ async function zbSave(force){if(!zbOk()||ZB.busy)return;
+  if(!navigator.onLine){ZB.pending=true;if(force)toast('Offline – zentrales Backup folgt, sobald wieder eine Verbindung besteht');render();return}
+  ZB.pending=false;const st=CFG.zentral.stufe==='storage'?'datenbank':CFG.zentral.stufe,o=stufeObj(st),dat=JSON.stringify(o.daten),h=await sha(dat);
+  if(!force&&ZB.lastSha[st]===h)return;ZB.busy=true;render();
+  try{const gz=await gzip(JSON.stringify(o));const j=await zbApi('save',{stufe:st,b64:b64(gz),sha256:h,raw:dat.length,version:ver()});ZB.lastSha[st]=h;ZB.last=new Date();ZB.err='';
+   if(force)toast(j.unchanged?'Zentral: keine Änderung seit dem letzten Stand':`Zentral gesichert (${st} · ${fmtB(gz.length)})`);if($i('bkdlg').open)zbList()}
+  catch(e){ZB.err=e.message;if(force)toast('Zentrales Backup: '+e.message)}finally{ZB.busy=false;render()}}
+ async function zbList(){if(!zbOk())return;try{const j=await zbApi('list');ZB.items=j.items||[];ZB.used=j.used||0;ZB.quota=j.quota||0;ZB.err=''}catch(e){ZB.err=e.message}render()}
+ async function zbRestore(id){try{const j=await zbApi('get',{id});const o=JSON.parse(await gunzip(unb64(j.b64)));const it=ZB.items.find(x=>String(x.id)===String(id))||{};
+  if(restore(check(o),`Zentral · ${it.stufe||''} · ${it.at?zeit(new Date(it.at)):''}`))$i('bkdlg').close()}catch(e){toast(e instanceof SyntaxError?'Das Backup ist beschädigt.':e.message)}}
+ function zbSchedule(){if(!CFG.zentral.on||!zbOk())return;clearTimeout(ZB.t);ZB.t=setTimeout(()=>zbSave(false),6000)}
+
+ // ── Symbol am Backup-Knopf: Ordner = Lokal, Wolke = Server ──
+ const IC={lok:'<path d="M1.5 3.5h4l1.5 1.5h5.5v7h-11z"/>',srv:'<path d="M4 11.5h6.5a2.5 2.5 0 0 0 .3-5 3.5 3.5 0 0 0-6.8-.7A2.4 2.4 0 0 0 4 11.5z"/>',off:'<path d="M2 2l10 10"/>'};
+ function bkInd(){const e=$i('bkInd'),b=$i('backupBtn');if(!e||!b)return;const on=navigator.onLine;
+  const l=!CFG.lokal.on?['off','Lokal: aus']:!FS.handle?['warn','Lokal: ein, aber kein Ordner verknüpft']:(FS.err||!FS.ok)?['warn','Lokal: pausiert – Zugriff erneuern']:['ok',`Lokal: ein (${CFG.lokal.stufe}) · Ordner „${FS.handle.name}“`];
+  const z=OFFLINE?['off','Server: entfällt (Offline-Version)']:!zbOk()?['off','Server: nicht verfügbar (ohne Lizenz)']:!CFG.zentral.on?['off','Server: aus']:!on?['offl','Server: offline – sichert, sobald wieder online']:ZB.err?['warn','Server: '+ZB.err]:['ok',`Server: ein (${CFG.zentral.stufe})${ZB.last?' · zuletzt '+zeit(ZB.last):''}`];
+  e.innerHTML=`<svg viewBox="0 0 14 14" class="${l[0]}">${IC.lok}</svg><svg viewBox="0 0 14 14" class="${z[0]}">${IC.srv}${z[0]==='offl'||!on?IC.off:''}</svg>`;
+  const t=`Backup\n${l[1]}\n${z[1]}\n${on?'Online':'Offline'}`;b.title=t;b.setAttribute('aria-label',t.replace(/\n/g,' · '))}
+
+ // ── Backup-Dialog ──
+ function render(){try{bkInd()}catch(e){}const body=$i('bk-body');if(!body||!$i('bkdlg').open)return;
+  const lokSt=typeof window.showSaveFilePicker==='function'?(LOK.fh?`Speichert in „${esc(LOK.fh.name)}“ und überschreibt die Datei`:'Beim ersten Speichern wählst du den Speicherort; danach wird die Datei überschrieben')+(LOK.last?` · zuletzt ${zeit(LOK.last)}`:''):`Dieser Browser lädt <code>${BKNAME}</code> in den Download-Ordner – ältere Datei dort ersetzen.`;
+  let fsH='';
+  if(!fsSupported())fsH=`<div class="status warn">Backup herunterladen und die Datei in den OneDrive- oder SharePoint-Ordner legen – oder Chrome bzw. Edge am Computer verwenden.</div>`;
+  else{const st=!FS.handle?['','Kein Ordner verknüpft.']:!FS.ok?['warn',`Ordner „${esc(FS.handle.name)}“ verknüpft – der Browser fragt nach dem Neustart erneut nach dem Zugriff.`]:FS.err?['warn',esc(FS.err)]:['good',`Verbunden mit Ordner „${esc(FS.handle.name)}“${FS.last?` · zuletzt gesichert ${zeit(FS.last)} (${BKNAME})`:''}`];
+   const btn=!FS.handle?`<button class="btn primary" type="button" data-a="fs-link">Ordner verknüpfen …</button>`:!FS.ok?`<button class="btn primary" type="button" data-a="fs-renew">Zugriff erneuern</button><button class="btn" type="button" data-a="fs-link">Anderer Ordner …</button><button class="btn danger" type="button" data-a="fs-unlink">Verknüpfung lösen</button>`
+    :`<button class="btn primary" type="button" data-a="fs-save">Jetzt im Ordner sichern</button><button class="btn" type="button" data-a="fs-link">Anderer Ordner …</button><button class="btn danger" type="button" data-a="fs-unlink">Verknüpfung lösen</button>`;
+   const list=FS.files.map((f,i)=>`<button type="button" class="fi" data-fsget="${i}"><span>${esc(f.name)}${f.name!==BKNAME?' <small>(ältere Sicherung)</small>':''}</span><small>${zeit(new Date(f.at))} · ${fmtB(f.size)}</small></button>`).join('');
+   fsH=`<div class="status ${st[0]}">${st[1]}</div><div class="iorow">${btn}</div>${FS.handle?`<label class="iochk"><input type="checkbox" data-a="fs-auto"${CFG.lokal.on?' checked':''}><span>Nach jeder Änderung automatisch im Ordner sichern (überschreibt die Backup-Datei)</span></label>`:''}<div class="iolist">${list}</div>`}
+  let zbH='';
+  if(!OFFLINE){
+   if(!zbOk())zbH=`<div class="status warn">Zentrales Backup gibt es nur in der lizenzierten Version (Aufruf über die RIEMER Toolbox bzw. myTOOLBOX.ritl).</div>`;
+   else{const cls=ZB.err||!navigator.onLine?' warn':CFG.zentral.on?' good':'';
+    const txt=!navigator.onLine?'Offline – zentrales Backup folgt automatisch, sobald wieder eine Verbindung besteht.':ZB.err?'Zentral: '+esc(ZB.err):(CFG.zentral.on?`Ein · Stufe ${CFG.zentral.stufe} · automatisch nach Änderungen`:'Aus – unter „Backup einrichten …“ einschalten')+(ZB.last?` · zuletzt ${zeit(ZB.last)}`:'')+(ZB.quota?` · belegt ${fmtB(ZB.used)} von ${fmtB(ZB.quota)} (alle Tools der Lizenz)`:'');
+    const it=ZB.items.length?`<span class="small">Historie (10 Tage, ein Stand je Tag und Stufe) – zum Wiederherstellen anklicken:</span>`+ZB.items.map(x=>`<button type="button" class="fi" data-zbget="${esc(x.id)}"><span>${esc(x.stufe)} · ${zeit(new Date(x.at))}${x.version?' · '+esc(x.version):''}</span><small>${fmtB(x.bytes||0)}</small></button>`).join(''):'<span class="small">Noch kein zentraler Stand.</span>';
+    zbH=`<div class="status${cls}">${txt}</div><div class="iorow"><button class="btn primary" type="button" data-a="zb-save"${ZB.busy?' disabled':''}>Jetzt zentral sichern</button></div><div class="iolist">${it}</div>`}}
+  body.innerHTML=`<section class="iosec"><h3><i>01</i>Lokal<span class="badge">Stufe ${esc(CFG.lokal.stufe)}</span></h3><p class="small">Sichert ${esc(NAME)} in genau eine Datei <code>${BKNAME}</code>, die bei jedem Sichern überschrieben wird. Das Archiv im Archivordner ist davon unabhängig.</p><div class="status">${lokSt}</div>
+   <div class="iorow"><button class="btn primary" type="button" data-a="lok-save">Backup speichern</button>${typeof window.showSaveFilePicker==='function'?'<button class="btn" type="button" data-a="lok-new">Anderer Speicherort …</button>':''}<button class="btn" type="button" data-a="lok-restore">Backup wiederherstellen …</button></div></section>
+   <section class="iosec"><h3><i>02</i>OneDrive &amp; SharePoint</h3><p class="small">Verknüpfe einen synchronisierten OneDrive- oder SharePoint-Ordner – die App schreibt <code>${BKNAME}</code> hinein, der OneDrive-Client lädt sie hoch.</p>${fsH}</section>
+   ${OFFLINE?'':`<section class="iosec"><h3><i>03</i>Zentral · RIEMER Toolbox</h3><p class="small">Je Lizenz und Tool, Historie 10 Tage, gespeichert in der EU (Frankfurt). Die Stufe storage bleibt lokal.</p>${zbH}</section>`}`}
+ async function openDlg(){const d=$i('bkdlg');d.showModal();render();if(FS.handle){await fsPerm(false);await fsList();render()}if(zbOk())zbList()}
+ async function onClick(ev){const b=ev.target.closest('button,input[data-a]');if(!b)return;const a=b.dataset.a;
+  if(b.dataset.fsget){const f=FS.files[+b.dataset.fsget];if(f)try{await restoreFile(await f.h.getFile())}catch(e){toast(fsErr(e))}return}
+  if(b.dataset.zbget){zbRestore(b.dataset.zbget);return}
+  if(a==='lok-save')lokSave(false);else if(a==='lok-new')lokSave(true);else if(a==='lok-restore')$i('bk-file').click();
+  else if(a==='fs-link')fsLink();else if(a==='fs-renew'){if(await fsPerm(true)){FS.err='';await fsList()}render()}else if(a==='fs-save')fsSaveNow();else if(a==='fs-unlink')fsUnlink();
+  else if(a==='fs-auto'){CFG.lokal.on=b.checked;cfgSave();render();fsSchedule()}
+  else if(a==='zb-save')zbSave(true)}
+
+ // ── Modal „Backup einrichten“ ──
+ async function openSetup(){const d=$i('bksetup');if(!d.open)d.showModal();$i('bks-body').innerHTML='<p class="small">Größen werden berechnet …</p>';const sz=await sizes().catch(()=>null);
+  const row=(ziel,st)=>{const z=sz&&sz[st],on=CFG[ziel].stufe===st;return `<label class="bkst${on?' on':''}"><input type="radio" name="bk-${ziel}" value="${st}"${on?' checked':''}><span><b>${st}</b><small>${st==='settings'?'Hell/Dunkel, Eigene Firma':st==='storage'?`datenbank + alle hochgeladenen Lieferscheine${sz&&sz.dateien?' ('+sz.dateien.n+(sz.dateien.n===1?' Datei':' Dateien')+', '+fmtB(sz.dateien.bytes)+')':''}`:'settings + neue, noch nicht archivierte Lieferscheine mit allen Feldern und erkanntem Text'}</small></span><em>${z?fmtB(z.gz):'–'}</em></label>`};
+  const stor=`<label class="bkst dis"><input type="radio" disabled><span><b>storage</b><small>inkl. hochgeladener Dateien – nur lokal, zentral folgt später</small></span><em>–</em></label>`;
+  const zdis=!zbOk(),zgz=sz&&sz[CFG.zentral.stufe==='storage'?'datenbank':CFG.zentral.stufe];
+  $i('bks-body').innerHTML=`<p class="small" style="margin:0">Wähle, wo und wie umfangreich ${esc(NAME)} gesichert wird. Größen komprimiert, so wie gespeichert. Später jederzeit unter <b>Backup</b> änderbar.</p>
+   <section class="iosec"><h3><i>01</i>Lokal · OneDrive &amp; SharePoint</h3>
+    <label class="iochk"><input type="checkbox" id="bks-lon"${CFG.lokal.on?' checked':''}${fsSupported()?'':' disabled'}><span>Nach jeder Änderung in den verknüpften Ordner sichern (<code>${BKNAME}</code>, wird überschrieben)</span></label>
+    <div class="bkstl">${row('lokal','settings')}${row('lokal','datenbank')}${row('lokal','storage')}</div>
+    <div class="status${FS.handle?' good':''}" style="margin-top:10px">${!fsSupported()?'Dieser Browser kann keinen Ordner verknüpfen – „Backup speichern“ legt die Datei im Download-Ordner ab.':FS.handle?`Ordner „${esc(FS.handle.name)}“ verknüpft`:'Noch kein Ordner verknüpft.'}</div>
+    ${fsSupported()?`<div class="iorow"><button class="btn" type="button" id="bks-link">${FS.handle?'Anderer Ordner …':'Ordner verknüpfen …'}</button></div>`:''}</section>
+   ${OFFLINE?'':`<section class="iosec"><h3><i>02</i>Zentral · RIEMER Toolbox (Supabase)</h3>
+    <label class="iochk"><input type="checkbox" id="bks-zon"${CFG.zentral.on&&!zdis?' checked':''}${zdis?' disabled':''}><span>Nach Änderungen zentral sichern – je Lizenz und Tool, Historie 10 Tage</span></label>
+    <div class="bkstl"${zdis?' style="opacity:.55"':''}>${row('zentral','settings')}${row('zentral','datenbank')}${stor}</div>
+    <div class="status${zdis?' warn':''}" style="margin-top:10px">${zdis?'Nur in der lizenzierten Version (Aufruf über die RIEMER Toolbox).':`Historie ca. ${zgz?fmtB(zgz.gz*11):'–'} · Kontingent 50 MB je Lizenz · Gespeichert in der EU (Frankfurt), Zugriff nur mit deinem Lizenzschlüssel.`}</div></section>`}`;
+  $i('bks-body').querySelectorAll('input[type=radio]').forEach(r=>r.onchange=()=>{r.closest('.bkstl').querySelectorAll('.bkst').forEach(l=>l.classList.toggle('on',l.contains(r)&&r.checked))});
+  if($i('bks-link'))$i('bks-link').onclick=async()=>{await fsLink();openSetup()};
+  if(zdis&&!OFFLINE)$i('bks-body').querySelectorAll('input[name="bk-zentral"]').forEach(x=>x.disabled=true)}
+ function setupOk(){const v=n=>{const x=document.querySelector(`#bks-body input[name="${n}"]:checked`);return x&&x.value};
+  const l=v('bk-lokal'),z=v('bk-zentral');if(l)CFG.lokal.stufe=l;if(z&&z!=='storage')CFG.zentral.stufe=z;
+  const lon=$i('bks-lon'),zon=$i('bks-zon');if(lon&&!lon.disabled)CFG.lokal.on=lon.checked;if(zon&&!zon.disabled)CFG.zentral.on=zon.checked;
+  CFG.seen=true;cfgSave();$i('bksetup').close();render();fsSchedule();zbSchedule();toast(`Backup eingerichtet · Lokal ${CFG.lokal.on?'ein':'aus'} (${CFG.lokal.stufe})${zbOk()?` · Zentral ${CFG.zentral.on?'ein':'aus'} (${CFG.zentral.stufe})`:''}`)}
+
+ // ── Start ──
+ async function boot(){
+  let list=null;try{list=JSON.parse(LSg(EKEY)||'null')}catch(e){}
+  const n=list?inboxLoad(list,false):0;
+  $i('backupBtn').onclick=openDlg;$i('bkdlg').addEventListener('click',onClick);$i('bk-close').onclick=()=>$i('bkdlg').close();
+  $i('bk-setup').onclick=()=>{$i('bkdlg').close();openSetup()};$i('bks-ok').onclick=setupOk;$i('bks-later').onclick=()=>{CFG.seen=true;cfgSave();$i('bksetup').close()};
+  $i('bk-file').onchange=e=>{const f=e.target.files[0];e.target.value='';if(f)restoreFile(f)};
+  document.addEventListener(EV,()=>{fsSchedule();zbSchedule()});
+  const tb=$i('theme-btn');if(tb)tb.addEventListener('click',()=>{fsSchedule();zbSchedule()});
+  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'){persist();if(ZB.t){clearTimeout(ZB.t);ZB.t=null;zbSave(false)}}});
+  addEventListener('online',()=>{render();if(CFG.zentral.on&&(ZB.pending||ZB.t))zbSave(false)});addEventListener('offline',render);
+  if(fsSupported())try{const h=await IDB.get('dir');if(h){FS.handle=h;await fsPerm(false)}}catch(e){}
+  if(typeof window.showSaveFilePicker==='function')try{LOK.fh=(await IDB.get('file'))||null}catch(e){}
+  render();
+  if(!CFG.seen)setTimeout(()=>{if(!document.querySelector('dialog[open]'))openSetup()},600);
+  return n}
+ return{boot,store,drop,persist,persistSoon,openDlg,openSetup,stufeObjA,check,restore,cfg:()=>CFG}
+})();
+
+renderQueue=(o=>function(){o.apply(this,arguments);LSB.persistSoon()})(renderQueue);
 /* ======================= Events & Start ======================= */
 $('#files').onchange=e=>{addFiles(e.target.files);e.target.value=''};
 $('#dirInput').onchange=e=>{loadFromInput(e.target.files);e.target.value=''};
@@ -1061,11 +1389,12 @@ $('#chooseFolder').onclick=chooseFolder;
 $('#saveCurrent').onclick=async()=>{const d=cur();if(await archive(d)){toast('Gespeichert: '+(archName||'Archiv')+'/'+d.loc.folder+'/');renderQueue();renderEditor();renderBar()}};
 $('#saveAll').onclick=archiveAll;
 $('#exportCsv').onclick=csv;
-$('#exportJson').onclick=exportJson;
+
 window.addEventListener('beforeunload',e=>{if(docs.some(d=>(!d.archived&&d.status!=='pending')||d.dirty)){e.preventDefault();e.returnValue=''}});
 
 (async function start(){
- renderQueue();
+ const nIn=await LSB.boot();renderQueue();
+ if(nIn){const f=docs.find(x=>!x.archived);if(f)await select(f.id);processQueue()}
  if(!window.showDirectoryPicker){archState='nosupport';renderBar();return}
  let h=null;try{h=await idb.get('archive')}catch(e){}
  if(!h){archState='none';renderBar();return}

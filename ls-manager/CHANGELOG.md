@@ -4,6 +4,18 @@ Lieferscheine automatisch auslesen und je Lieferant im eigenen Archivordner able
 Tool-ID `ls-manager` · Download-Datei `RIEMER-Tools_LS-Manager_V#.#.html`
 Neueste Version oben. Versionen ≤ V1.0 nachträglich rekonstruiert (Repo-Historie golfsburg/riemer-toolbox, `tool_versions`).
 
+## V1.2 · 18.11.2026 · DEV
+**Neu**
+- Backup nach RIEMER-Standard: Knopf „Backup“ im Header mit Symbol für Lokal (Ordner) und Server (Wolke).
+- Backup-Stufen settings (Hell/Dunkel, Eigene Firma), datenbank (+ neue, noch nicht archivierte Lieferscheine mit allen Feldern und erkanntem Text) und storage (+ alle hochgeladenen Dateien). storage ist unter 01 Lokal immer wählbar, zentral gesperrt („nur lokal, zentral folgt später“).
+- Backup-Dialog mit 01 Lokal (eine Datei `Backup_LS-ritl.json`, wird überschrieben; wiederherstellen), 02 OneDrive & SharePoint (synchronisierten Ordner verknüpfen, automatisch sichern) und 03 Zentral (lizenzierte Version, Historie 10 Tage).
+- Modal „Backup einrichten“ beim ersten Start mit den komprimierten Größen je Stufe.
+- Hochgeladene Lieferscheine liegen in der Dateiablage RITLF und bleiben nach dem Neuladen erhalten, bis sie archiviert oder entfernt werden.
+
+**Geändert**
+- „Backup“ im Header ersetzt den bisherigen JSON-Export der Daten; die Übersicht als CSV bleibt.
+- Header-Kit RITL-UI 1.3.
+
 ## V1.1 · 16.11.2026 · DEV
 **Geändert**
 - Header auf den zentralen Header RITL-UI 1.1 umgestellt (wie MUSTER.ritl V2.8): App-Bild, Eyebrow „LIEFERSCHEINE · #RITL_LS“, LS.ritl mit Edition und Version · Datum.
