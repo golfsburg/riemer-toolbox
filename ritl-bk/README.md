@@ -3,7 +3,7 @@
 Regel: In **jedem** RIEMER Tool ist unter **01 Lokal** die Stufe `storage` wählbar: `datenbank` + alle hochgeladenen Dateien.
 Zentral (Server) bleibt `storage` vorerst gesperrt („nur lokal, zentral folgt später“).
 
-Vorbild: MUSTER.ritl V3.0 (Pilot). Umgesetzt: STAKE.ritl V1.8, DRIVE.ritl V1.7, PPTX.ritl V2.9, PDF.ritl V1.5, TRACK.ritl V2.7 (je DEV).
+Vorbild: MUSTER.ritl V3.0 (Pilot). Umgesetzt: STAKE.ritl V1.8, DRIVE.ritl V1.7, PPTX.ritl V2.9, PDF.ritl V1.5, TRACK.ritl V2.7, LV.ritl V9.4 (je DEV).
 PPTX/PDF (gemeinsames Backup-Modul `BK_CONF`): storage bettet das Komplett-Paket (.zip mit allen Originalen) als `daten.paket` ein; Wiederherstellen über `M.addFiles`.
 TRACK.ritl (React/Vite): Baustein als TypeScript-Modul `src/utils/ritlFiles.ts` (IndexedDB `track_files`); GPX, Fotos und Puls-Dateien über RITLF, Fotos behalten zusätzlich ihre Vorschau in den Daten; 360°-Videos bewusst nicht.
 
