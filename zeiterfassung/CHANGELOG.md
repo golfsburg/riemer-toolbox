@@ -3,6 +3,18 @@
 Projektzeiten erfassen, Timer und manuelle Einträge, Auswertung, Excel/CSV-Datei-Modus · #ritl_zeiterfassung
 Neueste Version oben. Versionen ≤ V3.1 nachträglich aus dem Changelog im Tool rekonstruiert (V1.0–V2.3: 17.07.2026).
 
+## V3.3 · 18.11.2026
+**Neu**
+- Backup im Header: eine Datei `Backup_Zeiterfassung-ritl.json`, lokal oder in einem OneDrive-/SharePoint-Ordner; sie wird bei jedem Sichern überschrieben, auf Wunsch automatisch nach jeder Änderung
+- Backup-Stufen: settings (Hell/Dunkel, Mitarbeitername, Datei-Modus), datenbank (zusätzlich Kategorien, Projekte, Einträge) und storage (zusätzlich Dateiablage)
+- Stufe storage ist unter Lokal immer wählbar, zentral gesperrt („nur lokal, zentral folgt später“)
+- Zentrales Backup auf dem Lizenzserver mit Historie (10 Tage); Dialog „Backup einrichten“ zeigt beim ersten Start die Größen je Stufe
+- Dateiablage RITLF (IndexedDB) für hochgeladene Dateien als Grundlage für storage; Ordner-/Wolken-Symbol am Backup-Knopf zeigt den Zustand
+
+**Geändert**
+- Header-Knopf „Backup“ ersetzt „Neues Projekt“ (bleibt links in der Seitenleiste); Header-Kit RITL-UI 1.3
+- Alte Sicherungen (Alle exportieren) lassen sich weiter wiederherstellen; „Alle exportieren“ ist im Backup-Dialog aufgegangen
+
 ## V3.2 · 16.11.2026
 **Geändert**
 - Header auf den zentralen RITL-UI-Header umgestellt (wie PPTX.ritl und MUSTER.ritl): App-Bild, Name mit Edition und Version · Datum, Knöpfe als Symbole
