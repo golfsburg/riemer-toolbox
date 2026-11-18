@@ -3,6 +3,23 @@
 Beziehungs- und Stakeholder-Map für Firmen, Ansprechpartner, Projekte und Gewerke · #ritl_stake
 Neueste Version oben.
 
+## V1.9 · 18.11.2026 · DEV
+**Neu**
+- **Brücke aus PM.ritl** (PM.ritl V2.0, Format 1): Projekte, Gewerke und Firmen (Kunden/Account) mit ihren Beteiligungen übernehmen – aus dem Browser (`riemer-bridge-pm-stake`, PM.ritl schreibt nach jeder Änderung) oder aus der Datei `PM-ritl_STAKE-Bruecke.json`. Der Kopf wird geprüft (`pm-ritl`, Inhalt `bruecke`, Format 1); neueres Format → „Bitte STAKE.ritl aktualisieren“.
+- Nur Gewerke mit Business vom Typ Spezifikation Opportunity, Spezifikation oder Opportunity; Leads (Pipeline) werden nicht übernommen. Rolle: Spezifikation → Planung (`plan`), Opportunity → Ausführung (`aus`).
+- DATA.ritl › Import › **Aus PM.ritl übernehmen**: Stand der Brücke und Vorschau neu / aktualisiert / unverändert / nicht mehr in PM.ritl je Firmen, Projekte, Gewerke und Beteiligungen. Abgleich über den gespeicherten PM-Schlüssel, sonst den Namen ohne Rechtsform; je Firma, Projekt, Gewerk und Rolle eine Beziehung – zweimal übernehmen erzeugt keine Dubletten. Rückgängig möglich.
+- Nur ergänzen und aktualisieren: STAKE-eigene Firmen, Projekte, Ansprechpartner und Beziehungen bleiben. Beziehungen aus PM.ritl, die dort nicht mehr vorkommen, werden markiert und nur nach Bestätigung entfernt.
+- Neue Firmen links, neue Projekte in der Mitte; vorhandene Positionen bleiben.
+- Status und Business je Beteiligung im Tooltip (Map) und in der Matrix-Zelle; verlorene Beteiligungen blass.
+- Punkt am Reiter DATA.ritl, wenn im Browser eine neuere Brücke liegt als die zuletzt übernommene.
+- Filter **Herkunft: PM.ritl** in Map und Matrix.
+- Anleitung: Abschnitt „Verbindung zu PM.ritl“.
+- Haltung und Einfluss im Projekt-FOKUS: Map (Firmenbox, Kreise, Popup), Tabelle „Firmen & Ansprechpartner“ und Projektzelle zeigen und ändern dieselben Werte im Projekt; sie gelten je Projekt für alle Gewerke der Person.
+
+**Geändert**
+- Rolle der Firma im Projekt ist eine feste Auswahlliste (Matrix und Beziehung in der Map); frühere freie Einträge bleiben als „nicht in der Liste“ sichtbar.
+- DATA.ritl › Bearbeiten: „Haltung (allgemein)“ / „Einfluss (allgemein)“.
+
 ## V1.8 · 18.11.2026 · DEV
 **Neu**
 - Backup-Stufe **storage** für 01 Lokal: alles aus `datenbank` plus alle Dateien der Dateiablage (IndexedDB `stake_files`). Noch lädt STAKE.ritl selbst keine Dateien hoch – die Stufe ist für künftige Anhänge vorbereitet und sichert bis dahin wie `datenbank`.
