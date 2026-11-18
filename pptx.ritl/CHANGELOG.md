@@ -3,6 +3,23 @@
 Präsentationen aus Abschnitten zusammenstellen (DECK.ritl) und Meetings planen (TIMING.ritl) · #ritl_pptx
 Neueste Version oben. Ältere Versionen siehe Admin › Tools › Versionen (Tabelle `tool_versions`); dieser CHANGELOG beginnt mit V2.9.
 
+## V3.1 · 18.11.2026 · DEV
+
+**TIMING.ritl – Verantwortlich mehrfach**
+- „Verantwortlich“ je Agenda-Punkt ist jetzt eine Mehrfachauswahl (▾): mehrere Teams und Personen frei kombinierbar; Team-Chip wählt das ganze Team, Häkchen einzelne Personen.
+- Volle Teams erscheinen kompakt mit Teamnamen – in der Agenda, im Live-Modus, in DECK.ritl, im Inhaltsverzeichnis und in allen Exporten; „Einsatz je Teilnehmer“ zählt jede verantwortliche Person.
+- Ältere Stände (eine verantwortliche Person) werden automatisch übernommen.
+
+**Projekte (neu, parallel zu den Backup-Stufen)**
+- JSON-Datei als Projekt öffnen (auch jedes Backup mit PPTX.ritl-Kopf) oder die aktuelle Arbeit „Als Projekt speichern“ – danach wird jede Änderung direkt in diese Datei geschrieben (Datenbank oder Storage inkl. PPTX).
+- Projekt-Anzeige in der Modulleiste mit Name und Speicherzeit; Backup-Dialog mit neuem Abschnitt 01 Projekt, Projekten im verknüpften OneDrive-/SharePoint-Ordner und zuletzt geöffneten Projekten.
+- Abgleich mehrerer Geräte: wurde die Datei extern geändert (OneDrive), lädt PPTX.ritl den neuen Stand automatisch; bei Änderungen auf beiden Seiten wählt man „Stand aus der Datei laden“ oder „Meinen Stand speichern“.
+- „Neu beginnen“ schließt ein offenes Projekt vorher – die Datei wird nie mit einem leeren Stand überschrieben.
+- Ohne Chrome/Edge am Computer: Projekt laden und als Download speichern.
+
+**Allgemein**
+- Automatische Sicherungen reagieren jetzt auf jede Eingabe; Vergleich der Stände ohne Zeitstempel (weniger unnötige Schreibvorgänge).
+
 ## V3.0 · 18.11.2026 · DEV
 
 **TIMING.ritl – Teams (Gruppen) für Teilnehmer**

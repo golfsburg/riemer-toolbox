@@ -291,6 +291,18 @@ html,body{overflow-x:hidden}
 .rtab .ic{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;background:var(--soft);color:var(--accent-text)} .rtab .ic svg{width:18px;height:18px}
 .rtab:not(.on) .ic{background:var(--surface);color:var(--muted)}
 .rtab .tag{font:500 10.5px var(--mono);color:var(--muted);margin-left:6px}
+.prjbox{margin-left:auto;align-self:center;padding-right:10px}.prjbox+.rside{margin-left:0}
+.prjpill{display:inline-flex;align-items:center;gap:6px;max-width:340px;height:28px;padding:0 10px 0 8px;border:1px solid var(--line2);border-radius:99px;background:var(--surface);color:var(--ink);font:500 12px var(--sans);cursor:pointer}
+.prjpill svg{width:14px;height:14px;flex:none;color:var(--accent-text)}
+.prjpill b{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prjpill small{font:500 11px var(--mono);color:var(--muted);white-space:nowrap}
+.prjpill.none{color:var(--muted);border-style:dashed}
+.prjpill.good small{color:var(--good)}.prjpill.busy small{color:var(--accent-text)}
+.prjpill.warn{border-color:var(--warn)}.prjpill.warn small{color:var(--warn)}
+.prjpill:hover{border-color:var(--brand)}
+.bk-prj{border-color:color-mix(in srgb,var(--brand) 35%,var(--line))}
+.prj-st{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
+.prj-st select{font:inherit;font-size:12px;padding:4px 6px;border:1px solid var(--line2);border-radius:7px;background:var(--surface);color:var(--ink)}
 .rside{margin-left:auto;align-self:center;display:flex;gap:6px}
 .badge.time{background:color-mix(in srgb,var(--good) 14%,transparent);color:var(--good)}
 .step.warn{color:var(--warn)} .step.warn i{background:var(--warn);border-color:var(--warn);color:var(--surface)}
@@ -620,6 +632,19 @@ td small.hit-n{display:block;font:600 10px var(--mono)}
 .tchip.off button{color:var(--muted)}
 .tchip button:hover{text-decoration:underline}
 .tmem{display:inline-flex;align-items:center;margin:0 10px 0 -2px;padding:2px 6px 2px 4px;border-radius:999px;background:var(--surface-muted)}
+.rpick{position:relative;display:inline-flex}
+.rbtn{cursor:pointer;color:var(--muted);text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:240px}
+.rbtn.on{color:var(--ink);font-weight:600;border-color:color-mix(in srgb,var(--brand) 45%,var(--line2));background:color-mix(in srgb,var(--brand) 7%,var(--surface))}
+.rbtn b{display:inline-block;min-width:16px;padding:0 4px;margin-right:2px;border-radius:99px;background:var(--brand);color:var(--on-brand);font:700 10px/16px var(--mono);text-align:center}
+.rpop{position:absolute;z-index:40;top:calc(100% + 6px);left:0;width:min(420px,86vw);max-height:420px;overflow:auto;background:var(--surface);border:1px solid var(--line2);border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.18);padding:10px 12px}
+.rp-h{font:700 12.5px var(--sans);color:var(--ink);margin-bottom:8px}.rp-h small{display:block;font:500 11px var(--sans);color:var(--muted)}
+.rp-t{padding:6px 0;border-top:1px solid var(--line)}
+.rp-sub{font:600 10.5px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.rp-ps{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:2px 8px;margin-top:5px}
+.rp-p{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink);padding:2px 4px;border-radius:6px;cursor:pointer}
+.rp-p:hover{background:var(--surface-muted)}.rp-p input{accent-color:var(--brand);margin:0}.rp-p .avatar{width:20px;height:20px;font-size:8.5px}
+.rp-p span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.rp-p small{color:var(--muted);font-size:11px;margin-left:auto;white-space:nowrap}
+.rp-f{display:flex;justify-content:flex-end;gap:6px;padding-top:8px;border-top:1px solid var(--line)}
 #mPeople tr.tg td{background:var(--surface-muted);border-top:1px solid var(--line2)}
 #mPeople tr.tg input{width:auto;min-width:180px;font:700 13px var(--sans);border:1px solid transparent;background:transparent;padding:3px 6px;border-radius:6px;color:var(--ink)}
 #mPeople tr.tg input:hover,#mPeople tr.tg input:focus{border-color:var(--line2);background:var(--surface)}
@@ -629,7 +654,7 @@ td small.hit-n{display:block;font:600 10px var(--mono)}
 </head>
 <body>
 <div class="app">
-  <header data-ritl-header data-name="PPTX" data-eyebrow="Präsentationen &amp; Meetings · #ritl_pptx" data-tool="pptx-ritl" data-ver="V3.0" data-date="18.11.2026">
+  <header data-ritl-header data-name="PPTX" data-eyebrow="Präsentationen &amp; Meetings · #ritl_pptx" data-tool="pptx-ritl" data-ver="V3.1" data-date="18.11.2026">
     <svg class="logo" data-ritl-icon width="38" height="38" viewBox="0 0 38 38" aria-hidden="true"><rect class="l1" x="9" y="4" width="25" height="18" rx="3"/><rect class="l2" x="6" y="10" width="25" height="18" rx="3"/><rect class="l3" x="3" y="16" width="25" height="18" rx="3"/><path class="l4" d="M8 22h10M8 26h15M8 30h7" stroke-width="2" stroke-linecap="round"/></svg>
     <div data-ritl-center><nav class="steps" id="steps"></nav></div>
     <div data-ritl-actions>
@@ -859,6 +884,7 @@ header[data-ritl-header] :is(button,a):focus-visible{outline:2px solid var(--bra
   <nav class="ribbon" aria-label="Module">
     <button class="rtab on" type="button" data-act="mod" data-m="deck"><span class="ic"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="5" y="2.5" width="12" height="9" rx="1.5"/><rect x="2.5" y="7.5" width="12" height="9" rx="1.5" fill="var(--surface)"/></svg></span><span><b>DECK<em>.ritl</em></b><small>Folien aus Abschnitten zusammenstellen</small></span><span class="tag">#ritl_deck</span></button>
     <button class="rtab" type="button" data-act="mod" data-m="timing"><span class="ic"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="10" cy="11" r="6.5"/><path d="M10 7.5V11l2.5 1.8M7.5 2.5h5"/></svg></span><span><b>TIMING<em>.ritl</em></b><small>Agenda &amp; Meeting planen</small></span><span class="tag">#ritl_timing</span></button>
+    <div class="prjbox" id="prjPill"></div>
     <div class="rside" id="ribbonInfo"></div>
   </nav>
   <main id="mainDeck">
@@ -944,13 +970,15 @@ Raum Graz&#9;12"></textarea>
 </ol>
 <p><b>TIMING.ritl</b> – Agenda &amp; Meeting planen, eigenständig oder verknüpft:</p>
 <ol>
-<li><b>Meeting anlegen</b> – Titel, Datum, Beginn, Soll-Ende, Ort und Teilnehmer (mehrere auf einmal mit „;“ getrennt, optional „Name &lt;mail@firma.at&gt;“).</li>
+<li><b>Meeting anlegen</b> – Titel, Datum, Beginn, Soll-Ende, Ort und Teilnehmer (mehrere auf einmal mit „;“ getrennt, optional „Name &lt;mail@firma.at&gt;“). Teilnehmer lassen sich in <b>Teams</b> zusammenfassen (Verwalten › Spalte Team).</li>
+<li><b>Zuordnen</b> – je Punkt <b>Verantwortlich</b> (▾: mehrere Teams und Personen frei kombinierbar) und <b>Beteiligte</b> (Team-Chip wählt das ganze Team, ▾ einzelne Mitglieder).</li>
 <li><b>Agenda bauen</b> – Punkte, Pausen oder Vorlagen hinzufügen; Uhrzeiten von–bis rechnen sich aus Beginn und Dauer. „fixieren“ setzt eine feste Startzeit (z. B. Mittag), Lücken und Überschneidungen werden angezeigt.</li>
 <li><b>Verknüpfen</b> – „Aus DECK übernehmen“ macht aus jedem Storyboard-Abschnitt einen Agenda-Punkt (Dauer = Folien × Minuten pro Folie). Zeiten und Verantwortliche erscheinen dann in DECK.ritl und im Inhaltsverzeichnis.</li>
 <li><b>Live-Modus</b> – begleitet das Meeting mit Countdown, Prognose für das Ende und erfasst die Ist-Zeiten. Export als Text, .html, .csv und Kalendereintrag (.ics).</li>
 </ol>
 <p><b>★ Favoriten</b> (oben rechts): Zusammenstellungen, Abschnitte (☆ in der Bibliothek), Agenda-Vorlagen, Teilnehmer- und Raumlisten sowie Bausteine – in der Lizenz gespeichert und auf allen Geräten verfügbar (ohne Lizenzanmeldung nur im Browser).</p>
 <p><b>Ordner verbinden</b> (Bibliothek, Chrome/Edge): lokale oder per OneDrive synchronisierte SharePoint-Ordner merken und PPTX daraus per Klick öffnen; zuletzt verwendete Dateien stehen ebenfalls dort.</p>
+<p><b>Projekte</b> (Leiste rechts unter dem Kopf): eine JSON-Datei – auch ein Backup – als Projekt öffnen oder die aktuelle Arbeit „Als Projekt speichern“. Jede Änderung wird danach direkt in diese Datei geschrieben (z. B. im OneDrive- oder SharePoint-Ordner), unabhängig von den Backup-Stufen. Wurde die Datei auf einem anderen Gerät geändert, lädt PPTX.ritl den neuen Stand oder fragt nach, wenn beide Seiten geändert wurden.</p>
 <p><b>Backup</b> (oben rechts) sichert immer das gesamte Tool mit allen Modulen: als kleine .json und wiederverwenden – oder alles inkl. PPTX als ZIP. Beides lässt sich auch einfach auf die Seite ziehen.</p>
 <p class="meta">Alles läuft lokal im Browser – die Dateien werden nicht hochgeladen. Diagramme, Tabellen, Bilder, eingebettete Excel-Daten und Notizen werden mitkopiert; gleiche Vorlagen werden nur einmal übernommen.</p>
 </div></div></div>
@@ -2729,7 +2757,8 @@ https://github.com/nodeca/pako/blob/main/LICENSE
   render();
   // ---------- Backup-Stufen: Schnittstelle für backup.js ----------
   window.BK_CONF = {
-    tool: 'pptx-ritl', name: 'PPTX.ritl', version: 'V3.0', prefix: 'pptx', fileWord: 'PPTX',
+    tool: 'pptx-ritl', name: 'PPTX.ritl', version: 'V3.1', prefix: 'pptx', fileWord: 'PPTX', projects: true,
+    title: () => { const t = window.TIMING && window.TIMING.summary ? window.TIMING.summary().title : ''; return t && t !== 'Projektbesprechung' ? t : (S.start && S.start.pkg ? S.start.pkg.displayName : t || 'Projekt'); },
     dbDesc: 'Zusammenstellung (Startfolie, Abschnitte, eigene Trennstellen, Folienauswahl) und TIMING.ritl (Meeting, Teilnehmer, Räume, Agenda)',
     hasAnything,
     settings: () => ({ theme: document.documentElement.getAttribute('data-theme') || 'light', opts: Object.assign({}, S.opts), view: S.view, searchMode: S.searchMode, filter: S.filter, mod: S.mod, favoriten: window.FAV && window.FAV.localList ? window.FAV.localList() : [] }),
@@ -2777,7 +2806,7 @@ https://github.com/nodeca/pako/blob/main/LICENSE
   const initials = n => (n || '?').split(/[\s.-]+/).filter(Boolean).slice(0, 2).map(x => x[0].toUpperCase()).join('') || '?';
 
   const fresh = () => ({ v: 2, title: 'Projektbesprechung', date: localDate(), start: '09:00', end: '10:30', place: '', moderator: null, participants: [], teams: [], rooms: [], items: [], minPerSlide: 2 });
-  function migrate(t) { (t.participants || []).sort(byName); (t.rooms || []).sort(byName); if (!t.v) { (t.items || []).forEach(i => { if (Array.isArray(i.parts) && !i.parts.length) i.parts = null; }); t.v = 2; } t.rooms = t.rooms || []; t.teams = (t.teams || []).sort(byName); (t.participants || []).forEach(p => { if (p.team && !t.teams.some(x => x.id === p.team)) p.team = null; }); return t; }
+  function migrate(t) { (t.participants || []).sort(byName); (t.rooms || []).sort(byName); if (!t.v) { (t.items || []).forEach(i => { if (Array.isArray(i.parts) && !i.parts.length) i.parts = null; }); t.v = 2; } (t.items || []).forEach(i => { i.resp = Array.isArray(i.resp) ? i.resp : i.resp ? [i.resp] : []; }); t.rooms = t.rooms || []; t.teams = (t.teams || []).sort(byName); (t.participants || []).forEach(p => { if (p.team && !t.teams.some(x => x.id === p.team)) p.team = null; }); return t; }
   let T = (() => { try { const j = localStorage.getItem('ritl-timing'); if (j) return migrate(Object.assign(fresh(), JSON.parse(j))); } catch (e) { } return fresh(); })();
   T.items.forEach(i => { i.decks = []; delete i.deckUid; }); // DECK-Verknüpfungen gelten nur innerhalb einer Sitzung
   let LIVE = null, liveTimer = null, DRAG = null, openNotes = new Set(), openSl = new Set();
@@ -2793,6 +2822,9 @@ https://github.com/nodeca/pako/blob/main/LICENSE
   // ---------- Berechnung ----------
   const person = id => T.participants.find(p => p.id === id) || null;
   const pName = id => { const p = person(id); return p ? p.name : ''; };
+  const rIds = it => (Array.isArray(it.resp) ? it.resp : it.resp ? [it.resp] : []).filter(id => person(id));
+  const rTxt = it => whoTxt(rIds(it));
+  let openResp = null; // Agendapunkt mit offener Verantwortlich-Auswahl
   // ---------- Teams (Gruppen von Teilnehmern) ----------
   const team = id => T.teams.find(t => t.id === id) || null;
   const tOf = p => (p && p.team && team(p.team)) ? p.team : null;
@@ -2844,7 +2876,7 @@ https://github.com/nodeca/pako/blob/main/LICENSE
   function effParts(it) {
     if (it.type === 'pause') return [];
     const ps = it.parts == null ? T.participants.map(p => p.id) : it.parts;
-    return [...new Set((it.resp ? [it.resp] : []).concat(ps))];
+    return [...new Set(rIds(it).concat(ps))];
   }
   function conflicts(sc) {
     const out = T.items.map(() => []);
@@ -2864,7 +2896,7 @@ https://github.com/nodeca/pako/blob/main/LICENSE
     T.items.forEach(i => byType[i.type || 'info'] += +i.dur || 0);
     const load = T.participants.map(p => {
       let resp = 0, part = 0;
-      T.items.forEach(i => { if (i.type === 'pause') return; const d = +i.dur || 0; if (i.resp === p.id) resp += d; else if (i.parts == null || i.parts.includes(p.id)) part += d; });
+      T.items.forEach(i => { if (i.type === 'pause') return; const d = +i.dur || 0; if (rIds(i).includes(p.id)) resp += d; else if (i.parts == null || i.parts.includes(p.id)) part += d; });
       return { p, resp, part };
     });
     const actual = T.items.some(i => i.actual != null);
@@ -2898,7 +2930,7 @@ https://github.com/nodeca/pako/blob/main/LICENSE
     if (!S.items.length) { toast('Im DECK.ritl-Storyboard sind noch keine Abschnitte.', true); return; }
     let added = 0;
     unassigned().forEach(d => {
-      T.items.push({ id: nid('a'), title: d.label, titleCustom: false, dur: roundDur(deckSlides(d) * (+T.minPerSlide || 2)), type: 'info', resp: null, parts: null, room: null, note: '', decks: [{ u: d.uid, sl: null }], fixed: null, actual: null });
+      T.items.push({ id: nid('a'), title: d.label, titleCustom: false, dur: roundDur(deckSlides(d) * (+T.minPerSlide || 2)), type: 'info', resp: [], parts: null, room: null, note: '', decks: [{ u: d.uid, sl: null }], fixed: null, actual: null });
       added++;
     });
     syncOrder(true); persist(); render();
@@ -3024,10 +3056,29 @@ https://github.com/nodeca/pako/blob/main/LICENSE
     return s + `<span class="pq"><button type="button" class="${it.parts == null ? 'on' : ''}" data-tm="pAll" data-aid="${it.id}">alle</button><button type="button" class="${it.parts && !it.parts.length ? 'on' : ''}" data-tm="pNone" data-aid="${it.id}">keine</button></span><span class="meta">${it.parts == null ? 'alle' : parts.length + ' / ' + T.participants.length}</span>`;
   }
 
+  function respHtml(it) {
+    const ids = rIds(it), set = new Set(ids), op = openResp === it.id;
+    const lbl = ids.length ? h(whoTxt(ids)) : '– Verantwortlich –';
+    let s = `<span class="rpick${op ? ' open' : ''}"><button type="button" class="pill-sel rbtn${ids.length ? ' on' : ''}" data-tm="respOpen" data-aid="${it.id}" aria-expanded="${op}" title="Verantwortlich: ${ids.length ? h(whoTxt(ids)) : 'niemand'} – Teams und Personen wählen">${ids.length > 1 ? `<b>${ids.length}</b> ` : ''}${lbl} ▾</button>`;
+    if (op) {
+      const { g, loose } = groups();
+      const cb = p => `<label class="rp-p"><input type="checkbox" data-rp="${p.id}" data-aid="${it.id}" ${set.has(p.id) ? 'checked' : ''}>${avatar(p)}<span>${h(p.name)}</span>${p.role ? `<small>${h(p.role)}</small>` : ''}</label>`;
+      s += `<div class="rpop" role="dialog" aria-label="Verantwortlich wählen"><div class="rp-h">Verantwortlich <small>Teams und Personen frei kombinierbar</small></div>`;
+      if (!T.participants.length) s += '<p class="meta">Teilnehmer links anlegen</p>';
+      g.filter(x => x.ps.length).forEach(({ t, ps }) => { const n = ps.filter(p => set.has(p.id)).length, stc = n === ps.length ? 'on' : n ? 'part' : 'off'; s += `<div class="rp-t"><span class="tchip ${stc}" style="--pc:${t.color}"><button type="button" data-tm="respTeam" data-aid="${it.id}" data-tid="${t.id}" title="Ganzes Team ${stc === 'on' ? 'abwählen' : 'wählen'}">${h(t.name || 'Team')} <small>${n}/${ps.length}</small></button></span><div class="rp-ps">${ps.map(cb).join('')}</div></div>`; });
+      if (loose.length) s += `<div class="rp-t"><div class="rp-sub">${g.some(x => x.ps.length) ? 'Ohne Team' : 'Personen'}</div><div class="rp-ps">${loose.map(cb).join('')}</div></div>`;
+      s += `<div class="rp-f"><button type="button" class="btn sm ghost" data-tm="respNone" data-aid="${it.id}" ${ids.length ? '' : 'disabled'}>Keine</button><button type="button" class="btn sm primary" data-tm="respOpen" data-aid="${it.id}">Fertig</button></div></div>`;
+    }
+    return s + '</span>';
+  }
+  function toggleRespTeam(it, tid) {
+    const ms = membersOf(tid).map(p => p.id); if (!ms.length) return; const cur = rIds(it);
+    it.resp = ms.every(id => cur.includes(id)) ? cur.filter(id => !ms.includes(id)) : cur.concat(ms.filter(id => !cur.includes(id)));
+  }
+
   function renderAgenda() {
     const st = stats();
     const typeOpts = cur => Object.entries(TYPES).map(([k, v]) => `<option value="${k}" ${k === cur ? 'selected' : ''}>${v.l}</option>`).join('');
-    const respOpts = cur => `<option value="">– Verantwortlich –</option>` + personOpts(cur);
     $('#tmTools').innerHTML = `<button class="btn sm" type="button" data-tm="add">+ Punkt</button><button class="btn sm" type="button" data-tm="addPause">+ Pause</button>
       <select class="btn sm tsel" data-tm="tpl"><option value="">+ Vorlage …</option><optgroup label="Standard">${TEMPLATES.map((t, i) => `<option value="${i}">${h(t.t)} (${t.d}′)</option>`).join('')}</optgroup>${(() => { const bl = window.FAV ? window.FAV.list('timing', 'block') : []; return bl.length ? `<optgroup label="★ Meine Bausteine">${bl.map(f => `<option value="fav:${h(f.id)}">${h(f.name)} (${+f.data.dur || 10}′)</option>`).join('')}</optgroup>` : ''; })()}</select>
       ${window.FAV ? '<button class="btn sm" type="button" data-tm="favAgenda" title="Agenda als Favorit speichern oder laden">★ Agenda-Favoriten</button>' : ''}
@@ -3055,7 +3106,7 @@ https://github.com/nodeca/pako/blob/main/LICENSE
           <div class="row"><span class="ag-no">${pad(ix + 1)}</span><input class="ag-title" type="text" data-af="title" data-aid="${it.id}" value="${h(it.title)}" placeholder="Thema"></div>
           <div class="ag-meta">
             <select class="pill-sel" data-af="type" data-aid="${it.id}" style="--tc:${ty.c}">${typeOpts(it.type)}</select>
-            ${it.type === 'pause' ? '' : `<select class="pill-sel" data-af="resp" data-aid="${it.id}">${respOpts(it.resp)}</select>
+            ${it.type === 'pause' ? '' : `${respHtml(it)}
             <span class="parts" title="Beteiligte">${partsHtml(it, parts)}</span>`}
             <select class="pill-sel room-sel" data-af="room" data-aid="${it.id}" title="Raum">${T.rooms.length ? `<option value="all" ${rm === 'all' ? 'selected' : ''}>▣ Plenum (alle Räume)</option>${T.rooms.map(r => `<option value="${r.id}" ${rm === r.id ? 'selected' : ''}>● ${h(r.name)}</option>`).join('')}` : '<option value="all">Raum: –</option>'}<option value="__new">＋ Raum anlegen …</option></select>
 
@@ -3217,7 +3268,7 @@ https://github.com/nodeca/pako/blob/main/LICENSE
     let add = 0, upd = 0; rows = rows.filter(r => r && r.name);
     const same = (p, r) => (r.email && p.email && p.email.toLowerCase() === r.email.toLowerCase()) || p.name.toLowerCase() === r.name.toLowerCase();
     if (replace) { const keep = new Set(); rows.forEach(r => { const ex = T.participants.find(p => same(p, r)); if (ex) keep.add(ex.id); });
-      T.participants.filter(p => !keep.has(p.id)).forEach(p => { T.items.forEach(i => { if (i.resp === p.id) i.resp = null; if (i.parts) i.parts = i.parts.filter(x => x !== p.id); }); if (T.moderator === p.id) T.moderator = null; });
+      T.participants.filter(p => !keep.has(p.id)).forEach(p => { T.items.forEach(i => { i.resp = rIds(i).filter(x => x !== p.id); if (i.parts) i.parts = i.parts.filter(x => x !== p.id); }); if (T.moderator === p.id) T.moderator = null; });
       T.participants = T.participants.filter(p => keep.has(p.id)); }
     rows.forEach(r => { const ex = T.participants.find(p => same(p, r));
       const tid = r.team ? ensureTeam(r.team) : null;
@@ -3248,7 +3299,7 @@ https://github.com/nodeca/pako/blob/main/LICENSE
 
   // ---------- Aktionen ----------
   const itemOf = id => T.items.find(i => i.id === id);
-  function addItem(o) { T.items.push(Object.assign({ id: nid('a'), title: '', titleCustom: true, dur: 10, type: 'info', resp: null, parts: null, room: null, note: '', decks: [], fixed: null, actual: null }, o)); persist(); render(); const last = document.querySelector('#tmAgenda .ag-row:last-of-type .ag-title'); if (last && !o.title) last.focus(); }
+  function addItem(o) { T.items.push(Object.assign({ id: nid('a'), title: '', titleCustom: true, dur: 10, type: 'info', resp: [], parts: null, room: null, note: '', decks: [], fixed: null, actual: null }, o)); persist(); render(); const last = document.querySelector('#tmAgenda .ag-row:last-of-type .ag-title'); if (last && !o.title) last.focus(); }
   function addPeople(txt) {
     const names = txt.split(/[;\n]/).map(x => x.trim()).filter(Boolean); if (!names.length) return;
     const ts = $('#pNewTeam'); const tid = ts && ts.value && team(ts.value) ? ts.value : null; UI.lastTeam = tid || ''; saveUI();
@@ -3287,6 +3338,9 @@ https://github.com/nodeca/pako/blob/main/LICENSE
         persist(); render(); if (it.fixed) toast(`Startzeit ${it.fixed} fixiert – folgende Punkte richten sich danach.`); break;
       }
       case 'part': { if (it.parts == null) it.parts = T.participants.map(p => p.id); const p = t.dataset.pid; const k = it.parts.indexOf(p); k >= 0 ? it.parts.splice(k, 1) : it.parts.push(p); if (it.parts.length === T.participants.length) it.parts = null; persist(); render(); break; }
+      case 'respOpen': openResp = openResp === it.id ? null : it.id; render(); if (openResp) { const f = document.querySelector('.rpop input, .rpop button'); if (f) f.focus(); } break;
+      case 'respTeam': toggleRespTeam(it, t.dataset.tid); persist(); render(); break;
+      case 'respNone': it.resp = []; persist(); render(); break;
       case 'favBlock': window.FAV.openSave('timing', 'block', it.title || 'Baustein', { aid: it.id }); break;
       case 'favAgenda': window.FAV.open('timing', 'agenda'); break;
       case 'favP': window.FAV.open('timing', 'people'); break;
@@ -3319,7 +3373,7 @@ https://github.com/nodeca/pako/blob/main/LICENSE
       case 'note': openNotes.add(it.id); render(); const n = document.querySelector(`textarea[data-aid="${it.id}"]`); if (n) n.focus(); break;
       case 'up': case 'down': { const j = t.dataset.tm === 'up' ? ix - 1 : ix + 1; if (j >= 0 && j < T.items.length) { [T.items[ix], T.items[j]] = [T.items[j], T.items[ix]]; persist(); render(); } break; }
       case 'del': T.items.splice(ix, 1); persist(); render(); break;
-      case 'pDel': { const id = t.dataset.pid; T.participants = T.participants.filter(p => p.id !== id); T.items.forEach(i => { if (i.resp === id) i.resp = null; if (i.parts) i.parts = i.parts.filter(x => x !== id); }); if (T.moderator === id) T.moderator = null; persist(); render(); break; }
+      case 'pDel': { const id = t.dataset.pid; T.participants = T.participants.filter(p => p.id !== id); T.items.forEach(i => { i.resp = rIds(i).filter(x => x !== id); if (i.parts) i.parts = i.parts.filter(x => x !== id); }); if (T.moderator === id) T.moderator = null; persist(); render(); break; }
       case 'import': importDeck(); break;
       case 'syncOrder': syncOrder(); break;
       case 'recalc': recalcDurations(); break;
@@ -3361,6 +3415,7 @@ https://github.com/nodeca/pako/blob/main/LICENSE
   });
   document.addEventListener('change', e => {
     const t = e.target; if (!root() || !root().contains(t)) return;
+    if (t.dataset.rp) { const it = itemOf(t.dataset.aid); const cur = rIds(it), id = t.dataset.rp; it.resp = t.checked ? cur.concat(cur.includes(id) ? [] : [id]) : cur.filter(x => x !== id); persist(); render(); const f = document.querySelector(`.rpop input[data-rp="${id}"]`); if (f) f.focus(); return; }
     if (t.dataset.tm === 'secAdd') { const it = itemOf(t.dataset.aid); if (t.value) { assign(+t.value, it); persist(); render(); } return; }
     if (t.dataset.tm === 'tpl' && /^fav:/.test(t.value)) { const f = window.FAV && window.FAV.get(t.value.slice(4)); if (f) addItem({ title: f.data.title, dur: +f.data.dur || 10, type: f.data.type || 'info', note: f.data.note || '' }); t.value = ''; return; }
     if (t.dataset.tm === 'tpl') { const tp = TEMPLATES[+t.value]; if (tp) addItem({ title: tp.t, dur: tp.d, type: tp.ty }); t.value = ''; return; }
@@ -3488,19 +3543,19 @@ https://github.com/nodeca/pako/blob/main/LICENSE
     const pct = plan ? Math.min(1, el / plan) : 1;
     const remain = LIVE.list.slice(LIVE.pos + 1).reduce((a, i) => a + (+T.items[i].dur || 0), 0) * 60 + Math.max(left, 0);
     const now = new Date(); const projEnd = now.getHours() * 60 + now.getMinutes() + Math.round(remain / 60);
-    const tgt = toMin(T.end); const nx = T.items[LIVE.list[LIVE.pos + 1]]; const ty = TYPES[it.type] || TYPES.info; const r = person(it.resp);
+    const tgt = toMin(T.end); const nx = T.items[LIVE.list[LIVE.pos + 1]]; const ty = TYPES[it.type] || TYPES.info; const r = rTxt(it);
     const par = T.rooms.length ? T.items.map((x, i) => i).filter(i => i !== ix && sc[i].from < sc[ix].to && sc[ix].from < sc[i].to && sc[i].room !== sc[ix].room) : [];
     $('#liveBody').innerHTML = `
       <div class="lv-top"><span>${h(T.title)}</span>${T.rooms.length ? `<select class="lv-room" data-lvroom><option value="*" ${LIVE.room === '*' ? 'selected' : ''}>Alle Räume</option>${T.rooms.map(x => `<option value="${x.id}" ${LIVE.room === x.id ? 'selected' : ''}>${h(x.name)} + Plenum</option>`).join('')}</select>` : ''}<span>Punkt ${LIVE.pos + 1} / ${LIVE.list.length}</span><span>Jetzt ${fmt(now.getHours() * 60 + now.getMinutes())} · Prognose Ende <b class="${tgt != null && projEnd > tgt ? 'neg' : 'pos'}">${fmt(projEnd)}</b>${tgt != null ? ` (Soll ${fmt(tgt)})` : ''}</span></div>
       <div class="lv-main" style="--tc:${ty.c}">
-        <div class="lv-type">${ty.l}${sc[ix].room !== 'all' ? ` · ${h(roomName(sc[ix].room))}` : T.rooms.length ? ' · Plenum' : ''}${r ? ` · ${h(r.name)}` : ''}</div>
+        <div class="lv-type">${ty.l}${sc[ix].room !== 'all' ? ` · ${h(roomName(sc[ix].room))}` : T.rooms.length ? ' · Plenum' : ''}${r ? ` · ${h(r)}` : ''}</div>
         <div class="lv-title">${h(it.title || 'Ohne Titel')}</div>
         <div class="lv-clock ${left < 0 ? 'neg' : left < 60 ? 'soon' : ''}">${mmss(left)}</div>
         <div class="lv-bar"><i style="width:${pct * 100}%"></i></div>
         <div class="lv-sub">${left < 0 ? 'überzogen' : 'verbleibend'} · geplant ${it.dur} min · ${fmt(sc[ix].from)}–${fmt(sc[ix].to)}${it.note ? ` · ${h(it.note)}` : ''}</div>
       </div>
       ${par.length ? `<div class="lv-par">Parallel: ${par.map(i => `<span>● ${h(roomName(sc[i].room))}: <b>${h(T.items[i].title || 'Ohne Titel')}</b> bis ${fmt(sc[i].to)}</span>`).join('')}</div>` : ''}
-      <div class="lv-next">${nx ? `Als Nächstes: <b>${h(nx.title || 'Ohne Titel')}</b> · ${nx.dur} min${person(nx.resp) ? ' · ' + h(person(nx.resp).name) : ''}${sc[LIVE.list[LIVE.pos + 1]].room !== 'all' ? ' · ' + h(roomName(sc[LIVE.list[LIVE.pos + 1]].room)) : ''}` : 'Letzter Punkt'}</div>
+      <div class="lv-next">${nx ? `Als Nächstes: <b>${h(nx.title || 'Ohne Titel')}</b> · ${nx.dur} min${rTxt(nx) ? ' · ' + h(rTxt(nx)) : ''}${sc[LIVE.list[LIVE.pos + 1]].room !== 'all' ? ' · ' + h(roomName(sc[LIVE.list[LIVE.pos + 1]].room)) : ''}` : 'Letzter Punkt'}</div>
       <div class="lv-dots">${LIVE.list.map((i, k) => `<i class="${k < LIVE.pos ? 'done' : k === LIVE.pos ? 'cur' : ''}" style="flex:${Math.max(1, +T.items[i].dur || 1)}" title="${h(T.items[i].title)}"></i>`).join('')}</div>
       <div class="lv-ctl"><button class="btn" type="button" data-lv="prev">◀ Zurück</button><button class="btn" type="button" data-lv="pause">${LIVE.run ? '❚❚ Pause' : '▶ Weiter'}</button><button class="btn primary" type="button" data-lv="next">${nx ? 'Nächster Punkt ▶' : 'Meeting beenden ✓'}</button><button class="btn ghost" type="button" data-lv="end">Abbrechen</button></div>
       <div class="lv-keys">Leertaste Pause · → nächster Punkt · ← zurück · Esc schließen</div>`;
@@ -3524,7 +3579,7 @@ https://github.com/nodeca/pako/blob/main/LICENSE
   // ---------- Exporte ----------
   function rowsData() {
     const st = stats();
-    return T.items.map((it, i) => ({ i, nr: i + 1, from: st.sc[i].from, von: fmt(st.sc[i].from), bis: fmt(st.sc[i].to), dauer: +it.dur || 0, thema: it.title || '', typ: (TYPES[it.type] || TYPES.info).l, type: it.type, raum: roomName(st.sc[i].room), verantw: pName(it.resp), beteiligt: it.type === 'pause' ? '' : it.parts == null ? 'alle' : it.parts.length ? whoTxt(it.parts) : 'keine', notiz: it.note || '', ist: it.actual != null ? Math.round(it.actual / 60) : '' }))
+    return T.items.map((it, i) => ({ i, nr: i + 1, from: st.sc[i].from, von: fmt(st.sc[i].from), bis: fmt(st.sc[i].to), dauer: +it.dur || 0, thema: it.title || '', typ: (TYPES[it.type] || TYPES.info).l, type: it.type, raum: roomName(st.sc[i].room), verantw: rTxt(it), beteiligt: it.type === 'pause' ? '' : it.parts == null ? 'alle' : it.parts.length ? whoTxt(it.parts) : 'keine', notiz: it.note || '', ist: it.actual != null ? Math.round(it.actual / 60) : '' }))
       .sort((a, b) => a.from - b.from || a.i - b.i);
   }
   const dateTxt = () => { const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(T.date || ''); return m ? `${m[3]}.${m[2]}.${m[1]}` : ''; };
@@ -3578,20 +3633,22 @@ ${T.participants.length ? `<div class="ppl"><b>Teilnehmer:</b> ${peopleLine(true
 <div class="ft"><span>Erstellt am ${new Date().toLocaleDateString('de-AT')}</span><b>RIEMER <span>Tools</span></b></div></body></html>`;
   }
 
+  document.addEventListener('mousedown', e => { if (openResp && !e.target.closest('.rpick')) { openResp = null; document.querySelectorAll('.rpick.open').forEach(x => { x.classList.remove('open'); const p = x.querySelector('.rpop'); if (p) p.remove(); const b = x.querySelector('.rbtn'); if (b) b.setAttribute('aria-expanded', 'false'); }); } });
+  document.addEventListener('keydown', e => { if (openResp && e.key === 'Escape') { e.stopPropagation(); const id = openResp; openResp = null; render(); const b = document.querySelector(`[data-tm="respOpen"][data-aid="${id}"]`); if (b) b.focus(); } }, true);
   // ---------- Schnittstelle für DECK.ritl / Backup ----------
   window.TIMING = {
     render, deckChanged, headerSummary,
     forDeck(uid) {
       const ixs = T.items.map((i, k) => (i.decks || []).some(a => a.u === uid) ? k : -1).filter(k => k >= 0); if (!ixs.length) return null;
       const sc = schedule(); const ix = ixs.sort((a, b) => sc[a].from - sc[b].from)[0]; const it = T.items[ix];
-      return { from: fmt(sc[ix].from), to: fmt(sc[ix].to), no: ix + 1, nos: ixs.map(k => k + 1).sort((a, b) => a - b), title: it.title, resp: [pName(it.resp), sc[ix].room !== 'all' ? roomName(sc[ix].room) : ''].filter(Boolean).join(' · ') };
+      return { from: fmt(sc[ix].from), to: fmt(sc[ix].to), no: ix + 1, nos: ixs.map(k => k + 1).sort((a, b) => a - b), title: it.title, resp: [rTxt(it), sc[ix].room !== 'all' ? roomName(sc[ix].room) : ''].filter(Boolean).join(' · ') };
     },
     /** Agenda chronologisch – für Inhaltsverzeichnis und Folienreihenfolge in DECK.ritl */
     agenda() {
       const sc = schedule();
       return T.items.map((it, i) => ({ it, i, sc: sc[i] })).sort((a, b) => a.sc.from - b.sc.from || a.i - b.i).map(x => ({
         no: x.i + 1, title: x.it.title || 'Ohne Titel', pause: x.it.type === 'pause', from: fmt(x.sc.from), to: fmt(x.sc.to),
-        resp: pName(x.it.resp), room: x.sc.room !== 'all' ? roomName(x.sc.room) : '', id: x.it.id,
+        resp: rTxt(x.it), room: x.sc.room !== 'all' ? roomName(x.sc.room) : '', id: x.it.id,
         refs: decksOf(x.it).map(({ a, k, d }) => ({ u: d.uid, k, custom: !!a.sl, slides: selOf(a, d) })), uids: decksOf(x.it).map(y => y.d.uid)
       }));
     },
@@ -3619,7 +3676,7 @@ ${T.participants.length ? `<div class="ppl"><b>Teilnehmer:</b> ${peopleLine(true
     agendaTemplate() {
       return { title: T.title, start: T.start, end: T.end, place: T.place, minPerSlide: T.minPerSlide, moderator: pName(T.moderator),
         participants: T.participants.map(p => ({ name: p.name, role: p.role || '', email: p.email || '', team: (team(tOf(p)) || {}).name || '' })), rooms: T.rooms.map(r => ({ name: r.name, cap: r.cap || '' })),
-        items: T.items.map(i => ({ title: i.title, dur: +i.dur || 0, type: i.type, resp: pName(i.resp), parts: i.parts == null ? null : i.parts.map(pName), room: i.room ? roomName(i.room) : null, note: i.note || '', fixed: i.fixed || null })) };
+        items: T.items.map(i => ({ title: i.title, dur: +i.dur || 0, type: i.type, resp: rIds(i).map(pName), parts: i.parts == null ? null : i.parts.map(pName), room: i.room ? roomName(i.room) : null, note: i.note || '', fixed: i.fixed || null })) };
     },
     applyAgenda(d, mode) {
       if (!d || !Array.isArray(d.items)) return;
@@ -3627,7 +3684,7 @@ ${T.participants.length ? `<div class="ppl"><b>Teilnehmer:</b> ${peopleLine(true
       const pid = n => { const p = T.participants.find(x => x.name.toLowerCase() === String(n || '').toLowerCase()); return p ? p.id : null; };
       const rid = n => { const r = T.rooms.find(x => x.name.toLowerCase() === String(n || '').toLowerCase()); return r ? r.id : null; };
       if (mode === 'replace') { T.items = []; ['title', 'start', 'end', 'place', 'minPerSlide'].forEach(k => { if (d[k] != null && d[k] !== '') T[k] = d[k]; }); if (d.moderator) T.moderator = pid(d.moderator) || T.moderator; }
-      d.items.forEach(i => T.items.push({ id: nid('a'), title: i.title || '', titleCustom: true, dur: +i.dur || 10, type: i.type || 'info', resp: pid(i.resp), parts: i.parts == null ? null : i.parts.map(pid).filter(Boolean), room: i.room ? rid(i.room) : null, note: i.note || '', decks: [], fixed: mode === 'replace' ? (i.fixed || null) : null, actual: null }));
+      d.items.forEach(i => T.items.push({ id: nid('a'), title: i.title || '', titleCustom: true, dur: +i.dur || 10, type: i.type || 'info', resp: (Array.isArray(i.resp) ? i.resp : i.resp ? [i.resp] : []).map(pid).filter(Boolean), parts: i.parts == null ? null : i.parts.map(pid).filter(Boolean), room: i.room ? rid(i.room) : null, note: i.note || '', decks: [], fixed: mode === 'replace' ? (i.fixed || null) : null, actual: null }));
       sortLists(); persist(); render();
     },
     people() { return T.participants.map(p => ({ name: p.name, role: p.role || '', email: p.email || '', team: (team(tOf(p)) || {}).name || '' })); },
@@ -4078,6 +4135,7 @@ ${T.participants.length ? `<div class="ppl"><b>Teilnehmer:</b> ${peopleLine(true
   function stufeObj(st) { const s = C.settings(); return { ritl: head(st), daten: st === 'settings' ? { settings: s } : Object.assign({ settings: s }, C.daten()) }; }
   // storage = datenbank + alle Original-Dateien (Komplett-Paket als Base64 in der Backup-Datei) – nur lokal, zentral folgt später
   async function stufeObjA(st) { if (st !== 'storage') return stufeObj(st); const o = stufeObj('storage'); if (C.hasAnything()) { const z = await C.makeZip(); o.daten.paket = { name: ZIPNAME, size: z.size, b64: b64(new Uint8Array(await z.arrayBuffer())) }; } return o; }
+  const sigOf = d => JSON.stringify(d, (k, v) => k === 'created' || k === 'erstellt' ? undefined : v); // Vergleich ohne Zeitstempel
   const fmtB = n => n < 1024 ? n + ' B' : n < 1048576 ? (n / 1024).toFixed(n < 10240 ? 1 : 0).replace('.', ',') + ' KB' : (n / 1048576).toFixed(1).replace('.', ',') + ' MB';
   const zeit = d => { d = new Date(d); return d.toLocaleDateString('de-AT', { day: '2-digit', month: '2-digit', year: 'numeric' }) + ' ' + d.toLocaleTimeString('de-AT', { hour: '2-digit', minute: '2-digit' }); };
   async function gzip(str) { const s = new Blob([str]).stream().pipeThrough(new CompressionStream('gzip')); return new Uint8Array(await new Response(s).arrayBuffer()); }
@@ -4163,7 +4221,7 @@ ${T.participants.length ? `<div class="ppl"><b>Teilnehmer:</b> ${peopleLine(true
   async function zbSave(force) {
     if (!zbOk() || ZB.busy) return;
     if (!navigator.onLine) { ZB.pending = true; if (force) toast('Offline – zentrales Backup folgt, sobald wieder eine Verbindung besteht'); render(); return; }
-    ZB.pending = false; const st = CFG.zentral.stufe === 'storage' ? 'datenbank' : CFG.zentral.stufe, o = stufeObj(st), dat = JSON.stringify(o.daten), hs = await sha(dat);
+    ZB.pending = false; const st = CFG.zentral.stufe === 'storage' ? 'datenbank' : CFG.zentral.stufe, o = stufeObj(st), dat = JSON.stringify(o.daten), hs = await sha(sigOf(o.daten));
     if (!force && ZB.lastSha[st] === hs) return;
     ZB.busy = true; render();
     try {
@@ -4192,7 +4250,7 @@ ${T.participants.length ? `<div class="ppl"><b>Teilnehmer:</b> ${peopleLine(true
       if (!confirm(`Nur die Einstellungen aus ${src || 'der Sicherung'}${when ? ' vom ' + when : ''} übernehmen?\n\nTheme, Inhaltsverzeichnis-/Ausgabe-Optionen, Ansichten, Filter und lokale Favoriten – deine Dateien und das Storyboard bleiben unverändert.`)) return false;
       C.applySettings(d.settings || {}); toast('Einstellungen wiederhergestellt'); return true;
     }
-    if (C.hasAnything() && !confirm(`Die aktuelle Arbeit wird durch die Sicherung${when ? ' vom ' + when : ''} ersetzt (Einstellungen + Daten). Fortfahren?`)) return false;
+    if ((C.hasAnything() || PRJ.h) && !confirm(`Die aktuelle Arbeit wird durch die Sicherung${when ? ' vom ' + when : ''} ersetzt (Einstellungen + Daten).${PRJ.h ? `\n\nDas geöffnete Projekt „${PRJ.name}“ wird damit überschrieben.` : ''} Fortfahren?`)) return false;
     if (d.paket && d.paket.b64) { const f = new File([unb64(d.paket.b64)], d.paket.name || ZIPNAME, { type: 'application/zip' }); M.closeModals(); await M.addFiles([f]); if (d.settings) C.applySettings(d.settings); toast(`Wiederhergestellt inkl. ${C.fileWord}-Originale`); return true; }
     if (d.settings) C.applySettings(d.settings);
     await C.applyDaten(d); return true;
@@ -4202,18 +4260,166 @@ ${T.participants.length ? `<div class="ppl"><b>Teilnehmer:</b> ${peopleLine(true
     catch (e) { toast(e instanceof SyntaxError ? 'Die Datei ist kein gültiges JSON.' : e.message, true); }
   }
 
+
+  // ---------- Projekte: JSON-Datei als Projekt öffnen – jede Änderung überschreibt genau diese Datei ----------
+  // Läuft parallel zu den Backup-Stufen: Backup_NAME-ritl.json, Ordner und Zentral sichern weiter wie eingestellt.
+  const opnOK = typeof window.showOpenFilePicker === 'function';
+  const PSUF = `_${C.name.replace('.', '-')}`, PMETA = `riemer-${C.prefix}-prj`;
+  const PRJ = { h: null, name: '', stufe: 'datenbank', ok: false, last: null, mod: 0, sha: '', sig: null, err: '', conflict: 0, busy: false, again: false, pause: false, recent: [], folder: null, neuStufe: 'datenbank' };
+  const prjName = n => String(n || '').replace(/\.json$/i, '').replace(new RegExp(PSUF.replace(/[.-]/g, '\\$&') + '$', 'i'), '') || 'Projekt';
+  const prjMetaSave = () => { try { localStorage.setItem(PMETA, JSON.stringify({ name: PRJ.name, stufe: PRJ.stufe, mod: PRJ.mod, sha: PRJ.sha })); } catch (e) { } };
+  const prjSig = () => sigOf(stufeObj(PRJ.stufe).daten);
+  async function prjRecentAdd(fh, name) {
+    const r = (await idbGet('prjRecent')) || []; const out = [{ name, h: fh, at: Date.now() }];
+    for (const x of r) { let same = false; try { same = await x.h.isSameEntry(fh); } catch (e) { } if (!same && out.length < 8) out.push(x); }
+    PRJ.recent = out; await idbSet('prjRecent', out);
+  }
+  function prjValidate(o) {
+    if (!o || !o.ritl) throw new Error('Keine RIEMER-Tools-Datei (ritl-Kopf fehlt).');
+    if (o.ritl.inhalt === 'favoriten') throw new Error('Das ist eine Favoriten-Datei, kein Projekt.');
+    if (o.ritl.tool !== C.tool) throw new Error(`Dieses Projekt stammt aus ${o.ritl.name || o.ritl.tool}, nicht aus ${C.name}.`);
+    if ((o.ritl.format || 1) > FORMAT) throw new Error('Das Projekt ist neuer als diese App. Bitte App aktualisieren.');
+    const d = o.daten || {}; if (o.ritl.stufe === 'settings' || !(d.setup || d.paket)) throw new Error('Die Datei enthält nur Einstellungen – als Projekt eignen sich Sicherungen der Stufe Datenbank oder Storage.');
+  }
+  async function prjApply(o) {
+    const d = o.daten || {}; PRJ.pause = true;
+    try {
+      if (d.paket && d.paket.b64) { M.closeModals(); await M.addFiles([new File([unb64(d.paket.b64)], d.paket.name || ZIPNAME, { type: 'application/zip' })]); }
+      else await C.applyDaten(d);
+    } finally { await new Promise(r => setTimeout(r, 500)); PRJ.sig = prjSig(); PRJ.sha = await sha(PRJ.sig); PRJ.pause = false; }
+  }
+  // Datei als aktives Projekt laden (fh: Datei-Handle mit Schreibrecht)
+  async function prjLoad(fh, opt) {
+    opt = opt || {};
+    if (!await perm(fh, true)) { toast('Kein Schreibzugriff auf die Projektdatei.', true); return false; }
+    let f, o; try { f = await fh.getFile(); o = JSON.parse(await f.text()); prjValidate(o); }
+    catch (e) { toast(e instanceof SyntaxError ? 'Die Datei ist kein gültiges JSON.' : (fsErr(e) || e.message), true); return false; }
+    const name = o.ritl.projekt || prjName(fh.name);
+    if (!opt.silent) {
+      if (PRJ.h) { let same = false; try { same = await PRJ.h.isSameEntry(fh); } catch (e) { } if (!same) await prjWrite(true); }
+      else if (C.hasAnything() && !confirm(`Projekt „${name}“ öffnen?\n\nDie aktuelle Arbeit im Browser wird dadurch ersetzt. Tipp: vorher mit „Als Projekt speichern …“ sichern – oder sie steckt ohnehin im Backup.`)) return false;
+    }
+    await prjApply(o);
+    Object.assign(PRJ, { h: fh, name, stufe: o.ritl.stufe === 'storage' ? 'storage' : 'datenbank', ok: true, mod: f.lastModified, last: new Date(f.lastModified), err: '', conflict: 0 });
+    await idbSet('prj', fh); prjMetaSave(); await prjRecentAdd(fh, name);
+    toast(opt.msg || `Projekt „${name}“ geöffnet – jede Änderung wird in ${fh.name} gespeichert`); render(); return true;
+  }
+  async function prjWrite(force) {
+    if (!PRJ.h || PRJ.pause || PRJ.conflict) return false;
+    if (PRJ.busy) { PRJ.again = true; return false; }
+    if (!C.hasAnything()) return false; // nie ein Projekt mit leerem Stand überschreiben
+    const sig = prjSig(); if (!force && sig === PRJ.sig) return true;
+    if (!await perm(PRJ.h, false)) { PRJ.ok = false; render(); return false; }
+    PRJ.ok = true; PRJ.busy = true; render();
+    try {
+      const f = await PRJ.h.getFile();
+      if (PRJ.mod && f.lastModified > PRJ.mod + 1500) { PRJ.conflict = f.lastModified; toast(`Projekt „${PRJ.name}“ wurde außerhalb geändert (z. B. auf einem anderen Gerät) – bitte unter Backup › Projekt entscheiden.`, true); return false; }
+      const o = await stufeObjA(PRJ.stufe); o.ritl.inhalt = 'backup'; o.ritl.projekt = PRJ.name;
+      await writeFh(PRJ.h, JSON.stringify(o, null, 1));
+      PRJ.mod = (await PRJ.h.getFile()).lastModified; PRJ.sig = sig; PRJ.sha = await sha(sig); PRJ.last = new Date(); PRJ.err = ''; prjMetaSave(); return true;
+    } catch (e) { PRJ.err = fsErr(e); return false; }
+    finally { PRJ.busy = false; render(); if (PRJ.again) { PRJ.again = false; prjSchedule(); } }
+  }
+  let tmP = null;
+  function prjSchedule(now) { if (!PRJ.h || !PRJ.ok || PRJ.conflict) return; clearTimeout(tmP); tmP = setTimeout(() => prjWrite(false), now ? 50 : PRJ.stufe === 'storage' ? 4000 : 1200); }
+  // Abgleich: Datei extern geändert (OneDrive von einem anderen Gerät)? Ohne eigene Änderungen → neuen Stand still übernehmen
+  async function prjPoll() {
+    if (!PRJ.h || !PRJ.ok || PRJ.busy || PRJ.pause || PRJ.conflict || document.visibilityState !== 'visible') return;
+    try {
+      const f = await PRJ.h.getFile(); if (!(f.lastModified > PRJ.mod + 1500)) return;
+      const mine = await sha(prjSig());
+      if (mine === PRJ.sha) await prjLoad(PRJ.h, { silent: true, msg: `Projekt „${PRJ.name}“ wurde auf einem anderen Gerät geändert – neuer Stand geladen` });
+      else { PRJ.conflict = f.lastModified; toast(`Projekt „${PRJ.name}“: Datei und Browser wurden beide geändert – bitte unter Backup › Projekt entscheiden.`, true); render(); }
+    } catch (e) { PRJ.err = fsErr(e); render(); }
+  }
+  async function prjNew() {
+    const base = String((C.title && C.title()) || 'Projekt').replace(/[\\/:*?"<>|]+/g, ' ').trim() || 'Projekt';
+    if (!fileOK) { const o = await stufeObjA(PRJ.neuStufe); o.ritl.projekt = base; await M.saveBlob(`${base}${PSUF}.json`, new Blob([JSON.stringify(o, null, 1)], { type: 'application/json' })); toast('Projekt heruntergeladen – automatisches Überschreiben gibt es nur in Chrome/Edge am Computer.'); return; }
+    try {
+      const opts = { id: `ritl-${C.prefix}-prj`, suggestedName: `${base}${PSUF}.json`, types: [{ description: `${C.name}-Projekt`, accept: { 'application/json': ['.json'] } }] };
+      if (FS.dir && FS.ok) opts.startIn = FS.dir;
+      const fh = await window.showSaveFilePicker(opts);
+      if (PRJ.h) await prjWrite(true);
+      const name = prjName(fh.name), stufe = PRJ.h ? PRJ.stufe : PRJ.neuStufe;
+      const o = await stufeObjA(stufe); o.ritl.projekt = name; await writeFh(fh, JSON.stringify(o, null, 1));
+      const sig = sigOf(stufeObj(stufe).daten);
+      Object.assign(PRJ, { h: fh, name, stufe, ok: true, mod: (await fh.getFile()).lastModified, sig, sha: await sha(sig), last: new Date(), err: '', conflict: 0 });
+      await idbSet('prj', fh); prjMetaSave(); await prjRecentAdd(fh, name);
+      toast(`Projekt „${name}“ angelegt – jede Änderung wird in ${fh.name} gespeichert`); prjListFolder();
+    } catch (e) { const m = fsErr(e); if (m) toast(m, true); }
+    render();
+  }
+  async function prjOpen() {
+    if (!opnOK) { const i = document.createElement('input'); i.type = 'file'; i.accept = '.json,application/json'; i.onchange = async () => { const f = i.files[0]; if (!f) return; try { const o = JSON.parse(await f.text()); prjValidate(o); if (C.hasAnything() && !confirm(`Projekt „${o.ritl.projekt || prjName(f.name)}“ laden? Die aktuelle Arbeit wird ersetzt.`)) return; await prjApply(o); toast('Projekt geladen – speichern über „Als Projekt speichern …“ (Download)'); } catch (e) { toast(e instanceof SyntaxError ? 'Die Datei ist kein gültiges JSON.' : e.message, true); } }; i.click(); return; }
+    try {
+      const opts = { id: `ritl-${C.prefix}-prj`, multiple: false, types: [{ description: `${C.name}-Projekt oder Backup`, accept: { 'application/json': ['.json'] } }] };
+      if (FS.dir && FS.ok) opts.startIn = FS.dir;
+      const [fh] = await window.showOpenFilePicker(opts); await prjLoad(fh);
+    } catch (e) { const m = fsErr(e); if (m) toast(m, true); }
+  }
+  async function prjClose(noWrite) {
+    if (!PRJ.h) return; const n = PRJ.name;
+    if (!noWrite) await prjWrite(true);
+    clearTimeout(tmP); Object.assign(PRJ, { h: null, name: '', ok: false, conflict: 0, err: '', sig: null, last: null }); await idbDel('prj'); try { localStorage.removeItem(PMETA); } catch (e) { }
+    toast(`Projekt „${n}“ geschlossen – die Datei bleibt erhalten, die Arbeit bleibt im Browser`); render();
+  }
+  async function prjListFolder() {
+    PRJ.folder = null; if (!FS.dir || !await fsCheck(false)) return;
+    const out = [], re = new RegExp(`"tool":\\s*"${C.tool}"`);
+    try { for await (const [n, hd] of FS.dir.entries()) { if (hd.kind !== 'file' || !/\.json$/i.test(n) || n === BKNAME || /^Backup_/i.test(n) || n.startsWith('~$')) continue; try { const f = await hd.getFile(); const top = await f.slice(0, 600).text(); if (!re.test(top) || /"inhalt":\s*"favoriten"/.test(top) || /"stufe":\s*"settings"/.test(top)) continue; out.push({ name: n, hd, mod: f.lastModified, size: f.size }); } catch (e) { } } } catch (e) { }
+    PRJ.folder = out.sort((a, b) => b.mod - a.mod).slice(0, 12); render();
+  }
+  async function prjResolve(how) {
+    if (!PRJ.h) return;
+    if (how === 'file') { PRJ.conflict = 0; await prjLoad(PRJ.h, { silent: true, msg: `Stand aus ${PRJ.h.name} geladen` }); }
+    else { try { PRJ.mod = (await PRJ.h.getFile()).lastModified; } catch (e) { PRJ.mod = PRJ.conflict; } PRJ.conflict = 0; if (await prjWrite(true)) toast(`Dein Stand wurde in ${PRJ.h.name} gespeichert`); }
+    render();
+  }
+  function prjPill() {
+    const el = document.getElementById('prjPill'); if (!el) return;
+    if (!PRJ.h) { el.innerHTML = `<button type="button" class="prjpill none" data-bkx="prjDlg" title="JSON-Projekt öffnen oder anlegen – jede Änderung wird direkt in die Datei geschrieben">${IC_DIR}<span>Projekt …</span></button>`; return; }
+    const st = PRJ.conflict ? ['warn', '⚠ extern geändert'] : !PRJ.ok ? ['warn', 'Zugriff erneuern'] : PRJ.err ? ['warn', '⚠ nicht gespeichert'] : PRJ.busy ? ['busy', 'speichert …'] : ['good', PRJ.last ? '✓ ' + PRJ.last.toLocaleTimeString('de-AT', { hour: '2-digit', minute: '2-digit' }) : '✓'];
+    el.innerHTML = `<button type="button" class="prjpill ${st[0]}" data-bkx="${!PRJ.ok && !PRJ.conflict ? 'prjGrant' : 'prjDlg'}" title="Projekt „${h(PRJ.name)}“ · ${h(PRJ.h.name)} · Stufe ${PRJ.stufe} · jede Änderung überschreibt die Datei${PRJ.err ? ' · ' + h(PRJ.err) : ''}">${IC_DIR}<b>${h(PRJ.name)}</b><small>${st[1]}</small></button>`;
+  }
+  function secProjekt() {
+    let s = `<section class="bks bk-prj"><h4><i>01</i>Projekt ${PRJ.h ? st2(PRJ.stufe) : ''}</h4>
+      <p class="hint">Eine JSON-Datei als <b>Projekt</b> öffnen – ${C.name} schreibt danach jede Änderung direkt in diese Datei (z. B. im OneDrive- oder SharePoint-Ordner). Läuft parallel zu den Backups unten. Jede Datei mit ${C.name}-Kopf passt, auch ein Backup.</p>`;
+    if (!opnOK || !fileOK) s += `<div class="status warn">Automatisches Überschreiben gibt es nur in Chrome bzw. Edge am Computer. Hier: Projekt laden und mit „Als Projekt speichern …“ herunterladen.</div>`;
+    if (PRJ.h) {
+      const stat = PRJ.conflict ? ['warn', `Die Datei <b>${h(PRJ.h.name)}</b> wurde außerhalb geändert (${zeit(PRJ.conflict)}), während du hier gearbeitet hast. Welcher Stand gilt?`]
+        : !PRJ.ok ? ['warn', `Projekt „${h(PRJ.name)}“ – der Browser braucht neu die Erlaubnis zum Schreiben: „Zugriff erneuern“.`]
+        : PRJ.err ? ['warn', h(PRJ.err)]
+        : ['good', `Geöffnet: <b>${h(PRJ.name)}</b> · ${h(PRJ.h.name)}${PRJ.last ? ` · gespeichert ${zeit(PRJ.last)}` : ''}`];
+      s += `<div class="status ${stat[0]}">${stat[1]}</div><div class="row wrap">`;
+      if (PRJ.conflict) s += `<button class="btn primary sm" type="button" data-bkx="prjFile">Stand aus der Datei laden</button><button class="btn sm" type="button" data-bkx="prjMine">Meinen Stand speichern</button>`;
+      else if (!PRJ.ok) s += `<button class="btn primary sm" type="button" data-bkx="prjGrant">Zugriff erneuern</button>`;
+      else s += `<button class="btn primary sm" type="button" data-bkx="prjSave">Jetzt speichern</button>`;
+      s += `<button class="btn sm" type="button" data-bkx="prjOpen">Anderes Projekt öffnen …</button><button class="btn sm" type="button" data-bkx="prjNew">Kopie als neues Projekt …</button><button class="btn sm ghost" type="button" data-bkx="prjClose">Projekt schließen</button></div>`;
+    } else {
+      s += `<div class="row wrap"><button class="btn primary sm" type="button" data-bkx="prjOpen">Projekt öffnen …</button><button class="btn sm" type="button" data-bkx="prjNew">Als Projekt speichern …</button>
+        <label class="prj-st">Inhalt neuer Projekte <select data-bkx="prjStufe"><option value="datenbank" ${PRJ.neuStufe === 'datenbank' ? 'selected' : ''}>Datenbank – ohne ${C.fileWord}-Dateien</option><option value="storage" ${PRJ.neuStufe === 'storage' ? 'selected' : ''}>Storage – inkl. ${C.fileWord}-Dateien</option></select></label></div>`;
+    }
+    const others = [];
+    (PRJ.folder || []).forEach((f, i) => { if (PRJ.h && f.name === PRJ.h.name) return; others.push(`<button type="button" class="src-f" data-bkx="prjFolder" data-i="${i}" title="Als Projekt öffnen"><span class="fi">P</span><span class="fn">${h(prjName(f.name))}</span><small>Ordner · ${zeit(f.mod)} · ${fmtB(f.size)}</small></button>`); });
+    PRJ.recent.forEach((r, i) => { if ((PRJ.folder || []).some(f => f.name === r.h.name) || (PRJ.h && r.h.name === PRJ.h.name)) return; others.push(`<button type="button" class="src-f" data-bkx="prjRecent" data-i="${i}" title="Als Projekt öffnen"><span class="fi">P</span><span class="fn">${h(r.name)}</span><small>zuletzt ${zeit(r.at)}</small></button>`); });
+    if (others.length) s += `<div class="src-sub">${PRJ.folder && PRJ.folder.length ? `Projekte im Ordner „${h(FS.dir.name)}“ und zuletzt geöffnet` : 'Zuletzt geöffnet'}</div><div class="bk-list">${others.join('')}</div>`;
+    return s + '</section>';
+  }
+
   // ---------- Automatisch sichern ----------
   let tmL = null, tmZ = null, lastSigL = null;
   function schedule(now) {
-    if (CFG.lokal.on && FS.dir) { clearTimeout(tmL); tmL = setTimeout(async () => { const sig = JSON.stringify(stufeObj(CFG.lokal.stufe).daten); if (sig === lastSigL && !now) return; if (await fsSave(false)) lastSigL = sig; }, now ? 50 : 2500); }
+    if (C.projects) prjSchedule(now);
+    if (CFG.lokal.on && FS.dir) { clearTimeout(tmL); tmL = setTimeout(async () => { const sig = sigOf(stufeObj(CFG.lokal.stufe).daten); if (sig === lastSigL && !now) return; if (await fsSave(false)) lastSigL = sig; }, now ? 50 : 2500); }
     if (CFG.zentral.on && zbOk()) { clearTimeout(tmZ); tmZ = setTimeout(() => zbSave(false), now ? 50 : 6000); }
   }
   const wrap = (obj, fn) => { if (!obj || typeof obj[fn] !== 'function' || obj[fn]._bk) return; const o = obj[fn]; obj[fn] = function () { const r = o.apply(this, arguments); schedule(false); updInd(); return r; }; obj[fn]._bk = true; };
   wrap(M, 'render'); if (window.TIMING) wrap(window.TIMING, 'render');
   document.addEventListener('ritl:change', () => schedule(false));
-  setInterval(() => { if (CFG.lokal.on || CFG.zentral.on) schedule(false); }, 15000); // Rückfall für Änderungen ohne render()
+  ['input', 'change'].forEach(ev => document.addEventListener(ev, e => { if (!e.target.closest || !e.target.closest('.modal')) schedule(false); }));
+  setInterval(() => { if (CFG.lokal.on || CFG.zentral.on || PRJ.h) schedule(false); if (C.projects) prjPoll(); }, 15000); // Rückfall für Änderungen ohne render()
   new MutationObserver(() => schedule(false)).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') { if (CFG.lokal.on && FS.dir && FS.ok) fsSave(false); if (CFG.zentral.on && zbOk()) zbSave(false); } });
+  document.addEventListener('visibilitychange', () => { if (C.projects && document.visibilityState === 'visible') prjPoll(); if (document.visibilityState === 'hidden') { if (C.projects && PRJ.h && PRJ.ok) prjWrite(false); if (CFG.lokal.on && FS.dir && FS.ok) fsSave(false); if (CFG.zentral.on && zbOk()) zbSave(false); } });
   window.addEventListener('online', () => { updInd(); if (ZB.pending || CFG.zentral.on) zbSave(false); render(); });
   window.addEventListener('offline', () => { updInd(); render(); });
 
@@ -4240,14 +4446,14 @@ ${T.participants.length ? `<div class="ppl"><b>Teilnehmer:</b> ${peopleLine(true
   const st2 = st => `<span class="badge">${st}</span>`;
   function secLokal() {
     const stat = !fileOK ? `Der Browser lädt <b>${BKNAME}</b> herunter – die ältere Datei im Download-Ordner bitte ersetzen.` : LOC.h ? `Speichert in „${h(LOC.h.name)}“ und überschreibt die Datei${LOC.last ? ` · zuletzt ${zeit(LOC.last)}` : ''}` : `Beim ersten Sichern den Speicherort wählen – danach wird <b>${BKNAME}</b> immer überschrieben.`;
-    return `<section class="bks"><h4><i>01</i>Lokal ${st2(CFG.lokal.stufe)}</h4>
+    return `<section class="bks"><h4><i>${C.projects ? '02' : '01'}</i>Lokal ${st2(CFG.lokal.stufe)}</h4>
       <p class="hint">Eine Datei <b>${BKNAME}</b> mit ${CFG.lokal.stufe === 'settings' ? 'den Einstellungen' : CFG.lokal.stufe === 'storage' ? `Einstellungen, Arbeitsdaten und allen ${C.fileWord}-Originalen` : `Einstellungen und Arbeitsdaten (ohne ${C.fileWord}-Dateien)`}; jedes Sichern überschreibt sie.</p>
       <div class="status ${LOC.last ? 'good' : ''}">${stat}</div>
       <div class="row wrap"><button class="btn primary sm" type="button" data-bkx="save">Backup speichern</button>${fileOK && LOC.h ? '<button class="btn sm" type="button" data-bkx="saveNew">Anderer Speicherort …</button>' : ''}<button class="btn sm" type="button" data-bkx="load">Backup wiederherstellen …</button></div>
       <div class="bk-zip"><div><b>Komplett-Paket (.zip)</b><span class="hint">Einstellungen, Arbeitsdaten <b>und</b> alle ${C.fileWord}-Originale in <b>${ZIPNAME}</b> – zum Archivieren oder Weitergeben.</span></div><button class="btn sm" type="button" data-bkx="zip" ${C.hasAnything() ? '' : 'disabled'}>Komplett-Paket sichern</button></div></section>`;
   }
   function secOrdner() {
-    let s = `<section class="bks"><h4><i>02</i>OneDrive &amp; SharePoint</h4>`;
+    let s = `<section class="bks"><h4><i>${C.projects ? '03' : '02'}</i>OneDrive &amp; SharePoint</h4>`;
     if (!fsOK) return s + `<div class="status warn">Backup herunterladen und die Datei in den OneDrive- oder SharePoint-Ordner legen – oder Chrome bzw. Edge am Computer verwenden.</div></section>`;
     s += `<p class="hint">Verknüpfe einen per OneDrive synchronisierten Ordner (auch SharePoint-Bibliotheken über „Synchronisieren“). ${C.name} schreibt dort <b>${BKNAME}</b>, OneDrive lädt sie hoch.</p>`;
     const stat = !FS.dir ? ['', 'Kein Ordner verknüpft.'] : !FS.ok ? ['warn', `Ordner „${h(FS.dir.name)}“ verknüpft – der Browser braucht neu die Erlaubnis: „Zugriff erneuern“.`] : FS.err ? ['warn', h(FS.err)] : ['good', `Verbunden mit Ordner „${h(FS.dir.name)}“${FS.last ? ` · zuletzt gesichert ${zeit(FS.last)} (${BKNAME})` : ''}`];
@@ -4264,7 +4470,7 @@ ${T.participants.length ? `<div class="ppl"><b>Teilnehmer:</b> ${peopleLine(true
     return s + '</section>';
   }
   function secZentral() {
-    let s = `<section class="bks"><h4><i>03</i>Zentral · RIEMER Toolbox</h4>`;
+    let s = `<section class="bks"><h4><i>${C.projects ? '04' : '03'}</i>Zentral · RIEMER Toolbox</h4>`;
     if (!zbOk()) return s + `<div class="status">Zentrales Backup gibt es nur in der lizenzierten Version (Aufruf über die RIEMER Toolbox mit Lizenzschlüssel).</div></section>`;
     if (!navigator.onLine) s += `<div class="status warn">Offline – zentrales Backup folgt automatisch, sobald wieder eine Verbindung besteht.</div>`;
     const stat = `${CFG.zentral.on ? `Automatisch: <b>ein</b> · Stufe <b>${CFG.zentral.stufe}</b>` : 'Automatisch: aus'}${ZB.last ? ` · zuletzt ${zeit(ZB.last)}` : ''}${ZB.quota ? ` · belegt ${fmtB(ZB.used)} von ${fmtB(ZB.quota)}` : ''}`;
@@ -4274,14 +4480,14 @@ ${T.participants.length ? `<div class="ppl"><b>Teilnehmer:</b> ${peopleLine(true
     return s + '</section>';
   }
   function render() {
-    updInd();
+    updInd(); if (C.projects) prjPill();
     const v = $('#bkVer'); if (v) v.textContent = `${C.name} ${ver()}`;
     const b = $('#bkBody'); if (!b || !DLG()) return;
-    b.innerHTML = secLokal() + secOrdner() + secZentral();
+    b.innerHTML = (C.projects ? secProjekt() : '') + secLokal() + secOrdner() + secZentral();
   }
   async function openDlg() {
     render();
-    if (FS.dir) { await fsCheck(false); listFolder(); }
+    if (FS.dir) { await fsCheck(false); listFolder(); if (C.projects) prjListFolder(); }
     zbList();
   }
 
@@ -4327,6 +4533,16 @@ ${T.participants.length ? `<div class="ppl"><b>Teilnehmer:</b> ${peopleLine(true
       case 'unlink': unlink(); break;
       case 'fsSave': fsSave(true); break;
       case 'fsRestore': { const f = FS.list && FS.list.find(x => x.name === t.dataset.n); if (!f) break; try { const file = await f.hd.getFile(); if (/\.zip$/i.test(file.name)) { if (C.hasAnything() && !confirm('Die aktuelle Arbeit wird durch das Komplett-Paket ersetzt. Fortfahren?')) break; M.closeModals(); await M.addFiles([file]); } else await restoreFile(file); } catch (x) { toast('Sicherung konnte nicht gelesen werden.', true); } } break;
+      case 'prjOpen': prjOpen(); break;
+      case 'prjNew': prjNew(); break;
+      case 'prjSave': if (await prjWrite(true)) toast(`Gespeichert: ${PRJ.h.name}`); else if (PRJ.err) toast(PRJ.err, true); break;
+      case 'prjClose': prjClose(false); break;
+      case 'prjGrant': if (PRJ.h && await perm(PRJ.h, true)) { PRJ.ok = true; PRJ.err = ''; await prjPoll(); prjSchedule(true); } render(); break;
+      case 'prjDlg': M.closeModals(); M.openModal('#mBackup'); openDlg(); break;
+      case 'prjFile': prjResolve('file'); break;
+      case 'prjMine': prjResolve('mine'); break;
+      case 'prjFolder': { const f = PRJ.folder && PRJ.folder[+t.dataset.i]; if (f) prjLoad(f.hd); } break;
+      case 'prjRecent': { const r = PRJ.recent[+t.dataset.i]; if (r) prjLoad(r.h); } break;
       case 'zbSave': zbSave(true); break;
       case 'zbList': zbList(); break;
       case 'zbRestore': zbRestore(t.dataset.id); break;
@@ -4337,10 +4553,18 @@ ${T.participants.length ? `<div class="ppl"><b>Teilnehmer:</b> ${peopleLine(true
   });
   document.addEventListener('change', e => {
     const t = e.target;
+    if (t.dataset && t.dataset.bkx === 'prjStufe') { PRJ.neuStufe = t.value === 'storage' ? 'storage' : 'datenbank'; return; }
     if (t.dataset && t.dataset.bkx === 'auto') { CFG.lokal.on = t.checked; cfgSave(); updInd(); if (t.checked) schedule(true); render(); }
     if (t.name && t.name.startsWith('bkst-')) { t.closest('.bkst-g').querySelectorAll('.bkst').forEach(l => l.classList.toggle('on', l.contains(t))); }
   });
   document.addEventListener('click', e => { if (e.target.closest('[data-act="backup"]')) setTimeout(openDlg, 0); }, true);
+
+  // „Neu beginnen“ bei offenem Projekt: Projekt zuerst schließen, damit die Datei nicht mit leerem Stand überschrieben wird
+  window.addEventListener('click', e => {
+    if (!C.projects || !PRJ.h || !e.target.closest('[data-act="reset"]')) return;
+    if (!confirm(`Projekt „${PRJ.name}“ schließen und neu beginnen?\n\nDie Projektdatei bleibt mit dem letzten Stand erhalten.`)) { e.preventDefault(); e.stopImmediatePropagation(); return; }
+    clearTimeout(tmP); const p = prjWrite(true); PRJ.pause = true; p.finally(() => { PRJ.pause = false; prjClose(true); });
+  }, true);
 
   // ---------- Start ----------
   (async () => {
@@ -4349,13 +4573,19 @@ ${T.participants.length ? `<div class="ppl"><b>Teilnehmer:</b> ${peopleLine(true
       FS.dir = await idbGet('dir');
       if (!FS.dir && window.FOLDERS && window.FOLDERS.backupDir) { const d = window.FOLDERS.backupDir(); if (d) { FS.dir = d; await idbSet('dir', d); } }
       if (FS.dir) await fsCheck(false);
+      if (C.projects) {
+        PRJ.recent = ((await idbGet('prjRecent')) || []).filter(r => r && r.h);
+        const fh = await idbGet('prj');
+        if (fh) { let m = {}; try { m = JSON.parse(LS(PMETA) || '{}'); } catch (e) { } Object.assign(PRJ, { h: fh, name: m.name || prjName(fh.name), stufe: m.stufe || 'datenbank', mod: m.mod || 0, sha: m.sha || '' }); PRJ.ok = await perm(fh, false); if (PRJ.ok) { try { PRJ.last = new Date((await fh.getFile()).lastModified); } catch (e) { PRJ.err = fsErr(e); } await prjPoll(); } }
+      }
     }
-    updInd();
+    render();
     if (!CFG.seen) setTimeout(() => { if (!document.querySelector('.modal.open')) openSetup(); }, 900);
     if (CFG.zentral.on && zbOk()) zbSave(false);
   })();
 
-  window.BKS = { restoreObj, restoreFile, stufeObj, cfg: () => CFG, openSetup, open: openDlg, name: BKNAME, _state: () => ({ FS, LOC, ZB }) };
+  if (C.projects) prjPill();
+  window.BKS = { restoreObj, restoreFile, stufeObj, cfg: () => CFG, openSetup, open: openDlg, name: BKNAME, project: () => PRJ.h ? { name: PRJ.name, file: PRJ.h.name, stufe: PRJ.stufe, ok: PRJ.ok, last: PRJ.last, conflict: !!PRJ.conflict } : null, _state: () => ({ FS, LOC, ZB, PRJ }) };
 })();
 </script>
 </body>
