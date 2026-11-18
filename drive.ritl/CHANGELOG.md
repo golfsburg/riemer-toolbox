@@ -3,6 +3,13 @@
 Fahrtenbuch, Fahrzeuge, Tanken, Werkstatt, Pickerl §57a und Statistik · #ritl_drive
 Neueste Version oben.
 
+## V1.7 · 18.11.2026 · DEV
+**Neu**
+- Backup-Stufe **storage** für 01 Lokal: alles aus `datenbank` plus alle Dateien der Dateiablage (IndexedDB `drive_files`). Noch lädt DRIVE.ritl selbst keine Dateien hoch (z. B. Belege, Fotos) – die Stufe ist dafür vorbereitet und sichert bis dahin wie `datenbank`.
+
+**Geändert**
+- „Backup einrichten“: storage lokal wählbar, zentral gesperrt („nur lokal, zentral folgt später“).
+
 ## V1.6 · 16.11.2026 · DEV
 **Neu**
 - GPS-Strecken direkt an TRACK.ritl übergeben (Fahrt › „→ TRACK.ritl“, LOG › „GPX → TRACK.ritl“ für alle gefilterten Fahrten mit Strecke); Übergabe über „ritl-handoff“ auf der Toolbox-Domain, TRACK.ritl öffnet sich mit #ritl-handoff.

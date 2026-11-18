@@ -3,7 +3,8 @@
 Regel: In **jedem** RIEMER Tool ist unter **01 Lokal** die Stufe `storage` wählbar: `datenbank` + alle hochgeladenen Dateien.
 Zentral (Server) bleibt `storage` vorerst gesperrt („nur lokal, zentral folgt später“).
 
-Vorbild: MUSTER.ritl V3.0 (Pilot), STAKE.ritl V1.8 DEV.
+Vorbild: MUSTER.ritl V3.0 (Pilot). Umgesetzt: STAKE.ritl V1.8, DRIVE.ritl V1.7, PPTX.ritl V2.9, PDF.ritl V1.5 (je DEV).
+PPTX/PDF (gemeinsames Backup-Modul `BK_CONF`): storage bettet das Komplett-Paket (.zip mit allen Originalen) als `daten.paket` ein; Wiederherstellen über `M.addFiles`.
 
 ## Einbau in ein Tool
 
