@@ -3,6 +3,14 @@
 Leistungsverzeichnisse nach ÖNORM A 2063 mit Materiallisten, Bieterangeboten und ONLV-Export · #ritl_lv
 Neueste Version oben. Versionen ≤ V9.2 nachträglich rekonstruiert (aus `tool_versions` und den Quellen-ZIPs).
 
+## V9.5 · 18.11.2026 · DEV
+**Neu**
+- Menüband PROJEKTE/VORLAGEN: neuer Bereich **Externe Links** mit „A2063-Dateiprüfung“ – kostenfreie Prüfung von ONLV, ONRE und ONLB bei der W. Scheidl KG (öffnet in neuem Tab).
+- Backup einrichten › Zentral: Auswahl **„kein Backup zentral erstellen“** wie in STAKE.ritl (statt Kontrollkästchen); settings und datenbank als weitere Stufen.
+
+**Geändert**
+- Menüband: OneDrive / SharePoint ist ein eigener Abschnitt mit Trennsteg wie Backup & Restore (nicht mehr bis zum rechten Rand gestreckt).
+
 ## V9.4 · 18.11.2026 · DEV
 **Neu**
 - Backup nach RIEMER-Standard: Header-Knopf „Backup“ mit Status-Symbol (Ordner = Lokal, Wolke = Server) und Dialog mit **01 Lokal** (eine Datei `Backup_LV-ritl.json`, wird überschrieben), **02 OneDrive & SharePoint** (verknüpfter Ordner, automatisch nach jeder Änderung), **03 Zentral** (RIEMER Toolbox, je Lizenz, Historie 10 Tage) und **04 Dateiablage**.
