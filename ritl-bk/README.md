@@ -23,4 +23,4 @@ PPTX/PDF (gemeinsames Backup-Modul `BK_CONF`): storage bettet das Komplett-Paket
 
 ## Prompt für die Tool-Chats
 
-> Backup-Stufe **storage** einbauen nach Skill /riemer-webapp-design, Abschnitt „Backup-Stufe storage“ (Baustein `riemer-toolbox/ritl-bk/ritl-files.js`, Anleitung `ritl-bk/README.md`, Vorbild MUSTER.ritl V3.0). Alle Uploads dieses Tools über RITLF speichern. Als neue DEV-Version veröffentlichen, CHANGELOG und Quellen-ZIP.
+> Backup-Stufe storage einbauen nach Skill /riemer-webapp-design, Abschnitt „Backup-Stufe storage und Dateiablage (RITLF)“ (Baustein riemer-toolbox/ritl-bk/ritl-files.js, Anleitung ritl-bk/README.md, Vorbild MUSTER.ritl V3.0). storage muss unter 01 Lokal immer wählbar sein, zentral gesperrt. Alle Uploads dieses Tools über RITLF speichern. Fehlen Backup-Stufen noch, zuerst settings/datenbank nach Abschnitt „Backup-Stufen und zentrales Backup“ einbauen. Als neue DEV-Version veröffentlichen, CHANGELOG und Quellen-ZIP.
