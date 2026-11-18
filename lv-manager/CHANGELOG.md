@@ -3,6 +3,17 @@
 Leistungsverzeichnisse nach ÖNORM A 2063 mit Materiallisten, Bieterangeboten und ONLV-Export · #ritl_lv
 Neueste Version oben. Versionen ≤ V9.2 nachträglich rekonstruiert (aus `tool_versions` und den Quellen-ZIPs).
 
+## V9.4 · 18.11.2026 · DEV
+**Neu**
+- Backup nach RIEMER-Standard: Header-Knopf „Backup“ mit Status-Symbol (Ordner = Lokal, Wolke = Server) und Dialog mit **01 Lokal** (eine Datei `Backup_LV-ritl.json`, wird überschrieben), **02 OneDrive & SharePoint** (verknüpfter Ordner, automatisch nach jeder Änderung), **03 Zentral** (RIEMER Toolbox, je Lizenz, Historie 10 Tage) und **04 Dateiablage**.
+- Backup-Stufen **settings** (Hell/Dunkel, auf-/zugeklappte Bereiche), **datenbank** (zusätzlich alle Projekte, LVs, Angebote, Vorlagen, Preislisten, Leistungsbeschreibungen) und **storage** (zusätzlich alle hochgeladenen Dateien). storage ist unter Lokal immer wählbar, zentral gesperrt; zentral ohne Leistungsbeschreibungen.
+- Modal „Backup einrichten“ beim ersten Laden: Lokal und Zentral je mit Stufe und zu erwartender komprimierter Größe.
+- Dateiablage (RITLF, IndexedDB `lv_files`): jede hochgeladene Datei (ONLV, ONLB, XML, JSON-Pakete, Excel/CSV, Preislisten) wird als Original gespeichert – gleiche Datei wird ersetzt, Backups selbst nicht. Wiederherstellen ersetzt die Dateiablage („Enthält n Datei(en) …“).
+
+**Geändert**
+- Zentraler Header RITL-UI 1.3 (Offline-Kennzeichen, Ablauf-Hinweis).
+- Backup je Bereich (PROJEKTE/VORLAGEN, Import-Assistent) bleibt unverändert.
+
 ## V9.3 · 17.11.2026 · DEV
 **Geändert**
 - Header über den zentralen Header RITL-UI: App-Bild 38 px, Eyebrow „LV nach ÖNORM A2063 · #ritl_lv“, `LV.ritl` mit Edition, DEV/BETA und Version · Datum; rechts Speichern (Chip), Anleitung, Hell/Dunkel, An-/Abmelden, Toolbox-Logo, „RIEMER Tools“.
