@@ -3,6 +3,12 @@
 Leistungsverzeichnisse nach ÖNORM A 2063 mit Materiallisten, Bieterangeboten und ONLV-Export · #ritl_lv
 Neueste Version oben. Versionen ≤ V9.2 nachträglich rekonstruiert (aus `tool_versions` und den Quellen-ZIPs).
 
+## V9.6 · 18.11.2026 · DEV
+**Geändert**
+- Fußzeile nach RIEMER-Webapp-Design (Regel 25): links „© <Jahr> Peter Riemer · toolbox@riemer.co · RIEMER Tools“ mit Link `mailto:toolbox@riemer.co` statt Link auf riemer.co; rechts „LV.ritl · #ritl_lv · ÖNORM A2063 · lokal im Browser“.
+- Die Seite scrollt jetzt als Ganzes (Rahmen mindestens fensterhoch als Flex-Spalte); die Fußzeile steht mit `margin-top:auto` und `position:sticky; bottom:0` immer am unteren Fensterrand – bei wenig Inhalt unten am Fenster, bei viel Inhalt beim Scrollen sichtbar. Kompakt in einer Zeile (12,5 px), unter 620 px ohne rechte Kurzinfo.
+- Meldungen (Toasts) sitzen über der Fußzeile (64 px vom unteren Rand).
+
 ## V9.5 · 18.11.2026 · DEV
 **Neu**
 - Menüband PROJEKTE/VORLAGEN: neuer Bereich **Externe Links** mit „A2063-Dateiprüfung“ – kostenfreie Prüfung von ONLV, ONRE und ONLB bei der W. Scheidl KG (öffnet in neuem Tab).
