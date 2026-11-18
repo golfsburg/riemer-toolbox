@@ -3,6 +3,13 @@
 Projektmanagement: Projekt-Portfolio mit Gewerken, Anwendungen und Businesses (Lead › Spezifikation Opportunity › Spezifikation › Opportunity), Umsatzplan, Dashboard und Zeitplan · #ritl_pm
 Neueste Version oben. Versionen ≤ V1.1 nachträglich rekonstruiert (Projektmanager V1.x, selbstspeichernde HTML-Datei).
 
+## V2.3 · 18.11.2026 · DEV
+**Geändert**
+- LINK.ritl: Firma ist nur noch das Feld „Accountname / Kunde“ des Business-Eintrags – kein Ersatz mehr durch den Projekt-Auftraggeber.
+- Spezifikation Opportunities, Spezifikationen und Opportunities ohne Accountname werden nicht übergeben; LINK.ritl zählt sie als Hinweis („n Businesses ohne Accountname – nicht übergeben“) mit Sprung zum Eintrag (öffnet „Eintrag bearbeiten“ am Feld Accountname).
+- Ein Gewerk geht nur mit, wenn mindestens ein solches Business einen Accountnamen hat; sonst steht es unter Pipeline (neue Spalte „ohne Accountname“).
+- Brücken-Format unverändert (Format 1, STAKE.ritl V1.9 liest es weiter).
+
 ## V2.2 · 18.11.2026 · DEV
 **Geändert**
 - PROJEKT.ritl › 01: Beschreibung (volle Breite), Status und Projekttyp stehen jetzt im Projektkopf, vor Kunde, Ort und Start – Ende.
