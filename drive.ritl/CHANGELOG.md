@@ -4,11 +4,11 @@ Fahrtenbuch, Fahrzeuge, Tanken, Werkstatt, Pickerl §57a und Statistik · #ritl_
 Neueste Version oben.
 
 ## V1.7 · 18.11.2026 · DEV
-**Neu**
-- Backup-Stufe **storage** für 01 Lokal: alles aus `datenbank` plus alle Dateien der Dateiablage (IndexedDB `drive_files`). Noch lädt DRIVE.ritl selbst keine Dateien hoch (z. B. Belege, Fotos) – die Stufe ist dafür vorbereitet und sichert bis dahin wie `datenbank`.
+**Behoben**
+- GPS-Aufzeichnung speichert jetzt die Höhe; GPX-Import übernimmt `<ele>`, GPX-Export und Übergabe an TRACK.ritl schreiben sie mit.
 
-**Geändert**
-- „Backup einrichten“: storage lokal wählbar, zentral gesperrt („nur lokal, zentral folgt später“).
+**Neu**
+- Höhenmeter bergauf/bergab in der Fahrt und im Fahrtenbuch, aktuelle Höhe während der Live-Fahrt.
 
 ## V1.6 · 16.11.2026 · DEV
 **Neu**
