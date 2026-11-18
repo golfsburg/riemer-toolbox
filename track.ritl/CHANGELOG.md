@@ -3,6 +3,16 @@
 GPS-Tracks (GPX) lokal im Browser in 2D und 3D darstellen, analysieren, bearbeiten und animieren · #ritl_track
 Neueste Version oben. Versionen ≤ V1.9 in Google AI Studio entwickelt und nachträglich zusammengefasst (keine Einzelstände erhalten).
 
+## V2.7 · 18.11.2026 · DEV
+**Neu**
+- Backup-Stufe **storage** (nur lokal): datenbank + alle hochgeladenen Dateien. Unter Backup einrichten › 01 Lokal immer wählbar (mit Anzahl und Größe der Dateien), unter 02 Zentral gesperrt („nur lokal – zentral folgt später“).
+- Dateiablage im Browser (RITLF, IndexedDB `track_files`): Original-GPX, Originalfotos und Puls-Dateien werden beim Hochladen dort abgelegt; Fotos zeigen weiter die Vorschau, „Original“ öffnet das Foto in voller Größe.
+- Wiederherstellen eines storage-Backups ersetzt die Dateiablage („Enthält n Datei(en) – die Dateiablage wird ersetzt.“).
+
+**Geändert**
+- Dateien, die kein Track (auch nicht im Rückgängig-Speicher) und kein Foto mehr verwendet, werden aus der Dateiablage entfernt.
+- 360°-Videos (PANO.ritl) bleiben bewusst außerhalb der Dateiablage und des Backups (mehrere GB, nur für die Sitzung).
+
 ## V2.6 · 16.11.2026 · DEV
 **Neu**
 - Strecken zwischen meinen Geräten: unterwegs geladene GPX-Strecken (auch aus DRIVE.ritl) gehen automatisch für 7 Tage auf den Server der RIEMER Toolbox und werden von den anderen Geräten derselben Lizenz übernommen (beim Start, beim Zurückkehren in den Tab, nach Wiederverbindung, jede Minute). Keine dauerhafte Speicherung, zählt zum Kontingent der Lizenz.
