@@ -3,6 +3,11 @@
 Projektmanagement: Projekt-Portfolio mit Gewerken, Anwendungen und Businesses (Lead › Spezifikation Opportunity › Spezifikation › Opportunity), Umsatzplan, Dashboard und Zeitplan · #ritl_pm
 Neueste Version oben. Versionen ≤ V1.1 nachträglich rekonstruiert (Projektmanager V1.x, selbstspeichernde HTML-Datei).
 
+## V2.1 · 18.11.2026 · DEV
+**Behoben**
+- Online (über die RIEMER Toolbox) stand ganz unten der Code „Toolbox-Logo + Abmelden“ als Text: Drei Sonderzeichen (türkisches „İ“) in der eingebetteten Excel-Bibliothek verschoben die Einfügestelle des Lizenzservers. Die Zeichen sind jetzt als Unicode-Escape geschrieben; das Skript läuft wieder unsichtbar im Hintergrund (Abmelden und Toolbox-Logo kommen wie gehabt aus dem Header RITL-UI).
+- Das PM.ritl-App-Bild erscheint im Browser-Tab – im Tool wird das Favicon nach dem Laden neu gesetzt, und der Loader `pm.ritl/index.html` trägt es ebenfalls.
+
 ## V2.0 · 18.11.2026 · DEV
 **Neu**
 - Umbau nach /riemer-webapp-design: Header über RITL-UI, Hell- und Dunkelmodus, eigenes App-Bild, volle Fensterbreite.
