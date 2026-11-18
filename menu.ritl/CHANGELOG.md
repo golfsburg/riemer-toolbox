@@ -3,7 +3,17 @@
 Speisekarten- & Menü-Designer: Sets, Gänge, Speisendatenbank mit Allergenen (LMIV), 6 Druckformate, Export als PDF, PPTX und Druck in exakt einer Seite · #ritl_menu
 Neueste Version oben. Versionen ≤ V1.7 nachträglich rekonstruiert (aus `tool_versions`, Quellen-ZIPs und Repo-Historie).
 
-## V2.3 · 16.11.2026 · DEV
+## V2.4 · 18.11.2026 · DEV
+**Neu**
+- Backup-Stufe `storage` (nur unter 01 Lokal, zentral gesperrt „folgt später“): `datenbank` + alle hochgeladenen Dateien; im Modal „Backup einrichten“ mit Anzahl und Größe der Dateien.
+- Dateiablage RITLF (Baustein ritl-bk/ritl-files.js): hochgeladene Logos werden im Browser abgelegt, in den Daten steht nur der Verweis; nicht mehr verwendete Dateien werden beim Start aufgeräumt.
+- Backup › Speicher zeigt die Dateiablage mit Anzahl und Größe.
+
+**Geändert**
+- Wiederherstellen eines storage-Backups ersetzt auch die Dateiablage (Hinweis in der Rückfrage).
+- Offline-Kopie und Set-Export betten Logos aus der Dateiablage ein.
+
+ · 16.11.2026 · DEV
 **Geändert**
 - Header auf den zentralen Header RITL-UI umgestellt (Kit RITL-UI 1.1, Vorbild MUSTER.ritl V2.8): App-Bild, Eyebrow, MENU.ritl mit Edition, DEV/BETA und Version · Datum; rechts kompakte Chips für Favoriten (mit Zähler), Backup (mit Symbol Ordner/Wolke) und Zurücksetzen, dann Anleitung, Hell/Dunkel, An-/Abmelden, Toolbox-Logo und „RIEMER Tools“. Der Header bleibt beim Scrollen oben.
 - Künftige Header-Versionen kommen zentral über den Lizenzserver, ohne neue MENU.ritl-Version.
