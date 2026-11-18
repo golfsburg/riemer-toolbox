@@ -3,6 +3,14 @@
 Projektmanagement: Projekt-Portfolio mit Gewerken, Anwendungen und Businesses (Lead › Spezifikation Opportunity › Spezifikation › Opportunity), Umsatzplan, Dashboard und Zeitplan · #ritl_pm
 Neueste Version oben. Versionen ≤ V1.1 nachträglich rekonstruiert (Projektmanager V1.x, selbstspeichernde HTML-Datei).
 
+## V2.5 · 18.11.2026 · DEV
+**Geändert**
+- Fußzeile nach Regel 25: „© 2026 Peter Riemer · toolbox@riemer.co · RIEMER Tools“ mit Link `mailto:toolbox@riemer.co`; kein Link mehr auf riemer.co im Tool.
+- Die Fußzeile steht immer am unteren Rand des Browserfensters – bei wenig Inhalt unten am Fenster, bei langem Inhalt beim Scrollen sichtbar (kompakt, eine Zeile; unter 620 px ohne Kurzinfo rechts). Meldungen (Toast) erscheinen darüber.
+
+**Behoben**
+- Ribbon: Hashtags der Module überlappten bei 1920 px den nächsten Reiter – sie erscheinen erst bei sehr breiten Fenstern.
+
 ## V2.4 · 18.11.2026 · DEV
 **Geändert**
 - Backup einrichten › 02 Zentral wie in STAKE.ritl: Auswahl als Stufen-Karten mit der zusätzlichen Option „kein Backup zentral erstellen“ statt Häkchen; Hinweis zu Historie (höchstens 11 Stände), Kontingent und Speicherort darunter.
