@@ -3,6 +3,12 @@
 Beziehungs- und Stakeholder-Map für Firmen, Ansprechpartner, Projekte und Gewerke · #ritl_stake
 Neueste Version oben.
 
+## V2.0 · 18.11.2026 · DEV
+**Geändert**
+- Fußzeile nach Skill-Regel 25: „© 2026 Peter Riemer · toolbox@riemer.co · RIEMER Tools“ mit Mail-Link; steht immer am unteren Rand des Browserfensters (bei wenig Inhalt unten, bei langem Inhalt beim Scrollen sichtbar), kompakt in einer Zeile. Unter 620 px entfällt die Kurzinfo rechts.
+- Kein Link mehr auf riemer.co im Tool: Schriftzug „RIEMER Tools“ und Kontakt führen zu toolbox@riemer.co.
+- Hinweise (Toast) erscheinen über der Fußzeile.
+
 ## V1.9 · 18.11.2026 · DEV
 **Neu**
 - **Brücke aus PM.ritl** (PM.ritl V2.0, Format 1): Projekte, Gewerke und Firmen (Kunden/Account) mit ihren Beteiligungen übernehmen – aus dem Browser (`riemer-bridge-pm-stake`, PM.ritl schreibt nach jeder Änderung) oder aus der Datei `PM-ritl_STAKE-Bruecke.json`. Der Kopf wird geprüft (`pm-ritl`, Inhalt `bruecke`, Format 1); neueres Format → „Bitte STAKE.ritl aktualisieren“.
