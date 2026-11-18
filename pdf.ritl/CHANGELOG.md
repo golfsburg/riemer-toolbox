@@ -3,6 +3,13 @@
 PDF-Dokumente aus Lesezeichen-Abschnitten und Einzelseiten zusammenstellen – mit verlinktem Inhaltsverzeichnis · #ritl_pdf
 Neueste Version oben. Versionen ≤ V1.3 nachträglich rekonstruiert (aus `tool_versions` und Entwicklungsverlauf).
 
+## V1.5 · 18.11.2026 · DEV
+**Neu**
+- Backup-Stufe **storage** für 01 Lokal: Einstellungen, Arbeitsdaten **und alle PDF-Originale** in der einen Datei `Backup_PDF-ritl.json` (Originale als Komplett-Paket eingebettet). Wiederherstellen lädt die PDFs wieder.
+
+**Geändert**
+- „Backup einrichten“: storage lokal wählbar (mit Größe), zentral gesperrt („nur lokal, zentral folgt später“).
+
 ## V1.4 · 16.11.2026 · DEV
 **Geändert**
 - Header auf den zentralen Header RITL-UI 1.1 umgestellt (Vorbild MUSTER.ritl V2.8): App-Bild, Eyebrow, `PDF.ritl` mit Edition und Version · Datum, Arbeitsschritte in der Mitte, rechts kompakte Chips (Favoriten, Backup mit Statussymbol, Neu beginnen · Anleitung · Hell/Dunkel · An-/Abmelden), Toolbox-Logo und Schriftzug „RIEMER Tools“.
