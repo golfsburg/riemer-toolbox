@@ -3,6 +3,13 @@
 Beziehungs- und Stakeholder-Map für Firmen, Ansprechpartner, Projekte und Gewerke · #ritl_stake
 Neueste Version oben.
 
+## V1.8 · 18.11.2026 · DEV
+**Neu**
+- Backup-Stufe **storage** für 01 Lokal: alles aus `datenbank` plus alle Dateien der Dateiablage (IndexedDB `stake_files`). Noch lädt STAKE.ritl selbst keine Dateien hoch – die Stufe ist für künftige Anhänge vorbereitet und sichert bis dahin wie `datenbank`.
+
+**Geändert**
+- „Backup einrichten“: storage lokal wählbar, zentral gesperrt („nur lokal, zentral folgt später“).
+
 ## V1.7 · 17.11.2026 · DEV
 **Neu**
 - Matrix Projekte × Gewerke: Die **Firma hängt mit ihrer Rolle am Gewerk**, darunter lassen sich keiner, einer oder mehrere **Ansprechpartner dieser Firma** zuordnen – je mit **Haltung und Einfluss auf das Projekt** (gilt nur für dieses Projekt und Gewerk; vorgeschlagen werden die allgemeinen Werte der Person).

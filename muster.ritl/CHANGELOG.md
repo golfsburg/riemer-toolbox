@@ -3,6 +3,15 @@
 Vorlage und Spielwiese für den Skill `/riemer-webapp-design` · #ritl_muster
 Neueste Version oben. Versionen ≤ V2.2 nachträglich aus den veröffentlichten Ständen (Tabelle `tool_versions`) rekonstruiert.
 
+## V3.0 · 18.11.2026
+**Neu**
+- Backup-Stufe **storage** für 01 Lokal: alles aus `datenbank` plus alle hochgeladenen Dateien. Die Dateien stehen mit Inhalt in der Backup-Datei `Backup_MUSTER-ritl.json` und kommen beim Wiederherstellen zurück.
+- Dateiablage (RITL-Dateien) als wiederverwendbarer Baustein: hochgeladene Dateien bleiben im Browser (IndexedDB `muster_files`).
+- SETUP.ritl › Erweitert › **Dateien**: Beispiel zum Hochladen, Öffnen und Löschen von Dateien.
+
+**Geändert**
+- „Backup einrichten“ zeigt bei storage die Anzahl der Dateien und die Größe; zentral bleibt storage gesperrt („nur lokal, zentral folgt später“).
+
 ## V2.9 · 18.11.2026
 **Neu**
 - Offline-Version möglich (Idee MUSTER-06): Im Admin › Versionen › ⬇ Offline wird eine einzige HTML-Datei ohne Lizenzprüfung gebaut – mit Kennzeichnung „Offline-Version für … · erstellt …“ und Ablaufdatum.
