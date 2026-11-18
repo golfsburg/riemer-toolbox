@@ -3,6 +3,14 @@
 Vorlage und Spielwiese für den Skill `/riemer-webapp-design` · #ritl_muster
 Neueste Version oben. Versionen ≤ V2.2 nachträglich aus den veröffentlichten Ständen (Tabelle `tool_versions`) rekonstruiert.
 
+## V2.9 · 18.11.2026
+**Neu**
+- Offline-Version möglich (Idee MUSTER-06): Im Admin › Versionen › ⬇ Offline wird eine einzige HTML-Datei ohne Lizenzprüfung gebaut – mit Kennzeichnung „Offline-Version für … · erstellt …“ und Ablaufdatum.
+- In der Offline-Version entfallen das zentrale Backup (Stufe Server, Abschnitt „03 Zentral“) und der Abruf der Übersetzungen; lokales Backup und OneDrive/SharePoint bleiben.
+
+**Geändert**
+- Header RITL-UI 1.3; Farben je Lizenz (Idee MUSTER-05) wirken in MUSTER.ritl.
+
 ## V2.8 · 16.11.2026
 **Neu**
 - Header über den zentralen **RITL-UI 1.0** (wird vom Lizenzserver aktuell gehalten): App-Bild 52 px, Eyebrow, MUSTER.ritl mit Edition, DEV/BETA und Version · Datum; rechts Favoriten · Backup · Neu beginnen · `?` · DE/EN · Hell/Dunkel · An-/Abmelden als runde Chips · Toolbox-Logo · RIEMER Tools.

@@ -458,6 +458,23 @@
     <div class="dlg-foot"><span class="sp"></span><button type="button" class="b" data-close>Schließen</button></div>
   </div>
 </dialog>
+<dialog id="offdlg" class="dlg sm" aria-labelledby="off-title">
+  <div class="frame">
+    <div class="dlg-head"><h2 id="off-title">Offline-Version herunterladen</h2><button type="button" class="ib" data-close aria-label="Schließen" title="Schließen">✕</button></div>
+    <div class="dlg-body">
+      <p class="hint" id="off-sub" style="margin-top:0"></p>
+      <label for="off-lic">Für Lizenz (Farben und Kundenname)</label><select id="off-lic"><option value="">– keine Lizenz (RIEMER-Blau) –</option></select>
+      <label for="off-cust">Kennzeichnung „Offline-Version für …“ *</label><input id="off-cust" placeholder="Firma XY GmbH">
+      <div class="grid">
+        <div><label for="off-until">Gültig bis</label><input id="off-until" type="date"><label class="chk" style="margin-top:8px"><input type="checkbox" id="off-nolimit"> ohne Ablaufdatum</label></div>
+        <div><label>Ablauf</label><span class="hint">14 Tage vorher erscheint ein Hinweis im Header, danach sperrt ein Fenster das Tool (Backup speichern bleibt möglich).</span></div>
+      </div>
+      <div class="note" style="margin-top:12px">Die Datei läuft ohne Internet und ohne Lizenzprüfung und lässt sich frei kopieren. Kennzeichnung und Ablaufdatum sind Hinweise, kein Schutz. Server-Backup sowie An-/Abmelden entfallen; Header, Farben, Schriften, Übersetzungen und Bibliotheken werden eingebaut.</div>
+      <div class="status" id="off-st" style="margin-top:12px" hidden></div>
+    </div>
+    <div class="dlg-foot"><span class="sp"></span><button type="button" class="b" data-close>Abbrechen</button><button type="button" class="b pri" id="off-go">⬇ Offline-HTML erstellen</button></div>
+  </div>
+</dialog>
 <dialog id="eddlg" class="dlg sm" aria-labelledby="ed-title">
   <div class="frame">
     <div class="dlg-head"><h2 id="ed-title">Editionen</h2><button type="button" class="ib" data-close aria-label="Schließen" title="Schließen">✕</button></div>
@@ -610,7 +627,8 @@
       var live = {}, t = toolById(id), eds = ["standard"].concat(((t && t.editions) || []).map(function (e) { return e.id; }));
       r.versions.forEach(function (v) { var k = (v.edition || "standard") + "|" + v.channel; if (v.active && !live[k]) live[k] = v.id; });
       $("verrows").innerHTML = r.versions.map(function (v) {
-        var acts = '<button class="b" data-vact="open" data-vid="' + v.id + '" title="Diese Version in einem neuen Tab öffnen (Admin-Vorschau, Daten als Kopie)">↗ Öffnen</button>', ed = v.edition || "standard";
+        var acts = '<button class="b" data-vact="open" data-vid="' + v.id + '" title="Diese Version in einem neuen Tab öffnen (Admin-Vorschau, Daten als Kopie)">↗ Öffnen</button>' +
+          '<button class="b" data-vact="offline" data-vid="' + v.id + '" title="Diese Version als Offline-HTML herunterladen (ohne Lizenzprüfung, ohne Server-Backup)">⬇ Offline</button>', ed = v.edition || "standard";
         if (v.active && NEXT[v.channel]) acts += '<button class="b pri" data-vact="promote" data-vid="' + v.id + '" data-to="' + NEXT[v.channel] + '">Freigeben → ' + CH[NEXT[v.channel]] + "</button>";
         acts += v.active ? '<button class="b" data-vact="off" data-vid="' + v.id + '">Zurückziehen</button>'
                          : '<button class="b" data-vact="on" data-vid="' + v.id + '">Reaktivieren</button>';
@@ -785,6 +803,7 @@
     var b = e.target.closest("button[data-vact]"); if (!b) return;
     var id = b.dataset.vid, a = b.dataset.vact, p;
     if (a === "open") { openVersion(id); return; }
+    if (a === "offline") { offOpen(id); return; }
     if (a === "promote") p = api("version_set", { version_id: id, channel: b.dataset.to });
     if (a === "off") { if (!confirm("Version zurückziehen? Sie wird nicht mehr ausgeliefert.")) return; p = api("version_set", { version_id: id, active: false }); }
     if (a === "on") p = api("version_set", { version_id: id, active: true });
@@ -1040,6 +1059,78 @@
       UIP.theme = t; uiPreview(v.id, v.version);
     });
   });
+  /* ── Offline-Version (Idee MUSTER-06): eine HTML-Datei ohne Lizenzprüfung und ohne Server-Backup ──
+     Eingebaut werden: window.RITL (offline, Kunde, erstellt, gültig bis), aktueller Header RITL-UI (Stabil), Lizenzfarben,
+     Schriften als Base64, Übersetzungen (#i18n-json), externe Skripte und Stylesheets. */
+  var OFF = { vid: null };
+  function offOpen(id) {
+    OFF.vid = id;
+    $("off-sub").textContent = "Lade Version …";
+    $("off-lic").innerHTML = '<option value="">– keine Lizenz (RIEMER-Blau) –</option>' + state.licenses.filter(function (l) { return l.active; })
+      .map(function (l) { return '<option value="' + esc(l.id) + '">' + esc(l.customer) + "</option>"; }).join("");
+    $("off-cust").value = ""; var d = new Date(); d.setFullYear(d.getFullYear() + 1); $("off-until").value = d.toISOString().slice(0, 10);
+    $("off-nolimit").checked = false; $("off-until").disabled = false; $("off-st").hidden = true; $("off-go").disabled = false;
+    $("offdlg").showModal();
+    api("version_html", { version_id: id }).then(function (r) { if (!r.ok) { $("off-sub").textContent = "Version nicht gefunden."; return; } OFF.v = r;
+      $("off-sub").textContent = (r.tool_name || r.tool) + " · " + vLabel(r.version) + " (" + r.version + ") · " + ({ stable: "Stabil", beta: "Beta", dev: "Entwicklung" }[r.channel] || r.channel) + " · Edition " + (r.edition_name || "Standard"); });
+  }
+  $("off-lic").addEventListener("change", function () { var l = state.licenses.filter(function (x) { return x.id === $("off-lic").value; })[0]; if (l && !$("off-cust").value.trim()) $("off-cust").value = l.customer; });
+  $("off-nolimit").addEventListener("change", function () { $("off-until").disabled = this.checked; });
+  function offStatus(t, cls) { var e = $("off-st"); e.hidden = false; e.className = "status" + (cls ? " " + cls : ""); e.textContent = t; }
+  function b64ab(buf) { var u = new Uint8Array(buf), s = ""; for (var i = 0; i < u.length; i += 32768) s += String.fromCharCode.apply(null, u.subarray(i, i + 32768)); return btoa(s); }
+  function fetchText(u) { return fetch(u, { cache: "no-store" }).then(function (r) { if (!r.ok) throw new Error(u + " (" + r.status + ")"); return r.text(); }); }
+  function inlineCssUrls(css, base) {   // url(...) in CSS → data:-URLs
+    var urls = [], re = /url\(\s*(['"]?)([^'")]+)\1\s*\)/g, m;
+    while ((m = re.exec(css))) if (!/^data:/.test(m[2])) urls.push(m[2]);
+    urls = urls.filter(function (u, i) { return urls.indexOf(u) === i; });
+    return Promise.all(urls.map(function (u) { var abs = new URL(u, base).href;
+      return fetch(abs).then(function (r) { if (!r.ok) throw new Error(abs); var ty = r.headers.get("content-type") || (/\.woff2(\?|$)/.test(abs) ? "font/woff2" : /\.woff(\?|$)/.test(abs) ? "font/woff" : "application/octet-stream");
+        return r.arrayBuffer().then(function (b) { return [u, "data:" + ty.split(";")[0] + ";base64," + b64ab(b)]; }); }); }))
+      .then(function (pairs) { pairs.forEach(function (p) { css = css.split(p[0]).join(p[1]); }); return css; });
+  }
+  async function offBuild() {
+    var v = OFF.v; if (!v) return;
+    var cust = $("off-cust").value.trim(); if (!cust) { offStatus("Bitte die Kennzeichnung (Kunde) angeben.", "warn"); return; }
+    var until = $("off-nolimit").checked ? null : $("off-until").value || null;
+    $("off-go").disabled = true;
+    try {
+      var html = String(v.html), n = 0;
+      offStatus("Header (RITL-UI) …");
+      var a = html.indexOf("<!--ritl-ui:start-->"), e = html.indexOf("<!--ritl-ui:end-->");
+      if (a >= 0 && e > a) { var ul = await api("ui_list"), live = ul.ok && ul.live && ul.live.stable, uv = ul.ok && ul.versions.filter(function (x) { return x.active && x.version === live; })[0];
+        if (uv) { var ug = await api("ui_get", { id: uv.id }); if (ug.ok) html = html.slice(0, a) + ug.block + html.slice(e + 18); } }
+      offStatus("Farben …");
+      var lid = $("off-lic").value, css = "";
+      if (lid) { var tg = await api("theme_get", { license_id: lid }); var th = tg.ok && (tg.themes.filter(function (x) { return x.tool === v.tool; })[0] || tg.themes.filter(function (x) { return x.tool === "*"; })[0]);
+        if (th) { var tk = th.tokens, ok = function (o) { return Object.keys(o || {}).filter(function (k) { return /^--[a-z-]+$/.test(k) && /^#[0-9A-Fa-f]{6}$/.test(o[k]); }).map(function (k) { return k + ":" + o[k]; }).join(";"); };
+          css = '<style id="ritl-theme">:root{' + ok(tk.light) + '}[data-theme="dark"]{' + ok(tk.dark) + "}</style>"; } }
+      offStatus("Übersetzungen …");
+      if (html.indexOf('id="i18n-json"') >= 0) { var tr = await api("ui_i18n", { tool: v.tool });
+        if (tr.ok) html = html.replace(/(<script type="application\/json" id="i18n-json">)[\s\S]*?(<\/script>)/, function (_, x, y) { return x + JSON.stringify(tr.list).replace(/</g, "\\u003c") + y; }); }
+      offStatus("Schriften und Stylesheets …");
+      var links = html.match(/<link\b[^>]*rel=["']?stylesheet["']?[^>]*>/gi) || [];
+      for (var i = 0; i < links.length; i++) { var hm = /href=["']([^"']+)["']/i.exec(links[i]); if (!hm || !/^https?:/.test(hm[1])) continue;
+        var cssT = await fetchText(hm[1]); cssT = await inlineCssUrls(cssT, hm[1]); html = html.split(links[i]).join("<style>/* eingebaut: " + hm[1].replace(/^https?:\/\//, "").replace(/\*\//g, "") + " */\n" + cssT + "</style>"); n++; }
+      html = html.replace(/<link\b[^>]*rel=["']?preconnect["']?[^>]*>\s*/gi, "");
+      offStatus("Bibliotheken …");
+      var scripts = html.match(/<script\b[^>]*\ssrc=["']https?:[^"']+["'][^>]*>\s*<\/script>/gi) || [];
+      for (var j = 0; j < scripts.length; j++) { var sm = /src=["']([^"']+)["']/i.exec(scripts[j]); var js = await fetchText(sm[1]);
+        html = html.split(scripts[j]).join("<script>/* eingebaut: " + sm[1].replace(/^https?:\/\//, "").replace(/\*\//g, "") + " */\n" + js.replace(/<\/script/gi, "<\\/script") + "\n<\/script>"); n++; }
+      var info = { tool: v.tool, version: v.version, version_label: vLabel(v.version), release_date: vDate(v.released_at), channel: v.channel,
+        edition: v.edition, edition_name: v.edition_name, customer: cust, email: null,
+        offline: true, offline_for: cust, offline_created: vDate(new Date().toISOString()), offline_until: until };
+      var head = "<script>/* RIEMER Tools – Offline-Version für " + cust.replace(/\*\//g, "") + " · erstellt " + info.offline_created + (until ? " · gültig bis " + until : "") + " */window.RITL=Object.freeze(" + JSON.stringify(info).replace(/</g, "\\u003c") + ");<\/script>";
+      var hm2 = /<head[^>]*>/i.exec(html); html = hm2 ? html.slice(0, hm2.index + hm2[0].length) + head + html.slice(hm2.index + hm2[0].length) : head + html;
+      if (css) { var hi = html.toLowerCase().lastIndexOf("</head>"); html = hi >= 0 ? html.slice(0, hi) + css + html.slice(hi) : css + html; }
+      var left = (html.match(/https?:\/\/[^\s"'<>)]+/g) || []).filter(function (u) { return /\.(css|js|woff2?)(\?|$)/.test(u); });
+      var name = "RIEMER-Tools_" + String(v.tool_name || v.tool).replace(/\.ritl$/i, "").replace(/[^A-Za-z0-9-]+/g, "-") + "_" + vLabel(v.version) + "_offline.html";
+      var u = URL.createObjectURL(new Blob([html], { type: "text/html" })), dl = document.createElement("a");
+      dl.href = u; dl.download = name; document.body.appendChild(dl); dl.click(); dl.remove(); setTimeout(function () { URL.revokeObjectURL(u); }, 5000);
+      offStatus("Fertig: " + name + " · " + Math.round(html.length / 1024) + " KB · " + n + " Ressourcen eingebaut" + (left.length ? " · Achtung, noch Verweise ins Netz: " + left.slice(0, 3).join(", ") : ""), left.length ? "warn" : "good");
+    } catch (err) { offStatus("Fehler: " + (err && err.message || err), "warn"); }
+    $("off-go").disabled = false;
+  }
+  $("off-go").addEventListener("click", offBuild);
   function status(l) {
     if (!l.active) return '<span class="pill p-bad">gesperrt</span>';
     if (l.expires_at && new Date(l.expires_at) < new Date()) return '<span class="pill p-bad">abgelaufen</span>';

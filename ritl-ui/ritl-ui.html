@@ -1,6 +1,6 @@
 <!--ritl-ui:start-->
 <style id="ritl-ui-css">
-/* RITL-UI 1.2 – zentraler Header der RIEMER Tools. Wird vom Lizenzserver beim Ausliefern durch die aktuelle Version ersetzt.
+/* RITL-UI 1.3 – zentraler Header der RIEMER Tools. Wird vom Lizenzserver beim Ausliefern durch die aktuelle Version ersetzt.
    Maße nach PPTX.ritl (Standard): Header 64 px, App-Bild 38 px, Titel 22 px, Eyebrow 10,5 px, Chips 34 px.
    Rechts immer kompakt: Tool-Knöpfe als eckige Chips nur mit Symbol, System-Knöpfe als runde Chips. Nur Tokens der Farbkarte –
    Ausnahme: Schriftzug „RIEMER Tools“ und Toolbox-Logo bleiben auch bei Lizenz-Farben im RIEMER-Blau (Marke). */
@@ -38,6 +38,16 @@ header[data-ritl-header]:not(.ritl-h)>*{visibility:hidden}
 .ritl-wm span{color:#1F5FC2}
 [data-theme="dark"] .ritl-wm span{color:#6EA2FF}
 header[data-ritl-header] :is(button,a):focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.ritl-pill.off{margin-left:6px;background:var(--warn);color:#fff}
+.ritl-eb.off{color:var(--warn)}
+.ritl-offnote{margin:0 0 14px;padding:10px 12px;border-radius:8px;border:1px solid color-mix(in srgb,var(--warn) 35%,transparent);background:color-mix(in srgb,var(--warn) 8%,var(--surface));color:var(--warn);font:500 13px/1.45 var(--sans,"Inter",system-ui,sans-serif)}
+#ritl-expired{position:fixed;inset:0;z-index:2147483000;display:grid;place-items:center;background:rgba(15,20,28,.72);padding:20px}
+#ritl-expired>div{max-width:520px;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:16px;padding:24px 26px;box-shadow:0 20px 60px rgba(0,0,0,.3);font:400 14px/1.5 var(--sans,"Inter",system-ui,sans-serif)}
+#ritl-expired h2{margin:0 0 8px;font:800 19px var(--sans,"Inter",system-ui,sans-serif);color:var(--warn)}
+#ritl-expired p{margin:0 0 10px;color:var(--ink2)}
+#ritl-expired .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+#ritl-expired button,#ritl-expired a{display:inline-flex;align-items:center;height:36px;padding:0 14px;border-radius:8px;border:1px solid var(--line2);background:var(--surface);color:var(--ink);font:600 13px var(--sans,"Inter",system-ui,sans-serif);cursor:pointer;text-decoration:none}
+#ritl-expired .pri{background:var(--brand);border-color:var(--brand);color:var(--on-brand,#fff)}
 @media(max-width:1500px){.ritl-mid{display:none}}
 @media(max-width:1000px){.ritl-ver{display:none}}
 @media(max-width:900px){.ritl-wm{display:none}}
@@ -48,15 +58,18 @@ header[data-ritl-header] :is(button,a):focus-visible{outline:2px solid var(--bra
 @media print{header[data-ritl-header]{position:static}.ritl-act{display:none}}
 </style>
 <script id="ritl-ui-js">
-/* RITL-UI 1.2 – baut den Header aus <header data-ritl-header …> auf. Attribute:
+/* RITL-UI 1.3 – baut den Header aus <header data-ritl-header …> auf. Attribute:
    data-name="MUSTER" (Pflicht) · data-eyebrow="…" · data-tool="muster-ritl" · data-ver="V2.8" · data-date="16.11.2026"
    data-help="none" (ohne Anleitung) · data-lang="none" (ohne DE/EN) · data-login="URL" (Anmelden-Ziel)
    Kinder: [data-ritl-icon] (App-Bild, SVG) · [data-ritl-center] (optional, Mitte) · [data-ritl-actions] (Tool-Knöpfe: Symbol + Text in <span class="lbl"> – der Text erscheint als Tooltip)
    IDs für das Tool: #helpBtn (Anleitung, onclick setzt das Tool) · #lang-btn · #theme-btn · #ritl-auth · #ritl-edition · #ritl-chan · #ritl-ver
-   Ereignisse: ritl:theme {theme} · ritl:lang {lang}. API: window.RITLUI.lang(l) · .theme(t) · .version */
+   Ereignisse: ritl:theme {theme} · ritl:lang {lang}. API: window.RITLUI.lang(l) · .theme(t) · .version · .offline
+   Offline-Version (ab 1.3): window.RITL.offline = true, offline_for (Kunde), offline_created (TT.MM.JJJJ), offline_until (JJJJ-MM-TT oder leer)
+   → Kennzeichen OFFLINE, Eyebrow „Offline-Version für … · erstellt … · gültig bis …“, Hinweis oben in der Anleitung,
+     kein An-/Abmelden, Toolbox-Logo ohne Link; 14 Tage vor Ablauf Warnung, danach Sperrfenster (Backup bleibt möglich). */
 (function () {
   "use strict";
-  var VERSION = "1.2";
+  var VERSION = "1.3";
   var h = document.querySelector("header[data-ritl-header]");
   if (!h || h.classList.contains("ritl-h")) return;
   var d = h.dataset, R = window.RITL || {}, root = document.documentElement;
@@ -86,7 +99,14 @@ header[data-ritl-header] :is(button,a):focus-visible{outline:2px solid var(--bra
   var id = E("div", { cls: "ritl-id" });
   if (icon) { icon.classList.add("ritl-icon"); icon.setAttribute("aria-hidden", "true"); id.appendChild(icon); }
   var tt = E("div", { cls: "ritl-tt" });
-  if (d.eyebrow) tt.appendChild(E("p", { cls: "ritl-eb" }, esc(d.eyebrow)));
+  var OFF = !!R.offline, offTxt = "", left = null;
+  if (OFF) {
+    if (R.offline_until) { var u = new Date(R.offline_until + "T23:59:59"); left = Math.ceil((u - new Date()) / 864e5); }
+    var dUntil = R.offline_until ? R.offline_until.split("-").reverse().join(".") : "";
+    offTxt = "Offline-Version" + (R.offline_for ? " für " + R.offline_for : "") + (R.offline_created ? " · erstellt " + R.offline_created : "") + (dUntil ? " · gültig bis " + dUntil : "");
+  }
+  if (OFF) tt.appendChild(E("p", { cls: "ritl-eb off", title: offTxt }, esc(offTxt)));
+  else if (d.eyebrow) tt.appendChild(E("p", { cls: "ritl-eb" }, esc(d.eyebrow)));
   var vl = R.version_label || d.ver || "", vd = R.release_date || d.date || "";
   var edn = String(R.edition_name || "Standard"), std = !R.edition || R.edition === "standard";
   var ch = R.channel === "dev" || R.channel === "beta" ? R.channel : "";
@@ -94,6 +114,7 @@ header[data-ritl-header] :is(button,a):focus-visible{outline:2px solid var(--bra
     '<span class="ritl-nm notr">' + esc(d.name || document.title) + "<span>.ritl</span></span>" +
     '<b class="ritl-pill notr' + (std ? " std" : "") + '" id="ritl-edition" title="Edition ' + esc(edn) + '">' + esc(edn.toUpperCase()) + "</b>" +
     '<b class="ritl-pill notr ' + ch + '" id="ritl-chan"' + (ch ? ' title="' + (ch === "dev" ? "Entwicklungsversion" : "Beta-Version") + '"' : " hidden") + ">" + ch.toUpperCase() + "</b>" +
+    (OFF ? '<b class="ritl-pill off notr" id="ritl-offline" title="' + esc(offTxt) + '">' + (left != null && left <= 14 ? (left > 0 ? "OFFLINE · NOCH " + left + " TAGE" : "OFFLINE · ABGELAUFEN") : "OFFLINE") + "</b>" : "") +
     '<small class="ritl-ver notr" id="ritl-ver">' + esc(vl + (vd ? " · " + vd : "")) + "</small>");
   tt.appendChild(h1); id.appendChild(tt);
 
@@ -119,9 +140,10 @@ header[data-ritl-header] :is(button,a):focus-visible{outline:2px solid var(--bra
   auth.title = licensed ? "Abmelden" + (R.email ? " – angemeldet als " + R.email : "") + (R.customer ? " · Lizenz: " + R.customer : "") : (R.preview ? "Admin-Vorschau – keine Anmeldung" : "Anmelden über die RIEMER Toolbox");
   auth.setAttribute("aria-label", licensed ? "Abmelden" : "Anmelden");
   if (R.preview) auth.disabled = true;
-  sys.appendChild(auth);
+  if (!OFF) sys.appendChild(auth);
   act.appendChild(sys);
-  act.appendChild(E("a", { cls: "ritl-tb", id: "ritl-toolbox", href: TB, title: "RIEMER Toolbox – alle Tools", "aria-label": "Zur RIEMER Toolbox" }, I.tb));
+  act.appendChild(OFF ? E("span", { cls: "ritl-tb", id: "ritl-toolbox", title: "RIEMER Toolbox · " + offTxt }, I.tb)
+                      : E("a", { cls: "ritl-tb", id: "ritl-toolbox", href: TB, title: "RIEMER Toolbox – alle Tools", "aria-label": "Zur RIEMER Toolbox" }, I.tb));
   act.appendChild(E("a", { cls: "ritl-wm notr", href: "https://riemer.co", title: "riemer.co" }, "RIEMER <span>Tools</span>"));
   // Marker: der Lizenzserver fügt bei vorhandenem Kit keinen eigenen Abmelden-Knopf / kein Logo ein
   var mk = E("span", { id: "ritl-logout", hidden: "" }); act.appendChild(mk);
@@ -166,7 +188,30 @@ header[data-ritl-header] :is(button,a):focus-visible{outline:2px solid var(--bra
     setTimeout(done, 2500);
   });
 
-  window.RITLUI = { version: VERSION, mounted: true, lang: langUi, theme: setTheme };
+  // ── Offline-Version: Hinweis in der Anleitung, Ablaufdatum ──
+  if (OFF) {
+    var hb = document.getElementById("helpBtn");
+    if (hb) hb.addEventListener("click", function () {
+      setTimeout(function () {
+        var dl = document.querySelector("dialog[open]"); if (!dl || dl.querySelector(".ritl-offnote")) return;
+        var body = dl.querySelector(".db,.dlg-body,.body") || dl;
+        var n = E("p", { cls: "ritl-offnote" }, "<b>" + esc(offTxt) + ".</b> Diese Datei läuft ohne Internet und ohne Lizenzprüfung; Updates kommen nicht automatisch. Ihre Daten bleiben im Browser dieses Geräts – bitte regelmäßig ein Backup speichern.");
+        body.insertBefore(n, body.firstChild);
+      }, 0);
+    });
+    if (left != null && left <= 0) {
+      var ov = E("div", { id: "ritl-expired", role: "alertdialog", "aria-modal": "true", "aria-labelledby": "ritl-exp-h" },
+        '<div><h2 id="ritl-exp-h">Offline-Version abgelaufen</h2><p>' + esc(offTxt) + '.</p>' +
+        "<p>Bitte eine neue Version anfordern. Ihre Daten sind nicht verloren: Mit „Backup speichern“ sichern Sie sie und laden sie in der neuen Version wieder.</p>" +
+        '<div class="row"><button type="button" class="pri" id="ritl-exp-bk">Backup speichern …</button><a href="mailto:toolbox@riemer.co?subject=' + encodeURIComponent("Neue Offline-Version " + (d.name || "") + ".ritl") + '">Neue Version anfordern</a></div></div>');
+      var mountOv = function () { if (!document.getElementById("ritl-expired")) document.body.appendChild(ov); };
+      if (document.body) mountOv(); else document.addEventListener("DOMContentLoaded", mountOv);
+      ov.addEventListener("click", function (e) { if (e.target.id === "ritl-exp-bk") { var b = document.getElementById("backupBtn") || document.querySelector('[data-act="backup"]'); if (b) b.click(); } });
+      document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !document.querySelector("dialog[open]")) e.stopImmediatePropagation(); }, true);
+    }
+  }
+
+  window.RITLUI = { version: VERSION, mounted: true, lang: langUi, theme: setTheme, offline: OFF, expiresInDays: left };
 })();
 </script>
 <!--ritl-ui:end-->

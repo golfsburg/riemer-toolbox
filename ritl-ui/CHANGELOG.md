@@ -4,6 +4,12 @@ Quelle: `ritl-ui/ritl-ui.html` · verwaltet im Lizenz-Admin unter **Header · RI
 Der Lizenzserver ersetzt in jedem Tool den Block `<!--ritl-ui:start--> … <!--ritl-ui:end-->` beim Ausliefern durch die neueste aktive Version aus dem Kanal der Lizenz (Dev sieht Dev + Beta + Stabil, Beta sieht Beta + Stabil).
 Neueste Version oben.
 
+## 1.3 · 18.11.2026 · Stabil
+**Neu**
+- Offline-Version (Idee MUSTER-06): Bei `window.RITL.offline` zeigt der Header das Kennzeichen **OFFLINE** und statt der Eyebrow „Offline-Version für <Kunde> · erstellt TT.MM.JJJJ · gültig bis TT.MM.JJJJ“; oben in der Anleitung erscheint derselbe Hinweis.
+- Kein An-/Abmelden, Toolbox-Logo ohne Link.
+- Ablaufdatum: 14 Tage vorher „OFFLINE · NOCH n TAGE“, danach Sperrfenster „Offline-Version abgelaufen“ mit „Backup speichern …“ und „Neue Version anfordern“.
+
 ## 1.2 · 17.11.2026 · Stabil
 **Geändert**
 - Schriftzug „RIEMER Tools“ bleibt immer im RIEMER-Blau (Hell #1F5FC2, Dunkel #6EA2FF), auch wenn die Lizenz eigene Farben hat (Idee MUSTER-05).
