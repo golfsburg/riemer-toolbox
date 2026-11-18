@@ -1084,9 +1084,12 @@
     while ((m = re.exec(css))) if (!/^data:/.test(m[2])) urls.push(m[2]);
     urls = urls.filter(function (u, i) { return urls.indexOf(u) === i; });
     return Promise.all(urls.map(function (u) { var abs = new URL(u, base).href;
-      return fetch(abs).then(function (r) { if (!r.ok) throw new Error(abs); var ty = r.headers.get("content-type") || (/\.woff2(\?|$)/.test(abs) ? "font/woff2" : /\.woff(\?|$)/.test(abs) ? "font/woff" : "application/octet-stream");
+      return fetch(abs).then(function (r) { if (!r.ok) { if (/\.woff2(\?|$)/.test(abs)) throw new Error(abs); return [u, null]; } var ty = r.headers.get("content-type") || (/\.woff2(\?|$)/.test(abs) ? "font/woff2" : /\.woff(\?|$)/.test(abs) ? "font/woff" : "application/octet-stream");
         return r.arrayBuffer().then(function (b) { return [u, "data:" + ty.split(";")[0] + ";base64," + b64ab(b)]; }); }); }))
-      .then(function (pairs) { pairs.forEach(function (p) { css = css.split(p[0]).join(p[1]); }); return css; });
+      .then(function (pairs) { pairs.forEach(function (p) {
+        if (p[1]) css = css.split(p[0]).join(p[1]);   // fehlende Ersatzformate (.woff, .ttf …) still aus der src-Liste nehmen
+        else css = css.replace(new RegExp(",?\\s*url\\(\\s*['\"]?" + p[0].replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "['\"]?\\s*\\)(\\s*format\\([^)]*\\))?", "g"), "");
+      }); return css; });
   }
   async function offBuild() {
     var v = OFF.v; if (!v) return;
