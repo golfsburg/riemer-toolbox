@@ -4,6 +4,22 @@
 Start: index.html im Browser öffnen (Chrome/Edge/Firefox) oder auf GitHub Pages ablegen.
 Beim Öffnen wird die Beispielzeichnung „Beispiel_Schnitt.dxf“ geladen.
 
+## V5.4 · 19.11.2026 · DEV
+Baut auf V5.2 auf. V5.3 (Vorlagen, Idee I003) ist zurückgezogen und in dieser Version nicht enthalten.
+
+**Neu**
+- Backup-Stufe **storage** jetzt auch unter Lokal · OneDrive & SharePoint (Idee I004): gesichert werden datenbank, der ganze Projekt-Browser (Ordner, Unterprojekte mit MSX, Anzahl, gelöschte und übernommene Objekte, Rohr-Einstellungen, aktuelles Unterprojekt) und die importierten Originaldateien (DWG, DXF, PDF, MSX, RIEMER-Gruppen, Projekt-ZIP, .mspx).
+- Im verknüpften Ordner bleibt es bei genau einer Datei `Backup_MSX-ritl.json` (Arbeitsstand, Verweisliste der Dateien); die Dateien selbst liegen im Unterordner `MSX-ritl_Dateien` als `<Kennung>_<Originalname>`. Gleiche Dateien werden nur einmal abgelegt, es werden nur fehlende geschrieben und nie Dateien gelöscht.
+- Importierte Dateien bleiben zwischen den Sitzungen in diesem Browser, damit automatisches Sichern ohne erneutes Hochladen funktioniert.
+- Wiederherstellen eines storage-Backups bringt Projekt-Browser, Unterprojekte und Zeichnungen zurück – auch in einem anderen Browser, sobald der Ordner verknüpft ist. Fehlende Dateien werden aufgelistet; diese Unterprojekte kommen dann aus dem gespeicherten MSX-Stand.
+- „Backup einrichten“: storage unter Lokal wählbar mit Größe (komprimierter Arbeitsstand + Dateien) und Anzahl Dateien; ohne Ordner-Zugriff (Safari, Firefox) ausgegraut mit Hinweis.
+- Backup-Dialog: 02 OneDrive & SharePoint nennt Stufe, Anzahl und Größe der Dateien; 01 Lokal weist darauf hin, dass die Dateien nur im Ordner gesichert werden.
+- Hinweise bei Dateien über 20 MB (Fortschritt) und wenn der Unterordner größer als 500 MB wird.
+
+**Geändert**
+- Automatisches Sichern mit storage überschreibt kein Backup aus einer anderen Sitzung: Es pausiert mit Hinweis, bis wiederhergestellt oder bewusst „Jetzt im Ordner sichern“ gewählt wird.
+- Zentral bleibt storage gesperrt („nur lokal (Ordner) – zentral folgt später“); bei Datenquelle A (Ordner ist die Datenbank) gleicht der Ordner weiter nur die Arbeitsdaten ab.
+
 ## V5.3 · 19.11.2026 · DEV
 **Neu**
 - Bereich 12 „Vorlagen“ (Idee I003): Standardkonstruktionen aus PROFIS MSE (Schienen, Verbinder, Anker) mit „.mspx laden“ übernehmen – Ordner werden Kategorien, jede Lösung eine Vorlage mit Name, Bauteil (Decke/Wand), Anzahl Knoten und Schienen, Schienentyp und kleinem Vorschaubild. Umbenennen, Löschen und als .mspx exportieren (einzeln oder alle).
