@@ -66,6 +66,12 @@ Die Details stehen im privaten Repo (`riemer-toolbox-src/CLAUDE.md`). In diesem 
 
 - Entwickeln auf dem vorgegebenen Feature-Branch, nie direkt auf `main` pushen ohne Auftrag.
 - Pull Request nur auf ausdrücklichen Wunsch.
+- **Vor jedem Merge nach `main` immer eine Vorschau zum Testen schicken** und erst nach Peters OK mergen:
+  Stand auf den Feature-Branch pushen, dann Link mit Commit-SHA schicken:
+  `https://raw.githack.com/golfsburg/riemer-toolbox/<SHA>/<pfad>` (z. B. `…/lizenz/admin.html`).
+  Gilt für Seiten aus diesem Repo (Admin, Startseite, myTOOLBOX). Geschützte Tools testet Peter als
+  DEV-Version im Admin mit **↗ Öffnen** bzw. mit einer Lizenz im Kanal Dev.
+  Hinweis: Der Lizenz-Loader (`license-check`) erlaubt githack nicht als Herkunft – Tools über den Loader nur live testen.
 - Vor dem Commit: `git diff --stat` ansehen – keine großen HTML-Dateien geschützter Tools,
   keine `.env`, keine Exporte aus Supabase.
 
