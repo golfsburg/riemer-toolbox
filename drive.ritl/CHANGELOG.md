@@ -3,6 +3,16 @@
 Fahrtenbuch, Fahrzeuge, Tanken, Werkstatt, Pickerl §57a und Statistik · #ritl_drive
 Neueste Version oben.
 
+## V2.2 · 19.11.2026 · DEV
+**Behoben**
+- Datenquelle B (Server ist die Datenbank): In „Backup einrichten“ › 02 Zentral ist die Stufe **storage** (inkl. Belege) jetzt immer wählbar – auch wenn die Prüfung am Server gerade nicht klappt (z. B. kurz offline). Wählbar sind datenbank und storage, nur settings ist gesperrt.
+- Datenquelle B: storage bleibt nach „Übernehmen“ eingestellt und springt nicht mehr auf datenbank zurück.
+
+**Geändert**
+- Von der Lizenz festgelegte Häkchen und Stufen (Datenquelle A und B) tragen den Hinweis „durch die Lizenz festgelegt“ – die Sperre ist gewollt.
+- Gesperrte storage-Zeile unter 02 Zentral: „nur mit ‚Server ist die Datenquelle‘ (Freigabe im Admin)“ statt „zentral folgt später“.
+- In der Admin-Vorschau zeigt 02 Zentral (und der Status im Backup-Fenster) „Admin-Vorschau – zentrale Funktionen hier nicht verfügbar“ statt einer stillen Sperre.
+
 ## V2.1 · 19.11.2026 · DEV
 **Behoben**
 - Datenquelle A (Ordner ist die Datenbank): Ändert ein anderes Gerät nur Einstellungen (z. B. Hell/Dunkel, Filter, Favoriten), fragt DRIVE.ritl nicht mehr fälschlich „Neuerer Stand im Ordner“. Für den Ordner zählen nur noch die Arbeitsdaten (Fahrzeuge, Fahrten, Tanken, Werkstatt, Pickerl und Dateien); die Einstellungen gleicht der Server ab.
