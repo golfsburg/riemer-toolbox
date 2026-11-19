@@ -1,4 +1,4 @@
-# ritl-bk 2.0 – einheitliches Backup der RIEMER Tools (ab 19.11.2026)
+# ritl-bk 2.1 – einheitliches Backup der RIEMER Tools (ab 19.11.2026)
 
 Regel **S-17**, Rollout **R-13**. Vorbild: MUSTER.ritl V3.8. Baustein: [`ritl-bk.html`](ritl-bk.html) · Änderungen: [`CHANGELOG.md`](CHANGELOG.md).
 Ein Block `<!--ritl-bk:start-->…<!--ritl-bk:end-->` (CSS + JS) enthält das ganze Backup: Knopf-Symbol am `#backupBtn`, Fenster „Backup“,
@@ -46,6 +46,7 @@ window.RITL_BK = {
   anwenden: async (stufe, obj, quelle, still) => {}, // Wiederherstellen: stufe 'settings' = nur Einstellungen übernehmen
   leer: () => !localStorage.getItem('riemer-muster-map'), // neues Gerät ohne eigene Daten
   legacy: o => Array.isArray(o.nodes) ? { map: o } : null, // Alt-Format ohne Kopf „ritl“ → daten
+  dateiAlt: ['Backup_Zeiterfassung-ritl.json'],          // ab 2.1, optional: frühere Namen der Backup-Datei (Tool umbenannt)
   alt: { bkcfg: 'riemer-muster-bkcfg', srv: 'riemer-muster-srv', srvst: 'riemer-muster-srvst', sync: 'riemer-muster-sync',
          ordner: 'riemer-muster-ordner', oq: 'riemer-muster-oq', fs: 'riemer-muster-fs', idbFiles: 'muster_files', idbFs: 'muster_fs' }
 };
