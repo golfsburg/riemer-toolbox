@@ -15,6 +15,14 @@ Arbeitsanweisungen für Claude Code. Sprache: Deutsch, Du-Form, kurz.
   (Farb-Tokens, Hell/Dunkel, Header RITL-UI, `.ritl`-Namen, Version `V#.#`, Backup, CHANGELOG).
   Der Skill ist verbindlich; diese Datei fasst nur die Abläufe im Repo zusammen.
 
+## Zwei Streams
+
+- **Stream 1 – Standardisierung:** gemeinsame Bausteine hier im Repo (`ritl-ui/`, `ritl-bk/`,
+  `lizenz/`, `fonts/`) plus Regeln und Matrix in `riemer-toolbox-src/STANDARDS.md`.
+- **Stream 2 – Tool-Entwicklung:** Code im privaten Repo, hier nur CHANGELOG/README/Loader des Tools.
+- Eine Sitzung = ein Vorhaben; Vorlagen in `riemer-toolbox-src/docs/SITZUNG.md`.
+  Vor Arbeit an einem Tool im privaten Repo `python3 scripts/ritl.py status` – „in Arbeit“ respektieren.
+
 ## Aufbau
 
 | Pfad | Inhalt |
