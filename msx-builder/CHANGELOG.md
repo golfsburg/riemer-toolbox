@@ -4,6 +4,20 @@
 Start: index.html im Browser öffnen (Chrome/Edge/Firefox) oder auf GitHub Pages ablegen.
 Beim Öffnen wird die Beispielzeichnung „Beispiel_Schnitt.dxf“ geladen.
 
+## V5.1 · 19.11.2026 · DEV
+**Neu**
+- Backup nach RIEMER-Standard: Knopf „Backup“ im Header mit Symbol für Lokal (Ordner) und Server (Wolke) – Farbe zeigt den Zustand, Tooltip nennt ihn im Klartext.
+- Eine Backup-Datei `Backup_MSX-ritl.json` mit Kopf (Tool, Version, Stufe, Zeitpunkt); beim Wiederherstellen werden Dateien anderer Tools mit Klartext abgelehnt.
+- Backup-Stufen: **settings** (Hell/Dunkel, Sprache, Ansichten, Auf/Zu, Voreinstellungen) und **datenbank** (zusätzlich eigene Vorlage, weitere Rohrnormen, Revit-Zuordnung). Zeichnungen und Projekt sichern Sie weiter über „.mspx exportieren“.
+- Backup-Dialog: 01 Lokal (Datei speichern/wiederherstellen, in Chrome/Edge überschreibt sie dieselbe Datei), 02 OneDrive & SharePoint (Ordner verknüpfen, automatisch sichern), 03 Zentral (Sicherung am Lizenzserver mit Historie 10 Tage).
+- „Backup einrichten“ beim ersten Start und jederzeit über Backup: Stufen mit Größen, automatisch lokal und/oder zentral sichern.
+- Server als Datenquelle (RITL-Sync): auf Wunsch lädt MSX.ritl beim Start den Stand vom Server und speichert Änderungen nach wenigen Sekunden; bei gleichzeitigen Änderungen auf zwei Geräten wird gefragt, welcher Stand gilt.
+- Datenquelle je Lizenz: **A** – der OneDrive/SharePoint-Ordner ist die Datenbank (Datenhoheit, am Server nur Einstellungen) · **B** – der Server ist die Datenbank.
+- Offline-Version: kein Serverzugriff, Abschnitt Zentral ausgeblendet, Übersetzungen nur aus der Datei.
+
+**Geändert**
+- Der Header hat höchstens drei Tool-Knöpfe: „msx.ZIP herunterladen“ gibt es jetzt nur noch neben der Überschrift 07 Modellbereich, an seiner Stelle steht „Backup“.
+
 ## V5.0 · 16.11.2026 · DEV
 **Neu**
 - Download-Chips „.msx herunterladen“ und „msx.ZIP herunterladen“ direkt neben der Überschrift 07 Modellbereich (zusätzlich zu den Symbol-Chips im Header).

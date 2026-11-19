@@ -3,6 +3,10 @@
 GPS-Tracks (GPX) lokal im Browser in 2D und 3D darstellen, analysieren, bearbeiten und animieren · #ritl_track
 Neueste Version oben. Versionen ≤ V1.9 in Google AI Studio entwickelt und nachträglich zusammengefasst (keine Einzelstände erhalten).
 
+## V2.9 · 19.11.2026 · DEV
+**Geändert**
+- Tourbericht (PDF, PPTX, Bild): Fußzeile mit `toolbox@riemer.co` statt riemer.co.
+
 ## V2.8 · 19.11.2026 · DEV
 **Neu**
 - **Server als Datenquelle (RITL-Sync):** In „Backup einrichten“ › 02 Zentral lässt sich „Server ist die Datenquelle“ einschalten (Stufe `settings`, `datenbank` oder `storage`). TRACK.ritl lädt dann beim Start den Serverstand und schreibt jede Änderung nach wenigen Sekunden zurück – so arbeiten mehrere Geräte mit denselben Tracks.

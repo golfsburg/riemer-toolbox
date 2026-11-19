@@ -3,6 +3,25 @@
 Fardriver-Controller einstellen und simulieren – Ströme, Gänge, Kurven und Funktionen mit Wirkung auf Tempo, Beschleunigung und Reichweite · #ritl_foc
 Neueste Version oben. Versionen ≤ V1.2 waren Entwürfe im Chat und wurden nicht veröffentlicht.
 
+## V1.4 · 19.11.2026 · DEV
+**Neu**
+- **Backup einrichten:** Beim ersten Start (später über Backup › „Backup einrichten …“) wählst du, wo und wie umfangreich FOC.ritl gesichert wird – mit der Größe je Stufe:
+  - `settings`: Hell/Dunkel, Ansicht, Auf/Zu und Setups (Favoriten)
+  - `datenbank`: zusätzlich Setup (Änderungen), Basis (Controllerwerte), Fahrzeug, Akku & Kalibrierung
+  - `storage`: datenbank + Dateiablage – nur lokal. FOC.ritl lädt keine Dateien hoch, die Ablage bleibt leer; storage entspricht daher datenbank.
+- **Backup-Dialog in drei Abschnitten:** 01 Lokal (eine Datei `Backup_FOC-ritl.json`, die bei jedem Sichern überschrieben wird, mit Stufe), 02 OneDrive & SharePoint (verknüpfter Ordner, auf Wunsch automatisch), 03 Zentral · RIEMER Toolbox.
+- **Zentrales Backup** je Lizenz am Lizenzserver (EU, Frankfurt): automatisch nach Änderungen, Historie 10 Tage (ein Stand je Tag und Stufe), Anklicken stellt wieder her; belegter Platz von 50 MB je Lizenz wird angezeigt.
+- **Server als Datenquelle (RITL-Sync):** In „Backup einrichten“ › 02 Zentral lässt sich „Server ist die Datenquelle“ einschalten (wenn die Lizenz dafür freigegeben ist). FOC.ritl lädt dann beim Start den Serverstand und speichert Änderungen nach wenigen Sekunden – für die Arbeit auf mehreren Geräten. Haben zwei Geräte gleichzeitig geändert, fragt das Tool: „Serverstand übernehmen“ oder „Meinen Stand behalten“.
+- **Datenquelle je Lizenz (Admin):**
+  - **A · Ordner ist die Datenbank (Datenhoheit):** Setup, Basis und Fahrzeugdaten liegen nur in `Backup_FOC-ritl.json` im verknüpften OneDrive-/SharePoint-Ordner; Änderungen anderer Geräte werden erkannt, bei gleichzeitigen Änderungen fragt das Tool „Stand im Ordner übernehmen“ oder „Meinen Stand behalten“. Am Server liegen nur die Einstellungen samt Ordnername. Nur in Chrome oder Edge am Computer.
+  - **B · Server ist die Datenbank:** „Server ist die Datenquelle“ ist automatisch eingeschaltet (Stufe datenbank).
+- **Backup-Symbol am Header-Knopf:** Ordner = lokal, Wolke = Server; grün aktiv, orange Achtung, grau aus, Wolke durchgestrichen offline. Der Tooltip nennt den Zustand im Klartext.
+
+**Geändert**
+- Wiederherstellen fragt vorher nach und unterscheidet settings (nur Einstellungen) und datenbank. Ältere Sicherungen aus V1.3 und ohne Kopf lassen sich weiter laden.
+- „Automatisch im Ordner sichern“ aus V1.3 wird übernommen (Lokal ein, Stufe datenbank).
+- Offline-Version: kein Serverzugriff, der Abschnitt „Zentral“ entfällt.
+
 ## V1.3 · 19.11.2026 · DEV
 **Neu**
 - Fünf Module als Ribbon: TUNE.ritl (Abstimmung), SIM.ritl (Simulation), FUNC.ritl (Funktionen), BIKE.ritl (Fahrzeug, Akku & Kalibrierung), CHECK.ritl (Prüfen & Übertragen)
