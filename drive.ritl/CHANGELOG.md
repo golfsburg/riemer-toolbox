@@ -3,6 +3,18 @@
 Fahrtenbuch, Fahrzeuge, Tanken, Werkstatt, Pickerl §57a und Statistik · #ritl_drive
 Neueste Version oben.
 
+## V2.0 · 19.11.2026 · DEV
+**Neu**
+- **Datenquelle je Lizenz (Admin):** Welche Variante gilt, legt der Anbieter im Lizenz-Admin fest – nicht mehr du selbst.
+  - **A · Ordner ist die Datenbank (Datenhoheit):** Die Datei `Backup_DRIVE-ritl.json` im verknüpften OneDrive-/SharePoint-Ordner ist der aktuelle Stand. DRIVE.ritl lädt sie beim Start, schreibt jede Änderung nach wenigen Sekunden zurück und erkennt Änderungen anderer Geräte (beim Zurückkehren ins Fenster und alle 20 s). Jeder Stand hat eine Nummer; bei gleichzeitigen Änderungen fragt das Tool „Stand im Ordner übernehmen“ oder „Meinen Stand behalten“. Ein leeres neues Gerät übernimmt den Stand im Ordner ohne Rückfrage. Konfliktkopien von OneDrive werden angezeigt. Am Server liegen nur die Einstellungen (settings) samt Ordnername – Fahrzeuge, Fahrten und Kosten bleiben im Ordner.
+  - **B · Server ist die Datenbank:** „Server ist die Datenquelle“ ist automatisch eingeschaltet (Stufe datenbank oder storage) – auf allen Geräten und in jedem Browser, auch ohne vorher „Backup einrichten“.
+- „Backup einrichten“ zeigt die Variante der Lizenz und sperrt die Auswahl, die dazu nicht passt. Ohne verknüpften Ordner öffnet es sich bei Variante A beim Start von selbst.
+- Ziehen zum Aktualisieren (Home-Bildschirm-App) gleicht bei Variante A mit dem Ordner ab.
+
+**Geändert**
+- Variante A funktioniert nur in Chrome oder Edge am Computer. In Safari, Firefox und auf iPhone/iPad erklärt das Tool das im Backup-Dialog; Daten lassen sich dort nur per „Backup speichern“ in den Ordner legen.
+- Bei Variante A ersetzt der Ordner-Abgleich das automatische Sichern in den Ordner; 03 Zentral zeigt „Am Server nur Einstellungen (Datenhoheit)“.
+
 ## V1.9 · 19.11.2026 · DEV
 **Neu**
 - Server als Datenquelle (RITL-Sync, Vorbild MUSTER.ritl V3.2): Häkchen „Server ist die Datenquelle“ in „Backup einrichten“ › 02 Zentral (schaltet „zentral sichern“ mit ein), Stufen settings, datenbank und storage (storage nur mit Datenquelle). Nur wählbar, wenn die Lizenz im Admin mit „Server freigeben“ freigeschaltet ist – sonst gesperrt mit Hinweis und normales zentrales Backup.
