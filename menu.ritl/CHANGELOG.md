@@ -3,6 +3,25 @@
 Speisekarten- & Menü-Designer: Sets, Gänge, Speisendatenbank mit Allergenen (LMIV), 6 Druckformate, Export als PDF, PPTX und Druck in exakt einer Seite · #ritl_menu
 Neueste Version oben. Versionen ≤ V1.7 nachträglich rekonstruiert (aus `tool_versions`, Quellen-ZIPs und Repo-Historie).
 
+## V3.0 · 19.11.2026 · DEV
+**Neu**
+- **Einheitliches Backup (ritl-bk 2.0, S-17):** Das Backup kommt jetzt aus dem gemeinsamen Baustein aller RIEMER Tools. Fenster „Backup“ und „Backup einrichten“ sehen in jedem Tool gleich aus.
+- **Neue Begriffe:** Datenquelle **A · Lokal**, **B · Ordner**, **C · Server** und Stufe **1 · settings** (Hell/Dunkel, Ansicht, Raster, Favoriten), **2 · datenbank** (zusätzlich Sets, Gerichte, Saison-Aktionen, Bilder), **3 · storage** (zusätzlich die hochgeladenen Logos) – kurz z. B. C3.
+- **„Backup einrichten“:** zeigt oben, was die Lizenz höchstens erlaubt (z. B. „Lizenz: höchstens C3“) und das Kontingent. Du wählst Datenquelle und Stufe darunter; was über der Lizenz liegt, ist gesperrt („· durch die Lizenz begrenzt“). Die Wahl gilt für MENU.ritl auf allen Geräten. „Vorgabe der Lizenz verwenden“ setzt sie zurück.
+- **Datenquelle wechseln** mit Rückfrage – der Stand wird dabei übernommen (in den Ordner geschrieben bzw. mit dem Server abgeglichen).
+- **Fenster „Backup“ › 03 Zentral:** Stände der Historie lassen sich mit 🗑 löschen; darunter steht die Belegung „x von y MB“.
+- Ein neues Gerät ohne eigene Sets übernimmt den Stand vom Server bzw. aus dem Ordner ohne Rückfrage; mit C3 kommen die hochgeladenen Logos mit und erscheinen sofort in Vorschau und Export.
+
+**Geändert**
+- Mit Lizenz gilt die Vorgabe sofort, ohne dass sich „Backup einrichten“ öffnet (nur bei B ohne verknüpften Ordner).
+- C · Server mit Stufe 1 gleicht nur die Einstellungen über den Server ab; die Sets bleiben im Browser.
+- „Speicher“ (Größen, „Bilder verkleinern“) steht jetzt als 04 im Fenster „Backup“.
+- ★ Favoriten › OneDrive & SharePoint nutzt denselben Ordner wie das Backup (Verknüpfen, Zugriff erneuern, Teilen, Übernehmen).
+- Alte Backups (V2.9 und älter, auch MENU.ritl V2.x ohne Kopf und Dateien mit Zeitstempel) lassen sich weiter wiederherstellen; der Ordner, der gemerkte Speicherort und die Einstellungen bleiben erhalten.
+
+**Behoben**
+- Ein neues Gerät mit Datenquelle C oder B fragt nicht mehr fälschlich „Neuerer Stand am Server/im Ordner“.
+
 ## V2.9 · 19.11.2026 · DEV
 **Neu**
 - **Backup-Stufe je Lizenz:** Die Stufe (settings, datenbank oder storage) legt der Anbieter im Lizenz-Admin fest. Sie gilt auf allen Geräten und in allen RIEMER Tools – das Backup muss nicht mehr auf jedem Gerät eingerichtet werden. Mit storage werden die hochgeladenen Logos und Dateien auf jedem Gerät abgeglichen.
