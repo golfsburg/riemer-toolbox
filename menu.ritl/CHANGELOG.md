@@ -3,6 +3,18 @@
 Speisekarten- & Menü-Designer: Sets, Gänge, Speisendatenbank mit Allergenen (LMIV), 6 Druckformate, Export als PDF, PPTX und Druck in exakt einer Seite · #ritl_menu
 Neueste Version oben. Versionen ≤ V1.7 nachträglich rekonstruiert (aus `tool_versions`, Quellen-ZIPs und Repo-Historie).
 
+## V2.5 · 19.11.2026 · DEV
+**Neu**
+- **Server als Datenquelle (RITL-Sync):** In „Backup einrichten“ › 02 Zentral gibt es das Häkchen „Server ist die Datenquelle“ (schaltet „zentral sichern“ mit ein). MENU.ritl lädt dann beim Start und beim Wiederverbinden den Serverstand und schreibt jede Änderung nach 2,5 s mit der bekannten Stand-Nummer zurück – so arbeiten mehrere Geräte mit demselben Stand.
+- Neuere Stände anderer Geräte werden jede Minute und beim Zurückkehren ins Fenster erkannt und ohne eigene Änderungen automatisch geladen.
+- Konfliktdialog „Neuerer Stand am Server“ mit „Meinen Stand behalten“ / „Serverstand übernehmen“, wenn auf beiden Seiten geändert wurde – es wird nie still überschrieben.
+- **storage über den Server:** Mit „Server ist die Datenquelle“ ist zentral auch die Stufe `storage` wählbar. Hochgeladene Logos (Dateiablage RITLF) werden einzeln im Server-Speicher abgelegt und auf allen Geräten abgeglichen (neue hochgeladen, gelöschte entfernt); Kontingent 50 MB je Lizenz.
+
+**Geändert**
+- Das Häkchen ist nur wählbar, wenn die Lizenz im Admin „Server freigeben“ hat. Sonst ist es gesperrt mit dem Hinweis „Für diese Lizenz noch nicht freigegeben – bitte beim Anbieter anfragen.“, und ein früher gewähltes „Server ist die Datenquelle“ fällt auf das normale zentrale Backup zurück.
+- Status in 03 Zentral „Server ist die Datenquelle · Stufe … · Stand n“, Tooltip am Backup-Symbol „Server (Datenquelle)“; „Jetzt zentral sichern“ heißt dann „Jetzt abgleichen“.
+- Offline-Version (Admin-Build und eigene Offline-Kopie): Server als Datenquelle und zentrales Backup immer aus, Abschnitt 02 Zentral entfällt.
+
 ## V2.4 · 18.11.2026 · DEV
 **Neu**
 - Backup-Stufe `storage` (nur unter 01 Lokal, zentral gesperrt „folgt später“): `datenbank` + alle hochgeladenen Dateien; im Modal „Backup einrichten“ mit Anzahl und Größe der Dateien.
