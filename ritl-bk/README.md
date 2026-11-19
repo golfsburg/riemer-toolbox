@@ -25,3 +25,21 @@ TRACK.ritl (React/Vite): Baustein als TypeScript-Modul `src/utils/ritlFiles.ts` 
 ## Prompt für die Tool-Chats
 
 > Backup-Stufe storage einbauen nach Skill /riemer-webapp-design, Abschnitt „Backup-Stufe storage und Dateiablage (RITLF)“ (Baustein riemer-toolbox/ritl-bk/ritl-files.js, Anleitung ritl-bk/README.md, Vorbild MUSTER.ritl V3.0). storage muss unter 01 Lokal immer wählbar sein, zentral gesperrt. Alle Uploads dieses Tools über RITLF speichern. Fehlen Backup-Stufen noch, zuerst settings/datenbank nach Abschnitt „Backup-Stufen und zentrales Backup“ einbauen. Als neue DEV-Version veröffentlichen, CHANGELOG und Quellen-ZIP.
+
+
+# Server als Datenquelle (RITL-Sync)
+
+Vorbild: MUSTER.ritl V3.1. Gilt für `settings` und `datenbank` (storage über den Server ist vorbereitet, noch nicht aktiv).
+
+- **Server:** Tabelle `tool_state` (aktueller Stand je Lizenz/Tool/Stufe mit `rev`), RPC `tool_state_api`, Edge Function `tool-backup` mit den Aktionen `state_head`, `state_get`, `state_put` (`base_rev`, `force`; Konflikt → HTTP 409 `{error:'conflict', rev}`). Jedes `state_put` schreibt auch die 10-Tage-Historie (`tool_backups`) und zählt zum 50-MB-Kontingent.
+- **Einstellung:** `CFG.zentral.quelle` (Häkchen „Server ist die Datenquelle“ unter 02 Zentral in „Backup einrichten“; schaltet „zentral sichern“ mit ein). Nutzerin/Nutzer entscheidet.
+- **Ablauf im Tool:** `SY={stufe,rev,sha}` in `localStorage` `riemer-<name>-sync`.
+  - Start / online / Übernehmen: `syPull` – Server leer → hochladen; gleicher Inhalt → nur `rev` merken; Server neuer und hier nichts geändert → still übernehmen (`restore(…, still=true)`); beides geändert → Konfliktdialog `#sydlg`.
+  - Änderung (`<name>:change`, Theme, Sprache): nach 2,5 s `syPush` mit `base_rev`; Konflikt → Dialog.
+  - Alle 60 s und beim Zurückkehren ins Fenster `syCheck` (`state_head`).
+  - Konfliktdialog: „Serverstand übernehmen“ / „Meinen Stand behalten“ (`force`).
+- **Offline-Version:** `quelle` immer aus.
+
+# Vorbereitet: storage über den Server
+
+Privater Bucket `tool-files` (max. 50 MB je Datei) und Tabelle `tool_files` (license_id, tool, file_id, name, mime, bytes, sha256, path `<license_id>/<tool>/<file_id>`). Noch keine Edge-Function-Aktionen, im Tool noch nicht wählbar. Kostenloser Supabase-Tarif: 1 GB Dateispeicher gesamt.

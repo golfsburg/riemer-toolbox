@@ -3,6 +3,15 @@
 Vorlage und Spielwiese für den Skill `/riemer-webapp-design` · #ritl_muster
 Neueste Version oben. Versionen ≤ V2.2 nachträglich aus den veröffentlichten Ständen (Tabelle `tool_versions`) rekonstruiert.
 
+## V3.1 · 19.11.2026
+**Neu**
+- **Server als Datenquelle:** In „Backup einrichten“ › 02 Zentral lässt sich „Server ist die Datenquelle“ einschalten (Stufe `settings` oder `datenbank`). MUSTER.ritl lädt dann beim Start den Serverstand und schreibt jede Änderung nach wenigen Sekunden zurück – so arbeiten mehrere Geräte mit demselben Stand.
+- Jeder Stand am Server hat eine Nummer. Hat ein anderes Gerät inzwischen gespeichert und gibt es auch hier Änderungen, fragt das Tool: „Serverstand übernehmen“ oder „Meinen Stand behalten“.
+- Neuere Stände anderer Geräte werden beim Zurückkehren ins Fenster und jede Minute erkannt und ohne eigene Änderungen automatisch geladen.
+
+**Geändert**
+- Status im Backup-Dialog und am Backup-Symbol zeigt „Server ist die Datenquelle“ mit Stand-Nummer. Ohne Netz wird gesammelt und beim Wiederverbinden abgeglichen; die 10-Tage-Historie läuft weiter.
+
 ## V3.0 · 18.11.2026
 **Neu**
 - Backup-Stufe **storage** für 01 Lokal: alles aus `datenbank` plus alle hochgeladenen Dateien. Die Dateien stehen mit Inhalt in der Backup-Datei `Backup_MUSTER-ritl.json` und kommen beim Wiederherstellen zurück.
