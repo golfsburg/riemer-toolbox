@@ -46,6 +46,7 @@ window.RITL_BK = {
   anwenden: async (stufe, obj, quelle, still) => {}, // Wiederherstellen: stufe 'settings' = nur Einstellungen übernehmen
   leer: () => !localStorage.getItem('riemer-muster-map'), // neues Gerät ohne eigene Daten
   legacy: o => Array.isArray(o.nodes) ? { map: o } : null, // Alt-Format ohne Kopf „ritl“ → daten
+  dateiAlt: ['Backup_Zeiterfassung-ritl.json'],          // ab 2.2, optional: frühere Namen der Backup-Datei (Tool umbenannt)
   alt: { bkcfg: 'riemer-muster-bkcfg', srv: 'riemer-muster-srv', srvst: 'riemer-muster-srvst', sync: 'riemer-muster-sync',
          ordner: 'riemer-muster-ordner', oq: 'riemer-muster-oq', fs: 'riemer-muster-fs', idbFiles: 'muster_files', idbFs: 'muster_fs' }
 };
