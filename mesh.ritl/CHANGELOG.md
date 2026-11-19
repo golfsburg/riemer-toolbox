@@ -3,6 +3,12 @@
 Kompakter 3D-Viewer und -Editor im Browser für den 3D-Druck · #ritl_mesh
 Neueste Version oben. V1.0–V1.8 als Einzeldatei entwickelt (nicht in der Toolbox veröffentlicht).
 
+## V2.3 · 19.11.2026 · DEV
+**Behoben**
+- Datenquelle A (Ordner ist die Datenbank): Ändert ein anderes Gerät nur Einstellungen (z. B. Hell/Dunkel, Sprache, Ansicht, Favoriten), fragt MESH.ritl nicht mehr fälschlich „Neuerer Stand im Ordner“ und lädt nicht unnötig neu. Für den Ordner zählt nur noch die Szene samt Dateien; die Einstellungen gleicht der Server ab.
+- Gibt es gleichzeitig eine Abfrage für den Ordner und eine für den Server, kommen sie nacheinander; nach „Meinen Stand behalten“ gleicht MESH.ritl den Server neu ab, statt eine veraltete Abfrage zu zeigen.
+- „Ordner verknüpfen“ in „Backup einrichten“: Der Abgleich startet erst mit „Übernehmen“, die Abfrage schiebt sich nicht mehr über das offene Fenster.
+
 ## V2.2 · 19.11.2026 · DEV
 **Neu**
 - **Server als Datenquelle (RITL-Sync):** In „Backup einrichten“ › 02 Zentral lässt sich „Server ist die Datenquelle“ einschalten (Stufe `settings`, `datenbank` oder `storage`). MESH.ritl lädt dann beim Start den Serverstand und schreibt jede Änderung nach wenigen Sekunden zurück – so arbeiten mehrere Geräte mit derselben Szene. Ein neuerer Stand wird übernommen und die Ansicht neu geladen.
