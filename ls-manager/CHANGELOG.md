@@ -4,6 +4,23 @@ Lieferscheine automatisch auslesen und je Lieferant im eigenen Archivordner able
 Tool-ID `ls-manager` · Download-Datei `RIEMER-Tools_LS-Manager_V#.#.html`
 Neueste Version oben. Versionen ≤ V1.0 nachträglich rekonstruiert (Repo-Historie golfsburg/riemer-toolbox, `tool_versions`).
 
+## V1.6 · 19.11.2026 · DEV
+**Neu**
+- **Backup-Stufe je Lizenz (S-16):** Die Stufe (settings, datenbank oder storage) legt der Anbieter im Lizenz-Admin fest. Sie gilt in allen RIEMER Tools und auf allen Geräten – das Backup muss nicht mehr auf jedem Gerät einzeln eingerichtet werden.
+  - Lokal (01) gilt die Stufe der Lizenz (bei A mindestens datenbank). Zentral (02): bei B die Stufe der Lizenz (mindestens datenbank, mit storage auch die Lieferschein-Dateien), bei A settings, ohne Server-Freigabe höchstens datenbank.
+  - Zentrales Sichern ist mit Lizenz immer eingeschaltet. Nur „Lokal in den Ordner sichern“ bleibt je Gerät, weil der Ordner auf jedem Gerät verknüpft werden muss.
+- „Backup einrichten“ öffnet sich mit Lizenz nicht mehr von selbst (nur bei A, solange kein Ordner verknüpft ist) und zeigt oben die Stufe der Lizenz; die Auswahl ist gesperrt.
+
+**Geändert**
+- Von der Lizenz festgelegte Häkchen und Stufen (auch bei Datenquelle A und B) tragen den Hinweis „durch die Lizenz festgelegt“ – die Sperre ist gewollt.
+- Gesperrte storage-Zeile unter 02 Zentral: „nur mit ‚Server ist die Datenquelle‘ (Freigabe im Admin)“.
+- In der Admin-Vorschau steht „Admin-Vorschau – zentrale Funktionen hier nicht verfügbar“ statt einer stillen Sperre.
+- Ohne Server-Freigabe heißt der Hinweis bei „Server ist die Datenquelle“ jetzt „Freigabe im Admin (Datenquelle ‚Server‘)“.
+
+**Behoben**
+- Datenquelle A und B: In „Backup einrichten“ werden „Nach Änderungen zentral sichern“ und „Server ist die Datenquelle“ jetzt wie vorgesehen angehakt und gesperrt (vorher frei änderbar).
+- Datenquelle B: storage ist unter 02 Zentral immer wählbar, auch wenn die Prüfung am Server gerade nicht klappt (z. B. kurz offline).
+
 ## V1.5 · 19.11.2026 · DEV
 **Behoben**
 - Datenquelle A: Ändert ein Gerät nur Einstellungen, während ein anderes Gerät die Ordner-Datei neu geschrieben hat, holt es den neueren Stand, statt fälschlich ‚Neuerer Stand im Ordner‘ zu fragen.
