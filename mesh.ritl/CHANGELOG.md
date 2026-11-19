@@ -3,6 +3,14 @@
 Kompakter 3D-Viewer und -Editor im Browser für den 3D-Druck · #ritl_mesh
 Neueste Version oben. V1.0–V1.8 als Einzeldatei entwickelt (nicht in der Toolbox veröffentlicht).
 
+## V2.5 · 19.11.2026 · DEV
+**Geändert**
+- Nach „Stand aus dem Ordner übernehmen“, „Serverstand übernehmen“ und „Backup wiederherstellen“ lädt MESH.ritl die Seite nicht mehr neu, sondern baut die Szene direkt neu auf. Favoriten und Hell/Dunkel gelten sofort.
+- Ein neues Gerät ohne eigene Modelle übernimmt den Stand aus dem Ordner bzw. vom Server ohne Rückfrage.
+
+**Behoben**
+- Direkt nach einer Übernahme konnten beim Neuladen die gerade gespeicherten Daten fehlen (Szene, Favoriten, Ordnerstand) – das Gerät stand dann leer da und fragte erneut. Da nicht mehr neu geladen wird, tritt das nicht mehr auf; fehlen die Daten im Browser doch einmal, holt MESH.ritl sie still aus dem Ordner bzw. vom Server zurück.
+
 ## V2.4 · 19.11.2026 · DEV
 **Behoben**
 - Datenquelle A: Ändert ein Gerät nur Einstellungen, während ein anderes Gerät die Ordner-Datei neu geschrieben hat, holt es den neueren Stand, statt fälschlich ‚Neuerer Stand im Ordner‘ zu fragen.
