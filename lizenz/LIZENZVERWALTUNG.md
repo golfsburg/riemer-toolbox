@@ -366,3 +366,23 @@ update licenses set backup_stufe = 'storage' where key_hint = 'XXXX';
 
 Wirkung je Datenquelle: lokal → 01 Lokal = Stufe, 02 Zentral höchstens `datenbank` ·
 A (ordner) → Ordner mindestens `datenbank`, Server `settings` · B (server) → Server mindestens `datenbank`, `storage` inkl. Dateien.
+
+## Maximum je Lizenz, Wahl je Tool, Kontingent (S-17)
+
+- `licenses.datenquelle` und `licenses.backup_stufe` sind das **Maximum** der Lizenz:
+  Datenquelle **A** Lokal (`lokal`) < **B** Ordner (`ordner`) < **C** Server (`server`),
+  Stufe **1** settings < **2** datenbank < **3** storage. Kurzform im Admin z. B. „C3“.
+- Der Kunde wählt im Tool je Tool darunter (z. B. C2, B2, A1). Die Wahl liegt am Server in
+  `license_tool_backup` (je Lizenz und Tool) und gilt auf allen Geräten. Über dem Maximum wird automatisch begrenzt.
+- `tool-backup`: `cfg_get` / `cfg_set {datenquelle?, stufe?}` bzw. `{reset:true}`; `state_head` liefert
+  `backup: {max, wahl, datenquelle, stufe, quota}` und als `datenquelle`/`backup_stufe` die **wirksamen** Werte.
+- Einzelne Stände der Historie löschen: `tool-backup` Aktion `delete {id}`.
+- `licenses.quota_mb` (Standard 50): Kontingent am Server für Backups, Stände, Dateien und Übergaben.
+
+```sql
+-- Wahl des Kunden ansehen
+select l.key_hint, w.tool, w.datenquelle, w.stufe, w.updated_at
+  from license_tool_backup w join licenses l on l.id = w.license_id order by 1, 2;
+-- Kontingent setzen
+update licenses set quota_mb = 200 where key_hint = 'XXXX';
+```

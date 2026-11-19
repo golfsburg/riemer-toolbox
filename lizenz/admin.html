@@ -264,6 +264,7 @@
     <button type="button" id="lic-new">+ Neue Lizenz</button>
     <button data-tab="tools">Tools</button>
     <button data-tab="ui">Header · RITL-UI</button>
+    <button data-tab="bk">Backup · RITL-BK</button>
     <button data-tab="clubs">Vereine</button>
     <button data-tab="log">Protokoll</button>
     <span class="sp"></span>
@@ -333,6 +334,27 @@
       </form>
     </section>
 
+    <section id="t-bk" class="card hide">
+      <h2>Zentrales Backup · RITL-BK</h2>
+      <p class="hint" style="margin:-8px 0 12px">Das Backup aller umgestellten Tools (Block <code>&lt;!--ritl-bk:start--&gt; … &lt;!--ritl-bk:end--&gt;</code>, Regel S-17) wird beim Ausliefern durch die neueste aktive Version aus dem Kanal der Lizenz ersetzt – wie der Header RITL-UI. Ohne Version bleibt der Block, der im Tool steckt. Zuerst in Dev testen, dann freigeben. Quelle im Repo: <code>ritl-bk/ritl-bk.html</code>.</p>
+      <div class="srcsum" id="bk-live"></div>
+      <div class="wrap"><table data-rz="bk">
+        <thead><tr><th>Version</th><th>Kanal</th><th>Freigegeben</th><th>Größe</th><th>Notiz</th><th></th></tr></thead>
+        <tbody id="bkrows"></tbody>
+      </table></div>
+      <h2 style="margin-top:22px">Neue Backup-Version hochladen</h2>
+      <form id="bkform">
+        <div class="grid">
+          <div><label>Version *</label><input name="version" placeholder="2.0" required pattern="[0-9]+\.[0-9]+(\.[0-9]+)?"></div>
+          <div><label>Kanal</label><select name="channel"><option value="dev">Entwicklung (Dev)</option><option value="beta">Beta</option><option value="stable">Stabil</option></select></div>
+        </div>
+        <label>Notiz</label><input name="notes" placeholder="Was ist neu?">
+        <label>Datei <code>ritl-bk.html</code> *</label><input name="file" type="file" accept=".html,.htm,text/html" required>
+        <span class="hint">Muss mit <code>&lt;!--ritl-bk:start--&gt;</code> beginnen und mit <code>&lt;!--ritl-bk:end--&gt;</code> enden.</span>
+        <button class="b pri" style="margin-top:1rem">Hochladen</button>
+      </form>
+    </section>
+
     <section id="t-clubs" class="card hide">
       <div class="row" style="justify-content:space-between;margin-bottom:16px;flex-wrap:wrap"><h2 style="margin:0">Vereine · SCORE.ritl</h2><button type="button" class="b pri" id="club-new">+ Neuer Verein</button></div>
       <div class="wrap"><table data-rz="clubs">
@@ -383,20 +405,22 @@
       <p class="hint">„Bekommt“ zeigt die Version, die mit dieser Einstellung ausgeliefert wird. Gibt es für eine Edition noch keine Version, gilt automatisch Standard.</p>
       <div class="grid"><div><label for="lf-club">Verein für SCORE.ritl (Ergebnisse)</label><select id="lf-club"><option value="">– kein Verein –</option></select>
         <span class="hint">bestimmt, welche Ergebnisdaten diese Lizenz sieht · Vereine verwaltest du im Reiter „Vereine“</span></div></div>
-      <div class="sect"><h3>Datenquelle · Datenhoheit</h3></div>
-      <div class="dqsel" role="radiogroup" aria-label="Datenquelle">
-        <label class="chk"><input type="radio" name="datenquelle" value="lokal"> <span><b>Lokal</b>&nbsp;– Daten im Browser, Backup in den OneDrive/SharePoint-Ordner und zentral mit Historie (settings, datenbank).</span></label>
-        <label class="chk"><input type="radio" name="datenquelle" value="ordner"> <span><b>A · Ordner ist die Datenbank (Datenhoheit)</b>&nbsp;– die Daten liegen nur in der Datei im OneDrive/SharePoint-Ordner des Kunden. Am Server nur Einstellungen (settings, ohne Arbeitsdaten). Nur Chrome/Edge am Computer.</span></label>
-        <label class="chk"><input type="radio" name="datenquelle" value="server"> <span><b>B · Server ist die Datenbank</b>&nbsp;– aktueller Stand am Server, Abgleich zwischen Geräten, alle Stufen inkl. Dateien (storage). Der Ordner läuft als Kopie mit. Funktioniert in jedem Browser.</span></label>
+      <div class="sect"><h3>Datenquelle · Datenhoheit</h3><span class="hint">höchste angebotene – der Kunde wählt je Tool darunter</span></div>
+      <div class="dqsel" role="radiogroup" aria-label="Datenquelle (Maximum)">
+        <label class="chk"><input type="radio" name="datenquelle" value="lokal"> <span><b>A · Lokal</b>&nbsp;– Daten im Browser, Backup in den OneDrive/SharePoint-Ordner und zentral mit Historie.</span></label>
+        <label class="chk"><input type="radio" name="datenquelle" value="ordner"> <span><b>B · Ordner ist die Datenbank (Datenhoheit)</b>&nbsp;– die Daten liegen nur in der Datei im OneDrive/SharePoint-Ordner des Kunden. Am Server nur Einstellungen. Nur Chrome/Edge am Computer.</span></label>
+        <label class="chk"><input type="radio" name="datenquelle" value="server"> <span><b>C · Server ist die Datenbank</b>&nbsp;– aktueller Stand am Server, Abgleich zwischen Geräten, in jedem Browser. Der Ordner läuft als Kopie mit.</span></label>
       </div>
-      <div class="sect"><h3>Backup-Stufe</h3></div>
-      <div class="dqsel" role="radiogroup" aria-label="Backup-Stufe">
-        <label class="chk"><input type="radio" name="backup_stufe" value="settings"> <span><b>settings</b>&nbsp;– nur Ansichten, Filter, Favoriten und Einstellungen.</span></label>
-        <label class="chk"><input type="radio" name="backup_stufe" value="datenbank"> <span><b>datenbank</b>&nbsp;– settings + alle Arbeitsdaten (Standard).</span></label>
-        <label class="chk"><input type="radio" name="backup_stufe" value="storage"> <span><b>storage</b>&nbsp;– datenbank + hochgeladene Dateien (Belege, Fotos, PDFs). Zentral nur mit B · Server ist die Datenbank, sonst lokal storage und zentral datenbank.</span></label>
+      <div class="sect"><h3>Backup-Stufe</h3><span class="hint">höchste angebotene</span></div>
+      <div class="dqsel" role="radiogroup" aria-label="Backup-Stufe (Maximum)">
+        <label class="chk"><input type="radio" name="backup_stufe" value="settings"> <span><b>1 · settings</b>&nbsp;– nur Ansichten, Filter, Favoriten und Einstellungen.</span></label>
+        <label class="chk"><input type="radio" name="backup_stufe" value="datenbank"> <span><b>2 · datenbank</b>&nbsp;– settings + alle Arbeitsdaten (Standard).</span></label>
+        <label class="chk"><input type="radio" name="backup_stufe" value="storage"> <span><b>3 · storage</b>&nbsp;– alle Daten, die im Tool geladen sind (Dateien, Belege, Originale, Pakete). Am Server nur mit C, sonst lokal 3 und zentral 2.</span></label>
       </div>
-      <p class="hint" style="margin-top:4px">Gilt für alle Tools und alle Geräte dieser Lizenz – im Tool ist die Stufe gesperrt („durch die Lizenz festgelegt“). Bei A ist der Ordner die Datenbank (mindestens datenbank), am Server bleibt settings.</p>
-      <p class="hint" style="margin-top:4px">Server: ein Stand je Tool und Stufe, Konfliktabfrage bei mehreren Geräten · höchstens 50 MB je Lizenz · gespeichert in der EU (Frankfurt). Bei A lehnt der Server Arbeitsdaten ab – auch ältere Tools können dort nichts anderes ablegen.</p>
+      <div class="grid"><div><label for="lf-quota">Kontingent am Server (MB)</label><input id="lf-quota" name="quota_mb" type="number" min="1" max="10240" value="50">
+        <span class="hint">Backups, Server-Stände, Dateien und Übergaben aller Tools dieser Lizenz zusammen</span></div></div>
+      <p class="hint" style="margin-top:4px">Beispiel: Lizenz <b>C3</b> → der Kunde darf je Tool z. B. C2, B2 oder A1 einstellen. Die Wahl gilt auf allen seinen Geräten. Bei B speichert der Server nur settings. Gespeichert in der EU (Frankfurt).</p>
+      <p class="hint" id="lf-wahl" style="margin-top:4px"></p>
       <div id="thsec">
       <div class="sect"><h3>Farben · Corporate Design</h3><span class="hint" id="th-state"></span></div>
       <p class="hint" style="margin-top:-4px">Hauptfarbe der Firma statt RIEMER-Blau – gilt für alle Tools mit RIEMER-Design (Knöpfe, Reiter, App-Bild, Header). Grün/Orange/Rot und der Schriftzug „RIEMER Tools“ bleiben. Wird unabhängig von „Speichern“ gesichert.</p>
@@ -928,6 +952,52 @@
       });
     });
   });
+  /* ── Zentrales Backup RITL-BK (S-17): Versionen und Kanäle – wie RITL-UI, ohne Vorschau ── */
+  function loadBk() {
+    $("bkrows").innerHTML = '<tr><td colspan="6" class="hint">Lade …</td></tr>';
+    return api("bk_list").then(function (r) {
+      if (!r.ok) return;
+      var L = r.live || {};
+      $("bk-live").innerHTML = "Ausgeliefert: " + ["stable", "beta", "dev"].map(function (c) { return "<b>" + UI_CH[c] + "</b> " + esc(L[c] || "– (Block im Tool)"); }).join(" · ");
+      $("bkrows").innerHTML = r.versions.map(function (v) {
+        var live = ["stable", "beta", "dev"].filter(function (c) { return L[c] === v.version && v.active; });
+        var chSel = '<select class="vsel" data-bksel="channel" data-bid="' + v.id + '" aria-label="Kanal">' + ["stable", "beta", "dev"].map(function (c) {
+          return '<option value="' + c + '"' + (c === v.channel ? " selected" : "") + ">" + UI_CH[c] + "</option>"; }).join("") + "</select>";
+        var acts = '<button class="b" data-bkact="get" data-bid="' + v.id + '">⬇ Datei</button>' +
+          (v.active ? '<button class="b" data-bkact="off" data-bid="' + v.id + '">Zurückziehen</button>' : '<button class="b" data-bkact="on" data-bid="' + v.id + '">Reaktivieren</button>') +
+          '<button class="b dan" data-bkact="del" data-bid="' + v.id + '">Löschen</button>';
+        return '<tr class="' + (v.active ? "" : "off") + '"><td class="mono"><b>' + esc(v.version) + "</b>" +
+          (live.length ? ' <span class="pill p-ok">aktuell · ' + live.map(function (c) { return UI_CH[c]; }).join(", ") + "</span>" : "") +
+          (v.active ? "" : ' <span class="pill p-bad">zurückgezogen</span>') + "</td><td>" + chSel + "</td><td>" + fmtDT(v.released_at) + "</td><td>" + v.kb + " KB</td>" +
+          '<td class="hint">' + esc(v.notes || "") + '</td><td><div class="acts">' + acts + "</div></td></tr>";
+      }).join("") || '<tr><td colspan="6" class="hint">Noch keine Backup-Version – die Tools nutzen den Block, der in ihnen steckt.</td></tr>';
+    });
+  }
+  $("bkrows").addEventListener("change", function (e) {
+    var sel = e.target.closest("select[data-bksel]"); if (!sel) return;
+    api("bk_set", { id: sel.dataset.bid, channel: sel.value }).then(function (r) { if (r.ok) { toast("Gespeichert ✓"); loadBk(); } });
+  });
+  $("bkrows").addEventListener("click", function (e) {
+    var b = e.target.closest("button[data-bkact]"); if (!b) return;
+    var id = b.dataset.bid, a = b.dataset.bkact, p;
+    if (a === "get") { api("bk_get", { id: id }).then(function (r) { if (!r.ok) return;
+      var u = URL.createObjectURL(new Blob([r.block], { type: "text/html" })), l = document.createElement("a");
+      l.href = u; l.download = "ritl-bk_V" + r.version + ".html"; document.body.appendChild(l); l.click(); l.remove(); setTimeout(function () { URL.revokeObjectURL(u); }, 4000); }); return; }
+    if (a === "off") { if (!confirm("Backup-Version zurückziehen? Die Tools bekommen dann die vorherige aktive Version bzw. ihren eigenen Block.")) return; p = api("bk_set", { id: id, active: false }); }
+    if (a === "on") p = api("bk_set", { id: id, active: true });
+    if (a === "del") { if (!confirm("Backup-Version endgültig löschen?")) return; p = api("bk_delete", { id: id }); }
+    p && p.then(function (r) { if (r.ok) { toast("Gespeichert ✓"); loadBk(); } });
+  });
+  $("bkform").addEventListener("submit", function (e) {
+    e.preventDefault(); var f = e.target, file = f.file.files[0]; if (!file) return;
+    file.text().then(function (txt) {
+      txt = txt.trim();
+      if (txt.indexOf("<!--ritl-bk:start-->") !== 0 || txt.slice(-18) !== "<!--ritl-bk:end-->") { toast("Datei muss mit <!--ritl-bk:start--> beginnen und mit <!--ritl-bk:end--> enden."); return; }
+      api("bk_upload", { version: f.version.value.trim(), channel: f.channel.value, notes: f.notes.value.trim(), block: txt }).then(function (r) {
+        if (r.ok) { toast("Backup-Version hochgeladen ✓"); f.reset(); loadBk(); }
+      });
+    });
+  });
   /* Vorschau einer Header-Version im Modal: Beispiel-Tool in wählbarer Breite, Hell/Dunkel, Kanal, Edition, Lizenz */
   var UIP = { block: "", ver: "" };
   var UIP_TOKENS = ':root{--brand:#1F5FC2;--brand-hover:#174C9E;--accent-text:#1F5FC2;--ink:#1B1F24;--ink2:#2D333B;--muted:#5F6773;--surface:#FFFFFF;--surface-muted:#F4F5F7;--on-brand:#FFFFFF;--tint:#C9DAF5;--line:#E3E6EB;--line2:#CDD2D9;--good:#0F7B6C;--warn:#C2410C;--red:#C53030;--radius-sm:3px;--radius:8px;--sans:"Inter",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace;color-scheme:light}' +
@@ -1131,6 +1201,10 @@
       var a = html.indexOf("<!--ritl-ui:start-->"), e = html.indexOf("<!--ritl-ui:end-->");
       if (a >= 0 && e > a) { var ul = await api("ui_list"), live = ul.ok && ul.live && ul.live.stable, uv = ul.ok && ul.versions.filter(function (x) { return x.active && x.version === live; })[0];
         if (uv) { var ug = await api("ui_get", { id: uv.id }); if (ug.ok) html = html.slice(0, a) + ug.block + html.slice(e + 18); } }
+      offStatus("Backup (RITL-BK) …");
+      var ba = html.indexOf("<!--ritl-bk:start-->"), be = html.indexOf("<!--ritl-bk:end-->");
+      if (ba >= 0 && be > ba) { var bl = await api("bk_list"), blive = bl.ok && bl.live && bl.live.stable, bv = bl.ok && blive && bl.versions.filter(function (x) { return x.active && x.version === blive; })[0];
+        if (bv) { var bg = await api("bk_get", { id: bv.id }); if (bg.ok) html = html.slice(0, ba) + bg.block + html.slice(be + 18); } }
       offStatus("Farben …");
       var lid = $("off-lic").value, css = "";
       if (lid) { var tg = await api("theme_get", { license_id: lid }); var th = tg.ok && (tg.themes.filter(function (x) { return x.tool === v.tool; })[0] || tg.themes.filter(function (x) { return x.tool === "*"; })[0]);
@@ -1182,12 +1256,16 @@
       (all ? '<span class="tag">alle Tools</span>' : "") + ids.map(function (id) { return tag(id); }).join("");
   }
 
-  // Datenquelle je Lizenz: lokal · server (B) · ordner (A) + Belegung am Server
-  var DQ = { lokal: "Lokal", server: "Server", ordner: "Ordner" };
-  var DQT = { lokal: "Daten im Browser · zentrales Backup mit Historie", server: "B · Server ist die Datenbank (alle Stufen, Dateien)", ordner: "A · OneDrive/SharePoint-Ordner ist die Datenbank · am Server nur settings" };
+  // Datenquelle A/B/C und Stufe 1/2/3 (S-17): Werte in der DB bleiben lokal/ordner/server und settings/datenbank/storage
+  var DQ = { lokal: "A", ordner: "B", server: "C" }, STN = { settings: "1", datenbank: "2", storage: "3" };
+  var DQT = { lokal: "A · Lokal – Daten im Browser · zentrales Backup mit Historie", ordner: "B · OneDrive/SharePoint-Ordner ist die Datenbank · am Server nur settings", server: "C · Server ist die Datenbank" };
+  function bkCode(dq, st) { return (DQ[dq] || "A") + (STN[st] || "2"); }
   function fmtMB(b) { b = +b || 0; return b < 1024 ? "0 KB" : b < 1048576 ? Math.round(b / 1024) + " KB" : (b / 1048576).toFixed(1).replace(".", ",") + " MB"; }
   function dqCell(l) { var q = l.datenquelle || (l.server_quelle ? "server" : "lokal");
-    return '<span class="tag" title="' + esc(DQT[q] || "") + '">' + esc(DQ[q] || q) + '</span> <span class="tag mono" title="Backup-Stufe (gilt für alle Tools und Geräte)">' + esc(l.backup_stufe || "datenbank") + '</span><br><span class="hint">' + fmtMB(l.server_bytes) + " am Server</span>"; }
+    var w = l.backup_wahl || {}, n = Object.keys(w).length;
+    return '<span class="tag mono" title="Höchstens: ' + esc(DQT[q] || "") + " · Stufe " + esc(l.backup_stufe || "datenbank") + '">' + esc(bkCode(q, l.backup_stufe)) + "</span>" +
+      (n ? ' <span class="hint" title="' + esc(Object.keys(w).map(function (t) { return t + ": " + bkCode(w[t].datenquelle || q, w[t].stufe || l.backup_stufe); }).join(", ")) + '">' + n + " Tool" + (n > 1 ? "s" : "") + " gewählt</span>" : "") +
+      '<br><span class="hint">' + fmtMB(l.server_bytes) + " von " + (l.quota_mb || 50) + " MB am Server</span>"; }
 
   function renderAll() {
     $("licrows").innerHTML = state.licenses.length ? state.licenses.map(function (l) {
@@ -1285,6 +1363,9 @@
     [].forEach.call(lf.querySelectorAll('input[name="datenquelle"]'), function (r) { r.checked = r.value === dq; });
     var bs = (l && l.backup_stufe) || "datenbank";
     [].forEach.call(lf.querySelectorAll('input[name="backup_stufe"]'), function (r) { r.checked = r.value === bs; });
+    lf.quota_mb.value = (l && l.quota_mb) || 50;
+    var bw = (l && l.backup_wahl) || {};
+    $("lf-wahl").textContent = Object.keys(bw).length ? "Wahl des Kunden je Tool: " + Object.keys(bw).map(function (t) { return t + " " + bkCode(bw[t].datenquelle || dq, bw[t].stufe || bs); }).join(" · ") + " (über dem Maximum wird automatisch begrenzt)" : "Der Kunde hat noch keine eigene Wahl getroffen – es gilt das Maximum.";
     var all = !!(l && l.tools.indexOf("*") >= 0); lf.all.checked = all;
     var cfg = (l && l.tool_cfg) || {}, sel = (l && l.tools) || [];
     $("lic-tools").innerHTML = licTools(l).map(function (t) {
@@ -1347,7 +1428,8 @@
               expires_at: lf.unlimited.checked ? "" : lf.expires_at.value + "T23:59:59",
               max_devices: Math.max(1, parseInt(lf.max_devices.value, 10) || 1), channel: lf.channel.value, active: lf.active.checked,
               datenquelle: (lf.querySelector('input[name="datenquelle"]:checked') || { value: "lokal" }).value,
-              backup_stufe: (lf.querySelector('input[name="backup_stufe"]:checked') || { value: "datenbank" }).value };
+              backup_stufe: (lf.querySelector('input[name="backup_stufe"]:checked') || { value: "datenbank" }).value,
+              quota_mb: Math.min(10240, Math.max(1, parseInt(lf.quota_mb.value, 10) || 50)) };
     var btn = $("lic-save"); btn.disabled = true;
     if (editId) {
       d.id = editId;
@@ -1356,10 +1438,10 @@
     } else {
       api("create", d).then(function (r) {
         btn.disabled = false; if (!r.ok) return;
-        if (d.datenquelle !== "lokal" || d.backup_stufe !== "datenbank") load().then(function () {
+        if (d.datenquelle !== "lokal" || d.backup_stufe !== "datenbank" || d.quota_mb !== 50) load().then(function () {
           // Datenquelle und Backup-Stufe gleich nachtragen (create kennt die Felder nicht)
           var nl = state.licenses.filter(function (x) { return x.key && r.key.slice(-4) === x.key.slice(-4) && x.customer === customer; })[0];
-          if (nl) api("update", { id: nl.id, datenquelle: d.datenquelle, backup_stufe: d.backup_stufe }).then(load);
+          if (nl) api("update", { id: nl.id, datenquelle: d.datenquelle, backup_stufe: d.backup_stufe, quota_mb: d.quota_mb }).then(load);
         });
         if (!lf.active.checked) {
           // neue Lizenz sofort gesperrt anlegen
@@ -1827,8 +1909,9 @@
   document.querySelector("nav").addEventListener("click", function (e) {
     var b = e.target.closest("button[data-tab]"); if (!b) return;
     [].forEach.call(document.querySelectorAll("nav button[data-tab]"), function (x) { x.classList.toggle("on", x === b); });
-    ["lic", "tools", "ui", "clubs", "log"].forEach(function (t) { $("t-" + t).classList.toggle("hide", t !== b.dataset.tab); });
+    ["lic", "tools", "ui", "bk", "clubs", "log"].forEach(function (t) { $("t-" + t).classList.toggle("hide", t !== b.dataset.tab); });
     if (b.dataset.tab === "ui") loadUi();
+    if (b.dataset.tab === "bk") loadBk();
     if (b.dataset.tab === "log") loadLog();
     if (b.dataset.tab === "clubs") loadClubs();
   });
