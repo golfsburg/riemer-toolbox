@@ -3,6 +3,16 @@
 Speisekarten- & Menü-Designer: Sets, Gänge, Speisendatenbank mit Allergenen (LMIV), 6 Druckformate, Export als PDF, PPTX und Druck in exakt einer Seite · #ritl_menu
 Neueste Version oben. Versionen ≤ V1.7 nachträglich rekonstruiert (aus `tool_versions`, Quellen-ZIPs und Repo-Historie).
 
+## V2.8 · 19.11.2026 · DEV
+**Geändert**
+- Datenquelle A: Welches Set gerade geöffnet ist, merkt sich jedes Gerät selbst – ein Wechsel des Sets löst keinen Abgleich über den Ordner mehr aus.
+
+**Behoben**
+- Datenquelle A (Ordner ist die Datenbank): Ändert ein anderes Gerät nur Einstellungen (z. B. Hell/Dunkel, Ansicht, Favoriten), fragt MENU.ritl nicht mehr fälschlich „Neuerer Stand im Ordner“. Für den Ordner zählen nur noch die Arbeitsdaten (Sets, Gerichte, Saison-Aktionen, Bilder und Dateien); die Einstellungen gleicht der Server ab.
+- Gibt es gleichzeitig eine Abfrage für den Ordner und eine für den Server, kommen sie nacheinander – die zweite überschreibt die erste nicht mehr.
+- „Ordner verknüpfen“ in „Backup einrichten“: Der Abgleich startet erst mit „Übernehmen“, die Abfrage schiebt sich nicht mehr über das offene Fenster.
+- Lässt sich die Ordner-Verknüpfung im Browser nicht speichern, bleibt MENU.ritl nicht mehr hängen.
+
 ## V2.7 · 19.11.2026 · DEV
 **Geändert**
 - Fußzeile: Kontakt per Mail `toolbox@riemer.co` statt Link auf riemer.co.
