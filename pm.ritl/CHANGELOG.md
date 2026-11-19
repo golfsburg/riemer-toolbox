@@ -3,6 +3,24 @@
 Projektmanagement: Projekt-Portfolio mit Gewerken, Anwendungen und Businesses (Lead › Spezifikation Opportunity › Spezifikation › Opportunity), Umsatzplan, Dashboard und Zeitplan · #ritl_pm
 Neueste Version oben. Versionen ≤ V1.1 nachträglich rekonstruiert (Projektmanager V1.x, selbstspeichernde HTML-Datei).
 
+## V3.0 · 19.11.2026 · DEV
+**Neu**
+- **Einheitliches Backup (ritl-bk 2.0, S-17):** Das Backup kommt jetzt aus dem gemeinsamen Baustein aller RIEMER Tools – gleiche Fenster und Abläufe wie in den anderen Tools.
+- **Neue Begriffe:** Datenquelle **A · Lokal**, **B · Ordner**, **C · Server** und Stufe **1 · settings** (Ansichten, Filter, Favoriten …), **2 · datenbank** (+ alle Projekte), **3 · storage** (+ hochgeladene Dateien) – kurz z. B. C3.
+- **„Backup einrichten“:** zeigt oben, was die Lizenz höchstens erlaubt (z. B. „Lizenz: höchstens C3“) und das Kontingent. Du wählst Datenquelle und Stufe darunter; was über der Lizenz liegt, ist gesperrt („· durch die Lizenz begrenzt“). Die Wahl gilt für PM.ritl auf allen Geräten, „Vorgabe der Lizenz verwenden“ setzt sie zurück.
+- **Datenquelle wechseln** mit Rückfrage – die Projekte werden dabei übernommen (in den Ordner geschrieben bzw. mit dem Server abgeglichen).
+- **Fenster „Backup“ › 03 Zentral:** Stände der Historie lassen sich mit 🗑 löschen; darunter steht die Belegung „x von y MB“.
+- Ein neues Gerät (noch ohne Projekte oder nur mit dem Beispielprojekt „VORLAGE“) übernimmt den Stand vom Server bzw. aus dem Ordner ohne Rückfrage.
+
+**Geändert**
+- Mit Lizenz gilt die Vorgabe sofort, ohne dass sich „Backup einrichten“ öffnet (nur bei B ohne verknüpften Ordner).
+- Der Abgleich mit dem Server startet erst, wenn die Projekte aus dem Browser-Speicher geladen sind.
+- Wiederherstellen öffnet wieder die gesicherte Ansicht (PORTFOLIO, DASH oder PLAN).
+- Backups bis V2.9 und Portfolio-Backups des Projektmanagers V1.x lassen sich weiter im Fenster „Backup“ wiederherstellen; alte HTML-Dateien und Projekt-Backups weiter unter DATA.ritl. „Automatisch im Ordner sichern“ bleibt eingeschaltet.
+
+**Behoben**
+- Ein neues Gerät mit Datenquelle C oder B fragt nicht mehr fälschlich „Neuerer Stand am Server/im Ordner“.
+
 ## V2.9 · 19.11.2026 · DEV
 **Neu**
 - **Backup-Stufe je Lizenz:** Die Stufe (settings, datenbank oder storage) legt der Anbieter im Lizenz-Admin fest. Sie gilt auf allen Geräten und in allen RIEMER Tools – das Backup muss nicht mehr auf jedem Gerät eingerichtet werden.

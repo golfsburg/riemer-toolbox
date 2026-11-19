@@ -3,6 +3,25 @@
 Präsentationen aus Abschnitten zusammenstellen (DECK.ritl) und Meetings planen (TIMING.ritl) · #ritl_pptx
 Neueste Version oben. Ältere Versionen siehe Admin › Tools › Versionen (Tabelle `tool_versions`); dieser CHANGELOG beginnt mit V2.9.
 
+## V3.7 · 19.11.2026 · DEV
+**Neu**
+- **Einheitliches Backup (ritl-bk 2.0, S-17):** Das Backup kommt jetzt aus dem gemeinsamen Baustein aller RIEMER Tools – gleiche Fenster „Backup“ und „Backup einrichten“ wie in MUSTER.ritl.
+- **Neue Begriffe:** Datenquelle **A · Lokal**, **B · Ordner**, **C · Server** und Stufe **1 · settings**, **2 · datenbank**, **3 · storage** (kurz z. B. C3).
+- **„Backup einrichten“:** zeigt oben, was die Lizenz höchstens erlaubt (z. B. „Lizenz: höchstens C3“) und das Kontingent. Du wählst Datenquelle und Stufe darunter; was über der Lizenz liegt, ist gesperrt („· durch die Lizenz begrenzt“). Die Wahl gilt für PPTX.ritl auf allen Geräten.
+- **Stufe 3 · storage = alle geladenen PPTX-Originale:** bei A und B als Dateien in der Backup-Datei, bei **C3 über den Server** – ein zweites Gerät lädt die Originale und die Zusammenstellung automatisch.
+- **Fenster „Backup“ › 03 Zentral:** Stände der Historie lassen sich mit 🗑 löschen; darunter steht die Belegung „x von y MB“.
+
+**Geändert**
+- Mit Lizenz gilt die Vorgabe sofort, ohne dass sich „Backup einrichten“ öffnet (nur bei B ohne verknüpften Ordner).
+- Bei B und C übernimmt PPTX.ritl beim Start den Stand still aus dem Ordner bzw. vom Server – der leere Browser überschreibt ihn nicht mehr.
+- Das **Komplett-Paket (.zip)** mit allen Originalen speicherst du jetzt unter 03 Ausgabe („Komplett-Paket (.zip)“); Laden wie bisher per Ziehen auf die Seite.
+- **Projekt …** öffnet jetzt ein eigenes Fenster (bisher Teil des Fensters „Backup“). Projektdateien speichern bei Stufe storage die PPTX-Originale als Dateien; ältere Projektdateien lassen sich weiter öffnen.
+
+**Behoben**
+- Ein neuer Start bzw. ein neues Gerät fragt bei B oder C nicht mehr fälschlich „Neuerer Stand am Server/im Ordner“.
+- Alte Backup-Dateien (auch mit Komplett-Paket), Auswahl-Sicherungen und die bisherige Ordner-Verknüpfung funktionieren weiter.
+- Ist beim Start ein Projekt geöffnet und der Browser leer, lädt PPTX.ritl das Projekt, statt die Projektdatei mit einem Stand ohne Dateien zu überschreiben.
+
 ## V3.6 · 19.11.2026 · DEV
 **Neu**
 - **Backup-Stufe je Lizenz:** Die Stufe (settings, datenbank oder storage) legt der Anbieter im Lizenz-Admin fest. Sie gilt auf allen Geräten und in allen RIEMER Tools – das Backup muss nicht mehr auf jedem Gerät eingerichtet werden.

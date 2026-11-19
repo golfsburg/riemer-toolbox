@@ -3,6 +3,23 @@
 Kompakter 3D-Viewer und -Editor im Browser für den 3D-Druck · #ritl_mesh
 Neueste Version oben. V1.0–V1.8 als Einzeldatei entwickelt (nicht in der Toolbox veröffentlicht).
 
+## V2.7 · 19.11.2026 · DEV
+**Neu**
+- **Einheitliches Backup (ritl-bk 2.0, S-17):** Das Backup kommt jetzt aus dem gemeinsamen Baustein aller RIEMER Tools – gleiche Fenster und Abläufe wie in den anderen Tools.
+- **Neue Begriffe:** Datenquelle **A · Lokal**, **B · Ordner**, **C · Server** und Stufe **1 · settings** (Ansicht, Hell/Dunkel, Favoriten), **2 · datenbank** (+ Szene), **3 · storage** (+ alle Geometrien) – kurz z. B. C3.
+- **„Backup einrichten“:** zeigt oben, was die Lizenz höchstens erlaubt (z. B. „Lizenz: höchstens C3“) und das Kontingent. Du wählst Datenquelle und Stufe darunter; was über der Lizenz liegt, ist gesperrt („· durch die Lizenz begrenzt“). Die Wahl gilt für MESH.ritl auf allen Geräten, „Vorgabe der Lizenz verwenden“ setzt sie zurück.
+- **Datenquelle wechseln** mit Rückfrage – die Szene wird dabei übernommen (in den Ordner geschrieben bzw. mit dem Server abgeglichen).
+- **Fenster „Backup“ › 03 Zentral:** Stände der Historie lassen sich mit 🗑 löschen; darunter steht die Belegung „x von y MB“.
+- **C3:** Die Geometrien gehen über den Server auf alle Geräte; ein neues Gerät baut die Szene samt Modellen ohne Rückfrage auf.
+
+**Geändert**
+- Mit Lizenz gilt die Vorgabe sofort, ohne dass sich „Backup einrichten“ öffnet (nur bei B ohne verknüpften Ordner).
+- ★ Favoriten teilen im Ordner nutzt den Ordner aus dem Backup (02 OneDrive & SharePoint) wie bisher.
+- Backups bis V2.6 (auch mit Geometrien) und reine Szenen-Dateien lassen sich weiter wiederherstellen; „automatisch im Ordner sichern“ bleibt eingeschaltet.
+
+**Behoben**
+- Ein neues Gerät mit Datenquelle C oder B fragt nicht mehr fälschlich „Neuerer Stand am Server/im Ordner“.
+
 ## V2.6 · 19.11.2026 · DEV
 **Neu**
 - **Backup-Stufe je Lizenz:** Die Stufe (settings, datenbank oder storage) legt der Anbieter im Lizenz-Admin fest. Sie gilt auf allen Geräten und in allen RIEMER Tools – das Backup muss nicht mehr auf jedem Gerät eingerichtet werden. Mit storage werden bei „Server ist die Datenquelle“ auch die Geometrien auf jedem Gerät abgeglichen.

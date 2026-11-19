@@ -3,6 +3,23 @@
 PDF-Dokumente aus Lesezeichen-Abschnitten und Einzelseiten zusammenstellen – mit verlinktem Inhaltsverzeichnis · #ritl_pdf
 Neueste Version oben. Versionen ≤ V1.3 nachträglich rekonstruiert (aus `tool_versions` und Entwicklungsverlauf).
 
+## V2.1 · 19.11.2026 · DEV
+**Neu**
+- **Einheitliches Backup (ritl-bk 2.0, S-17):** Das Backup kommt jetzt aus dem gemeinsamen Baustein aller RIEMER Tools – gleiche Fenster „Backup“ und „Backup einrichten“ wie in MUSTER.ritl.
+- **Neue Begriffe:** Datenquelle **A · Lokal**, **B · Ordner**, **C · Server** und Stufe **1 · settings**, **2 · datenbank**, **3 · storage** (kurz z. B. C3).
+- **„Backup einrichten“:** zeigt oben, was die Lizenz höchstens erlaubt (z. B. „Lizenz: höchstens C3“) und das Kontingent. Du wählst Datenquelle und Stufe darunter; was über der Lizenz liegt, ist gesperrt („· durch die Lizenz begrenzt“). Die Wahl gilt für PDF.ritl auf allen Geräten.
+- **Stufe 3 · storage = alle geladenen PDF-Originale:** bei A und B als Dateien in der Backup-Datei, bei **C3 über den Server** – ein zweites Gerät lädt die Originale und die Zusammenstellung automatisch.
+- **Fenster „Backup“ › 03 Zentral:** Stände der Historie lassen sich mit 🗑 löschen; darunter steht die Belegung „x von y MB“.
+
+**Geändert**
+- Mit Lizenz gilt die Vorgabe sofort, ohne dass sich „Backup einrichten“ öffnet (nur bei B ohne verknüpften Ordner).
+- Bei B und C übernimmt PDF.ritl beim Start den Stand still aus dem Ordner bzw. vom Server – der leere Browser überschreibt ihn nicht mehr.
+- Das **Komplett-Paket (.zip)** mit allen Originalen speicherst du jetzt unter 03 Ausgabe („Komplett-Paket (.zip)“); Laden wie bisher per Ziehen auf die Seite.
+
+**Behoben**
+- Ein neuer Start bzw. ein neues Gerät fragt bei B oder C nicht mehr fälschlich „Neuerer Stand am Server/im Ordner“.
+- Alte Backup-Dateien (auch mit Komplett-Paket), Auswahl-Sicherungen und die bisherige Ordner-Verknüpfung funktionieren weiter.
+
 ## V2.0 · 19.11.2026 · DEV
 **Neu**
 - **Backup-Stufe je Lizenz:** Die Stufe (settings, datenbank oder storage) legt der Anbieter im Lizenz-Admin fest. Sie gilt auf allen Geräten und in allen RIEMER Tools – das Backup muss nicht mehr auf jedem Gerät eingerichtet werden.

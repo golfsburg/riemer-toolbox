@@ -3,6 +3,24 @@
 Leistungsverzeichnisse nach ÖNORM A 2063 mit Materiallisten, Bieterangeboten und ONLV-Export · #ritl_lv
 Neueste Version oben. Versionen ≤ V9.2 nachträglich rekonstruiert (aus `tool_versions` und den Quellen-ZIPs).
 
+## V10.0 · 19.11.2026 · DEV
+**Neu**
+- **Einheitliches Backup (ritl-bk 2.0, S-17):** Das Backup kommt jetzt aus dem gemeinsamen Baustein aller RIEMER Tools. Fenster und Abläufe bleiben wie gewohnt, „04 Dateiablage“ bleibt im Fenster „Backup“.
+- **Neue Begriffe:** Datenquelle **A · Lokal**, **B · Ordner**, **C · Server** und Stufe **1 · settings**, **2 · datenbank**, **3 · storage** (kurz z. B. C3).
+- **„Backup einrichten“:** zeigt oben, was die Lizenz höchstens erlaubt (z. B. „Lizenz: höchstens C3“) und das Kontingent. Du wählst Datenquelle und Stufe darunter; was über der Lizenz liegt, ist gesperrt („· durch die Lizenz begrenzt“). Die Wahl gilt für LV.ritl auf allen Geräten; „Vorgabe der Lizenz verwenden“ setzt sie zurück.
+- **Datenquelle wechseln** mit Rückfrage – der Stand wird dabei übernommen (in den Ordner geschrieben bzw. mit dem Server abgeglichen).
+- **Fenster „Backup“ › 03 Zentral:** Stände der Historie lassen sich mit 🗑 löschen; darunter steht die Belegung „x von y MB“.
+- Ein neues Gerät ohne eigene Daten übernimmt den Stand vom Server bzw. aus dem Ordner ohne Rückfrage und lädt neu.
+
+**Geändert**
+- **Leistungsbeschreibungen gehören jetzt zur Stufe 3 · storage:** Stufe 2 · datenbank enthält Projekte, LVs, Angebote, Vorlagen und Preislisten; die geladenen Leistungsbeschreibungen kommen mit Stufe 3 in die Backup-Datei (lokal und im Ordner). Am Server liegen wie bisher keine LB-Daten – bei C3 gehen die ONLB-Originale über die Dateiablage auf alle Geräte.
+- Mit Lizenz gilt die Vorgabe sofort, ohne dass sich „Backup einrichten“ öffnet (nur bei B ohne verknüpften Ordner).
+- C · Server mit Stufe 1 gleicht nur die Einstellungen (Hell/Dunkel, auf-/zugeklappte Bereiche) über den Server ab; die Daten bleiben im Browser.
+- Nach dem Übernehmen eines Stands vom Server oder aus dem Ordner lädt LV.ritl erst neu, wenn auch alle Dateien geladen sind. Ältere Backups mit Leistungsbeschreibungen lassen sich weiter vollständig wiederherstellen.
+
+**Behoben**
+- Ein neues Gerät mit Datenquelle C oder B fragt nicht mehr fälschlich „Neuerer Stand am Server/im Ordner“.
+
 ## V9.9 · 19.11.2026 · DEV
 **Neu**
 - **Backup-Stufe je Lizenz (S-16):** Die Stufe (settings, datenbank oder storage) legt der Anbieter im Lizenz-Admin fest. Sie gilt in allen RIEMER Tools und auf allen Geräten – das Backup muss nicht mehr auf jedem Gerät einzeln eingerichtet werden.
