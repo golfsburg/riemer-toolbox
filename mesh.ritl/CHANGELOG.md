@@ -3,7 +3,26 @@
 Kompakter 3D-Viewer und -Editor im Browser für den 3D-Druck · #ritl_mesh
 Neueste Version oben. V1.0–V1.8 als Einzeldatei entwickelt (nicht in der Toolbox veröffentlicht).
 
-## V1.9 · 19.11.2026 · DEV
+## V2.1 · 19.11.2026 · DEV
+**Neu**
+- Ansicht sperren: „🔓 Ansicht“ in der Ansichtsleiste bzw. Taste V – Kamera fest (kein Drehen, Zoomen, Einpassen, Ansichtswürfel), Objekte bleiben wähl- und bearbeitbar; die gesperrte Ansicht bleibt nach dem Neuladen.
+- Szene wird automatisch im Browser gespeichert (Modelle, Lage, Farben, Grundkörper, SCAD-Parameter) und beim Öffnen wiederhergestellt; Geometrien in der Dateiablage RITLF (IndexedDB `mesh_files`).
+- Backup-Stufen nach RIEMER-Webapp-Design: settings · datenbank · storage. Backup-Dialog mit 01 Lokal (eine Datei `Backup_MESH-ritl.json`, wird überschrieben), 02 OneDrive & SharePoint (verknüpfter Ordner, automatisch sichern), 03 Zentral (tool-backup, Historie 10 Tage, storage gesperrt). Modal „Backup einrichten“ beim ersten Start mit komprimierten Größen.
+- ★ Favoriten: Grundkörper-Vorlagen (Form, Maße, Farbe) speichern und einfügen; Export/Import und Team-Datei `MESH-ritl_Favoriten.json` im OneDrive-Ordner.
+
+**Geändert**
+- Header nach Regeln: nur ★ Favoriten (mit Zähler), Backup (mit Backup-Symbol Ordner/Wolke), Neu beginnen. „Datei öffnen“ und „Konverter“ nur noch in der Werkzeugleiste.
+- „Neu beginnen“ leert Szene und gespeicherte Geometrien; Einstellungen und Favoriten bleiben.
+
+## V2.0 · 19.11.2026
+**Neu**
+- Grundkörper erstellen: Quader, Zylinder, Rohr, Kugel, Halbkugel, Kegel, Pyramide, Prisma, Torus, Keil – Maße in mm, nachträglich über „⚙ Maße“ änderbar.
+
+**Geändert**
+- Objekte lassen sich erst nach dem Auswählen verschieben; Klick ins Leere hebt die Auswahl auf.
+- Ansichtsknöpfe durch den Ansichtswürfel ersetzt (Tasten 1–5 bleiben).
+
+## V1.9 · 19.11.2026
 **Neu**
 - Abmessungen wahlweise proportional oder einzeln: Schalter „🔗 proportional / einzeln“ im Objekt-Fenster (gekoppelt mit Box 02).
 - Achsen-Werkzeug „⤢ Skalieren“ (R) mit Griffen je Achse; Klick auf einen Griff öffnet die Eingabe des Zielmaßes in mm (Schnellwerte 50/90/110/200 %).
