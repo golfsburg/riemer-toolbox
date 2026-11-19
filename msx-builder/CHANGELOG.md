@@ -4,6 +4,22 @@
 Start: index.html im Browser öffnen (Chrome/Edge/Firefox) oder auf GitHub Pages ablegen.
 Beim Öffnen wird die Beispielzeichnung „Beispiel_Schnitt.dxf“ geladen.
 
+## V5.3 · 19.11.2026 · DEV
+**Neu**
+- Bereich 12 „Vorlagen“ (Idee I003): Standardkonstruktionen aus PROFIS MSE (Schienen, Verbinder, Anker) mit „.mspx laden“ übernehmen – Ordner werden Kategorien, jede Lösung eine Vorlage mit Name, Bauteil (Decke/Wand), Anzahl Knoten und Schienen, Schienentyp und kleinem Vorschaubild. Umbenennen, Löschen und als .mspx exportieren (einzeln oder alle).
+- Die Vorlagen bleiben in diesem Browser und sind im Backup (Stufe datenbank).
+- OneDrive & SharePoint: Team-Datei `MSX-ritl_Vorlagen.mspx` im Ordner aus Backup › 02 – „In Ordner teilen“ ergänzt fehlende Vorlagen, „Aus Ordner übernehmen“ holt neue; vorhandene werden nie ersetzt. Ohne Ordner-Zugriff (Safari, Firefox) Hinweis zum Ablegen der exportierten Datei.
+- Vorlage einsetzen: Decke oder Wand im Modellbereich anklicken, dann „Vorlage einsetzen …“ – es erscheinen nur passende Vorlagen. Einsetzen in Originalgröße, die Ankerknoten liegen auf der Fläche des Bauteils, seitlich mittig zur Rohrgruppe, am Klickpunkt oder mittig zum Bauteil. Bei Wall-to-wall gleitet der zweite Ankerknoten entlang seiner Schiene bis zur gegenüberliegenden Wand. Mehrere Vorlagen je Unterprojekt möglich, „Vorlage entfernen“ bzw. Entf nimmt sie wieder heraus.
+- Schienen parallel verschieben – für Vorlagen und frei gezeichnete Stäbe: Schiene anklicken, am Griff in der Mitte ziehen; die Schiene bewegt sich nur senkrecht zu ihrer Achse, anschließende Schienen werden länger oder kürzer, Verbinder bleiben an ihren Knoten, Ankerknoten gleiten an ihrem Bauteil entlang.
+- Gesperrt mit Hinweis, wenn sich ein Anker vom Bauteil lösen oder über den Bauteilrand gleiten würde oder eine anschließende Schiene die Länge 0 bekäme.
+- Fang beim Verschieben: Rohr- und Dämmungsunter-/-oberkante, Kanalkanten, Bauteilflächen, sonst Raster 10 mm; Umschalttaste = ohne Fang. Live-Maße (Verschiebung, Abstand zu Decke bzw. Wand, neue Längen der Nachbarschienen), Esc bricht ab, Strg+Z macht rückgängig. Warnung bei Schienen unter 100 mm und wenn Rohre nicht mehr aufliegen.
+- Export (.msx, msx.ZIP, .mspx): Knoten mit Verbindern und Ankern, Schienen, Gelenke, Lager, Zuordnung Schiene–Knoten und Lasten der Vorlage mit neuen Nummern; neue Knotenlagen, Längen, Eigengewicht und Knicklängen passen sich an.
+- Im Test mit PROFIS MSE zu bestätigen: Standard ist „Anker am vorhandenen Bauteil“ – die Ankerknoten verweisen auf die gewählte Decke bzw. Wand. Lehnt PROFIS MSE das ab, im Dialog „Bauteile der Vorlage mitnehmen“ wählen (die kleinen Bauteile der Vorlage liegen dann bündig auf der Fläche). Die Stückliste der Vorlage wird wie bei gezeichneten Stäben nicht mitgegeben; PROFIS MSE rechnet sie neu.
+
+**Geändert**
+- Strg+Z macht im Modellbereich den letzten Schritt rückgängig (wie „Rückgängig“).
+- Backup-Stufe datenbank enthält zusätzlich die Konstruktionsvorlagen.
+
 ## V5.2 · 19.11.2026 · DEV
 **Behoben**
 - Datenquelle A (Ordner ist die Datenbank): Ändert ein anderes Gerät nur Einstellungen (z. B. Hell/Dunkel, Sprache, Ansicht), fragt MSX.ritl nicht mehr fälschlich „Neuerer Stand im Ordner“. Für den Ordner zählen nur noch die Arbeitsdaten (Vorlage, Rohrnormen, Revit-Zuordnung); die Einstellungen gleicht der Server ab.
