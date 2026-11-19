@@ -410,8 +410,9 @@ update licenses set quota_mb = 200 where key_hint = 'XXXX';
 
 ## SCORE.ritl – Posting (Bild + Text)
 
+- **Kopfzeile:** `score_clubs.posting_kopf` bzw. `posting_kopf_nw` (Nachwuchs, U-Mannschaften) – erste Zeile des Posting-Texts.
 - **Hashtags:** `score_clubs.hashtags` (Verein) und `fcpf_team_cfg.hashtags` (je Mannschaft). Pflege im Admin-Tool (Verein bearbeiten) oder vom Vereins-Admin in der Webapp.
 - **Hintergründe:** Tabelle `score_posting_bg` (`club_id`, `team` – leer = Vereins-Standard, `data` = Bild als data-URL oder `neutral`, `ink` dunkel/hell, `alter_xy` = Position der handschriftlichen Altersklasse `[x, y, Höhe]`). Pflege im Admin-Tool unter „Posting-Hintergründe“.
 - **Abruf in der Webapp:** Edge Function `score-club`, Aktionen `posting` (Hintergrund der Mannschaft) und `logo` (ÖFB-Wappen als data-URL, nur Pfade `/netzwerk/imagedownload/…`) – Lizenz + Gerät, ohne PIN.
-- Der Import speichert je Spiel `heim_logo`/`gast_logo` (Pfade auf vereine.oefb.at).
+- Der Import speichert je Spiel `heim_logo`/`gast_logo` (Pfade auf vereine.oefb.at), `gegner_oefb` (voller ÖFB-Name des Gegners) und `tore_liste` (Torschützen mit vollem Namen und Minute, für die Vornamen im Posting).
 

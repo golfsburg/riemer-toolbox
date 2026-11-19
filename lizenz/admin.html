@@ -566,8 +566,12 @@
         <div><label for="cf-start">Saisonstart</label><input id="cf-start" name="saisonstart" type="date"><span class="hint">ältere Spiele werden ignoriert</span></div>
         <div><label>Optionen</label><label class="chk" style="margin-top:8px"><input type="checkbox" name="testtore" checked> Tore aus Testspielen zählen für die Torschützenliste</label><br><label class="chk" style="margin-top:8px"><input type="checkbox" name="active" checked> Automatischer Import aktiv</label></div>
       </div>
-      <label for="cf-hash">Hashtags des Vereins (Posting)</label><input id="cf-hash" name="hashtags" maxlength="300" placeholder="#GEMMAFCPF">
-      <span class="hint">Stehen in jedem Posting-Text nach den Hashtags der Mannschaft. Der Vereins-Admin kann sie auch in der Webapp ändern.</span>
+      <div class="grid">
+        <div><label for="cf-kopf">Posting-Kopfzeile</label><input id="cf-kopf" name="posting_kopf" maxlength="200" placeholder="🟢⚪️⚽️ Vereinsname"></div>
+        <div><label for="cf-kopf-nw">Kopfzeile Nachwuchs (U-Mannschaften)</label><input id="cf-kopf-nw" name="posting_kopf_nw" maxlength="200" placeholder="leer = wie Kopfzeile"></div>
+        <div><label for="cf-hash">Hashtags des Vereins (Posting)</label><input id="cf-hash" name="hashtags" maxlength="300" placeholder="#GEMMAFCPF"></div>
+      </div>
+      <span class="hint">Erste Zeile jedes Posting-Texts bzw. Hashtags am Ende (vor den Hashtags der Mannschaft). Der Vereins-Admin kann das auch in der Webapp ändern.</span>
       <div class="sect"><h3>Mannschaften</h3><span class="hint" id="cf-prog"></span></div>
       <div class="wrap"><table class="ttab mtab">
         <thead><tr><th>Aktiv</th><th>Quelle</th><th>Kürzel</th><th>Anzeigename</th><th>Bewerb</th><th>Name in Spielen</th><th>Hashtags (Posting)</th><th>Erkennung (ÖFB-Name)</th><th>Spiele</th><th></th></tr></thead>
@@ -1779,7 +1783,7 @@
     cf.saisonstart.value = c ? c.saisonstart : (new Date().getMonth() >= 6 ? new Date().getFullYear() : new Date().getFullYear() - 1) + "-08-01";
     cf.testtore.checked = c ? !!c.torschuetzen_testspiele : true; cf.active.checked = c ? !!c.active : true;
     cTeams = c ? c.teams.map(function (t) { return { id: t.id, quelle: t.quelle || "oefb", _q0: t.quelle || "oefb", team: t.team, name: t.name, bewerb: t.bewerb, own_label: t.own_label, own_regex: t.own_regex || "", oefb_url: t.oefb_url || "", hashtags: t.hashtags || "", active: !!t.active }; }) : [];
-    cf.hashtags.value = c ? (c.hashtags || "") : "";
+    cf.hashtags.value = c ? (c.hashtags || "") : ""; cf.posting_kopf.value = c ? (c.posting_kopf || "") : ""; cf.posting_kopf_nw.value = c ? (c.posting_kopf_nw || "") : "";
     renderBgs(c);
     renderTeams(); $("cf-prog").textContent = ""; $("cf-add-url").value = "";
     renderLics(c);
@@ -1989,7 +1993,8 @@
     var lics = [].map.call($("cf-lics").querySelectorAll("input[data-lic]"), function (x) { return { id: x.dataset.lic, on: x.checked }; });
     var first = !cEdit, btn = $("cf-save"); btn.disabled = true;
     api("score_club_save", { club_id: id, name: name, kurz: cf.kurz.value.trim(), oefb_url: cf.oefb_url.value.trim(),
-                             saisonstart: cf.saisonstart.value, torschuetzen_testspiele: cf.testtore.checked, active: cf.active.checked, hashtags: cf.hashtags.value.trim() })
+                             saisonstart: cf.saisonstart.value, torschuetzen_testspiele: cf.testtore.checked, active: cf.active.checked, hashtags: cf.hashtags.value.trim(),
+                             posting_kopf: cf.posting_kopf.value.trim(), posting_kopf_nw: cf.posting_kopf_nw.value.trim() })
       .then(function (r) { if (!r.ok) throw 0; return api("score_teams_save", { club_id: id, teams: teams }); })
       .then(function (r) {
         if (!r.ok) throw 0;
