@@ -3,6 +3,21 @@
 Vorlage und Spielwiese für den Skill `/riemer-webapp-design` · #ritl_muster
 Neueste Version oben. Versionen ≤ V2.2 nachträglich aus den veröffentlichten Ständen (Tabelle `tool_versions`) rekonstruiert.
 
+## V3.7 · 19.11.2026 · DEV
+**Neu**
+- **Backup-Stufe je Lizenz (S-16):** Die Stufe (settings, datenbank oder storage) legt der Anbieter im Lizenz-Admin fest. Sie gilt in allen Tools und auf allen Geräten – du musst das Backup nicht mehr auf jedem Gerät einzeln einrichten.
+  - Lokal (01) gilt die Stufe der Lizenz (bei A mindestens datenbank). Zentral (02): bei B die Stufe der Lizenz (mindestens datenbank), bei A settings, ohne Server-Freigabe höchstens datenbank.
+  - Zentrales Sichern ist mit Lizenz immer eingeschaltet. Nur „Lokal in den Ordner sichern“ bleibt je Gerät, weil der Ordner auf jedem Gerät verknüpft werden muss.
+- „Backup einrichten“ öffnet sich mit Lizenz nicht mehr von selbst (nur bei A, solange kein Ordner verknüpft ist) und zeigt oben die Stufe der Lizenz.
+
+**Geändert**
+- Von der Lizenz festgelegte Häkchen und Stufen tragen den Hinweis „durch die Lizenz festgelegt“.
+- Gesperrte storage-Zeile unter 02 Zentral: „nur mit ‚Server ist die Datenquelle‘ (Freigabe im Admin)“ statt „zentral folgt später“.
+- In der Admin-Vorschau steht „Admin-Vorschau – zentrale Funktionen hier nicht verfügbar“ statt einer stillen Sperre.
+
+**Behoben**
+- Datenquelle B: storage ist unter 02 Zentral immer wählbar, auch wenn die Prüfung am Server gerade nicht klappt, und springt nach „Übernehmen“ nicht mehr auf datenbank zurück.
+
 ## V3.6 · 19.11.2026 · DEV
 **Behoben**
 - Datenquelle A: Ändert ein Gerät nur Einstellungen, während ein anderes Gerät die Ordner-Datei neu geschrieben hat, holt es den neueren Stand, statt fälschlich „Neuerer Stand im Ordner“ zu fragen.

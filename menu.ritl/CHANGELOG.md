@@ -3,6 +3,21 @@
 Speisekarten- & Menü-Designer: Sets, Gänge, Speisendatenbank mit Allergenen (LMIV), 6 Druckformate, Export als PDF, PPTX und Druck in exakt einer Seite · #ritl_menu
 Neueste Version oben. Versionen ≤ V1.7 nachträglich rekonstruiert (aus `tool_versions`, Quellen-ZIPs und Repo-Historie).
 
+## V2.9 · 19.11.2026 · DEV
+**Neu**
+- **Backup-Stufe je Lizenz:** Die Stufe (settings, datenbank oder storage) legt der Anbieter im Lizenz-Admin fest. Sie gilt auf allen Geräten und in allen RIEMER Tools – das Backup muss nicht mehr auf jedem Gerät eingerichtet werden. Mit storage werden die hochgeladenen Logos und Dateien auf jedem Gerät abgeglichen.
+  - Lokal (01) gilt die Stufe der Lizenz (bei A mindestens datenbank). Zentral (02): bei B die Stufe der Lizenz (mindestens datenbank), bei A settings, ohne Server-Freigabe höchstens datenbank.
+  - Zentrales Sichern ist mit Lizenz immer eingeschaltet. Nur „Lokal in den Ordner sichern“ bleibt je Gerät (der Ordner muss auf jedem Gerät verknüpft werden).
+- „Backup einrichten“ öffnet sich mit Lizenz nicht mehr von selbst (nur bei A, solange kein Ordner verknüpft ist) und zeigt oben die Stufe der Lizenz; die Auswahl ist gesperrt („durch die Lizenz festgelegt“).
+
+**Geändert**
+- Von der Lizenz festgelegte Häkchen und Stufen (auch bei Datenquelle A und B) tragen den Hinweis „durch die Lizenz festgelegt“ – die Sperre ist gewollt.
+- Gesperrte storage-Zeile unter 02 Zentral: „nur mit ‚Server ist die Datenquelle‘ (Freigabe im Admin)“; der Hinweis bei fehlender Freigabe nennt den Admin statt „bitte beim Anbieter anfragen“.
+- In der Admin-Vorschau steht „Admin-Vorschau – zentrale Funktionen hier nicht verfügbar“ (Backup einrichten, Backup-Dialog, Backup-Symbol) statt einer stillen Sperre.
+
+**Behoben**
+- Datenquelle B (Server ist die Datenbank): Die unter 02 Zentral gewählte Stufe storage sprang nach „Übernehmen“ auf datenbank zurück – sie bleibt jetzt eingestellt.
+
 ## V2.8 · 19.11.2026 · DEV
 **Geändert**
 - Datenquelle A: Welches Set gerade geöffnet ist, merkt sich jedes Gerät selbst – ein Wechsel des Sets löst keinen Abgleich über den Ordner mehr aus.

@@ -3,6 +3,19 @@
 PDF-Dokumente aus Lesezeichen-Abschnitten und Einzelseiten zusammenstellen – mit verlinktem Inhaltsverzeichnis · #ritl_pdf
 Neueste Version oben. Versionen ≤ V1.3 nachträglich rekonstruiert (aus `tool_versions` und Entwicklungsverlauf).
 
+## V2.0 · 19.11.2026 · DEV
+**Neu**
+- **Backup-Stufe je Lizenz:** Die Stufe (settings, datenbank oder storage) legt der Anbieter im Lizenz-Admin fest. Sie gilt auf allen Geräten und in allen RIEMER Tools – das Backup muss nicht mehr auf jedem Gerät eingerichtet werden.
+  - Lokal (01) gilt die Stufe der Lizenz (bei A mindestens datenbank); bei storage kommen die PDF-Originale wie bisher als Komplett-Paket in die Backup-Datei.
+  - Zentral (02): bei A settings, sonst datenbank bzw. settings. Die PDF-Originale gehen nie an den Server – storage gilt zentral wie datenbank.
+  - Zentrales Sichern ist mit Lizenz immer eingeschaltet. Nur „Automatisch im Ordner sichern“ bleibt je Gerät (der Ordner muss auf jedem Gerät verknüpft werden).
+- „Backup einrichten“ öffnet sich mit Lizenz nicht mehr von selbst (nur bei A, solange kein Ordner verknüpft ist) und zeigt oben die Stufe der Lizenz; die Auswahl ist gesperrt („durch die Lizenz festgelegt“).
+
+**Geändert**
+- Von der Lizenz festgelegte Häkchen und Stufen (auch bei Datenquelle A und B) tragen den Hinweis „durch die Lizenz festgelegt“ – die Sperre ist gewollt.
+- Hinweis „Server als Datenquelle nicht freigegeben“: „Freigabe im Admin (Datenquelle ‚Server‘)“ statt „bitte beim Anbieter anfragen“.
+- In der Admin-Vorschau steht „Admin-Vorschau – zentrale Funktionen hier nicht verfügbar“ (Backup einrichten, Backup-Dialog, Tooltip am Backup-Knopf).
+
 ## V1.9 · 19.11.2026 · DEV
 **Behoben**
 - Datenquelle A: Ändert ein Gerät nur Einstellungen, während ein anderes Gerät die Ordner-Datei neu geschrieben hat, holt es den neueren Stand, statt fälschlich ‚Neuerer Stand im Ordner‘ zu fragen.

@@ -4,6 +4,19 @@
 Start: index.html im Browser öffnen (Chrome/Edge/Firefox) oder auf GitHub Pages ablegen.
 Beim Öffnen wird die Beispielzeichnung „Beispiel_Schnitt.dxf“ geladen.
 
+## V5.6 · 19.11.2026 · DEV
+**Neu**
+- **Backup-Stufe je Lizenz:** Die Stufe (settings, datenbank oder storage) legt der Anbieter im Lizenz-Admin fest. Sie gilt auf allen Geräten und in allen RIEMER Tools – das Backup muss nicht mehr auf jedem Gerät eingerichtet werden.
+  - Lokal (01) gilt die Stufe der Lizenz (bei A mindestens datenbank). storage braucht einen verknüpften Ordner in Chrome oder Edge, sonst gilt datenbank.
+  - Zentral (02): bei A settings, sonst datenbank (bei einer Lizenz mit settings: settings). Projekt und Dateien gehen bei MSX.ritl nie an den Server – storage gilt zentral wie datenbank.
+  - Zentrales Sichern ist mit Lizenz immer eingeschaltet. Nur „Lokal in den Ordner sichern“ bleibt je Gerät (der Ordner muss auf jedem Gerät verknüpft werden).
+- „Backup einrichten“ öffnet sich mit Lizenz nicht mehr von selbst (nur bei A, solange kein Ordner verknüpft ist) und zeigt oben die Stufe der Lizenz; die Auswahl ist gesperrt („durch die Lizenz festgelegt“).
+
+**Geändert**
+- Von der Lizenz festgelegte Häkchen und Stufen (Datenquelle A und B) tragen den Hinweis „durch die Lizenz festgelegt“ – die Sperre ist gewollt.
+- Gesperrte storage-Zeile unter 02 Zentral: „nur lokal (Ordner) – zentral hält MSX.ritl keine Dateien“ statt „zentral folgt später“; Hinweis bei fehlender Freigabe: „Freigabe im Admin“ statt „beim Anbieter anfragen“.
+- In der Admin-Vorschau steht „Admin-Vorschau – zentrale Funktionen hier nicht verfügbar“ statt einer stillen Sperre.
+
 ## V5.5 · 19.11.2026 · DEV
 **Behoben**
 - Backup-Stufe storage mit Datenquelle A (der OneDrive/SharePoint-Ordner ist die Datenbank): Die Stufe sprang beim Start und nach „Übernehmen“ auf datenbank zurück, Projekt und Dateien wurden nicht abgelegt. Jetzt bleibt storage gewählt; der Ordner-Abgleich speichert Projekt-Browser und Arbeitsstand in `Backup_MSX-ritl.json` und die Originaldateien in `MSX-ritl_Dateien`, ein anderes Gerät lädt beides.
