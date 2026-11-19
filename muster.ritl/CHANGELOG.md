@@ -3,6 +3,13 @@
 Vorlage und Spielwiese für den Skill `/riemer-webapp-design` · #ritl_muster
 Neueste Version oben. Versionen ≤ V2.2 nachträglich aus den veröffentlichten Ständen (Tabelle `tool_versions`) rekonstruiert.
 
+## V3.2 · 19.11.2026
+**Neu**
+- **storage über den Server:** Ist „Server ist die Datenquelle“ an, lässt sich unter 02 Zentral auch die Stufe `storage` wählen. Hochgeladene Dateien (Dateiablage) werden dann einzeln im Server-Speicher abgelegt und auf allen Geräten abgeglichen – neue Dateien hochgeladen, gelöschte entfernt. Zusammen höchstens 50 MB je Lizenz.
+
+**Geändert**
+- „Server ist die Datenquelle“ ist nur noch wählbar, wenn die Lizenz im Admin **„Server freigeben“** hat. Ohne Freigabe ist das Häkchen gesperrt mit Hinweis; ein bereits gewähltes „Server ist die Datenquelle“ fällt auf das zentrale Backup zurück.
+
 ## V3.1 · 19.11.2026
 **Neu**
 - **Server als Datenquelle:** In „Backup einrichten“ › 02 Zentral lässt sich „Server ist die Datenquelle“ einschalten (Stufe `settings` oder `datenbank`). MUSTER.ritl lädt dann beim Start den Serverstand und schreibt jede Änderung nach wenigen Sekunden zurück – so arbeiten mehrere Geräte mit demselben Stand.

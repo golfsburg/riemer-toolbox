@@ -32,7 +32,8 @@ TRACK.ritl (React/Vite): Baustein als TypeScript-Modul `src/utils/ritlFiles.ts` 
 Vorbild: MUSTER.ritl V3.1. Gilt für `settings` und `datenbank` (storage über den Server ist vorbereitet, noch nicht aktiv).
 
 - **Server:** Tabelle `tool_state` (aktueller Stand je Lizenz/Tool/Stufe mit `rev`), RPC `tool_state_api`, Edge Function `tool-backup` mit den Aktionen `state_head`, `state_get`, `state_put` (`base_rev`, `force`; Konflikt → HTTP 409 `{error:'conflict', rev}`). Jedes `state_put` schreibt auch die 10-Tage-Historie (`tool_backups`) und zählt zum 50-MB-Kontingent.
-- **Einstellung:** `CFG.zentral.quelle` (Häkchen „Server ist die Datenquelle“ unter 02 Zentral in „Backup einrichten“; schaltet „zentral sichern“ mit ein). Nutzerin/Nutzer entscheidet.
+- **Freigabe:** Admin › Lizenz › „Server freigeben“ (`licenses.server_quelle`). Ohne Freigabe antworten `state_*` und `files_*` mit `server_not_enabled`; das Tool prüft das mit `srvCheck()` (`state_head`) und merkt es in `riemer-<name>-srv`.
+- **Einstellung:** erst mit Freigabe wählt die Nutzerin/der Nutzer `CFG.zentral.quelle` (Häkchen „Server ist die Datenquelle“ unter 02 Zentral in „Backup einrichten“; schaltet „zentral sichern“ mit ein). `syOn()` = zentral an + quelle + Lizenz + Freigabe.
 - **Ablauf im Tool:** `SY={stufe,rev,sha}` in `localStorage` `riemer-<name>-sync`.
   - Start / online / Übernehmen: `syPull` – Server leer → hochladen; gleicher Inhalt → nur `rev` merken; Server neuer und hier nichts geändert → still übernehmen (`restore(…, still=true)`); beides geändert → Konfliktdialog `#sydlg`.
   - Änderung (`<name>:change`, Theme, Sprache): nach 2,5 s `syPush` mit `base_rev`; Konflikt → Dialog.
@@ -40,6 +41,10 @@ Vorbild: MUSTER.ritl V3.1. Gilt für `settings` und `datenbank` (storage über d
   - Konfliktdialog: „Serverstand übernehmen“ / „Meinen Stand behalten“ (`force`).
 - **Offline-Version:** `quelle` immer aus.
 
-# Vorbereitet: storage über den Server
+# storage über den Server (aktiv ab MUSTER.ritl V3.2)
 
-Privater Bucket `tool-files` (max. 50 MB je Datei) und Tabelle `tool_files` (license_id, tool, file_id, name, mime, bytes, sha256, path `<license_id>/<tool>/<file_id>`). Noch keine Edge-Function-Aktionen, im Tool noch nicht wählbar. Kostenloser Supabase-Tarif: 1 GB Dateispeicher gesamt.
+- Nur mit „Server ist die Datenquelle“; Stufe zentral `storage` = Stand `datenbank` + Dateien der Dateiablage (RITLF).
+- Server: Bucket `tool-files` (privat), Tabelle `tool_files`, RPC `tool_files_api`, Edge Function `tool-backup`: `files_list`, `files_put` (→ signierte Upload-URL, PUT mit FormData wie supabase-js `uploadToSignedUrl`), `files_done`, `files_get` (→ signierte Download-URL, 5 Min.), `files_del`. Kontingent 50 MB je Lizenz für alle Dateien, eine Datei höchstens 50 MB.
+- Tool: Prüfsumme des Stands enthält die Dateiliste (id, Größe, Name) – so merken andere Geräte neue/gelöschte Dateien.
+  - Speichern (`syPush`): erst fehlende/geänderte Dateien hochladen, dann `state_put`; erst nach Erfolg am Server überzählige Dateien löschen (bei Konflikt nichts löschen).
+  - Laden (`syApply`): Stand übernehmen, dann fehlende Dateien herunterladen und lokal überzählige löschen.
