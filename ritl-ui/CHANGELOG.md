@@ -4,7 +4,7 @@ Quelle: `ritl-ui/ritl-ui.html` · verwaltet im Lizenz-Admin unter **Header · RI
 Der Lizenzserver ersetzt in jedem Tool den Block `<!--ritl-ui:start--> … <!--ritl-ui:end-->` beim Ausliefern durch die neueste aktive Version aus dem Kanal der Lizenz (Dev sieht Dev + Beta + Stabil, Beta sieht Beta + Stabil).
 Neueste Version oben.
 
-## 1.4 · 19.11.2026 · Dev
+## 1.4 · 19.11.2026 · Stabil
 **Geändert**
 - Schriftzug „RIEMER Tools“ oben rechts verlinkt auf `mailto:toolbox@riemer.co` (Tooltip „Kontakt: toolbox@riemer.co“) statt auf riemer.co – wie im Skill und in Standard S-04 vorgesehen (Rollout R-09).
 
