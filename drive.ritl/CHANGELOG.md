@@ -3,6 +3,19 @@
 Fahrtenbuch, Fahrzeuge, Tanken, Werkstatt, Pickerl §57a und Statistik · #ritl_drive
 Neueste Version oben.
 
+## V1.9 · 19.11.2026 · DEV
+**Neu**
+- Server als Datenquelle (RITL-Sync, Vorbild MUSTER.ritl V3.2): Häkchen „Server ist die Datenquelle“ in „Backup einrichten“ › 02 Zentral (schaltet „zentral sichern“ mit ein), Stufen settings, datenbank und storage (storage nur mit Datenquelle). Nur wählbar, wenn die Lizenz im Admin mit „Server freigeben“ freigeschaltet ist – sonst gesperrt mit Hinweis und normales zentrales Backup.
+- Abgleich: beim Start und nach dem Wiederverbinden Serverstand holen, Änderungen nach 2,5 s mit Stand-Nummer speichern, alle 60 s und beim Zurückkehren ins Fenster prüfen; Konfliktdialog „Neuerer Stand am Server“ (Meinen Stand behalten / Serverstand übernehmen). Ein leeres neues Gerät übernimmt den Serverstand ohne Rückfrage.
+- Belege (Foto, PDF) bei Tanken, Ausgaben und Pickerl – gespeichert in der Dateiablage RITLF, Fotos verkleinert; mit storage über den Server einzeln abgeglichen (Kontingent 50 MB je Lizenz).
+- Status in 03 Zentral „Server ist die Datenquelle · Stufe … · Stand n“, Tooltip am Backup-Symbol „Server (Datenquelle)“.
+
+**Geändert**
+- Ersetzt den Geräte-Abgleich aus V1.3; wer ihn mit Stufe datenbank genutzt hat, behält ihn als „Server ist die Datenquelle“ (sofern freigegeben).
+- Offline-Version: zentrales Backup und Datenquelle immer aus, Abschnitt 03 Zentral ausgeblendet.
+- Fußzeile mit toolbox@riemer.co, immer am unteren Fensterrand.
+- Die laufende Live-Fahrt bleibt auf dem Gerät und wird nicht mitgesichert.
+
 ## V1.8 · 18.11.2026 · DEV
 **Behoben**
 - GPS-Aufzeichnung speichert jetzt die Höhe; GPX-Import übernimmt `<ele>`, GPX-Export und Übergabe an TRACK.ritl schreiben sie mit.
