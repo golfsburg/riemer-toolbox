@@ -3,6 +3,10 @@
 Vorlage und Spielwiese für den Skill `/riemer-webapp-design` · #ritl_muster
 Neueste Version oben. Versionen ≤ V2.2 nachträglich aus den veröffentlichten Ständen (Tabelle `tool_versions`) rekonstruiert.
 
+## V3.4 · 19.11.2026 · DEV
+**Behoben**
+- Bei Datenquelle A (Ordner ist die Datenbank) war im Backup-Dialog das Häkchen „Nach jeder Änderung automatisch im Ordner sichern“ noch sichtbar, obwohl es dort keine Wirkung hat. Es ist jetzt ausgeblendet.
+
 ## V3.3 · 19.11.2026 · DEV
 **Neu**
 - **Datenquelle je Lizenz (Admin):** Welche Variante gilt, legt der Anbieter im Lizenz-Admin fest – nicht mehr die Nutzerin oder der Nutzer.

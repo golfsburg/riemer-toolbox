@@ -3,6 +3,10 @@
 Beziehungs- und Stakeholder-Map für Firmen, Ansprechpartner, Projekte und Gewerke · #ritl_stake
 Neueste Version oben.
 
+## V2.3 · 19.11.2026 · DEV
+**Behoben**
+- Bei Datenquelle A (Ordner ist die Datenbank) war im Backup-Dialog das Häkchen „Nach jeder Änderung automatisch im Ordner sichern“ noch sichtbar, obwohl es dort keine Wirkung hat. Es ist jetzt ausgeblendet.
+
 ## V2.2 · 19.11.2026 · DEV
 **Neu**
 - **Server als Datenquelle (RITL-Sync):** In „Backup einrichten“ › 02 Zentral lässt sich „Server ist die Datenquelle“ einschalten (Stufe `settings`, `datenbank` oder `storage`). STAKE.ritl lädt dann beim Start den Serverstand und schreibt jede Änderung nach wenigen Sekunden zurück – so arbeiten mehrere Geräte mit demselben Stand.
