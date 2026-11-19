@@ -3,6 +3,21 @@
 Vorlage und Spielwiese für den Skill `/riemer-webapp-design` · #ritl_muster
 Neueste Version oben. Versionen ≤ V2.2 nachträglich aus den veröffentlichten Ständen (Tabelle `tool_versions`) rekonstruiert.
 
+## V3.9 · 19.11.2026 · DEV
+**Neu**
+- **Backup-Baustein ritl-bk 2.1:** Abgleich auf Knopfdruck, eigene Abschnitte im Fenster „Backup“ und weitere Möglichkeiten für alle RIEMER Tools – MUSTER.ritl ist die Vorlage dafür.
+- Auf-/zugeklappte Bereiche und die Ansicht der Map gelten nicht mehr als Änderung: Sie lösen keinen neuen Stand am Server, im Ordner oder in der zentralen Historie aus (gesichert werden sie weiterhin).
+
+**Geändert**
+- Der erste Abgleich mit Server bzw. Ordner beginnt erst, wenn MUSTER.ritl vollständig geladen ist.
+- Nach dem Übernehmen eines Stands (auch vom Server mit Dateien) sind Favoriten-Zähler und Liste sofort aktuell.
+- Dateien am Server werden nach Prüfsumme verglichen – eine geänderte Datei mit gleicher Größe wird jetzt auch abgeglichen.
+- Ein Gerät ohne eigene Daten ersetzt nie von selbst einen vorhandenen Stand am Server, im Ordner oder in der zentralen Historie.
+
+**Behoben**
+- Dateien, die kein Backup sind, werden beim Wiederherstellen mit einer klaren Meldung abgelehnt.
+- Die Fenster „Backup“ und „Backup einrichten“ stehen immer mittig.
+
 ## V3.8 · 19.11.2026 · DEV
 **Neu**
 - **Einheitliches Backup (ritl-bk 2.0, S-17):** Das Backup kommt jetzt aus einem gemeinsamen Baustein, den alle RIEMER Tools bekommen. Fenster und Abläufe bleiben wie gewohnt.

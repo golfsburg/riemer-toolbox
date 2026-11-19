@@ -2,9 +2,35 @@
 
 Zentraler Backup-Baustein aller RIEMER Tools (Regel S-17). Neueste Version oben.
 
-## 2.1 · 19.11.2026 · DEV
+## 2.2 · 19.11.2026 · DEV
+Zusammenführung: 2.1 (unten) plus `dateiAlt` aus der ZEIT-Umbenennung (dort zunächst ebenfalls als „2.1“ bezeichnet).
+
 **Neu**
 - Adapter-Option **`dateiAlt`** (Liste früherer Namen der Backup-Datei) für umbenannte Tools: Dateien mit altem Namen erscheinen im Fenster „Backup“ unter den älteren Sicherungen und lassen sich wiederherstellen. Bei **B · Ordner** liest der Baustein die alte Datei, solange es die neue noch nicht gibt; geschrieben wird nur unter dem neuen Namen, die alte Datei bleibt unverändert liegen. Erster Einsatz: ZEIT.ritl V3.8 (vorher Zeiterfassung.ritl).
+
+## 2.1 · 19.11.2026 · DEV
+Alle Neuerungen sind **optional** – Tools ohne die neuen Angaben verhalten sich wie mit 2.0.
+
+**Neu**
+- **Erst abgleichen, wenn das Tool bereit ist** (`bereit`): Tools, die ihre Daten erst nach dem Start laden, gleichen erst danach mit dem Server bzw. Ordner ab und sichern erst dann zentral.
+- **Ansichtswerte zählen nicht als Änderung** (`ohneSha`, `norm`): z. B. Modul, Ansicht oder auf-/zugeklappte Bereiche lösen keinen neuen Stand am Server, im Ordner oder in der Historie aus – gesichert werden sie trotzdem.
+- **Meldung nach dem Übernehmen** (`nachAnwenden`, Ereignis `ritlbk:applied`): kommt erst, wenn auch die Dateien vom Server bzw. der Stand aus dem Ordner fertig übernommen sind.
+- **Eigene Abschnitte im Fenster „Backup“** (`extra`): Tools zeigen z. B. „04 Dateiablage“ oder „Komplett-Paket“ direkt im Fenster, mit eigenen Knöpfen.
+- **Ältere Dateien anderer Tool-Kennungen laden** (`alias`).
+- **Abgleich auf Knopfdruck** (`RITLBK.sync()`): holt bzw. sendet sofort den aktuellen Stand (B · Ordner, C · Server) oder sichert zentral (A · Lokal).
+- **Ordner-Verknüpfung aus einer anderen Datenbank des Browsers übernehmen** (`alt.idbFsDb`, `alt.idbFsStore`, `alt.idbFsKey`) – einmalig, der Ordner muss nicht neu verknüpft werden.
+- **Tools ohne lokale Speicherung** (`fluechtig`): jeder Start gilt für den Abgleich wie ein neues Gerät und übernimmt den Stand still.
+
+**Geändert**
+- Dateien am Server werden nach **Prüfsumme** verglichen (bisher Größe und Name) – eine geänderte Datei gleicher Größe wird jetzt auch hochgeladen bzw. geholt.
+- Ein **leerer Stand** (ohne eigene Daten) ersetzt nie von selbst einen vorhandenen Stand in der zentralen Historie, am Server oder im Ordner. „Meinen Stand behalten“ und „Jetzt im Ordner sichern“ gehen weiter.
+- Ein Gerät ohne eigene Daten übernimmt bei einem Konflikt den Stand am Server still, statt zu fragen.
+- „Backup wiederherstellen“ lädt zuerst die Dateien und übernimmt danach die Daten – das Tool findet seine Dateien gleich vor.
+
+**Behoben**
+- Dateien, die kein Backup sind (z. B. ein exportiertes Set), werden beim Wiederherstellen mit einer klaren Meldung abgelehnt.
+- Zentrales Sichern bricht nicht mehr mit einem Fehler im Hintergrund ab, solange das Tool noch lädt.
+- Die Fenster „Backup“ und „Backup einrichten“ stehen auch in Tools mittig, die alle Abstände zurücksetzen.
 
 ## 2.0 · 19.11.2026 · DEV
 **Neu**

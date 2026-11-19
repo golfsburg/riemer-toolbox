@@ -10,6 +10,7 @@ Neueste Version oben. Versionen ≤ V3.1 nachträglich aus dem Changelog im Tool
 - Excel-/CSV-Dateien des Datei-Modus behalten ihre Namen (`Zeiterfassung_<Mitarbeiter>`).
 - Backup-Baustein ritl-bk 2.1.
 
+
 ## V3.7 · 19.11.2026 · DEV
 **Neu**
 - **Einheitliches Backup (ritl-bk 2.0):** Das Backup kommt jetzt aus dem gemeinsamen Baustein aller RIEMER Tools. Fenster und Abläufe bleiben wie gewohnt.
