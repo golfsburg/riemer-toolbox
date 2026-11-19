@@ -4,6 +4,23 @@
 Start: index.html im Browser öffnen (Chrome/Edge/Firefox) oder auf GitHub Pages ablegen.
 Beim Öffnen wird die Beispielzeichnung „Beispiel_Schnitt.dxf“ geladen.
 
+## V5.7 · 19.11.2026 · DEV
+**Neu**
+- **Einheitliches Backup (ritl-bk 2.0, S-17):** Das Backup kommt jetzt aus dem gemeinsamen Baustein aller RIEMER Tools – gleiche Fenster und Abläufe wie in den anderen Tools.
+- **Neue Begriffe:** Datenquelle **A · Lokal**, **B · Ordner**, **C · Server** und Stufe **1 · settings**, **2 · datenbank** (+ Vorlage, Rohrnormen, Revit-Zuordnung), **3 · storage** (+ Projekt mit allen importierten Originaldateien) – kurz z. B. C3.
+- **„Backup einrichten“:** zeigt oben, was die Lizenz höchstens erlaubt (z. B. „Lizenz: höchstens C3“) und das Kontingent. Du wählst Datenquelle und Stufe darunter; was über der Lizenz liegt, ist gesperrt („· durch die Lizenz begrenzt“). Die Wahl gilt für MSX.ritl auf allen Geräten, „Vorgabe der Lizenz verwenden“ setzt sie zurück.
+- **Stufe 3 auch über den Server (C3):** Projekt und Originalzeichnungen (DWG, DXF, PDF, MSX, ZIP) gehen über den Server auf alle Geräte; ein neues Gerät baut das Projekt ohne Rückfrage auf.
+- **Projekt bleibt erhalten:** Mit Stufe 3 kommt das Projekt (Bereich 01) nach dem Neuladen automatisch zurück.
+- **Fenster „Backup“ › 03 Zentral:** Stände der Historie lassen sich mit 🗑 löschen; darunter steht die Belegung „x von y MB“.
+
+**Geändert**
+- Stufe 3 braucht keinen verknüpften Ordner mehr: Projekt und Originale stehen direkt in der Backup-Datei (A, B) bzw. am Server (C). Große Zeichnungen machen die Backup-Datei entsprechend größer.
+- Mit Lizenz gilt die Vorgabe sofort, ohne dass sich „Backup einrichten“ öffnet (nur bei B ohne verknüpften Ordner).
+- Backups bis V5.6 lassen sich weiter wiederherstellen – auch Projekt-Backups (Stufe storage), deren Dateien im Browser bzw. im Unterordner MSX-ritl_Dateien liegen.
+
+**Behoben**
+- Ein neues Gerät mit Datenquelle C oder B fragt nicht mehr fälschlich „Neuerer Stand am Server/im Ordner“.
+
 ## V5.6 · 19.11.2026 · DEV
 **Neu**
 - **Backup-Stufe je Lizenz:** Die Stufe (settings, datenbank oder storage) legt der Anbieter im Lizenz-Admin fest. Sie gilt auf allen Geräten und in allen RIEMER Tools – das Backup muss nicht mehr auf jedem Gerät eingerichtet werden.

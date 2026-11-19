@@ -3,6 +3,24 @@
 Fardriver-Controller einstellen und simulieren – Ströme, Gänge, Kurven und Funktionen mit Wirkung auf Tempo, Beschleunigung und Reichweite · #ritl_foc
 Neueste Version oben. Versionen ≤ V1.2 waren Entwürfe im Chat und wurden nicht veröffentlicht.
 
+## V1.7 · 19.11.2026 · DEV
+**Neu**
+- **Einheitliches Backup (ritl-bk 2.0, S-17):** Das Backup kommt jetzt aus dem gemeinsamen Baustein aller RIEMER Tools. Fenster und Abläufe bleiben wie gewohnt.
+- **Neue Begriffe:** Datenquelle **A · Lokal**, **B · Ordner**, **C · Server** und Stufe **1 · settings**, **2 · datenbank**, **3 · storage** (kurz z. B. C3).
+- **„Backup einrichten“:** zeigt oben, was die Lizenz höchstens erlaubt (z. B. „Lizenz: höchstens C3“) und das Kontingent. Du wählst Datenquelle und Stufe darunter; was über der Lizenz liegt, ist gesperrt („· durch die Lizenz begrenzt“). Die Wahl gilt für FOC.ritl auf allen Geräten; „Vorgabe der Lizenz verwenden“ setzt sie zurück.
+- **Datenquelle wechseln** mit Rückfrage – der Stand wird dabei übernommen (in den Ordner geschrieben bzw. mit dem Server abgeglichen).
+- **Fenster „Backup“ › 03 Zentral:** Stände der Historie lassen sich mit 🗑 löschen; darunter steht die Belegung „x von y MB“.
+- **Stufe 3 · storage** geht bei C · Server jetzt auch über den Server (Dateiablage über das Kontingent der Lizenz). FOC.ritl lädt derzeit keine Dateien hoch – die Dateiablage ist leer.
+- Ein neues Gerät ohne eigene Daten übernimmt den Stand vom Server bzw. aus dem Ordner ohne Rückfrage.
+
+**Geändert**
+- Mit Lizenz gilt die Vorgabe sofort, ohne dass sich „Backup einrichten“ öffnet (nur bei B ohne verknüpften Ordner).
+- C · Server mit Stufe 1 gleicht nur die Einstellungen (Hell/Dunkel, Ansicht, Setups) über den Server ab; Setup, Basis und Fahrzeugdaten bleiben im Browser.
+- Setups (Favoriten) › „In Ordner teilen“ / „Aus Ordner übernehmen“ nutzen den Ordner aus dem Backup wie bisher.
+
+**Behoben**
+- Ein neues Gerät mit Datenquelle C oder B fragt nicht mehr fälschlich „Neuerer Stand am Server/im Ordner“.
+
 ## V1.6 · 19.11.2026 · DEV
 **Neu**
 - **Backup-Stufe je Lizenz (S-16):** Die Stufe (settings, datenbank oder storage) legt der Anbieter im Lizenz-Admin fest. Sie gilt in allen RIEMER Tools und auf allen Geräten – das Backup muss nicht mehr auf jedem Gerät einzeln eingerichtet werden.
