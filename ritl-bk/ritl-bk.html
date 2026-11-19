@@ -1,9 +1,9 @@
-<!-- ritl-bk 2.1 · 19.11.2026 · DEV – einheitliches Backup der RIEMER Tools (Regel S-17, Rollout R-13). Vorbild MUSTER.ritl V3.9.
+<!-- ritl-bk 2.2 · 19.11.2026 · DEV – einheitliches Backup der RIEMER Tools (Regel S-17, Rollout R-13). Vorbild MUSTER.ritl V3.9.
      Einbau: Adapter window.RITL_BK (siehe README.md) als <script> setzen, danach diesen Block unverändert (von ritl-bk:start bis ritl-bk:end) in den <body> nach dem Header kopieren.
      2.1 ist rückwärtskompatibel: neue Angaben (bereit, ohneSha, norm, nachAnwenden, fluechtig, extra, alias, alt.idbFs*) sind optional. -->
 <!--ritl-bk:start-->
 <style id="ritl-bk-css">
-/* ritl-bk 2.1 · 19.11.2026 – einheitliches Backup der RIEMER Tools (Regel S-17). Nichts Tool-Spezifisches hier ändern.
+/* ritl-bk 2.2 · 19.11.2026 – einheitliches Backup der RIEMER Tools (Regel S-17). Nichts Tool-Spezifisches hier ändern.
    Nur Tokens der Farbkarte. Alle Regeln gelten nur für die Dialoge des Bausteins (.rbk) und das Symbol am Knopf #backupBtn (.bkind). */
 dialog.rbk{border:1px solid var(--line);border-radius:var(--radius-panel,16px);background:var(--surface);color:var(--ink);padding:0;width:min(640px,94vw);box-shadow:0 20px 60px rgba(0,0,0,.25);font:400 14px/20px var(--sans,"Inter",system-ui,sans-serif);margin:auto}
 dialog.rbk::backdrop{background:rgba(15,20,28,.45)}
@@ -74,7 +74,7 @@ dialog.rbk::backdrop{background:rgba(15,20,28,.45)}
 .bkind .offl{color:var(--muted)}
 </style>
 <script id="ritl-bk-js">
-/* ritl-bk 2.1 · 19.11.2026 – einheitliches Backup der RIEMER Tools (Regel S-17, Rollout R-13, Vorbild MUSTER.ritl V3.9).
+/* ritl-bk 2.2 · 19.11.2026 – einheitliches Backup der RIEMER Tools (Regel S-17, Rollout R-13, Vorbild MUSTER.ritl V3.9).
    Nichts Tool-Spezifisches hier ändern – das Tool setzt VOR diesem Block den Adapter window.RITL_BK (Anleitung riemer-toolbox/ritl-bk/README.md):
      tool, name, datei, prefix, ereignis, settings(), daten(), dateien()?, dateienLaden(list)?, anwenden(stufe,obj,quelle,still), leer()?,
      legacy(o)?, texte:{settings,datenbank,storage,rueckgaengig}?, alt:{bkcfg,srv,srvst,sync,ordner,oq,fs,bklic,idbFiles,idbFs,idbFsDb,idbFsStore,idbFsKey}?, version?
@@ -89,11 +89,13 @@ dialog.rbk::backdrop{background:rgba(15,20,28,.45)}
      ab 2.1: sync() (Abgleich auf Knopfdruck, Promise) · extra() (eigene Abschnitte neu zeichnen) · Ereignis ritlbk:applied {quelle,stufe,text,still} */
 (function(){"use strict";
 const A=window.RITL_BK;if(!A||!A.tool||window.RITLBK)return;
-const VERSION='2.1',$=id=>document.getElementById(id);
+const VERSION='2.2',$=id=>document.getElementById(id);
 const TOOL=A.tool,NAME=A.name||A.tool,PRE=A.prefix||TOOL.replace(/-ritl$/,''),BKNAME=A.datei||`Backup_${NAME.replace('.','-')}.json`,EV=A.ereignis||PRE+':change';
 const BASE=BKNAME.replace(/^Backup_/,'').replace(/\.json$/i,''),RX=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
 const OLDRE=new RegExp('^\\d{8}-\\d{4}_'+RX(BASE)+'_Backup\\.json$'),COPYRE=new RegExp('^Backup_'+RX(BASE)+'.+\\.json$','i');
 const ALT=A.alt||{},K=n=>ALT[n]||`riemer-${PRE}-${n}`;
+// 2.2: frühere Namen der Backup-Datei (Tool umbenannt) – im Ordner sichtbar und wiederherstellbar; Ordner-Datenbank liest sie, bis die neue Datei existiert
+const ALTN=[].concat(A.dateiAlt||[]).filter(n=>n&&n!==BKNAME);
 const LIST=v=>Array.isArray(v)?v:v!=null&&v!==''?[v]:[];
 const ALIAS=[TOOL,...LIST(A.alias).map(String)];   // 2.1: weitere Tool-Kennungen beim Laden alter Dateien
 // 2.1: erst nach A.bereit abgleichen bzw. zentral sichern (ohne bereit sofort – wie 2.0)
@@ -235,7 +237,7 @@ async function fsWrite(name,obj,ask){if(!await fsPerm(ask)){const e=new Error();
 async function fsRead(name,ask){if(!await fsPerm(ask)){const e=new Error();e.name='NotAllowedError';throw e}
  const fh=await FS.handle.getFileHandle(name);return JSON.parse(await (await fh.getFile()).text())}
 // eine Backup-Datei je Tool; ältere Sicherungen mit Zeitstempel (JJJJMMTT-HHMM_NAME-ritl_Backup.json) bleiben wiederherstellbar
-async function fsList(){const l=[];for await(const [n,h] of FS.handle.entries())if(h.kind==='file'&&(n===BKNAME||OLDRE.test(n)))l.push({n,t:(await h.getFile()).lastModified});return l.sort((a,b)=>(b.n===BKNAME)-(a.n===BKNAME)||b.t-a.t)}
+async function fsList(){const l=[];for await(const [n,h] of FS.handle.entries())if(h.kind==='file'&&(n===BKNAME||OLDRE.test(n)||ALTN.includes(n)))l.push({n,t:(await h.getFile()).lastModified});return l.sort((a,b)=>(b.n===BKNAME)-(a.n===BKNAME)||b.t-a.t)}
 async function run(fn,okMsg){if(FS.busy)return;FS.busy=true;renderFs();try{const r=await fn();FS.err='';if(okMsg)toast(typeof okMsg==='function'?okMsg(r):okMsg);return r}catch(e){FS.err=fsErr(e);if(FS.err)toast(FS.err)}finally{FS.busy=false;renderFs()}}
 async function link(){try{const h=await window.showDirectoryPicker({id:TOOL.slice(0,32),mode:'readwrite'});FS.handle=h;FS.sess='';FS.err='';await idbSet(h).catch(()=>{});await fsPerm(true);toast(`Ordner „${h.name}“ verknüpft`);if(ORD()){applyEff();if(!$('bksetup').open)setTimeout(()=>oqPull(false),50)}}catch(e){const m=fsErr(e);if(m)toast(m)}renderFs()}
 async function unlink(){if(!confirm(`Verknüpfung zum Ordner „${FS.handle.name}“ lösen?\nDie Dateien im Ordner bleiben erhalten.`))return;FS.handle=null;FS.ok=false;FS.err='';FS.sess='';await idbSet(null).catch(()=>{});renderFs();toast('Verknüpfung gelöst')}
@@ -439,7 +441,8 @@ if(A.fluechtig){SY={...SY,stufe:'',rev:0,sha:'',at:null};sySave();OQ={...OQ,rev:
 const oqStufe=()=>CFG.lokal.stufe==='settings'?'datenbank':CFG.lokal.stufe;
 async function fileSha(o){const d=nurDaten(o&&o.daten);return sha(shaTxt(d)??JSON.stringify(d))}
 async function oqLocal(){const o=await stufeObjA(oqStufe());delete o.daten.ordner;return{o,h:await fileSha(o)}}
-async function oqRead(){let fh;try{fh=await FS.handle.getFileHandle(BKNAME)}catch(e){if(e&&e.name==='NotFoundError')return null;throw e}
+async function oqRead(){let fh;try{fh=await FS.handle.getFileHandle(BKNAME)}catch(e){if(!(e&&e.name==='NotFoundError'))throw e;
+  for(const n of ALTN){try{fh=await FS.handle.getFileHandle(n);break}catch(e2){if(!(e2&&e2.name==='NotFoundError'))throw e2}}if(!fh)return null}
  const f=await fh.getFile(),o=JSON.parse(await f.text());return{o,mod:f.lastModified,rev:(o.ritl&&+o.ritl.rev)||0}}
 async function oqCopies(){const l=[];try{for await(const [n,h] of FS.handle.entries())if(h.kind==='file'&&n!==BKNAME&&COPYRE.test(n))l.push(n)}catch(e){}return l}
 async function oqWrite(o,rev){o.ritl={...o.ritl,rev,geraet:(LS('riemer-geraet')||'').slice(0,8)};const fh=await FS.handle.getFileHandle(BKNAME,{create:true}),w=await fh.createWritable();
