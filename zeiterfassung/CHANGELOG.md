@@ -3,6 +3,14 @@
 Projektzeiten erfassen, Timer und manuelle Einträge, Auswertung, Excel/CSV-Datei-Modus · #ritl_zeiterfassung
 Neueste Version oben. Versionen ≤ V3.1 nachträglich aus dem Changelog im Tool rekonstruiert (V1.0–V2.3: 17.07.2026).
 
+## V3.5 · 19.11.2026 · DEV
+**Behoben**
+- Datenquelle A (Ordner ist die Datenbank): Ändert ein anderes Gerät nur Einstellungen (z. B. Hell/Dunkel, Mitarbeitername), fragt Zeiterfassung.ritl nicht mehr fälschlich „Neuerer Stand im Ordner“. Für den Ordner zählen nur noch die Arbeitsdaten; die Einstellungen gleicht der Server ab.
+- Hat nur dieses Gerät eine Einstellung geändert und liegt im Ordner inzwischen ein neuerer Stand, lädt Zeiterfassung.ritl ihn ohne Abfrage, statt „Neuerer Stand im Ordner“ zu fragen.
+- Gibt es gleichzeitig eine Abfrage für den Ordner und eine für den Server, kommen sie nacheinander – die zweite überschreibt die erste nicht mehr.
+- „Ordner verknüpfen“ in „Backup einrichten“: Der Abgleich startet erst mit „Übernehmen“, die Abfrage schiebt sich nicht mehr über das offene Fenster.
+- Lässt sich die Ordner-Verknüpfung im Browser nicht speichern, bleibt Zeiterfassung.ritl nicht mehr hängen.
+
 ## V3.4 · 19.11.2026 · DEV
 **Neu**
 - **Server als Datenquelle (RITL-Sync):** In „Backup einrichten“ › 02 Zentral lässt sich „Server ist die Datenquelle“ einschalten (Stufe `settings`, `datenbank` oder `storage`). Zeiterfassung.ritl lädt dann beim Start den Serverstand und schreibt jede Änderung nach wenigen Sekunden zurück – so arbeiten mehrere Geräte mit demselben Stand.

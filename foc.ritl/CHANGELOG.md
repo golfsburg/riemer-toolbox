@@ -3,6 +3,10 @@
 Fardriver-Controller einstellen und simulieren – Ströme, Gänge, Kurven und Funktionen mit Wirkung auf Tempo, Beschleunigung und Reichweite · #ritl_foc
 Neueste Version oben. Versionen ≤ V1.2 waren Entwürfe im Chat und wurden nicht veröffentlicht.
 
+## V1.5 · 19.11.2026 · DEV
+**Behoben**
+- Datenquelle A: Ändert ein Gerät nur Einstellungen, während ein anderes Gerät die Ordner-Datei neu geschrieben hat, holt es den neueren Stand, statt fälschlich ‚Neuerer Stand im Ordner‘ zu fragen.
+
 ## V1.4 · 19.11.2026 · DEV
 **Neu**
 - **Backup einrichten:** Beim ersten Start (später über Backup › „Backup einrichten …“) wählst du, wo und wie umfangreich FOC.ritl gesichert wird – mit der Größe je Stufe:

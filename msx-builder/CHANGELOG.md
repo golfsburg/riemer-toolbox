@@ -4,6 +4,13 @@
 Start: index.html im Browser öffnen (Chrome/Edge/Firefox) oder auf GitHub Pages ablegen.
 Beim Öffnen wird die Beispielzeichnung „Beispiel_Schnitt.dxf“ geladen.
 
+## V5.2 · 19.11.2026 · DEV
+**Behoben**
+- Datenquelle A (Ordner ist die Datenbank): Ändert ein anderes Gerät nur Einstellungen (z. B. Hell/Dunkel, Sprache, Ansicht), fragt MSX.ritl nicht mehr fälschlich „Neuerer Stand im Ordner“. Für den Ordner zählen nur noch die Arbeitsdaten (Vorlage, Rohrnormen, Revit-Zuordnung); die Einstellungen gleicht der Server ab.
+- Gibt es gleichzeitig eine Abfrage für den Ordner und eine für den Server, kommen sie nacheinander – die zweite überschreibt die erste nicht mehr.
+- „Ordner verknüpfen“ in „Backup einrichten“: Der Abgleich startet erst mit „Übernehmen“, die Abfrage schiebt sich nicht mehr über das offene Fenster.
+- Lässt sich die Ordner-Verknüpfung im Browser nicht speichern, bleibt MSX.ritl nicht mehr hängen.
+
 ## V5.1 · 19.11.2026 · DEV
 **Neu**
 - Backup nach RIEMER-Standard: Knopf „Backup“ im Header mit Symbol für Lokal (Ordner) und Server (Wolke) – Farbe zeigt den Zustand, Tooltip nennt ihn im Klartext.
