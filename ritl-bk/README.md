@@ -48,3 +48,27 @@ Vorbild: MUSTER.ritl V3.1. Gilt für `settings` und `datenbank` (storage über d
 - Tool: Prüfsumme des Stands enthält die Dateiliste (id, Größe, Name) – so merken andere Geräte neue/gelöschte Dateien.
   - Speichern (`syPush`): erst fehlende/geänderte Dateien hochladen, dann `state_put`; erst nach Erfolg am Server überzählige Dateien löschen (bei Konflikt nichts löschen).
   - Laden (`syApply`): Stand übernehmen, dann fehlende Dateien herunterladen und lokal überzählige löschen.
+
+# Datenquelle je Lizenz: A Ordner · B Server (ab MUSTER.ritl V3.3)
+
+Standard **S-14**. Der Anbieter legt im Lizenz-Admin › „Datenquelle · Datenhoheit“ fest, wo die Daten einer Lizenz liegen
+(`licenses.datenquelle`, `server_quelle` folgt automatisch):
+
+| Wert | Bedeutung | Server (`tool_state`, `tool_backups`, `tool_files`) | Browser |
+| --- | --- | --- | --- |
+| `lokal` | Daten im Browser, Backups wie bisher | zentrales Backup mit Historie (settings, datenbank); `state_*` → `server_not_enabled` | alle |
+| `server` (**B**) | Server ist die Datenbank (RITL-Sync) | alle Stufen inkl. storage/Dateien | alle |
+| `ordner` (**A**) | Datei im OneDrive/SharePoint-Ordner ist die Datenbank (Datenhoheit) | **nur `settings`** – `state_put`/`save` mit anderer Stufe → `ordner_datenhoheit`, `files_*` → `server_not_enabled` | nur Chrome/Edge (File System Access API) |
+
+- **Server:** `state_head` liefert `datenquelle` (auch im Fehlerfall `server_not_enabled`). Die Grenzen für A erzwingt der Server – auch ältere Tools können keine Arbeitsdaten ablegen.
+- **Tool:** `srvCheck()` merkt `SRV.mode` (`riemer-<name>-srv`), `applyMode()` setzt die Konfiguration:
+  - B: `CFG.zentral = {on, quelle: true, stufe ≥ datenbank}` – sonst unverändert RITL-Sync.
+  - A: `CFG.zentral = {on, quelle: true, stufe: 'settings'}` (RITL-Sync nur für Einstellungen, `settingsObj()` enthält `ordner: {name, datei}`), `CFG.lokal = {on, stufe ≥ datenbank}`.
+- **A im Tool (Ordner-Sync, Präfix `oq`):** Zustand `OQ = {rev, sha, mod}` in `riemer-<name>-oq`.
+  - Datei = Backup-Objekt der lokalen Stufe mit `ritl.rev` (Stand-Nummer) und `ritl.geraet`; Prüfsumme über `daten` ohne `ordner`.
+  - `oqPull` (Start, Verknüpfen, Zugriff erneuert, Rückkehr ins Fenster, alle 20 s bei geändertem `lastModified`): Datei fehlt → schreiben; gleich → nur merken; Datei neuer und hier nichts geändert → still übernehmen; beides geändert → Konfliktdialog (`#sydlg` mit Ordner-Texten).
+  - `oqPush` (2,5 s nach `<name>:change`, Theme, Sprache; beim Verlassen sofort): vorher Datei lesen – hat ein anderes Gerät inzwischen geschrieben, Konfliktdialog statt Überschreiben; sonst `rev + 1`.
+  - OneDrive-Konfliktkopien (`Backup_<NAME>-ritl*.json` außer der Hauptdatei) werden im Status gemeldet.
+  - Kein Ordner auf diesem Gerät → „Backup einrichten“ öffnet sich mit Hinweis; nach Browser-Neustart ohne Zugriff → Backup-Dialog mit „Zugriff erneuern“.
+  - Safari/Firefox/iOS: Hinweis „nur Chrome oder Edge am Computer“, Arbeit nur lokal.
+- **Prompt für die Tool-Chats:** „Datenquelle je Lizenz (S-14) einbauen nach `riemer-toolbox/ritl-bk/README.md` › Datenquelle je Lizenz, Vorbild MUSTER.ritl V3.3 (Funktionen `ORD`, `SRVB`, `applyMode`, `oq*`, `setupOrd`, `setupSrv`). Als neue DEV-Version veröffentlichen, CHANGELOG und Quellen-ZIP.“
