@@ -1,7 +1,14 @@
-# CHANGELOG – Zeiterfassung.ritl (RIEMER Tools)
+# CHANGELOG – ZEIT.ritl (RIEMER Tools)
 
-Projektzeiten erfassen, Timer und manuelle Einträge, Auswertung, Excel/CSV-Datei-Modus · #ritl_zeiterfassung
+Projektzeiten erfassen, Timer und manuelle Einträge, Auswertung, Excel/CSV-Datei-Modus · #ritl_zeit (bis V3.7: Zeiterfassung.ritl · #ritl_zeiterfassung)
 Neueste Version oben. Versionen ≤ V3.1 nachträglich aus dem Changelog im Tool rekonstruiert (V1.0–V2.3: 17.07.2026).
+
+## V3.8 · 19.11.2026 · DEV
+**Geändert**
+- **Neuer Name: ZEIT.ritl** (vorher Zeiterfassung.ritl) nach der .ritl-Namenskonvention – Header, Titel, Fußzeile, Druckdokument, Hashtag `#ritl_zeit`. Tool-ID, Adresse und die Daten im Browser bleiben gleich.
+- Die Backup-Datei heißt jetzt **`Backup_ZEIT-ritl.json`**. Vorhandene `Backup_Zeiterfassung-ritl.json` im OneDrive-/SharePoint-Ordner werden weiter gefunden: Sie stehen im Fenster „Backup“ zum Wiederherstellen bereit, und bei **B · Ordner** liest ZEIT.ritl die alte Datei, bis die neue geschrieben ist. Die alte Datei bleibt unverändert liegen und kann später gelöscht werden.
+- Excel-/CSV-Dateien des Datei-Modus behalten ihre Namen (`Zeiterfassung_<Mitarbeiter>`).
+- Backup-Baustein ritl-bk 2.1.
 
 ## V3.7 · 19.11.2026 · DEV
 **Neu**

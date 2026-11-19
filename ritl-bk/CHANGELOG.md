@@ -2,6 +2,10 @@
 
 Zentraler Backup-Baustein aller RIEMER Tools (Regel S-17). Neueste Version oben.
 
+## 2.1 · 19.11.2026 · DEV
+**Neu**
+- Adapter-Option **`dateiAlt`** (Liste früherer Namen der Backup-Datei) für umbenannte Tools: Dateien mit altem Namen erscheinen im Fenster „Backup“ unter den älteren Sicherungen und lassen sich wiederherstellen. Bei **B · Ordner** liest der Baustein die alte Datei, solange es die neue noch nicht gibt; geschrieben wird nur unter dem neuen Namen, die alte Datei bleibt unverändert liegen. Erster Einsatz: ZEIT.ritl V3.8 (vorher Zeiterfassung.ritl).
+
 ## 2.0 · 19.11.2026 · DEV
 **Neu**
 - **Ein Baustein für alle Tools:** Backup-Knopf mit Symbol, Fenster „Backup“, „Backup einrichten“, Konfliktdialog, Dateiablage (RITLF), Ordner-Verknüpfung (OneDrive/SharePoint), zentrales Backup, Server als Datenbank (RITL-Sync), Ordner als Datenbank, Offline-Version und Admin-Vorschau in einem Block `<!--ritl-bk:start-->…<!--ritl-bk:end-->`. Das Tool liefert nur noch einen kleinen Adapter `window.RITL_BK`.

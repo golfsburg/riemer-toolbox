@@ -1,4 +1,6 @@
-# Zeiterfassung.ritl
+# ZEIT.ritl – Zeiterfassung
+
+> Bis V3.7 hieß das Tool „Zeiterfassung.ritl“. Tool-ID (`zeiterfassung`), Ordner und Daten im Browser sind gleich geblieben.
 
 Projektbezogene Zeiterfassung mit Timer (Start/Pause/Stopp) oder manueller Eingabe – mehrere Projekte parallel,
 Kategorien, Auswertung je Projekt (inkl. Druck/PDF), CSV-Export und -Import. Optional Datei-Modus: schreibt automatisch in eine Excel- oder CSV-Datei in einem OneDrive-/SharePoint-Ordner (RIEMER Tools).
