@@ -3,6 +3,10 @@
 PDF-Dokumente aus Lesezeichen-Abschnitten und Einzelseiten zusammenstellen – mit verlinktem Inhaltsverzeichnis · #ritl_pdf
 Neueste Version oben. Versionen ≤ V1.3 nachträglich rekonstruiert (aus `tool_versions` und Entwicklungsverlauf).
 
+## V1.7 · 19.11.2026 · DEV
+**Geändert**
+- Schriften (Inter, JetBrains Mono) kommen jetzt von der RIEMER Toolbox selbst statt von Google Fonts. Beim Öffnen von PDF.ritl gehen keine Anfragen mehr an Google; Aussehen unverändert.
+
 ## V1.6 · 19.11.2026 · DEV
 **Neu**
 - **Server als Datenquelle (RITL-Sync):** In „Backup einrichten“ › 02 Zentral lässt sich „Server ist die Datenquelle“ einschalten (Stufe `settings` oder `datenbank`). PDF.ritl lädt dann beim Start den Serverstand und schreibt jede Änderung nach wenigen Sekunden zurück – so arbeiten mehrere Geräte mit derselben Zusammenstellung. Die PDF-Originale bleiben im Ordner bzw. im Komplett-Paket.

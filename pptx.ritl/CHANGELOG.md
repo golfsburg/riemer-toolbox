@@ -3,6 +3,10 @@
 Präsentationen aus Abschnitten zusammenstellen (DECK.ritl) und Meetings planen (TIMING.ritl) · #ritl_pptx
 Neueste Version oben. Ältere Versionen siehe Admin › Tools › Versionen (Tabelle `tool_versions`); dieser CHANGELOG beginnt mit V2.9.
 
+## V3.3 · 19.11.2026 · DEV
+**Geändert**
+- Schriften (Inter, JetBrains Mono) kommen jetzt von der RIEMER Toolbox selbst statt von Google Fonts. Beim Öffnen von PPTX.ritl gehen keine Anfragen mehr an Google; Aussehen unverändert.
+
 ## V3.2 · 19.11.2026 · DEV
 **Neu**
 - **Server als Datenquelle (RITL-Sync):** In „Backup einrichten“ › 02 Zentral lässt sich „Server ist die Datenquelle“ einschalten (Stufe `settings` oder `datenbank`). PPTX.ritl lädt dann beim Start den Serverstand und schreibt jede Änderung nach wenigen Sekunden zurück – so arbeiten mehrere Geräte mit derselben Zusammenstellung und Agenda. Die PPTX-Originale (Stufe `storage`, Komplett-Paket) bleiben lokal bzw. im Ordner.
