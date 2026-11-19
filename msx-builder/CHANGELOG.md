@@ -4,6 +4,11 @@
 Start: index.html im Browser öffnen (Chrome/Edge/Firefox) oder auf GitHub Pages ablegen.
 Beim Öffnen wird die Beispielzeichnung „Beispiel_Schnitt.dxf“ geladen.
 
+## V5.5 · 19.11.2026 · DEV
+**Behoben**
+- Backup-Stufe storage mit Datenquelle A (der OneDrive/SharePoint-Ordner ist die Datenbank): Die Stufe sprang beim Start und nach „Übernehmen“ auf datenbank zurück, Projekt und Dateien wurden nicht abgelegt. Jetzt bleibt storage gewählt; der Ordner-Abgleich speichert Projekt-Browser und Arbeitsstand in `Backup_MSX-ritl.json` und die Originaldateien in `MSX-ritl_Dateien`, ein anderes Gerät lädt beides.
+- Nach dem Neuladen der Seite ist das Projekt im Browser leer. Dieser leere Stand überschreibt das Projekt-Backup im Ordner nicht mehr: Mit Datenquelle A wird der Stand aus dem Ordner automatisch geladen, sonst pausiert das automatische Sichern mit dem Hinweis „Projekt-Backup im Ordner gefunden – über Backup › 02 wiederherstellen“.
+
 ## V5.4 · 19.11.2026 · DEV
 Baut auf V5.2 auf. V5.3 (Vorlagen, Idee I003) ist zurückgezogen und in dieser Version nicht enthalten.
 
