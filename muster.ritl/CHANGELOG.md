@@ -3,6 +3,21 @@
 Vorlage und Spielwiese für den Skill `/riemer-webapp-design` · #ritl_muster
 Neueste Version oben. Versionen ≤ V2.2 nachträglich aus den veröffentlichten Ständen (Tabelle `tool_versions`) rekonstruiert.
 
+## V3.4 · 19.11.2026 · DEV
+**Behoben**
+- Bei Datenquelle A (Ordner ist die Datenbank) war im Backup-Dialog das Häkchen „Nach jeder Änderung automatisch im Ordner sichern“ noch sichtbar, obwohl es dort keine Wirkung hat. Es ist jetzt ausgeblendet.
+
+## V3.3 · 19.11.2026 · DEV
+**Neu**
+- **Datenquelle je Lizenz (Admin):** Welche Variante gilt, legt der Anbieter im Lizenz-Admin fest – nicht mehr die Nutzerin oder der Nutzer.
+  - **A · Ordner ist die Datenbank (Datenhoheit):** Die Datei `Backup_MUSTER-ritl.json` im verknüpften OneDrive-/SharePoint-Ordner ist der aktuelle Stand. MUSTER.ritl lädt sie beim Start, schreibt jede Änderung nach wenigen Sekunden zurück und erkennt Änderungen anderer Geräte (beim Zurückkehren ins Fenster und alle 20 s). Jeder Stand hat eine Nummer; bei gleichzeitigen Änderungen fragt das Tool „Stand im Ordner übernehmen“ oder „Meinen Stand behalten“. Konfliktkopien von OneDrive werden angezeigt. Am Server liegen nur die Einstellungen (settings) samt Ordnername – so wissen neue Geräte, welcher Ordner zu verknüpfen ist.
+  - **B · Server ist die Datenbank:** „Server ist die Datenquelle“ ist automatisch eingeschaltet (Stufe datenbank oder storage) – auf allen Geräten und in jedem Browser.
+- „Backup einrichten“ zeigt die Variante der Lizenz und sperrt die Auswahl, die dazu nicht passt.
+
+**Geändert**
+- Variante A funktioniert nur in Chrome oder Edge am Computer. In Safari, Firefox und auf iPhone/iPad erklärt das Tool das im Backup-Dialog; Daten lassen sich dort nur per „Backup speichern“ in den Ordner legen.
+- Fußzeile: Kontakt per Mail `toolbox@riemer.co` statt Link auf riemer.co.
+
 ## V3.2 · 19.11.2026
 **Neu**
 - **storage über den Server:** Ist „Server ist die Datenquelle“ an, lässt sich unter 02 Zentral auch die Stufe `storage` wählen. Hochgeladene Dateien (Dateiablage) werden dann einzeln im Server-Speicher abgelegt und auf allen Geräten abgeglichen – neue Dateien hochgeladen, gelöschte entfernt. Zusammen höchstens 50 MB je Lizenz.

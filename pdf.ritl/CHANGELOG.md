@@ -3,6 +3,25 @@
 PDF-Dokumente aus Lesezeichen-Abschnitten und Einzelseiten zusammenstellen – mit verlinktem Inhaltsverzeichnis · #ritl_pdf
 Neueste Version oben. Versionen ≤ V1.3 nachträglich rekonstruiert (aus `tool_versions` und Entwicklungsverlauf).
 
+## V1.6 · 19.11.2026 · DEV
+**Neu**
+- **Server als Datenquelle (RITL-Sync):** In „Backup einrichten“ › 02 Zentral lässt sich „Server ist die Datenquelle“ einschalten (Stufe `settings` oder `datenbank`). PDF.ritl lädt dann beim Start den Serverstand und schreibt jede Änderung nach wenigen Sekunden zurück – so arbeiten mehrere Geräte mit derselben Zusammenstellung. Die PDF-Originale bleiben im Ordner bzw. im Komplett-Paket.
+- Jeder Stand am Server hat eine Nummer. Hat ein anderes Gerät inzwischen gespeichert und gibt es auch hier Änderungen, fragt das Tool: „Serverstand übernehmen“ oder „Meinen Stand behalten“. Neuere Stände anderer Geräte werden beim Zurückkehren ins Fenster und jede Minute erkannt und ohne eigene Änderungen automatisch geladen.
+- **Datenquelle je Lizenz (Admin):** Welche Variante gilt, legt der Anbieter im Lizenz-Admin fest.
+  - **A · Ordner ist die Datenbank (Datenhoheit):** Die Datei `Backup_PDF-ritl.json` im verknüpften OneDrive-/SharePoint-Ordner ist der aktuelle Stand (Stufe datenbank oder storage mit allen PDF-Originalen). PDF.ritl lädt sie beim Start, schreibt jede Änderung nach wenigen Sekunden zurück und erkennt Änderungen anderer Geräte (beim Zurückkehren ins Fenster und alle 20 s). Bei gleichzeitigen Änderungen fragt das Tool „Stand im Ordner übernehmen“ oder „Meinen Stand behalten“; Konfliktkopien von OneDrive werden angezeigt. Am Server liegen nur die Einstellungen (settings) samt Ordnername.
+  - **B · Server ist die Datenbank:** „Server ist die Datenquelle“ ist automatisch eingeschaltet (Stufe datenbank) – auf allen Geräten und in jedem Browser.
+- „Backup einrichten“ zeigt die Variante der Lizenz, sperrt die Auswahl, die dazu nicht passt, und hat jetzt selbst „Ordner verknüpfen …“.
+- App-Bild als Logo im Browser-Tab (Favicon).
+
+**Geändert**
+- „Server ist die Datenquelle“ ist nur wählbar, wenn die Lizenz im Admin dafür freigegeben ist; sonst ist das Häkchen gesperrt mit Hinweis.
+- Status im Backup-Dialog und am Backup-Symbol zeigt die Datenquelle mit Stand-Nummer. Ohne Netz wird gesammelt und beim Wiederverbinden abgeglichen; die 10-Tage-Historie läuft weiter.
+- Variante A funktioniert nur in Chrome oder Edge am Computer. In Safari, Firefox und auf iPhone/iPad erklärt das Tool das in „Backup einrichten“ und im Backup-Dialog.
+- Offline-Version: kein Serverzugriff (auch keine Lizenz-Favoriten), der Abschnitt „Zentral“ entfällt.
+
+**Behoben**
+- Wiederherstellen eines Backups der Stufe storage übernimmt auch die eigenen Deckblatt-Vorlagen.
+
 ## V1.5 · 18.11.2026 · DEV
 **Neu**
 - Backup-Stufe **storage** für 01 Lokal: Einstellungen, Arbeitsdaten **und alle PDF-Originale** in der einen Datei `Backup_PDF-ritl.json` (Originale als Komplett-Paket eingebettet). Wiederherstellen lädt die PDFs wieder.

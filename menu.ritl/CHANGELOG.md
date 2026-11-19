@@ -3,6 +3,22 @@
 Speisekarten- & Menü-Designer: Sets, Gänge, Speisendatenbank mit Allergenen (LMIV), 6 Druckformate, Export als PDF, PPTX und Druck in exakt einer Seite · #ritl_menu
 Neueste Version oben. Versionen ≤ V1.7 nachträglich rekonstruiert (aus `tool_versions`, Quellen-ZIPs und Repo-Historie).
 
+## V2.7 · 19.11.2026 · DEV
+**Geändert**
+- Fußzeile: Kontakt per Mail `toolbox@riemer.co` statt Link auf riemer.co.
+
+## V2.6 · 19.11.2026 · DEV
+**Neu**
+- **Datenquelle je Lizenz (Admin):** Welche Variante gilt, legt der Anbieter im Lizenz-Admin fest – nicht mehr du selbst.
+  - **A · Ordner ist die Datenbank (Datenhoheit):** Die Datei `Backup_MENU-ritl.json` im verknüpften OneDrive-/SharePoint-Ordner ist der aktuelle Stand. MENU.ritl lädt sie beim Start, schreibt jede Änderung nach wenigen Sekunden zurück und erkennt Änderungen anderer Geräte (beim Zurückkehren ins Fenster und alle 20 s). Jeder Stand hat eine Nummer; bei gleichzeitigen Änderungen fragt das Tool „Stand im Ordner übernehmen“ oder „Meinen Stand behalten“. Konfliktkopien von OneDrive werden angezeigt. Am Server liegen nur die Einstellungen (settings) samt Ordnername – Sets, Gerichte und Saison-Aktionen bleiben im Ordner.
+  - **B · Server ist die Datenbank:** „Server ist die Datenquelle“ ist automatisch eingeschaltet (Stufe datenbank oder storage) – auf allen Geräten und in jedem Browser.
+- „Backup einrichten“ zeigt die Variante der Lizenz und sperrt die Auswahl, die dazu nicht passt.
+
+**Geändert**
+- Variante A funktioniert nur in Chrome oder Edge am Computer. In Safari, Firefox und auf iPhone/iPad erklärt das Tool das im Backup-Dialog; Daten lassen sich dort nur per „Backup speichern“ in den Ordner legen.
+- Bei Variante A ersetzt der Ordner-Abgleich das automatische Sichern in den Ordner; 03 Zentral zeigt „Am Server nur Einstellungen (Datenhoheit)“.
+- Versionsangabe in Backup- und Anleitungs-Dialog aktualisiert.
+
 ## V2.5 · 19.11.2026 · DEV
 **Neu**
 - **Server als Datenquelle (RITL-Sync):** In „Backup einrichten“ › 02 Zentral gibt es das Häkchen „Server ist die Datenquelle“ (schaltet „zentral sichern“ mit ein). MENU.ritl lädt dann beim Start und beim Wiederverbinden den Serverstand und schreibt jede Änderung nach 2,5 s mit der bekannten Stand-Nummer zurück – so arbeiten mehrere Geräte mit demselben Stand.

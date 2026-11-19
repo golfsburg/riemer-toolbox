@@ -193,6 +193,7 @@
   .dlg-body{padding:4px 24px 24px;overflow:auto}
   .dlg-foot{display:flex;justify-content:flex-end;align-items:center;gap:8px;padding:14px 24px;border-top:1px solid var(--line);background:var(--surface-muted);border-radius:0 0 var(--radius-panel) var(--radius-panel)}
   .dlg-foot .sp{flex:1}
+  .dqsel{display:grid;gap:8px}.dqsel label.chk{align-items:flex-start}.dqsel input{margin-top:3px}
   label.chk{display:inline-flex;align-items:center;gap:8px;margin:0;font:400 14px/20px var(--sans);letter-spacing:0;text-transform:none;color:var(--ink);cursor:pointer}
   label.chk input{width:18px;height:18px;margin:0;accent-color:var(--brand)}
   .row{display:flex;gap:12px;align-items:center}
@@ -269,7 +270,7 @@
     <section id="t-lic" class="card">
       <h2>Lizenzen</h2>
       <div class="wrap"><table data-rz="lic">
-        <thead><tr><th>Kunde</th><th>Schlüssel</th><th>Tools · Kanal · Edition</th><th>Gültig bis</th><th>Geräte</th><th>Zuletzt genutzt</th><th>Status</th><th></th></tr></thead>
+        <thead><tr><th>Kunde</th><th>Schlüssel</th><th>Tools · Kanal · Edition</th><th>Gültig bis</th><th>Geräte</th><th>Daten</th><th>Zuletzt genutzt</th><th>Status</th><th></th></tr></thead>
         <tbody id="licrows"></tbody>
       </table></div>
       <p class="hint">Schlüssel sind verdeckt. Auge = anzeigen/verbergen, Symbol daneben = kopieren. Oben in der Tools-Spalte steht der Standard-Kanal der Lizenz; abweichende Kanäle und Editionen sind beim jeweiligen Tool vermerkt.</p>
@@ -419,9 +420,13 @@
       <p class="hint">„Bekommt“ zeigt die Version, die mit dieser Einstellung ausgeliefert wird. Gibt es für eine Edition noch keine Version, gilt automatisch Standard.</p>
       <div class="grid"><div><label for="lf-club">Verein für SCORE.ritl (Ergebnisse)</label><select id="lf-club"><option value="">– kein Verein –</option></select>
         <span class="hint">bestimmt, welche Ergebnisdaten diese Lizenz sieht · Vereine verwaltest du im Reiter „Vereine“</span></div></div>
-      <div class="sect"><h3>Server · Datenquelle</h3></div>
-      <label class="chk"><input type="checkbox" name="server_quelle"> <b>Server freigeben</b>&nbsp;– erst dann können Nutzerinnen und Nutzer dieser Lizenz in „Backup einrichten“ den Server als Datenquelle wählen (Stufen settings, datenbank und storage mit Dateien)</label>
-      <p class="hint" style="margin-top:4px">Ein Stand je Tool und Stufe, Konfliktabfrage bei mehreren Geräten · Dateien zusammen höchstens 50 MB je Lizenz · gespeichert in der EU (Frankfurt). Ohne Freigabe bleibt es beim zentralen Backup mit Historie.</p>
+      <div class="sect"><h3>Datenquelle · Datenhoheit</h3></div>
+      <div class="dqsel" role="radiogroup" aria-label="Datenquelle">
+        <label class="chk"><input type="radio" name="datenquelle" value="lokal"> <span><b>Lokal</b>&nbsp;– Daten im Browser, Backup in den OneDrive/SharePoint-Ordner und zentral mit Historie (settings, datenbank).</span></label>
+        <label class="chk"><input type="radio" name="datenquelle" value="ordner"> <span><b>A · Ordner ist die Datenbank (Datenhoheit)</b>&nbsp;– die Daten liegen nur in der Datei im OneDrive/SharePoint-Ordner des Kunden. Am Server nur Einstellungen (settings, ohne Arbeitsdaten). Nur Chrome/Edge am Computer.</span></label>
+        <label class="chk"><input type="radio" name="datenquelle" value="server"> <span><b>B · Server ist die Datenbank</b>&nbsp;– aktueller Stand am Server, Abgleich zwischen Geräten, alle Stufen inkl. Dateien (storage). Der Ordner läuft als Kopie mit. Funktioniert in jedem Browser.</span></label>
+      </div>
+      <p class="hint" style="margin-top:4px">Server: ein Stand je Tool und Stufe, Konfliktabfrage bei mehreren Geräten · höchstens 50 MB je Lizenz · gespeichert in der EU (Frankfurt). Bei A lehnt der Server Arbeitsdaten ab – auch ältere Tools können dort nichts anderes ablegen.</p>
       <div id="thsec">
       <div class="sect"><h3>Farben · Corporate Design</h3><span class="hint" id="th-state"></span></div>
       <p class="hint" style="margin-top:-4px">Hauptfarbe der Firma statt RIEMER-Blau – gilt für alle Tools mit RIEMER-Design (Knöpfe, Reiter, App-Bild, Header). Grün/Orange/Rot und der Schriftzug „RIEMER Tools“ bleiben. Wird unabhängig von „Speichern“ gesichert.</p>
@@ -1156,6 +1161,13 @@
       (all ? '<span class="tag">alle Tools</span>' : "") + ids.map(function (id) { return tag(id); }).join("");
   }
 
+  // Datenquelle je Lizenz: lokal · server (B) · ordner (A) + Belegung am Server
+  var DQ = { lokal: "Lokal", server: "Server", ordner: "Ordner" };
+  var DQT = { lokal: "Daten im Browser · zentrales Backup mit Historie", server: "B · Server ist die Datenbank (alle Stufen, Dateien)", ordner: "A · OneDrive/SharePoint-Ordner ist die Datenbank · am Server nur settings" };
+  function fmtMB(b) { b = +b || 0; return b < 1024 ? "0 KB" : b < 1048576 ? Math.round(b / 1024) + " KB" : (b / 1048576).toFixed(1).replace(".", ",") + " MB"; }
+  function dqCell(l) { var q = l.datenquelle || (l.server_quelle ? "server" : "lokal");
+    return '<span class="tag" title="' + esc(DQT[q] || "") + '">' + esc(DQ[q] || q) + '</span><br><span class="hint">' + fmtMB(l.server_bytes) + " am Server</span>"; }
+
   function renderAll() {
     $("licrows").innerHTML = state.licenses.length ? state.licenses.map(function (l) {
       return "<tr><td><b>" + esc(l.customer) + "</b>" + (l.email ? '<br><span class="hint">' + esc(l.email) + "</span>" : "") +
@@ -1168,6 +1180,7 @@
         "<td>" + toolTags(l) + "</td>" +
         "<td>" + (l.expires_at ? fmtD(l.expires_at) : "unbefristet") + "</td>" +
         "<td>" + l.devices + " / " + l.max_devices + "</td>" +
+        "<td>" + dqCell(l) + "</td>" +
         "<td>" + fmtDT(l.last_use) + "</td>" +
         "<td>" + status(l) + "</td>" +
         '<td><div class="acts">' +
@@ -1176,7 +1189,7 @@
           '<button class="b" data-a="reset" data-id="' + l.id + '">Geräte zurücksetzen</button>' +
           '<button class="b dan" data-a="delete" data-id="' + l.id + '">Löschen</button>' +
         "</div></td></tr>";
-    }).join("") : '<tr><td colspan="8" class="hint">Noch keine Lizenzen.</td></tr>';
+    }).join("") : '<tr><td colspan="9" class="hint">Noch keine Lizenzen.</td></tr>';
 
     renderTools();
 
@@ -1247,7 +1260,8 @@
     lf.max_devices.value = l ? l.max_devices : 3;
     lf.channel.value = (l && l.channel) || "stable";
     lf.active.checked = l ? !!l.active : true;
-    lf.server_quelle.checked = !!(l && l.server_quelle);
+    var dq = (l && (l.datenquelle || (l.server_quelle ? "server" : "lokal"))) || "lokal";
+    [].forEach.call(lf.querySelectorAll('input[name="datenquelle"]'), function (r) { r.checked = r.value === dq; });
     var all = !!(l && l.tools.indexOf("*") >= 0); lf.all.checked = all;
     var cfg = (l && l.tool_cfg) || {}, sel = (l && l.tools) || [];
     $("lic-tools").innerHTML = licTools(l).map(function (t) {
@@ -1308,7 +1322,8 @@
     if (!tools.length) return toast("Bitte mindestens ein Tool wählen.");
     var d = { customer: customer, email: em, tools: tools, tool_cfg: cfg, note: lf.note.value.trim(),
               expires_at: lf.unlimited.checked ? "" : lf.expires_at.value + "T23:59:59",
-              max_devices: Math.max(1, parseInt(lf.max_devices.value, 10) || 1), channel: lf.channel.value, active: lf.active.checked, server_quelle: lf.server_quelle.checked };
+              max_devices: Math.max(1, parseInt(lf.max_devices.value, 10) || 1), channel: lf.channel.value, active: lf.active.checked,
+              datenquelle: (lf.querySelector('input[name="datenquelle"]:checked') || { value: "lokal" }).value };
     var btn = $("lic-save"); btn.disabled = true;
     if (editId) {
       d.id = editId;
@@ -1317,10 +1332,10 @@
     } else {
       api("create", d).then(function (r) {
         btn.disabled = false; if (!r.ok) return;
-        if (lf.server_quelle.checked) load().then(function () {
-          // Server-Freigabe gleich nachtragen (create kennt das Feld nicht)
+        if (d.datenquelle !== "lokal") load().then(function () {
+          // Datenquelle gleich nachtragen (create kennt das Feld nicht)
           var nl = state.licenses.filter(function (x) { return x.key && r.key.slice(-4) === x.key.slice(-4) && x.customer === customer; })[0];
-          if (nl) api("update", { id: nl.id, server_quelle: true }).then(load);
+          if (nl) api("update", { id: nl.id, datenquelle: d.datenquelle }).then(load);
         });
         if (!lf.active.checked) {
           // neue Lizenz sofort gesperrt anlegen

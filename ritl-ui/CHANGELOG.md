@@ -4,6 +4,10 @@ Quelle: `ritl-ui/ritl-ui.html` · verwaltet im Lizenz-Admin unter **Header · RI
 Der Lizenzserver ersetzt in jedem Tool den Block `<!--ritl-ui:start--> … <!--ritl-ui:end-->` beim Ausliefern durch die neueste aktive Version aus dem Kanal der Lizenz (Dev sieht Dev + Beta + Stabil, Beta sieht Beta + Stabil).
 Neueste Version oben.
 
+## 1.4 · 19.11.2026 · Dev
+**Geändert**
+- Schriftzug „RIEMER Tools“ oben rechts verlinkt auf `mailto:toolbox@riemer.co` (Tooltip „Kontakt: toolbox@riemer.co“) statt auf riemer.co – wie im Skill und in Standard S-04 vorgesehen (Rollout R-09).
+
 ## 1.3 · 18.11.2026 · Stabil
 **Neu**
 - Offline-Version (Idee MUSTER-06): Bei `window.RITL.offline` zeigt der Header das Kennzeichen **OFFLINE** und statt der Eyebrow „Offline-Version für <Kunde> · erstellt TT.MM.JJJJ · gültig bis TT.MM.JJJJ“; oben in der Anleitung erscheint derselbe Hinweis.

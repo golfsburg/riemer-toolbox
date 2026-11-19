@@ -3,6 +3,28 @@
 GPS-Tracks (GPX) lokal im Browser in 2D und 3D darstellen, analysieren, bearbeiten und animieren · #ritl_track
 Neueste Version oben. Versionen ≤ V1.9 in Google AI Studio entwickelt und nachträglich zusammengefasst (keine Einzelstände erhalten).
 
+## V2.9 · 19.11.2026 · DEV
+**Geändert**
+- Tourbericht (PDF, PPTX, Bild): Fußzeile mit `toolbox@riemer.co` statt riemer.co.
+
+## V2.8 · 19.11.2026 · DEV
+**Neu**
+- **Server als Datenquelle (RITL-Sync):** In „Backup einrichten“ › 02 Zentral lässt sich „Server ist die Datenquelle“ einschalten (Stufe `settings`, `datenbank` oder `storage`). TRACK.ritl lädt dann beim Start den Serverstand und schreibt jede Änderung nach wenigen Sekunden zurück – so arbeiten mehrere Geräte mit denselben Tracks.
+- Jeder Stand am Server hat eine Nummer. Hat ein anderes Gerät inzwischen gespeichert und gibt es auch hier Änderungen, fragt das Tool: „Serverstand übernehmen“ oder „Meinen Stand behalten“. Neuere Stände anderer Geräte werden beim Zurückkehren ins Fenster und jede Minute erkannt und ohne eigene Änderungen automatisch geladen.
+- **storage über den Server:** Mit „Server ist die Datenquelle“ werden hochgeladene Dateien (Original-GPX, Originalfotos, Puls-Dateien) einzeln am Server abgelegt und auf allen Geräten abgeglichen – zusammen höchstens 50 MB je Lizenz.
+- **Datenquelle je Lizenz (Admin):** Welche Variante gilt, legt der Anbieter im Lizenz-Admin fest.
+  - **A · Ordner ist die Datenbank (Datenhoheit):** Die Datei `Backup_TRACK-ritl.json` im verknüpften OneDrive-/SharePoint-Ordner ist der aktuelle Stand. TRACK.ritl lädt sie beim Start, schreibt jede Änderung nach wenigen Sekunden zurück und erkennt Änderungen anderer Geräte (beim Zurückkehren ins Fenster und alle 20 s). Bei gleichzeitigen Änderungen fragt das Tool „Stand im Ordner übernehmen“ oder „Meinen Stand behalten“; Konfliktkopien von OneDrive werden angezeigt. Am Server liegen nur die Einstellungen (settings) samt Ordnername.
+  - **B · Server ist die Datenbank:** „Server ist die Datenquelle“ ist automatisch eingeschaltet (Stufe datenbank oder storage) – auf allen Geräten und in jedem Browser.
+- „Backup einrichten“ zeigt die Variante der Lizenz und sperrt die Auswahl, die dazu nicht passt; der Ordner lässt sich dort direkt verknüpfen.
+
+**Geändert**
+- „Server ist die Datenquelle“ ist nur wählbar, wenn die Lizenz im Admin dafür freigegeben ist; sonst ist das Häkchen gesperrt mit Hinweis.
+- Status im Backup-Dialog und am Backup-Symbol zeigt die Datenquelle mit Stand-Nummer. Ohne Netz wird gesammelt und beim Wiederverbinden abgeglichen; die 10-Tage-Historie läuft weiter.
+- Reine Ansichtsänderungen (2D/3D, Farbe, Karte, auf/zu) lösen keinen Abgleich und keine Abfrage aus.
+- Variante A funktioniert nur in Chrome oder Edge am Computer. In Safari, Firefox und auf iPhone/iPad erklärt das Tool das im Backup-Dialog.
+- Offline-Version: kein Serverzugriff, die Abschnitte „Zentral“ und „Strecken zwischen meinen Geräten“ entfallen.
+- Fußzeile: „© 2026 Peter Riemer · toolbox@riemer.co · RIEMER Tools“ mit Mail-Link statt Link auf riemer.co.
+
 ## V2.7 · 18.11.2026 · DEV
 **Neu**
 - Backup-Stufe **storage** (nur lokal): datenbank + alle hochgeladenen Dateien. Unter Backup einrichten › 01 Lokal immer wählbar (mit Anzahl und Größe der Dateien), unter 02 Zentral gesperrt („nur lokal – zentral folgt später“).

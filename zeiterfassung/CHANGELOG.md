@@ -3,6 +3,26 @@
 Projektzeiten erfassen, Timer und manuelle Einträge, Auswertung, Excel/CSV-Datei-Modus · #ritl_zeiterfassung
 Neueste Version oben. Versionen ≤ V3.1 nachträglich aus dem Changelog im Tool rekonstruiert (V1.0–V2.3: 17.07.2026).
 
+## V3.4 · 19.11.2026 · DEV
+**Neu**
+- **Server als Datenquelle (RITL-Sync):** In „Backup einrichten“ › 02 Zentral lässt sich „Server ist die Datenquelle“ einschalten (Stufe `settings`, `datenbank` oder `storage`). Zeiterfassung.ritl lädt dann beim Start den Serverstand und schreibt jede Änderung nach wenigen Sekunden zurück – so arbeiten mehrere Geräte mit demselben Stand.
+- Jeder Stand am Server hat eine Nummer. Hat ein anderes Gerät inzwischen gespeichert und gibt es auch hier Änderungen, fragt das Tool: „Serverstand übernehmen“ oder „Meinen Stand behalten“. Neuere Stände anderer Geräte werden beim Zurückkehren ins Fenster und jede Minute erkannt und ohne eigene Änderungen automatisch geladen.
+- **storage über den Server:** Mit „Server ist die Datenquelle“ werden hochgeladene Dateien (Dateiablage) einzeln am Server abgelegt und auf allen Geräten abgeglichen – zusammen höchstens 50 MB je Lizenz.
+- **Datenquelle je Lizenz (Admin):** Welche Variante gilt, legt der Anbieter im Lizenz-Admin fest.
+  - **A · Ordner ist die Datenbank (Datenhoheit):** Die Datei `Backup_Zeiterfassung-ritl.json` im verknüpften OneDrive-/SharePoint-Ordner ist der aktuelle Stand. Zeiterfassung.ritl lädt sie beim Start, schreibt jede Änderung nach wenigen Sekunden zurück und erkennt Änderungen anderer Geräte (beim Zurückkehren ins Fenster und alle 20 s). Bei gleichzeitigen Änderungen fragt das Tool „Stand im Ordner übernehmen“ oder „Meinen Stand behalten“; Konfliktkopien von OneDrive werden angezeigt. Am Server liegen nur die Einstellungen (settings) samt Ordnername.
+  - **B · Server ist die Datenbank:** „Server ist die Datenquelle“ ist automatisch eingeschaltet (Stufe datenbank oder storage) – auf allen Geräten und in jedem Browser.
+- „Backup einrichten“ zeigt die Variante der Lizenz und sperrt die Auswahl, die dazu nicht passt.
+
+**Geändert**
+- „Server ist die Datenquelle“ ist nur wählbar, wenn die Lizenz im Admin dafür freigegeben ist; sonst ist das Häkchen gesperrt mit Hinweis.
+- Status im Backup-Dialog und am Backup-Symbol zeigt die Datenquelle mit Stand-Nummer. Ohne Netz wird gesammelt und beim Wiederverbinden abgeglichen; die 10-Tage-Historie läuft weiter.
+- Variante A funktioniert nur in Chrome oder Edge am Computer. In Safari, Firefox und auf iPhone/iPad erklärt das Tool das im Backup-Dialog.
+- Der Datei-Modus (Excel/CSV im OneDrive-/SharePoint-Ordner) bleibt unverändert und läuft in allen Varianten weiter; Stände vom Server oder aus dem Ordner werden auch in die Excel-/CSV-Datei geschrieben.
+- Beim Übernehmen eines neuen Stands bleibt das gewählte Projekt geöffnet, wenn es noch vorhanden ist.
+
+**Behoben**
+- Das Häkchen „Nach jeder Änderung automatisch im Ordner sichern“ wird ausgeblendet, wenn es nicht gilt (kein Ordner verknüpft oder Ordner ist die Datenbank).
+
 ## V3.3 · 18.11.2026
 **Neu**
 - Backup im Header: eine Datei `Backup_Zeiterfassung-ritl.json`, lokal oder in einem OneDrive-/SharePoint-Ordner; sie wird bei jedem Sichern überschrieben, auf Wunsch automatisch nach jeder Änderung

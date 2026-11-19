@@ -1,6 +1,6 @@
 <!--ritl-ui:start-->
 <style id="ritl-ui-css">
-/* RITL-UI 1.3 – zentraler Header der RIEMER Tools. Wird vom Lizenzserver beim Ausliefern durch die aktuelle Version ersetzt.
+/* RITL-UI 1.4 – zentraler Header der RIEMER Tools. Wird vom Lizenzserver beim Ausliefern durch die aktuelle Version ersetzt.
    Maße nach PPTX.ritl (Standard): Header 64 px, App-Bild 38 px, Titel 22 px, Eyebrow 10,5 px, Chips 34 px.
    Rechts immer kompakt: Tool-Knöpfe als eckige Chips nur mit Symbol, System-Knöpfe als runde Chips. Nur Tokens der Farbkarte –
    Ausnahme: Schriftzug „RIEMER Tools“ und Toolbox-Logo bleiben auch bei Lizenz-Farben im RIEMER-Blau (Marke). */
@@ -58,7 +58,7 @@ header[data-ritl-header] :is(button,a):focus-visible{outline:2px solid var(--bra
 @media print{header[data-ritl-header]{position:static}.ritl-act{display:none}}
 </style>
 <script id="ritl-ui-js">
-/* RITL-UI 1.3 – baut den Header aus <header data-ritl-header …> auf. Attribute:
+/* RITL-UI 1.4 – baut den Header aus <header data-ritl-header …> auf. Attribute:
    data-name="MUSTER" (Pflicht) · data-eyebrow="…" · data-tool="muster-ritl" · data-ver="V2.8" · data-date="16.11.2026"
    data-help="none" (ohne Anleitung) · data-lang="none" (ohne DE/EN) · data-login="URL" (Anmelden-Ziel)
    Kinder: [data-ritl-icon] (App-Bild, SVG) · [data-ritl-center] (optional, Mitte) · [data-ritl-actions] (Tool-Knöpfe: Symbol + Text in <span class="lbl"> – der Text erscheint als Tooltip)
@@ -69,7 +69,7 @@ header[data-ritl-header] :is(button,a):focus-visible{outline:2px solid var(--bra
      kein An-/Abmelden, Toolbox-Logo ohne Link; 14 Tage vor Ablauf Warnung, danach Sperrfenster (Backup bleibt möglich). */
 (function () {
   "use strict";
-  var VERSION = "1.3";
+  var VERSION = "1.4";
   var h = document.querySelector("header[data-ritl-header]");
   if (!h || h.classList.contains("ritl-h")) return;
   var d = h.dataset, R = window.RITL || {}, root = document.documentElement;
@@ -144,7 +144,7 @@ header[data-ritl-header] :is(button,a):focus-visible{outline:2px solid var(--bra
   act.appendChild(sys);
   act.appendChild(OFF ? E("span", { cls: "ritl-tb", id: "ritl-toolbox", title: "RIEMER Toolbox · " + offTxt }, I.tb)
                       : E("a", { cls: "ritl-tb", id: "ritl-toolbox", href: TB, title: "RIEMER Toolbox – alle Tools", "aria-label": "Zur RIEMER Toolbox" }, I.tb));
-  act.appendChild(E("a", { cls: "ritl-wm notr", href: "https://riemer.co", title: "riemer.co" }, "RIEMER <span>Tools</span>"));
+  act.appendChild(E("a", { cls: "ritl-wm notr", href: "mailto:toolbox@riemer.co", title: "Kontakt: toolbox@riemer.co" }, "RIEMER <span>Tools</span>"));
   // Marker: der Lizenzserver fügt bei vorhandenem Kit keinen eigenen Abmelden-Knopf / kein Logo ein
   var mk = E("span", { id: "ritl-logout", hidden: "" }); act.appendChild(mk);
 
