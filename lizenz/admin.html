@@ -389,6 +389,13 @@
         <label class="chk"><input type="radio" name="datenquelle" value="ordner"> <span><b>A · Ordner ist die Datenbank (Datenhoheit)</b>&nbsp;– die Daten liegen nur in der Datei im OneDrive/SharePoint-Ordner des Kunden. Am Server nur Einstellungen (settings, ohne Arbeitsdaten). Nur Chrome/Edge am Computer.</span></label>
         <label class="chk"><input type="radio" name="datenquelle" value="server"> <span><b>B · Server ist die Datenbank</b>&nbsp;– aktueller Stand am Server, Abgleich zwischen Geräten, alle Stufen inkl. Dateien (storage). Der Ordner läuft als Kopie mit. Funktioniert in jedem Browser.</span></label>
       </div>
+      <div class="sect"><h3>Backup-Stufe</h3></div>
+      <div class="dqsel" role="radiogroup" aria-label="Backup-Stufe">
+        <label class="chk"><input type="radio" name="backup_stufe" value="settings"> <span><b>settings</b>&nbsp;– nur Ansichten, Filter, Favoriten und Einstellungen.</span></label>
+        <label class="chk"><input type="radio" name="backup_stufe" value="datenbank"> <span><b>datenbank</b>&nbsp;– settings + alle Arbeitsdaten (Standard).</span></label>
+        <label class="chk"><input type="radio" name="backup_stufe" value="storage"> <span><b>storage</b>&nbsp;– datenbank + hochgeladene Dateien (Belege, Fotos, PDFs). Zentral nur mit B · Server ist die Datenbank, sonst lokal storage und zentral datenbank.</span></label>
+      </div>
+      <p class="hint" style="margin-top:4px">Gilt für alle Tools und alle Geräte dieser Lizenz – im Tool ist die Stufe gesperrt („durch die Lizenz festgelegt“). Bei A ist der Ordner die Datenbank (mindestens datenbank), am Server bleibt settings.</p>
       <p class="hint" style="margin-top:4px">Server: ein Stand je Tool und Stufe, Konfliktabfrage bei mehreren Geräten · höchstens 50 MB je Lizenz · gespeichert in der EU (Frankfurt). Bei A lehnt der Server Arbeitsdaten ab – auch ältere Tools können dort nichts anderes ablegen.</p>
       <div id="thsec">
       <div class="sect"><h3>Farben · Corporate Design</h3><span class="hint" id="th-state"></span></div>
@@ -1180,7 +1187,7 @@
   var DQT = { lokal: "Daten im Browser · zentrales Backup mit Historie", server: "B · Server ist die Datenbank (alle Stufen, Dateien)", ordner: "A · OneDrive/SharePoint-Ordner ist die Datenbank · am Server nur settings" };
   function fmtMB(b) { b = +b || 0; return b < 1024 ? "0 KB" : b < 1048576 ? Math.round(b / 1024) + " KB" : (b / 1048576).toFixed(1).replace(".", ",") + " MB"; }
   function dqCell(l) { var q = l.datenquelle || (l.server_quelle ? "server" : "lokal");
-    return '<span class="tag" title="' + esc(DQT[q] || "") + '">' + esc(DQ[q] || q) + '</span><br><span class="hint">' + fmtMB(l.server_bytes) + " am Server</span>"; }
+    return '<span class="tag" title="' + esc(DQT[q] || "") + '">' + esc(DQ[q] || q) + '</span> <span class="tag mono" title="Backup-Stufe (gilt für alle Tools und Geräte)">' + esc(l.backup_stufe || "datenbank") + '</span><br><span class="hint">' + fmtMB(l.server_bytes) + " am Server</span>"; }
 
   function renderAll() {
     $("licrows").innerHTML = state.licenses.length ? state.licenses.map(function (l) {
@@ -1276,6 +1283,8 @@
     lf.active.checked = l ? !!l.active : true;
     var dq = (l && (l.datenquelle || (l.server_quelle ? "server" : "lokal"))) || "lokal";
     [].forEach.call(lf.querySelectorAll('input[name="datenquelle"]'), function (r) { r.checked = r.value === dq; });
+    var bs = (l && l.backup_stufe) || "datenbank";
+    [].forEach.call(lf.querySelectorAll('input[name="backup_stufe"]'), function (r) { r.checked = r.value === bs; });
     var all = !!(l && l.tools.indexOf("*") >= 0); lf.all.checked = all;
     var cfg = (l && l.tool_cfg) || {}, sel = (l && l.tools) || [];
     $("lic-tools").innerHTML = licTools(l).map(function (t) {
@@ -1337,7 +1346,8 @@
     var d = { customer: customer, email: em, tools: tools, tool_cfg: cfg, note: lf.note.value.trim(),
               expires_at: lf.unlimited.checked ? "" : lf.expires_at.value + "T23:59:59",
               max_devices: Math.max(1, parseInt(lf.max_devices.value, 10) || 1), channel: lf.channel.value, active: lf.active.checked,
-              datenquelle: (lf.querySelector('input[name="datenquelle"]:checked') || { value: "lokal" }).value };
+              datenquelle: (lf.querySelector('input[name="datenquelle"]:checked') || { value: "lokal" }).value,
+              backup_stufe: (lf.querySelector('input[name="backup_stufe"]:checked') || { value: "datenbank" }).value };
     var btn = $("lic-save"); btn.disabled = true;
     if (editId) {
       d.id = editId;
@@ -1346,10 +1356,10 @@
     } else {
       api("create", d).then(function (r) {
         btn.disabled = false; if (!r.ok) return;
-        if (d.datenquelle !== "lokal") load().then(function () {
-          // Datenquelle gleich nachtragen (create kennt das Feld nicht)
+        if (d.datenquelle !== "lokal" || d.backup_stufe !== "datenbank") load().then(function () {
+          // Datenquelle und Backup-Stufe gleich nachtragen (create kennt die Felder nicht)
           var nl = state.licenses.filter(function (x) { return x.key && r.key.slice(-4) === x.key.slice(-4) && x.customer === customer; })[0];
-          if (nl) api("update", { id: nl.id, datenquelle: d.datenquelle }).then(load);
+          if (nl) api("update", { id: nl.id, datenquelle: d.datenquelle, backup_stufe: d.backup_stufe }).then(load);
         });
         if (!lf.active.checked) {
           // neue Lizenz sofort gesperrt anlegen

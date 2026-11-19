@@ -352,3 +352,17 @@ Neue Demo-/externe Tools ohne Lizenzschutz: **+ Katalogeintrag ohne Lizenzschutz
   dafür gilt die proprietäre Lizenz (`LICENSE`) als rechtliche Absicherung.
 - Rechenlogik, die auf keinen Fall beim Kunden landen darf, gehört später in eine eigene
   Server-Funktion (das Tool schickt Eingaben, der Server rechnet).
+
+## Backup-Stufe je Lizenz (S-16)
+
+Spalte `licenses.backup_stufe` (`settings` · `datenbank` · `storage`, Standard `datenbank`). Im Admin unter
+„Backup-Stufe“. Die Tools bekommen sie mit `state_head` (Feld `backup_stufe`, auch bei `server_not_enabled`)
+und übernehmen sie auf jedem Gerät; die Auswahl im Tool ist gesperrt.
+
+```sql
+-- Stufe einer Lizenz setzen (statt im Admin)
+update licenses set backup_stufe = 'storage' where key_hint = 'XXXX';
+```
+
+Wirkung je Datenquelle: lokal → 01 Lokal = Stufe, 02 Zentral höchstens `datenbank` ·
+A (ordner) → Ordner mindestens `datenbank`, Server `settings` · B (server) → Server mindestens `datenbank`, `storage` inkl. Dateien.
