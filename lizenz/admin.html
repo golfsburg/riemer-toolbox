@@ -566,13 +566,18 @@
         <div><label for="cf-start">Saisonstart</label><input id="cf-start" name="saisonstart" type="date"><span class="hint">ältere Spiele werden ignoriert</span></div>
         <div><label>Optionen</label><label class="chk" style="margin-top:8px"><input type="checkbox" name="testtore" checked> Tore aus Testspielen zählen für die Torschützenliste</label><br><label class="chk" style="margin-top:8px"><input type="checkbox" name="active" checked> Automatischer Import aktiv</label></div>
       </div>
+      <label for="cf-hash">Hashtags des Vereins (Posting)</label><input id="cf-hash" name="hashtags" maxlength="300" placeholder="#GEMMAFCPF">
+      <span class="hint">Stehen in jedem Posting-Text nach den Hashtags der Mannschaft. Der Vereins-Admin kann sie auch in der Webapp ändern.</span>
       <div class="sect"><h3>Mannschaften</h3><span class="hint" id="cf-prog"></span></div>
       <div class="wrap"><table class="ttab mtab">
-        <thead><tr><th>Aktiv</th><th>Quelle</th><th>Kürzel</th><th>Anzeigename</th><th>Bewerb</th><th>Name in Spielen</th><th>Erkennung (ÖFB-Name)</th><th>Spiele</th><th></th></tr></thead>
+        <thead><tr><th>Aktiv</th><th>Quelle</th><th>Kürzel</th><th>Anzeigename</th><th>Bewerb</th><th>Name in Spielen</th><th>Hashtags (Posting)</th><th>Erkennung (ÖFB-Name)</th><th>Spiele</th><th></th></tr></thead>
         <tbody id="cf-teams"></tbody>
       </table></div>
       <div class="row" style="margin-top:10px"><input id="cf-add-url" placeholder="Weitere Mannschaft: Link zur Mannschaft auf vereine.oefb.at (auch Partnerverein, z. B. Spielgemeinschaft)"><button type="button" class="b" id="cf-add">+ Hinzufügen</button><button type="button" class="b" id="cf-add-man">+ Manuelle Mannschaft</button></div>
       <p class="hint">Kürzel = Filter-Knopf in der Webapp · Anzeigename = Überschrift der Mannschaftskarte · Name in Spielen = so steht das eigene Team bei Heim/Gast · Erkennung = ÖFB-Teamname(n), an denen das eigene Team im Spielplan erkannt wird (wird automatisch ausgefüllt). Mannschaften ohne Ergebnisse (Kinderfußball) werden vorgeschlagen, sind aber nicht aktiv.<br><b>Quelle:</b> ÖFB-Mannschaften werden automatisch aktualisiert, manuelle Mannschaften pflegt der Verein selbst (Spiele, Ergebnisse, Torschützen). Beides ist streng getrennt – beim Wechsel der Quelle werden alle bisherigen Daten der Mannschaft gelöscht. Kurzberichte sind bei allen Spielen möglich.</p>
+      <div class="sect"><h3>Posting-Hintergründe</h3><span class="hint">Bild 1080 × 1350 (wird zugeschnitten). Ohne Bild erzeugt die Webapp einen Hintergrund in den Vereinsfarben.</span></div>
+      <div class="wrap"><table class="ttab"><thead><tr><th>Für</th><th>Hintergrund</th><th>Schrift</th><th>Altersklasse (x, y, Höhe)</th><th></th></tr></thead><tbody id="cf-bgs"></tbody></table></div>
+      <input type="file" id="cf-bg-file" accept="image/jpeg,image/png,image/webp" hidden>
       <div class="sect"><h3>Lizenzen mit diesem Verein</h3><span class="hint">Mit Vereins-Admin-PIN kann der Lizenznehmer den Verein in der Webapp selbst verwalten.</span></div>
       <div class="checks" id="cf-lics"></div>
       <div class="sect"><h3>Import-Protokoll</h3></div>
@@ -1773,7 +1778,9 @@
     cf.oefb_url.value = c ? (c.oefb_url || "") : "";
     cf.saisonstart.value = c ? c.saisonstart : (new Date().getMonth() >= 6 ? new Date().getFullYear() : new Date().getFullYear() - 1) + "-08-01";
     cf.testtore.checked = c ? !!c.torschuetzen_testspiele : true; cf.active.checked = c ? !!c.active : true;
-    cTeams = c ? c.teams.map(function (t) { return { id: t.id, quelle: t.quelle || "oefb", _q0: t.quelle || "oefb", team: t.team, name: t.name, bewerb: t.bewerb, own_label: t.own_label, own_regex: t.own_regex || "", oefb_url: t.oefb_url || "", active: !!t.active }; }) : [];
+    cTeams = c ? c.teams.map(function (t) { return { id: t.id, quelle: t.quelle || "oefb", _q0: t.quelle || "oefb", team: t.team, name: t.name, bewerb: t.bewerb, own_label: t.own_label, own_regex: t.own_regex || "", oefb_url: t.oefb_url || "", hashtags: t.hashtags || "", active: !!t.active }; }) : [];
+    cf.hashtags.value = c ? (c.hashtags || "") : "";
+    renderBgs(c);
     renderTeams(); $("cf-prog").textContent = ""; $("cf-add-url").value = "";
     renderLics(c);
     $("cf-log").innerHTML = c && c.log.length ? c.log.map(function (g) {
@@ -1785,6 +1792,60 @@
   }
   cf.name.addEventListener("input", function () { if (!cEdit && !cf.club_id.dataset.touched) cf.club_id.value = slugify(cf.name.value); });
   cf.club_id.addEventListener("input", function () { cf.club_id.dataset.touched = "1"; });
+
+
+  /* Posting-Hintergründe je Verein ('' = Vereins-Standard) bzw. je Mannschaft */
+  var bgTeam = null;
+  function renderBgs(c) {
+    var tb = $("cf-bgs");
+    if (!c) { tb.innerHTML = '<tr><td colspan="5" class="hint">Erst den Verein speichern.</td></tr>'; return; }
+    var map = {}; (c.posting_bg || []).forEach(function (b) { map[b.team] = b; });
+    var rows = [""].concat(c.teams.filter(function (t) { return t.active; }).map(function (t) { return t.team; }));
+    tb.innerHTML = rows.map(function (team) {
+      var b = map[team], lbl = team ? esc(team) : "<b>Vereins-Standard</b>";
+      var st = b ? (b.kb === 0 ? '<span class="pill">Vereinsfarben (neutral)</span>' : '<span class="pill p-ok">eigenes Bild · ' + b.kb + " KB</span>")
+                 : (team ? '<span class="hint">wie Vereins-Standard</span>' : '<span class="hint">Vereinsfarben (neutral)</span>');
+      var ax = b && b.alter_xy ? b.alter_xy.join(", ") : "";
+      return '<tr data-bg="' + esc(team) + '"><td>' + lbl + "</td><td>" + st + "</td>" +
+        "<td>" + (b && b.kb > 0 ? '<select data-bgf="ink" aria-label="Schriftfarbe"><option value="dark"' + (b.ink === "dark" ? " selected" : "") + '>dunkel</option><option value="light"' + (b.ink === "light" ? " selected" : "") + ">hell</option></select>" : '<span class="hint">–</span>') + "</td>" +
+        "<td>" + (b && b.kb > 0 ? '<input data-bgf="alter" value="' + esc(ax) + '" placeholder="z. B. 416, 187, 40" style="width:150px" aria-label="Position Altersklasse">' : '<span class="hint">–</span>') + "</td>" +
+        '<td><div class="acts"><button type="button" class="b" data-bga="up">Bild hochladen</button>' +
+          (b && b.kb > 0 ? '<button type="button" class="b" data-bga="set">Übernehmen</button><button type="button" class="b" data-bga="show">Ansehen</button>' : "") +
+          (team && !(b && b.kb === 0) ? '<button type="button" class="b" data-bga="neutral" title="Diese Mannschaft bekommt den Hintergrund in Vereinsfarben">Neutral</button>' : "") +
+          (b ? '<button type="button" class="b dan" data-bga="rm">Entfernen</button>' : "") + "</div></td></tr>";
+    }).join("");
+  }
+  function bgClub() { return SC.clubs.filter(function (x) { return x.id === cEdit; })[0]; }
+  function bgReload() { return loadClubs().then(function () { renderBgs(bgClub()); }); }
+  function parseAlter(v) { var n = String(v || "").split(/[ ,;]+/).filter(Boolean).map(Number); return n.length === 3 && n.every(function (x) { return isFinite(x) && x >= 0 && x <= 1350; }) ? n : null; }
+  $("cf-bgs").addEventListener("click", function (e) {
+    var b = e.target.closest("button[data-bga]"); if (!b) return;
+    var tr = b.closest("tr[data-bg]"), team = tr.dataset.bg, a = b.dataset.bga;
+    if (a === "up") { bgTeam = team; return $("cf-bg-file").click(); }
+    if (a === "show") return api("score_posting_bg_get", { club_id: cEdit, team: team }).then(function (r) { if (r.ok && r.bg) { var w = window.open(); if (w) w.document.write('<title>Posting-Hintergrund</title><img src="' + r.bg.data + '" style="max-width:100%">'); } });
+    if (a === "rm" && !confirm("Hintergrund für „" + (team || "Vereins-Standard") + "“ entfernen?")) return;
+    var req = a === "rm" ? api("score_posting_bg_delete", { club_id: cEdit, team: team })
+      : a === "neutral" ? api("score_posting_bg_save", { club_id: cEdit, team: team, data: "neutral", ink: "light", alter_xy: null })
+      : api("score_posting_bg_save", { club_id: cEdit, team: team, ink: tr.querySelector("[data-bgf=ink]").value, alter_xy: parseAlter(tr.querySelector("[data-bgf=alter]").value) });
+    b.disabled = true; req.then(function (r) { if (r.ok) { toast("Gespeichert ✓"); bgReload(); } else b.disabled = false; });
+  });
+  $("cf-bg-file").addEventListener("change", function (e) {
+    var f = e.target.files[0]; e.target.value = ""; if (!f || bgTeam === null) return;
+    var rd = new FileReader();
+    rd.onload = function () {
+      var img = new Image();
+      img.onload = function () {
+        var c = document.createElement("canvas"); c.width = 1080; c.height = 1350;
+        var s = Math.max(1080 / img.width, 1350 / img.height), w = img.width * s, hh = img.height * s;
+        c.getContext("2d").drawImage(img, (1080 - w) / 2, (1350 - hh) / 2, w, hh);
+        var data = c.toDataURL("image/webp", 0.88); if (data.indexOf("data:image/webp") !== 0) data = c.toDataURL("image/jpeg", 0.85);
+        api("score_posting_bg_save", { club_id: cEdit, team: bgTeam, data: data, ink: "dark", alter_xy: null }).then(function (r) { if (r.ok) { toast("Hintergrund gespeichert ✓"); bgReload(); } });
+      };
+      img.onerror = function () { toast("Bild nicht lesbar."); };
+      img.src = rd.result;
+    };
+    rd.readAsDataURL(f);
+  });
 
   function renderLics(c) {
     $("cf-lics").innerHTML = state.licenses.filter(scoreTool).map(function (l) {
@@ -1822,13 +1883,14 @@
         '<td><input data-f="name" value="' + esc(t.name) + '" aria-label="Anzeigename"></td>' +
         '<td><input data-f="bewerb" value="' + esc(t.bewerb) + '" aria-label="Bewerb"></td>' +
         '<td><input data-f="own_label" value="' + esc(t.own_label) + '" aria-label="Name in Spielen"></td>' +
+        '<td><input data-f="hashtags" value="' + esc(t.hashtags || "") + '" maxlength="300" placeholder="#U13" aria-label="Hashtags"></td>' +
         (man ? '<td class="na">– (vom Verein gepflegt)</td><td class="na">manuell</td>' :
         '<td><input class="rx" data-f="own_regex" value="' + esc(t.own_regex) + '" aria-label="Erkennung" title="' + esc(p && p.eigene_namen ? p.eigene_namen.join(" · ") : t.own_regex) + '"></td>' +
         '<td class="n">' + (p ? p.gespielt + " von " + p.spiele + '<br><span class="hint">gespielt</span><br>' : "") + (t.oefb_url ? '<a href="' + esc(t.oefb_url) + '" target="_blank" rel="noopener">Spielplan ↗</a>' : '<span class="hint">kein Link</span>') + "</td>") +
         '<td><div class="acts"><button type="button" class="ib" data-mv="-1" title="nach oben" aria-label="nach oben">↑</button>' +
           '<button type="button" class="ib" data-mv="1" title="nach unten" aria-label="nach unten">↓</button>' +
           '<button type="button" class="ib" data-rm title="entfernen" aria-label="Mannschaft entfernen">✕</button></div></td></tr>';
-    }).join("") : '<tr><td colspan="9" class="hint">Noch keine Mannschaften. Oben „Mannschaften laden“, unten einen Link einfügen oder eine manuelle Mannschaft anlegen.</td></tr>';
+    }).join("") : '<tr><td colspan="10" class="hint">Noch keine Mannschaften. Oben „Mannschaften laden“, unten einen Link einfügen oder eine manuelle Mannschaft anlegen.</td></tr>';
   }
   function teamInput(e) {
     var tr = e.target.closest("tr[data-i]"), f = e.target.dataset.f; if (!tr || !f) return;
@@ -1923,11 +1985,11 @@
     $("cf-err").textContent = msg; $("cf-err").classList.toggle("hide", !msg);
     [].forEach.call($("cf-teams").querySelectorAll("tr[data-i]"), function (tr) { tr.classList.toggle("bad", +tr.dataset.i === bad); });
     if (bad >= 0) { var row = $("cf-teams").querySelector('tr[data-i="' + bad + '"]'); if (row) row.scrollIntoView({ block: "center" }); return toast(msg); }
-    var teams = cTeams.map(function (t, i) { return { id: t.id || null, quelle: t.quelle || "oefb", team: t.team, team_order: i + 1, name: t.name, bewerb: t.bewerb, oefb_url: t.oefb_url, own_regex: t.own_regex, own_label: t.own_label, active: !!t.active }; });
+    var teams = cTeams.map(function (t, i) { return { id: t.id || null, quelle: t.quelle || "oefb", team: t.team, team_order: i + 1, name: t.name, bewerb: t.bewerb, oefb_url: t.oefb_url, own_regex: t.own_regex, own_label: t.own_label, hashtags: t.hashtags || "", active: !!t.active }; });
     var lics = [].map.call($("cf-lics").querySelectorAll("input[data-lic]"), function (x) { return { id: x.dataset.lic, on: x.checked }; });
     var first = !cEdit, btn = $("cf-save"); btn.disabled = true;
     api("score_club_save", { club_id: id, name: name, kurz: cf.kurz.value.trim(), oefb_url: cf.oefb_url.value.trim(),
-                             saisonstart: cf.saisonstart.value, torschuetzen_testspiele: cf.testtore.checked, active: cf.active.checked })
+                             saisonstart: cf.saisonstart.value, torschuetzen_testspiele: cf.testtore.checked, active: cf.active.checked, hashtags: cf.hashtags.value.trim() })
       .then(function (r) { if (!r.ok) throw 0; return api("score_teams_save", { club_id: id, teams: teams }); })
       .then(function (r) {
         if (!r.ok) throw 0;
