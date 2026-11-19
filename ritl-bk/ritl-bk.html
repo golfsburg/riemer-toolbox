@@ -1,10 +1,11 @@
-<!-- ritl-bk 2.0 · 19.11.2026 · DEV – einheitliches Backup der RIEMER Tools (Regel S-17, Rollout R-13). Vorbild MUSTER.ritl V3.8.
-     Einbau: Adapter window.RITL_BK (siehe README.md) als <script> setzen, danach diesen Block unverändert (von ritl-bk:start bis ritl-bk:end) in den <body> nach dem Header kopieren. -->
+<!-- ritl-bk 2.1 · 19.11.2026 · DEV – einheitliches Backup der RIEMER Tools (Regel S-17, Rollout R-13). Vorbild MUSTER.ritl V3.9.
+     Einbau: Adapter window.RITL_BK (siehe README.md) als <script> setzen, danach diesen Block unverändert (von ritl-bk:start bis ritl-bk:end) in den <body> nach dem Header kopieren.
+     2.1 ist rückwärtskompatibel: neue Angaben (bereit, ohneSha, norm, nachAnwenden, fluechtig, extra, alias, alt.idbFs*) sind optional. -->
 <!--ritl-bk:start-->
 <style id="ritl-bk-css">
-/* ritl-bk 2.0 · 19.11.2026 – einheitliches Backup der RIEMER Tools (Regel S-17). Nichts Tool-Spezifisches hier ändern.
+/* ritl-bk 2.1 · 19.11.2026 – einheitliches Backup der RIEMER Tools (Regel S-17). Nichts Tool-Spezifisches hier ändern.
    Nur Tokens der Farbkarte. Alle Regeln gelten nur für die Dialoge des Bausteins (.rbk) und das Symbol am Knopf #backupBtn (.bkind). */
-dialog.rbk{border:1px solid var(--line);border-radius:var(--radius-panel,16px);background:var(--surface);color:var(--ink);padding:0;width:min(640px,94vw);box-shadow:0 20px 60px rgba(0,0,0,.25);font:400 14px/20px var(--sans,"Inter",system-ui,sans-serif)}
+dialog.rbk{border:1px solid var(--line);border-radius:var(--radius-panel,16px);background:var(--surface);color:var(--ink);padding:0;width:min(640px,94vw);box-shadow:0 20px 60px rgba(0,0,0,.25);font:400 14px/20px var(--sans,"Inter",system-ui,sans-serif);margin:auto}
 dialog.rbk::backdrop{background:rgba(15,20,28,.45)}
 .rbk .dh{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid var(--line);background:var(--surface-muted);font:800 17px var(--sans,"Inter",system-ui,sans-serif)}
 .rbk .db{padding:20px;max-height:min(72vh,720px);overflow:auto}
@@ -73,23 +74,40 @@ dialog.rbk::backdrop{background:rgba(15,20,28,.45)}
 .bkind .offl{color:var(--muted)}
 </style>
 <script id="ritl-bk-js">
-/* ritl-bk 2.0 · 19.11.2026 – einheitliches Backup der RIEMER Tools (Regel S-17, Rollout R-13, Vorbild MUSTER.ritl V3.8).
+/* ritl-bk 2.1 · 19.11.2026 – einheitliches Backup der RIEMER Tools (Regel S-17, Rollout R-13, Vorbild MUSTER.ritl V3.9).
    Nichts Tool-Spezifisches hier ändern – das Tool setzt VOR diesem Block den Adapter window.RITL_BK (Anleitung riemer-toolbox/ritl-bk/README.md):
      tool, name, datei, prefix, ereignis, settings(), daten(), dateien()?, dateienLaden(list)?, anwenden(stufe,obj,quelle,still), leer()?,
-     legacy(o)?, texte:{settings,datenbank,storage,rueckgaengig}?, alt:{bkcfg,srv,srvst,sync,ordner,oq,fs,bklic,idbFiles,idbFs}?, version?
+     legacy(o)?, texte:{settings,datenbank,storage,rueckgaengig}?, alt:{bkcfg,srv,srvst,sync,ordner,oq,fs,bklic,idbFiles,idbFs,idbFsDb,idbFsStore,idbFsKey}?, version?
+   ab 2.1 (alle optional, ohne sie verhält sich der Block wie 2.0): bereit (Promise oder Funktion → Promise) · ohneSha:[Schlüssel] · norm(obj) ·
+     nachAnwenden(stufe,quelle,still) · fluechtig:true · extra:[{titel,text?,html|render(el),aktionen?,nach?,nr?,id?}] · alias:[Tool-Kennungen]
    Datenquelle: A · Lokal (lokal) · B · Ordner (ordner, Datenhoheit) · C · Server (server, RITL-Sync) – Stufe: 1 · settings · 2 · datenbank · 3 · storage.
    Lizenz = Maximum (state_head → backup.max) + Kontingent; der Kunde wählt je Tool darunter („Backup einrichten“ → cfg_set, gilt auf allen Geräten).
    Ohne Lizenz (kein Schlüssel, Offline-Version window.RITL.offline, Admin-Vorschau window.RITL.preview): nur A · Lokal, Stufe frei.
    Erzeugt die Dialoge #bkdlg (Backup), #bksetup (Backup einrichten), #sydlg (Konflikt) und window.RITLF (Dateiablage, falls nicht vorhanden).
    Schnittstelle window.RITLBK: version · open() · setup() · schedule() · fs{status,buttons,read,write,run,action,perm,supported,handle} ·
-     head(inhalt) · check(obj,'backup'|'favoriten') · download(name,obj) · pickFile(input) · restore(daten,quelle,still) · zeit(d) · stamp() · stand() */
+     head(inhalt) · check(obj,'backup'|'favoriten') · download(name,obj) · pickFile(input) · restore(daten,quelle,still) · zeit(d) · stamp() · stand() ·
+     ab 2.1: sync() (Abgleich auf Knopfdruck, Promise) · extra() (eigene Abschnitte neu zeichnen) · Ereignis ritlbk:applied {quelle,stufe,text,still} */
 (function(){"use strict";
 const A=window.RITL_BK;if(!A||!A.tool||window.RITLBK)return;
-const VERSION='2.0',$=id=>document.getElementById(id);
+const VERSION='2.1',$=id=>document.getElementById(id);
 const TOOL=A.tool,NAME=A.name||A.tool,PRE=A.prefix||TOOL.replace(/-ritl$/,''),BKNAME=A.datei||`Backup_${NAME.replace('.','-')}.json`,EV=A.ereignis||PRE+':change';
 const BASE=BKNAME.replace(/^Backup_/,'').replace(/\.json$/i,''),RX=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
 const OLDRE=new RegExp('^\\d{8}-\\d{4}_'+RX(BASE)+'_Backup\\.json$'),COPYRE=new RegExp('^Backup_'+RX(BASE)+'.+\\.json$','i');
 const ALT=A.alt||{},K=n=>ALT[n]||`riemer-${PRE}-${n}`;
+const LIST=v=>Array.isArray(v)?v:v!=null&&v!==''?[v]:[];
+const ALIAS=[TOOL,...LIST(A.alias).map(String)];   // 2.1: weitere Tool-Kennungen beim Laden alter Dateien
+// 2.1: erst nach A.bereit abgleichen bzw. zentral sichern (ohne bereit sofort – wie 2.0)
+let RDY=!A.bereit;
+const BEREIT=RDY?Promise.resolve():Promise.resolve().then(()=>typeof A.bereit==='function'?A.bereit():A.bereit).catch(e=>{try{console.warn('[Backup] bereit:',e)}catch(_){}}).then(()=>{RDY=true});
+// 2.1: Prüfsumme ohne Ansichtswerte (ohneSha: Schlüssel, auch „a.b“) und/oder über A.norm(obj) – gilt für RITL-Sync, Ordner und zentrales Backup
+const OHNE=LIST(A.ohneSha).map(String);
+function shaNorm(o){let x=o;if(!x||typeof x!=='object')return x;
+ if(OHNE.length){x={...x};for(const k of OHNE){const p=k.split('.');let c=x;
+  for(let i=0;i<p.length-1&&c;i++){const v=c[p[i]];if(!v||typeof v!=='object'){c=null;break}c=c[p[i]]=Array.isArray(v)?[...v]:{...v}}
+  if(c)delete c[p[p.length-1]]}}
+ if(typeof A.norm==='function'){try{const y=A.norm(x===o?{...o}:x);if(y!==undefined)x=y}catch(e){try{console.warn('[Backup] norm:',e)}catch(_){}}}
+ return x}
+const shaTxt=d=>(OHNE.length||typeof A.norm==='function')?JSON.stringify(shaNorm(d)):null;
 const T=Object.assign({settings:'Farben, Ansichten, Filter, Favoriten',datenbank:'alle Arbeitsdaten',storage:'hochgeladene Dateien',rueckgaengig:''},A.texte||{});
 const ZB_API='https://hcluxhlvshydnncprpbl.supabase.co/functions/v1/tool-backup';
 const DQ=['lokal','ordner','server'],ST3=['settings','datenbank','storage'];
@@ -153,9 +171,10 @@ const download=(name,obj)=>{const a=document.createElement('a');a.href=URL.creat
 const pickFile=inp=>new Promise(res=>{inp.value='';inp.onchange=()=>res(inp.files[0]||null);inp.click()});
 // Kopf prüfen: eigenes Tool, sonst klare Meldung; Alt-Formate ohne Kopf über den Adapter (legacy)
 function check(o,want){
- if(o&&o.ritl){if(o.ritl.tool!==TOOL)throw new Error(`Die Datei gehört zu ${o.ritl.name||o.ritl.tool||'einem anderen Tool'}, nicht zu ${NAME}.`);
+ if(o&&o.ritl){if(!ALIAS.includes(o.ritl.tool))throw new Error(`Die Datei gehört zu ${o.ritl.name||o.ritl.tool||'einem anderen Tool'}, nicht zu ${NAME}.`);
   if(o.ritl.format>(A.format||1))throw new Error('Die Sicherung ist neuer als diese App. Bitte App aktualisieren.');
   if(want==='backup'&&o.ritl.inhalt==='favoriten')throw new Error('Das ist eine Favoriten-Datei – bitte unter ★ Favoriten importieren.');
+  if(want==='backup'&&o.ritl.inhalt&&o.ritl.inhalt!=='backup')throw new Error(`Das ist kein Backup, sondern eine Datei vom Typ „${o.ritl.inhalt}“ – bitte in ${NAME} dort laden, wo sie erstellt wurde.`);
   if(want==='backup'&&!o.daten)throw new Error('Die Datei enthält keine Backup-Daten.');
   if(want==='favoriten'){const l=o.favoriten||(o.daten&&o.daten.favoriten);if(!Array.isArray(l))throw new Error('Die Datei enthält keine Favoriten.');return l}
   return o.daten}
@@ -166,17 +185,25 @@ let DKEYS=null;const dataKeys=()=>{if(!DKEYS)try{DKEYS=Object.keys(A.daten()||{}
 const hasData=d=>!!d&&dataKeys().some(k=>d[k]!=null);
 // nur Arbeitsdaten (+ Dateien) – Einstellungen gleicht bei B der Server ab; sonst falsche Konflikte
 const nurDaten=d=>{const x={};dataKeys().forEach(k=>{x[k]=d&&d[k]});if(d&&Array.isArray(d.dateien))x.dateien=d.dateien;return x};
-async function restore(d,quelle,still){
+// 2.1: nach dem Übernehmen (inkl. Dateien vom Server bzw. Ordner-Stand) – A.nachAnwenden und Ereignis ritlbk:applied
+async function applied(stufe,quelle,text,still){
+ if(typeof A.nachAnwenden==='function')try{await A.nachAnwenden(stufe,quelle,!!still)}catch(e){try{console.warn('[Backup] nachAnwenden:',e)}catch(_){}}
+ try{document.dispatchEvent(new CustomEvent('ritlbk:applied',{detail:{quelle,stufe,text:text||'',still:!!still}}))}catch(e){}}
+let LAST_ST='';
+// art (2.1): 'datei' · 'zentral' · 'server' · 'ordner'; ohneHook: Aufrufer meldet „applied“ selbst (nach den Dateien vom Server)
+async function restore(d,quelle,still,art,ohneHook){
  const nurS=!hasData(d),nf=Array.isArray(d.dateien)?d.dateien.length:-1;
  if(!still&&!confirm(nurS?`Einstellungen aus dem Backup übernehmen (${T.settings}, Sprache)?\n${quelle}\n\nDie Daten (${T.datenbank}) bleiben unverändert.`:`Aktuellen Stand durch das Backup ersetzen?\n${quelle}\n\n${nf>=0?`Enthält ${nf} Datei(en) – die Dateiablage wird ersetzt.\n`:''}${T.rueckgaengig}`))return false;
- const stufe=nurS?'settings':nf>=0?'storage':'datenbank';
- const pf=!nurS&&nf>=0?loadFiles(d.dateien):null;
+ const stufe=nurS?'settings':nf>=0?'storage':'datenbank';LAST_ST=stufe;
+ // 2.1: erst die Dateiablage laden (dateienLaden), dann anwenden – das Tool findet seine Dateien schon vor
+ let fm='';if(!nurS&&nf>=0){try{const k=await loadFiles(d.dateien);fm=`Dateiablage wiederhergestellt: ${k} Datei(en)`}catch(e){fm='Dateien konnten nicht wiederhergestellt werden'}}
  await A.anwenden(stufe,d,quelle,!!still);
- if(pf){if(still)await pf.catch(()=>{});else pf.then(k=>toast(`Dateiablage wiederhergestellt: ${k} Datei(en)`)).catch(()=>toast('Dateien konnten nicht wiederhergestellt werden'))}
  if((d.theme==='dark'||d.theme==='light')&&d.theme!==document.documentElement.getAttribute('data-theme')){const tb=$('theme-btn');if(tb)tb.click();else document.documentElement.setAttribute('data-theme',d.theme)}
  if(d.sprache&&typeof window.setLang==='function'&&typeof window.I18N!=='undefined'&&d.sprache!==window.I18N.lang)window.setLang(d.sprache);
  if(d.ordner&&d.ordner.name)LSset(K('ordner'),JSON.stringify(d.ordner));
- if(!still)toast(nurS?'Einstellungen übernommen':'Backup wiederhergestellt');return true}
+ if(!still){toast(nurS?'Einstellungen übernommen':'Backup wiederhergestellt');if(fm)Promise.resolve().then(()=>toast(fm))}
+ if(!ohneHook)await applied(stufe,art||'datei',quelle,still);
+ return true}
 
 // ── Ordner-Verknüpfung (OneDrive/SharePoint lokal synchronisiert, File System Access API) ──
 const FS={handle:null,ok:false,auto:false,sess:'',last:null,lastName:'',err:'',busy:false};
@@ -186,6 +213,13 @@ const fsCfg=()=>LSset(K('fs'),JSON.stringify({auto:FS.auto}));
 function idb(mode,fn){return new Promise((res,rej)=>{let r;try{r=indexedDB.open(ALT.idbFs||PRE+'_fs',1)}catch(e){return rej(e)}r.onupgradeneeded=()=>r.result.createObjectStore('h');r.onerror=()=>rej(r.error);
  r.onsuccess=()=>{try{const t=r.result.transaction('h',mode),q=fn(t.objectStore('h'));t.oncomplete=()=>res(q&&q.result);t.onerror=()=>rej(t.error)}catch(e){rej(e)}}})}
 const idbSet=(h,k='dir')=>idb('readwrite',s=>h?s.put(h,k):s.delete(k)),idbGet=(k='dir')=>idb('readonly',s=>s.get(k));
+// 2.1: Ordner-Handle aus einer anderen IndexedDB lesen (alt.idbFsDb/idbFsStore/idbFsKey) – einmalig übernehmen; legt dort nichts an
+async function idbAlt(){const n=ALT.idbFsDb;if(!n||!window.indexedDB)return null;
+ try{if(typeof indexedDB.databases==='function'){const l=await indexedDB.databases();if(!l.some(x=>x&&x.name===n))return null}}catch(e){}
+ return new Promise(res=>{let r;try{r=indexedDB.open(n)}catch(e){return res(null)}
+  r.onupgradeneeded=()=>{try{r.transaction.abort()}catch(e){}};r.onerror=()=>res(null);r.onblocked=()=>res(null);
+  r.onsuccess=()=>{const db=r.result,st=ALT.idbFsStore||'h';try{if(!db.objectStoreNames.contains(st)){db.close();return res(null)}
+   const t=db.transaction(st,'readonly'),q=t.objectStore(st).get(ALT.idbFsKey||'dir');t.oncomplete=()=>{db.close();res(q.result||null)};t.onerror=t.onabort=()=>{db.close();res(null)}}catch(e){try{db.close()}catch(_){}res(null)}}})}
 async function fsPerm(ask){if(!FS.handle)return false;const o={mode:'readwrite'};
  try{if((await FS.handle.queryPermission(o))==='granted')return FS.ok=true;if(ask&&(await FS.handle.requestPermission(o))==='granted')return FS.ok=true}catch(e){}
  FS.ok=false;return false}
@@ -211,9 +245,10 @@ async function showList(){const L=$('fs-list');if(!FS.handle||!FS.ok){L.innerHTM
   L.innerHTML=l.length?(cur.length?`<span class="small">Backup im Ordner – zum Wiederherstellen anklicken:</span>`+cur.map(it).join(''):'')+(old.length?`<span class="small">Ältere Sicherungen (alte Benennung, können gelöscht werden):</span>`+old.slice(0,5).map(it).join('')+(old.length>5?`<span class="small">… und ${old.length-5} weitere</span>`:''):''):'<span class="small">Noch kein Backup in diesem Ordner.</span>'}catch(e){L.innerHTML=''}}
 // automatisch sichern: überschreibt die eine Backup-Datei, Änderungen gebündelt
 let tAuto=null;
-document.addEventListener(EV,()=>{if(ORD()||!FS.auto||!FS.handle)return;clearTimeout(tAuto);tAuto=setTimeout(async()=>{
+async function autoSave(){if(ORD()||!FS.auto||!FS.handle)return;if(!RDY){BEREIT.then(()=>{clearTimeout(tAuto);tAuto=setTimeout(autoSave,2500)});return}
  if(!await fsPerm(false)){FS.err='Automatisches Sichern pausiert – bitte „Zugriff erneuern“ wählen.';renderFs();return}
- try{await fsWrite(BKNAME,await backupObj(),false);FS.last=new Date();FS.lastName=BKNAME;FS.err=''}catch(e){FS.err=fsErr(e)}renderFs()},2500)});
+ try{await fsWrite(BKNAME,await backupObj(),false);FS.last=new Date();FS.lastName=BKNAME;FS.err=''}catch(e){FS.err=fsErr(e)}renderFs()}
+document.addEventListener(EV,()=>{if(ORD()||!FS.auto||!FS.handle)return;clearTimeout(tAuto);tAuto=setTimeout(autoSave,2500)});
 function fsStatus(){if(ORD())return oqStatus();
  if(!fsSupported())return['warn','Dieser Browser kann keinen Ordner verknüpfen (Safari, Firefox, iPhone/iPad). Bitte „Backup speichern“ und die Datei in den OneDrive- oder SharePoint-Ordner legen – oder Chrome bzw. Edge am Computer verwenden.'];
  if(!FS.handle)return['','Kein Ordner verknüpft.'];
@@ -244,7 +279,7 @@ $('fs-auto').onchange=e=>{FS.auto=e.target.checked;fsCfg();CFG.lokal.on=FS.auto;
 const LOC={h:null,last:null};
 const locOk=()=>typeof window.showSaveFilePicker==='function';
 async function locPick(){const h=await window.showSaveFilePicker({id:(TOOL+'-bk').slice(0,32),suggestedName:BKNAME,types:[{description:'Backup (JSON)',accept:{'application/json':['.json']}}]});LOC.h=h;await idbSet(h,'file').catch(()=>{});return h}
-async function locSave(neu){if(!locOk()){download(BKNAME,await backupObj());toast(`Backup: ${BKNAME} – Datei im Download-Ordner ersetzen`);return}
+async function locSave(neu){if(!locOk()){try{download(BKNAME,await backupObj());toast(`Backup: ${BKNAME} – Datei im Download-Ordner ersetzen`)}catch(e){toast(e.message||String(e))}return}
  try{let h=LOC.h;if(!h||neu)h=await locPick();const o={mode:'readwrite'};if((await h.queryPermission(o))!=='granted'&&(await h.requestPermission(o))!=='granted')throw Object.assign(new Error(),{name:'NotAllowedError'});
   const w=await h.createWritable();await w.write(JSON.stringify(await backupObj(),null,1));await w.close();LOC.last=new Date();toast(`Gesichert: ${h.name}`)}catch(e){const m=fsErr(e);if(m)toast(m)}renderLoc()}
 function renderLoc(){const s=$('bk-lst');s.className='status'+(LOC.last?' good':'');
@@ -253,7 +288,7 @@ function renderLoc(){const s=$('bk-lst');s.className='status'+(LOC.last?' good':
 $('bk-dl').onclick=()=>locSave(false);$('bk-loc').onclick=()=>locSave(true);
 if(locOk()&&window.indexedDB)idbGet('file').then(h=>{if(h)LOC.h=h;renderLoc()}).catch(()=>{});
 $('bk-up').onclick=async()=>{const f=await pickFile($('bk-file'));if(!f)return;try{const d=check(JSON.parse(await f.text()),'backup');if(await restore(d,f.name))$('bkdlg').close()}catch(e){toast(e instanceof SyntaxError?'Die Datei ist kein gültiges JSON.':e.message)}};
-const FSREADY=fsSupported()&&window.indexedDB?idbGet().then(async h=>{if(h){FS.handle=h;await fsPerm(false)}renderFs()}).catch(()=>{}):Promise.resolve();
+const FSREADY=fsSupported()&&window.indexedDB?idbGet().then(async h=>{if(!h&&ALT.idbFsDb){h=await idbAlt();if(h)await idbSet(h).catch(()=>{})}if(h){FS.handle=h;await fsPerm(false)}renderFs()}).catch(()=>{}):Promise.resolve();
 
 // ── Konfiguration je Gerät (lokal) + Vorgaben der Lizenz (Datenquelle, Stufe, Maximum, Wahl, Kontingent) ──
 let CFG={lokal:{on:false,stufe:'datenbank'},zentral:{on:false,stufe:'settings'},seen:false};
@@ -304,13 +339,19 @@ async function sizes(){const out={};for(const st of ST3){const raw=JSON.stringif
 // ── Zentrales Backup mit Historie (A, und Historie von B/C) ──
 const ZB={busy:false,last:null,lastSha:{},err:'',items:[],used:0,quota:0,t:null,pending:false};
 async function zbApi(action,data){return okj(action,data)}
-async function zbSave(force){if(!zbOk()||ZB.busy)return;if(!navigator.onLine){ZB.pending=true;if(force)toast('Offline – zentrales Backup folgt, sobald wieder eine Verbindung besteht');renderZb();return}ZB.pending=false;const st=CFG.zentral.stufe==='storage'?'datenbank':CFG.zentral.stufe,o=stufeObj(st),dat=JSON.stringify(o.daten),h=await sha(dat);
+async function zbSave(force){if(!zbOk()||ZB.busy)return;if(!RDY){ZB.pending=true;return}if(!navigator.onLine){ZB.pending=true;if(force)toast('Offline – zentrales Backup folgt, sobald wieder eine Verbindung besteht');renderZb();return}
+ ZB.pending=false;const st=CFG.zentral.stufe==='storage'?'datenbank':CFG.zentral.stufe;let o,dat,h;
+ // 2.1: ein leerer Stand (A.leer) ersetzt nie einen vorhandenen Stand der Historie
+ if(leer()){let da=false;try{const j=await zbApi('list');ZB.items=j.items||[];da=ZB.items.some(x=>x.stufe===st)}catch(e){da=true}
+  if(da){if(force)toast('Noch keine eigenen Daten – der Stand am Server bleibt unverändert.');return}}
+ // 2.1: Fehler aus settings()/daten() (z. B. „wird noch geladen“) abfangen
+ try{o=stufeObj(st);dat=JSON.stringify(o.daten);h=await sha(shaTxt(o.daten)??dat)}catch(e){if(force)toast('Zentrales Backup: '+(e&&e.message||e));return}
  if(!force&&ZB.lastSha[st]===h)return;ZB.busy=true;renderZb();
  try{const gz=await gzip(JSON.stringify(o));const j=await zbApi('save',{stufe:st,b64:b64(gz),sha256:h,raw:dat.length,version:ver()});ZB.lastSha[st]=h;ZB.last=new Date();ZB.err='';if(force)toast(j.unchanged?'Zentral: keine Änderung seit dem letzten Stand':`Zentral gesichert (${st} · ${fmtB(gz.length)})`);if($('bkdlg').open)zbList()}
  catch(e){ZB.err=e.message;if(force)toast('Zentrales Backup: '+e.message)}finally{ZB.busy=false;renderZb()}}
 async function zbList(){if(!zbOk())return;try{const j=await zbApi('list');ZB.items=j.items||[];ZB.used=j.used||0;ZB.quota=j.quota||(LIC&&LIC.quota)||0;ZB.err=''}catch(e){ZB.err=e.message}renderZb()}
 async function zbRestore(id){try{const j=await zbApi('get',{id});const o=JSON.parse(await gunzip(unb64(j.b64)));const it=ZB.items.find(x=>String(x.id)===String(id))||{};
-  if(await restore(check(o,'backup'),`Zentral · ${it.stufe||''} · ${it.at?zeit(new Date(it.at)):''}`))$('bkdlg').close()}catch(e){toast(e instanceof SyntaxError?'Das Backup ist beschädigt.':e.message)}}
+  if(await restore(check(o,'backup'),`Zentral · ${it.stufe||''} · ${it.at?zeit(new Date(it.at)):''}`,false,'zentral'))$('bkdlg').close()}catch(e){toast(e instanceof SyntaxError?'Das Backup ist beschädigt.':e.message)}}
 async function zbDelete(id){const it=ZB.items.find(x=>String(x.id)===String(id));if(!it)return;
  if(!confirm(`Stand vom ${zeit(new Date(it.at))} löschen?\n${it.stufe}${it.version?' · '+it.version:''} · ${fmtB(it.bytes||0)}\n\nDer Stand wird am Server endgültig gelöscht.`))return;
  try{await zbApi('delete',{id:it.id});toast('Stand gelöscht');ZB.lastSha={}}catch(e){toast('Löschen: '+e.message)}zbList()}
@@ -319,16 +360,21 @@ function zbSchedule(){if(!CFG.zentral.on||!zbOk())return;clearTimeout(ZB.t);ZB.t
 // ── C · Server ist die Datenbank (RITL-Sync): aktueller Stand je Stufe mit Revisionsnummer; Konflikt → Abfrage ──
 let SY={stufe:'',rev:0,sha:'',at:null,busy:false,err:'',conflict:null};
 try{SY={...SY,...JSON.parse(LS(K('sync'))||'{}'),busy:false,err:'',conflict:null}}catch(e){}
-const sySave=()=>LSset(K('sync'),JSON.stringify({stufe:SY.stufe,rev:SY.rev,sha:SY.sha,at:SY.at}));
+// l (2.1): war der zuletzt abgeglichene Stand „leer“ (A.leer)? – ein leerer Stand ersetzt nie von selbst einen Stand mit Daten
+const sySave=()=>LSset(K('sync'),JSON.stringify({stufe:SY.stufe,rev:SY.rev,sha:SY.sha,at:SY.at,...(typeof SY.l==='boolean'?{l:SY.l}:{})}));
 const syStufe=()=>ORD()?'settings':CFG.zentral.stufe==='storage'?'datenbank':CFG.zentral.stufe;
 const syOn=()=>!!(CFG.zentral.on&&CFG.zentral.quelle&&zbOk()&&SRV.allowed===true);
 // storage über den Server: Dateien der Dateiablage einzeln im Speicher (signierte URLs), Kontingent je Lizenz
 const syFilesOn=()=>!ORD()&&CFG.zentral.stufe==='storage'&&!!(RF&&RF.ok)&&A.serverDateien!==false;
 async function shaBlob(b){const x=await crypto.subtle.digest('SHA-256',await b.arrayBuffer());return [...new Uint8Array(x)].map(v=>v.toString(16).padStart(2,'0')).join('')}
 async function fsigLocal(){if(!syFilesOn())return '';const l=await RF.list();return l.map(f=>f.id+':'+f.size+':'+f.name).sort().join('|')}
+// 2.1: Dateien nach Prüfsumme (sha256 aus files_list) vergleichen; ältere Server ohne sha256 → wie 2.0 nach Größe und Name
+const FSHA=new Map();
+async function locSha(f){const k=f.size+'|'+f.name+'|'+(f.at||''),c=FSHA.get(f.id);if(c&&c[0]===k)return c[1];const r=await RF.get(f.id).catch(()=>null);if(!r||!r.blob)return '';const h=await shaBlob(r.blob);FSHA.set(f.id,[k,h]);return h}
+const gleich=async(s,l)=>s.sha256?s.name===l.name&&s.sha256===await locSha(l):s.bytes===l.size&&s.name===l.name;
 async function filesUp(){const srv=(await okj('files_list')).items||[],sm=new Map(srv.map(x=>[x.file_id,x])),loc=await RF.list();
- for(const f of loc){const s=sm.get(f.id);if(s&&s.bytes===f.size&&s.name===f.name)continue;
-  const r=await RF.get(f.id);if(!r)continue;const hh=await shaBlob(r.blob);
+ for(const f of loc){const s=sm.get(f.id);if(s&&await gleich(s,f))continue;
+  const r=await RF.get(f.id);if(!r)continue;const hh=await shaBlob(r.blob);FSHA.set(f.id,[f.size+'|'+f.name+'|'+(f.at||''),hh]);
   const p=await okj('files_put',{file_id:f.id,name:f.name,mime:f.type,bytes:f.size,sha256:hh,ref:f.ref||''});
   const fd=new FormData();fd.append('cacheControl','3600');fd.append('',r.blob,f.name);
   const u=await fetch(p.url,{method:'PUT',headers:{'x-upsert':'true'},body:fd}).catch(()=>null);
@@ -336,34 +382,39 @@ async function filesUp(){const srv=(await okj('files_list')).items||[],sm=new Ma
   await okj('files_done',{file_id:f.id})}
  return srv.filter(s=>!loc.some(f=>f.id===s.file_id))}
 async function filesDown(){const srv=(await okj('files_list')).items||[],loc=await RF.list(),lm=new Map(loc.map(f=>[f.id,f]));
- for(const s of srv){const l=lm.get(s.file_id);if(l&&l.size===s.bytes&&l.name===s.name)continue;
+ for(const s of srv){const l=lm.get(s.file_id);if(l&&await gleich(s,l))continue;
   const g=await okj('files_get',{file_id:s.file_id});const r=await fetch(g.url).catch(()=>null);if(!r||!r.ok)throw new Error(`Datei „${s.name}“ konnte nicht geladen werden`);
   const b=await r.blob();await RF.put(new Blob([b],{type:s.mime||b.type}),{id:s.file_id,name:s.name,ref:s.ref||''})}
  for(const l of loc)if(!srv.some(s=>s.file_id===l.id))await RF.del(l.id)}
-async function syLocal(){const st=syStufe(),o=stufeObj(st),dat=JSON.stringify(o.daten),fs=await fsigLocal();return{st,o,dat,h:await sha(fs?dat+'\n#dateien#'+fs:dat)}}
-async function syApply(j,st){const o=JSON.parse(await gunzip(unb64(j.b64)));await restore(check(o,'backup'),`Server · ${st} · Stand ${j.rev}`,true);if(syFilesOn())await filesDown();
- const L=await syLocal();SY={...SY,stufe:st,rev:j.rev,sha:L.h,at:j.at,err:''};sySave();ZB.last=new Date()}
-async function syPull(start){if(!syOn()||SY.busy)return;if(!navigator.onLine){ZB.pending=true;renderZb();return}
+async function syLocal(){const st=syStufe(),o=stufeObj(st),dat=JSON.stringify(o.daten),fs=await fsigLocal(),hd=shaTxt(o.daten)??dat;return{st,o,dat,h:await sha(fs?hd+'\n#dateien#'+fs:hd)}}
+async function syApply(j,st){const o=JSON.parse(await gunzip(unb64(j.b64))),q=`Server · ${st} · Stand ${j.rev}`;await restore(check(o,'backup'),q,true,'server',true);const ls=LAST_ST;if(syFilesOn())await filesDown();
+ const L=await syLocal();SY={...SY,stufe:st,rev:j.rev,sha:L.h,at:j.at,err:'',l:leer()};sySave();ZB.last=new Date();await applied(ls,'server',q,true)}
+async function syPull(start){if(!syOn()||SY.busy)return;if(!RDY)return;if(!navigator.onLine){ZB.pending=true;renderZb();return}
  SY.busy=true;renderZb();let next=null;
  try{const st=syStufe();if(SY.stufe!==st)SY={...SY,stufe:st,rev:0,sha:''};
   const neu=!SY.rev&&!SY.sha&&leer(); // neues Gerät ohne eigene Daten übernimmt still
   const j=await syRaw('state_get',{stufe:st});if(!j.ok)throw new Error(errTxt(j.error));
   const L=await syLocal(),dirty=L.h!==SY.sha;SY.err='';
   if(j.empty)next=()=>syPush(false);
-  else if(j.sha256===L.h){SY={...SY,rev:j.rev,sha:L.h,at:j.at};sySave()}
+  else if(j.sha256===L.h){SY={...SY,rev:j.rev,sha:L.h,at:j.at,l:leer()};sySave()}
   else if(j.rev===SY.rev){if(dirty)next=()=>syPush(false)}
   else if(!dirty||neu){await syApply(j,st);if(!start)toast('Neuer Stand vom Server geladen')}
   else{SY.conflict=j;next=syConflict}}
- catch(e){SY.err=e.message}finally{SY.busy=false;renderZb()}if(next)next()}
-async function syPush(force){if(!syOn()||SY.busy)return;if(!navigator.onLine){ZB.pending=true;renderZb();return}ZB.pending=false;
- const L=await syLocal();if(SY.stufe!==L.st)SY={...SY,stufe:L.st,rev:0,sha:''};if(!force&&L.h===SY.sha)return;
+ catch(e){SY.err=e.message}finally{SY.busy=false;renderZb()}if(next)return next()}
+async function syPush(force){if(!syOn()||SY.busy)return;if(!RDY)return;if(!navigator.onLine){ZB.pending=true;renderZb();return}
+ // 2.1: ein leerer Stand (A.leer) ersetzt nie von selbst einen Stand mit Daten am Server (nur „Meinen Stand behalten“)
+ if(!force&&SY.rev&&SY.l===false&&SY.stufe===syStufe()&&syStufe()!=='settings'&&leer())return;
+ // 2.1: Fehler aus settings()/daten() abfangen
+ ZB.pending=false;let L;try{L=await syLocal()}catch(e){return}if(SY.stufe!==L.st)SY={...SY,stufe:L.st,rev:0,sha:''};if(!force&&L.h===SY.sha)return;
  SY.busy=true;renderZb();let next=null;
  try{const weg=syFilesOn()?await filesUp():[];const gz=await gzip(JSON.stringify(L.o));const j=await syRaw('state_put',{stufe:L.st,b64:b64(gz),sha256:L.h,raw:L.dat.length,version:ver(),base_rev:SY.rev,force:!!force});
-  if(j.ok){SY={...SY,rev:j.rev,sha:L.h,at:j.at||new Date().toISOString(),err:''};sySave();ZB.last=new Date();ZB.lastSha[L.st]=L.h;ZB.err='';for(const s of weg)await syRaw('files_del',{file_id:s.file_id}).catch(()=>{});if(force)toast(j.unchanged?'Server: keine Änderung':`Am Server gespeichert (Stand ${j.rev})`)}
-  else if(j.error==='conflict'){const g=await syRaw('state_get',{stufe:L.st});if(g.ok&&!g.empty){SY.conflict=g;next=syConflict}}
+  if(j.ok){SY={...SY,rev:j.rev,sha:L.h,at:j.at||new Date().toISOString(),err:'',l:leer()};sySave();ZB.last=new Date();ZB.lastSha[L.st]=L.h;ZB.err='';for(const s of weg)await syRaw('files_del',{file_id:s.file_id}).catch(()=>{});if(force)toast(j.unchanged?'Server: keine Änderung':`Am Server gespeichert (Stand ${j.rev})`)}
+  else if(j.error==='conflict'){const g=await syRaw('state_get',{stufe:L.st});if(g.ok&&!g.empty){if(!force&&leer())next=()=>syLeerApply(g,L.st);else{SY.conflict=g;next=syConflict}}}
   else throw new Error(errTxt(j.error))}
- catch(e){SY.err=e.message}finally{SY.busy=false;renderZb()}if(next)next()}
-async function syCheck(){if(!syOn()||SY.busy||SY.conflict||!navigator.onLine||document.visibilityState!=='visible')return;
+ catch(e){SY.err=e.message}finally{SY.busy=false;renderZb()}if(next)return next()}
+// 2.1: Gerät ohne eigene Daten trifft auf einen Stand am Server → still übernehmen statt fragen
+async function syLeerApply(g,st){if(SY.busy)return;SY.busy=true;try{await syApply(g,st)}catch(e){SY.err=e.message}finally{SY.busy=false;renderZb()}}
+async function syCheck(){if(!syOn()||!RDY||SY.busy||SY.conflict||!navigator.onLine||document.visibilityState!=='visible')return;
  try{const j=await syRaw('state_head');if(j.backup)setLic(j.backup);const s=j.ok&&j.state&&j.state[syStufe()];if(s&&s.rev!==SY.rev)syPull(false)}catch(e){}}
 function syTexts(ord){$('sy-h').textContent=ord?'Neuerer Stand im Ordner':'Neuerer Stand am Server';$('sy-srv').textContent=ord?'Stand im Ordner übernehmen':'Serverstand übernehmen';
  $('sy-hint').textContent=ord?'„Stand im Ordner übernehmen“ ersetzt die Daten in diesem Browser. „Meinen Stand behalten“ überschreibt die Datei im Ordner.':'„Serverstand übernehmen“ ersetzt die Daten in diesem Browser. „Meinen Stand behalten“ schreibt deinen Stand auf den Server und ersetzt dort den anderen.'}
@@ -382,9 +433,11 @@ document.addEventListener('visibilitychange',()=>{if(document.visibilityState===
 //    Konfliktabfrage wie RITL-Sync; am Server nur settings (inkl. Ordnername) – der Server lehnt mehr ab (ordner_datenhoheit).
 let OQ={rev:0,sha:'',mod:0,at:null,busy:false,err:'',conflict:null,copies:[],t:null,asked:false};
 try{OQ={...OQ,...JSON.parse(LS(K('oq'))||'{}'),busy:false,err:'',conflict:null,copies:[],t:null,asked:false}}catch(e){}
-const oqSave=()=>LSset(K('oq'),JSON.stringify({rev:OQ.rev,sha:OQ.sha,mod:OQ.mod,at:OQ.at}));
+const oqSave=()=>LSset(K('oq'),JSON.stringify({rev:OQ.rev,sha:OQ.sha,mod:OQ.mod,at:OQ.at,...(typeof OQ.l==='boolean'?{l:OQ.l}:{})}));
+// 2.1: Tool ohne lokale Speicherung (fluechtig) – Sync- und Ordner-Stand gelten beim Start wie auf einem neuen Gerät
+if(A.fluechtig){SY={...SY,stufe:'',rev:0,sha:'',at:null};sySave();OQ={...OQ,rev:0,sha:'',mod:0,at:null};oqSave()}
 const oqStufe=()=>CFG.lokal.stufe==='settings'?'datenbank':CFG.lokal.stufe;
-async function fileSha(o){return sha(JSON.stringify(nurDaten(o&&o.daten)))}
+async function fileSha(o){const d=nurDaten(o&&o.daten);return sha(shaTxt(d)??JSON.stringify(d))}
 async function oqLocal(){const o=await stufeObjA(oqStufe());delete o.daten.ordner;return{o,h:await fileSha(o)}}
 async function oqRead(){let fh;try{fh=await FS.handle.getFileHandle(BKNAME)}catch(e){if(e&&e.name==='NotFoundError')return null;throw e}
  const f=await fh.getFile(),o=JSON.parse(await f.text());return{o,mod:f.lastModified,rev:(o.ritl&&+o.ritl.rev)||0}}
@@ -392,27 +445,30 @@ async function oqCopies(){const l=[];try{for await(const [n,h] of FS.handle.entr
 async function oqWrite(o,rev){o.ritl={...o.ritl,rev,geraet:(LS('riemer-geraet')||'').slice(0,8)};const fh=await FS.handle.getFileHandle(BKNAME,{create:true}),w=await fh.createWritable();
  await w.write(JSON.stringify(o,null,1));await w.close();return (await fh.getFile()).lastModified}
 async function oqOk(ask){return ORD()&&!!FS.handle&&await fsPerm(ask)}
-async function oqApply(r,still){const c=check(r.o,'backup'),d=nurDaten(c);if(!hasData(d))throw new Error('Die Datei im Ordner enthält keine Arbeitsdaten.');await restore({...settingsObj(),...d},`Ordner „${FS.handle.name}“ · Stand ${r.rev}`,true);
- OQ={...OQ,rev:r.rev,sha:await fileSha(r.o),mod:r.mod,at:new Date().toISOString(),err:''};oqSave();if(!still)toast(`Neuer Stand aus dem Ordner geladen (Stand ${r.rev})`)}
-async function oqPull(start){if(OQ.busy||OQ.conflict||!await oqOk(false))return;OQ.busy=true;let next=null;
+async function oqApply(r,still){const c=check(r.o,'backup'),d=nurDaten(c);if(!hasData(d))throw new Error('Die Datei im Ordner enthält keine Arbeitsdaten.');const q=`Ordner „${FS.handle.name}“ · Stand ${r.rev}`;await restore({...settingsObj(),...d},q,true,'ordner',true);const ls=LAST_ST;
+ OQ={...OQ,rev:r.rev,sha:await fileSha(r.o),mod:r.mod,at:new Date().toISOString(),err:'',l:leer()};oqSave();if(!still)toast(`Neuer Stand aus dem Ordner geladen (Stand ${r.rev})`);await applied(ls,'ordner',q,true)}
+async function oqPull(start){if(OQ.busy||OQ.conflict||!RDY||!await oqOk(false))return;OQ.busy=true;let next=null;
  try{const neu=!OQ.rev&&!OQ.sha&&leer(),r=await oqRead();OQ.copies=await oqCopies();const L=await oqLocal(),dirty=L.h!==OQ.sha;OQ.err='';
   if(!r)next=()=>oqPush(false);
   else{const fh=await fileSha(r.o);
-   if(fh===L.h){OQ={...OQ,rev:r.rev,sha:L.h,mod:r.mod};oqSave()}
+   if(fh===L.h){OQ={...OQ,rev:r.rev,sha:L.h,mod:r.mod,l:leer()};oqSave()}
    else if(r.rev===OQ.rev&&fh===OQ.sha){if(dirty)next=()=>oqPush(false)}
    else if(!dirty||neu)await oqApply(r,start);
    else{OQ.conflict=r;next=oqConflict}}}
  catch(e){OQ.err=e instanceof SyntaxError?'Die Datei im Ordner ist unvollständig – OneDrive synchronisiert gerade. Bitte kurz warten.':fsErr(e)}
- finally{OQ.busy=false;renderFs()}if(next)next()}
-async function oqPush(force,manual){if(OQ.busy||(OQ.conflict&&!force)||!await oqOk(!!manual))return;OQ.busy=true;let next=null;
+ finally{OQ.busy=false;renderFs()}if(next)return next()}
+async function oqPush(force,manual){if(OQ.busy||(OQ.conflict&&!force))return;if(!RDY&&!manual)return;
+ if(!await oqOk(!!manual))return;OQ.busy=true;let next=null;
  try{const L=await oqLocal(),r=await oqRead(),fh=r?await fileSha(r.o):'';
-  if(r&&fh===L.h){OQ={...OQ,rev:r.rev,sha:L.h,mod:r.mod};oqSave();if(manual)toast('Ordner ist aktuell')}
+  if(r&&fh===L.h){OQ={...OQ,rev:r.rev,sha:L.h,mod:r.mod,l:leer()};oqSave();if(manual)toast('Ordner ist aktuell')}
   // hier keine eigene Änderung an den Arbeitsdaten, aber die Datei ist neuer → holen statt fragen
   else if(!force&&r&&L.h===OQ.sha&&r.rev!==OQ.rev)next=()=>oqPull(false);
   else if(!force&&r&&r.rev!==OQ.rev&&fh!==OQ.sha){OQ.conflict=r;next=oqConflict}
-  else{const rev=Math.max(OQ.rev,r?r.rev:0)+1;OQ.mod=await oqWrite(L.o,rev);OQ={...OQ,rev,sha:L.h,at:new Date().toISOString(),err:''};oqSave();
+  // 2.1: ein leerer Stand (A.leer) überschreibt nie von selbst eine Datei mit Daten im Ordner
+  else if(!force&&!manual&&r&&OQ.l===false&&leer()){}
+  else{const rev=Math.max(OQ.rev,r?r.rev:0)+1;OQ.mod=await oqWrite(L.o,rev);OQ={...OQ,rev,sha:L.h,at:new Date().toISOString(),err:'',l:leer()};oqSave();
    FS.last=new Date();FS.lastName=BKNAME;if(manual||force)toast(`Im Ordner gespeichert (Stand ${rev})`)}}
- catch(e){OQ.err=fsErr(e)||OQ.err;if(manual&&OQ.err)toast(OQ.err)}finally{OQ.busy=false;renderFs()}if(next)next()}
+ catch(e){OQ.err=fsErr(e)||OQ.err;if(manual&&OQ.err)toast(OQ.err)}finally{OQ.busy=false;renderFs()}if(next)return next()}
 function oqConflict(){const r=OQ.conflict,d=$('sydlg');if(!r||!d)return;syTexts(true);const t=(r.o&&r.o.ritl)||{};
  $('sy-txt').innerHTML=`Die Datei <code class="notr">${esc(BKNAME)}</code> im Ordner „${esc(FS.handle.name)}“ wurde inzwischen auf einem anderen Gerät geändert (Stand ${r.rev}${t.erstellt?' · '+zeit(new Date(t.erstellt)):''}${t.version?' · <span class="notr">'+esc(t.version)+'</span>':''}). Auch in diesem Browser gibt es Änderungen. Welcher Stand soll gelten?`;
  if(!d.open)d.showModal()}
@@ -423,7 +479,7 @@ function oqDone(){if(SY.conflict){SY.conflict=null;setTimeout(()=>syPull(false),
 const oqSchedule=()=>{if(!ORD()||!FS.handle)return;clearTimeout(OQ.t);OQ.t=setTimeout(()=>{OQ.t=null;oqPush(false)},2500)};
 document.addEventListener(EV,oqSchedule);
 ['theme-btn','lang-btn'].forEach(id=>{const b=$(id);if(b)b.addEventListener('click',oqSchedule)});
-async function oqWatch(){if(!ORD()||!FS.handle||!FS.ok||OQ.busy||OQ.conflict||OQ.t)return;try{const f=await (await FS.handle.getFileHandle(BKNAME)).getFile();if(f.lastModified!==OQ.mod)oqPull(false)}catch(e){}}
+async function oqWatch(){if(!ORD()||!RDY||!FS.handle||!FS.ok||OQ.busy||OQ.conflict||OQ.t)return;try{const f=await (await FS.handle.getFileHandle(BKNAME)).getFile();if(f.lastModified!==OQ.mod)oqPull(false)}catch(e){}}
 setInterval(oqWatch,20000);
 document.addEventListener('visibilitychange',()=>{if(!ORD())return;if(document.visibilityState==='hidden'&&OQ.t){clearTimeout(OQ.t);OQ.t=null;oqPush(false)}else if(document.visibilityState==='visible')oqWatch()});
 async function oqStart(){await FSREADY;applyEff();renderFs();
@@ -466,7 +522,21 @@ function renderLokalStufe(){const e=$('bk-stufe');if(e)e.textContent=`Stufe ${st
 $('bkdlg').addEventListener('click',ev=>{const b=ev.target.closest('[data-zb],[data-zbget],[data-zbdel]');if(!b)return;
  if(b.dataset.zb==='save')syOn()?syPush(false).then(()=>toast(SY.err?'Server: '+SY.err:`Server aktuell (Stand ${SY.rev})`)):zbSave(true);
  else if(b.dataset.zbdel)zbDelete(b.dataset.zbdel);else zbRestore(b.dataset.zbget)});
-async function openBk(){$('bk-ver').textContent=`${NAME} ${ver()}`;renderFs();renderLoc();renderZb();renderLokalStufe();if(!$('bkdlg').open)$('bkdlg').showModal();if(zbOk())zbList();if(FS.handle){await fsPerm(false);renderFs();showList()}}
+// 2.1: eigene Abschnitte/Aktionen des Tools im Fenster „Backup“ (A.extra) – statt DOM-Einfügen durch das Tool
+const EXTRA=LIST(A.extra).filter(x=>x&&typeof x==='object');
+{const db=$('bkdlg').querySelector('.db'),base=[...db.children].filter(x=>x.matches('section.iosec')),nrOf=x=>((x.querySelector('h3 i')||{}).textContent||'').trim(),last=nrOf(base[base.length-1]);let n=base.length;
+ EXTRA.forEach((x,i)=>{const sec=document.createElement('section');sec.className='iosec';sec.id='bkx-'+String(x.id||i).replace(/[^\w-]/g,'');sec.dataset.bkx=String(i);
+  const ref=x.nach!=null?base.find(b=>nrOf(b)===String(x.nach)):null,nr=x.nr!=null?String(x.nr):ref&&nrOf(ref)!==last?'':p2(++n);
+  sec.innerHTML=`<h3>${nr?`<i>${esc(nr)}</i>`:''}${esc(x.titel||'')}</h3>${x.text?`<p class="small">${esc(x.text)}</p>`:''}<div class="bkx-body"></div><div class="iorow bkx-akt"></div>`;
+  if(ref){let a=ref;while(a.nextElementSibling&&a.nextElementSibling.dataset.bkx!=null)a=a.nextElementSibling;a.after(sec)}else db.appendChild(sec)})
+ db.addEventListener('click',ev=>{const b=ev.target.closest('[data-bkxa]');if(!b)return;const [i,k]=b.dataset.bkxa.split(':').map(Number),a=EXTRA[i]&&LIST(EXTRA[i].aktionen)[k];
+  if(a&&typeof a.klick==='function')Promise.resolve().then(()=>a.klick(ev,b)).catch(e=>toast(e&&e.message||String(e)))})}
+function renderExtra(){EXTRA.forEach((x,i)=>{const sec=$('bkdlg').querySelector(`[data-bkx="${i}"]`);if(!sec)return;
+ try{sec.hidden=typeof x.sichtbar==='function'?!x.sichtbar():false;const body=sec.querySelector('.bkx-body');
+  if(typeof x.render==='function')x.render(body,window.RITLBK);else if(x.html!=null)body.innerHTML=typeof x.html==='function'?x.html():String(x.html);
+  sec.querySelector('.bkx-akt').innerHTML=LIST(x.aktionen).map((a,k)=>{const aus=typeof a.aus==='function'?a.aus():!!a.aus;return `<button class="btn ${esc(a.klasse||'')}" type="button" data-bkxa="${i}:${k}"${aus?' disabled':''}>${esc(a.text||'')}</button>`}).join('')}
+ catch(e){try{console.warn('[Backup] extra:',e)}catch(_){}}})}
+async function openBk(){$('bk-ver').textContent=`${NAME} ${ver()}`;renderFs();renderLoc();renderZb();renderLokalStufe();renderExtra();if(!$('bkdlg').open)$('bkdlg').showModal();if(zbOk())zbList();if(FS.handle){await fsPerm(false);renderFs();showList()}}
 {const b=btn();if(b)b.addEventListener('click',openBk)}
 
 // ── „Backup einrichten“: Datenquelle A/B/C + Stufe 1/2/3 (bis zum Maximum der Lizenz) + Ordner dieses Geräts ──
@@ -527,14 +597,25 @@ if(zbOk()&&SRV.mode)applyEff(); // aus dem Cache, bis state_head antwortet
 renderFs();bkInd();
 // mit Lizenz gelten die wirksamen Werte (Wahl ≤ Maximum) ohne Rückfrage; „Backup einrichten“ öffnet sich nur, wenn der Server nichts vorgibt
 // (ältere Server) und noch nichts eingerichtet ist, oder bei B ohne Ordner auf diesem Gerät
-if(zbOk())setTimeout(()=>srvCheck().then(()=>{renderZb();if(!SRV.mode&&!CFG.seen)return openSetup();if(ORD())oqStart();if(CFG.zentral.on)syOn()?syPull(true):zbSave(false)}),!CFG.seen||CFG.zentral.quelle||SRV.mode==='ordner'||SRV.mode==='server'?300:3000);
+// 2.1: erster Abgleich bzw. zentrales Sichern erst, wenn das Tool bereit ist (A.bereit)
+const start=()=>{if(ORD())oqStart();if(CFG.zentral.on)syOn()?syPull(true):zbSave(false)};
+if(zbOk())setTimeout(()=>srvCheck().then(()=>{renderZb();if(!SRV.mode&&!CFG.seen)return openSetup();RDY?start():BEREIT.then(start)}),!CFG.seen||CFG.zentral.quelle||SRV.mode==='ordner'||SRV.mode==='server'?300:3000);
 else if(!CFG.seen)setTimeout(openSetup,900);
 
+// 2.1: Abgleich auf Knopfdruck – B: Datei im Ordner, C: Server (holen bzw. hochladen), A: zentral sichern; Ergebnis {ok, datenquelle, rev, konflikt, fehler}
+const warte=async o=>{for(let i=0;i<150&&o.busy;i++)await new Promise(r=>setTimeout(r,100))};
+async function sync(){await BEREIT;await FSREADY;const r={ok:true,datenquelle:zbOk()?SRV.mode||'lokal':'lokal',rev:0,konflikt:false,fehler:''};
+ if(!zbOk()){r.ok=false;r.fehler=OFFLINE?'Server: entfällt (Offline-Version)':PREVIEW()?PVTXT:'Server: nicht verfügbar (ohne Lizenz)';return r}
+ if(ORD()){if(!FS.handle||!FS.ok){r.ok=false;r.fehler=oqInd()[1]}else{await warte(OQ);await oqPull(false);r.rev=OQ.rev;r.konflikt=!!OQ.conflict;if(OQ.err){r.ok=false;r.fehler=OQ.err}}}
+ if(!navigator.onLine){r.ok=false;r.fehler=r.fehler||ZBERR.network;renderZb();return r}
+ if(syOn()){await warte(SY);await syPull(false);if(!ORD())r.rev=SY.rev;r.konflikt=r.konflikt||!!SY.conflict;if(SY.err){r.ok=false;r.fehler=r.fehler||SY.err}}
+ else if(CFG.zentral.on&&!ORD()){await warte(ZB);await zbSave(false);if(ZB.err){r.ok=false;r.fehler=r.fehler||ZB.err}}
+ renderZb();return r}
 window.RITLBK={version:VERSION,tool:TOOL,datei:BKNAME,
- open:openBk,setup:openSetup,schedule:()=>fire(),
+ open:openBk,setup:openSetup,schedule:()=>fire(),sync,extra:renderExtra,
  fs:{status:fsStatus,buttons:fsButtons,read:fsRead,write:fsWrite,run,action:fsAction,perm:fsPerm,supported:fsSupported,get handle(){return FS.handle},get ok(){return FS.ok}},
- head,check,download,pickFile,restore,zeit,stamp,esc,
- stand:()=>({datenquelle:zbOk()?SRV.mode||'lokal':'lokal',stufe:zbOk()?SRV.stufe||CFG.lokal.stufe:CFG.lokal.stufe,max:LIC&&LIC.max||null,wahl:LIC&&LIC.wahl||null,quota:LIC&&LIC.quota||0,lokal:{...CFG.lokal},zentral:{...CFG.zentral},sync:syOn(),ordner:ORD()})};
+ head,check,download,pickFile,restore:(d,quelle,still)=>restore(d,quelle,still,'datei'),zeit,stamp,esc,
+ stand:()=>({datenquelle:zbOk()?SRV.mode||'lokal':'lokal',stufe:zbOk()?SRV.stufe||CFG.lokal.stufe:CFG.lokal.stufe,max:LIC&&LIC.max||null,wahl:LIC&&LIC.wahl||null,quota:LIC&&LIC.quota||0,lokal:{...CFG.lokal},zentral:{...CFG.zentral},sync:syOn(),ordner:ORD(),bereit:RDY})};
 document.dispatchEvent(new Event('ritlbk:ready'));
 })();
 </script>

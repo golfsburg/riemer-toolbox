@@ -1,6 +1,6 @@
-# ritl-bk 2.0 – einheitliches Backup der RIEMER Tools (ab 19.11.2026)
+# ritl-bk 2.1 – einheitliches Backup der RIEMER Tools (ab 19.11.2026)
 
-Regel **S-17**, Rollout **R-13**. Vorbild: MUSTER.ritl V3.8. Baustein: [`ritl-bk.html`](ritl-bk.html) · Änderungen: [`CHANGELOG.md`](CHANGELOG.md).
+Regel **S-17**, Rollout **R-13**. Vorbild: MUSTER.ritl V3.9 (2.0: V3.8). Baustein: [`ritl-bk.html`](ritl-bk.html) · Änderungen: [`CHANGELOG.md`](CHANGELOG.md).
 Ein Block `<!--ritl-bk:start-->…<!--ritl-bk:end-->` (CSS + JS) enthält das ganze Backup: Knopf-Symbol am `#backupBtn`, Fenster „Backup“,
 „Backup einrichten“, Konfliktdialog, Dateiablage `RITLF`, Ordner-Verknüpfung, lokal sichern/laden, zentrales Backup mit Historie,
 RITL-Sync (C), Ordner als Datenbank (B), Offline-Version (`RITL.offline`) und Admin-Vorschau (`RITL.preview`).
@@ -66,9 +66,51 @@ window.RITL_BK = {
 | `RITLBK.head(inhalt)` · `RITLBK.check(obj, 'backup' oder 'favoriten')` · `RITLBK.download(name, obj)` · `RITLBK.pickFile(input)` | Kopf „ritl“, Prüfen, Datei speichern/wählen |
 | `RITLBK.restore(daten, quelle, still)` · `RITLBK.stand()` | Wiederherstellen · aktueller Zustand (Datenquelle, Stufe, Maximum, Wahl, Kontingent) |
 | Ereignisse `ritlbk:fs` (Ordner-Zustand geändert) · `ritlbk:ready` | eigene Anzeigen nachziehen |
+| ab 2.1: `RITLBK.sync()` → Promise `{ok, datenquelle, rev, konflikt, fehler}` | Abgleich auf Knopfdruck: B Ordner-Datei, C Server (holen bzw. senden), A zentral sichern |
+| ab 2.1: `RITLBK.extra()` | eigene Abschnitte (`extra`) neu zeichnen, z. B. nach einer Änderung im Tool |
+| ab 2.1: Ereignis `ritlbk:applied` (`detail: {quelle, stufe, text, still}`) | nach dem Übernehmen eines Stands – `quelle` = `datei` · `zentral` · `server` · `ordner`, bei `server` erst nach den Dateien |
 
 5. Prüfen: `node scripts/check.mjs <tool>` (alle ✓ inkl. S-17) und Playwright mit nachgestelltem Server wie MUSTER V3.8
    (C3 ohne Wahl, Wahl B2 + zweites Gerät, Maximum, A1, C3 mit Datei, Stand löschen, alte Backup-Dateien, Offline, Vorschau, Hell/Dunkel, 1920/1280/390).
+
+
+## Neu in 2.1 – zusätzliche Angaben im Adapter (alle optional)
+
+Ohne diese Angaben verhält sich 2.1 genau wie 2.0. Der Lizenzserver liefert 2.1 an alle Tools des Kanals aus – die heutigen Adapter laufen unverändert weiter.
+
+| Angabe | Standard | Wirkung |
+| --- | --- | --- |
+| `bereit` | – (sofort) | Promise oder Funktion → Promise. Erster Abgleich (B/C), zentrales Sichern und automatisches Sichern in den Ordner erst danach. Ersetzt fetch-Sperren und „wird noch geladen“-Fehler aus `daten()`. `RITLBK.stand().bereit` zeigt den Zustand. |
+| `ohneSha: ['ansicht','zugeklappt', 'ui.mod']` | `[]` | Schlüssel aus settings/daten (auch `a.b`), die für die **Prüfsumme** nicht zählen – RITL-Sync (C), Ordner (B) und zentrale Historie (A). Sie werden trotzdem mitgesichert. |
+| `norm(obj)` | – | Für Fälle, die `ohneSha` nicht abdeckt: liefert ein **neues** Objekt für die Prüfsumme (z. B. Zeitstempel entfernen). Das übergebene Objekt nicht verändern. |
+| `nachAnwenden(stufe, quelle, still)` | – | Nach dem Übernehmen eines Stands, bei C erst **nach** den Dateien vom Server (`filesDown`), bei B nach dem Merken des Ordner-Stands. Gleichzeitig Ereignis `ritlbk:applied`. |
+| `fluechtig: true` | `false` | Tool ohne lokale Speicherung (z. B. PDF/PPTX): Sync- und Ordner-Stand gelten beim Start wie auf einem neuen Gerät → der Stand wird still übernommen. Ersetzt das Löschen von `riemer-<x>-sync`/`-oq` im Adapter. |
+| `extra: [{titel, text?, html \| render(el, RITLBK), aktionen?, nach?, nr?, id?, sichtbar?}]` | `[]` | Eigene Abschnitte im Fenster „Backup“ (z. B. „04 Dateiablage“, „Komplett-Paket“). Ohne `nach` hinten mit Nummer 04, 05 …; `nach: '01'` setzt den Abschnitt hinter 01 (ohne Nummer, außer `nr`). `render`/`html` bei jedem Öffnen bzw. mit `RITLBK.extra()`. `aktionen: [{text, klasse:'primary', klick(ev, btn), aus()}]` = Knöpfe. Ersetzt DOM-Einfügen in `#bkdlg .db`. |
+| `alias: ['muster-ritl']` | `[]` | Weitere Tool-Kennungen, deren Dateien beim Laden angenommen werden (Kopf `ritl.tool`). |
+| `alt.idbFsDb`, `alt.idbFsStore` (`'h'`), `alt.idbFsKey` (`'dir'`) | – | Ordner-Verknüpfung aus einer anderen IndexedDB lesen, wenn die eigene (`alt.idbFs`) leer ist – einmalig übernommen. Legt dort nichts an. |
+
+Außerdem in 2.1 (ohne Angabe, für alle Tools):
+
+- **Dateien nach Prüfsumme:** `filesUp`/`filesDown` vergleichen mit `sha256` aus `files_list` (ältere Server ohne `sha256`: wie 2.0 nach Größe + Name). Die Prüfsumme des Stands enthält weiter `id:Größe:Name` der Dateien.
+- **Leerer Stand:** Solange `leer()` wahr ist, ersetzt das Tool nie von selbst einen Stand mit Daten – zentral (gibt es in der Historie schon einen Stand dieser Stufe, wird nicht gesichert), am Server (zuletzt abgeglichener Stand hatte Daten) und im Ordner. „Meinen Stand behalten“, „Jetzt im Ordner sichern“ gehen weiter. Ein leeres Gerät übernimmt bei einem Konflikt still den Stand am Server.
+- **Wiederherstellen:** zuerst `dateienLaden` (bzw. `RITLF.load`), danach `anwenden`. `check(obj,'backup')` lehnt Dateien mit `ritl.inhalt` ≠ `backup` klar ab (Favoriten-Dateien wie bisher). `zbSave`/`syPush` fangen Fehler aus `settings()`/`daten()` ab.
+- **CSS:** `dialog.rbk{margin:auto}` – Fenster bleiben mittig, auch bei globalem `*{margin:0}`.
+
+### Umwege, die Tools mit 2.1 entfernen können (nächste Version des Tools)
+
+| Tool | heute | mit 2.1 |
+| --- | --- | --- |
+| PM, MSX | fetch-Sperre bis `pm:ready` bzw. Projekt geladen | `bereit` |
+| TRACK, MENU, LV | `daten()` wirft „wird noch geladen“, TRACK: synthetische `online`/`visibilitychange`, `unhandledrejection` abfangen | `bereit` (TRACK: `bereit` = Promise aus `registerBk`) |
+| PDF, PPTX | `riemer-<x>-sync`/`-oq` beim Start löschen, `ohne()` für `created` | `fluechtig: true`, `norm` bzw. `ohneSha:['setup.created']` |
+| DRIVE, FOC, LV | Ansicht bewusst nicht in settings bzw. nur beim Wiederherstellen | `ohneSha` (Ansicht darf wieder in settings) |
+| LV | `neuLaden` wartet auf `rev` in `riemer-lv-sync`/`-oq` | `nachAnwenden` → neu laden |
+| MESH, MSX | `RITLF.put` umhüllen, um nach `filesDown` neu aufzubauen | `nachAnwenden` |
+| LV, MENU | Abschnitt „04 …“ per DOM in `#bkdlg .db` | `extra` |
+| PDF, PPTX | Komplett-Paket als eigener Knopf außerhalb | `extra` mit `aktionen` |
+| STAKE | eigenes `onclick` auf `#bk-up` + `alias()` für Kopf `muster-ritl` | `alias: ['muster-ritl']` |
+| TRACK | Ordner aus `track_ritl_fs` selbst kopieren + Neuladen | `alt: {idbFsDb:'track_ritl_fs', idbFsStore:'handles'}` |
+| DRIVE | „Aktualisieren“ über `stand()` + eigene Logik | `RITLBK.sync()` |
 
 ---
 
