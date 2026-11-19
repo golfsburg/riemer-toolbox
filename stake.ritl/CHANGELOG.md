@@ -23,6 +23,10 @@ Neueste Version oben.
 - Variante A funktioniert nur in Chrome oder Edge am Computer. In Safari, Firefox und auf iPhone/iPad erklärt das Tool das im Backup-Dialog.
 - Offline-Version: kein Serverzugriff, der Abschnitt „Zentral“ entfällt, Übersetzungen sind eingebaut.
 
+## V2.1 · 19.11.2026 · DEV
+**Behoben**
+- JS-Fehler beim ersten Start (ohne gespeicherte Daten): Eine Beziehung zwischen zwei Ansprechpartnern derselben zugeklappten Firmen-Box (z. B. „berichtet an“) wurde mit ungültigen Koordinaten gezeichnet (`NaN` in Kante und Beschriftung). Solche Beziehungen werden in der zugeklappten Box nicht mehr gezeichnet; aufgeklappt erscheinen sie wie bisher zwischen den Zeilen.
+
 ## V2.0 · 18.11.2026 · DEV
 **Geändert**
 - Fußzeile nach Skill-Regel 25: „© 2026 Peter Riemer · toolbox@riemer.co · RIEMER Tools“ mit Mail-Link; steht immer am unteren Rand des Browserfensters (bei wenig Inhalt unten, bei langem Inhalt beim Scrollen sichtbar), kompakt in einer Zeile. Unter 620 px entfällt die Kurzinfo rechts.
