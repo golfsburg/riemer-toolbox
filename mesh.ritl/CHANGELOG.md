@@ -3,6 +3,21 @@
 Kompakter 3D-Viewer und -Editor im Browser für den 3D-Druck · #ritl_mesh
 Neueste Version oben. V1.0–V1.8 als Einzeldatei entwickelt (nicht in der Toolbox veröffentlicht).
 
+## V2.6 · 19.11.2026 · DEV
+**Neu**
+- **Backup-Stufe je Lizenz:** Die Stufe (settings, datenbank oder storage) legt der Anbieter im Lizenz-Admin fest. Sie gilt auf allen Geräten und in allen RIEMER Tools – das Backup muss nicht mehr auf jedem Gerät eingerichtet werden. Mit storage werden bei „Server ist die Datenquelle“ auch die Geometrien auf jedem Gerät abgeglichen.
+  - Lokal (01) gilt die Stufe der Lizenz (bei A mindestens datenbank). Zentral (02): bei B die Stufe der Lizenz (mindestens datenbank), bei A settings, ohne Server-Freigabe höchstens datenbank.
+  - Zentrales Sichern ist mit Lizenz immer eingeschaltet. Nur „automatisch im verknüpften Ordner sichern“ bleibt je Gerät (der Ordner muss auf jedem Gerät verknüpft werden).
+- „Backup einrichten“ öffnet sich mit Lizenz nicht mehr von selbst (nur bei A, solange kein Ordner verknüpft ist) und zeigt oben die Stufe der Lizenz; die Auswahl ist gesperrt („durch die Lizenz festgelegt“). Auch die Stufe im Backup-Dialog unter 01 Lokal ist dann fest.
+
+**Geändert**
+- Von der Lizenz festgelegte Häkchen und Stufen (Datenquelle A und B) tragen den Hinweis „durch die Lizenz festgelegt“ – die Sperre ist gewollt.
+- Gesperrte storage-Zeile unter 02 Zentral: „nur mit ‚Server ist die Datenquelle‘ (Freigabe im Admin)“; Hinweis bei fehlender Freigabe: „Freigabe im Admin“ statt „beim Anbieter anfragen“.
+- In der Admin-Vorschau steht „Admin-Vorschau – zentrale Funktionen hier nicht verfügbar“; dort wird nichts mehr zentral gesichert.
+
+**Behoben**
+- Datenquelle B (Server ist die Datenbank): storage ist unter 02 Zentral immer wählbar, auch wenn die Prüfung am Server gerade nicht klappt, und springt nach „Übernehmen“ nicht mehr auf datenbank zurück.
+
 ## V2.5 · 19.11.2026 · DEV
 **Geändert**
 - Nach „Stand aus dem Ordner übernehmen“, „Serverstand übernehmen“ und „Backup wiederherstellen“ lädt MESH.ritl die Seite nicht mehr neu, sondern baut die Szene direkt neu auf. Favoriten und Hell/Dunkel gelten sofort.
