@@ -264,6 +264,7 @@
     <button type="button" id="lic-new">+ Neue Lizenz</button>
     <button data-tab="tools">Tools</button>
     <button data-tab="ui">Header · RITL-UI</button>
+    <button data-tab="bk">Backup · RITL-BK</button>
     <button data-tab="clubs">Vereine</button>
     <button data-tab="log">Protokoll</button>
     <span class="sp"></span>
@@ -329,6 +330,27 @@
         <label>Notiz</label><input name="notes" placeholder="Was ist neu?">
         <label>Datei <code>ritl-ui.html</code> *</label><input name="file" type="file" accept=".html,.htm,text/html" required>
         <span class="hint">Muss mit <code>&lt;!--ritl-ui:start--&gt;</code> beginnen und mit <code>&lt;!--ritl-ui:end--&gt;</code> enden.</span>
+        <button class="b pri" style="margin-top:1rem">Hochladen</button>
+      </form>
+    </section>
+
+    <section id="t-bk" class="card hide">
+      <h2>Zentrales Backup · RITL-BK</h2>
+      <p class="hint" style="margin:-8px 0 12px">Das Backup aller umgestellten Tools (Block <code>&lt;!--ritl-bk:start--&gt; … &lt;!--ritl-bk:end--&gt;</code>, Regel S-17) wird beim Ausliefern durch die neueste aktive Version aus dem Kanal der Lizenz ersetzt – wie der Header RITL-UI. Ohne Version bleibt der Block, der im Tool steckt. Zuerst in Dev testen, dann freigeben. Quelle im Repo: <code>ritl-bk/ritl-bk.html</code>.</p>
+      <div class="srcsum" id="bk-live"></div>
+      <div class="wrap"><table data-rz="bk">
+        <thead><tr><th>Version</th><th>Kanal</th><th>Freigegeben</th><th>Größe</th><th>Notiz</th><th></th></tr></thead>
+        <tbody id="bkrows"></tbody>
+      </table></div>
+      <h2 style="margin-top:22px">Neue Backup-Version hochladen</h2>
+      <form id="bkform">
+        <div class="grid">
+          <div><label>Version *</label><input name="version" placeholder="2.0" required pattern="[0-9]+\.[0-9]+(\.[0-9]+)?"></div>
+          <div><label>Kanal</label><select name="channel"><option value="dev">Entwicklung (Dev)</option><option value="beta">Beta</option><option value="stable">Stabil</option></select></div>
+        </div>
+        <label>Notiz</label><input name="notes" placeholder="Was ist neu?">
+        <label>Datei <code>ritl-bk.html</code> *</label><input name="file" type="file" accept=".html,.htm,text/html" required>
+        <span class="hint">Muss mit <code>&lt;!--ritl-bk:start--&gt;</code> beginnen und mit <code>&lt;!--ritl-bk:end--&gt;</code> enden.</span>
         <button class="b pri" style="margin-top:1rem">Hochladen</button>
       </form>
     </section>
@@ -930,6 +952,52 @@
       });
     });
   });
+  /* ── Zentrales Backup RITL-BK (S-17): Versionen und Kanäle – wie RITL-UI, ohne Vorschau ── */
+  function loadBk() {
+    $("bkrows").innerHTML = '<tr><td colspan="6" class="hint">Lade …</td></tr>';
+    return api("bk_list").then(function (r) {
+      if (!r.ok) return;
+      var L = r.live || {};
+      $("bk-live").innerHTML = "Ausgeliefert: " + ["stable", "beta", "dev"].map(function (c) { return "<b>" + UI_CH[c] + "</b> " + esc(L[c] || "– (Block im Tool)"); }).join(" · ");
+      $("bkrows").innerHTML = r.versions.map(function (v) {
+        var live = ["stable", "beta", "dev"].filter(function (c) { return L[c] === v.version && v.active; });
+        var chSel = '<select class="vsel" data-bksel="channel" data-bid="' + v.id + '" aria-label="Kanal">' + ["stable", "beta", "dev"].map(function (c) {
+          return '<option value="' + c + '"' + (c === v.channel ? " selected" : "") + ">" + UI_CH[c] + "</option>"; }).join("") + "</select>";
+        var acts = '<button class="b" data-bkact="get" data-bid="' + v.id + '">⬇ Datei</button>' +
+          (v.active ? '<button class="b" data-bkact="off" data-bid="' + v.id + '">Zurückziehen</button>' : '<button class="b" data-bkact="on" data-bid="' + v.id + '">Reaktivieren</button>') +
+          '<button class="b dan" data-bkact="del" data-bid="' + v.id + '">Löschen</button>';
+        return '<tr class="' + (v.active ? "" : "off") + '"><td class="mono"><b>' + esc(v.version) + "</b>" +
+          (live.length ? ' <span class="pill p-ok">aktuell · ' + live.map(function (c) { return UI_CH[c]; }).join(", ") + "</span>" : "") +
+          (v.active ? "" : ' <span class="pill p-bad">zurückgezogen</span>') + "</td><td>" + chSel + "</td><td>" + fmtDT(v.released_at) + "</td><td>" + v.kb + " KB</td>" +
+          '<td class="hint">' + esc(v.notes || "") + '</td><td><div class="acts">' + acts + "</div></td></tr>";
+      }).join("") || '<tr><td colspan="6" class="hint">Noch keine Backup-Version – die Tools nutzen den Block, der in ihnen steckt.</td></tr>';
+    });
+  }
+  $("bkrows").addEventListener("change", function (e) {
+    var sel = e.target.closest("select[data-bksel]"); if (!sel) return;
+    api("bk_set", { id: sel.dataset.bid, channel: sel.value }).then(function (r) { if (r.ok) { toast("Gespeichert ✓"); loadBk(); } });
+  });
+  $("bkrows").addEventListener("click", function (e) {
+    var b = e.target.closest("button[data-bkact]"); if (!b) return;
+    var id = b.dataset.bid, a = b.dataset.bkact, p;
+    if (a === "get") { api("bk_get", { id: id }).then(function (r) { if (!r.ok) return;
+      var u = URL.createObjectURL(new Blob([r.block], { type: "text/html" })), l = document.createElement("a");
+      l.href = u; l.download = "ritl-bk_V" + r.version + ".html"; document.body.appendChild(l); l.click(); l.remove(); setTimeout(function () { URL.revokeObjectURL(u); }, 4000); }); return; }
+    if (a === "off") { if (!confirm("Backup-Version zurückziehen? Die Tools bekommen dann die vorherige aktive Version bzw. ihren eigenen Block.")) return; p = api("bk_set", { id: id, active: false }); }
+    if (a === "on") p = api("bk_set", { id: id, active: true });
+    if (a === "del") { if (!confirm("Backup-Version endgültig löschen?")) return; p = api("bk_delete", { id: id }); }
+    p && p.then(function (r) { if (r.ok) { toast("Gespeichert ✓"); loadBk(); } });
+  });
+  $("bkform").addEventListener("submit", function (e) {
+    e.preventDefault(); var f = e.target, file = f.file.files[0]; if (!file) return;
+    file.text().then(function (txt) {
+      txt = txt.trim();
+      if (txt.indexOf("<!--ritl-bk:start-->") !== 0 || txt.slice(-18) !== "<!--ritl-bk:end-->") { toast("Datei muss mit <!--ritl-bk:start--> beginnen und mit <!--ritl-bk:end--> enden."); return; }
+      api("bk_upload", { version: f.version.value.trim(), channel: f.channel.value, notes: f.notes.value.trim(), block: txt }).then(function (r) {
+        if (r.ok) { toast("Backup-Version hochgeladen ✓"); f.reset(); loadBk(); }
+      });
+    });
+  });
   /* Vorschau einer Header-Version im Modal: Beispiel-Tool in wählbarer Breite, Hell/Dunkel, Kanal, Edition, Lizenz */
   var UIP = { block: "", ver: "" };
   var UIP_TOKENS = ':root{--brand:#1F5FC2;--brand-hover:#174C9E;--accent-text:#1F5FC2;--ink:#1B1F24;--ink2:#2D333B;--muted:#5F6773;--surface:#FFFFFF;--surface-muted:#F4F5F7;--on-brand:#FFFFFF;--tint:#C9DAF5;--line:#E3E6EB;--line2:#CDD2D9;--good:#0F7B6C;--warn:#C2410C;--red:#C53030;--radius-sm:3px;--radius:8px;--sans:"Inter",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace;color-scheme:light}' +
@@ -1133,6 +1201,10 @@
       var a = html.indexOf("<!--ritl-ui:start-->"), e = html.indexOf("<!--ritl-ui:end-->");
       if (a >= 0 && e > a) { var ul = await api("ui_list"), live = ul.ok && ul.live && ul.live.stable, uv = ul.ok && ul.versions.filter(function (x) { return x.active && x.version === live; })[0];
         if (uv) { var ug = await api("ui_get", { id: uv.id }); if (ug.ok) html = html.slice(0, a) + ug.block + html.slice(e + 18); } }
+      offStatus("Backup (RITL-BK) …");
+      var ba = html.indexOf("<!--ritl-bk:start-->"), be = html.indexOf("<!--ritl-bk:end-->");
+      if (ba >= 0 && be > ba) { var bl = await api("bk_list"), blive = bl.ok && bl.live && bl.live.stable, bv = bl.ok && blive && bl.versions.filter(function (x) { return x.active && x.version === blive; })[0];
+        if (bv) { var bg = await api("bk_get", { id: bv.id }); if (bg.ok) html = html.slice(0, ba) + bg.block + html.slice(be + 18); } }
       offStatus("Farben …");
       var lid = $("off-lic").value, css = "";
       if (lid) { var tg = await api("theme_get", { license_id: lid }); var th = tg.ok && (tg.themes.filter(function (x) { return x.tool === v.tool; })[0] || tg.themes.filter(function (x) { return x.tool === "*"; })[0]);
@@ -1837,8 +1909,9 @@
   document.querySelector("nav").addEventListener("click", function (e) {
     var b = e.target.closest("button[data-tab]"); if (!b) return;
     [].forEach.call(document.querySelectorAll("nav button[data-tab]"), function (x) { x.classList.toggle("on", x === b); });
-    ["lic", "tools", "ui", "clubs", "log"].forEach(function (t) { $("t-" + t).classList.toggle("hide", t !== b.dataset.tab); });
+    ["lic", "tools", "ui", "bk", "clubs", "log"].forEach(function (t) { $("t-" + t).classList.toggle("hide", t !== b.dataset.tab); });
     if (b.dataset.tab === "ui") loadUi();
+    if (b.dataset.tab === "bk") loadBk();
     if (b.dataset.tab === "log") loadLog();
     if (b.dataset.tab === "clubs") loadClubs();
   });
