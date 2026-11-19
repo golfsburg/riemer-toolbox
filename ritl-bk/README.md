@@ -49,7 +49,7 @@ Vorbild: MUSTER.ritl V3.1. Gilt für `settings` und `datenbank` (storage über d
   - Speichern (`syPush`): erst fehlende/geänderte Dateien hochladen, dann `state_put`; erst nach Erfolg am Server überzählige Dateien löschen (bei Konflikt nichts löschen).
   - Laden (`syApply`): Stand übernehmen, dann fehlende Dateien herunterladen und lokal überzählige löschen.
 
-# Datenquelle je Lizenz: A Ordner · B Server (ab MUSTER.ritl V3.3)
+# Datenquelle je Lizenz: Lokal · A Ordner · B Server (ab MUSTER.ritl V3.3)
 
 Standard **S-14**. Der Anbieter legt im Lizenz-Admin › „Datenquelle · Datenhoheit“ fest, wo die Daten einer Lizenz liegen
 (`licenses.datenquelle`, `server_quelle` folgt automatisch):
@@ -57,8 +57,8 @@ Standard **S-14**. Der Anbieter legt im Lizenz-Admin › „Datenquelle · Daten
 | Wert | Bedeutung | Server (`tool_state`, `tool_backups`, `tool_files`) | Browser |
 | --- | --- | --- | --- |
 | `lokal` | Daten im Browser, Backups wie bisher | zentrales Backup mit Historie (settings, datenbank); `state_*` → `server_not_enabled` | alle |
-| `server` (**B**) | Server ist die Datenbank (RITL-Sync) | alle Stufen inkl. storage/Dateien | alle |
 | `ordner` (**A**) | Datei im OneDrive/SharePoint-Ordner ist die Datenbank (Datenhoheit) | **nur `settings`** – `state_put`/`save` mit anderer Stufe → `ordner_datenhoheit`, `files_*` → `server_not_enabled` | nur Chrome/Edge (File System Access API) |
+| `server` (**B**) | Server ist die Datenbank (RITL-Sync) | alle Stufen inkl. storage/Dateien | alle |
 
 - **Server:** `state_head` liefert `datenquelle` (auch im Fehlerfall `server_not_enabled`). Die Grenzen für A erzwingt der Server – auch ältere Tools können keine Arbeitsdaten ablegen.
 - **Tool:** `srvCheck()` merkt `SRV.mode` (`riemer-<name>-srv`), `applyMode()` setzt die Konfiguration:
