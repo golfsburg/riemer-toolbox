@@ -3,6 +3,16 @@
 Projektmanagement: Projekt-Portfolio mit Gewerken, Anwendungen und Businesses (Lead › Spezifikation Opportunity › Spezifikation › Opportunity), Umsatzplan, Dashboard und Zeitplan · #ritl_pm
 Neueste Version oben. Versionen ≤ V1.1 nachträglich rekonstruiert (Projektmanager V1.x, selbstspeichernde HTML-Datei).
 
+## V3.1.10 · 20.11.2026 · DEV
+
+### Neu
+- **Projekt auswählen im PORTFOLIO:** Klick auf den Projektnamen öffnet das Projekt und springt auf **DASH**. DASH und PLAN zeigen dann nur dieses Projekt; im Filterbereich steht der Chip „Projekt“ (× zeigt wieder alle Projekte). Das Ordnersymbol öffnet weiterhin PROJEKT.ritl.
+- Die Ribbons **DASH** und **PLAN** zeigen wie PROJEKT den Namen des gewählten Projekts; die Projektkarte ist im PORTFOLIO markiert.
+
+### Behoben
+- PPTX-Projektreport, „Zeitplan der Businesses“: alle Balken hatten dieselbe Farbe. Lead, Spezifikation Opportunity, Spezifikation und Opportunity haben jetzt eigene Farben (auch in der Legende und in den Diagrammen je Business-Typ).
+- PPTX-Exporte lösen App-Farben (Projekt-, Gewerk- und Zeitplanfarben) richtig auf – auch wenn die App im Dunkelmodus läuft.
+
 ## V3.1.9 · 20.11.2026 · DEV
 
 ### Neu
