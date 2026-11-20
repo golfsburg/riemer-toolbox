@@ -3,6 +3,11 @@
 Kompakter 3D-Viewer und -Editor im Browser für den 3D-Druck · #ritl_mesh
 Neueste Version oben. V1.0–V1.8 als Einzeldatei entwickelt (nicht in der Toolbox veröffentlicht).
 
+## V2.7.3 · 20.11.2026 · DEV
+**Geändert**
+- **Rundungen und Fasen bleiben beim Skalieren gleich:** Wird ein Grundkörper mit abgerundeten oder gefasten Kanten skaliert (Prozent, Maßfelder X/Y/Z oder Werkzeug „Skalieren“), passt MESH seine Maße an und baut ihn neu – der Radius bzw. die Fase bleibt unverändert. Die neuen Maße stehen danach auch unter „⚙ Maße“. „Rückgängig“ stellt den alten Stand wieder her.
+- Zylinder, Kegel, Rohr, Prisma und Pyramide lassen sich so nur mit gleichem Faktor in X und Y skalieren, die Halbkugel nur proportional. Sonst wird wie bisher verzerrt und ein Hinweis erscheint.
+
 ## V2.7.2 · 20.11.2026 · DEV
 **Neu**
 - **Kanten abrunden oder fasen:** Im Fenster „Grundkörper“ gibt es den neuen Bereich **Kanten**: scharf, abgerundet (Radius r in mm) oder gefast. Das gilt für Quader, Zylinder, Rohr, Halbkugel, Kegel, Pyramide, Prisma und Keil. Kugel und Torus sind schon rund.
