@@ -3,6 +3,17 @@
 Kompakter 3D-Viewer und -Editor im Browser für den 3D-Druck · #ritl_mesh
 Neueste Version oben. V1.0–V1.8 als Einzeldatei entwickelt (nicht in der Toolbox veröffentlicht).
 
+## V2.7.4 · 20.11.2026 · DEV
+**Neu**
+- **Kanten einzeln runden oder fasen:** „◇ Kanten“ im Objekt-Fenster (Taste **K**) zeigt alle Kanten des gewählten Grundkörpers. Kanten anklicken (mehrere möglich), dann **Rundung**, **Fase** oder **scharf** mit Wert in mm wählen und „Anwenden“. Jede Kante kann einen eigenen Wert haben, z. B. oben gerundet und senkrecht gefast.
+- Schnellwahl: **alle · oben · unten · Seiten · keine**. Farben: grün = Rundung, lila = Fase, rot = gewählt.
+- Treffen an einer Ecke nur gerundete Kanten mit gleichem Radius zusammen, wird die Ecke kugelförmig ausgerundet.
+- Gilt für Quader, Prisma, Pyramide, Keil (jede Kante) sowie Zylinder, Kegel, Rohr und Halbkugel (Kreiskanten oben/unten, beim Rohr innen und außen).
+- Die Einstellung je Kante bleibt beim Speichern, in den Favoriten, beim Ändern der Maße und beim Skalieren erhalten. „Rückgängig“ (Strg+Z) nimmt sie zurück. Im Fenster „Grundkörper“ steht dann „Kante: einzeln“.
+
+**Geändert**
+- Am Handy wird das Objekt-Fenster ausgeblendet, solange Kanten gewählt werden, damit der Körper frei sichtbar ist.
+
 ## V2.7.3 · 20.11.2026 · DEV
 **Geändert**
 - **Rundungen und Fasen bleiben beim Skalieren gleich:** Wird ein Grundkörper mit abgerundeten oder gefasten Kanten skaliert (Prozent, Maßfelder X/Y/Z oder Werkzeug „Skalieren“), passt MESH seine Maße an und baut ihn neu – der Radius bzw. die Fase bleibt unverändert. Die neuen Maße stehen danach auch unter „⚙ Maße“. „Rückgängig“ stellt den alten Stand wieder her.
