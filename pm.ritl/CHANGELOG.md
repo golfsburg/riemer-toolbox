@@ -3,6 +3,11 @@
 Projektmanagement: Projekt-Portfolio mit Gewerken, Anwendungen und Businesses (Lead › Spezifikation Opportunity › Spezifikation › Opportunity), Umsatzplan, Dashboard und Zeitplan · #ritl_pm
 Neueste Version oben. Versionen ≤ V1.1 nachträglich rekonstruiert (Projektmanager V1.x, selbstspeichernde HTML-Datei).
 
+## V3.1.2 · 20.11.2026 · DEV
+**Geändert**
+- Die Filter in PORTFOLIO.ritl wirken jetzt auf alle Kennzahlen: Box 01 Kennzahlen (Karten, Projekte je Phase) und 02 Umsatzplan zeigen nur die gefilterten Projekte – wie DASH.ritl, PLAN.ritl und die Projektliste. Neben „Kennzahlen“ steht „gefiltert · n von m Projekten“, solange ein Filter aktiv ist.
+- „Projekte je Phase“ berücksichtigt alle Filter außer dem Phasen-Filter selbst, damit die Verteilung sichtbar bleibt; die gewählte Phase ist hervorgehoben.
+
 ## V3.1.1 · 20.11.2026 · DEV
 **Neu**
 - **Projekte je Phase in PORTFOLIO.ritl › 01 Kennzahlen:** vier Karten Akquisition, Steering, Execution, Review mit Anzahl und Anteil, den Projekten der Phase (Klick öffnet das Projekt) sowie „ruht“ und „Abschluss?“. Darüber ein Balken mit der Verteilung. Klick auf die Zahl filtert die Projektliste auf diese Phase (nochmal klicken hebt den Filter auf).
