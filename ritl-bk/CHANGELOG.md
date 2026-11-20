@@ -2,7 +2,13 @@
 
 Zentraler Backup-Baustein aller RIEMER Tools (Regel S-17). Neueste Version oben.
 
-## 2.4 · 20.11.2026 · DEV
+## 2.5 · 20.11.2026 · DEV
+**Geändert**
+- **„Backup einrichten“ als Raster Datenquelle × Stufe:** statt zwei getrennter Listen (01 Datenquelle, 02 Stufe) ein Raster mit allen Kombinationen A1 … C3. Jede Kombination ist einzeln frei oder gesperrt – genau nach der Lizenz (z. B. A3 · B2 · C1: B3, C2 und C3 gesperrt), mit Grund im Tooltip. B1 entfällt („–“, bei B enthält die Datei immer die Arbeitsdaten). Die wirksame Kombination ist mit „wirksam“ markiert, darunter steht die gewählte Kombination im Klartext.
+- „Übernehmen“ lehnt eine gesperrte Kombination mit Hinweis ab.
+- Abschnitt „Ordner · OneDrive & SharePoint“ ist jetzt 02 (vorher 03).
+
+## 2.4 · 20.11.2026 · Stabil
 **Neu**
 - **Stufe je Datenquelle:** Die Lizenz kann für jede Datenquelle eine eigene höchste Stufe festlegen (z. B. A3 · B2 · C1). „Backup einrichten“ zeigt oben „Lizenz: höchstens A3 · B2 · C1“, sperrt nicht angebotene Datenquellen („durch die Lizenz nicht angeboten“) und begrenzt die Stufen passend zur gewählten Datenquelle („durch die Lizenz begrenzt (C bis Stufe 1)“). Beim Wechsel der Datenquelle wird eine zu hohe Stufe automatisch auf das Erlaubte gesenkt.
 - `RITLBK.stand()` liefert zusätzlich `matrix`.

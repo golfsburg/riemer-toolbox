@@ -1,4 +1,4 @@
-# ritl-bk 2.4 – einheitliches Backup der RIEMER Tools (ab 19.11.2026)
+# ritl-bk 2.5 – einheitliches Backup der RIEMER Tools (ab 19.11.2026)
 
 Regel **S-17**, Rollout **R-13**. Vorbild: MUSTER.ritl V3.9 (2.0: V3.8). Baustein: [`ritl-bk.html`](ritl-bk.html) · Änderungen: [`CHANGELOG.md`](CHANGELOG.md).
 Ein Block `<!--ritl-bk:start-->…<!--ritl-bk:end-->` (CSS + JS) enthält das ganze Backup: Knopf-Symbol am `#backupBtn`, Fenster „Backup“,
@@ -18,7 +18,8 @@ Stufe: **1 · settings** (Theme, Sprache + `settings()`), **2 · datenbank** (+ 
 
 **Verknüpft (ab 2.4):** Die Lizenz legt je angebotener Datenquelle die höchste Stufe fest (`licenses.backup_matrix`, Admin › Lizenz ›
 „Datenquelle · Datenhoheit & Backup-Stufe“), z. B. **A3 · B2 · C1**. Nicht angebotene Datenquellen sind gesperrt („durch die Lizenz nicht angeboten“),
-die Stufen richten sich nach der gewählten Datenquelle („durch die Lizenz begrenzt (C bis Stufe 1)“). Der Server begrenzt genauso (`cfg_set`, `_backup_cfg`).
+die Stufen richten sich nach der gewählten Datenquelle („durch die Lizenz begrenzt (C bis Stufe 1)“).
+Ab 2.5 zeigt „Backup einrichten“ dafür ein Raster **Datenquelle × Stufe** (A1 … C3): jede Kombination einzeln frei oder gesperrt, B1 als „–“, die wirksame mit „wirksam“. Der Server begrenzt genauso (`cfg_set`, `_backup_cfg`).
 
 ## Logik
 
