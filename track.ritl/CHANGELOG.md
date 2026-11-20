@@ -3,6 +3,14 @@
 GPS-Tracks (GPX) lokal im Browser in 2D und 3D darstellen, analysieren, bearbeiten und animieren · #ritl_track
 Neueste Version oben. Versionen ≤ V1.9 in Google AI Studio entwickelt und nachträglich zusammengefasst (keine Einzelstände erhalten).
 
+## V3.3.5 · 20.11.2026 · DEV
+**Neu**
+- **Fahrzeug „EMX“ – HMW FoxE (Elektro-Motocross):** neue Sportart in 2D-Draufsicht, 3D-Raum und Video-Export. In 3D mit schwarzem Akku-Rahmen, goldener Gabel, rotem Federbein, Speichenrädern mit Stollenreifen, langer Sitzbank und Fahrer mit Helm und Brille (Trikot in Track-Farbe). Die Räder drehen sich, der Lenker schlägt in Kurven ein, die Gabel taucht beim Bremsen ein, der Fahrer geht beim Beschleunigen nach vorn; das Rücklicht leuchtet beim Bremsen. Auch im Touren-Report („EMX / HMW FoxE“).
+- **Fahrzeug-Größe:** neben der Sportart **− 100 % +** (50 % bis 400 %) – vergrößert oder verkleinert das animierte Fahrzeug bzw. den Dummy in 2D, 3D und im Video. Klick auf die Prozentzahl setzt auf 100 % zurück. Die Größe wird gemerkt und mit den Einstellungen gesichert.
+
+**Behoben**
+- **Backup C3 / Stufe storage:** Hochgeladene Dateien (z. B. „HMW.gpx“) kamen aus Safari auf iPhone, iPad und Mac leer am Server an („Datei … konnte nicht hochgeladen werden“, Wolke am Backup-Knopf wurde rot). TRACK.ritl speichert Dateien jetzt als eigene Kopie und stellt bereits gespeicherte Dateien beim ersten Start einmalig um. Nicht mehr lesbare Dateien halten den Abgleich nicht mehr auf.
+
 ## V3.3.4 · 20.11.2026 · DEV
 **Entfernt**
 - **Fenster „Backup“ › 04 Strecken zwischen meinen Geräten** (Senden/Abholen über den Server, 7 Tage). Den Abgleich zwischen deinen Geräten übernimmt das Backup mit **Datenquelle C · Server, Stufe 3 · storage (C3)**: Tracks, Original-GPX, Fotos und Puls-Dateien kommen damit automatisch auf alle Geräte. Bereits über „Strecken zwischen meinen Geräten“ übernommene Tracks bleiben erhalten.
