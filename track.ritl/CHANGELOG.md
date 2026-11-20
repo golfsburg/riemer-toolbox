@@ -3,6 +3,19 @@
 GPS-Tracks (GPX) lokal im Browser in 2D und 3D darstellen, analysieren, bearbeiten und animieren · #ritl_track
 Neueste Version oben. Versionen ≤ V1.9 in Google AI Studio entwickelt und nachträglich zusammengefasst (keine Einzelstände erhalten).
 
+## V3.3.1 · 20.11.2026 · DEV
+**Neu**
+- **iPhone/iPad – Zum Home-Bildschirm:** TRACK.ritl zeigt dort das eigene TRACK-Logo statt eines Buchstabens und startet als App im Vollbild (ohne Safari-Leisten), mit dem Namen „TRACK.ritl“.
+- **Home-Bildschirm-App:** oben nach unten ziehen zum Aktualisieren (lädt neu und gleicht dabei mit dem Server bzw. Ordner ab). Auf Karte, 3D-Ansicht, Diagrammen und Reglern bleibt das Wischen wie gewohnt.
+
+**Geändert**
+- Header, Inhalt, Fußzeile, Fenster und fixierte Ansichten halten Abstand zu Notch, Dynamic Island und Home-Leiste.
+- Fenster passen sich am iPhone der sichtbaren Höhe an (auch bei ein-/ausfahrender Safari-Leiste).
+- Statusleiste und Browserfarbe folgen Hell/Dunkel; Telefonnummern werden nicht mehr automatisch verlinkt.
+
+**Behoben**
+- iPhone/iPad: GPX-/TCX-Dateien und Favoriten (JSON) lassen sich in der Dateiauswahl wählen (waren teils ausgegraut).
+
 ## V3.3 · 19.11.2026 · DEV
 **Neu**
 - **Einheitliches Backup (ritl-bk 2.0, S-17):** Das Backup kommt jetzt aus dem gemeinsamen Baustein aller RIEMER Tools. Fenster „Backup“ und „Backup einrichten“ sehen in jedem Tool gleich aus.
