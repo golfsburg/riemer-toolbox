@@ -3,6 +3,11 @@
 Kompakter 3D-Viewer und -Editor im Browser für den 3D-Druck · #ritl_mesh
 Neueste Version oben. V1.0–V1.8 als Einzeldatei entwickelt (nicht in der Toolbox veröffentlicht).
 
+## V2.7.5 · 20.11.2026 · DEV
+**Neu**
+- **Spiel beim Einlegen / Eingießen wählbar:** Unter „Spiel mm“ legst du fest, wo das Spiel entsteht: **Öffnung größer** (wie bisher), **Einlage kleiner** (die Öffnung bleibt maßgenau, die Einlage wird rundum um das Spiel verjüngt) oder **je zur Hälfte**. Beispiel: Zylinder Ø 10 mm, Spiel 0,2 mm, „Einlage kleiner“ → Öffnung Ø 10 mm, Einlage Ø 9,6 mm. Der Name der Einlage zeigt das Maß, z. B. „(Einlage −0,20 mm)“. Die Auswahl bleibt gespeichert.
+- Konvexe Einlagen (Quader, Zylinder, Kugel, Kegel …) werden in Sekundenbruchteilen verkleinert; Körper mit Einbuchtungen (z. B. Rohr, Text) brauchen je nach Feinheit einige Sekunden.
+
 ## V2.7.4 · 20.11.2026 · DEV
 **Neu**
 - **Kanten einzeln runden oder fasen:** „◇ Kanten“ im Objekt-Fenster (Taste **K**) zeigt alle Kanten des gewählten Grundkörpers. Kanten anklicken (mehrere möglich), dann **Rundung**, **Fase** oder **scharf** mit Wert in mm wählen und „Anwenden“. Jede Kante kann einen eigenen Wert haben, z. B. oben gerundet und senkrecht gefast.
