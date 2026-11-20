@@ -390,7 +390,7 @@ Im Admin › Lizenz › „Datenquelle · Datenhoheit & Backup-Stufe“ als Matr
 - `null` = alte Lizenz: die Matrix wird aus `datenquelle`/`backup_stufe` abgeleitet (`_backup_matrix`: alle Datenquellen bis zum Maximum mit derselben Stufe).
 - Beim Speichern mit Matrix setzt `admin_action` `datenquelle`, `backup_stufe` und `server_quelle` automatisch auf das Maximum der Matrix (für ältere Bausteine).
 - `_backup_cfg` liefert zusätzlich `max.matrix` und `matrix`; wirksam ist die Wahl des Kunden nur, wenn die Datenquelle angeboten ist,
-  und die Stufe höchstens bis zur Stufe dieser Datenquelle. `cfg_set` begrenzt genauso. ritl-bk ab 2.3 zeigt die Matrix in „Backup einrichten“.
+  und die Stufe höchstens bis zur Stufe dieser Datenquelle. `cfg_set` begrenzt genauso. ritl-bk ab 2.4 zeigt die Matrix in „Backup einrichten“.
 
 ```sql
 -- Matrix setzen (statt im Admin)
