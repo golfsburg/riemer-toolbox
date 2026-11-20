@@ -3,6 +3,21 @@
 Projektmanagement: Projekt-Portfolio mit Gewerken, Anwendungen und Businesses (Lead › Spezifikation Opportunity › Spezifikation › Opportunity), Umsatzplan, Dashboard und Zeitplan · #ritl_pm
 Neueste Version oben. Versionen ≤ V1.1 nachträglich rekonstruiert (Projektmanager V1.x, selbstspeichernde HTML-Datei).
 
+## V3.1.6 · 20.11.2026 · DEV
+
+### Neu
+- **Salesforce-Import in drei Stufen** per Copy & Paste aus Salesforce oder Excel – ein Dialog mit Reitern, die Stufe wird beim Einfügen automatisch erkannt:
+  1. **Salesforce-Projekte** → PORTFOLIO.ritl: Liste mehrerer Projekte (Excel-Blatt „Projekte“) – Projekte anlegen oder abgleichen über die bekannte Zuordnung (Mapping).
+  2. **Salesforce-Projektdaten** → PROJEKT.ritl: Detailseite eines Projekts (Excel-Blatt „Projektdaten“) – Projekt wird erkannt oder ausgewählt (bisher „Salesforce-Projekt“).
+  3. **Salesforce-Gewerke-Anwendungen** → PROJEKT.ritl: Liste der Gewerke und Anwendungen (Excel-Blatt „Gewerke&Anwendungen“) – legt fehlende Gewerke/Anwendungen an, übernimmt Baubeginn/Enddatum als Zeiträume und das Potential als vorbelegten Schätzwert im Forecast; „--“-Zeilen und hinfällige Einträge werden übersprungen.
+- Jede Stufe zeigt die **erforderlichen Daten als Spaltenübersicht** (Pflicht, Ziel in PM.ritl, nach dem Einfügen ✓ gefunden).
+- **Land** im Import-Mapping (auch Region, PLZ, Projektklassifizierung, Art der Arbeit, Potentialklasse, Ziel SoW, PEM, Wartestellung, Hinfällig) und als zusätzlicher **Hauptfilter** im Portfolio (auch als Filter-Chip und in Favoriten).
+
+### Geändert
+- Die Salesforce-Spalte „ID“ (PRJ-Nummer) wird als Projektnummer zugeordnet; der Abgleich prüft Projektnummer und Salesforce-ID kreuzweise und auch alternative Projektnamen.
+- Excel-Kopien werden besser gelesen: Datumsangaben als JJJJ-MM-TT, mehrzeilige Zellen in Anführungszeichen, Werte wie „FalschHinfällig“.
+- Die Suche findet auch Land und alternative Projektnamen.
+
 ## V3.1.5 · 20.11.2026 · DEV
 **Neu**
 - **Salesforce-Projekt einfügen und abgleichen:** Detailseite eines Projekts in Salesforce (Reiter Details) komplett kopieren und einfügen – in PORTFOLIO.ritl („Salesforce einfügen …“), DATA.ritl › 01 Import oder im Projektkopf („Aus Salesforce …“). PM.ritl erkennt die Felder, sucht das passende Projekt (Projektnummer, Name, alternative Projektnamen) und zeigt je Feld PM.ritl ↔ Salesforce zum Anhaken. Neue Projekte werden angelegt (mit Standard-Set des Projekttyps), bestehende nur in den angehakten Feldern aktualisiert.
