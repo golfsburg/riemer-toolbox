@@ -3,6 +3,14 @@
 Projektmanagement: Projekt-Portfolio mit Gewerken, Anwendungen und Businesses (Lead › Spezifikation Opportunity › Spezifikation › Opportunity), Umsatzplan, Dashboard und Zeitplan · #ritl_pm
 Neueste Version oben. Versionen ≤ V1.1 nachträglich rekonstruiert (Projektmanager V1.x, selbstspeichernde HTML-Datei).
 
+## V3.1.11 · 20.11.2026 · DEV
+
+### Neu
+- **Hauptfilter mit Mehrfachauswahl:** Status, Projekttyp, Jahr, Projektphase, Phase (Stammdaten), Inhaber und Land sind Auswahlfelder mit Häkchen – mehrere Werte je Filter (innerhalb eines Filters „oder“, zwischen den Filtern „und“).
+- **Suche in jedem Filter** (Enter hakt den ersten Treffer an), „Alle sichtbaren“ und „Keine“.
+- **Verknüpfte Filter:** Jeder Filter bietet nur die Werte an, die zu den übrigen Filtern und der Projektsuche passen, mit Anzahl der Projekte. Gewählte Werte ohne Treffer bleiben sichtbar (grau), damit sie abgewählt werden können; Filter ohne Werte werden ausgeblendet.
+- Aktive Filter erscheinen in PORTFOLIO › Kennzahlen als einzelne Chips je Wert; Favoriten, Exporte und Berichte übernehmen die Mehrfachauswahl. Gespeicherte Filter und Favoriten aus älteren Versionen werden übernommen.
+
 ## V3.1.10 · 20.11.2026 · DEV
 
 ### Neu
