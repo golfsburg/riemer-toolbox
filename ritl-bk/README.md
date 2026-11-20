@@ -1,4 +1,4 @@
-# ritl-bk 2.6 – einheitliches Backup der RIEMER Tools (ab 19.11.2026)
+# ritl-bk 2.7 – einheitliches Backup der RIEMER Tools (ab 19.11.2026)
 
 Regel **S-17**, Rollout **R-13**. Vorbild: MUSTER.ritl V3.9 (2.0: V3.8). Baustein: [`ritl-bk.html`](ritl-bk.html) · Änderungen: [`CHANGELOG.md`](CHANGELOG.md).
 Ein Block `<!--ritl-bk:start-->…<!--ritl-bk:end-->` (CSS + JS) enthält das ganze Backup: Knopf-Symbol am `#backupBtn`, Fenster „Backup“,
@@ -19,7 +19,8 @@ Stufe: **1 · settings** (Theme, Sprache + `settings()`), **2 · datenbank** (+ 
 **Verknüpft (ab 2.4):** Die Lizenz legt je angebotener Datenquelle die höchste Stufe fest (`licenses.backup_matrix`, Admin › Lizenz ›
 „Datenquelle · Datenhoheit & Backup-Stufe“), z. B. **A3 · B2 · C1**. Nicht angebotene Datenquellen sind gesperrt („durch die Lizenz nicht angeboten“),
 die Stufen richten sich nach der gewählten Datenquelle („durch die Lizenz begrenzt (C bis Stufe 1)“).
-Ab 2.6 hat in „Backup einrichten“ **jede Datenquelle ihre eigene Stufe** (Zeile A/B/C mit eigener Auswahl 1/2/3, B1 als „–“, gesperrt nach Lizenz) und eine Spalte **aktiv**. Die Stufen werden je Tool am Server gemerkt (`license_tool_backup.stufen`, `cfg_set {datenquelle, stufe, stufen}`); wirksam ist die Stufe der aktiven Datenquelle. `state_head`/`cfg_get` liefern dazu `backup.stufen`. Der Server begrenzt genauso (`cfg_set`, `_backup_cfg`).
+Ab 2.7 sind **alle angebotenen Datenquellen gleichzeitig aktiv**, jede in ihrer Stufe (z. B. A3 + B2 + C1: alles im Browser, Arbeitsdaten im Ordner, nur Einstellungen über den Server). Der Baustein schreibt die Ordner-Datei in der B-Stufe und gleicht mit dem Server in der C-Stufe ab (C3 = mit Dateien); ohne C, aber mit B gehen nur Einstellungen über den Server. Der Server begrenzt das (`backup.server_stufe`, Fehler `stufe_limit`). `state_head` liefert `backup.alle = true`.
+In 2.6 hatte in „Backup einrichten“ **jede Datenquelle ihre eigene Stufe** (Zeile A/B/C mit eigener Auswahl 1/2/3, B1 als „–“, gesperrt nach Lizenz) und eine Spalte **aktiv**. Die Stufen werden je Tool am Server gemerkt (`license_tool_backup.stufen`, `cfg_set {datenquelle, stufe, stufen}`); wirksam ist die Stufe der aktiven Datenquelle. `state_head`/`cfg_get` liefern dazu `backup.stufen`. Der Server begrenzt genauso (`cfg_set`, `_backup_cfg`).
 
 ## Logik
 

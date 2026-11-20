@@ -2,6 +2,12 @@
 
 Zentraler Backup-Baustein aller RIEMER Tools (Regel S-17). Neueste Version oben.
 
+## 2.7 · 20.11.2026 · DEV
+**Geändert**
+- **Alle Datenquellen gleichzeitig aktiv:** A · Lokal, B · Ordner und C · Server laufen immer zusammen, jede in ihrer eigenen Stufe – z. B. **A3 + B2 + C1**: alles inklusive Dateien in diesem Browser, die Arbeitsdaten in der Datei im OneDrive/SharePoint-Ordner (Datenhoheit), über den Server nur die Einstellungen zwischen den Geräten. Die Spalte „aktiv“ entfällt.
+- „Backup einrichten“ zeigt darunter, was jede Datenquelle bekommt („A: alles inkl. Dateien · B: Arbeitsdaten in der Ordner-Datei · C: nur Einstellungen über den Server“). Übernehmen ohne Rückfrage zum Wechsel.
+- Der Server nimmt nur noch an, was für ihn eingestellt ist (C-Stufe; bei B ohne C nur Einstellungen) – auch zentrale Historie und Dateien.
+
 ## 2.6 · 20.11.2026 · DEV
 **Neu**
 - **Stufe je Datenquelle einzeln wählbar:** In „Backup einrichten“ hat jede Zeile (A · Lokal, B · Ordner, C · Server) ihre eigene Auswahl 1/2/3 – z. B. A3, B2 und C1 gleichzeitig eingestellt. Die Stufen bleiben je Datenquelle gemerkt (am Server, für alle Geräte).

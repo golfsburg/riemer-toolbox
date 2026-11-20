@@ -1,12 +1,13 @@
-<!-- ritl-bk 2.6 · 20.11.2026 · DEV – einheitliches Backup der RIEMER Tools (Regel S-17, Rollout R-13). Vorbild MUSTER.ritl V3.9.
+<!-- ritl-bk 2.7 · 20.11.2026 · DEV – einheitliches Backup der RIEMER Tools (Regel S-17, Rollout R-13). Vorbild MUSTER.ritl V3.9.
      Einbau: Adapter window.RITL_BK (siehe README.md) als <script> setzen, danach diesen Block unverändert (von ritl-bk:start bis ritl-bk:end) in den <body> nach dem Header kopieren.
      2.1 ist rückwärtskompatibel: neue Angaben (bereit, ohneSha, norm, nachAnwenden, fluechtig, extra, alias, alt.idbFs*) sind optional.
      2.3: Pfad des verknüpften Ordners (✎ je Gerät). 2.4: Stufe je Datenquelle (Lizenz-Matrix backup.max.matrix, z. B. A3 · B2 · C1) – ohne Matrix wie 2.2.
      2.5: „Backup einrichten“ als Raster Datenquelle × Stufe (A1 … C3), jede Kombination einzeln erlaubt oder gesperrt.
-     2.6: Stufe je Datenquelle einzeln wählbar und gemerkt (cfg_set stufen), Spalte „aktiv“ wählt die Datenquelle. -->
+     2.6: Stufe je Datenquelle einzeln wählbar und gemerkt (cfg_set stufen), Spalte „aktiv“ wählt die Datenquelle.
+     2.7: alle angebotenen Datenquellen gleichzeitig aktiv, jede in ihrer Stufe (z. B. A3 + B2 + C1) – keine Spalte „aktiv“ mehr. -->
 <!--ritl-bk:start-->
 <style id="ritl-bk-css">
-/* ritl-bk 2.6 · 20.11.2026 – einheitliches Backup der RIEMER Tools (Regel S-17). Nichts Tool-Spezifisches hier ändern.
+/* ritl-bk 2.7 · 20.11.2026 – einheitliches Backup der RIEMER Tools (Regel S-17). Nichts Tool-Spezifisches hier ändern.
    Nur Tokens der Farbkarte. Alle Regeln gelten nur für die Dialoge des Bausteins (.rbk) und das Symbol am Knopf #backupBtn (.bkind). */
 dialog.rbk{border:1px solid var(--line);border-radius:var(--radius-panel,16px);background:var(--surface);color:var(--ink);padding:0;width:min(640px,94vw);box-shadow:0 20px 60px rgba(0,0,0,.25);font:400 14px/20px var(--sans,"Inter",system-ui,sans-serif);margin:auto}
 dialog.rbk::backdrop{background:rgba(15,20,28,.45)}
@@ -72,7 +73,7 @@ dialog.rbk::backdrop{background:rgba(15,20,28,.45)}
 .rbk .bkgc.on{border-color:var(--brand);background:color-mix(in srgb,var(--brand) 9%,var(--surface))}
 .rbk .bkgc.dis{cursor:not-allowed;color:var(--muted);background:var(--surface-muted);border-style:dashed}
 .rbk .bkgc.na{border:none;background:none;cursor:default;color:var(--muted)}
-.rbk .bkgrid{grid-template-columns:minmax(0,1fr) repeat(3,86px) 66px}
+.rbk .bkgrid{grid-template-columns:minmax(0,1fr) repeat(3,92px)}
 .rbk .bkgn{display:block;font-weight:500;font-size:11px}
 .rbk .bkgd.akt{border-color:var(--brand);box-shadow:inset 3px 0 0 var(--brand)}
 .rbk .bkgc.on:not(.akt):not(.bkga){background:color-mix(in srgb,var(--brand) 4%,var(--surface));border-color:color-mix(in srgb,var(--brand) 45%,var(--line))}
@@ -94,7 +95,7 @@ dialog.rbk::backdrop{background:rgba(15,20,28,.45)}
 .rbk .qbar{height:6px;border-radius:3px;background:var(--line);overflow:hidden;margin-top:6px}
 .rbk .qbar i{display:block;height:100%;background:var(--brand)}
 .rbk .qbar i.warn{background:var(--warn)}
-@media(max-width:620px){.rbk .bkgrid{grid-template-columns:minmax(0,1fr) repeat(3,44px) 52px;gap:4px}.rbk .bkgd small,.rbk .bkgh em,.rbk .bkgn{display:none}.rbk .bkgh b{font-size:11px}.rbk .db{padding:14px}.rbk .iosec{padding:12px}.rbk .bkst{grid-template-columns:auto 1fr}.rbk .bkst em{grid-column:2}}
+@media(max-width:620px){.rbk .bkgrid{grid-template-columns:minmax(0,1fr) repeat(3,48px);gap:4px}.rbk .bkgd small,.rbk .bkgh em,.rbk .bkgn{display:none}.rbk .bkgh b{font-size:11px}.rbk .db{padding:14px}.rbk .iosec{padding:12px}.rbk .bkst{grid-template-columns:auto 1fr}.rbk .bkst em{grid-column:2}}
 /* Backup-Status am Header-Knopf: Lokal (Ordner) und Server (Wolke) – aus/aktiv/Achtung/offline */
 .bkind{display:inline-flex;gap:3px;align-items:center;margin-left:2px;padding:2px 4px;border-radius:6px;background:var(--surface-muted)}
 .bkind svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
@@ -104,7 +105,7 @@ dialog.rbk::backdrop{background:rgba(15,20,28,.45)}
 .bkind .offl{color:var(--muted)}
 </style>
 <script id="ritl-bk-js">
-/* ritl-bk 2.6 · 20.11.2026 – einheitliches Backup der RIEMER Tools (Regel S-17, Rollout R-13, Vorbild MUSTER.ritl V3.9).
+/* ritl-bk 2.7 · 20.11.2026 – einheitliches Backup der RIEMER Tools (Regel S-17, Rollout R-13, Vorbild MUSTER.ritl V3.9).
    Nichts Tool-Spezifisches hier ändern – das Tool setzt VOR diesem Block den Adapter window.RITL_BK (Anleitung riemer-toolbox/ritl-bk/README.md):
      tool, name, datei, prefix, ereignis, settings(), daten(), dateien()?, dateienLaden(list)?, anwenden(stufe,obj,quelle,still), leer()?,
      legacy(o)?, texte:{settings,datenbank,storage,rueckgaengig}?, alt:{bkcfg,srv,srvst,sync,ordner,oq,fs,bklic,idbFiles,idbFs,idbFsDb,idbFsStore,idbFsKey}?, version?
@@ -119,7 +120,7 @@ dialog.rbk::backdrop{background:rgba(15,20,28,.45)}
      ab 2.1: sync() (Abgleich auf Knopfdruck, Promise) · extra() (eigene Abschnitte neu zeichnen) · Ereignis ritlbk:applied {quelle,stufe,text,still} */
 (function(){"use strict";
 const A=window.RITL_BK;if(!A||!A.tool||window.RITLBK)return;
-const VERSION='2.6',$=id=>document.getElementById(id);
+const VERSION='2.7',$=id=>document.getElementById(id);
 const TOOL=A.tool,NAME=A.name||A.tool,PRE=A.prefix||TOOL.replace(/-ritl$/,''),BKNAME=A.datei||`Backup_${NAME.replace('.','-')}.json`,EV=A.ereignis||PRE+':change';
 const BASE=BKNAME.replace(/^Backup_/,'').replace(/\.json$/i,''),RX=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
 const OLDRE=new RegExp('^\\d{8}-\\d{4}_'+RX(BASE)+'_Backup\\.json$'),COPYRE=new RegExp('^Backup_'+RX(BASE)+'.+\\.json$','i');
@@ -347,17 +348,26 @@ const zbOk=()=>{if(OFFLINE)return false;const c=creds();return /^(RITL|RT)-/.tes
 const srv0=LS(K('srv'));const SRV={mode:srv0==='1'?'server':srv0==='0'?'lokal':DQ.includes(srv0)?srv0:null,stufe:null,allowed:null};SRV.allowed=SRV.mode?SRV.mode!=='lokal':null;
 SRV.stufe=ST3.includes(LS(K('srvst')))?LS(K('srvst')):null;
 let LIC=null;try{LIC=JSON.parse(LS(K('bklic'))||'null')}catch(e){}
-function setLic(b){if(!b||!b.max)return;LIC={max:b.max,matrix:b.max.matrix||b.matrix||null,stufen:b.stufen||null,wahl:b.wahl||null,quota:+b.quota||0,datenquelle:b.datenquelle,stufe:b.stufe};LSset(K('bklic'),JSON.stringify(LIC))}
+function setLic(b){if(!b||!b.max)return;LIC={max:b.max,matrix:b.max.matrix||b.matrix||null,stufen:b.stufen||null,alle:!!b.alle,wahl:b.wahl||null,quota:+b.quota||0,datenquelle:b.datenquelle,stufe:b.stufe};LSset(K('bklic'),JSON.stringify(LIC))}
 const quotaTxt=()=>LIC&&LIC.quota?fmtMB(LIC.quota)+' MB':'50 MB';
 const ZBERR={invalid_key:'Lizenz ungültig',email_required:'E-Mail der Lizenz fehlt',invalid_login:'Lizenz und E-Mail passen nicht',revoked:'Lizenz deaktiviert',expired:'Lizenz abgelaufen',tool_not_licensed:'Tool nicht in der Lizenz',device_limit:'Geräte-Limit der Lizenz erreicht',too_large:'Backup zu groß für diese Stufe',quota:'Kontingent der Lizenz erreicht',server_error:'Serverfehler',network:'Keine Verbindung zum Server',server_not_enabled:'Server als Datenquelle ist für diese Lizenz nicht freigegeben',ordner_datenhoheit:'Diese Lizenz speichert Arbeitsdaten nur im eigenen Ordner (Datenhoheit) – am Server nur Einstellungen',not_found:'Stand am Server nicht gefunden',bad_request:'Ungültige Anfrage'};
 const errTxt=e=>e==='quota'?`${ZBERR.quota} (${quotaTxt()})`:ZBERR[e]||ZBERR.server_error;
 async function syRaw(action,data){const c=creds();let r;try{r=await fetch(ZB_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({key:c.key,email:c.email||null,device:c.device,tool:TOOL,action,data})})}catch(e){throw new Error(ZBERR.network)}
  let j={};try{j=await r.json()}catch(e){}return j}
 async function okj(action,data){const j=await syRaw(action,data);if(!j.ok)throw new Error(errTxt(j.error));return j}
-const ORD=()=>!OFFLINE&&SRV.mode==='ordner'&&zbOk();   // B · Ordner ist die Datenbank (Datenhoheit)
-const SRVC=()=>!OFFLINE&&SRV.mode==='server'&&zbOk();  // C · Server ist die Datenbank (RITL-Sync)
+// 2.7: alle angebotenen Datenquellen gleichzeitig aktiv, jede in ihrer eigenen Stufe (state_head → backup.alle + backup.stufen),
+//      z. B. A3 + B2 + C1: alles in diesem Browser, Arbeitsdaten in der Ordner-Datei, nur Einstellungen über den Server
+const ALLE=()=>!!(!OFFLINE&&zbOk()&&LIC&&LIC.alle&&LIC.stufen);
+const ORD=()=>!OFFLINE&&zbOk()&&(ALLE()?!!LIC.stufen.ordner:SRV.mode==='ordner');   // B · Ordner ist die Datenbank (Datenhoheit)
+const SRVC=()=>!OFFLINE&&zbOk()&&(ALLE()?!!LIC.stufen.server:SRV.mode==='server');  // C · Server ist die Datenbank (RITL-Sync)
+const effKurz=()=>ALLE()?DQ.filter(d=>LIC.stufen[d]).map(d=>kurz(d,LIC.stufen[d])).join(' · '):SRV.mode?kurz(SRV.mode,SRV.stufe||'datenbank'):'';
 // wirksame Werte anwenden: A lokal = Stufe, zentral Historie ohne storage · B Ordner-Datei mind. datenbank, Server nur settings · C RITL-Sync in der Stufe (storage = Dateien über tool_files)
-function applyEff(){if(!zbOk()||!SRV.mode)return false;const st=SRV.stufe||'datenbank';
+function applyEff(){if(!zbOk())return false;
+ if(ALLE()){const g=LIC.stufen,a=g.lokal||'datenbank',b=g.ordner||'',c=g.server||'';
+  CFG.lokal={...CFG.lokal,stufe:a,...(b?{on:true}:{})};
+  CFG.zentral={on:true,quelle:!!(b||c),stufe:c||(b?'settings':a==='storage'?'datenbank':a)};
+  if(b&&FS.handle)LSset(K('ordner'),JSON.stringify(ordInfo()));CFG.seen=true;cfgSave();return true}
+ if(!SRV.mode)return false;const st=SRV.stufe||'datenbank';
  if(SRV.mode==='ordner'){CFG.lokal={...CFG.lokal,on:true,stufe:st==='settings'?'datenbank':st};CFG.zentral={on:true,quelle:true,stufe:'settings'};if(FS.handle)LSset(K('ordner'),JSON.stringify(ordInfo()))}
  else if(SRV.mode==='server'){CFG.lokal={...CFG.lokal,stufe:st};CFG.zentral={on:true,quelle:true,stufe:st}}
  else{CFG.lokal={...CFG.lokal,stufe:st};CFG.zentral={on:true,quelle:false,stufe:st==='storage'?'datenbank':st}}
@@ -406,10 +416,10 @@ let SY={stufe:'',rev:0,sha:'',at:null,busy:false,err:'',conflict:null};
 try{SY={...SY,...JSON.parse(LS(K('sync'))||'{}'),busy:false,err:'',conflict:null}}catch(e){}
 // l (2.1): war der zuletzt abgeglichene Stand „leer“ (A.leer)? – ein leerer Stand ersetzt nie von selbst einen Stand mit Daten
 const sySave=()=>LSset(K('sync'),JSON.stringify({stufe:SY.stufe,rev:SY.rev,sha:SY.sha,at:SY.at,...(typeof SY.l==='boolean'?{l:SY.l}:{})}));
-const syStufe=()=>ORD()?'settings':CFG.zentral.stufe==='storage'?'datenbank':CFG.zentral.stufe;
+const syStufe=()=>ALLE()?(SRVC()?(LIC.stufen.server==='storage'?'datenbank':LIC.stufen.server):'settings'):ORD()?'settings':CFG.zentral.stufe==='storage'?'datenbank':CFG.zentral.stufe;
 const syOn=()=>!!(CFG.zentral.on&&CFG.zentral.quelle&&zbOk()&&SRV.allowed===true);
 // storage über den Server: Dateien der Dateiablage einzeln im Speicher (signierte URLs), Kontingent je Lizenz
-const syFilesOn=()=>!ORD()&&CFG.zentral.stufe==='storage'&&!!(RF&&RF.ok)&&A.serverDateien!==false;
+const syFilesOn=()=>(ALLE()?LIC.stufen.server==='storage':!ORD()&&CFG.zentral.stufe==='storage')&&!!(RF&&RF.ok)&&A.serverDateien!==false;
 async function shaBlob(b){const x=await crypto.subtle.digest('SHA-256',await b.arrayBuffer());return [...new Uint8Array(x)].map(v=>v.toString(16).padStart(2,'0')).join('')}
 async function fsigLocal(){if(!syFilesOn())return '';const l=await RF.list();return l.map(f=>f.id+':'+f.size+':'+f.name).sort().join('|')}
 // 2.1: Dateien nach Prüfsumme (sha256 aus files_list) vergleichen; ältere Server ohne sha256 → wie 2.0 nach Größe und Name
@@ -480,7 +490,7 @@ try{OQ={...OQ,...JSON.parse(LS(K('oq'))||'{}'),busy:false,err:'',conflict:null,c
 const oqSave=()=>LSset(K('oq'),JSON.stringify({rev:OQ.rev,sha:OQ.sha,mod:OQ.mod,at:OQ.at,...(typeof OQ.l==='boolean'?{l:OQ.l}:{})}));
 // 2.1: Tool ohne lokale Speicherung (fluechtig) – Sync- und Ordner-Stand gelten beim Start wie auf einem neuen Gerät
 if(A.fluechtig){SY={...SY,stufe:'',rev:0,sha:'',at:null};sySave();OQ={...OQ,rev:0,sha:'',mod:0,at:null};oqSave()}
-const oqStufe=()=>CFG.lokal.stufe==='settings'?'datenbank':CFG.lokal.stufe;
+const oqStufe=()=>{const b=ALLE()&&LIC.stufen.ordner?LIC.stufen.ordner:CFG.lokal.stufe;return b==='settings'?'datenbank':b};
 async function fileSha(o){const d=nurDaten(o&&o.daten);return sha(shaTxt(d)??JSON.stringify(d))}
 async function oqLocal(){const o=await stufeObjA(oqStufe());delete o.daten.ordner;return{o,h:await fileSha(o)}}
 async function oqRead(){let fh;try{fh=await FS.handle.getFileHandle(BKNAME)}catch(e){if(!(e&&e.name==='NotFoundError'))throw e;
@@ -547,7 +557,7 @@ function bkInd(){const b=btn();if(!b)return;let e=$('bkInd');if(!e){e=document.c
  const l=ORD()?oqInd():!CFG.lokal.on?['off','Lokal: aus']:!FS.handle?['warn','Lokal: ein, aber kein Ordner verknüpft']:(FS.err||!FS.ok)?['warn','Lokal: pausiert – Zugriff erneuern']:['ok',`Lokal: ein (${CFG.lokal.stufe}) · Ordner „${FS.handle.name}“`];
  const z=OFFLINE?['off','Server: entfällt (Offline-Version)']:!zbOk()?['off',PREVIEW()?'Server: '+PVTXT:'Server: nicht verfügbar (ohne Lizenz)']:!CFG.zentral.on?['off','Server: aus']:!on?['offl','Server: offline – sichert, sobald wieder online']:(ZB.err||(syOn()&&SY.err))?['warn','Server: '+(ZB.err||SY.err)]:['ok',`Server${syOn()&&SRVC()?' (Datenbank)':''}: ein (${syOn()&&SRVC()?CFG.zentral.stufe:syStufe()})${ZB.last?' · zuletzt '+zeit(ZB.last):''}`];
  e.innerHTML=`<svg viewBox="0 0 14 14" class="${l[0]}">${IC.lok}</svg><svg viewBox="0 0 14 14" class="${z[0]}">${IC.srv}${z[0]==='offl'||!on?IC.off:''}</svg>`;
- const dq=zbOk()&&SRV.mode?`${kurz(SRV.mode,SRV.stufe||'datenbank')} · ${dqTxt(SRV.mode)}\n`:'';
+ const dq=zbOk()&&effKurz()?`${effKurz()}${ALLE()?' · alle Datenquellen aktiv':' · '+dqTxt(SRV.mode)}\n`:'';
  const t=`Backup\n${dq}${l[1]}\n${z[1]}\n${on?'Online':'Offline'}`;b.title=t;b.setAttribute('aria-label',t.replace(/\n/g,' · '))}
 addEventListener('online',()=>{bkInd();renderZb();if(syOn())syPull(false);else if(CFG.zentral.on&&(ZB.pending||ZB.t))zbSave(false)});
 addEventListener('offline',()=>{bkInd();renderZb()});
@@ -555,9 +565,9 @@ addEventListener('offline',()=>{bkInd();renderZb()});
 // ── Fenster „Backup“: 03 Zentral mit Historie (🗑 je Stand) und Belegung ──
 function renderZb(){try{bkInd()}catch(e){}const s=$('zb-st');if(!s)return;const it=ZB.items,TAG=x=>zeit(new Date(x.at)),bd=$('zb-dq');
  if(!zbOk()){s.className='status warn';s.textContent=PREVIEW()?PVTXT+'.':'Zentrales Backup gibt es nur in der lizenzierten Version (Aufruf über die RIEMER Toolbox bzw. myTOOLBOX.ritl).';$('zb-btns').innerHTML='';$('zb-list').innerHTML='';$('zb-q').innerHTML='';bd.hidden=true;return}
- const st=SRV.stufe||'datenbank';bd.hidden=!SRV.mode;bd.textContent=SRV.mode?kurz(SRV.mode,st):'';bd.title=SRV.mode?`Datenquelle ${dqTxt(SRV.mode)} · Stufe ${stTxt(st)}`:'';
+ const st=SRV.stufe||'datenbank';bd.hidden=!effKurz();bd.textContent=effKurz();bd.title=ALLE()?'Alle Datenquellen aktiv, jede in ihrer Stufe':SRV.mode?`Datenquelle ${dqTxt(SRV.mode)} · Stufe ${stTxt(st)}`:'';
  s.className='status'+(ZB.err||!navigator.onLine?' warn':CFG.zentral.on?' good':'');
- const was=ORD()?`B · Ordner ist die Datenbank · am Server nur settings${syOn()?' · Stand '+(SY.rev||'–'):''}`:syOn()?`C · Server ist die Datenbank · Stufe ${stTxt(CFG.zentral.stufe)} · Stand ${SY.rev||'–'}${SY.busy?' · synchronisiere …':''}${SY.err?' · '+SY.err:''}`:`A · Lokal · zentral Stufe ${stTxt(syStufe())} · automatisch nach Änderungen`;
+ const was=ALLE()?`${effKurz()} · ${SRVC()?`Server-Abgleich Stufe ${stTxt(syStufe())}${LIC.stufen.server==='storage'?' + Dateien':''}`:ORD()?'am Server nur settings':'zentral Stufe '+stTxt(syStufe())}${syOn()?' · Stand '+(SY.rev||'–'):''}${SY.busy?' · synchronisiere …':''}${SY.err?' · '+SY.err:''}`:ORD()?`B · Ordner ist die Datenbank · am Server nur settings${syOn()?' · Stand '+(SY.rev||'–'):''}`:syOn()?`C · Server ist die Datenbank · Stufe ${stTxt(CFG.zentral.stufe)} · Stand ${SY.rev||'–'}${SY.busy?' · synchronisiere …':''}${SY.err?' · '+SY.err:''}`:`A · Lokal · zentral Stufe ${stTxt(syStufe())} · automatisch nach Änderungen`;
  s.textContent=!navigator.onLine?'Offline – zentrales Backup folgt automatisch, sobald wieder eine Verbindung besteht.':ZB.err?'Zentral: '+ZB.err:(CFG.zentral.on?was:'Aus – unter „Backup einrichten“ einschalten')+(ZB.last?` · zuletzt ${zeit(ZB.last)}`:'');
  $('zb-btns').innerHTML=`<button class="btn primary" type="button" data-zb="save"${ZB.busy?' disabled':''}>Jetzt zentral sichern</button>`;
  $('zb-list').innerHTML=it.length?`<span class="small">Historie (10 Tage, ein Stand je Tag und Stufe) – zum Wiederherstellen anklicken, 🗑 löscht einen Stand:</span>`+it.map(x=>`<div class="firow"><button type="button" class="fi" data-zbget="${esc(x.id)}"><span><span class="notr">${esc(x.stufe)}</span> · ${TAG(x)}${x.version?' · <span class="notr">'+esc(x.version)+'</span>':''}</span><small>${fmtB(x.bytes||0)}</small></button><button type="button" class="ix del" data-zbdel="${esc(x.id)}" title="Stand vom ${TAG(x)} löschen" aria-label="Stand vom ${TAG(x)} löschen">🗑</button></div>`).join(''):'<span class="small">Noch kein zentraler Stand.</span>';
@@ -587,7 +597,7 @@ async function openBk(){$('bk-ver').textContent=`${NAME} ${ver()}`;renderFs();re
 // ── „Backup einrichten“: Datenquelle A/B/C + Stufe 1/2/3 (bis zum Maximum der Lizenz) + Ordner dieses Geräts ──
 let SEL={dq:'lokal',st:'datenbank'},SELS={lokal:'datenbank',ordner:'datenbank',server:'datenbank'},SZ=null;
 // 2.6: je Datenquelle eine eigene Stufe (gemerkt in license_tool_backup.stufen), eine Datenquelle aktiv – SEL.st ist immer die Stufe der aktiven
-function selInit(){const lic=zbOk(),g=lic?LIC&&LIC.stufen:null;
+function selInit(){const lic=zbOk(),g=lic?LIC&&LIC.stufen:null;if(ALLE()){SEL={dq:DQ.filter(d=>g[d]).pop()||'lokal',st:'datenbank'};DQ.forEach(d=>{SELS[d]=g[d]||(d==='lokal'?'datenbank':'datenbank')});SEL.st=SELS[SEL.dq];return}
  SEL=lic&&SRV.mode?{dq:SRV.mode,st:SRV.stufe||'datenbank'}:{dq:'lokal',st:CFG.lokal.stufe};
  DQ.forEach(d=>{let v=g&&g[d]?g[d]:d===SEL.dq?SEL.st:'datenbank';const lim=lic?mxSt(d):null;if(lim&&rk(ST3,v)>rk(ST3,lim))v=lim;if(d==='ordner'&&v==='settings')v='datenbank';SELS[d]=v});
  SELS[SEL.dq]=SEL.dq==='ordner'&&SEL.st==='settings'?'datenbank':SEL.st;SEL.st=SELS[SEL.dq]}
@@ -600,61 +610,55 @@ function setupHtml(){const lic=zbOk(),pv=PREVIEW(),mx=lic&&LIC&&LIC.max?LIC.max:
  const why=dq=>dq==='lokal'?'':OFFLINE?'nicht in der Offline-Version':pv?'Admin-Vorschau':!lic?'nur mit Lizenz':m?(m[dq]?'':'durch die Lizenz nicht angeboten'):mx&&rk(DQ,dq)>rk(DQ,mx.datenquelle)?'durch die Lizenz begrenzt':'';
  // 2.5: jede Kombination Datenquelle × Stufe einzeln – gesperrt, wenn die Datenquelle nicht angeboten ist oder die Stufe über der Stufe dieser Datenquelle liegt
  const whyC=(dq,st)=>{const w=why(dq);if(w)return w;if(!lic||!mx)return '';const g=mxSt(dq);return g&&rk(ST3,st)>rk(ST3,g)?`durch die Lizenz begrenzt (${DQL[dq][0]} bis Stufe ${STN[g]})`:''};
- const dqD={lokal:'Daten in diesem Browser · Backup in den Ordner und zentral mit Historie',ordner:`Die Datei <code class="notr">${esc(BKNAME)}</code> im OneDrive/SharePoint-Ordner ist der Stand (Datenhoheit) · am Server nur settings · nur Chrome/Edge am Computer`,server:'Aktueller Stand am Server · Abgleich zwischen allen Geräten (RITL-Sync) · Ordner als Kopie'};
+ const dqD={lokal:'in diesem Browser · „Backup speichern“ als Datei',ordner:`Datei <code class="notr">${esc(BKNAME)}</code> im OneDrive/SharePoint-Ordner ist der Datenstand (Datenhoheit) · nur Chrome/Edge am Computer`,server:'Abgleich über den Server zwischen allen Geräten (RITL-Sync) · Historie 10 Tage'};
+ // 2.7: was jede Datenquelle in ihrer Stufe bekommt
+ const dqW=(d,st)=>d==='lokal'?(st==='settings'?'nur Einstellungen gesichert':st==='datenbank'?'Einstellungen + Arbeitsdaten':'alles inkl. Dateien'):d==='ordner'?(st==='storage'?'Arbeitsdaten + Dateien in der Ordner-Datei':'Arbeitsdaten in der Ordner-Datei'):(st==='settings'?'nur Einstellungen über den Server':st==='datenbank'?'Einstellungen + Arbeitsdaten über den Server':'alles inkl. Dateien über den Server');
  const nD=sz&&sz.dateien?` (${sz.dateien.n}${sz.dateien.n===1?' Datei':' Dateien'})`:'';
  const stD={settings:`${esc(T.settings)}, Sprache`,datenbank:`settings + alle Daten: ${esc(T.datenbank)}`,storage:`alles, was im Tool geladen ist: datenbank + ${esc(T.storage)}${nD}`};
  const stN=st=>SEL.dq==='ordner'&&st==='settings'?' · bei B wie datenbank (die Datei im Ordner enthält immer die Arbeitsdaten)':SEL.dq==='lokal'&&st==='storage'&&lic?' · zentral datenbank, Dateien nur lokal':SEL.dq==='server'&&st==='storage'?` · Dateien über den Server, Kontingent ${quotaTxt()} je Lizenz`:'';
- const eff=lic&&SRV.mode?kurz(SRV.mode,SRV.stufe||'datenbank'):'';
+ const eff=lic?effKurz():'';const effS=d=>ALLE()?LIC.stufen[d]||'':SRV.mode===d?SRV.stufe||'datenbank':'';
  const cell=(d,st)=>{if(d==='ordner'&&st==='settings')return `<div class="bkgc na" title="Bei B enthält die Datei im Ordner immer die Arbeitsdaten – mindestens Stufe 2">–</div>`;
-  const w=whyC(d,st),on=SELS[d]===st,k=kurz(d,st),wk=eff&&SRV.mode===d&&(SRV.stufe||'datenbank')===st;
-  return `<label class="bkgc${on?' on':''}${on&&SEL.dq===d?' akt':''}${w?' dis':''}" title="${esc(k+' · '+dqTxt(d)+' · Stufe '+stTxt(st)+(w?' – '+w:''))}"><input type="radio" name="bks-st-${d}" value="${st}"${on?' checked':''}${w?' disabled':''} aria-label="${esc(k)}"><span class="notr">${k}</span>${wk?'<small>wirksam</small>':''}</label>`};
- const akt=d=>{const w=why(d),on=SEL.dq===d;return `<label class="bkgc bkga${on?' on':''}${w?' dis':''}" title="${esc(dqTxt(d)+(w?' – '+w:on?' ist aktiv':' als Datenquelle verwenden'))}"><input type="radio" name="bks-aktiv" value="${d}"${on?' checked':''}${w?' disabled':''} aria-label="${esc(dqTxt(d))} aktiv"><span>${on?'aktiv':'–'}</span></label>`};
- const gem=DQ.filter(d=>d!==SEL.dq&&!why(d)).map(d=>kurz(d,SELS[d])).join(', ');
- const grid=`<div class="bkgrid" role="group" aria-label="Stufe je Datenquelle und aktive Datenquelle"><div></div>${ST3.map(st=>`<div class="bkgh"><b class="notr">${STN[st]}<span class="bkgn">${st}</span></b><em>${sz&&sz[st]?fmtB(sz[st].gz):'–'}</em></div>`).join('')}<div class="bkgh"><b>aktiv</b><em>&nbsp;</em></div>
-   ${DQ.map(d=>{const w=why(d);return `<div class="bkgd${w?' dis':''}${SEL.dq===d?' akt':''}" role="radiogroup" aria-label="Stufe für ${esc(dqTxt(d))}"><b class="notr">${DQL[d][0]} · ${DQL[d][1]}</b><small>${dqD[d]}${w?` <span class="lk">· ${w}</span>`:''}</small></div>${ST3.map(st=>cell(d,st)).join('')}${akt(d)}`}).join('')}</div>
-   <p class="bkinfo">Aktiv: <b class="notr">${kurz(SEL.dq,SEL.st)}</b> – ${esc(dqTxt(SEL.dq))} · Stufe ${esc(stTxt(SEL.st))}: ${stD[SEL.st]}${stN(SEL.st)}${whyC(SEL.dq,SEL.st)?` <span class="lk">· ${whyC(SEL.dq,SEL.st)}</span>`:''}${gem?` · gemerkt für den Wechsel: <b class="notr">${gem}</b>`:''}</p>`;
+  const w=whyC(d,st),on=!why(d)&&SELS[d]===st,k=kurz(d,st),wk=eff&&effS(d)===st;
+  return `<label class="bkgc${on?' on':''}${w?' dis':''}" title="${esc(k+' · '+dqTxt(d)+' · Stufe '+stTxt(st)+(w?' – '+w:''))}"><input type="radio" name="bks-st-${d}" value="${st}"${on?' checked':''}${w?' disabled':''} aria-label="${esc(k)}"><span class="notr">${k}</span>${wk?'<small>wirksam</small>':''}</label>`};
+ const grid=`<div class="bkgrid" role="group" aria-label="Stufe je Datenquelle"><div></div>${ST3.map(st=>`<div class="bkgh"><b class="notr">${STN[st]}<span class="bkgn">${st}</span></b><em>${sz&&sz[st]?fmtB(sz[st].gz):'–'}</em></div>`).join('')}
+   ${DQ.map(d=>{const w=why(d);return `<div class="bkgd${w?' dis':''}" role="radiogroup" aria-label="Stufe für ${esc(dqTxt(d))}"><b class="notr">${DQL[d][0]} · ${DQL[d][1]}</b><small>${dqD[d]}${w?` <span class="lk">· ${w}</span>`:''}</small></div>${ST3.map(st=>cell(d,st)).join('')}`}).join('')}</div>
+   <p class="bkinfo">Aktiv: <b class="notr">${DQ.filter(d=>!why(d)).map(d=>kurz(d,SELS[d])).join(' + ')}</b> – ${DQ.filter(d=>!why(d)).length>1?'alle Datenquellen gleichzeitig, jede in ihrer Stufe: ':''}${DQ.filter(d=>!why(d)).map(d=>`${DQL[d][0]}: ${dqW(d,SELS[d])}`).join(' · ')}.</p>`;
  const top=lic?`<div class="status${LIC&&LIC.wahl?' good':''}" style="margin-bottom:12px">Lizenz: höchstens <b class="notr">${mx?esc(mxKurz()):'–'}</b>${mx&&!m?` (${esc(dqTxt(mx.datenquelle))} · Stufe ${esc(stTxt(mx.stufe))})`:''} · Kontingent ${quotaTxt()}${eff?` · wirksam <b class="notr">${eff}</b>`:''}${LIC&&LIC.wahl?` – gewählt für ${esc(NAME)}, gilt auf allen Geräten.`:' – noch keine eigene Wahl, es gilt das Maximum.'}${LIC&&LIC.wahl?' <button class="btn ghost" type="button" id="bks-reset" style="padding:2px 8px;font-size:12px">Vorgabe der Lizenz verwenden</button>':''}</div>`
   :`<div class="status${OFFLINE||pv?' warn':''}" style="margin-bottom:12px">${OFFLINE?'Offline-Version: nur A · Lokal – zentrale Funktionen entfallen.':pv?PVTXT+'. Zum Testen das Tool mit einer Lizenz öffnen (Kanal Dev).':'Ohne Lizenz: nur A · Lokal. B · Ordner und C · Server gibt es in der lizenzierten Version (Aufruf über die RIEMER Toolbox).'}</div>`;
- const ob=SEL.dq==='ordner';
+ const ob=lic&&!why('ordner');
  return `${top}<p class="small" style="margin:0">Wählen Sie, wo die Daten von ${esc(NAME)} liegen und wie umfangreich gesichert wird. Größen komprimiert, so wie gespeichert.${lic?' Die Wahl gilt für alle Geräte dieses Tools.':''} Später jederzeit unter <b>Backup</b> änderbar.</p>
-  <section class="iosec" style="margin-top:14px"><h3><i>01</i>Datenquelle · Stufe je Datenquelle</h3><p class="small" style="margin:6px 0 0">Je Zeile die Stufe wählen – sie bleibt für diese Datenquelle gemerkt. Rechts wählen, welche Datenquelle aktiv ist.</p>${grid}</section>
+  <section class="iosec" style="margin-top:14px"><h3><i>01</i>Datenquellen · Stufe je Datenquelle</h3><p class="small" style="margin:6px 0 0">Alle Datenquellen sind gleichzeitig aktiv. Je Zeile wählen, welche Daten dort liegen.</p>${grid}</section>
   <section class="iosec"><h3><i>02</i>Ordner · OneDrive &amp; SharePoint<small>dieses Gerät</small></h3>
    <label class="iochk"><input type="checkbox" id="bks-lon"${CFG.lokal.on||ob?' checked':''}${!fsSupported()||ob?' disabled':''}><span>Nach jeder Änderung in den verknüpften Ordner sichern (<code class="notr">${esc(BKNAME)}</code>, wird überschrieben)${ob?' <span class="lk">· bei B immer – der Ordner ist die Datenbank</span>':''}</span></label>
    <div class="status${FS.handle?' good':ob?' warn':''}" style="margin-top:10px">${!fsSupported()?(ob?'Dieser Browser kann keinen Ordner verknüpfen – B · Ordner geht nur in Chrome oder Edge am Computer.':'Dieser Browser kann keinen Ordner verknüpfen – „Backup speichern“ legt die Datei im Download-Ordner ab.'):FS.handle?`Ordner „${esc(FS.handle.name)}“ verknüpft`:ob?'Noch kein Ordner verknüpft – für B · Ordner bitte auf diesem Gerät einmal verknüpfen.':'Noch kein Ordner verknüpft.'}</div>
    ${fsSupported()?`<div class="iorow"><button class="btn" type="button" id="bks-link">${FS.handle?'Anderer Ordner …':'Ordner verknüpfen …'}</button></div>`:''}</section>
   ${OFFLINE?'':`<p class="small" style="margin:12px 0 0">${pv?PVTXT+'.':!lic?'Zentrales Backup nur in der lizenzierten Version (Aufruf über die RIEMER Toolbox).':`Zentral mit Historie bis ca. ${sz?fmtB(sz[SEL.st==='storage'?'datenbank':SEL.st].gz*11):'–'} (höchstens 11 Stände, nur geänderte werden gespeichert). Kontingent ${quotaTxt()} je Lizenz für alle Tools. Gespeichert in der EU (Frankfurt), Zugriff nur mit Ihrem Lizenzschlüssel.`}</p>`}`}
 function renderSetup(){const b=$('bks-body');b.innerHTML=setupHtml();
- b.querySelectorAll('input[type=radio][name^="bks-st-"],input[name=bks-aktiv]').forEach(r=>r.onchange=()=>{if(r.name==='bks-aktiv')SEL.dq=r.value;else SELS[r.name.slice(7)]=r.value;SEL.st=SELS[SEL.dq];const keep=$('bks-lon')&&$('bks-lon').checked;renderSetup();const l=$('bks-lon');if(l&&!l.disabled)l.checked=keep});
+ b.querySelectorAll('input[type=radio][name^="bks-st-"]').forEach(r=>r.onchange=()=>{SELS[r.name.slice(7)]=r.value;SEL.st=SELS[SEL.dq];const keep=$('bks-lon')&&$('bks-lon').checked;renderSetup();const l=$('bks-lon');if(l&&!l.disabled)l.checked=keep});
  const lk=$('bks-link');if(lk)lk.onclick=async()=>{const keep=$('bks-lon')&&$('bks-lon').checked;await link();renderSetup();const l=$('bks-lon');if(l&&!l.disabled)l.checked=keep||!!FS.handle};
  const rs=$('bks-reset');if(rs)rs.onclick=async()=>{try{const j=await okj('cfg_set',{reset:true});setLic(j.backup);await srvCheck();selInit();renderSetup();renderZb();renderLokalStufe();toast(`Vorgabe der Lizenz gilt wieder: ${kurz(SEL.dq,SEL.st)}`);startSync()}catch(e){toast('Backup einrichten: '+e.message)}}}
 async function openSetup(){const d=$('bksetup');SZ=await sizes().catch(()=>null);if(zbOk())await srvCheck();
  selInit();
  if($('bkdlg').open)$('bkdlg').close();renderSetup();if(!d.open)d.showModal()}
 function startSync(){if(ORD()){if(FS.handle)oqPull(false);else oqStart()}if(CFG.zentral.on)(syOn()?syPull(true):zbSave(true))}
-const WECHSEL={lokal:'Die Daten bleiben in diesem Browser; gesichert wird lokal, im Ordner und zentral mit Historie.',
- ordner:`Der Stand wird in die Datei ${BKNAME} im verknüpften Ordner geschrieben – liegt dort schon ein anderer Stand, wirst du gefragt. Am Server bleiben nur die Einstellungen.`,
- server:'Der Stand in diesem Browser wird mit dem Server abgeglichen: Ist der Server leer, wird dein Stand hochgeladen; liegt dort ein anderer Stand, wirst du gefragt.'};
-$('bks-ok').onclick=async()=>{if(zbOk()&&$('bks-body').querySelector('input[name^="bks-st-"]:checked:disabled,input[name=bks-aktiv]:checked:disabled')){toast('Eine gewählte Stufe ist durch die Lizenz nicht erlaubt – bitte eine freie Stufe wählen.');return}const lonEl=$('bks-lon'),lon=!!(lonEl&&lonEl.checked&&!lonEl.disabled);
+$('bks-ok').onclick=async()=>{if(zbOk()&&$('bks-body').querySelector('input[name^="bks-st-"]:checked:disabled')){toast('Eine gewählte Stufe ist durch die Lizenz nicht erlaubt – bitte eine freie Stufe wählen.');return}const lonEl=$('bks-lon'),lon=!!(lonEl&&lonEl.checked&&!lonEl.disabled);
  if(!zbOk()){CFG.lokal={on:lon,stufe:SEL.st};CFG.seen=true;cfgSave();FS.auto=lon&&!!FS.handle;fsCfg();renderFs();renderZb();renderLokalStufe();$('bksetup').close();
   if(FS.auto)fire();toast('Backup eingerichtet: '+(lon?`lokal in den Ordner (${SEL.st})`:`A · Lokal (${SEL.st}) – Backup manuell`));return}
- const alt=SRV.mode||'lokal',wechsel=SEL.dq!==alt,zielSt=SEL.st;
- if(wechsel&&!confirm(`Datenquelle wechseln: ${dqTxt(alt)} → ${dqTxt(SEL.dq)}\n\nDaten werden von „${dqTxt(alt)}“ nach „${dqTxt(SEL.dq)}“ übernommen. ${WECHSEL[SEL.dq]}\n\nDie Wahl gilt für ${NAME} auf allen Geräten.`))return;
- const ok=$('bks-ok');ok.disabled=true;
- try{const stufen={};DQ.forEach(d=>{if(!(LIC&&LIC.matrix)||LIC.matrix[d])stufen[d]=SELS[d]});const j=await okj('cfg_set',{datenquelle:SEL.dq,stufe:zielSt,stufen});setLic(j.backup);
-  // wirksame Werte sofort übernehmen (Server begrenzt auf das Maximum), dann state_head (Freigabe) prüfen
-  if(j.backup){SRV.mode=j.backup.datenquelle;SRV.stufe=j.backup.stufe;SRV.allowed=SRV.mode!=='lokal';LSset(K('srv'),SRV.mode);LSset(K('srvst'),SRV.stufe)}
+ const ok=$('bks-ok');ok.disabled=true;const vorher=effKurz();
+ try{const m=LIC&&LIC.matrix,stufen={};DQ.forEach(d=>{if(!m||m[d])stufen[d]=SELS[d]});const top=DQ.filter(d=>stufen[d]).pop()||'lokal';
+  const j=await okj('cfg_set',{datenquelle:top,stufe:stufen[top],stufen});setLic(j.backup);
+  if(j.backup){SRV.mode=j.backup.datenquelle;SRV.stufe=j.backup.stufe;LSset(K('srv'),SRV.mode);LSset(K('srvst'),SRV.stufe)}
   if(!ORD())CFG.lokal.on=lon;applyEff();await srvCheck()}
  catch(e){ok.disabled=false;toast('Backup einrichten: '+e.message);return}
- ok.disabled=false;if(wechsel){SY={...SY,stufe:'',rev:0,sha:''};sySave()}
- FS.auto=CFG.lokal.on&&!!FS.handle&&!ORD();fsCfg();renderFs();renderZb();renderLokalStufe();$('bksetup').close();
- const k=kurz(SRV.mode,SRV.stufe||'datenbank');toast(`Backup eingerichtet: ${k} · ${dqTxt(SRV.mode)}${k!==kurz(SEL.dq,zielSt)?' (durch die Lizenz begrenzt)':''} – gilt auf allen Geräten`);
+ ok.disabled=false;FS.auto=CFG.lokal.on&&!!FS.handle&&!ORD();fsCfg();renderFs();renderZb();renderLokalStufe();$('bksetup').close();
+ const k=effKurz();toast(`Backup eingerichtet: ${k}${ALLE()?' – alle Datenquellen aktiv':''}, gilt auf allen Geräten`);
  startSync();if(!ORD()&&FS.auto)fire()};
 $('bks-later').onclick=()=>{CFG.seen=true;cfgSave();$('bksetup').close()};
 $('bk-setup').onclick=()=>{$('bkdlg').close();openSetup()};
 
 // ── Start ──
 if(OFFLINE){CFG.zentral.on=false;CFG.zentral.quelle=false;$('zb-sec').hidden=true}
-if(zbOk()&&SRV.mode)applyEff(); // aus dem Cache, bis state_head antwortet
+if(zbOk()&&(SRV.mode||ALLE()))applyEff(); // aus dem Cache, bis state_head antwortet
 renderFs();bkInd();
 // mit Lizenz gelten die wirksamen Werte (Wahl ≤ Maximum) ohne Rückfrage; „Backup einrichten“ öffnet sich nur, wenn der Server nichts vorgibt
 // (ältere Server) und noch nichts eingerichtet ist, oder bei B ohne Ordner auf diesem Gerät
@@ -676,7 +680,7 @@ window.RITLBK={version:VERSION,tool:TOOL,datei:BKNAME,
  open:openBk,setup:openSetup,schedule:()=>fire(),sync,extra:renderExtra,
  fs:{status:fsStatus,buttons:fsButtons,read:fsRead,write:fsWrite,run,action:fsAction,perm:fsPerm,supported:fsSupported,get handle(){return FS.handle},get ok(){return FS.ok}},
  head,check,download,pickFile,restore:(d,quelle,still)=>restore(d,quelle,still,'datei'),zeit,stamp,esc,
- stand:()=>({datenquelle:zbOk()?SRV.mode||'lokal':'lokal',stufe:zbOk()?SRV.stufe||CFG.lokal.stufe:CFG.lokal.stufe,max:LIC&&LIC.max||null,matrix:LIC&&LIC.matrix||null,stufen:LIC&&LIC.stufen||null,wahl:LIC&&LIC.wahl||null,quota:LIC&&LIC.quota||0,lokal:{...CFG.lokal},zentral:{...CFG.zentral},sync:syOn(),ordner:ORD(),bereit:RDY})};
+ stand:()=>({alle:ALLE(),datenquellen:ALLE()?{...LIC.stufen}:null,datenquelle:zbOk()?SRV.mode||'lokal':'lokal',stufe:zbOk()?SRV.stufe||CFG.lokal.stufe:CFG.lokal.stufe,max:LIC&&LIC.max||null,matrix:LIC&&LIC.matrix||null,stufen:LIC&&LIC.stufen||null,wahl:LIC&&LIC.wahl||null,quota:LIC&&LIC.quota||0,lokal:{...CFG.lokal},zentral:{...CFG.zentral},sync:syOn(),ordner:ORD(),bereit:RDY})};
 document.dispatchEvent(new Event('ritlbk:ready'));
 })();
 </script>
