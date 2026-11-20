@@ -3,6 +3,11 @@
 GPS-Tracks (GPX) lokal im Browser in 2D und 3D darstellen, analysieren, bearbeiten und animieren · #ritl_track
 Neueste Version oben. Versionen ≤ V1.9 in Google AI Studio entwickelt und nachträglich zusammengefasst (keine Einzelstände erhalten).
 
+## V3.3.2 · 20.11.2026 · DEV
+**Geändert**
+- **iPhone/Handy:** Die Module TRACK, ANALYSE, EDITOR, EXPORT und PANO stehen als Tab-Leiste unten (wie in DRIVE.ritl) statt als Ribbon oben. Ein neues Modul startet oben auf der Seite.
+- In der fixierten Vollbild-Ansicht ist die Tab-Leiste ausgeblendet; Fußzeile und Meldungen liegen über der Leiste.
+
 ## V3.3.1 · 20.11.2026 · DEV
 **Neu**
 - **iPhone/iPad – Zum Home-Bildschirm:** TRACK.ritl zeigt dort das eigene TRACK-Logo statt eines Buchstabens und startet als App im Vollbild (ohne Safari-Leisten), mit dem Namen „TRACK.ritl“.
