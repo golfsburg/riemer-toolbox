@@ -3,6 +3,125 @@
 Projektmanagement: Projekt-Portfolio mit Gewerken, Anwendungen und Businesses (Lead › Spezifikation Opportunity › Spezifikation › Opportunity), Umsatzplan, Dashboard und Zeitplan · #ritl_pm
 Neueste Version oben. Versionen ≤ V1.1 nachträglich rekonstruiert (Projektmanager V1.x, selbstspeichernde HTML-Datei).
 
+## V3.1.14 · 20.11.2026 · DEV
+**Geändert**
+- Backup: alle Datenquellen gleichzeitig aktiv, jede in ihrer Stufe (ritl-bk 2.7)
+
+## V3.1.13 · 20.11.2026 · DEV
+**Neu**
+- **PPTX-Export mit Auswahlübersicht** („⬇ Export ▾“ › „Auswahl für PPTX …“): alle Boxen aus PORTFOLIO, DASH, PLAN, PROJEKT (offenes Projekt), LINK und DATA als Kacheln je Modul zum An- und Abwählen, Modul-Häkchen für alle Boxen eines Moduls, Zähler „x von y Boxen gewählt“. Ein Klick erstellt eine PPTX in der Reihenfolge der Module.
+- **Export-Favoriten:** „Alles“, „Nichts“ und eigene Favoriten (mit Filter auf Wunsch), Änderungen speichern, Umbenennen, Löschen; „Als Code kopieren“ / „Code einfügen“ zum Weitergeben an Kollegen.
+- **Quality-Check exportieren:** im QC-Dialog je Projekt als XLSX oder PPTX; im Export-Menü von PORTFOLIO und DASH für alle gefilterten Projekte (XLSX mit Blättern Übersicht und Prüfpunkte; PPTX mit Übersicht und Checkliste je Projekt mit offenen Punkten). Der Quality-Check ist auch als Box in der PPTX-Auswahl wählbar.
+
+## V3.1.12 · 20.11.2026 · DEV
+**Neu**
+- **Quality-Check je Projektphase:** Jede Projektkarte und der Phasen-Kopf in PROJEKT.ritl zeigen „QC xx %“ (grün ab 90 %, orange ab 60 %, rot darunter). Geprüft werden alle Punkte bis zur aktuellen Phase:
+  1. Akquisition – Projekttyp, Kunde, Ort und Land, Inhaber, Projektnummer/Salesforce-ID, plausible Laufzeit, Betrag oder Potential, Gewerke/Anwendungen, Standard-Set vollständig.
+  2. Steering – Spezifikation je Anwendung, Spezifikationen mit Wert, Businesses mit Terminen, keine überfälligen Spezifikationen, Opportunities zu erreichten Spezifikationen, Umsatzplan.
+  3. Execution – Opportunities mit Wert, keine überfälligen Opportunities, keine überschrittene Forecast-Meldefrist, Forecast für alle offenen Businesses.
+  4. Review – alle Businesses entschieden, Ergebnis im Umsatzplan, Forecast abgeschlossen, Projektende erreicht.
+- Klick auf das Badge öffnet die Checkliste mit Hinweisen und Sprung zur Behebung (Stammdaten, Projekt, Standard-Set ergänzen); spätere Phasen sind als Vorschau sichtbar.
+- Sortierung „Quality-Check (schwächste zuerst)“.
+**Geändert**
+- **Projektkarte:** „Projekt öffnen“ steht immer ganz unten über die volle Breite; lange Projektnamen (z. B. mit //) brechen um, die Bedienknöpfe bleiben immer erreichbar.
+- Beispielprojekte bekommen Inhaber und Betrag, damit der Quality-Check vollständig ist.
+
+## V3.1.11 · 20.11.2026 · DEV
+**Neu**
+- **Hauptfilter mit Mehrfachauswahl:** Status, Projekttyp, Jahr, Projektphase, Phase (Stammdaten), Inhaber und Land sind Auswahlfelder mit Häkchen – mehrere Werte je Filter (innerhalb eines Filters „oder“, zwischen den Filtern „und“).
+- **Suche in jedem Filter** (Enter hakt den ersten Treffer an), „Alle sichtbaren“ und „Keine“.
+- **Verknüpfte Filter:** Jeder Filter bietet nur die Werte an, die zu den übrigen Filtern und der Projektsuche passen, mit Anzahl der Projekte. Gewählte Werte ohne Treffer bleiben sichtbar (grau), damit sie abgewählt werden können; Filter ohne Werte werden ausgeblendet.
+- Aktive Filter erscheinen in PORTFOLIO › Kennzahlen als einzelne Chips je Wert; Favoriten, Exporte und Berichte übernehmen die Mehrfachauswahl. Gespeicherte Filter und Favoriten aus älteren Versionen werden übernommen.
+
+## V3.1.10 · 20.11.2026 · DEV
+**Neu**
+- **Projekt auswählen im PORTFOLIO:** Klick auf den Projektnamen öffnet das Projekt und springt auf **DASH**. DASH und PLAN zeigen dann nur dieses Projekt; im Filterbereich steht der Chip „Projekt“ (× zeigt wieder alle Projekte). Das Ordnersymbol öffnet weiterhin PROJEKT.ritl.
+- Die Ribbons **DASH** und **PLAN** zeigen wie PROJEKT den Namen des gewählten Projekts; die Projektkarte ist im PORTFOLIO markiert.
+**Behoben**
+- PPTX-Projektreport, „Zeitplan der Businesses“: alle Balken hatten dieselbe Farbe. Lead, Spezifikation Opportunity, Spezifikation und Opportunity haben jetzt eigene Farben (auch in der Legende und in den Diagrammen je Business-Typ).
+- PPTX-Exporte lösen App-Farben (Projekt-, Gewerk- und Zeitplanfarben) richtig auf – auch wenn die App im Dunkelmodus läuft.
+
+## V3.1.9 · 20.11.2026 · DEV
+**Neu**
+- **Standard-Sets je Projekttyp importieren** (DATA.ritl › Projekttypen und im Editor „Standard-Sets je Projekttyp“): Gewerke und Anwendungen per Copy & Paste aus Excel – mit Spalte **Projekttyp** mehrere Typen auf einmal, sonst für den gewählten (oder einen neuen) Typ. Spalten Gewerk, Anwendung, Typ (Planung/Ausführung); mit oder ohne Kopfzeile, leere Zellen übernehmen den Wert darüber. Auch die Salesforce-Liste „Gewerke & Anwendungen“ eines Projekts wird erkannt.
+- Spaltenübersicht mit ✓ gefunden, Vorschau je Zeile (neu / vorhanden / doppelt / neuer Typ), Modus **ergänzen** oder **ersetzen** je importiertem Typ. Neue Typen werden in die Typenliste übernommen.
+- **Standard-Sets als XLSX** exportieren (Projekttyp, Gewerk, Anwendung, Typ) – zugleich Vorlage für den Import.
+**Behoben**
+- Standard-Sets wurden nach dem Neuladen der Seite nicht angezeigt (Daten blieben gespeichert, wurden aber zu früh gelesen). Typen mit Standard-Set bleiben jetzt immer in der Typenliste.
+
+## V3.1.8 · 20.11.2026 · DEV
+**Neu**
+- **Menü „Neu“** (Header „+“ und Knopf „Neu …“ im Portfolio): „Neues Projekt“ (leer) oder **„Beispielprojekt erstellen“**.
+- **Beispielprojekt je Projekttyp:** Projekttyp wählen (oder neu anlegen), Name, Baubeginn und Laufzeit – PM.ritl legt ein vollständiges Beispiel an: Gewerke und Anwendungen aus dem Standard-Set des Typs (sonst allgemeine Vorlage HKLS, Elektro, Brandschutz, Fassade), je Anwendung eine Spezifikation und eine Opportunity (bei Planung eine Spezifikation Opportunity) mit Beispielwerten und Terminen über die Laufzeit. Das Projekt ist als „BEISPIEL · <Typ>“ benannt, hat die Nummer BSP-###, steht im Logbuch und wird gleich geöffnet.
+**Geändert**
+- DATA.ritl: „Beispielprojekt anlegen“ (feste VORLAGE) ersetzt durch „Beispielprojekt erstellen …“; auch in der leeren Projektliste.
+
+## V3.1.7 · 20.11.2026 · DEV
+**Geändert**
+- **Projekttypen nur aus den Projekten:** Die fest eingebauten Typen (EPC, EPCM, Service, Rahmenvertrag, Einzelauftrag) sind entfernt. Die Liste enthält nur Typen, die in Projekten vorkommen (z. B. aus dem Salesforce-Import), und Typen mit Standard-Set; sie ist alphabetisch sortiert und wird beim Speichern automatisch abgeglichen.
+- „Projekttypen verwalten“ zeigt je Typ die Anzahl der Projekte; ein Typ, der noch verwendet wird, lässt sich nicht entfernen.
+
+## V3.1.6 · 20.11.2026 · DEV
+**Neu**
+- **Salesforce-Import in drei Stufen** per Copy & Paste aus Salesforce oder Excel – ein Dialog mit Reitern, die Stufe wird beim Einfügen automatisch erkannt:
+  1. **Salesforce-Projekte** → PORTFOLIO.ritl: Liste mehrerer Projekte (Excel-Blatt „Projekte“) – Projekte anlegen oder abgleichen über die bekannte Zuordnung (Mapping).
+  2. **Salesforce-Projektdaten** → PROJEKT.ritl: Detailseite eines Projekts (Excel-Blatt „Projektdaten“) – Projekt wird erkannt oder ausgewählt (bisher „Salesforce-Projekt“).
+  3. **Salesforce-Gewerke-Anwendungen** → PROJEKT.ritl: Liste der Gewerke und Anwendungen (Excel-Blatt „Gewerke&Anwendungen“) – legt fehlende Gewerke/Anwendungen an, übernimmt Baubeginn/Enddatum als Zeiträume und das Potential als vorbelegten Schätzwert im Forecast; „--“-Zeilen und hinfällige Einträge werden übersprungen.
+- Jede Stufe zeigt die **erforderlichen Daten als Spaltenübersicht** (Pflicht, Ziel in PM.ritl, nach dem Einfügen ✓ gefunden).
+- **Land** im Import-Mapping (auch Region, PLZ, Projektklassifizierung, Art der Arbeit, Potentialklasse, Ziel SoW, PEM, Wartestellung, Hinfällig) und als zusätzlicher **Hauptfilter** im Portfolio (auch als Filter-Chip und in Favoriten).
+**Geändert**
+- Die Salesforce-Spalte „ID“ (PRJ-Nummer) wird als Projektnummer zugeordnet; der Abgleich prüft Projektnummer und Salesforce-ID kreuzweise und auch alternative Projektnamen.
+- Excel-Kopien werden besser gelesen: Datumsangaben als JJJJ-MM-TT, mehrzeilige Zellen in Anführungszeichen, Werte wie „FalschHinfällig“.
+- Die Suche findet auch Land und alternative Projektnamen.
+
+## V3.1.5 · 20.11.2026 · DEV
+**Neu**
+- **Salesforce-Projekt einfügen und abgleichen:** Detailseite eines Projekts in Salesforce (Reiter Details) komplett kopieren und einfügen – in PORTFOLIO.ritl („Salesforce einfügen …“), DATA.ritl › 01 Import oder im Projektkopf („Aus Salesforce …“). PM.ritl erkennt die Felder, sucht das passende Projekt (Projektnummer, Name, alternative Projektnamen) und zeigt je Feld PM.ritl ↔ Salesforce zum Anhaken. Neue Projekte werden angelegt (mit Standard-Set des Projekttyps), bestehende nur in den angehakten Feldern aktualisiert.
+- Erkannt werden u. a. Name, ID, Fokus Level, Projektklassifizierung, Projekt-Typ (fehlende Typen werden ergänzt), Art der Arbeit, Währung, Projekt Phase, in Wartestellung, Hinfällig, Potential-Berechnungsmethode, Potentialklasse, Ziel SoW, Verteilungsstatus, Umsatzplan-Vollständigkeit, Betrag, Potential, Ziel (Top Down), FEED-, Entwurfs-, Bau- und Endtermin, Adresse (Straße 1–5, PLZ, Stadt, Bezirk, Staat, Region, Land), Hinweise (mit alternativen Projektnamen und Bauherr als Kunde), Modellierungssoftware, Program, Inhaber, Zugewiesener, Project Execution Manager und „Zuletzt geändert“.
+- **Neue Stammdatenfelder** für diese Werte (im Fenster „Stammdaten bearbeiten“ und im Projektkopf); die Hinweise stehen aufklappbar im Projektkopf.
+- „In Wartestellung = ja“ setzt das Projekt auf **ruht**, „nein“ nimmt eine aus Salesforce gesetzte Ruhe wieder zurück. Ist der eingefügte Stand älter als der zuletzt übernommene, warnt PM.ritl und hakt nichts vor.
+- Jeder Import steht im **Logbuch** (Art „Import“) mit den geänderten Feldern.
+
+## V3.1.4 · 20.11.2026 · DEV
+**Neu**
+- **Export jeder Box:** Im Kopf jeder Box „⬇ Export“ mit „Box als PPTX“ (Abbild im Hell-Modus, Folien mit Deckblatt und Folienmaster „RIEMER Tools“, lange Boxen auf mehrere Folien verteilt) und „Tabellen als XLSX“ (ein Blatt je Tabelle, Eingabefelder mit ihrem Wert, Blatt „Info“ mit Modul, Filter und Zeitpunkt).
+- **Export je Ansicht:** „⬇ Export ▾“ neben „Alle auf / Alle zu“ exportiert alle Boxen der Ansicht als PPTX bzw. alle Tabellen als XLSX – mit den aktiven Portfolio-Filtern.
+- **Handlungsbedarf (DASH.ritl) mit Forecast-Hinweisen:** Meldefrist überschritten, Bedarf in weniger als 8 Wochen nicht bestätigt, Forecast gemeldet aber Business verloren, Business ohne Forecast in Phase Execution. Gilt für Projekte ab Phase Steering oder mit begonnenem Forecast; auch im PPTX-Dashboard.
+- **Meldefristen „ALLE“:** Je Ebene (Projekttyp, Gewerk, Anwendung, Business-Typ) lässt sich als Name „ALLE“ wählen. Namentliche Einträge gehen vor „ALLE“, danach gilt global.
+- **Backup › 02 OneDrive & SharePoint** zeigt den Pfad des verknüpften Ordners (Baustein ritl-bk 2.3); den vollen Pfad einmal mit ✎ eintragen, da Browser nur den Ordnernamen nennen.
+
+## V3.1.3 · 20.11.2026 · DEV
+**Neu**
+- **Aktive Filter als Chips** in PORTFOLIO.ritl › 01 Kennzahlen: jeder Filter einzeln mit × entfernbar, dazu „Alle Filter löschen“. Im Kopf der Box steht „gefiltert · n von m Projekten“ statt „alle Projekte“.
+- **Logbuch** aller Übergänge der Projektphasen und des Forecasts mit Zeit, Projekt, Ebene, von → nach, wie (manuell, automatisch, abgeleitet), Wer und Notiz – je Projekt in PROJEKT.ritl › 07, für alle Projekte in DATA.ritl › 06 (filterbar nach Art und Projekt, folgt auf Wunsch dem Portfolio-Filter, Export als CSV). Bisherige Phasenverläufe werden übernommen. Das Logbuch ist Teil des Backups.
+- **Material Forecast (Schritt 1)** in PROJEKT.ritl › 06 Forecast: Baum Projekt › Gewerk › Anwendung › Business mit Status offen · geplant · eingereicht · bestätigt · abgeschlossen, Wert, Menge mit Einheit, Bedarfszeitraum und Meldefrist. Meilensteine F1–F4 werden je Ebene mit Datum gesetzt.
+  - Vererbung: Der Status einer Ebene ist der niedrigste darunter; sind alle Businesses einer Anwendung abgeschlossen, ist die Anwendung abgeschlossen – bis hinauf zum Projekt.
+  - Opportunities, Spezifikation Opportunities und Spezifikationen bekommen einen Forecast; der Wert ist mit Potential/Umsatz vorbelegt. Gewonnene oder verlorene Businesses sind automatisch abgeschlossen.
+  - Werte unten ersetzen die Schätzung oben, die Differenz steht als „noch nicht verteilt“.
+  - „bestätigt“ verlangt Wer und Notiz; der Zeitstempel kommt automatisch.
+- **Meldefristen** in DATA.ritl › 05: Vorlauf in Wochen global (12) mit Abweichungen je Projekttyp, Gewerk, Anwendung und Business-Typ; die spezifischste gilt. Überschrittene Meldefristen ohne Meldung sind markiert.
+
+**Behoben**
+- PROJEKT.ritl › 05 Zeitplan: Die Ebenen-Knöpfe ragten bei schmalen Fenstern (390 px) über den Rand.
+
+## V3.1.2 · 20.11.2026 · DEV
+**Geändert**
+- Die Filter in PORTFOLIO.ritl wirken jetzt auf alle Kennzahlen: Box 01 Kennzahlen (Karten, Projekte je Phase) und 02 Umsatzplan zeigen nur die gefilterten Projekte – wie DASH.ritl, PLAN.ritl und die Projektliste. Neben „Kennzahlen“ steht „gefiltert · n von m Projekten“, solange ein Filter aktiv ist.
+- „Projekte je Phase“ berücksichtigt alle Filter außer dem Phasen-Filter selbst, damit die Verteilung sichtbar bleibt; die gewählte Phase ist hervorgehoben.
+
+## V3.1.1 · 20.11.2026 · DEV
+**Neu**
+- **Projekte je Phase in PORTFOLIO.ritl › 01 Kennzahlen:** vier Karten Akquisition, Steering, Execution, Review mit Anzahl und Anteil, den Projekten der Phase (Klick öffnet das Projekt) sowie „ruht“ und „Abschluss?“. Darüber ein Balken mit der Verteilung. Klick auf die Zahl filtert die Projektliste auf diese Phase (nochmal klicken hebt den Filter auf).
+- **(i) neben jeder Phase:** Modal mit Eintritt, Meilenstein, was in der Phase passiert und wie es weitergeht.
+- **Standard-Sets je Projekttyp:** In DATA.ritl › 03 Projekttypen über „Standard-Sets je Projekttyp …“ je Typ Gewerke und Anwendungen (mit Planung/Ausführung) hinterlegen – Zeilen anlegen oder aus einem bestehenden Projekt übernehmen. Ein neues Projekt mit diesem Typ bekommt das Set automatisch als Einträge ohne Business; in PROJEKT.ritl ergänzt der Knopf **Standard-Set** fehlende Kombinationen. Die Sets sind Teil von Backup (Stufe datenbank).
+- **Jede Box lässt sich fixieren:** 🔒 Fixieren in jedem Boxkopf legt die Box auf das ganze Fenster – eingepasst nach Breite und Höhe, Mausrad zoomt zum Mauszeiger (15–400 %), Ziehen verschiebt (Klick bleibt Klick), „Einpassen“, Esc oder 🔓 Lösen beendet. Der Zustand bleibt nach dem Neuladen erhalten.
+
+**Geändert**
+- Beim Scrollen verschwindet der Header, die Modul-Leiste (Ribbon) bleibt am oberen Fensterrand stehen.
+- Die Zeitpläne heißen beim Fixieren jetzt ebenfalls „🔒 Fixieren“ / „🔓 Lösen“.
+- Info-Fenster ohne Aktion schließen mit „Schließen“ statt „Abbrechen“.
+- Neue Versionsnummerierung: Entwicklungsstände (DEV) mit dritter Stelle (V3.1.1), ab Beta wieder V#.#.
+
 ## V3.1 · 20.11.2026 · DEV
 **Neu**
 - **Projektphasen (STAGE.ritl):** Jedes Projekt steht in einer von vier Phasen – **1 Akquisition** (Projekt angelegt, noch kein Business), **2 Steering** (mindestens ein Business: Lead, Spezifikation Opportunity, Spezifikation oder Opportunity), **3 Execution** (mindestens eine Opportunity mit Startdatum bis heute – Status egal, auch verloren) und **4 Review** (Projekt abgeschlossen).

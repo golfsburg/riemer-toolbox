@@ -3,6 +3,10 @@
 Präsentationen aus Abschnitten zusammenstellen (DECK.ritl) und Meetings planen (TIMING.ritl) · #ritl_pptx
 Neueste Version oben. Ältere Versionen siehe Admin › Tools › Versionen (Tabelle `tool_versions`); dieser CHANGELOG beginnt mit V2.9.
 
+## V3.7.1 · 20.11.2026 · DEV
+**Geändert**
+- Backup: alle Datenquellen gleichzeitig aktiv, jede in ihrer Stufe (ritl-bk 2.7)
+
 ## V3.7 · 19.11.2026 · DEV
 **Neu**
 - **Einheitliches Backup (ritl-bk 2.0, S-17):** Das Backup kommt jetzt aus dem gemeinsamen Baustein aller RIEMER Tools – gleiche Fenster „Backup“ und „Backup einrichten“ wie in MUSTER.ritl.

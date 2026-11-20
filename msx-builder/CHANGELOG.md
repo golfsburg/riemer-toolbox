@@ -4,6 +4,10 @@
 Start: index.html im Browser öffnen (Chrome/Edge/Firefox) oder auf GitHub Pages ablegen.
 Beim Öffnen wird die Beispielzeichnung „Beispiel_Schnitt.dxf“ geladen.
 
+## V5.7.1 · 20.11.2026 · DEV
+**Geändert**
+- Backup: alle Datenquellen gleichzeitig aktiv, jede in ihrer Stufe (ritl-bk 2.7)
+
 ## V5.7 · 19.11.2026 · DEV
 **Neu**
 - **Einheitliches Backup (ritl-bk 2.0, S-17):** Das Backup kommt jetzt aus dem gemeinsamen Baustein aller RIEMER Tools – gleiche Fenster und Abläufe wie in den anderen Tools.

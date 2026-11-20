@@ -3,6 +3,10 @@
 PDF-Dokumente aus Lesezeichen-Abschnitten und Einzelseiten zusammenstellen – mit verlinktem Inhaltsverzeichnis · #ritl_pdf
 Neueste Version oben. Versionen ≤ V1.3 nachträglich rekonstruiert (aus `tool_versions` und Entwicklungsverlauf).
 
+## V2.1.1 · 20.11.2026 · DEV
+**Geändert**
+- Backup: alle Datenquellen gleichzeitig aktiv, jede in ihrer Stufe (ritl-bk 2.7)
+
 ## V2.1 · 19.11.2026 · DEV
 **Neu**
 - **Einheitliches Backup (ritl-bk 2.0, S-17):** Das Backup kommt jetzt aus dem gemeinsamen Baustein aller RIEMER Tools – gleiche Fenster „Backup“ und „Backup einrichten“ wie in MUSTER.ritl.

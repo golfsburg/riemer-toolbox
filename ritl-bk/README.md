@@ -40,16 +40,16 @@ Geprüft mit der ausgelieferten Fassung (Block 2.7, Lizenz A3 · B2 · C1 und A2
 
 | Tool | Version mit Block (Dev) | eingebettet | Beta/Stabil ohne Block |
 | --- | --- | --- | --- |
-| PM.ritl | V3.1.13 | 2.3 | – |
-| PPTX.ritl | V3.7 | 2.0 | Stabil V2.9 |
-| PDF.ritl | V2.1 | 2.0 | Beta V1.4 |
-| LV.ritl | V10.0 | 2.0 | Beta V9.5 |
-| MSX.ritl | V5.7 (Pro) | 2.0 | Beta V5.0, Stabil V4.3 (Pro) / V3.1 |
-| JFC.ritl | V4.0 | 2.1 | – |
-| STAKE.ritl | V2.6 | 2.0 | – |
+| PM.ritl | V3.1.14 | 2.7 | – |
+| PPTX.ritl | V3.7.1 | 2.7 | Stabil V2.9 |
+| PDF.ritl | V2.1.1 | 2.7 | Beta V1.4 |
+| LV.ritl | V10.0.1 | 2.7 | Beta V9.5 |
+| MSX.ritl | V5.7.1 (Pro) | 2.7 | Beta V5.0, Stabil V4.3 (Pro) / V3.1 |
+| JFC.ritl | V4.0.1 | 2.7 | – |
+| STAKE.ritl | V2.6.1 | 2.7 | – |
 
 Offen: Beta/Stabil-Versionen ohne Block haben noch eigenen Backup-Code – die Regel greift dort erst mit der Freigabe der Dev-Version.
-Die eingebettete Kopie (gilt nur ohne Lizenz/Offline) beim nächsten Release im Tool-Chat auf `ritl-bk/ritl-bk.html` (2.7) aktualisieren.
+Eingebettete Kopie in allen sieben Tools auf 2.7 aktualisiert (DEV-Versionen vom 20.11.2026).
 
 ## Einbau in ein Tool (Phase 3)
 

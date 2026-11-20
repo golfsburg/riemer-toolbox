@@ -3,6 +3,10 @@
 Beziehungs- und Stakeholder-Map für Firmen, Ansprechpartner, Projekte und Gewerke · #ritl_stake
 Neueste Version oben.
 
+## V2.6.1 · 20.11.2026 · DEV
+**Geändert**
+- Backup: alle Datenquellen gleichzeitig aktiv, jede in ihrer Stufe (ritl-bk 2.7)
+
 ## V2.6 · 19.11.2026 · DEV
 **Neu**
 - **Einheitliches Backup (ritl-bk 2.0):** Das Backup kommt jetzt aus dem gemeinsamen Baustein aller RIEMER Tools. Fenster und Abläufe bleiben wie gewohnt.

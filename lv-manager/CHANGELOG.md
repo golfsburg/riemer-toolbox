@@ -3,6 +3,10 @@
 Leistungsverzeichnisse nach ÖNORM A 2063 mit Materiallisten, Bieterangeboten und ONLV-Export · #ritl_lv
 Neueste Version oben. Versionen ≤ V9.2 nachträglich rekonstruiert (aus `tool_versions` und den Quellen-ZIPs).
 
+## V10.0.1 · 20.11.2026 · DEV
+**Geändert**
+- Backup: alle Datenquellen gleichzeitig aktiv, jede in ihrer Stufe (ritl-bk 2.7)
+
 ## V10.0 · 19.11.2026 · DEV
 **Neu**
 - **Einheitliches Backup (ritl-bk 2.0, S-17):** Das Backup kommt jetzt aus dem gemeinsamen Baustein aller RIEMER Tools. Fenster und Abläufe bleiben wie gewohnt, „04 Dateiablage“ bleibt im Fenster „Backup“.
