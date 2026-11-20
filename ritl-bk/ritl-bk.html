@@ -1,9 +1,10 @@
-<!-- ritl-bk 2.2 · 19.11.2026 · DEV – einheitliches Backup der RIEMER Tools (Regel S-17, Rollout R-13). Vorbild MUSTER.ritl V3.9.
+<!-- ritl-bk 2.4 · 20.11.2026 · DEV – einheitliches Backup der RIEMER Tools (Regel S-17, Rollout R-13). Vorbild MUSTER.ritl V3.9.
      Einbau: Adapter window.RITL_BK (siehe README.md) als <script> setzen, danach diesen Block unverändert (von ritl-bk:start bis ritl-bk:end) in den <body> nach dem Header kopieren.
-     2.1 ist rückwärtskompatibel: neue Angaben (bereit, ohneSha, norm, nachAnwenden, fluechtig, extra, alias, alt.idbFs*) sind optional. -->
+     2.1 ist rückwärtskompatibel: neue Angaben (bereit, ohneSha, norm, nachAnwenden, fluechtig, extra, alias, alt.idbFs*) sind optional.
+     2.3: Pfad des verknüpften Ordners (✎ je Gerät). 2.4: Stufe je Datenquelle (Lizenz-Matrix backup.max.matrix, z. B. A3 · B2 · C1) – ohne Matrix wie 2.2. -->
 <!--ritl-bk:start-->
 <style id="ritl-bk-css">
-/* ritl-bk 2.2 · 19.11.2026 – einheitliches Backup der RIEMER Tools (Regel S-17). Nichts Tool-Spezifisches hier ändern.
+/* ritl-bk 2.4 · 20.11.2026 – einheitliches Backup der RIEMER Tools (Regel S-17). Nichts Tool-Spezifisches hier ändern.
    Nur Tokens der Farbkarte. Alle Regeln gelten nur für die Dialoge des Bausteins (.rbk) und das Symbol am Knopf #backupBtn (.bkind). */
 dialog.rbk{border:1px solid var(--line);border-radius:var(--radius-panel,16px);background:var(--surface);color:var(--ink);padding:0;width:min(640px,94vw);box-shadow:0 20px 60px rgba(0,0,0,.25);font:400 14px/20px var(--sans,"Inter",system-ui,sans-serif);margin:auto}
 dialog.rbk::backdrop{background:rgba(15,20,28,.45)}
@@ -25,6 +26,12 @@ dialog.rbk::backdrop{background:rgba(15,20,28,.45)}
 .rbk .btn:disabled{opacity:.4;cursor:not-allowed}
 .rbk :is(.btn,.ix,input):focus-visible{outline:2px solid var(--brand);outline-offset:2px}
 .rbk .badge{font:500 11px/16px var(--mono,"JetBrains Mono",ui-monospace,monospace);padding:3px 8px;border-radius:var(--radius-sm,3px);background:var(--surface-muted);color:var(--ink2)}
+.rbk .iopath{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:8px;font-size:12.5px;color:var(--ink2)}
+.rbk .iopath[hidden]{display:none}
+.rbk .iopath>span{font:600 10.5px var(--sans,"Inter",system-ui,sans-serif);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.rbk .iopath code{background:var(--surface-muted);border:1px solid var(--line);padding:3px 8px;border-radius:6px;word-break:break-all;color:var(--ink)}
+.rbk .iopath input{flex:1 1 260px;min-width:0;border:1px solid var(--line2);border-radius:var(--radius,8px);padding:6px 9px;background:var(--surface);color:var(--ink);font:500 12px var(--mono,"JetBrains Mono",ui-monospace,monospace)}
+.rbk .iopath em{font-style:normal;font-size:11.5px;color:var(--muted)}
 .rbk .status{padding:11px 13px;border-radius:var(--radius,8px);background:var(--surface-muted);border:1px solid var(--line);color:var(--ink2);font-size:12.5px;line-height:18px}
 .rbk .status.good{background:color-mix(in srgb,var(--good) 9%,var(--surface));border-color:color-mix(in srgb,var(--good) 35%,transparent);color:var(--good)}
 .rbk .status.warn{background:color-mix(in srgb,var(--warn) 8%,var(--surface));border-color:color-mix(in srgb,var(--warn) 35%,transparent);color:var(--warn)}
@@ -74,14 +81,14 @@ dialog.rbk::backdrop{background:rgba(15,20,28,.45)}
 .bkind .offl{color:var(--muted)}
 </style>
 <script id="ritl-bk-js">
-/* ritl-bk 2.2 · 19.11.2026 – einheitliches Backup der RIEMER Tools (Regel S-17, Rollout R-13, Vorbild MUSTER.ritl V3.9).
+/* ritl-bk 2.4 · 20.11.2026 – einheitliches Backup der RIEMER Tools (Regel S-17, Rollout R-13, Vorbild MUSTER.ritl V3.9).
    Nichts Tool-Spezifisches hier ändern – das Tool setzt VOR diesem Block den Adapter window.RITL_BK (Anleitung riemer-toolbox/ritl-bk/README.md):
      tool, name, datei, prefix, ereignis, settings(), daten(), dateien()?, dateienLaden(list)?, anwenden(stufe,obj,quelle,still), leer()?,
      legacy(o)?, texte:{settings,datenbank,storage,rueckgaengig}?, alt:{bkcfg,srv,srvst,sync,ordner,oq,fs,bklic,idbFiles,idbFs,idbFsDb,idbFsStore,idbFsKey}?, version?
    ab 2.1 (alle optional, ohne sie verhält sich der Block wie 2.0): bereit (Promise oder Funktion → Promise) · ohneSha:[Schlüssel] · norm(obj) ·
      nachAnwenden(stufe,quelle,still) · fluechtig:true · extra:[{titel,text?,html|render(el),aktionen?,nach?,nr?,id?}] · alias:[Tool-Kennungen]
    Datenquelle: A · Lokal (lokal) · B · Ordner (ordner, Datenhoheit) · C · Server (server, RITL-Sync) – Stufe: 1 · settings · 2 · datenbank · 3 · storage.
-   Lizenz = Maximum (state_head → backup.max) + Kontingent; der Kunde wählt je Tool darunter („Backup einrichten“ → cfg_set, gilt auf allen Geräten).
+   Lizenz = Maximum je Datenquelle (state_head → backup.max.matrix, ab 2.4; sonst backup.max) + Kontingent; der Kunde wählt je Tool darunter („Backup einrichten“ → cfg_set, gilt auf allen Geräten).
    Ohne Lizenz (kein Schlüssel, Offline-Version window.RITL.offline, Admin-Vorschau window.RITL.preview): nur A · Lokal, Stufe frei.
    Erzeugt die Dialoge #bkdlg (Backup), #bksetup (Backup einrichten), #sydlg (Konflikt) und window.RITLF (Dateiablage, falls nicht vorhanden).
    Schnittstelle window.RITLBK: version · open() · setup() · schedule() · fs{status,buttons,read,write,run,action,perm,supported,handle} ·
@@ -89,7 +96,7 @@ dialog.rbk::backdrop{background:rgba(15,20,28,.45)}
      ab 2.1: sync() (Abgleich auf Knopfdruck, Promise) · extra() (eigene Abschnitte neu zeichnen) · Ereignis ritlbk:applied {quelle,stufe,text,still} */
 (function(){"use strict";
 const A=window.RITL_BK;if(!A||!A.tool||window.RITLBK)return;
-const VERSION='2.2',$=id=>document.getElementById(id);
+const VERSION='2.4',$=id=>document.getElementById(id);
 const TOOL=A.tool,NAME=A.name||A.tool,PRE=A.prefix||TOOL.replace(/-ritl$/,''),BKNAME=A.datei||`Backup_${NAME.replace('.','-')}.json`,EV=A.ereignis||PRE+':change';
 const BASE=BKNAME.replace(/^Backup_/,'').replace(/\.json$/i,''),RX=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
 const OLDRE=new RegExp('^\\d{8}-\\d{4}_'+RX(BASE)+'_Backup\\.json$'),COPYRE=new RegExp('^Backup_'+RX(BASE)+'.+\\.json$','i');
@@ -133,7 +140,9 @@ document.body.insertAdjacentHTML('beforeend',`<dialog id="bkdlg" class="iodlg rb
   <div class="status" id="bk-lst"></div>
   <div class="iorow"><button class="btn primary" type="button" id="bk-dl">Backup speichern</button><button class="btn" type="button" id="bk-loc" hidden>Anderer Speicherort …</button><button class="btn" type="button" id="bk-up">Backup wiederherstellen …</button><input type="file" id="bk-file" accept=".json,application/json" hidden></div></section>
  <section class="iosec"><h3><i>02</i>OneDrive &amp; SharePoint</h3><p class="small">Einen mit OneDrive synchronisierten Ordner verknüpfen – auch eine SharePoint-Bibliothek über „Synchronisieren“ oder „Verknüpfung zu OneDrive hinzufügen“. Backups landen dort und werden von OneDrive hochgeladen.</p>
-  <div class="status" id="fs-st"></div><div class="iorow" id="fs-btns"></div>
+  <div class="status" id="fs-st"></div>
+  <div class="iopath" id="fs-pathw" hidden><span>Pfad</span><code class="notr" id="fs-path"></code><input type="text" id="fs-pathin" class="notr" hidden placeholder="z. B. C:\\Users\\…\\OneDrive – Firma\\Projekte\\PM" aria-label="Pfad des verknüpften Ordners"><button class="ix" type="button" id="fs-pathbtn" title="Vollen Pfad eintragen (der Browser nennt nur den Ordnernamen)" aria-label="Pfad bearbeiten">✎</button><em id="fs-pathhint"></em></div>
+  <div class="iorow" id="fs-btns"></div>
   <label class="iochk" id="fs-autow"><input type="checkbox" id="fs-auto"> Nach jeder Änderung automatisch im Ordner sichern (überschreibt die Backup-Datei)</label>
   <div class="iolist" id="fs-list"></div></section>
  <section class="iosec" id="zb-sec"><h3><i>03</i>Zentral · RIEMER Toolbox<span class="badge notr" id="zb-dq" hidden></span></h3><p class="small">Sicherung je Lizenz und Tool auf dem Lizenzserver (Supabase, EU) – ein Stand je Tag und Stufe, Historie 10 Tage.</p>
@@ -144,6 +153,10 @@ document.body.insertAdjacentHTML('beforeend',`<dialog id="bkdlg" class="iodlg rb
 <div class="df"><button class="btn ghost" type="button" id="bks-later">Später</button><button class="btn primary" type="button" id="bks-ok">Übernehmen</button></div></dialog>
 <dialog id="sydlg" class="iodlg rbk" aria-labelledby="sy-h"><div class="dh"><span id="sy-h">Neuerer Stand am Server</span></div><div class="db"><p id="sy-txt" style="margin:0;font-size:14px;line-height:21px"></p><p class="small" id="sy-hint" style="margin:10px 0 0">„Serverstand übernehmen“ ersetzt die Daten in diesem Browser. „Meinen Stand behalten“ schreibt deinen Stand auf den Server und ersetzt dort den anderen.</p></div><div class="df"><button class="btn" type="button" id="sy-mine">Meinen Stand behalten</button><button class="btn primary" type="button" id="sy-srv">Serverstand übernehmen</button></div></dialog>`);
 document.querySelectorAll('.rbk [data-bkclose]').forEach(b=>b.onclick=()=>b.closest('dialog').close());
+{const pin=$('fs-pathin'),pend=ok=>{if(pin.hidden)return;if(ok)fsPathSet(pin.value);pin.hidden=true;renderFsPath()};
+ $('fs-pathbtn').onclick=()=>{if(!pin.hidden){pend(true);return}pin.value=fsPathGet();pin.hidden=false;renderFsPath();pin.focus();pin.select()};
+ pin.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();pend(true)}else if(e.key==='Escape'){e.preventDefault();e.stopPropagation();pend(false)}};
+ pin.onblur=()=>setTimeout(()=>pend(true),120)}
 
 // ── Dateiablage (RITL-Dateien): hochgeladene Dateien im Browser (IndexedDB) – Backup-Stufe 3 · storage ──
 if(!window.RITLF)window.RITLF=(function(){const DB=ALT.idbFiles||PRE+'_files';let db=null;
@@ -263,7 +276,13 @@ function fsButtons(ctx,extra){if(!fsSupported())return '';const b=(id,t,c='')=>`
  const base=!FS.ok||FS.err&&/Zugriff/.test(FS.err)?b('renew','Zugriff erneuern','primary'):'';
  if(ctx&&ctx!=='bk')return base+(FS.ok?(extra||[]).map(x=>b(x[0],x[1],x[2]||'')).join(''):'')+b('link','Anderer Ordner …');
  return base+(FS.ok?b('save','Jetzt im Ordner sichern','primary'):'')+b('link','Anderer Ordner …')+b('unlink','Verknüpfung lösen','danger')}
-function renderFs(){const [c,t]=fsStatus(),s=$('fs-st');s.className='status'+(c?' '+c:'');s.textContent=t;$('fs-btns').innerHTML=fsButtons('bk');
+// Pfad des verknüpften Ordners (2.3): Browser geben nur den Ordnernamen preis – der volle Pfad wird einmal je Gerät eingetragen
+function fsPathGet(){if(!FS.handle)return'';let o=null;try{o=JSON.parse(LS(K('ordnerpfad'))||'null')}catch(e){}return o&&o.name===FS.handle.name&&o.pfad?o.pfad:''}
+function fsPathSet(v){if(!FS.handle)return;v=String(v||'').trim();LSset(K('ordnerpfad'),v?JSON.stringify({name:FS.handle.name,pfad:v}):null)}
+function renderFsPath(){const w=$('fs-pathw');if(!w)return;const on=fsSupported()&&!!FS.handle;w.hidden=!on;if(!on)return;
+ const p=fsPathGet(),ed=!$('fs-pathin').hidden;$('fs-path').hidden=ed;$('fs-path').textContent=p||('…\\'+FS.handle.name);
+ $('fs-pathhint').textContent=ed?'Enter speichert, Esc bricht ab':p?'':'Der Browser nennt nur den Ordnernamen – vollen Pfad mit ✎ einmal eintragen'}
+function renderFs(){const [c,t]=fsStatus(),s=$('fs-st');s.className='status'+(c?' '+c:'');s.textContent=t;$('fs-btns').innerHTML=fsButtons('bk');renderFsPath();
  $('fs-autow').hidden=!fsSupported()||!FS.handle||ORD();$('fs-auto').checked=FS.auto;
  const dot=$('bkDot');if(dot)dot.hidden=true;try{bkInd()}catch(e){}
  document.dispatchEvent(new Event('ritlbk:fs'))}
@@ -305,7 +324,7 @@ const zbOk=()=>{if(OFFLINE)return false;const c=creds();return /^(RITL|RT)-/.tes
 const srv0=LS(K('srv'));const SRV={mode:srv0==='1'?'server':srv0==='0'?'lokal':DQ.includes(srv0)?srv0:null,stufe:null,allowed:null};SRV.allowed=SRV.mode?SRV.mode!=='lokal':null;
 SRV.stufe=ST3.includes(LS(K('srvst')))?LS(K('srvst')):null;
 let LIC=null;try{LIC=JSON.parse(LS(K('bklic'))||'null')}catch(e){}
-function setLic(b){if(!b||!b.max)return;LIC={max:b.max,wahl:b.wahl||null,quota:+b.quota||0,datenquelle:b.datenquelle,stufe:b.stufe};LSset(K('bklic'),JSON.stringify(LIC))}
+function setLic(b){if(!b||!b.max)return;LIC={max:b.max,matrix:b.max.matrix||b.matrix||null,wahl:b.wahl||null,quota:+b.quota||0,datenquelle:b.datenquelle,stufe:b.stufe};LSset(K('bklic'),JSON.stringify(LIC))}
 const quotaTxt=()=>LIC&&LIC.quota?fmtMB(LIC.quota)+' MB':'50 MB';
 const ZBERR={invalid_key:'Lizenz ungültig',email_required:'E-Mail der Lizenz fehlt',invalid_login:'Lizenz und E-Mail passen nicht',revoked:'Lizenz deaktiviert',expired:'Lizenz abgelaufen',tool_not_licensed:'Tool nicht in der Lizenz',device_limit:'Geräte-Limit der Lizenz erreicht',too_large:'Backup zu groß für diese Stufe',quota:'Kontingent der Lizenz erreicht',server_error:'Serverfehler',network:'Keine Verbindung zum Server',server_not_enabled:'Server als Datenquelle ist für diese Lizenz nicht freigegeben',ordner_datenhoheit:'Diese Lizenz speichert Arbeitsdaten nur im eigenen Ordner (Datenhoheit) – am Server nur Einstellungen',not_found:'Stand am Server nicht gefunden',bad_request:'Ungültige Anfrage'};
 const errTxt=e=>e==='quota'?`${ZBERR.quota} (${quotaTxt()})`:ZBERR[e]||ZBERR.server_error;
@@ -545,16 +564,20 @@ async function openBk(){$('bk-ver').textContent=`${NAME} ${ver()}`;renderFs();re
 // ── „Backup einrichten“: Datenquelle A/B/C + Stufe 1/2/3 (bis zum Maximum der Lizenz) + Ordner dieses Geräts ──
 let SEL={dq:'lokal',st:'datenbank'},SZ=null;
 const rk=(l,v)=>l.indexOf(v);
-function setupHtml(){const lic=zbOk(),pv=PREVIEW(),mx=lic&&LIC&&LIC.max?LIC.max:null,sz=SZ;
- const why=dq=>dq==='lokal'?'':OFFLINE?'nicht in der Offline-Version':pv?'Admin-Vorschau':!lic?'nur mit Lizenz':mx&&rk(DQ,dq)>rk(DQ,mx.datenquelle)?'durch die Lizenz begrenzt':'';
- const whyS=st=>lic&&mx&&rk(ST3,st)>rk(ST3,mx.stufe)?'durch die Lizenz begrenzt':'';
+// 2.4: Lizenz-Matrix – je angebotener Datenquelle die höchste Stufe ({lokal:'storage',ordner:'datenbank',server:'settings'}); ohne Matrix wie 2.2
+const MXL=()=>LIC&&LIC.matrix&&typeof LIC.matrix==='object'?LIC.matrix:null;
+const mxSt=dq=>{const m=MXL();return m?m[dq]||null:LIC&&LIC.max?LIC.max.stufe:null};
+const mxKurz=()=>{const m=MXL();return m?DQ.filter(d=>m[d]).map(d=>kurz(d,m[d])).join(' · '):LIC&&LIC.max?kurz(LIC.max.datenquelle,LIC.max.stufe):'–'};
+function setupHtml(){const lic=zbOk(),pv=PREVIEW(),mx=lic&&LIC&&LIC.max?LIC.max:null,sz=SZ,m=lic?MXL():null;
+ const why=dq=>dq==='lokal'?'':OFFLINE?'nicht in der Offline-Version':pv?'Admin-Vorschau':!lic?'nur mit Lizenz':m?(m[dq]?'':'durch die Lizenz nicht angeboten'):mx&&rk(DQ,dq)>rk(DQ,mx.datenquelle)?'durch die Lizenz begrenzt':'';
+ const whyS=st=>{if(!lic||!mx)return '';const g=mxSt(SEL.dq);return g&&rk(ST3,st)>rk(ST3,g)?(m?`durch die Lizenz begrenzt (${DQL[SEL.dq]?DQL[SEL.dq][0]:'?'} bis Stufe ${STN[g]})`:'durch die Lizenz begrenzt'):''};
  const dqD={lokal:'Daten in diesem Browser · Backup in den Ordner und zentral mit Historie',ordner:`Die Datei <code class="notr">${esc(BKNAME)}</code> im OneDrive/SharePoint-Ordner ist der Stand (Datenhoheit) · am Server nur settings · nur Chrome/Edge am Computer`,server:'Aktueller Stand am Server · Abgleich zwischen allen Geräten (RITL-Sync) · Ordner als Kopie'};
  const nD=sz&&sz.dateien?` (${sz.dateien.n}${sz.dateien.n===1?' Datei':' Dateien'})`:'';
  const stD={settings:`${esc(T.settings)}, Sprache`,datenbank:`settings + alle Daten: ${esc(T.datenbank)}`,storage:`alles, was im Tool geladen ist: datenbank + ${esc(T.storage)}${nD}`};
  const stN=st=>SEL.dq==='ordner'&&st==='settings'?' · bei B wie datenbank (die Datei im Ordner enthält immer die Arbeitsdaten)':SEL.dq==='lokal'&&st==='storage'&&lic?' · zentral datenbank, Dateien nur lokal':SEL.dq==='server'&&st==='storage'?` · Dateien über den Server, Kontingent ${quotaTxt()} je Lizenz`:'';
  const card=(name,v,b,sm,em,dis)=>`<label class="bkst${(name==='dq'?SEL.dq:SEL.st)===v?' on':''}${dis?' dis':''}"><input type="radio" name="bks-${name}" value="${v}"${(name==='dq'?SEL.dq:SEL.st)===v?' checked':''}${dis?' disabled':''}><span><b class="notr">${b}</b><small>${sm}${dis?` <span class="lk">· ${dis}</span>`:''}</small></span><em>${em}</em></label>`;
  const eff=lic&&SRV.mode?kurz(SRV.mode,SRV.stufe||'datenbank'):'';
- const top=lic?`<div class="status${LIC&&LIC.wahl?' good':''}" style="margin-bottom:12px">Lizenz: höchstens <b class="notr">${mx?kurz(mx.datenquelle,mx.stufe):'–'}</b>${mx?` (${esc(dqTxt(mx.datenquelle))} · Stufe ${esc(stTxt(mx.stufe))})`:''} · Kontingent ${quotaTxt()}${eff?` · wirksam <b class="notr">${eff}</b>`:''}${LIC&&LIC.wahl?` – gewählt für ${esc(NAME)}, gilt auf allen Geräten.`:' – noch keine eigene Wahl, es gilt das Maximum.'}${LIC&&LIC.wahl?' <button class="btn ghost" type="button" id="bks-reset" style="padding:2px 8px;font-size:12px">Vorgabe der Lizenz verwenden</button>':''}</div>`
+ const top=lic?`<div class="status${LIC&&LIC.wahl?' good':''}" style="margin-bottom:12px">Lizenz: höchstens <b class="notr">${mx?esc(mxKurz()):'–'}</b>${mx&&!m?` (${esc(dqTxt(mx.datenquelle))} · Stufe ${esc(stTxt(mx.stufe))})`:''} · Kontingent ${quotaTxt()}${eff?` · wirksam <b class="notr">${eff}</b>`:''}${LIC&&LIC.wahl?` – gewählt für ${esc(NAME)}, gilt auf allen Geräten.`:' – noch keine eigene Wahl, es gilt das Maximum.'}${LIC&&LIC.wahl?' <button class="btn ghost" type="button" id="bks-reset" style="padding:2px 8px;font-size:12px">Vorgabe der Lizenz verwenden</button>':''}</div>`
   :`<div class="status${OFFLINE||pv?' warn':''}" style="margin-bottom:12px">${OFFLINE?'Offline-Version: nur A · Lokal – zentrale Funktionen entfallen.':pv?PVTXT+'. Zum Testen das Tool mit einer Lizenz öffnen (Kanal Dev).':'Ohne Lizenz: nur A · Lokal. B · Ordner und C · Server gibt es in der lizenzierten Version (Aufruf über die RIEMER Toolbox).'}</div>`;
  const ob=SEL.dq==='ordner';
  return `${top}<p class="small" style="margin:0">Wählen Sie, wo die Daten von ${esc(NAME)} liegen und wie umfangreich gesichert wird. Größen komprimiert, so wie gespeichert.${lic?' Die Wahl gilt für alle Geräte dieses Tools.':''} Später jederzeit unter <b>Backup</b> änderbar.</p>
@@ -566,7 +589,7 @@ function setupHtml(){const lic=zbOk(),pv=PREVIEW(),mx=lic&&LIC&&LIC.max?LIC.max:
    ${fsSupported()?`<div class="iorow"><button class="btn" type="button" id="bks-link">${FS.handle?'Anderer Ordner …':'Ordner verknüpfen …'}</button></div>`:''}</section>
   ${OFFLINE?'':`<p class="small" style="margin:12px 0 0">${pv?PVTXT+'.':!lic?'Zentrales Backup nur in der lizenzierten Version (Aufruf über die RIEMER Toolbox).':`Zentral mit Historie bis ca. ${sz?fmtB(sz[SEL.st==='storage'?'datenbank':SEL.st].gz*11):'–'} (höchstens 11 Stände, nur geänderte werden gespeichert). Kontingent ${quotaTxt()} je Lizenz für alle Tools. Gespeichert in der EU (Frankfurt), Zugriff nur mit Ihrem Lizenzschlüssel.`}</p>`}`}
 function renderSetup(){const b=$('bks-body');b.innerHTML=setupHtml();
- b.querySelectorAll('input[type=radio]').forEach(r=>r.onchange=()=>{if(r.name==='bks-dq')SEL.dq=r.value;else SEL.st=r.value;const keep=$('bks-lon')&&$('bks-lon').checked;renderSetup();const l=$('bks-lon');if(l&&!l.disabled)l.checked=keep});
+ b.querySelectorAll('input[type=radio]').forEach(r=>r.onchange=()=>{if(r.name==='bks-dq'){SEL.dq=r.value;const g=zbOk()?mxSt(SEL.dq):null;if(g&&rk(ST3,SEL.st)>rk(ST3,g))SEL.st=g}else SEL.st=r.value;const keep=$('bks-lon')&&$('bks-lon').checked;renderSetup();const l=$('bks-lon');if(l&&!l.disabled)l.checked=keep});
  const lk=$('bks-link');if(lk)lk.onclick=async()=>{const keep=$('bks-lon')&&$('bks-lon').checked;await link();renderSetup();const l=$('bks-lon');if(l&&!l.disabled)l.checked=keep||!!FS.handle};
  const rs=$('bks-reset');if(rs)rs.onclick=async()=>{try{const j=await okj('cfg_set',{reset:true});setLic(j.backup);await srvCheck();SEL={dq:SRV.mode||'lokal',st:SRV.stufe||'datenbank'};renderSetup();renderZb();renderLokalStufe();toast(`Vorgabe der Lizenz gilt wieder: ${kurz(SEL.dq,SEL.st)}`);startSync()}catch(e){toast('Backup einrichten: '+e.message)}}}
 async function openSetup(){const d=$('bksetup');SZ=await sizes().catch(()=>null);if(zbOk())await srvCheck();
@@ -618,7 +641,7 @@ window.RITLBK={version:VERSION,tool:TOOL,datei:BKNAME,
  open:openBk,setup:openSetup,schedule:()=>fire(),sync,extra:renderExtra,
  fs:{status:fsStatus,buttons:fsButtons,read:fsRead,write:fsWrite,run,action:fsAction,perm:fsPerm,supported:fsSupported,get handle(){return FS.handle},get ok(){return FS.ok}},
  head,check,download,pickFile,restore:(d,quelle,still)=>restore(d,quelle,still,'datei'),zeit,stamp,esc,
- stand:()=>({datenquelle:zbOk()?SRV.mode||'lokal':'lokal',stufe:zbOk()?SRV.stufe||CFG.lokal.stufe:CFG.lokal.stufe,max:LIC&&LIC.max||null,wahl:LIC&&LIC.wahl||null,quota:LIC&&LIC.quota||0,lokal:{...CFG.lokal},zentral:{...CFG.zentral},sync:syOn(),ordner:ORD(),bereit:RDY})};
+ stand:()=>({datenquelle:zbOk()?SRV.mode||'lokal':'lokal',stufe:zbOk()?SRV.stufe||CFG.lokal.stufe:CFG.lokal.stufe,max:LIC&&LIC.max||null,matrix:LIC&&LIC.matrix||null,wahl:LIC&&LIC.wahl||null,quota:LIC&&LIC.quota||0,lokal:{...CFG.lokal},zentral:{...CFG.zentral},sync:syOn(),ordner:ORD(),bereit:RDY})};
 document.dispatchEvent(new Event('ritlbk:ready'));
 })();
 </script>

@@ -2,6 +2,18 @@
 
 Zentraler Backup-Baustein aller RIEMER Tools (Regel S-17). Neueste Version oben.
 
+## 2.4 · 20.11.2026 · DEV
+**Neu**
+- **Stufe je Datenquelle:** Die Lizenz kann für jede Datenquelle eine eigene höchste Stufe festlegen (z. B. A3 · B2 · C1). „Backup einrichten“ zeigt oben „Lizenz: höchstens A3 · B2 · C1“, sperrt nicht angebotene Datenquellen („durch die Lizenz nicht angeboten“) und begrenzt die Stufen passend zur gewählten Datenquelle („durch die Lizenz begrenzt (C bis Stufe 1)“). Beim Wechsel der Datenquelle wird eine zu hohe Stufe automatisch auf das Erlaubte gesenkt.
+- `RITLBK.stand()` liefert zusätzlich `matrix`.
+
+**Geändert**
+- Lizenzen ohne eigene Matrix verhalten sich wie bisher (alle Datenquellen bis zum Maximum mit derselben Stufe).
+
+## 2.3 · 20.11.2026 · DEV
+**Neu**
+- **Pfad des verknüpften Ordners** im Fenster „Backup“ › 02: Der Browser nennt nur den Ordnernamen – über ✎ wird der volle Pfad einmal je Gerät eingetragen.
+
 ## 2.2 · 19.11.2026 · DEV
 Zusammenführung: 2.1 (unten) plus `dateiAlt` aus der ZEIT-Umbenennung (dort zunächst ebenfalls als „2.1“ bezeichnet).
 

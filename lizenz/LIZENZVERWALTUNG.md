@@ -379,6 +379,25 @@ A (ordner) → Ordner mindestens `datenbank`, Server `settings` · B (server) �
 - Einzelne Stände der Historie löschen: `tool-backup` Aktion `delete {id}`.
 - `licenses.quota_mb` (Standard 50): Kontingent am Server für Backups, Stände, Dateien und Übergaben.
 
+### Stufe je Datenquelle – `licenses.backup_matrix` (ab 20.11.2026)
+
+Datenquelle und Backup-Stufe sind verknüpft: Für **jede angebotene Datenquelle** gilt eine eigene höchste Stufe.
+Im Admin › Lizenz › „Datenquelle · Datenhoheit & Backup-Stufe“ als Matrix: je Zeile A/B/C Häkchen „anbieten“ und Stufe 1/2/3.
+
+- `backup_matrix` = z. B. `{"lokal":"storage","ordner":"datenbank","server":"settings"}` – Kurzform **A3 · B2 · C1**.
+  Fehlt ein Schlüssel, ist die Datenquelle nicht angeboten (auch eine niedrigere, z. B. C ohne B).
+- Regeln (`_clean_backup_matrix`): A ist immer dabei (Standard A2), B mindestens `datenbank`.
+- `null` = alte Lizenz: die Matrix wird aus `datenquelle`/`backup_stufe` abgeleitet (`_backup_matrix`: alle Datenquellen bis zum Maximum mit derselben Stufe).
+- Beim Speichern mit Matrix setzt `admin_action` `datenquelle`, `backup_stufe` und `server_quelle` automatisch auf das Maximum der Matrix (für ältere Bausteine).
+- `_backup_cfg` liefert zusätzlich `max.matrix` und `matrix`; wirksam ist die Wahl des Kunden nur, wenn die Datenquelle angeboten ist,
+  und die Stufe höchstens bis zur Stufe dieser Datenquelle. `cfg_set` begrenzt genauso. ritl-bk ab 2.4 zeigt die Matrix in „Backup einrichten“.
+
+```sql
+-- Matrix setzen (statt im Admin)
+update licenses set backup_matrix = '{"lokal":"storage","ordner":"datenbank","server":"settings"}',
+  datenquelle = 'server', backup_stufe = 'storage', server_quelle = true where key_hint = 'XXXX';
+```
+
 ```sql
 -- Wahl des Kunden ansehen
 select l.key_hint, w.tool, w.datenquelle, w.stufe, w.updated_at
