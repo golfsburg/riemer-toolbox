@@ -3,6 +3,15 @@
 Projektmanagement: Projekt-Portfolio mit Gewerken, Anwendungen und Businesses (Lead › Spezifikation Opportunity › Spezifikation › Opportunity), Umsatzplan, Dashboard und Zeitplan · #ritl_pm
 Neueste Version oben. Versionen ≤ V1.1 nachträglich rekonstruiert (Projektmanager V1.x, selbstspeichernde HTML-Datei).
 
+## V3.1.8 · 20.11.2026 · DEV
+
+### Neu
+- **Menü „Neu“** (Header „+“ und Knopf „Neu …“ im Portfolio): „Neues Projekt“ (leer) oder **„Beispielprojekt erstellen“**.
+- **Beispielprojekt je Projekttyp:** Projekttyp wählen (oder neu anlegen), Name, Baubeginn und Laufzeit – PM.ritl legt ein vollständiges Beispiel an: Gewerke und Anwendungen aus dem Standard-Set des Typs (sonst allgemeine Vorlage HKLS, Elektro, Brandschutz, Fassade), je Anwendung eine Spezifikation und eine Opportunity (bei Planung eine Spezifikation Opportunity) mit Beispielwerten und Terminen über die Laufzeit. Das Projekt ist als „BEISPIEL · <Typ>“ benannt, hat die Nummer BSP-###, steht im Logbuch und wird gleich geöffnet.
+
+### Geändert
+- DATA.ritl: „Beispielprojekt anlegen“ (feste VORLAGE) ersetzt durch „Beispielprojekt erstellen …“; auch in der leeren Projektliste.
+
 ## V3.1.7 · 20.11.2026 · DEV
 
 ### Geändert
