@@ -3,6 +3,13 @@
 Kompakter 3D-Viewer und -Editor im Browser für den 3D-Druck · #ritl_mesh
 Neueste Version oben. V1.0–V1.8 als Einzeldatei entwickelt (nicht in der Toolbox veröffentlicht).
 
+## V2.7.6 · 20.11.2026 · DEV
+**Geändert**
+- **Scrollen nur dort, wo die Maus ist:** Das Mausrad scrollt immer nur den Bereich unter der Maus – Fenster (Modal), Objekt-Fenster, Textfelder, Listen. Ist der Bereich am Ende, läuft das Scrollen nicht in die Seite oder einen anderen Bereich weiter.
+- Im Modellbereich und in der Ansichtsleiste darüber zoomt das Mausrad bzw. tut nichts – die Seite bewegt sich nicht mehr mit, auch nicht bei gesperrter Ansicht.
+- Ist ein Fenster offen, bewegt sich der Hintergrund nie, auch nicht mit der Maus neben dem Fenster.
+- Außerhalb dieser Bereiche (z. B. über den Boxen links) scrollt die Seite wie gewohnt.
+
 ## V2.7.5 · 20.11.2026 · DEV
 **Neu**
 - **Spiel beim Einlegen / Eingießen wählbar:** Unter „Spiel mm“ legst du fest, wo das Spiel entsteht: **Öffnung größer** (wie bisher), **Einlage kleiner** (die Öffnung bleibt maßgenau, die Einlage wird rundum um das Spiel verjüngt) oder **je zur Hälfte**. Beispiel: Zylinder Ø 10 mm, Spiel 0,2 mm, „Einlage kleiner“ → Öffnung Ø 10 mm, Einlage Ø 9,6 mm. Der Name der Einlage zeigt das Maß, z. B. „(Einlage −0,20 mm)“. Die Auswahl bleibt gespeichert.
