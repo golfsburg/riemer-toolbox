@@ -3,6 +3,20 @@
 Projektmanagement: Projekt-Portfolio mit Gewerken, Anwendungen und Businesses (Lead › Spezifikation Opportunity › Spezifikation › Opportunity), Umsatzplan, Dashboard und Zeitplan · #ritl_pm
 Neueste Version oben. Versionen ≤ V1.1 nachträglich rekonstruiert (Projektmanager V1.x, selbstspeichernde HTML-Datei).
 
+## V3.1.3 · 20.11.2026 · DEV
+**Neu**
+- **Aktive Filter als Chips** in PORTFOLIO.ritl › 01 Kennzahlen: jeder Filter einzeln mit × entfernbar, dazu „Alle Filter löschen“. Im Kopf der Box steht „gefiltert · n von m Projekten“ statt „alle Projekte“.
+- **Logbuch** aller Übergänge der Projektphasen und des Forecasts mit Zeit, Projekt, Ebene, von → nach, wie (manuell, automatisch, abgeleitet), Wer und Notiz – je Projekt in PROJEKT.ritl › 07, für alle Projekte in DATA.ritl › 06 (filterbar nach Art und Projekt, folgt auf Wunsch dem Portfolio-Filter, Export als CSV). Bisherige Phasenverläufe werden übernommen. Das Logbuch ist Teil des Backups.
+- **Material Forecast (Schritt 1)** in PROJEKT.ritl › 06 Forecast: Baum Projekt › Gewerk › Anwendung › Business mit Status offen · geplant · eingereicht · bestätigt · abgeschlossen, Wert, Menge mit Einheit, Bedarfszeitraum und Meldefrist. Meilensteine F1–F4 werden je Ebene mit Datum gesetzt.
+  - Vererbung: Der Status einer Ebene ist der niedrigste darunter; sind alle Businesses einer Anwendung abgeschlossen, ist die Anwendung abgeschlossen – bis hinauf zum Projekt.
+  - Opportunities, Spezifikation Opportunities und Spezifikationen bekommen einen Forecast; der Wert ist mit Potential/Umsatz vorbelegt. Gewonnene oder verlorene Businesses sind automatisch abgeschlossen.
+  - Werte unten ersetzen die Schätzung oben, die Differenz steht als „noch nicht verteilt“.
+  - „bestätigt“ verlangt Wer und Notiz; der Zeitstempel kommt automatisch.
+- **Meldefristen** in DATA.ritl › 05: Vorlauf in Wochen global (12) mit Abweichungen je Projekttyp, Gewerk, Anwendung und Business-Typ; die spezifischste gilt. Überschrittene Meldefristen ohne Meldung sind markiert.
+
+**Behoben**
+- PROJEKT.ritl › 05 Zeitplan: Die Ebenen-Knöpfe ragten bei schmalen Fenstern (390 px) über den Rand.
+
 ## V3.1.2 · 20.11.2026 · DEV
 **Geändert**
 - Die Filter in PORTFOLIO.ritl wirken jetzt auf alle Kennzahlen: Box 01 Kennzahlen (Karten, Projekte je Phase) und 02 Umsatzplan zeigen nur die gefilterten Projekte – wie DASH.ritl, PLAN.ritl und die Projektliste. Neben „Kennzahlen“ steht „gefiltert · n von m Projekten“, solange ein Filter aktiv ist.
