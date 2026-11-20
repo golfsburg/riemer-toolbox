@@ -3,6 +3,10 @@
 GPS-Tracks (GPX) lokal im Browser in 2D und 3D darstellen, analysieren, bearbeiten und animieren · #ritl_track
 Neueste Version oben. Versionen ≤ V1.9 in Google AI Studio entwickelt und nachträglich zusammengefasst (keine Einzelstände erhalten).
 
+## V3.3.4 · 20.11.2026 · DEV
+**Entfernt**
+- **Fenster „Backup“ › 04 Strecken zwischen meinen Geräten** (Senden/Abholen über den Server, 7 Tage). Den Abgleich zwischen deinen Geräten übernimmt das Backup mit **Datenquelle C · Server, Stufe 3 · storage (C3)**: Tracks, Original-GPX, Fotos und Puls-Dateien kommen damit automatisch auf alle Geräte. Bereits über „Strecken zwischen meinen Geräten“ übernommene Tracks bleiben erhalten.
+
 ## V3.3.3 · 20.11.2026 · DEV
 **Geändert**
 - **iPhone/Handy:** Fenster (Backup, Favoriten, Anleitung …) erscheinen als Blatt von unten mit großen Knöpfen – wie in DRIVE.ritl.
