@@ -3,6 +3,15 @@
 Kompakter 3D-Viewer und -Editor im Browser für den 3D-Druck · #ritl_mesh
 Neueste Version oben. V1.0–V1.8 als Einzeldatei entwickelt (nicht in der Toolbox veröffentlicht).
 
+## V2.7.2 · 20.11.2026 · DEV
+**Neu**
+- **Kanten abrunden oder fasen:** Im Fenster „Grundkörper“ gibt es den neuen Bereich **Kanten**: scharf, abgerundet (Radius r in mm) oder gefast. Das gilt für Quader, Zylinder, Rohr, Halbkugel, Kegel, Pyramide, Prisma und Keil. Kugel und Torus sind schon rund.
+- **Unterseite scharf lassen:** Auf Wunsch bleibt die Grundfläche eben und kantig, damit der Körper voll auf dem Druckbett aufliegt. Standardmäßig aus.
+- Die Rundung bleibt beim Speichern, in den Favoriten und bei „⚙ Maße“ erhalten und lässt sich jederzeit ändern. Boolesche Operationen (Vereinigen, Abziehen …) übernehmen die gerundeten Kanten.
+
+**Hinweis**
+- Ist der Radius zu groß für die Maße, wird er auf den größten möglichen Wert begrenzt (Anzeige im Fenster). Breite, Tiefe und Höhe bleiben gleich; nur spitze Ecken (Kegel, Pyramide, Keil) werden durch das Runden etwas niedriger.
+
 ## V2.7.1 · 20.11.2026 · DEV
 **Neu**
 - **Perspektive oder Orthogonal:** Umschalter in der Ansichtsleiste über dem Modellbereich (Taste **P**). Orthogonal zeigt die Modelle maßstäblich ohne Fluchtpunkt – parallele Kanten bleiben parallel. Drehen, Zoomen, Einpassen, die Ansichten (Iso, Oben, Vorne …), Auswählen per Klick und die Werkzeuge zum Verschieben/Drehen funktionieren in beiden Projektionen. Die Wahl bleibt gespeichert.
