@@ -3,6 +3,13 @@
 Kompakter 3D-Viewer und -Editor im Browser für den 3D-Druck · #ritl_mesh
 Neueste Version oben. V1.0–V1.8 als Einzeldatei entwickelt (nicht in der Toolbox veröffentlicht).
 
+## V2.7.1 · 20.11.2026 · DEV
+**Neu**
+- **Perspektive oder Orthogonal:** Umschalter in der Ansichtsleiste über dem Modellbereich (Taste **P**). Orthogonal zeigt die Modelle maßstäblich ohne Fluchtpunkt – parallele Kanten bleiben parallel. Drehen, Zoomen, Einpassen, die Ansichten (Iso, Oben, Vorne …), Auswählen per Klick und die Werkzeuge zum Verschieben/Drehen funktionieren in beiden Projektionen. Die Wahl bleibt gespeichert.
+
+**Behoben**
+- Ist ein Fenster offen (z. B. Backup, Anleitung, Grundkörper), scrollt die Seite dahinter nicht mehr mit, wenn man im Fenster scrollt.
+
 ## V2.7 · 19.11.2026 · DEV
 **Neu**
 - **Einheitliches Backup (ritl-bk 2.0, S-17):** Das Backup kommt jetzt aus dem gemeinsamen Baustein aller RIEMER Tools – gleiche Fenster und Abläufe wie in den anderen Tools.
