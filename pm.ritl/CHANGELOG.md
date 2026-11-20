@@ -3,6 +3,12 @@
 Projektmanagement: Projekt-Portfolio mit Gewerken, Anwendungen und Businesses (Lead › Spezifikation Opportunity › Spezifikation › Opportunity), Umsatzplan, Dashboard und Zeitplan · #ritl_pm
 Neueste Version oben. Versionen ≤ V1.1 nachträglich rekonstruiert (Projektmanager V1.x, selbstspeichernde HTML-Datei).
 
+## V3.1.7 · 20.11.2026 · DEV
+
+### Geändert
+- **Projekttypen nur aus den Projekten:** Die fest eingebauten Typen (EPC, EPCM, Service, Rahmenvertrag, Einzelauftrag) sind entfernt. Die Liste enthält nur Typen, die in Projekten vorkommen (z. B. aus dem Salesforce-Import), und Typen mit Standard-Set; sie ist alphabetisch sortiert und wird beim Speichern automatisch abgeglichen.
+- „Projekttypen verwalten“ zeigt je Typ die Anzahl der Projekte; ein Typ, der noch verwendet wird, lässt sich nicht entfernen.
+
 ## V3.1.6 · 20.11.2026 · DEV
 
 ### Neu
