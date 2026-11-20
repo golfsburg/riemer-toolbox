@@ -2,7 +2,25 @@
 
 Zentraler Backup-Baustein aller RIEMER Tools (Regel S-17). Neueste Version oben.
 
-## 2.4 · 20.11.2026 · DEV
+## 2.7 · 20.11.2026 · DEV
+**Geändert**
+- **Alle Datenquellen gleichzeitig aktiv:** A · Lokal, B · Ordner und C · Server laufen immer zusammen, jede in ihrer eigenen Stufe – z. B. **A3 + B2 + C1**: alles inklusive Dateien in diesem Browser, die Arbeitsdaten in der Datei im OneDrive/SharePoint-Ordner (Datenhoheit), über den Server nur die Einstellungen zwischen den Geräten. Die Spalte „aktiv“ entfällt.
+- „Backup einrichten“ zeigt darunter, was jede Datenquelle bekommt („A: alles inkl. Dateien · B: Arbeitsdaten in der Ordner-Datei · C: nur Einstellungen über den Server“). Übernehmen ohne Rückfrage zum Wechsel.
+- Der Server nimmt nur noch an, was für ihn eingestellt ist (C-Stufe; bei B ohne C nur Einstellungen) – auch zentrale Historie und Dateien.
+
+## 2.6 · 20.11.2026 · DEV
+**Neu**
+- **Stufe je Datenquelle einzeln wählbar:** In „Backup einrichten“ hat jede Zeile (A · Lokal, B · Ordner, C · Server) ihre eigene Auswahl 1/2/3 – z. B. A3, B2 und C1 gleichzeitig eingestellt. Die Stufen bleiben je Datenquelle gemerkt (am Server, für alle Geräte).
+- **Spalte „aktiv“:** wählt, welche Datenquelle gilt. Beim Wechsel gilt sofort die gemerkte Stufe dieser Datenquelle. Darunter „Aktiv: C1 … · gemerkt für den Wechsel: A3, B2“.
+- Gesperrte Stufen je Zeile weiter nach der Lizenz (z. B. A3 · B2 · C1).
+
+## 2.5 · 20.11.2026 · DEV
+**Geändert**
+- **„Backup einrichten“ als Raster Datenquelle × Stufe:** statt zwei getrennter Listen (01 Datenquelle, 02 Stufe) ein Raster mit allen Kombinationen A1 … C3. Jede Kombination ist einzeln frei oder gesperrt – genau nach der Lizenz (z. B. A3 · B2 · C1: B3, C2 und C3 gesperrt), mit Grund im Tooltip. B1 entfällt („–“, bei B enthält die Datei immer die Arbeitsdaten). Die wirksame Kombination ist mit „wirksam“ markiert, darunter steht die gewählte Kombination im Klartext.
+- „Übernehmen“ lehnt eine gesperrte Kombination mit Hinweis ab.
+- Abschnitt „Ordner · OneDrive & SharePoint“ ist jetzt 02 (vorher 03).
+
+## 2.4 · 20.11.2026 · Stabil
 **Neu**
 - **Stufe je Datenquelle:** Die Lizenz kann für jede Datenquelle eine eigene höchste Stufe festlegen (z. B. A3 · B2 · C1). „Backup einrichten“ zeigt oben „Lizenz: höchstens A3 · B2 · C1“, sperrt nicht angebotene Datenquellen („durch die Lizenz nicht angeboten“) und begrenzt die Stufen passend zur gewählten Datenquelle („durch die Lizenz begrenzt (C bis Stufe 1)“). Beim Wechsel der Datenquelle wird eine zu hohe Stufe automatisch auf das Erlaubte gesenkt.
 - `RITLBK.stand()` liefert zusätzlich `matrix`.
