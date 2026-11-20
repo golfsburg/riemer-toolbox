@@ -1,4 +1,4 @@
-# ritl-bk 2.1 – einheitliches Backup der RIEMER Tools (ab 19.11.2026)
+# ritl-bk 2.3 – einheitliches Backup der RIEMER Tools (ab 19.11.2026)
 
 Regel **S-17**, Rollout **R-13**. Vorbild: MUSTER.ritl V3.9 (2.0: V3.8). Baustein: [`ritl-bk.html`](ritl-bk.html) · Änderungen: [`CHANGELOG.md`](CHANGELOG.md).
 Ein Block `<!--ritl-bk:start-->…<!--ritl-bk:end-->` (CSS + JS) enthält das ganze Backup: Knopf-Symbol am `#backupBtn`, Fenster „Backup“,
@@ -16,11 +16,15 @@ Tool-spezifisch ist nur der **Adapter** `window.RITL_BK`. Später ersetzt der Li
 
 Stufe: **1 · settings** (Theme, Sprache + `settings()`), **2 · datenbank** (+ `daten()`), **3 · storage** (+ `dateien()`, Standard `RITLF.dump()`).
 
+**Verknüpft (ab 2.3):** Die Lizenz legt je angebotener Datenquelle die höchste Stufe fest (`licenses.backup_matrix`, Admin › Lizenz ›
+„Datenquelle · Datenhoheit & Backup-Stufe“), z. B. **A3 · B2 · C1**. Nicht angebotene Datenquellen sind gesperrt („durch die Lizenz nicht angeboten“),
+die Stufen richten sich nach der gewählten Datenquelle („durch die Lizenz begrenzt (C bis Stufe 1)“). Der Server begrenzt genauso (`cfg_set`, `_backup_cfg`).
+
 ## Logik
 
-- Start mit Lizenz: `state_head` → `backup {max, wahl, datenquelle, stufe, quota}`; die **wirksamen** Werte gelten sofort auf diesem Gerät
+- Start mit Lizenz: `state_head` → `backup {max: {datenquelle, stufe, matrix}, wahl, datenquelle, stufe, matrix, quota}`; die **wirksamen** Werte gelten sofort auf diesem Gerät
   (gemerkt in `riemer-<prefix>-srv`, `-srvst`, `-bklic` für den Start ohne Netz). „Backup einrichten“ öffnet sich nur bei B ohne verknüpften Ordner.
-- „Backup einrichten“: „Lizenz: höchstens C3“ + Kontingent, Datenquelle A/B/C, Stufe 1/2/3, über dem Maximum gesperrt („· durch die Lizenz begrenzt“),
+- „Backup einrichten“: „Lizenz: höchstens A3 · B2 · C1“ (ab 2.3; vorher „C3“) + Kontingent, Datenquelle A/B/C, Stufe 1/2/3, über dem Maximum gesperrt („· durch die Lizenz begrenzt“),
   Ordner dieses Geräts. „Übernehmen“ → `cfg_set {datenquelle, stufe}` (gilt für das Tool auf allen Geräten), Wechsel der Datenquelle mit Rückfrage
   und erstem Abgleich (→C `state_get`/`state_put` wie RITL-Sync, →B Ordner-Datei schreiben/übernehmen). „Vorgabe der Lizenz verwenden“ → `cfg_set {reset:true}`.
 - Ohne Lizenz (kein Schlüssel, Offline-Version, Admin-Vorschau): nur A, Stufe frei, Wahl in `riemer-<prefix>-bkcfg`; Dialog beim ersten Start.
