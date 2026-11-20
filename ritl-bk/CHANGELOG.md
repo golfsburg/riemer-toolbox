@@ -2,6 +2,10 @@
 
 Zentraler Backup-Baustein aller RIEMER Tools (Regel S-17). Neueste Version oben.
 
+## 2.3 · 20.11.2026 · DEV
+**Neu**
+- Fenster „Backup“ › 02 OneDrive & SharePoint: Unter dem Status steht immer der **Pfad des verknüpften Ordners**. Browser geben aus Sicherheitsgründen nur den Ordnernamen preis (Anzeige `…\Ordnername`); mit ✎ lässt sich der volle Pfad einmal je Gerät eintragen (gespeichert unter `riemer-<prefix>-ordnerpfad`, nur für diesen Ordner). Keine Adapter-Änderung nötig – rückwärtskompatibel zu 2.0–2.2.
+
 ## 2.2 · 19.11.2026 · DEV
 Zusammenführung: 2.1 (unten) plus `dateiAlt` aus der ZEIT-Umbenennung (dort zunächst ebenfalls als „2.1“ bezeichnet).
 
