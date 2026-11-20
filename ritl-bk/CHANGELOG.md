@@ -2,6 +2,12 @@
 
 Zentraler Backup-Baustein aller RIEMER Tools (Regel S-17). Neueste Version oben.
 
+## 2.6 · 20.11.2026 · DEV
+**Neu**
+- **Stufe je Datenquelle einzeln wählbar:** In „Backup einrichten“ hat jede Zeile (A · Lokal, B · Ordner, C · Server) ihre eigene Auswahl 1/2/3 – z. B. A3, B2 und C1 gleichzeitig eingestellt. Die Stufen bleiben je Datenquelle gemerkt (am Server, für alle Geräte).
+- **Spalte „aktiv“:** wählt, welche Datenquelle gilt. Beim Wechsel gilt sofort die gemerkte Stufe dieser Datenquelle. Darunter „Aktiv: C1 … · gemerkt für den Wechsel: A3, B2“.
+- Gesperrte Stufen je Zeile weiter nach der Lizenz (z. B. A3 · B2 · C1).
+
 ## 2.5 · 20.11.2026 · DEV
 **Geändert**
 - **„Backup einrichten“ als Raster Datenquelle × Stufe:** statt zwei getrennter Listen (01 Datenquelle, 02 Stufe) ein Raster mit allen Kombinationen A1 … C3. Jede Kombination ist einzeln frei oder gesperrt – genau nach der Lizenz (z. B. A3 · B2 · C1: B3, C2 und C3 gesperrt), mit Grund im Tooltip. B1 entfällt („–“, bei B enthält die Datei immer die Arbeitsdaten). Die wirksame Kombination ist mit „wirksam“ markiert, darunter steht die gewählte Kombination im Klartext.
