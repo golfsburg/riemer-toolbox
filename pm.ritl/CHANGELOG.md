@@ -3,6 +3,21 @@
 Projektmanagement: Projekt-Portfolio mit Gewerken, Anwendungen und Businesses (Lead › Spezifikation Opportunity › Spezifikation › Opportunity), Umsatzplan, Dashboard und Zeitplan · #ritl_pm
 Neueste Version oben. Versionen ≤ V1.1 nachträglich rekonstruiert (Projektmanager V1.x, selbstspeichernde HTML-Datei).
 
+## V3.1.12 · 20.11.2026 · DEV
+
+### Neu
+- **Quality-Check je Projektphase:** Jede Projektkarte und der Phasen-Kopf in PROJEKT.ritl zeigen „QC xx %“ (grün ab 90 %, orange ab 60 %, rot darunter). Geprüft werden alle Punkte bis zur aktuellen Phase:
+  1. Akquisition – Projekttyp, Kunde, Ort und Land, Inhaber, Projektnummer/Salesforce-ID, plausible Laufzeit, Betrag oder Potential, Gewerke/Anwendungen, Standard-Set vollständig.
+  2. Steering – Spezifikation je Anwendung, Spezifikationen mit Wert, Businesses mit Terminen, keine überfälligen Spezifikationen, Opportunities zu erreichten Spezifikationen, Umsatzplan.
+  3. Execution – Opportunities mit Wert, keine überfälligen Opportunities, keine überschrittene Forecast-Meldefrist, Forecast für alle offenen Businesses.
+  4. Review – alle Businesses entschieden, Ergebnis im Umsatzplan, Forecast abgeschlossen, Projektende erreicht.
+- Klick auf das Badge öffnet die Checkliste mit Hinweisen und Sprung zur Behebung (Stammdaten, Projekt, Standard-Set ergänzen); spätere Phasen sind als Vorschau sichtbar.
+- Sortierung „Quality-Check (schwächste zuerst)“.
+
+### Geändert
+- **Projektkarte:** „Projekt öffnen“ steht immer ganz unten über die volle Breite; lange Projektnamen (z. B. mit //) brechen um, die Bedienknöpfe bleiben immer erreichbar.
+- Beispielprojekte bekommen Inhaber und Betrag, damit der Quality-Check vollständig ist.
+
 ## V3.1.11 · 20.11.2026 · DEV
 
 ### Neu
