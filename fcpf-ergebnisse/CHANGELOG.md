@@ -11,4 +11,6 @@
 - **Posting-Hintergründe** je Verein bzw. je Mannschaft (Admin-Tool); ohne eigenes Bild entsteht ein Hintergrund in den Vereinsfarben.
 
 ### Geändert
+- **„Name in Spielen“** gilt jetzt auch für ÖFB-Mannschaften in allen Spielen und Postings und bleibt beim nächsten Import erhalten; ein leeres Feld setzt wieder den Namen laut ÖFB.
+- Solange ein Fenster (Posting, Verein verwalten, Design …) offen ist, scrollt die Seite dahinter nicht mehr mit.
 - Schriften werden selbst gehostet (RIEMER Toolbox `fonts/`) statt von Google Fonts geladen.
