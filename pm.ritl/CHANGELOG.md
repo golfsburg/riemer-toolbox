@@ -3,6 +3,16 @@
 Projektmanagement: Projekt-Portfolio mit Gewerken, Anwendungen und Businesses (Lead › Spezifikation Opportunity › Spezifikation › Opportunity), Umsatzplan, Dashboard und Zeitplan · #ritl_pm
 Neueste Version oben. Versionen ≤ V1.1 nachträglich rekonstruiert (Projektmanager V1.x, selbstspeichernde HTML-Datei).
 
+## V3.1.9 · 20.11.2026 · DEV
+
+### Neu
+- **Standard-Sets je Projekttyp importieren** (DATA.ritl › Projekttypen und im Editor „Standard-Sets je Projekttyp“): Gewerke und Anwendungen per Copy & Paste aus Excel – mit Spalte **Projekttyp** mehrere Typen auf einmal, sonst für den gewählten (oder einen neuen) Typ. Spalten Gewerk, Anwendung, Typ (Planung/Ausführung); mit oder ohne Kopfzeile, leere Zellen übernehmen den Wert darüber. Auch die Salesforce-Liste „Gewerke & Anwendungen“ eines Projekts wird erkannt.
+- Spaltenübersicht mit ✓ gefunden, Vorschau je Zeile (neu / vorhanden / doppelt / neuer Typ), Modus **ergänzen** oder **ersetzen** je importiertem Typ. Neue Typen werden in die Typenliste übernommen.
+- **Standard-Sets als XLSX** exportieren (Projekttyp, Gewerk, Anwendung, Typ) – zugleich Vorlage für den Import.
+
+### Behoben
+- Standard-Sets wurden nach dem Neuladen der Seite nicht angezeigt (Daten blieben gespeichert, wurden aber zu früh gelesen). Typen mit Standard-Set bleiben jetzt immer in der Typenliste.
+
 ## V3.1.8 · 20.11.2026 · DEV
 
 ### Neu
