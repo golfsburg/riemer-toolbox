@@ -3,6 +3,10 @@
 Projektmanagement: Projekt-Portfolio mit Gewerken, Anwendungen und Businesses (Lead › Spezifikation Opportunity › Spezifikation › Opportunity), Umsatzplan, Dashboard und Zeitplan · #ritl_pm
 Neueste Version oben. Versionen ≤ V1.1 nachträglich rekonstruiert (Projektmanager V1.x, selbstspeichernde HTML-Datei).
 
+## V3.1.14 · 20.11.2026 · DEV
+**Geändert**
+- Backup: alle Datenquellen gleichzeitig aktiv, jede in ihrer Stufe (ritl-bk 2.7)
+
 ## V3.1 · 20.11.2026 · DEV
 **Neu**
 - **Projektphasen (STAGE.ritl):** Jedes Projekt steht in einer von vier Phasen – **1 Akquisition** (Projekt angelegt, noch kein Business), **2 Steering** (mindestens ein Business: Lead, Spezifikation Opportunity, Spezifikation oder Opportunity), **3 Execution** (mindestens eine Opportunity mit Startdatum bis heute – Status egal, auch verloren) und **4 Review** (Projekt abgeschlossen).

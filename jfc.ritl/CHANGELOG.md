@@ -3,6 +3,10 @@
 Engineering Navigator: Kundenvergleich, Besuchspriorisierung und Gebiets-Review aus JFC-Reports · #ritl_jfc
 Neueste Version oben. Versionen ≤ V3.6 als „JFC Engineering Navigator“.
 
+## V4.0.1 · 20.11.2026 · DEV
+**Geändert**
+- Backup: alle Datenquellen gleichzeitig aktiv, jede in ihrer Stufe (ritl-bk 2.7)
+
 ## V4.0 · 19.11.2026 · DEV
 **Geändert**
 - Neu aufgebaut nach RIEMER-Webapp-Design: Farb-Tokens, Hell/Dunkel, Schrift Inter/JetBrains Mono aus der Toolbox, volle Breite bis 2048 px, Fußzeile.
