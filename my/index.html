@@ -181,6 +181,9 @@ footer a{color:var(--muted)}footer a:hover{color:var(--accent-text)}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 @media(max-width:860px){.apphead-in,main,footer{padding-left:20px;padding-right:20px}.grid{gap:12px}}
 
+/* Mobil: Tool-Karten halb so groß – zwei pro Zeile */
+@media(max-width:560px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.catgrp .grid{margin:10px 0 16px}.tool{border-radius:12px}.tool .body{padding:8px 10px 10px}.tool .top{gap:6px;margin-bottom:4px;min-width:0}.tool .top>div{min-width:0}.tool .top .appimg{width:20px;height:20px}.tool .kicker{font-size:8.5px;line-height:12px;letter-spacing:.8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tool h3{font-size:13px;line-height:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tool p.desc{display:none}.tool .ver{margin:0 0 6px}.tool .ver .vt{font-size:9.5px}.tool .foot .badge{font-size:9.5px;line-height:14px;padding:2px 6px;gap:4px}.tool .foot .badge svg{width:10px;height:10px}.vp{font-size:9px;padding:1px 4px}.tool .shot .appimg{height:min(40px,60%)}}
+
 </style>
 </head>
 <body>
