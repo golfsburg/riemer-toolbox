@@ -3,6 +3,14 @@
 Projektmanagement: Projekt-Portfolio mit Gewerken, Anwendungen und Businesses (Lead › Spezifikation Opportunity › Spezifikation › Opportunity), Umsatzplan, Dashboard und Zeitplan · #ritl_pm
 Neueste Version oben. Versionen ≤ V1.1 nachträglich rekonstruiert (Projektmanager V1.x, selbstspeichernde HTML-Datei).
 
+## V3.1.5 · 20.11.2026 · DEV
+**Neu**
+- **Salesforce-Projekt einfügen und abgleichen:** Detailseite eines Projekts in Salesforce (Reiter Details) komplett kopieren und einfügen – in PORTFOLIO.ritl („Salesforce einfügen …“), DATA.ritl › 01 Import oder im Projektkopf („Aus Salesforce …“). PM.ritl erkennt die Felder, sucht das passende Projekt (Projektnummer, Name, alternative Projektnamen) und zeigt je Feld PM.ritl ↔ Salesforce zum Anhaken. Neue Projekte werden angelegt (mit Standard-Set des Projekttyps), bestehende nur in den angehakten Feldern aktualisiert.
+- Erkannt werden u. a. Name, ID, Fokus Level, Projektklassifizierung, Projekt-Typ (fehlende Typen werden ergänzt), Art der Arbeit, Währung, Projekt Phase, in Wartestellung, Hinfällig, Potential-Berechnungsmethode, Potentialklasse, Ziel SoW, Verteilungsstatus, Umsatzplan-Vollständigkeit, Betrag, Potential, Ziel (Top Down), FEED-, Entwurfs-, Bau- und Endtermin, Adresse (Straße 1–5, PLZ, Stadt, Bezirk, Staat, Region, Land), Hinweise (mit alternativen Projektnamen und Bauherr als Kunde), Modellierungssoftware, Program, Inhaber, Zugewiesener, Project Execution Manager und „Zuletzt geändert“.
+- **Neue Stammdatenfelder** für diese Werte (im Fenster „Stammdaten bearbeiten“ und im Projektkopf); die Hinweise stehen aufklappbar im Projektkopf.
+- „In Wartestellung = ja“ setzt das Projekt auf **ruht**, „nein“ nimmt eine aus Salesforce gesetzte Ruhe wieder zurück. Ist der eingefügte Stand älter als der zuletzt übernommene, warnt PM.ritl und hakt nichts vor.
+- Jeder Import steht im **Logbuch** (Art „Import“) mit den geänderten Feldern.
+
 ## V3.1.4 · 20.11.2026 · DEV
 **Neu**
 - **Export jeder Box:** Im Kopf jeder Box „⬇ Export“ mit „Box als PPTX“ (Abbild im Hell-Modus, Folien mit Deckblatt und Folienmaster „RIEMER Tools“, lange Boxen auf mehrere Folien verteilt) und „Tabellen als XLSX“ (ein Blatt je Tabelle, Eingabefelder mit ihrem Wert, Blatt „Info“ mit Modul, Filter und Zeitpunkt).
