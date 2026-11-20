@@ -33,6 +33,24 @@ In 2.6 hatte in „Backup einrichten“ **jede Datenquelle ihre eigene Stufe** (
 - Neues Gerät ohne eigene Daten (`leer()` = true) übernimmt den Stand vom Server bzw. aus dem Ordner still statt zu fragen.
 - Fenster „Backup“ › 03 Zentral: Historie mit 🗑 je Stand (`delete {id}`), Belegung „x von y MB“ aus `quota`.
 
+## Rollout-Stand „alle Datenquellen gleichzeitig“ (ritl-bk 2.7, 20.11.2026)
+
+Der Lizenzserver ersetzt den Block beim Ausliefern durch die neueste Version des Lizenz-Kanals – die Tools müssen dafür nicht neu veröffentlicht werden.
+Geprüft mit der ausgelieferten Fassung (Block 2.7, Lizenz A3 · B2 · C1 und A2 + C3, Server nachgestellt): je Tool alle Datenquellen aktiv, Server bekommt nur die C-Stufe, keine Fehler.
+
+| Tool | Version mit Block (Dev) | eingebettet | Beta/Stabil ohne Block |
+| --- | --- | --- | --- |
+| PM.ritl | V3.1.13 | 2.3 | – |
+| PPTX.ritl | V3.7 | 2.0 | Stabil V2.9 |
+| PDF.ritl | V2.1 | 2.0 | Beta V1.4 |
+| LV.ritl | V10.0 | 2.0 | Beta V9.5 |
+| MSX.ritl | V5.7 (Pro) | 2.0 | Beta V5.0, Stabil V4.3 (Pro) / V3.1 |
+| JFC.ritl | V4.0 | 2.1 | – |
+| STAKE.ritl | V2.6 | 2.0 | – |
+
+Offen: Beta/Stabil-Versionen ohne Block haben noch eigenen Backup-Code – die Regel greift dort erst mit der Freigabe der Dev-Version.
+Die eingebettete Kopie (gilt nur ohne Lizenz/Offline) beim nächsten Release im Tool-Chat auf `ritl-bk/ritl-bk.html` (2.7) aktualisieren.
+
 ## Einbau in ein Tool (Phase 3)
 
 1. Eigenen Backup-Code entfernen (CFG/bkcfg, openSetup, setupOrd/setupSrv, RITL-Sync, Ordner-Modus, BK_CONF, Dialoge `#bkdlg`, `#bksetup`, `#sydlg`,
