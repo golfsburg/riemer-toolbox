@@ -3,6 +3,14 @@
 Projektmanagement: Projekt-Portfolio mit Gewerken, Anwendungen und Businesses (Lead › Spezifikation Opportunity › Spezifikation › Opportunity), Umsatzplan, Dashboard und Zeitplan · #ritl_pm
 Neueste Version oben. Versionen ≤ V1.1 nachträglich rekonstruiert (Projektmanager V1.x, selbstspeichernde HTML-Datei).
 
+## V3.1.4 · 20.11.2026 · DEV
+**Neu**
+- **Export jeder Box:** Im Kopf jeder Box „⬇ Export“ mit „Box als PPTX“ (Abbild im Hell-Modus, Folien mit Deckblatt und Folienmaster „RIEMER Tools“, lange Boxen auf mehrere Folien verteilt) und „Tabellen als XLSX“ (ein Blatt je Tabelle, Eingabefelder mit ihrem Wert, Blatt „Info“ mit Modul, Filter und Zeitpunkt).
+- **Export je Ansicht:** „⬇ Export ▾“ neben „Alle auf / Alle zu“ exportiert alle Boxen der Ansicht als PPTX bzw. alle Tabellen als XLSX – mit den aktiven Portfolio-Filtern.
+- **Handlungsbedarf (DASH.ritl) mit Forecast-Hinweisen:** Meldefrist überschritten, Bedarf in weniger als 8 Wochen nicht bestätigt, Forecast gemeldet aber Business verloren, Business ohne Forecast in Phase Execution. Gilt für Projekte ab Phase Steering oder mit begonnenem Forecast; auch im PPTX-Dashboard.
+- **Meldefristen „ALLE“:** Je Ebene (Projekttyp, Gewerk, Anwendung, Business-Typ) lässt sich als Name „ALLE“ wählen. Namentliche Einträge gehen vor „ALLE“, danach gilt global.
+- **Backup › 02 OneDrive & SharePoint** zeigt den Pfad des verknüpften Ordners (Baustein ritl-bk 2.3); den vollen Pfad einmal mit ✎ eintragen, da Browser nur den Ordnernamen nennen.
+
 ## V3.1.3 · 20.11.2026 · DEV
 **Neu**
 - **Aktive Filter als Chips** in PORTFOLIO.ritl › 01 Kennzahlen: jeder Filter einzeln mit × entfernbar, dazu „Alle Filter löschen“. Im Kopf der Box steht „gefiltert · n von m Projekten“ statt „alle Projekte“.
