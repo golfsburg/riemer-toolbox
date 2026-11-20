@@ -3,6 +3,19 @@
 Projektmanagement: Projekt-Portfolio mit Gewerken, Anwendungen und Businesses (Lead › Spezifikation Opportunity › Spezifikation › Opportunity), Umsatzplan, Dashboard und Zeitplan · #ritl_pm
 Neueste Version oben. Versionen ≤ V1.1 nachträglich rekonstruiert (Projektmanager V1.x, selbstspeichernde HTML-Datei).
 
+## V3.1.1 · 20.11.2026 · DEV
+**Neu**
+- **Projekte je Phase in PORTFOLIO.ritl › 01 Kennzahlen:** vier Karten Akquisition, Steering, Execution, Review mit Anzahl und Anteil, den Projekten der Phase (Klick öffnet das Projekt) sowie „ruht“ und „Abschluss?“. Darüber ein Balken mit der Verteilung. Klick auf die Zahl filtert die Projektliste auf diese Phase (nochmal klicken hebt den Filter auf).
+- **(i) neben jeder Phase:** Modal mit Eintritt, Meilenstein, was in der Phase passiert und wie es weitergeht.
+- **Standard-Sets je Projekttyp:** In DATA.ritl › 03 Projekttypen über „Standard-Sets je Projekttyp …“ je Typ Gewerke und Anwendungen (mit Planung/Ausführung) hinterlegen – Zeilen anlegen oder aus einem bestehenden Projekt übernehmen. Ein neues Projekt mit diesem Typ bekommt das Set automatisch als Einträge ohne Business; in PROJEKT.ritl ergänzt der Knopf **Standard-Set** fehlende Kombinationen. Die Sets sind Teil von Backup (Stufe datenbank).
+- **Jede Box lässt sich fixieren:** 🔒 Fixieren in jedem Boxkopf legt die Box auf das ganze Fenster – eingepasst nach Breite und Höhe, Mausrad zoomt zum Mauszeiger (15–400 %), Ziehen verschiebt (Klick bleibt Klick), „Einpassen“, Esc oder 🔓 Lösen beendet. Der Zustand bleibt nach dem Neuladen erhalten.
+
+**Geändert**
+- Beim Scrollen verschwindet der Header, die Modul-Leiste (Ribbon) bleibt am oberen Fensterrand stehen.
+- Die Zeitpläne heißen beim Fixieren jetzt ebenfalls „🔒 Fixieren“ / „🔓 Lösen“.
+- Info-Fenster ohne Aktion schließen mit „Schließen“ statt „Abbrechen“.
+- Neue Versionsnummerierung: Entwicklungsstände (DEV) mit dritter Stelle (V3.1.1), ab Beta wieder V#.#.
+
 ## V3.1 · 20.11.2026 · DEV
 **Neu**
 - **Projektphasen (STAGE.ritl):** Jedes Projekt steht in einer von vier Phasen – **1 Akquisition** (Projekt angelegt, noch kein Business), **2 Steering** (mindestens ein Business: Lead, Spezifikation Opportunity, Spezifikation oder Opportunity), **3 Execution** (mindestens eine Opportunity mit Startdatum bis heute – Status egal, auch verloren) und **4 Review** (Projekt abgeschlossen).
