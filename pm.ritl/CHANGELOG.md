@@ -3,6 +3,24 @@
 Projektmanagement: Projekt-Portfolio mit Gewerken, Anwendungen und Businesses (Lead › Spezifikation Opportunity › Spezifikation › Opportunity), Umsatzplan, Dashboard und Zeitplan · #ritl_pm
 Neueste Version oben. Versionen ≤ V1.1 nachträglich rekonstruiert (Projektmanager V1.x, selbstspeichernde HTML-Datei).
 
+## V3.1 · 20.11.2026 · DEV
+**Neu**
+- **Projektphasen (STAGE.ritl):** Jedes Projekt steht in einer von vier Phasen – **1 Akquisition** (Projekt angelegt, noch kein Business), **2 Steering** (mindestens ein Business: Lead, Spezifikation Opportunity, Spezifikation oder Opportunity), **3 Execution** (mindestens eine Opportunity mit Startdatum bis heute – Status egal, auch verloren) und **4 Review** (Projekt abgeschlossen).
+- PROJEKT.ritl › 01 zeigt die Phasen als Leiste mit Meilenstein-Datum (M1–M4) und Kennzahl je Phase. Erreichte Meilensteine bleiben – die Phase fällt nicht automatisch zurück (Hinweis, wenn die Einträge einer früheren Phase entsprechen). Bestehende Projekte bekommen die Meilensteine nachgetragen (Datum aus dem Anlagezeitpunkt der Einträge, sonst „nachgetragen“).
+- **Phase übersteuern …** (manuell 1–3 mit Begründung, zurück auf Automatik), **Ruht …** (mit Grund, „Wieder aufnehmen“) und **Projekt abschließen** (setzt Status „Abgeschlossen“ und Phase Review; „Wieder öffnen“ stellt den vorigen Status her). Hinweis **„Abschluss empfohlen“**, wenn das Projektende überschritten ist oder alle Opportunities gewonnen bzw. verloren sind. Jeder Wechsel steht im Verlauf.
+- PORTFOLIO.ritl: Phasen-Kennzeichen auf jeder Projektkarte (dazu „ruht“ und „Abschluss?“), Filter **Alle Projektphasen** (1–4, ruht, Abschluss empfohlen, manuell übersteuert) und Sortierung „nach Projektphase“. Der bisherige Phasen-Filter heißt jetzt „Alle Phasen (Stammdaten)“.
+- **Zeiträume für Gewerke und Anwendungen:** Im Zeitplan (PROJEKT.ritl › 05) über **Zeiträume …** (oder Klick auf einen Rahmen) von – bis je Gewerk und Anwendung eingeben. Leere Felder übernehmen den Zeitraum aus den Einträgen und Businesses (frühester Start bis spätestes Ende), auch einzeln für „von“ oder „bis“; der Gewerk-Zeitraum umfasst ohne Eingabe auch seine Anwendungen. Anzeige als Rahmen in PROJEKT.ritl und PLAN.ritl – durchgezogen = eingegeben, gestrichelt = aus Einträgen.
+- Zeitplan PROJEKT.ritl: Meilensteine M1–M4 als Linien.
+- LINK.ritl: Brücke trägt je Projekt zusätzlich `projektphase` (Format bleibt 1, STAKE.ritl liest unverändert).
+
+**Geändert**
+- **Alle Eingabemasken öffnen als Modal** statt in der Seite: Eintrag hinzufügen, Eintrag bearbeiten, Gewerk kopieren, Umbenennen und Mehrfach bearbeiten. Schließen mit ✕, Abbrechen, Klick neben das Fenster oder Esc.
+- Solange ein Modal oder Dialog offen ist, scrollt nur das Modal – der Hintergrund bleibt stehen (gilt für alle Fenster des Tools, auch Backup).
+- Der Kalender der Datumsfelder sitzt auch in gescrollten Fenstern direkt am Feld.
+
+**Behoben**
+- PLAN.ritl im Dunkelmodus: aktiver Knopf „Gesamt“ war weiß auf weiß.
+
 ## V3.0 · 19.11.2026 · DEV
 **Neu**
 - **Einheitliches Backup (ritl-bk 2.0, S-17):** Das Backup kommt jetzt aus dem gemeinsamen Baustein aller RIEMER Tools – gleiche Fenster und Abläufe wie in den anderen Tools.
