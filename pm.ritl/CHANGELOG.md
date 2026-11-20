@@ -3,6 +3,13 @@
 Projektmanagement: Projekt-Portfolio mit Gewerken, Anwendungen und Businesses (Lead › Spezifikation Opportunity › Spezifikation › Opportunity), Umsatzplan, Dashboard und Zeitplan · #ritl_pm
 Neueste Version oben. Versionen ≤ V1.1 nachträglich rekonstruiert (Projektmanager V1.x, selbstspeichernde HTML-Datei).
 
+## V3.1.13 · 20.11.2026 · DEV
+
+### Neu
+- **PPTX-Export mit Auswahlübersicht** („⬇ Export ▾“ › „Auswahl für PPTX …“): alle Boxen aus PORTFOLIO, DASH, PLAN, PROJEKT (offenes Projekt), LINK und DATA als Kacheln je Modul zum An- und Abwählen, Modul-Häkchen für alle Boxen eines Moduls, Zähler „x von y Boxen gewählt“. Ein Klick erstellt eine PPTX in der Reihenfolge der Module.
+- **Export-Favoriten:** „Alles“, „Nichts“ und eigene Favoriten (mit Filter auf Wunsch), Änderungen speichern, Umbenennen, Löschen; „Als Code kopieren“ / „Code einfügen“ zum Weitergeben an Kollegen.
+- **Quality-Check exportieren:** im QC-Dialog je Projekt als XLSX oder PPTX; im Export-Menü von PORTFOLIO und DASH für alle gefilterten Projekte (XLSX mit Blättern Übersicht und Prüfpunkte; PPTX mit Übersicht und Checkliste je Projekt mit offenen Punkten). Der Quality-Check ist auch als Box in der PPTX-Auswahl wählbar.
+
 ## V3.1.12 · 20.11.2026 · DEV
 
 ### Neu
