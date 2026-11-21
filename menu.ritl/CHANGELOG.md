@@ -3,6 +3,15 @@
 Speisekarten- & Menü-Designer: Sets, Gänge, Speisendatenbank mit Allergenen (LMIV), 6 Druckformate, Export als PDF, PPTX und Druck in exakt einer Seite · #ritl_menu
 Neueste Version oben. Versionen ≤ V1.7 nachträglich rekonstruiert (aus `tool_versions`, Quellen-ZIPs und Repo-Historie).
 
+## V3.0.15 · 21.11.2026 · DEV
+**Neu**
+- **Logos beliebig oft frei platzieren:** In MAP.ritl gibt es „＋ Logo“ (auch bei Editor AUS): eigene Logos, Siegel-Vorlagen oder eine neue Datei wählen – das Logo liegt sofort frei auf der aktuellen Seite. Dasselbe Logo lässt sich so oft platzieren wie nötig; in STYLE › Logos platziert ＋ bei einem Logo es noch einmal. Weitere Platzierungen erscheinen leicht versetzt.
+- **Größe mit der Maus:** Ein Griff an der rechten unteren Ecke ändert die Größe direkt in der Vorschau (Seitenverhältnis bleibt). Der Griff erscheint nur in MAP, nie im Druck oder Export.
+- **Fang in der Mitte:** Beim Ziehen rastet ein Logo in der Mitte des Blatts, jeder Seite (Klappkarte, Wickelfalz) und jeder Spalte ein – waagrecht und senkrecht, mit roter Hilfslinie. Alt-Taste gedrückt halten = ohne Fang.
+
+**Geändert**
+- Neue Logos und Siegel-Vorlagen haben keine feste Zuordnung mehr (Kopf rechts usw.), sondern liegen frei mittig auf der aktuellen Seite. Feste Platzierungen sind weiter wählbar.
+
 ## V3.0.14 · 21.11.2026 · DEV
 **Geändert**
 - **Editor AUS:** Ein Klick auf eine Karte in SETS.ritl aktiviert das Set und öffnet es direkt in MAP.ritl. Mit Editor EIN bleibt es wie bisher (Klick aktiviert nur).
