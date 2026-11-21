@@ -3,6 +3,10 @@
 GPS-Tracks (GPX) lokal im Browser in 2D und 3D darstellen, analysieren, bearbeiten und animieren · #ritl_track
 Neueste Version oben. Versionen ≤ V1.9 in Google AI Studio entwickelt und nachträglich zusammengefasst (keine Einzelstände erhalten).
 
+## V3.3.7 · 21.11.2026 · DEV
+**Geändert**
+- **Handy und iPad:** Alle Knöpfe, Auswahlfelder und Header-Symbole sind mindestens 44 px groß, Häkchen und Auswahlpunkte 24 px mit größerer Trefferfläche – leichter zu treffen. Am Computer bleibt alles wie bisher.
+
 ## V3.3.6 · 21.11.2026 · DEV
 **Neu**
 - **EDITOR › 01 Tracks verwalten:** alle geladenen Tracks in einer Tabelle – Aufnahme (Datum, Start bis Ende), Dauer mit Pausen, Strecke, Höhenmeter, Datenpunkte (mit Originalzahl beim Laden) und Datenmenge (Original-GPX in der Dateiablage und Größe im Browser), unten die Summe. Je Track: auswählen, ein-/ausblenden, umbenennen, Farbe ändern, als GPX herunterladen, entfernen (mit Rückgängig).
