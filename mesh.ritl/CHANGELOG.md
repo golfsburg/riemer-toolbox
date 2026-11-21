@@ -3,6 +3,13 @@
 Kompakter 3D-Viewer und -Editor im Browser für den 3D-Druck · #ritl_mesh
 Neueste Version oben. V1.0–V1.8 als Einzeldatei entwickelt (nicht in der Toolbox veröffentlicht).
 
+## V2.7.16 · 21.11.2026 · DEV
+**Geändert**
+- **Importierte Objekte landen mittig auf dem Druckbett** (Mitte X/Y = Bettmitte, Unterseite auf Z = 0) – **vorhandene Objekte bleiben, wo sie sind**. Mehrere Dateien bzw. Teile eines Imports bleiben zueinander in ihrer Lage und werden gemeinsam mittig gesetzt; sie sind danach gewählt.
+- Gilt auch für das erste Modell aus Konverter, Grundkörper und SCAD. Kommen sie zu vorhandenen Objekten dazu, werden sie wie bisher daneben bzw. auf einen freien Platz gesetzt – ebenfalls ohne die anderen zu verschieben.
+- Nach Drehen, Spiegeln oder Kombinieren wird nicht mehr die ganze Szene neu ausgerichtet; nur die bearbeiteten Objekte kommen wieder auf Z = 0.
+- Einstellung in „Darstellung“ heißt jetzt „Neue Objekte mittig aufs Druckbett (Z = 0)“.
+
 ## V2.7.15 · 21.11.2026 · DEV
 **Neu**
 - **Zurück und Vor für alle Aktionen der Sitzung:** Jede Änderung an der Szene ist ein Schritt – Laden, Verschieben (auch Ziehen, Werkzeug, Pfeiltasten), Drehen, Skalieren, Spiegeln, Ausrichten, Farbe, Ein-/Ausblenden, Ghost, Entfernen, Kombinieren und Teilen, Kanten runden/fasen, Grundkörper, Konverter und SCAD-Modelle. „↶ Zurück“ (Strg+Z) nimmt Schritt für Schritt zurück, **„↷ Vor“** (Strg+Y oder Strg+Umschalt+Z) stellt wieder her – bis zu 200 Schritte. Die Auswahl wird mit zurückgesetzt. Eine neue Änderung nach „Zurück“ verwirft die Vor-Schritte.
