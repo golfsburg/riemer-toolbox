@@ -3,6 +3,18 @@
 Kompakter 3D-Viewer und -Editor im Browser für den 3D-Druck · #ritl_mesh
 Neueste Version oben. V1.0–V1.8 als Einzeldatei entwickelt (nicht in der Toolbox veröffentlicht).
 
+## V2.7.7 · 20.11.2026 · DEV
+**Neu**
+- Mehrere Projekte (Modellbereiche): Knopf „Projekt“ in der Werkzeugleiste zeigt das aktive Projekt; Dialog „Projekte“ mit Neu, Öffnen, Aktuelles speichern unter, Duplizieren, Umbenennen, Als Datei speichern (inkl. Geometrien), Projekt-Datei öffnen, Löschen. Jedes Projekt wird automatisch gespeichert, gemeinsame Geometrien liegen nur einmal in der Dateiablage.
+- Speicherbedarf im Browser (aktives Projekt, alle Geometrien, localStorage, komprimierte Backup-Größen, Browser-Speicher gesamt) und Speicherbelegung am Server (belegt vom Kontingent, Stände je Stufe); „Dateiablage aufräumen“.
+
+**Geändert**
+- Backup (ritl-bk) sichert alle Projekte; Stände ohne Projekte (bis V2.7.6) ersetzen nur die Szene des aktiven Projekts. Die bisherige Szene wird beim ersten Start zu „Projekt 1“.
+- „Neu beginnen“ leert nur das aktive Projekt.
+
+**Behoben**
+- Kanten abrunden/fasen (Grundkörper und ◇ Kanten) sowie alle Funktionen aus V2.7.1–V2.7.6 wieder vorhanden: die Projekt-Funktion aus dem parallelen Stand „V2.2 · 20.11.2026“ ist jetzt auf V2.7.6 aufgebaut.
+
 ## V2.7.6 · 20.11.2026 · DEV
 **Geändert**
 - **Scrollen nur dort, wo die Maus ist:** Das Mausrad scrollt immer nur den Bereich unter der Maus – Fenster (Modal), Objekt-Fenster, Textfelder, Listen. Ist der Bereich am Ende, läuft das Scrollen nicht in die Seite oder einen anderen Bereich weiter.
@@ -116,7 +128,7 @@ Neueste Version oben. V1.0–V1.8 als Einzeldatei entwickelt (nicht in der Toolb
 **Behoben**
 - Ausgeblendete Häkchen in den Backup-Dialogen werden wirklich ausgeblendet.
 
-## V2.2 · 20.11.2026 · DEV
+## V2.2 · 20.11.2026 · DEV (paralleler Stand, ersetzt durch V2.7.7)
 **Neu**
 - Mehrere Projekte (Modellbereiche) je Sitzung: Knopf „Projekt“ in der Werkzeugleiste zeigt das aktive Projekt; Dialog „Projekte“ mit Neu, Öffnen, Aktuelles speichern unter, Duplizieren, Umbenennen, Als Datei speichern (inkl. Geometrien), Projekt-Datei öffnen, Löschen. Jedes Projekt wird automatisch gespeichert, gemeinsame Geometrien liegen nur einmal in der Dateiablage.
 - Speicherbedarf im Browser: aktives Projekt, alle Geometrien, localStorage, komprimierte Backup-Größen je Stufe, Browser-Speicher gesamt; „Dateiablage aufräumen“.
