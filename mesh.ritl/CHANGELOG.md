@@ -3,6 +3,14 @@
 Kompakter 3D-Viewer und -Editor im Browser für den 3D-Druck · #ritl_mesh
 Neueste Version oben. V1.0–V1.8 als Einzeldatei entwickelt (nicht in der Toolbox veröffentlicht).
 
+## V2.7.15 · 21.11.2026 · DEV
+**Neu**
+- **Zurück und Vor für alle Aktionen der Sitzung:** Jede Änderung an der Szene ist ein Schritt – Laden, Verschieben (auch Ziehen, Werkzeug, Pfeiltasten), Drehen, Skalieren, Spiegeln, Ausrichten, Farbe, Ein-/Ausblenden, Ghost, Entfernen, Kombinieren und Teilen, Kanten runden/fasen, Grundkörper, Konverter und SCAD-Modelle. „↶ Zurück“ (Strg+Z) nimmt Schritt für Schritt zurück, **„↷ Vor“** (Strg+Y oder Strg+Umschalt+Z) stellt wieder her – bis zu 200 Schritte. Die Auswahl wird mit zurückgesetzt. Eine neue Änderung nach „Zurück“ verwirft die Vor-Schritte.
+- Knöpfe „↷ Vor“ in Box 02 und im Objekt-Fenster; der Tooltip nennt die Zahl der Schritte.
+
+**Geändert**
+- Beim Öffnen eines anderen Projekts beginnt der Verlauf neu.
+
 ## V2.7.14 · 21.11.2026 · DEV
 **Neu**
 - **Eigene Schriften im Konverter (Text → 3D):** „＋ Eigene Schrift laden“ nimmt OTF-, TTF-, WOFF- und WOFF2-Dateien auf (auch mehrere). Sie erscheinen in der Schriftauswahl unter „Eigene Schriften“ mit ihrem richtigen Namen, bleiben im Browser gespeichert und gehören zum Backup ab Stufe storage. „Schrift entfernen“ löscht sie wieder; bereits erzeugte Modelle bleiben.
