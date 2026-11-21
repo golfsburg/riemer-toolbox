@@ -3,6 +3,17 @@
 Speisekarten- & Menü-Designer: Sets, Gänge, Speisendatenbank mit Allergenen (LMIV), 6 Druckformate, Export als PDF, PPTX und Druck in exakt einer Seite · #ritl_menu
 Neueste Version oben. Versionen ≤ V1.7 nachträglich rekonstruiert (aus `tool_versions`, Quellen-ZIPs und Repo-Historie).
 
+## V3.0.5 · 21.11.2026 · DEV
+**Neu**
+- **Eigene Designstile:** In STYLE.ritl › Designstil lässt sich jeder Stil mit „anpassen …“ als eigener Stil anlegen, umbenennen, bearbeiten, duplizieren und löschen. Ein Stil umfasst Grundstil, Akzentfarbe, Rahmen und die Formatierung jedes Elements. Eigene Stile gelten in allen Sets und sind Teil des Backups.
+- **Jedes Element einzeln formatieren:** Restaurantname, Kartentitel, Slogan, Datum, Gang-Überschrift, Gang-Untertitel, Menüpreis-Hinweis, Speise, Beschreibung & Beilagen, Preis, Allergenkürzel, Weinempfehlung, Text-Überschrift, Text, Fußtext, Kontakt, Allergenlegende und Seitenkopf – je Schrift, Größe (%), Stärke, kursiv, Versalien, Sperrung und Farbe (Standard, Akzent oder eigene). Das Stil-Fenster öffnet sich links, die Vorschau rechts zeigt jede Änderung sofort.
+- **Neue Schriften:** Playfair Display, Cormorant Garamond, Cinzel und Lora (selbst gehostet), dazu Inter, Oswald, Syne, JetBrains Mono, Georgia und Arial. Die bisherigen Stile „Klassisch-Elegant“, „Rustikales Wirtshaus“ und „Fine Dining“ zeigen ihre Überschriften damit jetzt in der vorgesehenen Schrift statt in Georgia.
+- **Menüs & Saison – Speisen direkt im Fenster:** Beim Bearbeiten eines Menüs bzw. einer Saison stehen alle Speisen mit Suche zur Auswahl (Haken = gehört dazu), ✎ öffnet die Speise zum Bearbeiten. Übernommen wird beim Speichern.
+
+**Geändert**
+- **Preise immer als „€ 24,50“:** Währung vorne, immer zwei Nachkommastellen – auf der Karte, im Export und in der App. Die Option „2 Nachkommastellen“ entfällt.
+- **„Saison-Aktionen“ heißen jetzt „Menüs & Saison“** (Box, Knöpfe, Auswahl im Gericht, Einfügen in die Karte).
+
 ## V3.0.4 · 21.11.2026 · DEV
 **Neu**
 - **Überschrift je Gang ausrichten:** Im Gang (CARD.ritl und MAP-Fenster › Inhalt) gibt es „Überschrift ausrichten“: wie der Gang, links, mittig oder rechts – unabhängig davon, wie die Speisen stehen.
