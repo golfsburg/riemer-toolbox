@@ -3,6 +3,10 @@
 Speisekarten- & Menü-Designer: Sets, Gänge, Speisendatenbank mit Allergenen (LMIV), 6 Druckformate, Export als PDF, PPTX und Druck in exakt einer Seite · #ritl_menu
 Neueste Version oben. Versionen ≤ V1.7 nachträglich rekonstruiert (aus `tool_versions`, Quellen-ZIPs und Repo-Historie).
 
+## V3.0.11 · 21.11.2026 · DEV
+**Geändert**
+- **Designstil: Schriftgröße in Punkt (pt)** statt in %: Jedes Element zeigt seine aktuelle Größe wie im Druck (z. B. Speise 9 pt, Gang-Überschrift 10,5 pt) und lässt sich direkt in pt einstellen (in 0,5-pt-Schritten). Größen, die das Format selbst anders setzt (z. B. größerer Name auf der Titelseite), wachsen im gleichen Verhältnis mit.
+
 ## V3.0.10 · 21.11.2026 · DEV
 **Geändert**
 - **Menüpreis-Hinweis ohne grauen Hintergrund** (z. B. „3-Gang-Menü € 58,00“) – neben der Gang-Überschrift und mittig unter dem Gang.
