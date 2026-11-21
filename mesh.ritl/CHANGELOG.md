@@ -3,6 +3,11 @@
 Kompakter 3D-Viewer und -Editor im Browser für den 3D-Druck · #ritl_mesh
 Neueste Version oben. V1.0–V1.8 als Einzeldatei entwickelt (nicht in der Toolbox veröffentlicht).
 
+## V2.7.11 · 21.11.2026 · DEV
+**Neu**
+- **Mit Pfeiltasten verschieben:** Gewählte Objekte mit ← → in X, ↑ ↓ in Y und Bild↑/Bild↓ (oder Alt+↑/↓) in Z schieben; mit Shift zehnmal so weit. Gilt für Global bzw. die Achsen des Objekts. Schnell hintereinander gedrückte Tasten nimmt ein einziges „Zurück“ wieder zurück.
+- **Auflösung rechts unten im Modellbereich:** Schrittweite 0,01 / 0,1 / 0,5 / 1 / 5 / 10 mm für die Pfeiltasten und fürs Einrasten beim Verschieben mit Shift; die Wahl bleibt gespeichert.
+
 ## V2.7.10 · 21.11.2026 · DEV
 **Neu**
 - **Parameter rückgängig** in „Parametrisch (.scad)“: „↶ Zurück“ unten links im Fenster, als ↶ im Modellbereich oder mit Strg+Z nimmt die zuletzt geänderten Parameter Schritt für Schritt zurück (bis 50 Schritte). Schnelle Änderungen hintereinander, z. B. Regler ziehen, zählen als ein Schritt; auch das Übernehmen eines Sets und „Parameter“ zurücksetzen lassen sich zurücknehmen. Ein Hinweis nennt die zurückgesetzten Parameter.
