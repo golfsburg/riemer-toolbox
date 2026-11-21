@@ -57,6 +57,8 @@ Geprüft mit der ausgelieferten Fassung (Block 2.7, Lizenz A3 · B2 · C1 und A2
 Offen: Beta/Stabil-Versionen ohne Block haben noch eigenen Backup-Code – die Regel greift dort erst mit der Freigabe der Dev-Version.
 Eingebettete Kopie in allen sieben Tools auf 2.7 aktualisiert (DEV-Versionen vom 20.11.2026).
 
+**R-16 (ritl-bk 2.8, 21.11.2026):** Tools mit eigener `RITLF`-Kopie auf den Stand von `ritl-files.js` 2.8 gebracht (Inhalte als eigener Blob, einmaliges `repair()`) und Block 2.8 eingebettet: MESH.ritl V2.7.18, MSX.ritl V5.7.2, PM.ritl V3.1.15 (alle DEV). TRACK.ritl seit V3.3.5 (`ritlFiles.ts`).
+
 ## Einbau in ein Tool (Phase 3)
 
 1. Eigenen Backup-Code entfernen (CFG/bkcfg, openSetup, setupOrd/setupSrv, RITL-Sync, Ordner-Modus, BK_CONF, Dialoge `#bkdlg`, `#bksetup`, `#sydlg`,

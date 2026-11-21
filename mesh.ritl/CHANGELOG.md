@@ -3,6 +3,14 @@
 Kompakter 3D-Viewer und -Editor im Browser für den 3D-Druck · #ritl_mesh
 Neueste Version oben. V1.0–V1.8 als Einzeldatei entwickelt (nicht in der Toolbox veröffentlicht).
 
+## V2.7.18 · 21.11.2026 · DEV
+**Behoben**
+- **Dateien über den Server auf iPhone, iPad und Mac (Safari):** Eigene Schriften wurden bisher nur als Verweis auf die Originaldatei im Browser abgelegt. Safari schickte sie dann leer an den Server, und das Backup meldete „Datei „…“ konnte nicht hochgeladen werden“. Jetzt wird der Inhalt selbst gespeichert und mit Inhalt hochgeladen. Bereits abgelegte Dateien werden beim ersten Start einmalig umgestellt.
+- Eine Datei, die auf dem Gerät nicht mehr lesbar ist, bricht den Abgleich nicht mehr ab – sie wird mit Hinweis übersprungen.
+
+**Geändert**
+- Backup-Baustein ritl-bk 2.8.
+
 ## V2.7.6 · 20.11.2026 · DEV
 **Geändert**
 - **Scrollen nur dort, wo die Maus ist:** Das Mausrad scrollt immer nur den Bereich unter der Maus – Fenster (Modal), Objekt-Fenster, Textfelder, Listen. Ist der Bereich am Ende, läuft das Scrollen nicht in die Seite oder einen anderen Bereich weiter.
