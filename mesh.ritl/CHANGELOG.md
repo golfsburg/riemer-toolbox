@@ -116,7 +116,17 @@ Neueste Version oben. V1.0–V1.8 als Einzeldatei entwickelt (nicht in der Toolb
 **Behoben**
 - Ausgeblendete Häkchen in den Backup-Dialogen werden wirklich ausgeblendet.
 
-## V2.1 · 19.11.2026 · DEV
+## V2.2 · 20.11.2026 · DEV
+**Neu**
+- Mehrere Projekte (Modellbereiche) je Sitzung: Knopf „Projekt“ in der Werkzeugleiste zeigt das aktive Projekt; Dialog „Projekte“ mit Neu, Öffnen, Aktuelles speichern unter, Duplizieren, Umbenennen, Als Datei speichern (inkl. Geometrien), Projekt-Datei öffnen, Löschen. Jedes Projekt wird automatisch gespeichert, gemeinsame Geometrien liegen nur einmal in der Dateiablage.
+- Speicherbedarf im Browser: aktives Projekt, alle Geometrien, localStorage, komprimierte Backup-Größen je Stufe, Browser-Speicher gesamt; „Dateiablage aufräumen“.
+- Speicherbelegung am Server (zentrales Backup): belegt von 50 MB mit Balken, Stände je Stufe.
+
+**Geändert**
+- Backup-Stufen datenbank/storage sichern alle Projekte; ältere Backups (eine Szene) werden als „Projekt 1“ übernommen. Die Szene aus V2.1 wird beim ersten Start zu „Projekt 1“.
+- „Neu beginnen“ leert nur das aktive Projekt.
+
+## V2.1 · 19.11.2026
 **Neu**
 - Ansicht sperren: „🔓 Ansicht“ in der Ansichtsleiste bzw. Taste V – Kamera fest (kein Drehen, Zoomen, Einpassen, Ansichtswürfel), Objekte bleiben wähl- und bearbeitbar; die gesperrte Ansicht bleibt nach dem Neuladen.
 - Szene wird automatisch im Browser gespeichert (Modelle, Lage, Farben, Grundkörper, SCAD-Parameter) und beim Öffnen wiederhergestellt; Geometrien in der Dateiablage RITLF (IndexedDB `mesh_files`).

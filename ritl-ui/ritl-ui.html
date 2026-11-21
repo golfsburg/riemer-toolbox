@@ -1,10 +1,11 @@
 <!--ritl-ui:start-->
 <style id="ritl-ui-css">
-/* RITL-UI 1.4 – zentraler Header der RIEMER Tools. Wird vom Lizenzserver beim Ausliefern durch die aktuelle Version ersetzt.
+/* RITL-UI 1.5 – zentraler Header der RIEMER Tools. Wird vom Lizenzserver beim Ausliefern durch die aktuelle Version ersetzt.
    Maße nach PPTX.ritl (Standard): Header 64 px, App-Bild 38 px, Titel 22 px, Eyebrow 10,5 px, Chips 34 px.
    Rechts immer kompakt: Tool-Knöpfe als eckige Chips nur mit Symbol, System-Knöpfe als runde Chips. Nur Tokens der Farbkarte –
-   Ausnahme: Schriftzug „RIEMER Tools“ und Toolbox-Logo bleiben auch bei Lizenz-Farben im RIEMER-Blau (Marke). */
-header[data-ritl-header]{position:sticky;top:0;z-index:40;background:var(--surface);border-bottom:1px solid var(--line);font-family:var(--sans,"Inter",system-ui,sans-serif)}
+   Ausnahme: Schriftzug „RIEMER Tools“ und Toolbox-Logo bleiben auch bei Lizenz-Farben im RIEMER-Blau (Marke).
+   Ab 1.5 ist der Header nicht mehr sticky: Er läuft beim Scrollen aus, das Module-Ribbon des Tools klebt oben (Skill-Regel 28, S-19). */
+header[data-ritl-header]{position:relative;z-index:40;background:var(--surface);border-bottom:1px solid var(--line);font-family:var(--sans,"Inter",system-ui,sans-serif)}
 header[data-ritl-header]:not(.ritl-h)>*{visibility:hidden}
 .ritl-in{max-width:var(--page-max,2048px);margin:0 auto;height:64px;padding:0 22px;display:flex;align-items:center;gap:20px;box-sizing:border-box}
 .ritl-id{display:flex;align-items:center;gap:12px;min-width:0;flex:none}
@@ -58,7 +59,7 @@ header[data-ritl-header] :is(button,a):focus-visible{outline:2px solid var(--bra
 @media print{header[data-ritl-header]{position:static}.ritl-act{display:none}}
 </style>
 <script id="ritl-ui-js">
-/* RITL-UI 1.4 – baut den Header aus <header data-ritl-header …> auf. Attribute:
+/* RITL-UI 1.5 – baut den Header aus <header data-ritl-header …> auf. Attribute:
    data-name="MUSTER" (Pflicht) · data-eyebrow="…" · data-tool="muster-ritl" · data-ver="V2.8" · data-date="16.11.2026"
    data-help="none" (ohne Anleitung) · data-lang="none" (ohne DE/EN) · data-login="URL" (Anmelden-Ziel)
    Kinder: [data-ritl-icon] (App-Bild, SVG) · [data-ritl-center] (optional, Mitte) · [data-ritl-actions] (Tool-Knöpfe: Symbol + Text in <span class="lbl"> – der Text erscheint als Tooltip)
@@ -69,7 +70,7 @@ header[data-ritl-header] :is(button,a):focus-visible{outline:2px solid var(--bra
      kein An-/Abmelden, Toolbox-Logo ohne Link; 14 Tage vor Ablauf Warnung, danach Sperrfenster (Backup bleibt möglich). */
 (function () {
   "use strict";
-  var VERSION = "1.4";
+  var VERSION = "1.5";
   var h = document.querySelector("header[data-ritl-header]");
   if (!h || h.classList.contains("ritl-h")) return;
   var d = h.dataset, R = window.RITL || {}, root = document.documentElement;

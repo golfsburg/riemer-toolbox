@@ -404,7 +404,7 @@ function card(t, base, active, info) {
     '<p class="desc">' + esc(t.description || "") + "</p>" + verLine(info) +
     '<div class="foot">' + badge + "" + "</div></div>";
   if (active === false) return '<button type="button" class="tool locked" data-teaser="' + esc(t.id) + '">' + inner + "</button>";
-  return '<a class="tool" href="' + esc(toolUrl(t, base)) + '">' + inner + "</a>";
+  return '<a class="tool" href="' + esc(toolUrl(t, base)) + '" target="_blank" rel="noopener">' + inner + "</a>";
 }
 
 /* angemeldet? */

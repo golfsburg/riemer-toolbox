@@ -3,6 +3,92 @@
 Speisekarten- & Menü-Designer: Sets, Gänge, Speisendatenbank mit Allergenen (LMIV), 6 Druckformate, Export als PDF, PPTX und Druck in exakt einer Seite · #ritl_menu
 Neueste Version oben. Versionen ≤ V1.7 nachträglich rekonstruiert (aus `tool_versions`, Quellen-ZIPs und Repo-Historie).
 
+## V3.0.14 · 21.11.2026 · DEV
+**Geändert**
+- **Editor AUS:** Ein Klick auf eine Karte in SETS.ritl aktiviert das Set und öffnet es direkt in MAP.ritl. Mit Editor EIN bleibt es wie bisher (Klick aktiviert nur).
+
+## V3.0.13 · 21.11.2026 · DEV
+**Neu**
+- **Weitere Farben im Designstil:** Neben der Akzentfarbe lassen sich beliebig viele eigene Farben mit Namen anlegen, ändern und entfernen (z. B. „Wein-Rot“, „Gold“). Jedes Element kann unter „Farbe“ eine dieser Farben verwenden. Eine Änderung an der Farbe gilt sofort überall, wo sie verwendet wird; die Liste zeigt, wie viele Elemente sie nutzen. Wird eine Farbe entfernt, behalten die Elemente ihren Farbton als eigene Farbe.
+
+## V3.0.12 · 21.11.2026 · DEV
+**Neu**
+- **Menüs & Saison kopieren:** Jede Karte hat einen Knopf zum Kopieren. Die Kopie übernimmt alle Angaben und Speisen, heißt „… (Kopie)“, ist zunächst inaktiv und öffnet sich gleich zum Anpassen (Name, Zeitraum, Speisen).
+- **Eine Speise kann in mehreren Menüs bzw. Saisonen sein.** Die Auswahl zeigt „auch in …“; Filter, „In Karte einfügen“ und Excel (Spalte „Saison-Tag“, mehrere durch Komma) berücksichtigen alle Zugehörigkeiten. Im Fenster „Speise“ ändert die Auswahl „Menü / Saison“ nur die erste Zugehörigkeit, weitere bleiben erhalten.
+
+## V3.0.11 · 21.11.2026 · DEV
+**Geändert**
+- **Designstil: Schriftgröße in Punkt (pt)** statt in %: Jedes Element zeigt seine aktuelle Größe wie im Druck (z. B. Speise 9 pt, Gang-Überschrift 10,5 pt) und lässt sich direkt in pt einstellen (in 0,5-pt-Schritten). Größen, die das Format selbst anders setzt (z. B. größerer Name auf der Titelseite), wachsen im gleichen Verhältnis mit.
+
+## V3.0.10 · 21.11.2026 · DEV
+**Geändert**
+- **Menüpreis-Hinweis ohne grauen Hintergrund** (z. B. „3-Gang-Menü € 58,00“) – neben der Gang-Überschrift und mittig unter dem Gang.
+- **Fußzeile immer am unteren Rand des Browserfensters** (wie im Skill): bei wenig Inhalt unten am Fenster, bei langem Inhalt beim Scrollen immer sichtbar; Hinweise (Toast) erscheinen darüber. Die Vorschau rechnet die Fußzeile mit ein und wird nicht verdeckt.
+
+## V3.0.9 · 21.11.2026 · DEV
+**Geändert**
+- **Designstil bearbeiten:** Statt „Standard“ zeigt jedes Feld den tatsächlich verwendeten Wert – Schrift (z. B. Playfair Display), Stärke, gerade/kursiv, Schreibung, Sperrung und Farbe (Akzent oder Farbwert). Ein neuer Grundstil aktualisiert die Anzeige sofort. Geänderte Elemente sind blau markiert; „Zurücksetzen“ holt die Werte des Grundstils zurück. Eine Farbe wählen stellt das Element direkt auf diese Farbe.
+
+## V3.0.8 · 21.11.2026 · DEV
+**Geändert**
+- **Editor AUS:** Im Modellbereich (MAP.ritl) lässt sich weiter bearbeiten – Klick öffnet das Bearbeiten-Fenster, Doppelklick verschiebt, Bilder lassen sich ziehen, das Raster ist sichtbar. Editor AUS blendet nur CARD, STYLE und die Werkzeugleisten von MAP aus.
+- **DISHES.ritl:** „Gänge & Kategorien“ steht jetzt als Box 03 unter „02 Menüs & Saison“.
+
+## V3.0.7 · 21.11.2026 · DEV
+**Neu**
+- **Umschalter Editor EIN/AUS im Header** (Stift mit „EIN“/„AUS“): Editor EIN zeigt den vollen Umfang. Editor AUS zeigt nur SETS, MAP und DISHES; MAP ist dann eine reine Ansicht – nur Innen-/Außenseite, Zoom, Fixieren, Drucken, PDF und PPTX, die Karte füllt das Fenster, ohne Raster, Werkzeuge und Bearbeiten per Klick. Die Wahl bleibt nach dem Neuladen erhalten und gehört zu den Einstellungen im Backup.
+
+## V3.0.6 · 21.11.2026 · DEV
+**Geändert**
+- **Faltmarken dezent:** Klappkarte und Wickelfalz zeigen an jedem Falz nur noch einen feinen 5-mm-Strich am oberen und unteren Blattrand – keine durchgehende gestrichelte Linie und keine Spaltenlinie mehr über die ganze Höhe. Beim Aufsteller-Druckbogen bleiben die kurzen Striche am linken und rechten Rand, die durchgehende Falzlinie entfällt; die Leiste „Falzkante“ in der Vorschau ist nur noch ein kleiner Hinweis.
+
+## V3.0.5 · 21.11.2026 · DEV
+**Neu**
+- **Eigene Designstile:** In STYLE.ritl › Designstil lässt sich jeder Stil mit „anpassen …“ als eigener Stil anlegen, umbenennen, bearbeiten, duplizieren und löschen. Ein Stil umfasst Grundstil, Akzentfarbe, Rahmen und die Formatierung jedes Elements. Eigene Stile gelten in allen Sets und sind Teil des Backups.
+- **Jedes Element einzeln formatieren:** Restaurantname, Kartentitel, Slogan, Datum, Gang-Überschrift, Gang-Untertitel, Menüpreis-Hinweis, Speise, Beschreibung & Beilagen, Preis, Allergenkürzel, Weinempfehlung, Text-Überschrift, Text, Fußtext, Kontakt, Allergenlegende und Seitenkopf – je Schrift, Größe (%), Stärke, kursiv, Versalien, Sperrung und Farbe (Standard, Akzent oder eigene). Das Stil-Fenster öffnet sich links, die Vorschau rechts zeigt jede Änderung sofort.
+- **Neue Schriften:** Playfair Display, Cormorant Garamond, Cinzel und Lora (selbst gehostet), dazu Inter, Oswald, Syne, JetBrains Mono, Georgia und Arial. Die bisherigen Stile „Klassisch-Elegant“, „Rustikales Wirtshaus“ und „Fine Dining“ zeigen ihre Überschriften damit jetzt in der vorgesehenen Schrift statt in Georgia.
+- **Menüs & Saison – Speisen direkt im Fenster:** Beim Bearbeiten eines Menüs bzw. einer Saison stehen alle Speisen mit Suche zur Auswahl (Haken = gehört dazu), ✎ öffnet die Speise zum Bearbeiten. Übernommen wird beim Speichern.
+
+**Geändert**
+- **Preise immer als „€ 24,50“:** Währung vorne, immer zwei Nachkommastellen – auf der Karte, im Export und in der App. Die Option „2 Nachkommastellen“ entfällt.
+- **„Saison-Aktionen“ heißen jetzt „Menüs & Saison“** (Box, Knöpfe, Auswahl im Gericht, Einfügen in die Karte).
+
+## V3.0.4 · 21.11.2026 · DEV
+**Neu**
+- **Überschrift je Gang ausrichten:** Im Gang (CARD.ritl und MAP-Fenster › Inhalt) gibt es „Überschrift ausrichten“: wie der Gang, links, mittig oder rechts – unabhängig davon, wie die Speisen stehen.
+- **Kopf und Fuß je Spalte:** Bei Klappkarte, Wickelfalz (innen und außen) und Aufsteller mit 2 Spalten hat jede Spalte bzw. Seite einen eigenen Bereich „Kopf …“ und „Fuß …“ (z. B. „Kopf Seite 3“, „Fuß vorne links“). Gänge und Texte lassen sich dort einzeln hineinstellen; in MAP.ritl ist jeder dieser Bereiche einzeln anklickbar. Bisherige Kopf-Inhalte stehen im Kopf der ersten, Fuß-Inhalte im Fuß der letzten Spalte.
+- **Logos, Siegel und Bilder frei platzieren:** „Bild frei auf dem Blatt …“ (STYLE › Logos oder Platzierung „Frei auf dem Blatt“ bei jedem Logo) legt PNG, JPG, SVG oder WebP auf eine Seite des Formats (Innen-/Außenseite, Vorder-/Rückseite). In MAP.ritl mit der Maus an jede Stelle ziehen; ein Klick öffnet Breite, Lage in mm, Drehung, Deckkraft, „Hinter dem Text“ (Wasserzeichen), Mittig, Duplizieren und Entfernen. Erscheint in Vorschau, Druck, PDF und PPTX.
+
+**Geändert**
+- STYLE › Logos heißt jetzt „Logos, Siegel & Bilder“.
+
+## V3.0.3 · 21.11.2026 · DEV
+**Geändert**
+- **MAP.ritl:** Das Bearbeiten-Fenster eines Elements schließt jetzt auch mit einem Klick daneben in den Modellbereich – nicht nur mit Esc oder „Fertig“ (auch bei fixierter Arbeitsfläche). Markieren im Fenster und Loslassen daneben schließt nicht.
+
+**Behoben**
+- Mausrad über den Leisten (Modul-Leiste, Block-Leiste in CARD.ritl, Reiter im Bearbeiten-Fenster) scrollte die ganze Seite. Jetzt scrollt das Rad dort nur die Leiste waagrecht; passt sie ins Fenster, bleibt alles stehen.
+
+## V3.0.2 · 21.11.2026 · DEV
+**Neu**
+- **Speisen duplizieren:** In DISHES.ritl hat jede Speise einen Knopf zum Duplizieren. Die Kopie öffnet sich mit allen Angaben (Preis, Allergene, Zutaten, Saison …) zum Anpassen und steht nach dem Speichern direkt hinter dem Original.
+- **Gänge & Kategorien verwalten:** Neue Box „02 Gänge & Kategorien“ in DISHES.ritl (und Knopf „+ Gang / Kategorie“): Gänge anlegen, umbenennen, in der Reihenfolge verschieben und löschen. Beim Löschen wandern die Speisen in den Gang darüber. Die Reihenfolge gilt für Filter, Speisen-Auswahl in CARD.ritl, den Dialog „Speise“ und den Excel-Export. 👁 zeigt die Speisen eines Gangs.
+- Gänge sind Teil des Backups (Stufe datenbank) und lassen sich mit „Rückgängig“ zurücknehmen.
+
+**Geändert**
+- „Saison-Aktionen“ ist jetzt Box 03.
+- Sprungziele (z. B. „Speisen dieses Gangs anzeigen“) landen nicht mehr unter der oben klebenden Modul-Leiste.
+
+## V3.0.1 · 21.11.2026 · DEV
+**Neu**
+- **Preise einzeln ausblenden:** In CARD.ritl (und im Bearbeiten-Fenster von MAP.ritl) hat jede Speise im Gang einen Knopf **€** – ein Klick blendet ihren Preis in der Karte aus, ein zweiter zeigt ihn wieder. Der Sonderpreis bleibt dabei erhalten.
+- **„Preise in diesem Gang ausblenden“:** blendet alle Preise eines Gangs auf einmal aus (z. B. für Menü-Gänge mit Gesamtpreis).
+
+**Geändert**
+- **Header läuft beim Scrollen aus:** Beim Scrollen nach unten verschwindet der Header, die Modul-Leiste (SETS · MAP · CARD · STYLE · DISHES) bleibt oben sichtbar – in CARD.ritl auch die Leiste mit den Inhaltsblöcken. Die Vorschau sitzt direkt darunter.
+- **Scrollen nur im Bereich der Maus:** Das Mausrad scrollt nur den Bereich unter dem Mauszeiger (Vorschau, Speisenauswahl, Leisten, Fenster). Ist er am Ende, scrollt die Seite im Hintergrund nicht mehr mit. Bei offenen Fenstern steht die Seite still.
+- Am Handy stehen die Knöpfe einer Speise unter dem Namen, damit der Name lesbar bleibt.
+
 ## V3.0 · 19.11.2026 · DEV
 **Neu**
 - **Einheitliches Backup (ritl-bk 2.0, S-17):** Das Backup kommt jetzt aus dem gemeinsamen Baustein aller RIEMER Tools. Fenster „Backup“ und „Backup einrichten“ sehen in jedem Tool gleich aus.
