@@ -3,6 +3,10 @@
 Speisekarten- & Menü-Designer: Sets, Gänge, Speisendatenbank mit Allergenen (LMIV), 6 Druckformate, Export als PDF, PPTX und Druck in exakt einer Seite · #ritl_menu
 Neueste Version oben. Versionen ≤ V1.7 nachträglich rekonstruiert (aus `tool_versions`, Quellen-ZIPs und Repo-Historie).
 
+## V3.0.6 · 21.11.2026 · DEV
+**Geändert**
+- **Faltmarken dezent:** Klappkarte und Wickelfalz zeigen an jedem Falz nur noch einen feinen 5-mm-Strich am oberen und unteren Blattrand – keine durchgehende gestrichelte Linie und keine Spaltenlinie mehr über die ganze Höhe. Beim Aufsteller-Druckbogen bleiben die kurzen Striche am linken und rechten Rand, die durchgehende Falzlinie entfällt; die Leiste „Falzkante“ in der Vorschau ist nur noch ein kleiner Hinweis.
+
 ## V3.0.5 · 21.11.2026 · DEV
 **Neu**
 - **Eigene Designstile:** In STYLE.ritl › Designstil lässt sich jeder Stil mit „anpassen …“ als eigener Stil anlegen, umbenennen, bearbeiten, duplizieren und löschen. Ein Stil umfasst Grundstil, Akzentfarbe, Rahmen und die Formatierung jedes Elements. Eigene Stile gelten in allen Sets und sind Teil des Backups.
