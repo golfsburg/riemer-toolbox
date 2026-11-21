@@ -3,6 +3,10 @@
 Kompakter 3D-Viewer und -Editor im Browser für den 3D-Druck · #ritl_mesh
 Neueste Version oben. V1.0–V1.8 als Einzeldatei entwickelt (nicht in der Toolbox veröffentlicht).
 
+## V2.7.14 · 21.11.2026 · DEV
+**Neu**
+- **Eigene Schriften im Konverter (Text → 3D):** „＋ Eigene Schrift laden“ nimmt OTF-, TTF-, WOFF- und WOFF2-Dateien auf (auch mehrere). Sie erscheinen in der Schriftauswahl unter „Eigene Schriften“ mit ihrem richtigen Namen, bleiben im Browser gespeichert und gehören zum Backup ab Stufe storage. „Schrift entfernen“ löscht sie wieder; bereits erzeugte Modelle bleiben.
+
 ## V2.7.13 · 21.11.2026 · DEV
 **Neu**
 - **Fensterauswahl mit Shift:** Shift gedrückt halten und in der Ansicht ein Fenster aufziehen. Von links nach rechts (durchgezogener Rahmen) werden alle Objekte gewählt, die ganz im Fenster liegen; von rechts nach links (gestrichelter Rahmen) alle, die das Fenster berühren. Mit Strg dazu wird die bisherige Auswahl ergänzt; Shift+Klick wählt wie bisher einzeln dazu.
