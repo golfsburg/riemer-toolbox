@@ -1,13 +1,14 @@
-<!-- ritl-bk 2.7 · 20.11.2026 · DEV – einheitliches Backup der RIEMER Tools (Regel S-17, Rollout R-13). Vorbild MUSTER.ritl V3.9.
+<!-- ritl-bk 2.8 · 21.11.2026 · DEV – einheitliches Backup der RIEMER Tools (Regel S-17, Rollout R-13). Vorbild MUSTER.ritl V3.9.
      Einbau: Adapter window.RITL_BK (siehe README.md) als <script> setzen, danach diesen Block unverändert (von ritl-bk:start bis ritl-bk:end) in den <body> nach dem Header kopieren.
      2.1 ist rückwärtskompatibel: neue Angaben (bereit, ohneSha, norm, nachAnwenden, fluechtig, extra, alias, alt.idbFs*) sind optional.
      2.3: Pfad des verknüpften Ordners (✎ je Gerät). 2.4: Stufe je Datenquelle (Lizenz-Matrix backup.max.matrix, z. B. A3 · B2 · C1) – ohne Matrix wie 2.2.
      2.5: „Backup einrichten“ als Raster Datenquelle × Stufe (A1 … C3), jede Kombination einzeln erlaubt oder gesperrt.
      2.6: Stufe je Datenquelle einzeln wählbar und gemerkt (cfg_set stufen), Spalte „aktiv“ wählt die Datenquelle.
-     2.7: alle angebotenen Datenquellen gleichzeitig aktiv, jede in ihrer Stufe (z. B. A3 + B2 + C1) – keine Spalte „aktiv“ mehr. -->
+     2.7: alle angebotenen Datenquellen gleichzeitig aktiv, jede in ihrer Stufe (z. B. A3 + B2 + C1) – keine Spalte „aktiv“ mehr.
+     2.8: Dateien vor dem Hochladen als eigenen Blob im Speicher lesen (Safari schickte sonst 0 Bytes); nicht lesbare Dateien überspringen. -->
 <!--ritl-bk:start-->
 <style id="ritl-bk-css">
-/* ritl-bk 2.7 · 20.11.2026 – einheitliches Backup der RIEMER Tools (Regel S-17). Nichts Tool-Spezifisches hier ändern.
+/* ritl-bk 2.8 · 21.11.2026 – einheitliches Backup der RIEMER Tools (Regel S-17). Nichts Tool-Spezifisches hier ändern.
    Nur Tokens der Farbkarte. Alle Regeln gelten nur für die Dialoge des Bausteins (.rbk) und das Symbol am Knopf #backupBtn (.bkind). */
 dialog.rbk{border:1px solid var(--line);border-radius:var(--radius-panel,16px);background:var(--surface);color:var(--ink);padding:0;width:min(640px,94vw);box-shadow:0 20px 60px rgba(0,0,0,.25);font:400 14px/20px var(--sans,"Inter",system-ui,sans-serif);margin:auto}
 dialog.rbk::backdrop{background:rgba(15,20,28,.45)}
@@ -105,7 +106,7 @@ dialog.rbk::backdrop{background:rgba(15,20,28,.45)}
 .bkind .offl{color:var(--muted)}
 </style>
 <script id="ritl-bk-js">
-/* ritl-bk 2.7 · 20.11.2026 – einheitliches Backup der RIEMER Tools (Regel S-17, Rollout R-13, Vorbild MUSTER.ritl V3.9).
+/* ritl-bk 2.8 · 21.11.2026 – einheitliches Backup der RIEMER Tools (Regel S-17, Rollout R-13, Vorbild MUSTER.ritl V3.9).
    Nichts Tool-Spezifisches hier ändern – das Tool setzt VOR diesem Block den Adapter window.RITL_BK (Anleitung riemer-toolbox/ritl-bk/README.md):
      tool, name, datei, prefix, ereignis, settings(), daten(), dateien()?, dateienLaden(list)?, anwenden(stufe,obj,quelle,still), leer()?,
      legacy(o)?, texte:{settings,datenbank,storage,rueckgaengig}?, alt:{bkcfg,srv,srvst,sync,ordner,oq,fs,bklic,idbFiles,idbFs,idbFsDb,idbFsStore,idbFsKey}?, version?
@@ -120,7 +121,7 @@ dialog.rbk::backdrop{background:rgba(15,20,28,.45)}
      ab 2.1: sync() (Abgleich auf Knopfdruck, Promise) · extra() (eigene Abschnitte neu zeichnen) · Ereignis ritlbk:applied {quelle,stufe,text,still} */
 (function(){"use strict";
 const A=window.RITL_BK;if(!A||!A.tool||window.RITLBK)return;
-const VERSION='2.7',$=id=>document.getElementById(id);
+const VERSION='2.8',$=id=>document.getElementById(id);
 const TOOL=A.tool,NAME=A.name||A.tool,PRE=A.prefix||TOOL.replace(/-ritl$/,''),BKNAME=A.datei||`Backup_${NAME.replace('.','-')}.json`,EV=A.ereignis||PRE+':change';
 const BASE=BKNAME.replace(/^Backup_/,'').replace(/\.json$/i,''),RX=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
 const OLDRE=new RegExp('^\\d{8}-\\d{4}_'+RX(BASE)+'_Backup\\.json$'),COPYRE=new RegExp('^Backup_'+RX(BASE)+'.+\\.json$','i');
@@ -182,6 +183,10 @@ document.querySelectorAll('.rbk [data-bkclose]').forEach(b=>b.onclick=()=>b.clos
  pin.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();pend(true)}else if(e.key==='Escape'){e.preventDefault();e.stopPropagation();pend(false)}};
  pin.onblur=()=>setTimeout(()=>pend(true),120)}
 
+// 2.8: Safari (iPhone, iPad, Mac): ein File aus <input> bzw. ein Blob aus IndexedDB verweist nur auf die Originaldatei –
+// per FormData hochgeladen kommen dann 0 Bytes an („No content provided“). Darum Inhalte immer als eigenen Blob im Speicher lesen.
+const inMem=async(b,type)=>{if(!b)return null;try{return new Blob([await b.arrayBuffer()],{type:type||b.type||'application/octet-stream'})}catch(e){return null}};
+const lesbar=(b,size)=>!!b&&!(size>0&&b.size===0);
 // ── Dateiablage (RITL-Dateien): hochgeladene Dateien im Browser (IndexedDB) – Backup-Stufe 3 · storage ──
 if(!window.RITLF)window.RITLF=(function(){const DB=ALT.idbFiles||PRE+'_files';let db=null;
  const open=()=>db||(db=new Promise((res,rej)=>{let r;try{r=indexedDB.open(DB,1)}catch(e){db=null;return rej(e)}r.onupgradeneeded=()=>r.result.createObjectStore('f',{keyPath:'id'});r.onsuccess=()=>res(r.result);r.onerror=()=>{db=null;rej(r.error)}}));
@@ -192,12 +197,14 @@ if(!window.RITLF)window.RITLF=(function(){const DB=ALT.idbFiles||PRE+'_files';le
  const meta=({blob,...m})=>m;
  return{
   ok:typeof indexedDB!=='undefined',
-  async put(file,o={}){const r={id:o.id||nid(),name:o.name||file.name||'Datei',type:file.type||'application/octet-stream',size:file.size,at:new Date().toISOString(),ref:o.ref||'',blob:file};await tx('readwrite',s=>s.put(r));fire();return r.id},
+  // 2.8: Inhalt als eigenen Blob ablegen – ein File aus <input> ist in IndexedDB sonst nur ein Verweis (Safari lädt dann 0 Bytes hoch)
+  async put(file,o={}){const type=file.type||'application/octet-stream',r={id:o.id||nid(),name:o.name||file.name||'Datei',type,size:file.size,at:new Date().toISOString(),ref:o.ref||'',blob:(await inMem(file,type))||file};await tx('readwrite',s=>s.put(r));fire();return r.id},
   async list(){return((await tx('readonly',s=>s.getAll()))||[]).map(meta).sort((a,b)=>a.at<b.at?-1:1)},
-  async get(id){return tx('readonly',s=>s.get(id))},
+  // 2.8: nur lesbare Dateien liefern (Inhalt im Speicher); nicht mehr lesbar (Originaldatei weg) → undefined
+  async get(id){const r=await tx('readonly',s=>s.get(id));if(!r)return r;const b=await inMem(r.blob,r.type);return lesbar(b,r.size)?{...r,blob:b}:undefined},
   async del(id){await tx('readwrite',s=>s.delete(id));fire()},
   async stats(){const l=await this.list();return{n:l.length,bytes:l.reduce((a,x)=>a+(x.size||0),0)}},
-  async dump(){const a=(await tx('readonly',s=>s.getAll()))||[],out=[];for(const r of a)out.push({...meta(r),b64:await b64(r.blob)});return out},
+  async dump(){const a=(await tx('readonly',s=>s.getAll()))||[],out=[];for(const r of a){try{out.push({...meta(r),b64:await b64(r.blob)})}catch(e){/* 2.8: nicht lesbare Datei überspringen */}}return out},
   async load(list){const recs=(list||[]).filter(x=>x&&x.id&&typeof x.b64==='string').map(({b64:x,...m})=>({...m,blob:unb(x,m.type)}));await tx('readwrite',s=>{s.clear();recs.forEach(r=>s.put(r))});fire();return recs.length}
  }})();
 const RF=window.RITLF;
@@ -424,16 +431,25 @@ async function shaBlob(b){const x=await crypto.subtle.digest('SHA-256',await b.a
 async function fsigLocal(){if(!syFilesOn())return '';const l=await RF.list();return l.map(f=>f.id+':'+f.size+':'+f.name).sort().join('|')}
 // 2.1: Dateien nach Prüfsumme (sha256 aus files_list) vergleichen; ältere Server ohne sha256 → wie 2.0 nach Größe und Name
 const FSHA=new Map();
-async function locSha(f){const k=f.size+'|'+f.name+'|'+(f.at||''),c=FSHA.get(f.id);if(c&&c[0]===k)return c[1];const r=await RF.get(f.id).catch(()=>null);if(!r||!r.blob)return '';const h=await shaBlob(r.blob);FSHA.set(f.id,[k,h]);return h}
+async function locSha(f){const k=f.size+'|'+f.name+'|'+(f.at||''),c=FSHA.get(f.id);if(c&&c[0]===k)return c[1];const r=await RF.get(f.id).catch(()=>null);if(!r||!r.blob)return '';const h=await shaBlob(r.blob).catch(()=>'');if(!h)return '';FSHA.set(f.id,[k,h]);return h}
 const gleich=async(s,l)=>s.sha256?s.name===l.name&&s.sha256===await locSha(l):s.bytes===l.size&&s.name===l.name;
-async function filesUp(){const srv=(await okj('files_list')).items||[],sm=new Map(srv.map(x=>[x.file_id,x])),loc=await RF.list();
+// 2.8: Inhalt vor dem Hochladen als eigenen Blob lesen (Safari schickte sonst einen leeren Body → HTTP 400 „No content provided“);
+// nicht lesbare Dateien (0 Bytes bei size > 0, Originaldatei weg) überspringen statt den ganzen Abgleich abzubrechen – mit Hinweis, einmal je Datei
+const UNLESBAR=new Set();
+function unlesbarHinweis(l){const neu=l.filter(f=>!UNLESBAR.has(f.id));neu.forEach(f=>UNLESBAR.add(f.id));if(!neu.length)return;
+ const n=neu.map(f=>`„${f.name}“`).join(', ');try{console.warn('[Backup] nicht lesbar, übersprungen:',neu.map(f=>f.name))}catch(e){}
+ toast(neu.length===1?`Datei ${n} ist auf diesem Gerät nicht mehr lesbar und wurde nicht an den Server gesendet – bitte die Datei im Tool neu hinzufügen.`:`${neu.length} Dateien (${n}) sind auf diesem Gerät nicht mehr lesbar und wurden nicht an den Server gesendet – bitte im Tool neu hinzufügen.`)}
+async function filesUp(){const srv=(await okj('files_list')).items||[],sm=new Map(srv.map(x=>[x.file_id,x])),loc=await RF.list(),skip=[];
  for(const f of loc){const s=sm.get(f.id);if(s&&await gleich(s,f))continue;
-  const r=await RF.get(f.id);if(!r)continue;const hh=await shaBlob(r.blob);FSHA.set(f.id,[f.size+'|'+f.name+'|'+(f.at||''),hh]);
-  const p=await okj('files_put',{file_id:f.id,name:f.name,mime:f.type,bytes:f.size,sha256:hh,ref:f.ref||''});
-  const fd=new FormData();fd.append('cacheControl','3600');fd.append('',r.blob,f.name);
+  const r=await RF.get(f.id).catch(()=>null),type=f.type||'application/octet-stream',body=r&&r.blob?await inMem(r.blob,type):null;
+  if(!lesbar(body,f.size)){skip.push(f);continue}
+  const hh=await shaBlob(body);FSHA.set(f.id,[f.size+'|'+f.name+'|'+(f.at||''),hh]);
+  const p=await okj('files_put',{file_id:f.id,name:f.name,mime:type,bytes:body.size,sha256:hh,ref:f.ref||''});
+  const fd=new FormData();fd.append('cacheControl','3600');fd.append('',body,f.name);
   const u=await fetch(p.url,{method:'PUT',headers:{'x-upsert':'true'},body:fd}).catch(()=>null);
-  if(!u||!u.ok)throw new Error(`Datei „${f.name}“ konnte nicht hochgeladen werden`);
+  if(!u||!u.ok)throw new Error(`Datei „${f.name}“ konnte nicht hochgeladen werden${u?` (HTTP ${u.status})`:' (keine Verbindung)'}`);
   await okj('files_done',{file_id:f.id})}
+ if(skip.length)unlesbarHinweis(skip);
  return srv.filter(s=>!loc.some(f=>f.id===s.file_id))}
 async function filesDown(){const srv=(await okj('files_list')).items||[],loc=await RF.list(),lm=new Map(loc.map(f=>[f.id,f]));
  for(const s of srv){const l=lm.get(s.file_id);if(l&&await gleich(s,l))continue;

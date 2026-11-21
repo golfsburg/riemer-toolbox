@@ -2,6 +2,16 @@
 
 Zentraler Backup-Baustein aller RIEMER Tools (Regel S-17). Neueste Version oben.
 
+## 2.8 · 21.11.2026 · DEV
+**Behoben**
+- **Dateien über den Server auf iPhone, iPad und Mac (Safari):** Bei Backup-Stufe 3 über den Server (z. B. C3) kamen Dateien, die über „Datei wählen“ hinzugefügt wurden, leer am Server an – das Tool meldete „Datei „…“ konnte nicht hochgeladen werden“ und der Backup-Knopf wurde rot. Jetzt wird jede Datei vor dem Hochladen vollständig gelesen und mit Inhalt gesendet.
+- Eine Datei, die auf dem Gerät nicht mehr lesbar ist (z. B. Originaldatei gelöscht), bricht den Abgleich nicht mehr ab: Sie wird übersprungen, alle anderen Dateien und die Daten werden gesichert. Hinweis: „Datei „…“ ist auf diesem Gerät nicht mehr lesbar und wurde nicht an den Server gesendet – bitte die Datei im Tool neu hinzufügen.“
+- Lokale Sicherung mit Dateien (Stufe 3) überspringt nicht lesbare Dateien statt abzubrechen.
+
+**Geändert**
+- Neue Dateien werden in der Dateiablage des Browsers mit ihrem Inhalt gespeichert (nicht nur als Verweis auf die Originaldatei). Gilt auch für die Vorlage `ritl-files.js`.
+- Die Fehlermeldung beim Hochladen nennt den HTTP-Status bzw. „keine Verbindung“.
+
 ## 2.7 · 20.11.2026 · DEV
 **Geändert**
 - **Alle Datenquellen gleichzeitig aktiv:** A · Lokal, B · Ordner und C · Server laufen immer zusammen, jede in ihrer eigenen Stufe – z. B. **A3 + B2 + C1**: alles inklusive Dateien in diesem Browser, die Arbeitsdaten in der Datei im OneDrive/SharePoint-Ordner (Datenhoheit), über den Server nur die Einstellungen zwischen den Geräten. Die Spalte „aktiv“ entfällt.

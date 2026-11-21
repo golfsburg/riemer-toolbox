@@ -1,10 +1,16 @@
-# ritl-bk 2.7 – einheitliches Backup der RIEMER Tools (ab 19.11.2026)
+# ritl-bk 2.8 – einheitliches Backup der RIEMER Tools (ab 19.11.2026)
 
 Regel **S-17**, Rollout **R-13**. Vorbild: MUSTER.ritl V3.9 (2.0: V3.8). Baustein: [`ritl-bk.html`](ritl-bk.html) · Änderungen: [`CHANGELOG.md`](CHANGELOG.md).
 Ein Block `<!--ritl-bk:start-->…<!--ritl-bk:end-->` (CSS + JS) enthält das ganze Backup: Knopf-Symbol am `#backupBtn`, Fenster „Backup“,
 „Backup einrichten“, Konfliktdialog, Dateiablage `RITLF`, Ordner-Verknüpfung, lokal sichern/laden, zentrales Backup mit Historie,
 RITL-Sync (C), Ordner als Datenbank (B), Offline-Version (`RITL.offline`) und Admin-Vorschau (`RITL.preview`).
 Tool-spezifisch ist nur der **Adapter** `window.RITL_BK`. Später ersetzt der Lizenzserver den Block beim Ausliefern durch die Fassung des Kanals (wie RITL-UI).
+
+**Safari und Dateien (ab 2.8):** Ein `File` aus `<input>` liegt in IndexedDB nur als Verweis auf die Originaldatei. Safari (iPhone, iPad, Mac)
+schickt so ein File per `FormData` als leeren Body (Storage: HTTP 400 „No content provided“, `content_length: 0`). Darum legt `RITLF.put` den Inhalt
+als eigenen Blob ab (`arrayBuffer()`), `RITLF.get` liefert nur lesbare Dateien, und `filesUp()` liest jede Datei vor dem Hochladen noch einmal selbst
+in den Speicher – das gilt auch für Tools mit eigener `RITLF`-Kopie. Nicht lesbare Dateien (0 Bytes bei `size > 0`) werden übersprungen, mit Hinweis
+„… ist auf diesem Gerät nicht mehr lesbar …“, statt den ganzen Abgleich abzubrechen. Tools mit eigener Kopie: Stand aus `ritl-files.js` übernehmen.
 
 ## Begriffe
 
