@@ -3,6 +3,14 @@
 Projektmanagement: Projekt-Portfolio mit Gewerken, Anwendungen und Businesses (Lead › Spezifikation Opportunity › Spezifikation › Opportunity), Umsatzplan, Dashboard und Zeitplan · #ritl_pm
 Neueste Version oben. Versionen ≤ V1.1 nachträglich rekonstruiert (Projektmanager V1.x, selbstspeichernde HTML-Datei).
 
+## V3.1.15 · 21.11.2026 · DEV
+**Behoben**
+- **Dateien über den Server auf iPhone, iPad und Mac (Safari):** Dateien der Dateiablage wurden bisher nur als Verweis auf die Originaldatei im Browser abgelegt. Safari schickte sie dann leer an den Server, und das Backup meldete „Datei „…“ konnte nicht hochgeladen werden“. Jetzt wird der Inhalt selbst gespeichert und mit Inhalt hochgeladen. Bereits abgelegte Dateien werden beim ersten Start einmalig umgestellt.
+- Eine Datei, die auf dem Gerät nicht mehr lesbar ist, bricht den Abgleich nicht mehr ab – sie wird mit Hinweis übersprungen.
+
+**Geändert**
+- Backup-Baustein ritl-bk 2.8.
+
 ## V3.1.14 · 20.11.2026 · DEV
 **Geändert**
 - Backup: alle Datenquellen gleichzeitig aktiv, jede in ihrer Stufe (ritl-bk 2.7)
