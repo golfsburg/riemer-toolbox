@@ -3,6 +3,33 @@
 Speisekarten- & Menü-Designer: Sets, Gänge, Speisendatenbank mit Allergenen (LMIV), 6 Druckformate, Export als PDF, PPTX und Druck in exakt einer Seite · #ritl_menu
 Neueste Version oben. Versionen ≤ V1.7 nachträglich rekonstruiert (aus `tool_versions`, Quellen-ZIPs und Repo-Historie).
 
+## V3.0.3 · 21.11.2026 · DEV
+**Geändert**
+- **MAP.ritl:** Das Bearbeiten-Fenster eines Elements schließt jetzt auch mit einem Klick daneben in den Modellbereich – nicht nur mit Esc oder „Fertig“ (auch bei fixierter Arbeitsfläche). Markieren im Fenster und Loslassen daneben schließt nicht.
+
+**Behoben**
+- Mausrad über den Leisten (Modul-Leiste, Block-Leiste in CARD.ritl, Reiter im Bearbeiten-Fenster) scrollte die ganze Seite. Jetzt scrollt das Rad dort nur die Leiste waagrecht; passt sie ins Fenster, bleibt alles stehen.
+
+## V3.0.2 · 21.11.2026 · DEV
+**Neu**
+- **Speisen duplizieren:** In DISHES.ritl hat jede Speise einen Knopf zum Duplizieren. Die Kopie öffnet sich mit allen Angaben (Preis, Allergene, Zutaten, Saison …) zum Anpassen und steht nach dem Speichern direkt hinter dem Original.
+- **Gänge & Kategorien verwalten:** Neue Box „02 Gänge & Kategorien“ in DISHES.ritl (und Knopf „+ Gang / Kategorie“): Gänge anlegen, umbenennen, in der Reihenfolge verschieben und löschen. Beim Löschen wandern die Speisen in den Gang darüber. Die Reihenfolge gilt für Filter, Speisen-Auswahl in CARD.ritl, den Dialog „Speise“ und den Excel-Export. 👁 zeigt die Speisen eines Gangs.
+- Gänge sind Teil des Backups (Stufe datenbank) und lassen sich mit „Rückgängig“ zurücknehmen.
+
+**Geändert**
+- „Saison-Aktionen“ ist jetzt Box 03.
+- Sprungziele (z. B. „Speisen dieses Gangs anzeigen“) landen nicht mehr unter der oben klebenden Modul-Leiste.
+
+## V3.0.1 · 21.11.2026 · DEV
+**Neu**
+- **Preise einzeln ausblenden:** In CARD.ritl (und im Bearbeiten-Fenster von MAP.ritl) hat jede Speise im Gang einen Knopf **€** – ein Klick blendet ihren Preis in der Karte aus, ein zweiter zeigt ihn wieder. Der Sonderpreis bleibt dabei erhalten.
+- **„Preise in diesem Gang ausblenden“:** blendet alle Preise eines Gangs auf einmal aus (z. B. für Menü-Gänge mit Gesamtpreis).
+
+**Geändert**
+- **Header läuft beim Scrollen aus:** Beim Scrollen nach unten verschwindet der Header, die Modul-Leiste (SETS · MAP · CARD · STYLE · DISHES) bleibt oben sichtbar – in CARD.ritl auch die Leiste mit den Inhaltsblöcken. Die Vorschau sitzt direkt darunter.
+- **Scrollen nur im Bereich der Maus:** Das Mausrad scrollt nur den Bereich unter dem Mauszeiger (Vorschau, Speisenauswahl, Leisten, Fenster). Ist er am Ende, scrollt die Seite im Hintergrund nicht mehr mit. Bei offenen Fenstern steht die Seite still.
+- Am Handy stehen die Knöpfe einer Speise unter dem Namen, damit der Name lesbar bleibt.
+
 ## V3.0 · 19.11.2026 · DEV
 **Neu**
 - **Einheitliches Backup (ritl-bk 2.0, S-17):** Das Backup kommt jetzt aus dem gemeinsamen Baustein aller RIEMER Tools. Fenster „Backup“ und „Backup einrichten“ sehen in jedem Tool gleich aus.
