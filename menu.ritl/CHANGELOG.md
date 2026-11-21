@@ -3,6 +3,16 @@
 Speisekarten- & Menü-Designer: Sets, Gänge, Speisendatenbank mit Allergenen (LMIV), 6 Druckformate, Export als PDF, PPTX und Druck in exakt einer Seite · #ritl_menu
 Neueste Version oben. Versionen ≤ V1.7 nachträglich rekonstruiert (aus `tool_versions`, Quellen-ZIPs und Repo-Historie).
 
+## V3.0.2 · 21.11.2026 · DEV
+**Neu**
+- **Speisen duplizieren:** In DISHES.ritl hat jede Speise einen Knopf zum Duplizieren. Die Kopie öffnet sich mit allen Angaben (Preis, Allergene, Zutaten, Saison …) zum Anpassen und steht nach dem Speichern direkt hinter dem Original.
+- **Gänge & Kategorien verwalten:** Neue Box „02 Gänge & Kategorien“ in DISHES.ritl (und Knopf „+ Gang / Kategorie“): Gänge anlegen, umbenennen, in der Reihenfolge verschieben und löschen. Beim Löschen wandern die Speisen in den Gang darüber. Die Reihenfolge gilt für Filter, Speisen-Auswahl in CARD.ritl, den Dialog „Speise“ und den Excel-Export. 👁 zeigt die Speisen eines Gangs.
+- Gänge sind Teil des Backups (Stufe datenbank) und lassen sich mit „Rückgängig“ zurücknehmen.
+
+**Geändert**
+- „Saison-Aktionen“ ist jetzt Box 03.
+- Sprungziele (z. B. „Speisen dieses Gangs anzeigen“) landen nicht mehr unter der oben klebenden Modul-Leiste.
+
 ## V3.0.1 · 21.11.2026 · DEV
 **Neu**
 - **Preise einzeln ausblenden:** In CARD.ritl (und im Bearbeiten-Fenster von MAP.ritl) hat jede Speise im Gang einen Knopf **€** – ein Klick blendet ihren Preis in der Karte aus, ein zweiter zeigt ihn wieder. Der Sonderpreis bleibt dabei erhalten.
