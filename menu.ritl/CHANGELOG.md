@@ -3,6 +3,16 @@
 Speisekarten- & Menü-Designer: Sets, Gänge, Speisendatenbank mit Allergenen (LMIV), 6 Druckformate, Export als PDF, PPTX und Druck in exakt einer Seite · #ritl_menu
 Neueste Version oben. Versionen ≤ V1.7 nachträglich rekonstruiert (aus `tool_versions`, Quellen-ZIPs und Repo-Historie).
 
+## V3.0.1 · 21.11.2026 · DEV
+**Neu**
+- **Preise einzeln ausblenden:** In CARD.ritl (und im Bearbeiten-Fenster von MAP.ritl) hat jede Speise im Gang einen Knopf **€** – ein Klick blendet ihren Preis in der Karte aus, ein zweiter zeigt ihn wieder. Der Sonderpreis bleibt dabei erhalten.
+- **„Preise in diesem Gang ausblenden“:** blendet alle Preise eines Gangs auf einmal aus (z. B. für Menü-Gänge mit Gesamtpreis).
+
+**Geändert**
+- **Header läuft beim Scrollen aus:** Beim Scrollen nach unten verschwindet der Header, die Modul-Leiste (SETS · MAP · CARD · STYLE · DISHES) bleibt oben sichtbar – in CARD.ritl auch die Leiste mit den Inhaltsblöcken. Die Vorschau sitzt direkt darunter.
+- **Scrollen nur im Bereich der Maus:** Das Mausrad scrollt nur den Bereich unter dem Mauszeiger (Vorschau, Speisenauswahl, Leisten, Fenster). Ist er am Ende, scrollt die Seite im Hintergrund nicht mehr mit. Bei offenen Fenstern steht die Seite still.
+- Am Handy stehen die Knöpfe einer Speise unter dem Namen, damit der Name lesbar bleibt.
+
 ## V3.0 · 19.11.2026 · DEV
 **Neu**
 - **Einheitliches Backup (ritl-bk 2.0, S-17):** Das Backup kommt jetzt aus dem gemeinsamen Baustein aller RIEMER Tools. Fenster „Backup“ und „Backup einrichten“ sehen in jedem Tool gleich aus.
