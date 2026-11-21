@@ -232,6 +232,30 @@
   #cf-err{max-width:520px;white-space:normal;font-family:var(--sans)}
   #cf-log div{margin:2px 0}
   @media(max-width:700px){:root{--gut:16px}}
+  /* Server · Status und Verwaltung */
+  .sv-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}.sv-top h2{margin:0}.sv-top .sp{flex:1}
+  .sv-tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+  .sv-tile{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .sv-tile .k{font:500 11px/16px var(--mono);letter-spacing:1.2px;text-transform:uppercase;color:var(--muted)}
+  .sv-tile .v{font:800 22px/28px var(--sans);letter-spacing:-.4px;margin:4px 0 2px}
+  .sv-tile .v small{font:500 13px var(--sans);color:var(--muted);letter-spacing:0}
+  .sv-bar{height:6px;border-radius:3px;background:color-mix(in srgb,var(--muted) 18%,transparent);overflow:hidden;margin:8px 0 6px;min-width:80px}
+  .sv-bar>i{display:block;height:100%;border-radius:3px;background:var(--brand)}
+  .sv-bar.warn>i{background:var(--warn-tx)}.sv-bar.bad>i{background:var(--bad-tx)}
+  .sv-warn{list-style:none;margin:16px 0 0;padding:0;display:flex;flex-direction:column;gap:6px}
+  .sv-warn li{padding:9px 12px;border-radius:var(--radius-ctl);border:1px solid color-mix(in srgb,var(--warn-tx) 35%,transparent);background:color-mix(in srgb,var(--alt-orange) 9%,var(--surface));color:var(--warn-tx);font-size:13px}
+  .sv-warn li.bad{border-color:color-mix(in srgb,var(--bad-tx) 35%,transparent);background:color-mix(in srgb,var(--danger) 8%,var(--surface));color:var(--bad-tx)}
+  .sv-warn li.ok{border-color:color-mix(in srgb,var(--ok-tx) 35%,transparent);background:color-mix(in srgb,var(--alt-teal) 9%,var(--surface));color:var(--ok-tx)}
+  .sv-use{min-width:150px}.sv-use .hint{font-size:12px}
+  tr.sv-open>td{background:color-mix(in srgb,var(--brand) 5%,transparent)}
+  tr.sv-det>td{padding:4px 8px 16px 24px;background:color-mix(in srgb,var(--brand) 3%,transparent)}
+  .sv-det table th,.sv-det table td{padding:7px 8px;font-size:13px}
+  .sv-det .stf{display:block;white-space:nowrap}
+  .sv-det .stf b{font-weight:600}
+  .sv-maint{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+  .sv-maint>div{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+  .sv-maint b{font-size:14px}.sv-maint .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:auto}
+  .sv-maint input{width:70px}
 </style>
 </head>
 <body>
@@ -267,6 +291,7 @@
     <button data-tab="tools">Tools</button>
     <button data-tab="ui">Header · RITL-UI</button>
     <button data-tab="bk">Backup · RITL-BK</button>
+    <button data-tab="srv">Server</button>
     <button data-tab="clubs">Vereine</button>
     <button data-tab="log">Protokoll</button>
     <span class="sp"></span>
@@ -355,6 +380,34 @@
         <span class="hint">Muss mit <code>&lt;!--ritl-bk:start--&gt;</code> beginnen und mit <code>&lt;!--ritl-bk:end--&gt;</code> enden.</span>
         <button class="b pri" style="margin-top:1rem">Hochladen</button>
       </form>
+    </section>
+
+    <section id="t-srv" class="hide">
+      <div class="card">
+        <div class="sv-top"><h2>Server · Status</h2><span class="hint" id="sv-at"></span><span class="sp"></span><button class="b" type="button" id="sv-reload">↻ Aktualisieren</button></div>
+        <div class="sv-tiles" id="sv-tiles"><div class="hint">Lade …</div></div>
+        <ul class="sv-warn" id="sv-warn"></ul>
+      </div>
+      <div class="card">
+        <h2>Lizenzen am Server</h2>
+        <p class="hint" style="margin:-8px 0 12px">Belegung = Datenstände + Verlauf + Dateien, gemessen am Kontingent der Lizenz. Freigabe, Datenquelle und Kontingent stellst du in der Lizenz ein (⚙). „Details“ zeigt jedes Tool mit Stufe, Stand und Gerät.</p>
+        <div class="wrap"><table data-rz="srv">
+          <thead><tr><th>Kunde</th><th>Datenquelle</th><th>Belegt</th><th>Tools</th><th>Verlauf</th><th>Dateien</th><th>Letzter Abgleich</th><th></th></tr></thead>
+          <tbody id="sv-rows"></tbody>
+        </table></div>
+      </div>
+      <div class="card">
+        <h2>Wartung</h2>
+        <div class="sv-maint">
+          <div><b>Unvollständige Uploads</b><span class="hint" id="sv-m-up">–</span><div class="row"><button class="b" type="button" id="sv-clean-up">Aufräumen</button></div></div>
+          <div><b>Verlauf kürzen</b><span class="hint" id="sv-m-hist">Tagesstände älter als die angegebene Zahl an Tagen löschen. Standard sind 10 Tage.</span><div class="row"><label for="sv-tage" class="hint" style="margin:0">älter als</label><input id="sv-tage" type="number" min="1" max="365" value="10"><span class="hint">Tage</span><button class="b" type="button" id="sv-clean-hist">Löschen</button></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Belegung der Datenbank</h2>
+        <p class="hint" style="margin:-8px 0 12px">Die größten Tabellen. Der Gratis-Tarif von Supabase erlaubt 500 MB Datenbank und 1 GB Dateispeicher.</p>
+        <div class="wrap"><table><thead><tr><th>Tabelle</th><th>Inhalt</th><th>Größe</th><th style="width:40%">Anteil</th></tr></thead><tbody id="sv-tables"></tbody></table></div>
+      </div>
     </section>
 
     <section id="t-clubs" class="card hide">
@@ -2015,12 +2068,146 @@
     api("score_club_delete", { club_id: cEdit, confirm: conf }).then(function (r) { if (r.ok) { toast("Verein gelöscht"); closeDlg(cdlg); loadClubs(); } });
   });
 
+
+  /* ── Server · Status und Verwaltung (Edge Function license-admin › admin_server) ── */
+  var SV = { data: null, open: {}, det: {} };
+  var SV_TAB = { tool_versions: "Tool-Versionen (HTML)", tool_sources: "Quellen-ZIPs der Versionen", tool_backups: "Verlauf (10 Tage)", tool_state: "Datenstände (Server-Sync)",
+    tools: "Katalog", tools_backup: "Katalog-Sicherung", license_log: "Protokoll", tool_files: "Dateien (Einträge)", licenses: "Lizenzen", translations: "Übersetzungen" };
+  var SV_DQ = { lokal: "01 Lokal", ordner: "02 Ordner", server: "03 Server" };
+  function svPct(a, b) { return b ? Math.round(a / b * 100) : 0; }
+  function svBar(a, b) { var p = svPct(a, b); return '<div class="sv-bar' + (p >= 100 ? " bad" : p >= 80 ? " warn" : "") + '"><i style="width:' + Math.min(100, p) + '%"></i></div>'; }
+  function svAgo(d) {
+    if (!d) return "–"; var m = Math.round((Date.now() - new Date(d)) / 60000);
+    return m < 1 ? "gerade eben" : m < 60 ? "vor " + m + " Min." : m < 1440 ? "vor " + Math.round(m / 60) + " Std." : fmtDT(d);
+  }
+  function svTile(k, v, sub, bar) { return '<div class="sv-tile"><div class="k">' + k + '</div><div class="v">' + v + "</div>" + (bar || "") + '<div class="hint">' + sub + "</div></div>"; }
+  function loadSrv() {
+    $("sv-at").textContent = "Lade …";
+    return api("srv_overview").then(function (r) { if (!r.ok) { $("sv-at").textContent = ""; return; } SV.data = r; renderSrv(); });
+  }
+  function renderSrv() {
+    var r = SV.data, db = r.db, sto = r.storage, st = r.state, h = r.history, f = r.files;
+    $("sv-at").textContent = "Stand " + fmtDT(r.at);
+    $("sv-tiles").innerHTML =
+      svTile("Datenbank", fmtMB(db.bytes) + " <small>von " + Math.round(db.limit / 1048576) + " MB</small>", svPct(db.bytes, db.limit) + " % belegt", svBar(db.bytes, db.limit)) +
+      svTile("Dateispeicher", fmtMB(sto.bytes) + " <small>von 1 GB</small>", sto.objects + " Objekte im Bucket tool-files", svBar(sto.bytes, sto.limit)) +
+      svTile("Datenstände", st.n + " <small>· " + fmtMB(st.bytes) + "</small>", "zuletzt " + svAgo(st.last)) +
+      svTile("Verlauf", h.n + " <small>· " + fmtMB(h.bytes) + "</small>", h.first ? "ab " + fmtD(h.first) + (h.old ? " · " + h.old + " älter als 10 Tage" : "") : "noch leer") +
+      svTile("Dateien", f.n + " <small>· " + fmtMB(f.bytes) + "</small>", f.open ? f.open + " Upload" + (f.open > 1 ? "s" : "") + " unvollständig" : "alle vollständig") +
+      svTile("Lizenzen am Server", r.licenses.length + "", r.licenses.filter(function (l) { return l.datenquelle === "server"; }).length + " mit Datenquelle Server");
+    var w = [], dbp = svPct(db.bytes, db.limit), sp = svPct(sto.bytes, sto.limit);
+    if (dbp >= 80) w.push(["bad", "Datenbank zu " + dbp + " % voll – alte Tool-Versionen und Quellen-ZIPs belegen den meisten Platz (siehe unten)."]);
+    else if (dbp >= 50) w.push(["", "Datenbank zu " + dbp + " % voll – vor allem Tool-Versionen und Quellen-ZIPs (siehe unten)."]);
+    if (sp >= 80) w.push(["bad", "Dateispeicher zu " + sp + " % voll."]);
+    r.licenses.forEach(function (l) { var q = l.quota_mb * 1048576, p = svPct(l.used, q);
+      if (p >= 100) w.push(["bad", l.customer + ": " + fmtMB(l.used) + " von " + l.quota_mb + " MB – Kontingent überschritten, neue Uploads werden abgelehnt."]);
+      else if (p >= 80) w.push(["", l.customer + ": Kontingent zu " + p + " % belegt."]); });
+    if (f.open_old) w.push(["", f.open_old + " unvollständige" + (f.open_old > 1 ? " Uploads" : "r Upload") + " älter als 1 Stunde – unter Wartung aufräumen."]);
+    if (r.orphans) w.push(["", r.orphans + " Datei" + (r.orphans > 1 ? "en" : "") + " im Speicher ohne Eintrag (z. B. von gelöschten Lizenzen) – unter Wartung aufräumen."]);
+    if (h.old) w.push(["", h.old + " Verlaufsstände älter als 10 Tage – unter Wartung kürzen."]);
+    if (!w.length) w.push(["ok", "Alles in Ordnung – keine Auffälligkeiten."]);
+    $("sv-warn").innerHTML = w.map(function (x) { return '<li class="' + x[0] + '">' + esc(x[1]) + "</li>"; }).join("");
+    $("sv-m-up").textContent = (f.open_old || r.orphans) ? (f.open_old + " unvollständige Einträge, " + r.orphans + " Dateien ohne Eintrag – älter als 1 Stunde.") : "Nichts aufzuräumen.";
+    $("sv-clean-up").disabled = !(f.open_old || r.orphans);
+    var tot = db.bytes || 1;
+    $("sv-tables").innerHTML = r.tables.map(function (t) { return '<tr><td class="mono">' + esc(t.name) + "</td><td>" + esc(SV_TAB[t.name] || "") + "</td><td>" + fmtMB(t.bytes) +
+      "</td><td>" + svBar(t.bytes, tot) + "</td></tr>"; }).join("");
+    renderSrvRows();
+  }
+  function renderSrvRows() {
+    var r = SV.data;
+    $("sv-rows").innerHTML = r.licenses.map(function (l) {
+      var q = l.quota_mb * 1048576, open = !!SV.open[l.id];
+      var row = '<tr data-svl="' + l.id + '"' + (open ? ' class="sv-open"' : "") + "><td><b>" + esc(l.customer) + "</b>" + (l.active ? "" : ' <span class="pill p-bad">gesperrt</span>') +
+        "</td><td>" + esc(SV_DQ[l.datenquelle] || l.datenquelle) + (l.backup_stufe ? '<br><span class="hint">bis ' + esc(l.backup_stufe) + "</span>" : "") +
+        '</td><td class="sv-use">' + fmtMB(l.used) + ' <span class="hint">/ ' + l.quota_mb + " MB</span>" + svBar(l.used, q) +
+        '<span class="hint">Stände ' + fmtMB(l.state_bytes) + " · Verlauf " + fmtMB(l.hist_bytes) + " · Dateien " + fmtMB(l.file_bytes) + "</span>" +
+        "</td><td>" + l.tools + "</td><td>" + l.hist + "</td><td>" + l.files + "</td><td>" + svAgo(l.last) +
+        '</td><td><div class="acts"><button class="b" type="button" data-sva="det">' + (open ? "▾ Details" : "▸ Details") + '</button>' +
+        '<button class="b" type="button" data-sva="lic" title="Lizenz bearbeiten – Freigabe, Datenquelle, Kontingent" aria-label="Lizenz bearbeiten">⚙</button></div></td></tr>';
+      if (open) row += '<tr class="sv-det" data-svd="' + l.id + '"><td colspan="8">' + svDetail(l) + "</td></tr>";
+      return row;
+    }).join("") || '<tr><td colspan="8" class="hint">Noch keine Lizenz nutzt den Server.</td></tr>';
+  }
+  function svDetail(l) {
+    var d = SV.det[l.id];
+    if (!d) return '<span class="hint">Lade …</span>';
+    if (!d.tools.length) return '<span class="hint">Keine Daten am Server.</span>';
+    return '<div class="wrap"><table><thead><tr><th>Tool</th><th>Datenstände</th><th>Verlauf</th><th>Dateien</th><th></th></tr></thead><tbody>' +
+      d.tools.map(function (t) {
+        var stf = t.states.map(function (s) {
+          return '<span class="stf"><b>' + esc(s.stufe) + "</b> · Rev " + s.rev + " · " + fmtMB(s.bytes) + ' <span class="hint">(' + fmtMB(s.raw_bytes) + " entpackt) · " +
+            esc(s.version || "") + " · " + svAgo(s.updated_at) + ' · Gerät <span class="mono">' + esc(String(s.device || "").slice(0, 8)) + "</span></span></span>";
+        }).join("") || '<span class="hint">–</span>';
+        var hi = t.history.n ? t.history.n + " · " + fmtMB(t.history.bytes) + '<br><span class="hint">' + fmtD(t.history.first) + " – " + fmtD(t.history.last) + "</span>" : '<span class="hint">–</span>';
+        var fi = t.files.n ? t.files.n + " · " + fmtMB(t.files.bytes) : '<span class="hint">–</span>';
+        if (t.files.open) fi += '<br><span class="pill p-warn">' + t.files.open + " offen</span>";
+        if (t.files.list.length) fi = '<span title="' + esc(t.files.list.map(function (x) { return x.name + " (" + fmtMB(x.bytes) + (x.ok ? "" : ", offen") + ")"; }).join("\n")) + '">' + fi + "</span>";
+        var ds = t.states.map(function (s) { return '<button class="b" type="button" data-svt="get" data-tool="' + esc(t.tool) + '" data-stufe="' + esc(s.stufe) + '" title="Datenstand als JSON herunterladen">⬇ ' + esc(s.stufe) + "</button>"; }).join("");
+        return '<tr><td class="mono">' + esc(t.tool) + (t.wahl ? '<br><span class="hint">Kunde: ' + esc(SV_DQ[t.wahl.datenquelle] || t.wahl.datenquelle || "–") + " · " + esc(t.wahl.stufe || "") + "</span>" : "") +
+          "</td><td>" + stf + "</td><td>" + hi + "</td><td>" + fi + '</td><td><div class="acts">' + ds +
+          (t.states.length ? '<button class="b dan" type="button" data-svt="state" data-tool="' + esc(t.tool) + '">Stände löschen</button>' : "") +
+          (t.history.n ? '<button class="b dan" type="button" data-svt="history" data-tool="' + esc(t.tool) + '">Verlauf löschen</button>' : "") +
+          (t.files.n || t.files.open ? '<button class="b dan" type="button" data-svt="files" data-tool="' + esc(t.tool) + '">Dateien löschen</button>' : "") +
+          '<button class="b dan" type="button" data-svt="all" data-tool="' + esc(t.tool) + '">Alles</button></div></td></tr>';
+      }).join("") + '</tbody></table></div><div class="acts" style="margin-top:10px"><span class="hint" style="align-self:center">Gelöschte Daten lädt ein Gerät mit Datenquelle Server beim nächsten Speichern wieder hoch.</span><span class="sp" style="flex:1"></span>' +
+      '<button class="b dan" type="button" data-svt="all" data-tool="">Alle Serverdaten dieser Lizenz löschen</button></div>';
+  }
+  function svLoadDet(id) { return api("srv_detail", { license_id: id }).then(function (r) { if (r.ok) { SV.det[id] = r; renderSrvRows(); } }); }
+  var SV_WAS = { state: "die Datenstände", history: "den Verlauf", files: "die Dateien", all: "ALLE Serverdaten (Stände, Verlauf, Dateien)" };
+  function svDone(r, msg) {
+    if (!r.ok) return;
+    var p = [];
+    if (r.state) p.push(r.state + " Stände"); if (r.history) p.push(r.history + " Verlaufsstände"); if (r.files) p.push(r.files + " Dateien");
+    if (r.storage_removed) p.push(r.storage_removed + " Objekte im Speicher");
+    toast((msg || "Gelöscht") + (p.length ? ": " + p.join(", ") : " – nichts zu löschen"));
+    if (r.storage_failed) toast(r.storage_failed + " Objekte konnten im Speicher nicht gelöscht werden – später erneut aufräumen.");
+  }
+  function svGet(lid, tool, stufe) {
+    api("srv_state_get", { license_id: lid, tool: tool, stufe: stufe }).then(function (r) {
+      if (!r.ok) return;
+      var bin = Uint8Array.from(atob(r.gz), function (c) { return c.charCodeAt(0); });
+      var name = "Server_" + r.tool + "_" + r.stufe + "_rev" + r.rev;
+      var save = function (blob, ext) { var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = name + ext; a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); }, 2000); };
+      if (!window.DecompressionStream) return save(new Blob([bin]), ".json.gz");
+      new Response(new Blob([bin]).stream().pipeThrough(new DecompressionStream("gzip"))).text()
+        .then(function (t) { save(new Blob([t], { type: "application/json" }), ".json"); }, function () { save(new Blob([bin]), ".bin"); });
+    });
+  }
+  $("sv-reload").addEventListener("click", function () { SV.det = {}; loadSrv().then(function () { Object.keys(SV.open).forEach(svLoadDet); }); });
+  $("sv-rows").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return;
+    var tr = b.closest("tr[data-svl], tr[data-svd]"), id = tr && (tr.dataset.svl || tr.dataset.svd); if (!id) return;
+    var l = SV.data.licenses.filter(function (x) { return x.id === id; })[0];
+    if (b.dataset.sva === "det") { SV.open[id] = !SV.open[id]; renderSrvRows(); if (SV.open[id]) svLoadDet(id); return; }
+    if (b.dataset.sva === "lic") { var ll = state.licenses.filter(function (x) { return x.id === id; })[0]; if (ll) openLic(ll); else toast("Lizenz nicht gefunden – bitte ↻ Aktualisieren."); return; }
+    var was = b.dataset.svt, tool = b.dataset.tool || null; if (!was) return;
+    if (was === "get") return svGet(id, tool, b.dataset.stufe);
+    if (!tool) {
+      var c = prompt("ALLE Serverdaten von „" + l.customer + "“ löschen – Datenstände, Verlauf und Dateien aller Tools?\n\nZur Bestätigung LÖSCHEN eingeben:");
+      if (c !== "LÖSCHEN") { if (c !== null) toast("Nicht bestätigt – nichts gelöscht."); return; }
+    } else if (!confirm("„" + tool + "“ von „" + l.customer + "“: " + SV_WAS[was] + " am Server löschen?")) return;
+    b.disabled = true;
+    api("srv_delete", { license_id: id, tool: tool, was: was }).then(function (r) { b.disabled = false; svDone(r); if (r.ok) loadSrv().then(function () { svLoadDet(id); }); });
+  });
+  $("sv-clean-up").addEventListener("click", function () {
+    if (!confirm("Unvollständige Uploads und Dateien ohne Eintrag (älter als 1 Stunde) löschen?")) return;
+    this.disabled = true;
+    api("srv_cleanup", { was: "uploads" }).then(function (r) { svDone(r, "Aufgeräumt"); loadSrv(); });
+  });
+  $("sv-clean-hist").addEventListener("click", function () {
+    var t = Math.max(1, Math.min(365, parseInt($("sv-tage").value, 10) || 10));
+    if (!confirm("Verlauf aller Lizenzen älter als " + t + " Tage löschen?")) return;
+    var b = this; b.disabled = true;
+    api("srv_cleanup", { was: "history", tage: t }).then(function (r) { b.disabled = false; svDone(r, "Verlauf gekürzt"); SV.det = {}; loadSrv().then(function () { Object.keys(SV.open).forEach(svLoadDet); }); });
+  });
   document.querySelector("nav").addEventListener("click", function (e) {
     var b = e.target.closest("button[data-tab]"); if (!b) return;
     [].forEach.call(document.querySelectorAll("nav button[data-tab]"), function (x) { x.classList.toggle("on", x === b); });
-    ["lic", "tools", "ui", "bk", "clubs", "log"].forEach(function (t) { $("t-" + t).classList.toggle("hide", t !== b.dataset.tab); });
+    ["lic", "tools", "ui", "bk", "srv", "clubs", "log"].forEach(function (t) { $("t-" + t).classList.toggle("hide", t !== b.dataset.tab); });
     if (b.dataset.tab === "ui") loadUi();
     if (b.dataset.tab === "bk") loadBk();
+    if (b.dataset.tab === "srv") loadSrv();
     if (b.dataset.tab === "log") loadLog();
     if (b.dataset.tab === "clubs") loadClubs();
   });
