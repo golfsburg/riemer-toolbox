@@ -3,6 +3,29 @@
 Speisekarten- & Menü-Designer: Sets, Gänge, Speisendatenbank mit Allergenen (LMIV), 6 Druckformate, Export als PDF, PPTX und Druck in exakt einer Seite · #ritl_menu
 Neueste Version oben. Versionen ≤ V1.7 nachträglich rekonstruiert (aus `tool_versions`, Quellen-ZIPs und Repo-Historie).
 
+## V3.0.12 · 21.11.2026 · DEV
+**Neu**
+- **Menüs & Saison kopieren:** Jede Karte hat einen Knopf zum Kopieren. Die Kopie übernimmt alle Angaben und Speisen, heißt „… (Kopie)“, ist zunächst inaktiv und öffnet sich gleich zum Anpassen (Name, Zeitraum, Speisen).
+- **Eine Speise kann in mehreren Menüs bzw. Saisonen sein.** Die Auswahl zeigt „auch in …“; Filter, „In Karte einfügen“ und Excel (Spalte „Saison-Tag“, mehrere durch Komma) berücksichtigen alle Zugehörigkeiten. Im Fenster „Speise“ ändert die Auswahl „Menü / Saison“ nur die erste Zugehörigkeit, weitere bleiben erhalten.
+
+## V3.0.11 · 21.11.2026 · DEV
+**Geändert**
+- **Designstil: Schriftgröße in Punkt (pt)** statt in %: Jedes Element zeigt seine aktuelle Größe wie im Druck (z. B. Speise 9 pt, Gang-Überschrift 10,5 pt) und lässt sich direkt in pt einstellen (in 0,5-pt-Schritten). Größen, die das Format selbst anders setzt (z. B. größerer Name auf der Titelseite), wachsen im gleichen Verhältnis mit.
+
+## V3.0.10 · 21.11.2026 · DEV
+**Geändert**
+- **Menüpreis-Hinweis ohne grauen Hintergrund** (z. B. „3-Gang-Menü € 58,00“) – neben der Gang-Überschrift und mittig unter dem Gang.
+- **Fußzeile immer am unteren Rand des Browserfensters** (wie im Skill): bei wenig Inhalt unten am Fenster, bei langem Inhalt beim Scrollen immer sichtbar; Hinweise (Toast) erscheinen darüber. Die Vorschau rechnet die Fußzeile mit ein und wird nicht verdeckt.
+
+## V3.0.9 · 21.11.2026 · DEV
+**Geändert**
+- **Designstil bearbeiten:** Statt „Standard“ zeigt jedes Feld den tatsächlich verwendeten Wert – Schrift (z. B. Playfair Display), Stärke, gerade/kursiv, Schreibung, Sperrung und Farbe (Akzent oder Farbwert). Ein neuer Grundstil aktualisiert die Anzeige sofort. Geänderte Elemente sind blau markiert; „Zurücksetzen“ holt die Werte des Grundstils zurück. Eine Farbe wählen stellt das Element direkt auf diese Farbe.
+
+## V3.0.8 · 21.11.2026 · DEV
+**Geändert**
+- **Editor AUS:** Im Modellbereich (MAP.ritl) lässt sich weiter bearbeiten – Klick öffnet das Bearbeiten-Fenster, Doppelklick verschiebt, Bilder lassen sich ziehen, das Raster ist sichtbar. Editor AUS blendet nur CARD, STYLE und die Werkzeugleisten von MAP aus.
+- **DISHES.ritl:** „Gänge & Kategorien“ steht jetzt als Box 03 unter „02 Menüs & Saison“.
+
 ## V3.0.7 · 21.11.2026 · DEV
 **Neu**
 - **Umschalter Editor EIN/AUS im Header** (Stift mit „EIN“/„AUS“): Editor EIN zeigt den vollen Umfang. Editor AUS zeigt nur SETS, MAP und DISHES; MAP ist dann eine reine Ansicht – nur Innen-/Außenseite, Zoom, Fixieren, Drucken, PDF und PPTX, die Karte füllt das Fenster, ohne Raster, Werkzeuge und Bearbeiten per Klick. Die Wahl bleibt nach dem Neuladen erhalten und gehört zu den Einstellungen im Backup.
