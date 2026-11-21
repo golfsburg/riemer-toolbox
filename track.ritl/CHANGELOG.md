@@ -3,6 +3,21 @@
 GPS-Tracks (GPX) lokal im Browser in 2D und 3D darstellen, analysieren, bearbeiten und animieren · #ritl_track
 Neueste Version oben. Versionen ≤ V1.9 in Google AI Studio entwickelt und nachträglich zusammengefasst (keine Einzelstände erhalten).
 
+## V3.3.6 · 21.11.2026 · DEV
+**Neu**
+- **EDITOR › 01 Tracks verwalten:** alle geladenen Tracks in einer Tabelle – Aufnahme (Datum, Start bis Ende), Dauer mit Pausen, Strecke, Höhenmeter, Datenpunkte (mit Originalzahl beim Laden) und Datenmenge (Original-GPX in der Dateiablage und Größe im Browser), unten die Summe. Je Track: auswählen, ein-/ausblenden, umbenennen, Farbe ändern, als GPX herunterladen, entfernen (mit Rückgängig).
+- **ANALYSE › 01 Tracks:** Auswahl des Tracks, der analysiert wird, und Ein-/Ausblenden für Vergleich und Geisterrennen.
+
+**Geändert**
+- **TRACK:** Die Track-Liste über der Karte ist ein eigener klappbarer Bereich „Tracks · n“ (auch über „Alle auf/zu“).
+- **Header und Ribbon:** Der Header läuft beim Scrollen nach oben aus, die Modul-Leiste (TRACK, ANALYSE, EDITOR, EXPORT, PANO) bleibt am oberen Fensterrand. Das Mausrad über der Leiste scrollt nur die Leiste, nie die Seite; Listen und Fenster scrollen nur in sich.
+- Ein offenes Fenster sperrt die Seite dahinter.
+- Auswahlfelder am Handy und iPad mit 16 px – kein Hineinzoomen beim Antippen.
+- Bereiche in ANALYSE (02–05) und EDITOR (02–03) sind neu nummeriert.
+
+**Behoben**
+- **Animation:** Es wird immer der **ausgewählte** Track animiert. Im Modus Zeitstempel richtet sich die Zeitleiste jetzt nach dem ausgewählten Track; andere Tracks laufen bei gemeinsamer Aufnahmezeit in echter Uhrzeit mit, sonst ab ihrem eigenen Start (wie ein Geisterrennen). Vorher bewegte sich bei Aufnahmen an verschiedenen Tagen nur der zuletzt aufgezeichnete Track.
+
 ## V3.3.5 · 20.11.2026 · DEV
 **Neu**
 - **Fahrzeug „EMX“ – HMW FoxE (Elektro-Motocross):** neue Sportart in 2D-Draufsicht, 3D-Raum und Video-Export. In 3D mit schwarzem Akku-Rahmen, goldener Gabel, rotem Federbein, Speichenrädern mit Stollenreifen, langer Sitzbank und Fahrer mit Helm und Brille (Trikot in Track-Farbe). Die Räder drehen sich, der Lenker schlägt in Kurven ein, die Gabel taucht beim Bremsen ein, der Fahrer geht beim Beschleunigen nach vorn; das Rücklicht leuchtet beim Bremsen. Auch im Touren-Report („EMX / HMW FoxE“).
