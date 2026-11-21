@@ -3,6 +3,15 @@
 Speisekarten- & Menü-Designer: Sets, Gänge, Speisendatenbank mit Allergenen (LMIV), 6 Druckformate, Export als PDF, PPTX und Druck in exakt einer Seite · #ritl_menu
 Neueste Version oben. Versionen ≤ V1.7 nachträglich rekonstruiert (aus `tool_versions`, Quellen-ZIPs und Repo-Historie).
 
+## V3.0.4 · 21.11.2026 · DEV
+**Neu**
+- **Überschrift je Gang ausrichten:** Im Gang (CARD.ritl und MAP-Fenster › Inhalt) gibt es „Überschrift ausrichten“: wie der Gang, links, mittig oder rechts – unabhängig davon, wie die Speisen stehen.
+- **Kopf und Fuß je Spalte:** Bei Klappkarte, Wickelfalz (innen und außen) und Aufsteller mit 2 Spalten hat jede Spalte bzw. Seite einen eigenen Bereich „Kopf …“ und „Fuß …“ (z. B. „Kopf Seite 3“, „Fuß vorne links“). Gänge und Texte lassen sich dort einzeln hineinstellen; in MAP.ritl ist jeder dieser Bereiche einzeln anklickbar. Bisherige Kopf-Inhalte stehen im Kopf der ersten, Fuß-Inhalte im Fuß der letzten Spalte.
+- **Logos, Siegel und Bilder frei platzieren:** „Bild frei auf dem Blatt …“ (STYLE › Logos oder Platzierung „Frei auf dem Blatt“ bei jedem Logo) legt PNG, JPG, SVG oder WebP auf eine Seite des Formats (Innen-/Außenseite, Vorder-/Rückseite). In MAP.ritl mit der Maus an jede Stelle ziehen; ein Klick öffnet Breite, Lage in mm, Drehung, Deckkraft, „Hinter dem Text“ (Wasserzeichen), Mittig, Duplizieren und Entfernen. Erscheint in Vorschau, Druck, PDF und PPTX.
+
+**Geändert**
+- STYLE › Logos heißt jetzt „Logos, Siegel & Bilder“.
+
 ## V3.0.3 · 21.11.2026 · DEV
 **Geändert**
 - **MAP.ritl:** Das Bearbeiten-Fenster eines Elements schließt jetzt auch mit einem Klick daneben in den Modellbereich – nicht nur mit Esc oder „Fertig“ (auch bei fixierter Arbeitsfläche). Markieren im Fenster und Loslassen daneben schließt nicht.
