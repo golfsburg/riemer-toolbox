@@ -3,6 +3,10 @@
 Speisekarten- & Menü-Designer: Sets, Gänge, Speisendatenbank mit Allergenen (LMIV), 6 Druckformate, Export als PDF, PPTX und Druck in exakt einer Seite · #ritl_menu
 Neueste Version oben. Versionen ≤ V1.7 nachträglich rekonstruiert (aus `tool_versions`, Quellen-ZIPs und Repo-Historie).
 
+## V3.0.9 · 21.11.2026 · DEV
+**Geändert**
+- **Designstil bearbeiten:** Statt „Standard“ zeigt jedes Feld den tatsächlich verwendeten Wert – Schrift (z. B. Playfair Display), Stärke, gerade/kursiv, Schreibung, Sperrung und Farbe (Akzent oder Farbwert). Ein neuer Grundstil aktualisiert die Anzeige sofort. Geänderte Elemente sind blau markiert; „Zurücksetzen“ holt die Werte des Grundstils zurück. Eine Farbe wählen stellt das Element direkt auf diese Farbe.
+
 ## V3.0.8 · 21.11.2026 · DEV
 **Geändert**
 - **Editor AUS:** Im Modellbereich (MAP.ritl) lässt sich weiter bearbeiten – Klick öffnet das Bearbeiten-Fenster, Doppelklick verschiebt, Bilder lassen sich ziehen, das Raster ist sichtbar. Editor AUS blendet nur CARD, STYLE und die Werkzeugleisten von MAP aus.
