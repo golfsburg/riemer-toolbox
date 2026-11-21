@@ -3,6 +3,10 @@
 Kompakter 3D-Viewer und -Editor im Browser für den 3D-Druck · #ritl_mesh
 Neueste Version oben. V1.0–V1.8 als Einzeldatei entwickelt (nicht in der Toolbox veröffentlicht).
 
+## V2.7.10 · 21.11.2026 · DEV
+**Neu**
+- **Parameter rückgängig** in „Parametrisch (.scad)“: „↶ Zurück“ unten links im Fenster, als ↶ im Modellbereich oder mit Strg+Z nimmt die zuletzt geänderten Parameter Schritt für Schritt zurück (bis 50 Schritte). Schnelle Änderungen hintereinander, z. B. Regler ziehen, zählen als ein Schritt; auch das Übernehmen eines Sets und „Parameter“ zurücksetzen lassen sich zurücknehmen. Ein Hinweis nennt die zurückgesetzten Parameter.
+
 ## V2.7.9 · 21.11.2026 · DEV
 **Neu**
 - **Parametersets je Objekt** in „Parametrisch (.scad)“: aktuelle Werte unter einem Namen speichern, zwischen Sets wechseln, überschreiben, umbenennen und löschen. Die Sets gehören zum Objekt und werden mit ihm (Projekt, Backup) gespeichert; ein geändertes Set ist mit „(geändert)“ markiert.
