@@ -3,6 +3,15 @@
 Kompakter 3D-Viewer und -Editor im Browser für den 3D-Druck · #ritl_mesh
 Neueste Version oben. V1.0–V1.8 als Einzeldatei entwickelt (nicht in der Toolbox veröffentlicht).
 
+## V2.7.9 · 21.11.2026 · DEV
+**Neu**
+- **Parametersets je Objekt** in „Parametrisch (.scad)“: aktuelle Werte unter einem Namen speichern, zwischen Sets wechseln, überschreiben, umbenennen und löschen. Die Sets gehören zum Objekt und werden mit ihm (Projekt, Backup) gespeichert; ein geändertes Set ist mit „(geändert)“ markiert.
+- **Regler im Modellbereich:** Gewählte Parameter haben in der festen Parameterliste im Modellbereich zusätzlich einen Schieberegler; die Vorschau rechnet beim Ziehen mit.
+
+**Geändert**
+- Der linke Bereich (Datei, Parametersets, Parameter) scrollt im Fenster für sich – Modellbereich und Code bleiben stehen.
+- Die Höhe des Modellbereichs lässt sich unten rechts an der Ecke ziehen und bleibt gespeichert.
+
 ## V2.7.8 · 21.11.2026 · DEV
 **Neu**
 - **Ghost in „01 Modelle“:** Neben dem Auge stellt das Ghost-Symbol ein Modell halbtransparent als Bezug dar. Es bleibt sichtbar, ist in der Ansicht nicht anklickbar und wird beim Export „Alle sichtbaren Modelle“ nicht mitgenommen. Der Zustand wird im Projekt gespeichert.
