@@ -3,6 +3,11 @@
 Kompakter 3D-Viewer und -Editor im Browser für den 3D-Druck · #ritl_mesh
 Neueste Version oben. V1.0–V1.8 als Einzeldatei entwickelt (nicht in der Toolbox veröffentlicht).
 
+## V2.7.17 · 21.11.2026 · DEV
+**Neu**
+- **Gruppieren:** Gewählte Objekte mit „⧉ Gruppieren“ (Objekt-Fenster, Box 02 › Anordnen oder Strg+G) zu einer Gruppe verbinden. Ein Klick auf ein Mitglied – in der Ansicht, in der Liste oder per Fensterauswahl – wählt danach die ganze Gruppe; Verschieben, Drehen, Skalieren, Ausrichten, Pfeiltasten usw. wirken auf alle. Alt+Klick wählt ein einzelnes Objekt der Gruppe. „Gruppe lösen“ bzw. Strg+Umschalt+G hebt sie auf.
+- In der Liste zeigt „G1“, „G2“ … die Gruppe; das Objekt-Fenster zeigt „Gruppe G1 · n Objekte“. Gruppen werden im Projekt gespeichert, gehören zu Zurück/Vor, und Duplizieren einer Gruppe ergibt eine neue Gruppe.
+
 ## V2.7.16 · 21.11.2026 · DEV
 **Geändert**
 - **Importierte Objekte landen mittig auf dem Druckbett** (Mitte X/Y = Bettmitte, Unterseite auf Z = 0) – **vorhandene Objekte bleiben, wo sie sind**. Mehrere Dateien bzw. Teile eines Imports bleiben zueinander in ihrer Lage und werden gemeinsam mittig gesetzt; sie sind danach gewählt.
