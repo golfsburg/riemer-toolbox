@@ -3,6 +3,10 @@
 Speisekarten- & Menü-Designer: Sets, Gänge, Speisendatenbank mit Allergenen (LMIV), 6 Druckformate, Export als PDF, PPTX und Druck in exakt einer Seite · #ritl_menu
 Neueste Version oben. Versionen ≤ V1.7 nachträglich rekonstruiert (aus `tool_versions`, Quellen-ZIPs und Repo-Historie).
 
+## V3.0.13 · 21.11.2026 · DEV
+**Neu**
+- **Weitere Farben im Designstil:** Neben der Akzentfarbe lassen sich beliebig viele eigene Farben mit Namen anlegen, ändern und entfernen (z. B. „Wein-Rot“, „Gold“). Jedes Element kann unter „Farbe“ eine dieser Farben verwenden. Eine Änderung an der Farbe gilt sofort überall, wo sie verwendet wird; die Liste zeigt, wie viele Elemente sie nutzen. Wird eine Farbe entfernt, behalten die Elemente ihren Farbton als eigene Farbe.
+
 ## V3.0.12 · 21.11.2026 · DEV
 **Neu**
 - **Menüs & Saison kopieren:** Jede Karte hat einen Knopf zum Kopieren. Die Kopie übernimmt alle Angaben und Speisen, heißt „… (Kopie)“, ist zunächst inaktiv und öffnet sich gleich zum Anpassen (Name, Zeitraum, Speisen).
