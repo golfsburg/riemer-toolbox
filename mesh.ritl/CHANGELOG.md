@@ -3,6 +3,18 @@
 Kompakter 3D-Viewer und -Editor im Browser für den 3D-Druck · #ritl_mesh
 Neueste Version oben. V1.0–V1.8 als Einzeldatei entwickelt (nicht in der Toolbox veröffentlicht).
 
+## V2.7.8 · 21.11.2026 · DEV
+**Neu**
+- **Ghost in „01 Modelle“:** Neben dem Auge stellt das Ghost-Symbol ein Modell halbtransparent als Bezug dar. Es bleibt sichtbar, ist in der Ansicht nicht anklickbar und wird beim Export „Alle sichtbaren Modelle“ nicht mitgenommen. Der Zustand wird im Projekt gespeichert.
+- **Modellbereich in „Parametrisch (.scad)“:** Live-Vorschau des Modells direkt im Fenster (drehen, zoomen, Einpassen). Das Original bleibt immer als Ghost mit Umriss im Hintergrund sichtbar, so siehst du jede Änderung im Vergleich.
+- **Parameter im Modell:** Mit dem Auge neben einem Parameter wählst du ihn aus – der Modellbereich zeigt dann nur die gewählten Parameter mit Maßlinie (z. B. „breite = 100 · X 104,0 mm“). Bei einem gewählten Parameter zeigt eine orange Überlagerung, welcher Teil sich bei einer Änderung bewegt. Werte lassen sich auch direkt im Modellbereich ändern.
+
+**Geändert**
+- **Global / Objekt gilt für alle Funktionen:** Bei „Objekt“ beziehen sich Maße X/Y/Z, Lage, Drehen, Spiegeln, Skalieren, Ausrichten und die Maßeingabe des Werkzeugs auf die eigenen Achsen des gewählten Objekts – ein gedrehtes Objekt zeigt z. B. seine echte Länge, Breite und Höhe. „Auf Z = 0“, „Mittig aufs Bett“ und „Teilen“ bleiben auf das Druckbett bezogen.
+- Symbole in **Ausrichten** und **Kombinieren** um 150 % größer (Objekt-Fenster und Box 02).
+- Das Textfeld **Code – direkt bearbeitbar** zeigt zunächst nur 5 Zeilen (lässt sich größer ziehen).
+- „Rendern“ übernimmt die fertige Vorschau ohne erneutes Rechnen, wenn sich nichts geändert hat.
+
 ## V2.7.7 · 20.11.2026 · DEV
 **Neu**
 - Mehrere Projekte (Modellbereiche): Knopf „Projekt“ in der Werkzeugleiste zeigt das aktive Projekt; Dialog „Projekte“ mit Neu, Öffnen, Aktuelles speichern unter, Duplizieren, Umbenennen, Als Datei speichern (inkl. Geometrien), Projekt-Datei öffnen, Löschen. Jedes Projekt wird automatisch gespeichert, gemeinsame Geometrien liegen nur einmal in der Dateiablage.
