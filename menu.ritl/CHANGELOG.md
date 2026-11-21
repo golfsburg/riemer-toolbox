@@ -3,6 +3,10 @@
 Speisekarten- & Menü-Designer: Sets, Gänge, Speisendatenbank mit Allergenen (LMIV), 6 Druckformate, Export als PDF, PPTX und Druck in exakt einer Seite · #ritl_menu
 Neueste Version oben. Versionen ≤ V1.7 nachträglich rekonstruiert (aus `tool_versions`, Quellen-ZIPs und Repo-Historie).
 
+## V3.0.7 · 21.11.2026 · DEV
+**Neu**
+- **Umschalter Editor EIN/AUS im Header** (Stift mit „EIN“/„AUS“): Editor EIN zeigt den vollen Umfang. Editor AUS zeigt nur SETS, MAP und DISHES; MAP ist dann eine reine Ansicht – nur Innen-/Außenseite, Zoom, Fixieren, Drucken, PDF und PPTX, die Karte füllt das Fenster, ohne Raster, Werkzeuge und Bearbeiten per Klick. Die Wahl bleibt nach dem Neuladen erhalten und gehört zu den Einstellungen im Backup.
+
 ## V3.0.6 · 21.11.2026 · DEV
 **Geändert**
 - **Faltmarken dezent:** Klappkarte und Wickelfalz zeigen an jedem Falz nur noch einen feinen 5-mm-Strich am oberen und unteren Blattrand – keine durchgehende gestrichelte Linie und keine Spaltenlinie mehr über die ganze Höhe. Beim Aufsteller-Druckbogen bleiben die kurzen Striche am linken und rechten Rand, die durchgehende Falzlinie entfällt; die Leiste „Falzkante“ in der Vorschau ist nur noch ein kleiner Hinweis.
