@@ -3,6 +3,13 @@
 Speisekarten- & Menü-Designer: Sets, Gänge, Speisendatenbank mit Allergenen (LMIV), 6 Druckformate, Export als PDF, PPTX und Druck in exakt einer Seite · #ritl_menu
 Neueste Version oben. Versionen ≤ V1.7 nachträglich rekonstruiert (aus `tool_versions`, Quellen-ZIPs und Repo-Historie).
 
+## V3.0.3 · 21.11.2026 · DEV
+**Geändert**
+- **MAP.ritl:** Das Bearbeiten-Fenster eines Elements schließt jetzt auch mit einem Klick daneben in den Modellbereich – nicht nur mit Esc oder „Fertig“ (auch bei fixierter Arbeitsfläche). Markieren im Fenster und Loslassen daneben schließt nicht.
+
+**Behoben**
+- Mausrad über den Leisten (Modul-Leiste, Block-Leiste in CARD.ritl, Reiter im Bearbeiten-Fenster) scrollte die ganze Seite. Jetzt scrollt das Rad dort nur die Leiste waagrecht; passt sie ins Fenster, bleibt alles stehen.
+
 ## V3.0.2 · 21.11.2026 · DEV
 **Neu**
 - **Speisen duplizieren:** In DISHES.ritl hat jede Speise einen Knopf zum Duplizieren. Die Kopie öffnet sich mit allen Angaben (Preis, Allergene, Zutaten, Saison …) zum Anpassen und steht nach dem Speichern direkt hinter dem Original.
