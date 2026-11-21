@@ -3,6 +3,11 @@
 Speisekarten- & Menü-Designer: Sets, Gänge, Speisendatenbank mit Allergenen (LMIV), 6 Druckformate, Export als PDF, PPTX und Druck in exakt einer Seite · #ritl_menu
 Neueste Version oben. Versionen ≤ V1.7 nachträglich rekonstruiert (aus `tool_versions`, Quellen-ZIPs und Repo-Historie).
 
+## V3.0.10 · 21.11.2026 · DEV
+**Geändert**
+- **Menüpreis-Hinweis ohne grauen Hintergrund** (z. B. „3-Gang-Menü € 58,00“) – neben der Gang-Überschrift und mittig unter dem Gang.
+- **Fußzeile immer am unteren Rand des Browserfensters** (wie im Skill): bei wenig Inhalt unten am Fenster, bei langem Inhalt beim Scrollen immer sichtbar; Hinweise (Toast) erscheinen darüber. Die Vorschau rechnet die Fußzeile mit ein und wird nicht verdeckt.
+
 ## V3.0.9 · 21.11.2026 · DEV
 **Geändert**
 - **Designstil bearbeiten:** Statt „Standard“ zeigt jedes Feld den tatsächlich verwendeten Wert – Schrift (z. B. Playfair Display), Stärke, gerade/kursiv, Schreibung, Sperrung und Farbe (Akzent oder Farbwert). Ein neuer Grundstil aktualisiert die Anzeige sofort. Geänderte Elemente sind blau markiert; „Zurücksetzen“ holt die Werte des Grundstils zurück. Eine Farbe wählen stellt das Element direkt auf diese Farbe.
