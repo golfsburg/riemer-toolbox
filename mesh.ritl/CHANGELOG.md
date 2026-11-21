@@ -3,6 +3,15 @@
 Kompakter 3D-Viewer und -Editor im Browser für den 3D-Druck · #ritl_mesh
 Neueste Version oben. V1.0–V1.8 als Einzeldatei entwickelt (nicht in der Toolbox veröffentlicht).
 
+## V2.7.13 · 21.11.2026 · DEV
+**Neu**
+- **Fensterauswahl mit Shift:** Shift gedrückt halten und in der Ansicht ein Fenster aufziehen. Von links nach rechts (durchgezogener Rahmen) werden alle Objekte gewählt, die ganz im Fenster liegen; von rechts nach links (gestrichelter Rahmen) alle, die das Fenster berühren. Mit Strg dazu wird die bisherige Auswahl ergänzt; Shift+Klick wählt wie bisher einzeln dazu.
+- **Zentrieren XY / XYZ** beim Ausrichten: die Mitten der gewählten Objekte in X und Y (bzw. auch Z) bündig – mit einem Schritt rückgängig.
+
+**Geändert**
+- **Entfernen lässt sich rückgängig machen:** Papierkorb (Liste und Objekt-Fenster), Taste Entf und „Alle entfernen“ – „Zurück“ bzw. Strg+Z holt die Objekte an ihre Stelle in der Liste zurück. Die Rückfrage beim Entfernen mehrerer Objekte entfällt.
+- **Ausrichten zueinander** im Objekt-Fenster mit Text und großen Symbolen (Links/Mitte/Rechts, Vorne/Mitte/Hinten, Unten/Mitte/Oben, Verteilen) und eigener Wahl des Bezugs (gesamte Auswahl oder Basis-Objekt).
+
 ## V2.7.12 · 21.11.2026 · DEV
 **Neu**
 - **Kanten runden und fasen bei importierten Objekten (STL, 3MF, OBJ …):** „◇ Kanten“ im Objekt-Fenster (Taste K). Je Kante zwei ebene Flächen anklicken, die sich an einer geraden Kante treffen – die erste Fläche wird blau hinterlegt, die erkannte Kante rot markiert (mit Länge und Winkel). Mehrere Kanten möglich, dann Rundung oder Fase mit Wert in mm „Anwenden“. Außenkanten werden abgetragen, Innenkanten (Kehlen) aufgefüllt; funktioniert bei jedem Winkel. Mit „Zurück“ rückgängig.
