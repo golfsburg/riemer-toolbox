@@ -3,6 +3,14 @@
 Kompakter 3D-Viewer und -Editor im Browser für den 3D-Druck · #ritl_mesh
 Neueste Version oben. V1.0–V1.8 als Einzeldatei entwickelt (nicht in der Toolbox veröffentlicht).
 
+## V2.7.12 · 21.11.2026 · DEV
+**Neu**
+- **Kanten runden und fasen bei importierten Objekten (STL, 3MF, OBJ …):** „◇ Kanten“ im Objekt-Fenster (Taste K). Je Kante zwei ebene Flächen anklicken, die sich an einer geraden Kante treffen – die erste Fläche wird blau hinterlegt, die erkannte Kante rot markiert (mit Länge und Winkel). Mehrere Kanten möglich, dann Rundung oder Fase mit Wert in mm „Anwenden“. Außenkanten werden abgetragen, Innenkanten (Kehlen) aufgefüllt; funktioniert bei jedem Winkel. Mit „Zurück“ rückgängig.
+- Solange der Kanten-Modus läuft, zählen Klicks nur am gewählten Objekt – andere Objekte davor stören nicht.
+
+**Hinweis**
+- Nur gerade Kanten zwischen ebenen Flächen; gekrümmte Flächen gehen nicht. Das Modell muss geschlossen sein. Treffen sich mehrere gerundete Kanten an einer Ecke, wird die Ecke nicht kugelförmig ausgerundet.
+
 ## V2.7.11 · 21.11.2026 · DEV
 **Neu**
 - **Mit Pfeiltasten verschieben:** Gewählte Objekte mit ← → in X, ↑ ↓ in Y und Bild↑/Bild↓ (oder Alt+↑/↓) in Z schieben; mit Shift zehnmal so weit. Gilt für Global bzw. die Achsen des Objekts. Schnell hintereinander gedrückte Tasten nimmt ein einziges „Zurück“ wieder zurück.
