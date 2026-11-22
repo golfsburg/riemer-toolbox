@@ -3,6 +3,15 @@
 GPS-Tracks (GPX) lokal im Browser in 2D und 3D darstellen, analysieren, bearbeiten und animieren · #ritl_track
 Neueste Version oben. Versionen ≤ V1.9 in Google AI Studio entwickelt und nachträglich zusammengefasst (keine Einzelstände erhalten).
 
+## V3.3.15 · 22.11.2026 · DEV
+**Neu**
+- **EXPORT › Video › Einblendungen:** für **Fotos**, **Wegpunkte**, **Notizen**, **Abschnitte** und **Runden** je **Ein/Aus** und **Dauer (s)**. Erreicht die Animation eine Markierung, erscheint rechts eine Karte (Fotos wie bisher; Wegpunkt/Notiz mit Name, Notiztext, km und Höhe; Abschnitt mit Länge, Höhenmetern, Steigung, Zeit und Tempo; Runde nach dem Ende mit Rundenzeit, Tempo und Abstand zur Bestzeit, die Bestzeit mit ★).
+- **Die Animation hält während jeder Einblendung an** und läuft danach weiter (auch die Geister). Das Video wird entsprechend länger; der Ablauf zeigt „Animation (… s + … s für n Einblendungen)“.
+
+**Geändert**
+- **TRACK › Karte:** Auch die Klick-Werkzeuge + Wegpunkt, + Notiz und + Foto erscheinen nur, wenn der ausgewählte Track angezeigt wird (wie die Leiste „⌖ km“). „Auswählen“ bleibt.
+- Das Feld „Foto (s)“ ist in die Einblendungen gewandert.
+
 ## V3.3.14 · 22.11.2026 · DEV
 **Geändert**
 - **TRACK › Leiste „⌖ km“** (+ Wegpunkt, + Notiz, 📷 Foto, ⇤ Abschnitt / Runde ab hier) erscheint nur, wenn der ausgewählte Track auch angezeigt wird. Ist er ausgeblendet, verschwindet die Leiste – so landet nichts auf einem unsichtbaren Track.
