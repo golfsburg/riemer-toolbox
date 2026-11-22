@@ -3,6 +3,11 @@
 GPS-Tracks (GPX) lokal im Browser in 2D und 3D darstellen, analysieren, bearbeiten und animieren · #ritl_track
 Neueste Version oben. Versionen ≤ V1.9 in Google AI Studio entwickelt und nachträglich zusammengefasst (keine Einzelstände erhalten).
 
+## V3.3.14 · 22.11.2026 · DEV
+**Geändert**
+- **TRACK › Leiste „⌖ km“** (+ Wegpunkt, + Notiz, 📷 Foto, ⇤ Abschnitt / Runde ab hier) erscheint nur, wenn der ausgewählte Track auch angezeigt wird. Ist er ausgeblendet, verschwindet die Leiste – so landet nichts auf einem unsichtbaren Track.
+- **Teilbild „Runden“:** Fußzeile und Statuszeile zeigen „Runden (n)“ statt „2D“.
+
 ## V3.3.13 · 22.11.2026 · DEV
 **Neu**
 - **EXPORT › Teilbild: „Runden“** neben 2D Draufsicht und 3D Raum – das Teilbild zeigt statt der Karte die Rundenanalyse: je Runde ein Balken (Länge = Ø Tempo), Zeit, Abstand zur Bestzeit, Höhenmeter und Ø Puls; die Bestzeit ist grün mit ★ markiert. Kennzahlen und Höhenprofil bleiben daneben. In allen Formaten und Farbstilen.
