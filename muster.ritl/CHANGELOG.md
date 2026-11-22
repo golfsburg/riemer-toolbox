@@ -3,6 +3,13 @@
 Vorlage und Spielwiese für den Skill `/riemer-webapp-design` · #ritl_muster
 Neueste Version oben. Versionen ≤ V2.2 nachträglich aus den veröffentlichten Ständen (Tabelle `tool_versions`) rekonstruiert.
 
+## V3.9.1 · 22.11.2026 · DEV
+**Geändert**
+- **Am Handy und Tablet:** Eingabefelder in 16 px – iOS zoomt beim Antippen nicht mehr hinein.
+- Fenster erscheinen am Handy als Blatt von unten über die volle Breite; die Seite dahinter scrollt nicht mit.
+- Platz für Notch und Home-Leiste (Safe-Area); Knöpfe reagieren ohne Verzögerung auf Tippen.
+- Vorlage für alle Tools: Mobil-Grundpaket als eigener Block `<style id="ritl-mobil">` (Rollout R-17, Skill riemer-webapp-mobil).
+
 ## V3.9 · 19.11.2026 · DEV
 **Neu**
 - **Backup-Baustein ritl-bk 2.1:** Abgleich auf Knopfdruck, eigene Abschnitte im Fenster „Backup“ und weitere Möglichkeiten für alle RIEMER Tools – MUSTER.ritl ist die Vorlage dafür.

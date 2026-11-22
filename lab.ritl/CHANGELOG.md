@@ -3,6 +3,12 @@
 Testfeld für RIEMER Tools als installierbare App · #ritl_lab
 Abgeleitet aus MUSTER.ritl V3.8 › SETUP.ritl. Neueste Version oben.
 
+## V1.0.1 · 22.11.2026 · DEV
+**Geändert**
+- **Am Handy und Tablet:** Eingabefelder in 16 px – iOS zoomt beim Antippen nicht mehr hinein.
+- Fenster erscheinen am Handy als Blatt von unten über die volle Breite; die Seite dahinter scrollt nicht mit.
+- Platz für Notch und Home-Leiste (Safe-Area); Knöpfe reagieren ohne Verzögerung auf Tippen.
+
 ## V1.0 · 19.11.2026 · DEV
 **Neu**
 - **Als App installieren:** In Chrome und Edge am Computer lässt sich LAB.ritl installieren („App installieren“ im Header oder im Panel 03). Danach startet es vom Desktop, aus dem Startmenü bzw. der Taskleiste im eigenen Fenster ohne Adressleiste – wie ein Programm.
