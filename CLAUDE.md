@@ -29,7 +29,7 @@ Arbeitsanweisungen für Claude Code. Sprache: Deutsch, Du-Form, kurz.
 | --- | --- |
 | `index.html` | Startseite / Katalog (liest Tools aus Supabase) |
 | `my/` | myTOOLBOX.ritl – Kundenansicht nach Anmeldung |
-| `lizenz/loader.js` | Lizenz-Loader: prüft Schlüssel, lädt Tool-HTML per `document.write` |
+| `lizenz/loader.js` | Lizenz-Loader: prüft Schlüssel höchstens 1× pro Tag und Gerät (Regel S-22, Tagesspeicher IndexedDB `riemer_lizenz`, `?neu` erzwingt Prüfung), lädt Tool-HTML per `document.write` |
 | `lizenz/admin.html` | Lizenz-Admin (Edge Function `license-admin`, Header `x-admin-token`) |
 | `lizenz/LIZENZVERWALTUNG.md` | SQL-Befehle und Ablauf Lizenzverwaltung |
 | `ritl-ui/ritl-ui.html` | Zentraler Header-Kit RITL-UI (+ CHANGELOG) |

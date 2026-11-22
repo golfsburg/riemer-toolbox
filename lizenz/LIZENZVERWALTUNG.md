@@ -416,3 +416,16 @@ update licenses set quota_mb = 200 where key_hint = 'XXXX';
 - **Abruf in der Webapp:** Edge Function `score-club`, Aktionen `posting` (Hintergrund der Mannschaft) und `logo` (ÖFB-Wappen als data-URL, nur Pfade `/netzwerk/imagedownload/…`) – Lizenz + Gerät, ohne PIN.
 - Der Import speichert je Spiel `heim_logo`/`gast_logo` (Pfade auf vereine.oefb.at), `gegner_oefb` (voller ÖFB-Name des Gegners) und `tore_liste` (Torschützen mit vollem Namen und Minute, für die Vornamen im Posting).
 
+
+## Lizenzprüfung einmal pro Tag und Gerät (S-22)
+
+Der Loader (`lizenz/loader.js`, ebenso die eigene Anmeldeseite `msx-builder/index.html`) fragt `license-check`
+nur beim ersten Öffnen eines Tools am Tag (Kalendertag Wien). Danach startet das Tool am selben Tag aus dem
+Tagesspeicher des Browsers (IndexedDB `riemer_lizenz`) – ohne Serveranfrage und ohne Eintrag in `license_log`.
+
+- Neu geprüft: am nächsten Tag, nach Anmeldung über das Formular, bei anderem Schlüssel/E-Mail/Gerät, mit **`?neu`**.
+- Gelöscht: mit `?abmelden`, nach „Abmelden“, bei `invalid_key`, `invalid_login`, `email_required`, `revoked`, `expired`,
+  `tool_not_licensed`, `device_limit`.
+- Wirkung im Admin: Eine **gesperrte oder abgelaufene Lizenz** läuft auf Geräten, die heute schon geprüft haben, bis
+  Tagesende weiter (zentrales Backup und Sync werden am Server sofort abgelehnt). Neue Versionen/Kanäle kommen am
+  nächsten Tag – zum Testen `?neu` an die Adresse hängen (z. B. `…/drive.ritl/?neu`).
