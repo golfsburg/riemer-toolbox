@@ -3,6 +3,10 @@
 GPS-Tracks (GPX) lokal im Browser in 2D und 3D darstellen, analysieren, bearbeiten und animieren · #ritl_track
 Neueste Version oben. Versionen ≤ V1.9 in Google AI Studio entwickelt und nachträglich zusammengefasst (keine Einzelstände erhalten).
 
+## V3.3.18 · 22.11.2026 · DEV
+**Neu**
+- **Tacho im Video: Schleppzeiger** – ein oranger Zeiger hängt an der Tachonadel, wird beim Beschleunigen auf das bisher höchste Tempo geschoben und bleibt dort stehen, wenn das Tempo wieder sinkt. Unter der Zahl steht „KM/H · MAX …“. Beim Zurückspulen oder Springen in der Vorschau stimmt der Wert immer mit der Position überein.
+
 ## V3.3.17 · 22.11.2026 · DEV
 **Neu**
 - **EXPORT › Video › „Tacho einblenden“:** Rundinstrument unten links über der Karte – Zeiger und Bogen (grün → gelb → rot) zeigen das aktuelle Tempo, darunter die Zahl in km/h und die Steigung. Die Skala richtet sich nach der Höchstgeschwindigkeit des Tracks. Passt sich Farbstil und Format an; während Einblendungen steht er mit der Animation. Wird je Gerät gemerkt.
