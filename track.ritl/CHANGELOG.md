@@ -3,6 +3,16 @@
 GPS-Tracks (GPX) lokal im Browser in 2D und 3D darstellen, analysieren, bearbeiten und animieren · #ritl_track
 Neueste Version oben. Versionen ≤ V1.9 in Google AI Studio entwickelt und nachträglich zusammengefasst (keine Einzelstände erhalten).
 
+## V3.3.11 · 22.11.2026 · DEV
+**Neu**
+- **TRACK › Karte: Leiste „⌖ km“** – setzt an der aktuellen Position der Animation auf dem ausgewählten Track: **+ Wegpunkt**, **+ Notiz**, **📷 Foto** und **Abschnitt** („⇤ Abschnitt ab hier“, dann zur Endposition fahren und „⇥ Abschnitt bis hier“). Daneben bleiben die Werkzeuge zum Setzen per Klick auf die Karte.
+- **ANALYSE › Abschnitte:** neben „Von (km)“ und „Bis (km)“ übernimmt ⌖ die aktuelle Position.
+- **ANALYSE › Wegpunkte:** Auswahl **Wegpunkt** oder **Notiz** beim Setzen an der Position.
+- **Fotos mit Titel und Notiz/Bildtext:** im Foto-Fenster auf der Karte (auch in der fixierten Ansicht) editierbar. Der Bildtext erscheint im Video unter dem Foto statt „Foto“.
+
+**Geändert**
+- „Am Cursor“ heißt jetzt „An Position“. Die Herkunft der Foto-Position (z. B. „Position aus Foto-EXIF“) steht weiter klein unter dem Foto.
+
 ## V3.3.10 · 22.11.2026 · DEV
 **Neu**
 - **EXPORT › Video › Format:** **16:9 Quer** (1280 × 720 / 1920 × 1080), **1:1 Quadrat** (1080 × 1080 / 1280 × 1280) und **4:5 Hoch** (1080 × 1350 / 1280 × 1600) – passend für YouTube, Instagram-Feed und Reels-Vorschau. Bei Quadrat und Hoch nutzt die Karte die zusätzliche Höhe; in der Bilanz stehen Karte, Kennzahlen (3 Spalten) und Höhenprofil untereinander. Auch Intro/Outro und die 3D-Ansicht folgen dem Format.
