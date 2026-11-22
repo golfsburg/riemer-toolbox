@@ -22,6 +22,9 @@ Arbeitsanweisungen für Claude Code. Sprache: Deutsch, Du-Form, kurz.
 - **Stream 2 – Tool-Entwicklung:** Code im privaten Repo, hier nur CHANGELOG/README/Loader des Tools.
 - Eine Sitzung = ein Vorhaben; Vorlagen in `riemer-toolbox-src/docs/SITZUNG.md`.
   Vor Arbeit an einem Tool im privaten Repo `python3 scripts/ritl.py status` – „in Arbeit“ respektieren.
+- **Gemeinsame Bausteine belegen wie Tools:** Vor jeder Änderung an Loader, RITL-UI, ritl-bk, Admin, Startseite/myTOOLBOX,
+  Regeln oder Supabase-Schema im privaten Repo `python3 scripts/ritl.py claim <loader|ritl-ui|ritl-bk|admin|toolbox|standards|server> "Vorhaben"`
+  (commit + push auf `main`), am Ende `release`. Steht der Baustein auf „🛠 in Arbeit“: nicht anfassen, Peter fragen.
 
 ## Aufbau
 
