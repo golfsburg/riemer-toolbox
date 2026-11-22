@@ -3,6 +3,13 @@
 GPS-Tracks (GPX) lokal im Browser in 2D und 3D darstellen, analysieren, bearbeiten und animieren · #ritl_track
 Neueste Version oben. Versionen ≤ V1.9 in Google AI Studio entwickelt und nachträglich zusammengefasst (keine Einzelstände erhalten).
 
+## V3.3.23 · 22.11.2026 · DEV
+**Neu**
+- **Intro TRACK.ritl** (EXPORT › Video › Einblendungen › „Intro, Outro & Wasserzeichen“, Ein/Aus, Dauer – Standard 3 s): die drei Logo-Kacheln fliegen ein, die Spur zeichnet sich, ein Lichtschweif zieht durchs Bild, der Schriftzug „TRACK.ritl“ gleitet hoch, darunter Trackname, Datum, km und Höhenmeter; zum Schluss Zoom-Blende ins Video. Läuft vor einem eigenen Vorspann.
+- **Outro TRACK.ritl** (Ein/Aus, Dauer – Standard 3 s): Logo und Schriftzug, Kurzbilanz (km · Zeit · Höhenmeter · max. Tempo) und „Erstellt mit TRACK.ritl · RIEMER Tools“, sanftes Ausblenden. Läuft nach einem eigenen Abspann.
+- **Wasserzeichen** (Ein/Aus): Logo und „TRACK.ritl“ halbtransparent rechts oben – durchgehend in Animation, Rundenanalyse und Zusammenfassung. Die Legende der Geister rutscht dafür etwas nach unten.
+- Intro, Outro und Wasserzeichen passen sich Farbstil und Format an und werden je Track gemerkt; der Ablauf zeigt sie unter „1. Vorspann“ und „4. Abspann“.
+
 ## V3.3.22 · 22.11.2026 · DEV
 **Neu**
 - **Finale mit der Höchstgeschwindigkeit ein-/ausschaltbar** (eigener Schalter, Dauer weiter einstellbar).
