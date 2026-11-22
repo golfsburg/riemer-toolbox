@@ -3,6 +3,13 @@
 Speisekarten- & Menü-Designer: Sets, Gänge, Speisendatenbank mit Allergenen (LMIV), 6 Druckformate, Export als PDF, PPTX und Druck in exakt einer Seite · #ritl_menu
 Neueste Version oben. Versionen ≤ V1.7 nachträglich rekonstruiert (aus `tool_versions`, Quellen-ZIPs und Repo-Historie).
 
+## V3.0.18 · 22.11.2026 · DEV
+**Neu**
+- **Logos zueinander ausrichten:** Beim Verschieben rastet ein Logo an den anderen Logos derselben Seite ein – oben, Mitte und unten sowie links, Mitte und rechts, jeweils mit roter Hilfslinie. Der Fang in der Mitte von Blatt, Seite und Spalte bleibt. Alt-Taste gedrückt = ohne Fang.
+
+**Behoben**
+- **Mausrad im Modellbereich (MAP.ritl):** Über der Karte scrollte das Mausrad nichts. Jetzt scrollt es die Seite; ist die Fläche gezoomt, fixiert oder bei Editor AUS, scrollt es die Fläche.
+
 ## V3.0.17 · 22.11.2026 · DEV
 **Neu**
 - **Module im Link (Regel S-21):** Jedes Modul hat einen eigenen Link mit `#name` (#sets, #map, #card …). Ein Link oder Lesezeichen öffnet direkt dieses Modul, Neu laden bleibt im Modul, „Zurück“/„Vor“ im Browser wechseln zwischen den zuletzt geöffneten Modulen.
