@@ -3,6 +3,39 @@
 GPS-Tracks (GPX) lokal im Browser in 2D und 3D darstellen, analysieren, bearbeiten und animieren · #ritl_track
 Neueste Version oben. Versionen ≤ V1.9 in Google AI Studio entwickelt und nachträglich zusammengefasst (keine Einzelstände erhalten).
 
+## V3.3.11 · 22.11.2026 · DEV
+**Neu**
+- **TRACK › Karte: Leiste „⌖ km“** – setzt an der aktuellen Position der Animation auf dem ausgewählten Track: **+ Wegpunkt**, **+ Notiz**, **📷 Foto** und **Abschnitt** („⇤ Abschnitt ab hier“, dann zur Endposition fahren und „⇥ Abschnitt bis hier“). Daneben bleiben die Werkzeuge zum Setzen per Klick auf die Karte.
+- **ANALYSE › Abschnitte:** neben „Von (km)“ und „Bis (km)“ übernimmt ⌖ die aktuelle Position.
+- **ANALYSE › Wegpunkte:** Auswahl **Wegpunkt** oder **Notiz** beim Setzen an der Position.
+- **Fotos mit Titel und Notiz/Bildtext:** im Foto-Fenster auf der Karte (auch in der fixierten Ansicht) editierbar. Der Bildtext erscheint im Video unter dem Foto statt „Foto“.
+
+**Geändert**
+- „Am Cursor“ heißt jetzt „An Position“. Die Herkunft der Foto-Position (z. B. „Position aus Foto-EXIF“) steht weiter klein unter dem Foto.
+
+## V3.3.10 · 22.11.2026 · DEV
+**Neu**
+- **EXPORT › Video › Format:** **16:9 Quer** (1280 × 720 / 1920 × 1080), **1:1 Quadrat** (1080 × 1080 / 1280 × 1280) und **4:5 Hoch** (1080 × 1350 / 1280 × 1600) – passend für YouTube, Instagram-Feed und Reels-Vorschau. Bei Quadrat und Hoch nutzt die Karte die zusätzliche Höhe; in der Bilanz stehen Karte, Kennzahlen (3 Spalten) und Höhenprofil untereinander. Auch Intro/Outro und die 3D-Ansicht folgen dem Format.
+- **EXPORT › Video › Farbstil:** **Kobalt**, **Alpin Dunkel** (bisheriger Stil) und **Hell** – wie beim Teilbild. Gilt für Animation, Bilanz, Höhenprofil, Hinweise und 3D-Hintergrund.
+- Format und Farbstil werden je Gerät gemerkt; die Vorschau passt sich sofort an.
+
+## V3.3.9 · 22.11.2026 · DEV
+**Neu**
+- **EXPORT › 02 Informationen:** Die Reihenfolge der gewählten Kennzahlen lässt sich in der Leiste per **Drag & Drop** ändern – mit der Maus und am Handy/iPad mit dem Finger (Griff ⠿, eine blaue Linie zeigt die Einfügestelle; per Tastatur Alt + ← →). Die Pfeile ‹ › entfallen.
+- **Als Standard speichern:** Die aktuelle Auswahl samt Reihenfolge wird zum eigenen Standard. „Standard laden“ stellt ihn wieder her, „Werkseinstellung“ löscht den eigenen Standard. Der Standard wird gemerkt und mit den Einstellungen gesichert (gilt damit auch auf deinen anderen Geräten).
+
+## V3.3.8 · 22.11.2026 · DEV
+**Neu**
+- **EXPORT › 02 Informationen für Teilbild und Video:** zentrale Auswahl der Kennzahlen (bis zu 9) – Strecke, Trackpunkte, Datum, Start/Ende, Bewegungs-, Gesamt- und Pausenzeit, Ø Tempo, max. Geschwindigkeit, Pace, Höhenmeter bergauf/bergab, höchster und tiefster Punkt, Höhendifferenz, steilster Anstieg und steilstes Gefälle, Ø/max. Puls, Ø Trittfrequenz, Fotos, Wegpunkte. Daneben steht jeweils der Wert des ausgewählten Tracks; die Reihenfolge lässt sich mit ‹ › ändern, „Standard“ setzt zurück. Die Auswahl gilt für das Teilbild (PNG) und die Bilanz im Video, wird gemerkt und mit den Einstellungen gesichert. Werte, die ein Track nicht hat, werden ausgelassen.
+- **Teilen-Blatt am iPhone, iPad und Android:** GPX, KML, GeoJSON, CSV, SVG, Teilbild, Video, Touren-Report (PDF/PowerPoint), PANO-Standbild und Favoriten öffnen das Teilen-Blatt (In Dateien sichern, Video/Bild sichern, AirDrop, Mail …) statt nur einer Vorschau. Nach längerer Erzeugung (Video, PDF) erscheint unten „Teilen / Sichern …“ zum Antippen. Am Computer wird wie bisher heruntergeladen.
+
+**Geändert**
+- Bereiche im EXPORT neu nummeriert (Teilbild 03, Video 04, Touren-Report 05).
+- Kennzahlen im Teilbild und im Video passen sich der Anzahl an (2 oder 3 Spalten); lange Werte werden kleiner geschrieben statt abgeschnitten.
+
+**Behoben**
+- **Zahlenfelder** (Anim. (s), Foto (s), Bilanz (s), Dauer von Intro/Outro, Max-Puls, Ruhepuls, Max Tempo im EDITOR): Beim Löschen oder Tippen sprang der Wert sofort auf 4 bzw. 10. Jetzt lässt sich frei eingeben; geprüft und auf den erlaubten Bereich gesetzt wird erst beim Verlassen des Felds oder mit Enter.
+
 ## V3.3.7 · 21.11.2026 · DEV
 **Geändert**
 - **Handy und iPad:** Alle Knöpfe, Auswahlfelder und Header-Symbole sind mindestens 44 px groß, Häkchen und Auswahlpunkte 24 px mit größerer Trefferfläche – leichter zu treffen. Am Computer bleibt alles wie bisher.
