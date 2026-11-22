@@ -3,6 +3,10 @@
 GPS-Tracks (GPX) lokal im Browser in 2D und 3D darstellen, analysieren, bearbeiten und animieren · #ritl_track
 Neueste Version oben. Versionen ≤ V1.9 in Google AI Studio entwickelt und nachträglich zusammengefasst (keine Einzelstände erhalten).
 
+## V3.3.16 · 22.11.2026 · DEV
+**Neu**
+- **EXPORT › Video › Einblendungen – Abschnitte und Runden ohne Dauer:** Bleibt das Feld „Dauer (s)“ leer, hält die Animation nicht an. Die Karte bleibt sichtbar, solange der Fahrer im Abschnitt bzw. in der Runde ist; der Balken unten zeigt, wie viel noch fehlt. Runde und Abschnitt erscheinen dabei übereinander (Runde oben). Mit eingetragener Dauer gilt weiter: kurz einblenden und anhalten.
+
 ## V3.3.15 · 22.11.2026 · DEV
 **Neu**
 - **EXPORT › Video › Einblendungen:** für **Fotos**, **Wegpunkte**, **Notizen**, **Abschnitte** und **Runden** je **Ein/Aus** und **Dauer (s)**. Erreicht die Animation eine Markierung, erscheint rechts eine Karte (Fotos wie bisher; Wegpunkt/Notiz mit Name, Notiztext, km und Höhe; Abschnitt mit Länge, Höhenmetern, Steigung, Zeit und Tempo; Runde nach dem Ende mit Rundenzeit, Tempo und Abstand zur Bestzeit, die Bestzeit mit ★).
