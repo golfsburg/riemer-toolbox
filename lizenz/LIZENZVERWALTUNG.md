@@ -424,6 +424,7 @@ nur beim ersten Öffnen eines Tools am Tag (Kalendertag Wien). Danach startet da
 Tagesspeicher des Browsers (IndexedDB `riemer_lizenz`) – ohne Serveranfrage und ohne Eintrag in `license_log`.
 
 - Neu geprüft: am nächsten Tag, nach Anmeldung über das Formular, bei anderem Schlüssel/E-Mail/Gerät, mit **`?neu`**.
+- **Ausnahme Kanal Dev:** Ist die Lizenz (bzw. das Tool in `tool_cfg`) im Kanal Dev, wird bei jedem Öffnen geprüft – neue DEV-Versionen kommen sofort.
 - Gelöscht: mit `?abmelden`, nach „Abmelden“, bei `invalid_key`, `invalid_login`, `email_required`, `revoked`, `expired`,
   `tool_not_licensed`, `device_limit`.
 - Wirkung im Admin: Eine **gesperrte oder abgelaufene Lizenz** läuft auf Geräten, die heute schon geprüft haben, bis

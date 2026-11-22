@@ -345,7 +345,9 @@ footer a{color:var(--muted)}footer a:hover{color:var(--accent-text)}
         if (res && res.ok && res.html) {
           store(KEY_STORE, key);
           if (email) store(EMAIL_STORE, email);
-          dayPut({ tag: today(), kid: kid(key, email), html: res.html, version: res.version || "", at: new Date().toISOString() });
+          // S-22: Kanal Dev ausgenommen – dort jedes Mal prüfen, damit neue DEV-Versionen sofort kommen
+          if ((res.license_channel || res.channel) === "dev") dayDel();
+          else dayPut({ tag: today(), kid: kid(key, email), html: res.html, version: res.version || "", at: new Date().toISOString() });
           $("state").textContent = "Lizenz gültig";
           // Tool starten: Startdatei durch den geladenen MSX-Builder ersetzen
           (fromForm && email ? offerSave(email, key) : Promise.resolve()).then(function () {

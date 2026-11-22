@@ -14,6 +14,7 @@
  * (Kalendertag Europe/Vienna, IndexedDB „riemer_lizenz“). Weitere Aufrufe am selben Tag öffnen das Tool ohne
  * Serveranfrage. Neu geprüft wird am nächsten Tag, nach einer Anmeldung über das Formular, bei anderem
  * Schlüssel/E-Mail/Gerät und mit dem URL-Parameter ?neu (z. B. um eine eben veröffentlichte Version zu sehen).
+ * Ausnahme: Lizenzen bzw. Tools im Kanal Dev werden bei jedem Öffnen geprüft (kein Tagesspeicher).
  */
 (function () {
   "use strict";
@@ -211,7 +212,9 @@
         if (res && res.ok && res.html) {
           store(KEY_STORE, key);
           if (email) store(EMAIL_STORE, email);
-          dayPut({ tag: today(), kid: kid(key, email), html: res.html, version: res.version || "", at: new Date().toISOString() });
+          // S-22: Kanal Dev ausgenommen – dort jedes Mal prüfen, damit neue DEV-Versionen sofort kommen
+          if ((res.license_channel || res.channel) === "dev") dayDel();
+          else dayPut({ tag: today(), kid: kid(key, email), html: res.html, version: res.version || "", at: new Date().toISOString() });
           (fromForm && email ? offerSave(email, key) : Promise.resolve()).then(function () {
             document.open();
             document.write(res.html);
