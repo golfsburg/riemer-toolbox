@@ -3,6 +3,10 @@
 Speisekarten- & Menü-Designer: Sets, Gänge, Speisendatenbank mit Allergenen (LMIV), 6 Druckformate, Export als PDF, PPTX und Druck in exakt einer Seite · #ritl_menu
 Neueste Version oben. Versionen ≤ V1.7 nachträglich rekonstruiert (aus `tool_versions`, Quellen-ZIPs und Repo-Historie).
 
+## V3.0.21 · 22.11.2026 · DEV
+**Geändert**
+- **„Neues Set daraus“ / „＋ Neues Set“ (MAP):** Statt eines Sets wählst du nur noch das **Format** des neuen Sets (A4 Hoch 2-/1-spaltig, Klappkarte, A5, Wickelfalz, Aufsteller). Übernommen werden immer alle Gänge, Texte und Speisen sowie Design, Logos und Einstellungen; das Fenster nennt, wie viele Gänge und Speisen es sind. „Neues Set“ in der Toolbar von SETS.ritl bleibt wie bisher (Ausgangsbasis oder leere Karte).
+
 ## V3.0.20 · 22.11.2026 · DEV
 **Neu**
 - **Neues Set auf Basis eines bestehenden Sets:** In SETS.ritl hat jede Karte „＋ Neues Set daraus“, in MAP.ritl steht „＋ Neues Set“ links neben „＋ Logo“ (auch bei Editor AUS). Es öffnet sich „Neues Set“ mit diesem Set als Basis und dem Namen „… (neu)“ zum Ändern. Das neue Set übernimmt Inhalt und Design und ist danach aktiv; in MAP bleibt man in MAP.
