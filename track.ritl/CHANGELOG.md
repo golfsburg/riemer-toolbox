@@ -3,6 +3,12 @@
 GPS-Tracks (GPX) lokal im Browser in 2D und 3D darstellen, analysieren, bearbeiten und animieren · #ritl_track
 Neueste Version oben. Versionen ≤ V1.9 in Google AI Studio entwickelt und nachträglich zusammengefasst (keine Einzelstände erhalten).
 
+## V3.3.13 · 22.11.2026 · DEV
+**Neu**
+- **EXPORT › Teilbild: „Runden“** neben 2D Draufsicht und 3D Raum – das Teilbild zeigt statt der Karte die Rundenanalyse: je Runde ein Balken (Länge = Ø Tempo), Zeit, Abstand zur Bestzeit, Höhenmeter und Ø Puls; die Bestzeit ist grün mit ★ markiert. Kennzahlen und Höhenprofil bleiben daneben. In allen Formaten und Farbstilen.
+- **EXPORT › Video: Rundenanalyse als eigene Phase** nach der Track-Animation (vor der Zusammenfassung): Titel gleitet herein, die Balken wachsen Runde für Runde, Zeiten zählen hoch, danach erscheinen die Abstände und die Bestzeit leuchtet. Ein-/ausschaltbar („Rundenanalyse im Video“), Dauer einstellbar (Runden (s), Standard 6 s). In der Vorschau gibt es dafür den Knopf „Runden“; der Ablauf zeigt „2b. Rundenanalyse“.
+- Runden kommen aus ANALYSE › Abschnitte & Bestzeiten › Runden (erkannt oder selbst angelegt).
+
 ## V3.3.12 · 22.11.2026 · DEV
 **Neu**
 - **Runden selbst definieren:** In ANALYSE › Abschnitte & Bestzeiten › Runden gibt es jetzt wie bei Abschnitten Name, Von (km), Bis (km) – jeweils mit ⌖ für die aktuelle Position – und „+ Runde hinzufügen“. Selbst angelegte Runden erscheinen im Bestzeit-Vergleich und bleiben erhalten, wenn „Runden erkennen“ erneut läuft.
