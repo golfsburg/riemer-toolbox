@@ -3,6 +3,11 @@
 GPS-Tracks (GPX) lokal im Browser in 2D und 3D darstellen, analysieren, bearbeiten und animieren · #ritl_track
 Neueste Version oben. Versionen ≤ V1.9 in Google AI Studio entwickelt und nachträglich zusammengefasst (keine Einzelstände erhalten).
 
+## V3.3.29 · 22.11.2026 · DEV
+**Geändert**
+- **Backup intern vereinfacht** (Optionen des Bausteins ritl-bk statt eigener Umwege): Der Abgleich mit Server bzw. Ordner und das zentrale Sichern starten erst, wenn TRACK.ritl seine Tracks geladen hat.
+- Ein in V3.2 oder älter verknüpfter Ordner wird beim ersten Start übernommen, ohne dass TRACK.ritl dafür einmal neu lädt.
+
 ## V3.3.28 · 22.11.2026 · DEV
 **Entfernt**
 - **Zurücksetzen („Neu beginnen“)** im Header entfernt – der Knopf hat alle Tracks, Markierungen und Fotos ohne Rückfrage durch die Beispiel-Tracks ersetzt. Beispiel-Tracks lassen sich weiterhin über „Beispiel laden“ öffnen.

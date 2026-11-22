@@ -3,6 +3,11 @@
 Fahrtenbuch, Fahrzeuge, Tanken, Werkstatt, Pickerl §57a und Statistik · #ritl_drive
 Neueste Version oben.
 
+## V2.4.3 · 22.11.2026 · DEV
+**Geändert**
+- **Aktualisieren ohne Neuladen:** Mit Geräte-Abgleich (C · Server bzw. B · Ordner) gleicht **Mehr › Aktualisieren** bzw. das Ziehen nach unten in der Home-Bildschirm-App jetzt sofort ab – neuere Stände werden geholt, eigene Änderungen gesendet, mit Meldung „Abgeglichen“. Die App wird dabei nicht mehr neu geladen; eine neue Version holt weiter **App neu laden**. Ohne Geräte-Abgleich lädt „Aktualisieren“ wie bisher neu.
+- **Backup:** Geöffnetes Modul und auf-/zugeklappte Bereiche werden wieder mitgesichert und beim Wiederherstellen eines Backups übernommen. Sie zählen nicht als Änderung (kein neuer Stand am Server, im Ordner oder in der Historie), und der automatische Abgleich zwischen Geräten lässt die Ansicht jedes Geräts unverändert.
+
 ## V2.4.2 · 22.11.2026 · DEV
 **Neu**
 - **Module im Link (Regel S-21):** Jedes Modul hat einen eigenen Link mit `#name` (#fahrt, #log, #tank …). Ein Link oder Lesezeichen öffnet direkt dieses Modul, Neu laden bleibt im Modul, „Zurück“/„Vor“ im Browser wechseln zwischen den zuletzt geöffneten Modulen.

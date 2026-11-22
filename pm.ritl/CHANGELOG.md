@@ -3,6 +3,10 @@
 Projektmanagement: Projekt-Portfolio mit Gewerken, Anwendungen und Businesses (Lead › Spezifikation Opportunity › Spezifikation › Opportunity), Umsatzplan, Dashboard und Zeitplan · #ritl_pm
 Neueste Version oben. Versionen ≤ V1.1 nachträglich rekonstruiert (Projektmanager V1.x, selbstspeichernde HTML-Datei).
 
+## V3.1.20 · 22.11.2026 · DEV
+**Geändert**
+- **Backup intern vereinfacht:** PM.ritl gleicht erst mit dem Server bzw. Ordner ab, wenn alle Projekte geladen sind – jetzt über den gemeinsamen Backup-Baustein statt über eine eigene Sperre. Für Nutzer ändert sich nichts: auch bei langsamem Browser-Speicher wird nie ein leerer Stand gesendet und es entsteht kein Konflikt.
+
 ## V3.1.19 · 22.11.2026 · DEV
 **Neu**
 - **Module im Link (Regel S-21):** Jedes Modul hat einen eigenen Link mit `#name` (#portfolio, #dash, #plan …). Ein Link oder Lesezeichen öffnet direkt dieses Modul, Neu laden bleibt im Modul, „Zurück“/„Vor“ im Browser wechseln zwischen den zuletzt geöffneten Modulen.

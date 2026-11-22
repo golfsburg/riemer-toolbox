@@ -3,6 +3,14 @@
 Leistungsverzeichnisse nach ÖNORM A 2063 mit Materiallisten, Bieterangeboten und ONLV-Export · #ritl_lv
 Neueste Version oben. Versionen ≤ V9.2 nachträglich rekonstruiert (aus `tool_versions` und den Quellen-ZIPs).
 
+## V10.0.5 · 22.11.2026 · DEV
+**Geändert**
+- **Backup intern vereinfacht** (Optionen des Bausteins ritl-bk statt eigener Umwege): Der Abgleich mit Server bzw. Ordner und das zentrale Sichern starten erst, wenn LV.ritl seine Daten geladen hat; nach dem Übernehmen eines Stands lädt LV.ritl neu, sobald alles (auch die Dateien vom Server) übernommen ist. „04 Dateiablage“ im Fenster „Backup“ sieht aus und funktioniert wie bisher.
+- **Auf-/Zuklappen gilt nicht mehr als Änderung:** Es entsteht dadurch kein neuer Stand am Server, im Ordner oder in der Historie. Der Zustand wird mit der nächsten echten Änderung mitgesichert.
+
+**Behoben**
+- Ein Gerät, das einen Stand vom Server übernommen hatte, schickte ihn nach dem Neuladen unverändert noch einmal – das andere Gerät meldete dann beim nächsten Speichern einen Konflikt.
+
 ## V10.0.4 · 22.11.2026 · DEV
 **Neu**
 - **Teilen-Blatt beim Speichern am Handy und Tablet:** Exporte und „Backup speichern“ öffnen am Touchscreen das Teilen-Blatt („In Dateien sichern“, AirDrop, Mail) – in der Home-Bildschirm-App zeigte iOS Downloads bisher nur als Vorschau. Am Computer bleibt es beim normalen Download; lässt der Browser das Teilen nicht zu, wird ebenfalls normal geladen.
