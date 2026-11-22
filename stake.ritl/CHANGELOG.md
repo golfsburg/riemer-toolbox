@@ -3,6 +3,10 @@
 Beziehungs- und Stakeholder-Map für Firmen, Ansprechpartner, Projekte und Gewerke · #ritl_stake
 Neueste Version oben.
 
+## V2.6.4 · 22.11.2026 · DEV
+**Geändert**
+- **Backup intern vereinfacht:** Ältere Backup- und Favoriten-Dateien aus der Zeit vor STAKE.ritl (MUSTER.ritl) nimmt jetzt der gemeinsame Backup-Baustein an – beim Wiederherstellen, beim Favoriten-Import und auch aus dem verknüpften Ordner. Für Nutzer ändert sich sonst nichts.
+
 ## V2.6.3 · 22.11.2026 · DEV
 **Neu**
 - **Module im Link (Regel S-21):** Jedes Modul hat einen eigenen Link mit `#name` (#map, #data). Ein Link oder Lesezeichen öffnet direkt dieses Modul, Neu laden bleibt im Modul, „Zurück“/„Vor“ im Browser wechseln zwischen den zuletzt geöffneten Modulen.

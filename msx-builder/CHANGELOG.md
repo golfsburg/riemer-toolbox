@@ -4,6 +4,14 @@
 Start: index.html im Browser öffnen (Chrome/Edge/Firefox) oder auf GitHub Pages ablegen.
 Beim Öffnen wird die Beispielzeichnung „Beispiel_Schnitt.dxf“ geladen.
 
+## V5.7.6 · 22.11.2026 · DEV
+**Geändert**
+- **Backup intern vereinfacht:** MSX.ritl gleicht erst mit dem Server bzw. Ordner ab, wenn das Projekt aus dem Browser geladen ist, und baut ein Projekt vom Server auf, sobald auch die Originaldateien da sind – beides jetzt über den gemeinsamen Backup-Baustein.
+
+**Behoben**
+- Bei C3 wird ein geändertes Projekt von einem anderen Gerät beim Abgleich zuverlässig übernommen (mit allen Originalen).
+- Langsamer Browser-Speicher beim Start löst keinen neuen Stand am Server mehr aus und entfernt dort keine Originaldateien.
+
 ## V5.7.5 · 22.11.2026 · DEV
 **Neu**
 - **Teilen-Blatt beim Speichern am Handy und Tablet:** Exporte und „Backup speichern“ öffnen am Touchscreen das Teilen-Blatt („In Dateien sichern“, AirDrop, Mail) – in der Home-Bildschirm-App zeigte iOS Downloads bisher nur als Vorschau. Am Computer bleibt es beim normalen Download; lässt der Browser das Teilen nicht zu, wird ebenfalls normal geladen.

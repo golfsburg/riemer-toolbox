@@ -3,6 +3,10 @@
 Fardriver-Controller einstellen und simulieren – Ströme, Gänge, Kurven und Funktionen mit Wirkung auf Tempo, Beschleunigung und Reichweite · #ritl_foc
 Neueste Version oben. Versionen ≤ V1.2 waren Entwürfe im Chat und wurden nicht veröffentlicht.
 
+## V1.7.4 · 22.11.2026 · DEV
+**Geändert**
+- **Backup intern vereinfacht:** Ein Wechsel von Modul, Diagramm oder Gang und das Auf-/Zuklappen von Bereichen gilt nicht mehr als Änderung – es entsteht kein neuer Stand am Server, im Ordner oder in der Historie. Die Ansicht wird weiter mitgesichert und beim Wiederherstellen eines Backups übernommen; der automatische Abgleich zwischen Geräten lässt die Ansicht jedes Geräts unverändert.
+
 ## V1.7.3 · 22.11.2026 · DEV
 **Neu**
 - **Module im Link (Regel S-21):** Jedes Modul hat einen eigenen Link mit `#name` (#tune, #sim, #func …). Ein Link oder Lesezeichen öffnet direkt dieses Modul, Neu laden bleibt im Modul, „Zurück“/„Vor“ im Browser wechseln zwischen den zuletzt geöffneten Modulen.
