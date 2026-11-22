@@ -3,6 +3,12 @@
 GPS-Tracks (GPX) lokal im Browser in 2D und 3D darstellen, analysieren, bearbeiten und animieren · #ritl_track
 Neueste Version oben. Versionen ≤ V1.9 in Google AI Studio entwickelt und nachträglich zusammengefasst (keine Einzelstände erhalten).
 
+## V3.3.10 · 22.11.2026 · DEV
+**Neu**
+- **EXPORT › Video › Format:** **16:9 Quer** (1280 × 720 / 1920 × 1080), **1:1 Quadrat** (1080 × 1080 / 1280 × 1280) und **4:5 Hoch** (1080 × 1350 / 1280 × 1600) – passend für YouTube, Instagram-Feed und Reels-Vorschau. Bei Quadrat und Hoch nutzt die Karte die zusätzliche Höhe; in der Bilanz stehen Karte, Kennzahlen (3 Spalten) und Höhenprofil untereinander. Auch Intro/Outro und die 3D-Ansicht folgen dem Format.
+- **EXPORT › Video › Farbstil:** **Kobalt**, **Alpin Dunkel** (bisheriger Stil) und **Hell** – wie beim Teilbild. Gilt für Animation, Bilanz, Höhenprofil, Hinweise und 3D-Hintergrund.
+- Format und Farbstil werden je Gerät gemerkt; die Vorschau passt sich sofort an.
+
 ## V3.3.9 · 22.11.2026 · DEV
 **Neu**
 - **EXPORT › 02 Informationen:** Die Reihenfolge der gewählten Kennzahlen lässt sich in der Leiste per **Drag & Drop** ändern – mit der Maus und am Handy/iPad mit dem Finger (Griff ⠿, eine blaue Linie zeigt die Einfügestelle; per Tastatur Alt + ← →). Die Pfeile ‹ › entfallen.
