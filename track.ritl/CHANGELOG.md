@@ -3,6 +3,16 @@
 GPS-Tracks (GPX) lokal im Browser in 2D und 3D darstellen, analysieren, bearbeiten und animieren · #ritl_track
 Neueste Version oben. Versionen ≤ V1.9 in Google AI Studio entwickelt und nachträglich zusammengefasst (keine Einzelstände erhalten).
 
+## V3.3.28 · 22.11.2026 · DEV
+**Entfernt**
+- **Zurücksetzen („Neu beginnen“)** im Header entfernt – der Knopf hat alle Tracks, Markierungen und Fotos ohne Rückfrage durch die Beispiel-Tracks ersetzt. Beispiel-Tracks lassen sich weiterhin über „Beispiel laden“ öffnen.
+
+## V3.3.27 · 22.11.2026 · DEV
+**Geändert**
+- **EXPORT › Video:** Die Laufzeiten „Animation“ und „Bilanz“ stehen jetzt ganz oben in der Tabelle „Einblendungen“ als eigene Gruppe „Animation & Bilanz“ (mit (i)); darunter folgen die Markierungen unter eigener Überschrift.
+- **Ghost-Tempo / Zeitraffer** lässt sich auf- und zuklappen (zu beim Start, Zustand wird gemerkt); im Kopf stehen Faktor und Anzahl der Ghosts.
+- **Handy:** Die (i)-Knöpfe sind kleiner (20 px), die Tippfläche bleibt groß genug.
+
 ## V3.3.26 · 22.11.2026 · DEV
 **Geändert**
 - **EXPORT › Video:** Beschreibungen stehen nicht mehr im Bereich, sondern in Fenstern hinter (i) – bei „Einblendungen“ (Kopf mit Erklärung und aktueller Summe der Pausen), den Zeilen Fotos, Wegpunkte, Notizen, Abschnitte und Runden (Anzahl als kleine Zahl neben dem Namen), „Tacho & Rundenanalyse“ mit Tacho, Finale und Rundenanalyse, „Fotos bei Position“ sowie „Vorspann (Intro)“ und „Abspann (Outro)“.
