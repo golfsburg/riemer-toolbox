@@ -3,6 +3,10 @@
 GPS-Tracks (GPX) lokal im Browser in 2D und 3D darstellen, analysieren, bearbeiten und animieren · #ritl_track
 Neueste Version oben. Versionen ≤ V1.9 in Google AI Studio entwickelt und nachträglich zusammengefasst (keine Einzelstände erhalten).
 
+## V3.3.24 · 22.11.2026 · DEV
+**Neu**
+- **Module im Link (Regel S-21):** Jedes Modul hat einen eigenen Link mit `#name` (#track, #analyse, #editor …). Ein Link oder Lesezeichen öffnet direkt dieses Modul, Neu laden bleibt im Modul, „Zurück“/„Vor“ im Browser wechseln zwischen den zuletzt geöffneten Modulen.
+
 ## V3.3.23 · 22.11.2026 · DEV
 **Neu**
 - **Intro TRACK.ritl** (EXPORT › Video › Einblendungen › „Intro, Outro & Wasserzeichen“, Ein/Aus, Dauer – Standard 3 s): die drei Logo-Kacheln fliegen ein, die Spur zeichnet sich, ein Lichtschweif zieht durchs Bild, der Schriftzug „TRACK.ritl“ gleitet hoch, darunter Trackname, Datum, km und Höhenmeter; zum Schluss Zoom-Blende ins Video. Läuft vor einem eigenen Vorspann.
