@@ -187,7 +187,7 @@ footer a{color:var(--muted)}footer a:hover{color:var(--accent-text)}
    <li>E-Mail-Adresse und Lizenzschlüssel <code>RITL-XXXX-XXXX-XXXX-XXXX</code> eingeben (Schlüssel mit dem Auge-Symbol sichtbar machen) und <b>Freischalten</b> klicken.</li>
    <li>Der MSX-Builder wird geladen und startet. Beim nächsten Öffnen wird der gespeicherte Schlüssel automatisch geprüft.</li>
   </ol>
-  <p class="small">Die Lizenz wird einmal pro Tag und Gerät geprüft (dafür ist eine Internetverbindung nötig); am selben Tag startet der MSX-Builder danach ohne erneute Prüfung. Neu prüfen und die neueste Version laden: <code>?neu</code> an den Dateipfad anhängen. Jeder Browser auf jedem Rechner zählt als eigenes Gerät.</p>
+  <p class="small">Die Lizenz wird einmal pro Tag und Gerät geprüft (dafür ist eine Internetverbindung nötig); am selben Tag startet der MSX-Builder danach ohne erneute Prüfung. Neu prüfen und die neueste Version laden: Seite neu laden oder <code>?neu</code> an den Dateipfad anhängen. Jeder Browser auf jedem Rechner zählt als eigenes Gerät.</p>
   <p class="small">Anderen Schlüssel verwenden: in der Adresszeile <code>?abmelden</code> an den Dateipfad anhängen und Enter drücken.</p>
  </div>
  <div class="df"><button class="btn primary" type="button" id="help-close">Verstanden</button></div>
@@ -379,7 +379,9 @@ footer a{color:var(--muted)}footer a:hover{color:var(--accent-text)}
   });
 
   if (/[?&]abmelden\b/.test(location.search)) { store(KEY_STORE, null); dayDel(); }
-  var FRESH = /[?&]neu\b/.test(location.search);   // ?neu: Tagesspeicher übergehen und neu prüfen (S-22)
+  // ?neu oder Neu laden (Browser-Reload, am iPhone herunterwischen): Tagesspeicher übergehen und neu prüfen (S-22, wie Loader 1.1)
+  var FRESH = /[?&]neu\b/.test(location.search) || (function () { try { var n = performance.getEntriesByType && performance.getEntriesByType("navigation")[0];
+    return n ? n.type === "reload" : (performance.navigation && performance.navigation.type === 1); } catch (e) { return false; } })();
   var saved = store(KEY_STORE);
   if (saved && formatKey(saved) !== saved) { saved = formatKey(saved); store(KEY_STORE, saved); }
   if (saved) {

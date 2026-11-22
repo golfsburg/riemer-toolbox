@@ -9,12 +9,12 @@
  * erfolgreicher Lizenzprüfung vom Server geladen.
  * URL-Parameter ?abmelden entfernt den gespeicherten Schlüssel auf diesem Gerät.
  *
- * Regel S-22 – Lizenzprüfung höchstens einmal pro Tag und Gerät:
- * Nach einer erfolgreichen Prüfung merkt sich der Loader das ausgelieferte Tool für den laufenden Tag
- * (Kalendertag Europe/Vienna, IndexedDB „riemer_lizenz“). Weitere Aufrufe am selben Tag öffnen das Tool ohne
- * Serveranfrage. Neu geprüft wird am nächsten Tag, nach einer Anmeldung über das Formular, bei anderem
- * Schlüssel/E-Mail/Gerät und mit dem URL-Parameter ?neu (z. B. um eine eben veröffentlichte Version zu sehen).
- * Ausnahme: Lizenzen bzw. Tools im Kanal Dev werden bei jedem Öffnen geprüft (kein Tagesspeicher).
+ * Lizenzprüfung einmal pro Tag (Loader 1.1): Nach erfolgreicher Prüfung wird das ausgelieferte Tool
+ * für den laufenden Tag auf dem Gerät gemerkt (IndexedDB). Weitere Aufrufe am selben Tag öffnen diese
+ * Kopie ohne Serveranfrage. Neu laden (Browser-Reload, am iPhone herunterwischen) oder ?neu prüft
+ * sofort und holt die aktuelle Version.
+ * Ausnahme Kanal Dev (Regel S-22): Lizenzen bzw. Tools im Kanal Dev werden bei jedem Öffnen geprüft –
+ * neue DEV-Versionen kommen sofort, es wird keine Tageskopie angelegt.
  */
 (function () {
   "use strict";
@@ -30,6 +30,7 @@
   var GLOBAL_KEY = "riemer-lizenz";      // gesetzt durch die Anmeldung in myTOOLBOX.ritl
   var EMAIL_STORE = "riemer-email";
   var DEVICE_STORE = "riemer-geraet";
+  var CACHE_DB = "riemer-lizenz-cache";   // IndexedDB: Tool-HTML des Tages je Tool
 
   var MESSAGES = {
     invalid_key: "Dieser Lizenzschlüssel ist ungültig.",
@@ -51,38 +52,6 @@
       if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v);
     } catch (e) { return null; }
   }
-
-  /* ── S-22: geprüftes Tool je Tag und Gerät zwischenspeichern ── */
-  var DAY_DB = "riemer_lizenz", DAY_ST = "tag";
-  function today() {
-    try { return new Intl.DateTimeFormat("sv-SE", { timeZone: "Europe/Vienna" }).format(new Date()); }
-    catch (e) { var d = new Date(); return d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate(); }
-  }
-  function kid(key, email) {   // Kennung aus Schlüssel, E-Mail und Gerät (kein Klartext im Speicher)
-    var t = key + "|" + (email || "").toLowerCase() + "|" + deviceId(), h = 5381, g = 52711;
-    for (var i = 0; i < t.length; i++) { var c = t.charCodeAt(i); h = (h * 33) ^ c; g = (g * 31) ^ c; }
-    return (h >>> 0).toString(36) + (g >>> 0).toString(36);
-  }
-  function dayDb(mode, fn) {
-    return new Promise(function (res) {
-      try {
-        if (!window.indexedDB) return res(null);
-        var r = indexedDB.open(DAY_DB, 1);
-        r.onupgradeneeded = function () { r.result.createObjectStore(DAY_ST); };
-        r.onerror = function () { res(null); };
-        r.onsuccess = function () {
-          try {
-            var t = r.result.transaction(DAY_ST, mode), q = fn(t.objectStore(DAY_ST));
-            t.oncomplete = function () { res(q && q.result); r.result.close(); };
-            t.onerror = t.onabort = function () { res(null); r.result.close(); };
-          } catch (e) { res(null); }
-        };
-      } catch (e) { res(null); }
-    });
-  }
-  var dayGet = function () { return dayDb("readonly", function (s) { return s.get(TOOL); }); };
-  var dayPut = function (v) { return dayDb("readwrite", function (s) { return s.put(v, TOOL); }); };
-  var dayDel = function () { return dayDb("readwrite", function (s) { return s.delete(TOOL); }); };
 
   function deviceId() {
     var id = store(DEVICE_STORE);
@@ -117,11 +86,54 @@
     return Promise.resolve();
   }
 
+  /* ── Tageskopie (IndexedDB) – Fehler führen immer zur normalen Prüfung ── */
+  function today() {
+    var d = new Date();
+    return d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2);
+  }
+  function cacheDb() {
+    return new Promise(function (ok, fail) {
+      if (!window.indexedDB) return fail();
+      var rq = indexedDB.open(CACHE_DB, 1);
+      rq.onupgradeneeded = function () { rq.result.createObjectStore("tools"); };
+      rq.onsuccess = function () { ok(rq.result); };
+      rq.onerror = rq.onblocked = function () { fail(); };
+    });
+  }
+  function cacheOp(mode, fn) {
+    var t = new Promise(function (_, fail) { setTimeout(fail, 1500); });
+    return Promise.race([t, cacheDb().then(function (db) {
+      return new Promise(function (ok, fail) {
+        var tx = db.transaction("tools", mode), rq = fn(tx.objectStore("tools"));
+        tx.oncomplete = function () { ok(rq && rq.result); db.close(); };
+        tx.onerror = tx.onabort = function () { fail(); db.close(); };
+      });
+    })]);
+  }
+  function cacheGet() { return cacheOp("readonly", function (st) { return st.get(TOOL); }); }
+  function cachePut(key, html) {
+    return cacheOp("readwrite", function (st) { st.put({ day: today(), key: key, html: html, at: Date.now() }, TOOL); }).catch(function () {});
+  }
+  function cacheDrop() { return cacheOp("readwrite", function (st) { st.delete(TOOL); }).catch(function () {}); }
+  /* Neu laden oder ?neu → Kopie übergehen und frisch prüfen */
+  function wantsFresh() {
+    if (/[?&]neu\b/.test(location.search)) return true;
+    try {
+      var n = performance.getEntriesByType && performance.getEntriesByType("navigation")[0];
+      if (n) return n.type === "reload";
+      return performance.navigation && performance.navigation.type === 1;
+    } catch (e) { return false; }
+  }
+  function show(html) {
+    document.open();
+    document.write(html);
+    document.close();
+  }
+
   var EYE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>';
   var EYE_OFF = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 3l18 18"/><path d="M10.6 5.1A10.8 10.8 0 0 1 12 5c6.5 0 10 7 10 7a17.6 17.6 0 0 1-3.2 4.1M6.6 6.6C3.8 8.4 2 12 2 12s3.5 7 10 7c1.8 0 3.4-.5 4.8-1.3"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>';
 
-  if (/[?&]abmelden\b/.test(location.search)) { store(KEY_STORE, null); store(GLOBAL_KEY, null); dayDel(); }
-  var FRESH = /[?&]neu\b/.test(location.search);   // ?neu: Tagesspeicher übergehen und neu prüfen
+  if (/[?&]abmelden\b/.test(location.search)) { store(KEY_STORE, null); store(GLOBAL_KEY, null); cacheDrop(); }
 
   (function () {
     var t = store("riemer-theme");
@@ -212,21 +224,18 @@
         if (res && res.ok && res.html) {
           store(KEY_STORE, key);
           if (email) store(EMAIL_STORE, email);
-          // S-22: Kanal Dev ausgenommen – dort jedes Mal prüfen, damit neue DEV-Versionen sofort kommen
-          if ((res.license_channel || res.channel) === "dev") dayDel();
-          else dayPut({ tag: today(), kid: kid(key, email), html: res.html, version: res.version || "", at: new Date().toISOString() });
-          (fromForm && email ? offerSave(email, key) : Promise.resolve()).then(function () {
-            document.open();
-            document.write(res.html);
-            document.close();
-          });
+          Promise.all([
+            // S-22: Kanal Dev ausgenommen – keine Tageskopie, jedes Öffnen prüft
+            (res.license_channel || res.channel) === "dev" ? cacheDrop() : cachePut(key, res.html),
+            fromForm && email ? offerSave(email, key) : Promise.resolve()
+          ]).then(function () { show(res.html); });
         } else {
           var code = (res && res.error) || "server_error";
-          if (["invalid_key", "invalid_login", "email_required", "revoked", "expired", "tool_not_licensed", "device_limit"].indexOf(code) >= 0) dayDel();
           if (["invalid_key", "revoked", "expired", "tool_not_licensed"].indexOf(code) >= 0) {
             store(KEY_STORE, null);
             if (store(GLOBAL_KEY) === key) store(GLOBAL_KEY, null);
           }
+          cacheDrop();
           var keep = fromForm || code === "email_required" || code === "invalid_login" || code === "device_limit";
           render(MESSAGES[code] || MESSAGES.server_error, keep ? key : "", email);
         }
@@ -238,16 +247,17 @@
     var saved = store(KEY_STORE) || store(GLOBAL_KEY);
     if (saved && formatKey(saved) !== saved) { saved = formatKey(saved); store(KEY_STORE, saved); }
     if (saved) {
-      document.body.innerHTML = '<p style="font:500 13px/18px ui-monospace,monospace;letter-spacing:2px;text-transform:uppercase;text-align:center;margin-top:40vh;color:#9AA3AF">Lizenz wird geprüft …</p>';
-      var email = store(EMAIL_STORE);
-      // S-22: heute auf diesem Gerät schon geprüft → Tool ohne Serveranfrage öffnen
-      (FRESH ? Promise.resolve(null) : dayGet()).then(function (c) {
-        if (c && c.html && c.tag === today() && c.kid === kid(saved, email)) {
-          document.open(); document.write(c.html); document.close();
-        } else unlock(saved, email, false);
-      });
+      var check = function () {
+        document.body.innerHTML = '<p style="font:500 13px/18px ui-monospace,monospace;letter-spacing:2px;text-transform:uppercase;text-align:center;margin-top:40vh;color:#9AA3AF">Lizenz wird geprüft …</p>';
+        unlock(saved, store(EMAIL_STORE), false);
+      };
+      if (wantsFresh()) return check();
+      // Heute schon geprüft (gleicher Schlüssel)? → Tageskopie öffnen, ohne Server
+      cacheGet().then(function (c) {
+        if (c && c.html && c.day === today() && c.key === saved) show(c.html); else check();
+      }, check);
     } else {
-      dayDel();
+      cacheDrop();   // kein Schlüssel mehr (z. B. nach „Abmelden“) → Tageskopie verwerfen
       render("");
     }
   }
