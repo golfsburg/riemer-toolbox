@@ -3,6 +3,13 @@
 Speisekarten- & Menü-Designer: Sets, Gänge, Speisendatenbank mit Allergenen (LMIV), 6 Druckformate, Export als PDF, PPTX und Druck in exakt einer Seite · #ritl_menu
 Neueste Version oben. Versionen ≤ V1.7 nachträglich rekonstruiert (aus `tool_versions`, Quellen-ZIPs und Repo-Historie).
 
+## V3.0.23 · 22.11.2026 · DEV
+**Geändert**
+- **Backup intern vereinfacht** (Optionen des Bausteins ritl-bk statt eigener Umwege): Der Abgleich mit Server bzw. Ordner und das zentrale Sichern starten erst, wenn MENU.ritl seine Daten geladen hat. „04 Speicher“ im Fenster „Backup“ sieht aus und funktioniert wie bisher.
+
+**Behoben**
+- Startet MENU.ritl langsam (z. B. viele eingebettete Bilder), übernimmt ein neues Gerät den Stand vom Server jetzt trotzdem sicher.
+
 ## V3.0.17 · 22.11.2026 · DEV
 **Neu**
 - **Module im Link (Regel S-21):** Jedes Modul hat einen eigenen Link mit `#name` (#sets, #map, #card …). Ein Link oder Lesezeichen öffnet direkt dieses Modul, Neu laden bleibt im Modul, „Zurück“/„Vor“ im Browser wechseln zwischen den zuletzt geöffneten Modulen.

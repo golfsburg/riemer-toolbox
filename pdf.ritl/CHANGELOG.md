@@ -3,6 +3,13 @@
 PDF-Dokumente aus Lesezeichen-Abschnitten und Einzelseiten zusammenstellen – mit verlinktem Inhaltsverzeichnis · #ritl_pdf
 Neueste Version oben. Versionen ≤ V1.3 nachträglich rekonstruiert (aus `tool_versions` und Entwicklungsverlauf).
 
+## V2.1.3 · 22.11.2026 · DEV
+**Neu**
+- **Komplett-Paket im Fenster „Backup“:** Abschnitt „04 Komplett-Paket (.zip)“ mit „Komplett-Paket speichern“ und „Komplett-Paket laden …“. Unter 03 Ausgabe bleibt der Knopf wie bisher.
+
+**Geändert**
+- Backup intern vereinfacht (gemeinsamer Baustein ritl-bk übernimmt den Abgleich beim Start und das Ausblenden des Zeitstempels) – Verhalten unverändert: Beim Start wird der Stand still aus dem Ordner bzw. vom Server übernommen, reines Neuzeichnen erzeugt keinen neuen Stand.
+
 ## V2.1.2 · 22.11.2026 · DEV
 **Neu**
 - **Teilen-Blatt beim Speichern am Handy und Tablet:** Exporte und „Backup speichern“ öffnen am Touchscreen das Teilen-Blatt („In Dateien sichern“, AirDrop, Mail) – in der Home-Bildschirm-App zeigte iOS Downloads bisher nur als Vorschau. Am Computer bleibt es beim normalen Download; lässt der Browser das Teilen nicht zu, wird ebenfalls normal geladen.

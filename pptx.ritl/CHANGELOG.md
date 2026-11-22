@@ -3,6 +3,13 @@
 Präsentationen aus Abschnitten zusammenstellen (DECK.ritl) und Meetings planen (TIMING.ritl) · #ritl_pptx
 Neueste Version oben. Ältere Versionen siehe Admin › Tools › Versionen (Tabelle `tool_versions`); dieser CHANGELOG beginnt mit V2.9.
 
+## V3.7.4 · 22.11.2026 · DEV
+**Neu**
+- **Komplett-Paket im Fenster „Backup“:** Abschnitt „04 Komplett-Paket (.zip)“ mit „Komplett-Paket speichern“ und „Komplett-Paket laden …“. Unter 03 Ausgabe bleibt der Knopf wie bisher.
+
+**Geändert**
+- Backup intern vereinfacht (gemeinsamer Baustein ritl-bk übernimmt den Abgleich beim Start und das Ausblenden des Zeitstempels) – Verhalten unverändert: Beim Start wird der Stand still aus dem Ordner bzw. vom Server übernommen, reines Neuzeichnen erzeugt keinen neuen Stand.
+
 ## V3.7.3 · 22.11.2026 · DEV
 **Neu**
 - **Module im Link (Regel S-21):** Jedes Modul hat einen eigenen Link mit `#name` (#deck, #timing). Ein Link oder Lesezeichen öffnet direkt dieses Modul, Neu laden bleibt im Modul, „Zurück“/„Vor“ im Browser wechseln zwischen den zuletzt geöffneten Modulen.

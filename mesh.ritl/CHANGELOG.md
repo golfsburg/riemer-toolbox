@@ -3,6 +3,10 @@
 Kompakter 3D-Viewer und -Editor im Browser für den 3D-Druck · #ritl_mesh
 Neueste Version oben. V1.0–V1.8 als Einzeldatei entwickelt (nicht in der Toolbox veröffentlicht).
 
+## V2.7.22 · 22.11.2026 · DEV
+**Geändert**
+- **Backup intern vereinfacht:** Kommen bei C3 neue Modelle vom Server, wird die Szene aufgebaut, sobald auch die Geometrien geladen sind – jetzt über den gemeinsamen Backup-Baustein. Für Nutzer ändert sich nichts.
+
 ## V2.7.21 · 22.11.2026 · DEV
 **Neu**
 - **Teilen-Blatt beim Speichern am Handy und Tablet:** Exporte und „Backup speichern“ öffnen am Touchscreen das Teilen-Blatt („In Dateien sichern“, AirDrop, Mail) – in der Home-Bildschirm-App zeigte iOS Downloads bisher nur als Vorschau. Am Computer bleibt es beim normalen Download; lässt der Browser das Teilen nicht zu, wird ebenfalls normal geladen.
