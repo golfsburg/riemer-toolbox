@@ -3,6 +3,10 @@
 Projektmanagement: Projekt-Portfolio mit Gewerken, Anwendungen und Businesses (Lead › Spezifikation Opportunity › Spezifikation › Opportunity), Umsatzplan, Dashboard und Zeitplan · #ritl_pm
 Neueste Version oben. Versionen ≤ V1.1 nachträglich rekonstruiert (Projektmanager V1.x, selbstspeichernde HTML-Datei).
 
+## V3.1.18 · 22.11.2026 · DEV
+**Neu**
+- **Teilen-Blatt beim Speichern am Handy und Tablet:** Exporte und „Backup speichern“ öffnen am Touchscreen das Teilen-Blatt („In Dateien sichern“, AirDrop, Mail) – in der Home-Bildschirm-App zeigte iOS Downloads bisher nur als Vorschau. Am Computer bleibt es beim normalen Download; lässt der Browser das Teilen nicht zu, wird ebenfalls normal geladen.
+
 ## V3.1.17 · 22.11.2026 · DEV
 **Neu**
 - **Eigenes App-Symbol für den Home-Bildschirm:** In Safari „Teilen → Zum Home-Bildschirm“ legt PM.ritl jetzt mit eigenem Symbol und Namen ab (vorher ein Bildschirmfoto der Seite). Gilt für die Anmeldeseite und das Tool.

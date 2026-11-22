@@ -3,6 +3,11 @@
 Kompakter 3D-Viewer und -Editor im Browser für den 3D-Druck · #ritl_mesh
 Neueste Version oben. V1.0–V1.8 als Einzeldatei entwickelt (nicht in der Toolbox veröffentlicht).
 
+## V2.7.21 · 22.11.2026 · DEV
+**Neu**
+- **Teilen-Blatt beim Speichern am Handy und Tablet:** Exporte und „Backup speichern“ öffnen am Touchscreen das Teilen-Blatt („In Dateien sichern“, AirDrop, Mail) – in der Home-Bildschirm-App zeigte iOS Downloads bisher nur als Vorschau. Am Computer bleibt es beim normalen Download; lässt der Browser das Teilen nicht zu, wird ebenfalls normal geladen.
+- MESH: das eigene Teilen aus V2.7.20 läuft jetzt über denselben Baustein.
+
 ## V2.7.20 · 22.11.2026 · DEV
 **Neu**
 - **Am Handy und Tablet voll bedienbar:** Alles, was am Computer Tasten braucht, hat jetzt einen Knopf in der Ansichtsleiste: **⬚ Fenster** (Fensterauswahl ohne Shift – Knopf antippen, dann Fenster aufziehen) und **⌗ Raster** (Einrasten beim Verschieben/Drehen mit dem Achsen-Werkzeug, wie Shift). Ein Finger dreht, zwei Finger zoomen und schieben.
