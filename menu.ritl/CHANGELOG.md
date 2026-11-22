@@ -3,6 +3,16 @@
 Speisekarten- & Menü-Designer: Sets, Gänge, Speisendatenbank mit Allergenen (LMIV), 6 Druckformate, Export als PDF, PPTX und Druck in exakt einer Seite · #ritl_menu
 Neueste Version oben. Versionen ≤ V1.7 nachträglich rekonstruiert (aus `tool_versions`, Quellen-ZIPs und Repo-Historie).
 
+## V3.0.24 · 22.11.2026 · DEV
+**Neu**
+- **Social Media am Handy: direkt teilen.** Ein Tippen auf „＋ Social Media“ öffnet sofort das Teilen-Menü des Handys mit **allen** Bildern der Karte. Ziel (Instagram, Facebook, WhatsApp …) und Art (Beitrag, Story, Reel) wählst du dort, ebenso welche Bilder gepostet werden. Die Bilder werden im Hintergrund vorbereitet; ist das beim ersten Mal noch nicht fertig, erscheint kurz „Jetzt teilen“. Standard ist **4:5**, umschaltbar auf 9:16 über ▾ (wird gemerkt).
+- **Beitragstext in der Zwischenablage:** Beim Teilen liegt ein fertiger Text mit Titel, Gängen, Datum, Reservierung und Hashtags in der Zwischenablage – im Posting einfügen (Instagram und Facebook übernehmen beim Teilen keinen Text). Im Fenster ▾ auch „Beitragstext kopieren“.
+- **▾ neben „＋ Social Media“:** Vorschau aller Bilder, Format 4:5 / 9:16 und Download (PNG / ZIP) – am Computer ohne Teilen-Menü öffnet sich dieses Fenster direkt.
+- **Block-Leiste in STYLE.ritl und MAP.ritl:** alle Gänge und Texte in Kartenreihenfolge plus „＋ Gang“ und „＋ Text“. Auf einen Bereich ziehen (STYLE › Modellbereich oder direkt auf die Karte in MAP) verschiebt den Block bzw. legt einen neuen dort an; beim Ziehen leuchten die Bereiche auf. Antippen (Handy) öffnet die Liste der Bereiche zur Auswahl. In MAP auch bei Editor AUS.
+
+**Geändert**
+- **Social Media: ein Gang wird nie auf zwei Bilder geteilt.** Passt er nicht mehr, kommt er ganz auf das nächste Bild (ist er allein zu lang, bekommt er ein eigenes Bild und wird verkleinert). Bilder und Inhalte folgen der Reihenfolge der Karte.
+
 ## V3.0.23 · 22.11.2026 · DEV
 **Geändert**
 - **Backup intern vereinfacht** (Optionen des Bausteins ritl-bk statt eigener Umwege): Der Abgleich mit Server bzw. Ordner und das zentrale Sichern starten erst, wenn MENU.ritl seine Daten geladen hat. „04 Speicher“ im Fenster „Backup“ sieht aus und funktioniert wie bisher.
