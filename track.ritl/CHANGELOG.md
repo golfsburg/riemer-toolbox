@@ -3,6 +3,19 @@
 GPS-Tracks (GPX) lokal im Browser in 2D und 3D darstellen, analysieren, bearbeiten und animieren · #ritl_track
 Neueste Version oben. Versionen ≤ V1.9 in Google AI Studio entwickelt und nachträglich zusammengefasst (keine Einzelstände erhalten).
 
+## V3.3.19 · 22.11.2026 · DEV
+**Neu**
+- **Alles hängt am einzelnen Track:**
+  - **Anhänge** – Wegpunkte, Notizen, Fotos, Abschnitte und Runden gehören fest zu einem Track. Die Karte (2D/3D) zeigt nur die Anhänge sichtbarer Tracks; ANALYSE, Höhenprofil, EXPORT (Teilbild, Video, GPX/KML, Touren-Report) und der GPX-Download im EDITOR nur die des ausgewählten Tracks.
+  - **Einstellungen** – Fahrzeug/Sportart und Größe, Farbe nach, Karte, 2D/3D, Überhöhung, Kennzahlen-Auswahl sowie im EXPORT Teilbild (Format, Farbstil, Runden, Titel) und Video (Format, Farbstil, Auflösung, Dauern, Einblendungen, Tacho, Rundenanalyse) werden je Track gemerkt und beim Wechsel des Tracks umgeschaltet. Ein neuer Track startet mit den Einstellungen des zuletzt gewählten. Gesichert im Backup (Stufe 1 · settings).
+- **Zuordnung ändern:** im Wegpunkt-/Notiz- und im Foto-Fenster „Gehört zu Track“.
+- **EDITOR › Tracks verwalten:** neue Spalte „Anhänge“ (⚑ Wegpunkte, ✎ Notizen, 📷 Fotos, ⇤ Abschnitte, ⟳ Runden).
+
+**Geändert**
+- Bestehende Wegpunkte, Notizen und Fotos ohne Zuordnung werden einmalig dem nächstgelegenen Track zugeordnet.
+- Wird ein Track entfernt, verschwinden seine Anhänge mit ihm; „Rückgängig“ im EDITOR bringt den Track samt Anhängen zurück.
+- Der eigene Standard der Kennzahlen und die Ansichts-Favoriten gelten weiter für alle Tracks.
+
 ## V3.3.18 · 22.11.2026 · DEV
 **Neu**
 - **Tacho im Video: Schleppzeiger** – ein oranger Zeiger hängt an der Tachonadel, wird beim Beschleunigen auf das bisher höchste Tempo geschoben und bleibt dort stehen, wenn das Tempo wieder sinkt. Unter der Zahl steht „KM/H · MAX …“. Beim Zurückspulen oder Springen in der Vorschau stimmt der Wert immer mit der Position überein.
