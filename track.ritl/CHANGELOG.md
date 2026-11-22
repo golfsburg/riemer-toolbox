@@ -3,6 +3,11 @@
 GPS-Tracks (GPX) lokal im Browser in 2D und 3D darstellen, analysieren, bearbeiten und animieren · #ritl_track
 Neueste Version oben. Versionen ≤ V1.9 in Google AI Studio entwickelt und nachträglich zusammengefasst (keine Einzelstände erhalten).
 
+## V3.3.12 · 22.11.2026 · DEV
+**Neu**
+- **Runden selbst definieren:** In ANALYSE › Abschnitte & Bestzeiten › Runden gibt es jetzt wie bei Abschnitten Name, Von (km), Bis (km) – jeweils mit ⌖ für die aktuelle Position – und „+ Runde hinzufügen“. Selbst angelegte Runden erscheinen im Bestzeit-Vergleich und bleiben erhalten, wenn „Runden erkennen“ erneut läuft.
+- **TRACK › Leiste „⌖ km“:** nach „⇤ Abschnitt / Runde ab hier“ wahlweise „⇥ Abschnitt bis hier“ oder „⟳ Runde bis hier“.
+
 ## V3.3.11 · 22.11.2026 · DEV
 **Neu**
 - **TRACK › Karte: Leiste „⌖ km“** – setzt an der aktuellen Position der Animation auf dem ausgewählten Track: **+ Wegpunkt**, **+ Notiz**, **📷 Foto** und **Abschnitt** („⇤ Abschnitt ab hier“, dann zur Endposition fahren und „⇥ Abschnitt bis hier“). Daneben bleiben die Werkzeuge zum Setzen per Klick auf die Karte.
