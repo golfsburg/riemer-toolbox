@@ -8,6 +8,11 @@
  * Der eigentliche Tool-Code liegt NICHT in diesem Repo, sondern wird nach
  * erfolgreicher Lizenzprüfung vom Server geladen.
  * URL-Parameter ?abmelden entfernt den gespeicherten Schlüssel auf diesem Gerät.
+ *
+ * Lizenzprüfung einmal pro Tag (Loader 1.1): Nach erfolgreicher Prüfung wird das ausgelieferte Tool
+ * für den laufenden Tag auf dem Gerät gemerkt (IndexedDB). Weitere Aufrufe am selben Tag öffnen diese
+ * Kopie ohne Serveranfrage. Neu laden (Browser-Reload, am iPhone herunterwischen) oder ?neu prüft
+ * sofort und holt die aktuelle Version.
  */
 (function () {
   "use strict";
@@ -23,6 +28,7 @@
   var GLOBAL_KEY = "riemer-lizenz";      // gesetzt durch die Anmeldung in myTOOLBOX.ritl
   var EMAIL_STORE = "riemer-email";
   var DEVICE_STORE = "riemer-geraet";
+  var CACHE_DB = "riemer-lizenz-cache";   // IndexedDB: Tool-HTML des Tages je Tool
 
   var MESSAGES = {
     invalid_key: "Dieser Lizenzschlüssel ist ungültig.",
@@ -78,10 +84,54 @@
     return Promise.resolve();
   }
 
+  /* ── Tageskopie (IndexedDB) – Fehler führen immer zur normalen Prüfung ── */
+  function today() {
+    var d = new Date();
+    return d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2);
+  }
+  function cacheDb() {
+    return new Promise(function (ok, fail) {
+      if (!window.indexedDB) return fail();
+      var rq = indexedDB.open(CACHE_DB, 1);
+      rq.onupgradeneeded = function () { rq.result.createObjectStore("tools"); };
+      rq.onsuccess = function () { ok(rq.result); };
+      rq.onerror = rq.onblocked = function () { fail(); };
+    });
+  }
+  function cacheOp(mode, fn) {
+    var t = new Promise(function (_, fail) { setTimeout(fail, 1500); });
+    return Promise.race([t, cacheDb().then(function (db) {
+      return new Promise(function (ok, fail) {
+        var tx = db.transaction("tools", mode), rq = fn(tx.objectStore("tools"));
+        tx.oncomplete = function () { ok(rq && rq.result); db.close(); };
+        tx.onerror = tx.onabort = function () { fail(); db.close(); };
+      });
+    })]);
+  }
+  function cacheGet() { return cacheOp("readonly", function (st) { return st.get(TOOL); }); }
+  function cachePut(key, html) {
+    return cacheOp("readwrite", function (st) { st.put({ day: today(), key: key, html: html, at: Date.now() }, TOOL); }).catch(function () {});
+  }
+  function cacheDrop() { return cacheOp("readwrite", function (st) { st.delete(TOOL); }).catch(function () {}); }
+  /* Neu laden oder ?neu → Kopie übergehen und frisch prüfen */
+  function wantsFresh() {
+    if (/[?&]neu\b/.test(location.search)) return true;
+    try {
+      var n = performance.getEntriesByType && performance.getEntriesByType("navigation")[0];
+      if (n) return n.type === "reload";
+      return performance.navigation && performance.navigation.type === 1;
+    } catch (e) { return false; }
+  }
+  function show(html) {
+    document.open();
+    document.write(html);
+    document.close();
+  }
+
   var EYE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>';
   var EYE_OFF = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 3l18 18"/><path d="M10.6 5.1A10.8 10.8 0 0 1 12 5c6.5 0 10 7 10 7a17.6 17.6 0 0 1-3.2 4.1M6.6 6.6C3.8 8.4 2 12 2 12s3.5 7 10 7c1.8 0 3.4-.5 4.8-1.3"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>';
 
-  if (/[?&]abmelden\b/.test(location.search)) { store(KEY_STORE, null); store(GLOBAL_KEY, null); }
+  if (/[?&]abmelden\b/.test(location.search)) { store(KEY_STORE, null); store(GLOBAL_KEY, null); cacheDrop(); }
 
   (function () {
     var t = store("riemer-theme");
@@ -172,17 +222,17 @@
         if (res && res.ok && res.html) {
           store(KEY_STORE, key);
           if (email) store(EMAIL_STORE, email);
-          (fromForm && email ? offerSave(email, key) : Promise.resolve()).then(function () {
-            document.open();
-            document.write(res.html);
-            document.close();
-          });
+          Promise.all([
+            cachePut(key, res.html),
+            fromForm && email ? offerSave(email, key) : Promise.resolve()
+          ]).then(function () { show(res.html); });
         } else {
           var code = (res && res.error) || "server_error";
           if (["invalid_key", "revoked", "expired", "tool_not_licensed"].indexOf(code) >= 0) {
             store(KEY_STORE, null);
             if (store(GLOBAL_KEY) === key) store(GLOBAL_KEY, null);
           }
+          cacheDrop();
           var keep = fromForm || code === "email_required" || code === "invalid_login" || code === "device_limit";
           render(MESSAGES[code] || MESSAGES.server_error, keep ? key : "", email);
         }
@@ -194,8 +244,15 @@
     var saved = store(KEY_STORE) || store(GLOBAL_KEY);
     if (saved && formatKey(saved) !== saved) { saved = formatKey(saved); store(KEY_STORE, saved); }
     if (saved) {
-      document.body.innerHTML = '<p style="font:500 13px/18px ui-monospace,monospace;letter-spacing:2px;text-transform:uppercase;text-align:center;margin-top:40vh;color:#9AA3AF">Lizenz wird geprüft …</p>';
-      unlock(saved, store(EMAIL_STORE), false);
+      var check = function () {
+        document.body.innerHTML = '<p style="font:500 13px/18px ui-monospace,monospace;letter-spacing:2px;text-transform:uppercase;text-align:center;margin-top:40vh;color:#9AA3AF">Lizenz wird geprüft …</p>';
+        unlock(saved, store(EMAIL_STORE), false);
+      };
+      if (wantsFresh()) return check();
+      // Heute schon geprüft (gleicher Schlüssel)? → Tageskopie öffnen, ohne Server
+      cacheGet().then(function (c) {
+        if (c && c.html && c.day === today() && c.key === saved) show(c.html); else check();
+      }, check);
     } else {
       render("");
     }

@@ -58,6 +58,16 @@ und eine verschlüsselte Kopie (Geheimnis im Supabase Vault) – abrufbar über 
 select * from license_overview;
 ```
 
+## Lizenzprüfung einmal pro Tag (Loader 1.1)
+
+- Der Loader fragt den Lizenzserver **einmal pro Tag und Gerät**. Danach öffnet er das Tool den Rest
+  des Tages aus einer Kopie im Browser (IndexedDB `riemer-lizenz-cache`, je Tool) – ohne Serveranfrage.
+- **Neu laden** (Browser-Reload, am iPhone herunterwischen) oder `?neu` an der Adresse prüft sofort
+  und holt die aktuelle Version (z. B. eine neue DEV-Version).
+- Ab Mitternacht (Gerätezeit), bei anderem Schlüssel oder nach `?abmelden` wird wieder geprüft.
+- Folge: Sperren, Ablauf, Kanal- oder Versionswechsel wirken auf einem Gerät spätestens am
+  nächsten Tag bzw. beim nächsten Neu laden; `license_log` zeigt nur noch die erste Öffnung pro Tag.
+
 ## Lizenz sperren / entsperren
 
 ```sql
