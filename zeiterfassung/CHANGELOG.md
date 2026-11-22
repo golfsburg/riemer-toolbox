@@ -3,6 +3,10 @@
 Projektzeiten erfassen, Timer und manuelle Einträge, Auswertung, Excel/CSV-Datei-Modus · #ritl_zeit (bis V3.7: Zeiterfassung.ritl · #ritl_zeiterfassung)
 Neueste Version oben. Versionen ≤ V3.1 nachträglich aus dem Changelog im Tool rekonstruiert (V1.0–V2.3: 17.07.2026).
 
+## V3.8.1 · 22.11.2026 · DEV
+**Neu**
+- **Teilen-Blatt beim Speichern am Handy und Tablet:** Exporte und „Backup speichern“ öffnen am Touchscreen das Teilen-Blatt („In Dateien sichern“, AirDrop, Mail) – in der Home-Bildschirm-App zeigte iOS Downloads bisher nur als Vorschau. Am Computer bleibt es beim normalen Download; lässt der Browser das Teilen nicht zu, wird ebenfalls normal geladen.
+
 ## V3.8 · 19.11.2026 · DEV
 **Geändert**
 - **Neuer Name: ZEIT.ritl** (vorher Zeiterfassung.ritl) nach der .ritl-Namenskonvention – Header, Titel, Fußzeile, Druckdokument, Hashtag `#ritl_zeit`. Tool-ID, Adresse und die Daten im Browser bleiben gleich.

@@ -3,6 +3,10 @@
 Speisekarten- & Menü-Designer: Sets, Gänge, Speisendatenbank mit Allergenen (LMIV), 6 Druckformate, Export als PDF, PPTX und Druck in exakt einer Seite · #ritl_menu
 Neueste Version oben. Versionen ≤ V1.7 nachträglich rekonstruiert (aus `tool_versions`, Quellen-ZIPs und Repo-Historie).
 
+## V3.0.16 · 22.11.2026 · DEV
+**Neu**
+- **Teilen-Blatt beim Speichern am Handy und Tablet:** Exporte und „Backup speichern“ öffnen am Touchscreen das Teilen-Blatt („In Dateien sichern“, AirDrop, Mail) – in der Home-Bildschirm-App zeigte iOS Downloads bisher nur als Vorschau. Am Computer bleibt es beim normalen Download; lässt der Browser das Teilen nicht zu, wird ebenfalls normal geladen.
+
 ## V3.0.15 · 21.11.2026 · DEV
 **Neu**
 - **Logos beliebig oft frei platzieren:** In MAP.ritl gibt es „＋ Logo“ (auch bei Editor AUS): eigene Logos, Siegel-Vorlagen oder eine neue Datei wählen – das Logo liegt sofort frei auf der aktuellen Seite. Dasselbe Logo lässt sich so oft platzieren wie nötig; in STYLE › Logos platziert ＋ bei einem Logo es noch einmal. Weitere Platzierungen erscheinen leicht versetzt.
