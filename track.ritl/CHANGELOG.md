@@ -3,6 +3,17 @@
 GPS-Tracks (GPX) lokal im Browser in 2D und 3D darstellen, analysieren, bearbeiten und animieren · #ritl_track
 Neueste Version oben. Versionen ≤ V1.9 in Google AI Studio entwickelt und nachträglich zusammengefasst (keine Einzelstände erhalten).
 
+## V3.3.26 · 22.11.2026 · DEV
+**Geändert**
+- **EXPORT › Video:** Beschreibungen stehen nicht mehr im Bereich, sondern in Fenstern hinter (i) – bei „Einblendungen“ (Kopf mit Erklärung und aktueller Summe der Pausen), den Zeilen Fotos, Wegpunkte, Notizen, Abschnitte und Runden (Anzahl als kleine Zahl neben dem Namen), „Tacho & Rundenanalyse“ mit Tacho, Finale und Rundenanalyse, „Fotos bei Position“ sowie „Vorspann (Intro)“ und „Abspann (Outro)“.
+
+## V3.3.25 · 22.11.2026 · DEV
+**Neu**
+- **Abschnitte und Runden umbenennen:** In ANALYSE › Abschnitte & Bestzeiten ist der Name in der Tabelle direkt editierbar – hineinklicken, Namen ändern, Enter (Esc bricht ab). Ein Klick in den Namen filtert nicht; ein Klick auf die übrige Zeile filtert wie bisher. Der neue Name erscheint überall (Teilbild, Video, Rundenanalyse).
+
+**Geändert**
+- **EXPORT › Video › Einblendungen:** Die Beschreibungen von Intro TRACK.ritl, Outro TRACK.ritl und Wasserzeichen stehen nicht mehr in der Tabelle, sondern in einem Fenster hinter dem Knopf (i) – mit etwas ausführlicherer Erklärung.
+
 ## V3.3.24 · 22.11.2026 · DEV
 **Neu**
 - **Module im Link (Regel S-21):** Jedes Modul hat einen eigenen Link mit `#name` (#track, #analyse, #editor …). Ein Link oder Lesezeichen öffnet direkt dieses Modul, Neu laden bleibt im Modul, „Zurück“/„Vor“ im Browser wechseln zwischen den zuletzt geöffneten Modulen.
