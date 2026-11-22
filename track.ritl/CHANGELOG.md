@@ -3,6 +3,10 @@
 GPS-Tracks (GPX) lokal im Browser in 2D und 3D darstellen, analysieren, bearbeiten und animieren · #ritl_track
 Neueste Version oben. Versionen ≤ V1.9 in Google AI Studio entwickelt und nachträglich zusammengefasst (keine Einzelstände erhalten).
 
+## V3.3.21 · 22.11.2026 · DEV
+**Neu**
+- **EXPORT › Video › „Finale (s)“:** Dauer des Tacho-Finales einstellbar (1–15 s, **Standard 5 s**; leer = kein Finale). Bei längerer Dauer baut sich das Finale ruhiger auf (Zoom und Nadel), danach bleiben Strahlen und Höchstgeschwindigkeit länger stehen. Wird je Track gemerkt.
+
 ## V3.3.20 · 22.11.2026 · DEV
 **Neu**
 - **Tacho-Finale im Video:** Ist „Tacho einblenden“ an, folgt nach der Track-Animation ein 2-Sekunden-Finale: Das Bild dunkelt ab, der Tacho fliegt von unten links groß in die Bildmitte, die Nadel jagt von 0 auf die Höchstgeschwindigkeit und zittert dort nach, Lichtstrahlen drehen sich, darüber „HÖCHSTGESCHWINDIGKEIT“ und darunter die Zahl groß mit Leuchten („41,7 km/h · bei km 14,4“). In allen Formaten und Farbstilen; im Ablauf als „+ 2s Tacho-Finale“.
