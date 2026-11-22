@@ -3,6 +3,14 @@
 Speisekarten- & Menü-Designer: Sets, Gänge, Speisendatenbank mit Allergenen (LMIV), 6 Druckformate, Export als PDF, PPTX und Druck in exakt einer Seite · #ritl_menu
 Neueste Version oben. Versionen ≤ V1.7 nachträglich rekonstruiert (aus `tool_versions`, Quellen-ZIPs und Repo-Historie).
 
+## V3.0.19 · 22.11.2026 · DEV
+**Neu**
+- **Social Media (Facebook & Instagram):** In MAP.ritl erstellt „＋ Social Media“ aus der aktuellen Karte fertige Postings – immer im gleichen Format, unabhängig vom Format der Karte: **Beitrag 4:5** (1080 × 1350) oder **Story 9:16** (1080 × 1920). Vorschau aller Bilder im Fenster, Download einzeln als PNG oder alle als ZIP.
+  - Aufbau: Logo oben, Inhalte, Wappen unten über der Fußzeile, Rahmen und Hintergrund-Muster.
+  - Ein Gang mit Menüpreis und ohne Einzelpreise (z. B. Sonntagsmenü) bekommt ein eigenes Bild mit Preis und zentrierten Gängen; andere Gänge erscheinen als Liste mit Preisen. Was nicht auf ein Bild passt, wird auf weitere Bilder verteilt (Karussell, höchstens 10); zu viel Text wird verkleinert.
+  - Fußzeile mit Restaurantname, „Reservierung“ + Telefon und „Datum / Gültigkeit“ aus dem Set; Schild „Heute“ oben rechts auf dem ersten Bild (abschaltbar, Text änderbar).
+- **Designstil › Social Media:** Logo oben, Wappen unten, Hintergrund-Muster (mit Deckkraft), Farbe sowie das Schild werden im eigenen Designstil festgelegt – aus den Logos des Sets oder als eigene Datei. Die Bilder gehören zum Stil und ins Backup.
+
 ## V3.0.18 · 22.11.2026 · DEV
 **Neu**
 - **Logos zueinander ausrichten:** Beim Verschieben rastet ein Logo an den anderen Logos derselben Seite ein – oben, Mitte und unten sowie links, Mitte und rechts, jeweils mit roter Hilfslinie. Der Fang in der Mitte von Blatt, Seite und Spalte bleibt. Alt-Taste gedrückt = ohne Fang.
