@@ -13,6 +13,8 @@
  * für den laufenden Tag auf dem Gerät gemerkt (IndexedDB). Weitere Aufrufe am selben Tag öffnen diese
  * Kopie ohne Serveranfrage. Neu laden (Browser-Reload, am iPhone herunterwischen) oder ?neu prüft
  * sofort und holt die aktuelle Version.
+ * Ausnahme Kanal Dev (Regel S-22): Lizenzen bzw. Tools im Kanal Dev werden bei jedem Öffnen geprüft –
+ * neue DEV-Versionen kommen sofort, es wird keine Tageskopie angelegt.
  */
 (function () {
   "use strict";
@@ -223,7 +225,8 @@
           store(KEY_STORE, key);
           if (email) store(EMAIL_STORE, email);
           Promise.all([
-            cachePut(key, res.html),
+            // S-22: Kanal Dev ausgenommen – keine Tageskopie, jedes Öffnen prüft
+            (res.license_channel || res.channel) === "dev" ? cacheDrop() : cachePut(key, res.html),
             fromForm && email ? offerSave(email, key) : Promise.resolve()
           ]).then(function () { show(res.html); });
         } else {
@@ -254,6 +257,7 @@
         if (c && c.html && c.day === today() && c.key === saved) show(c.html); else check();
       }, check);
     } else {
+      cacheDrop();   // kein Schlüssel mehr (z. B. nach „Abmelden“) → Tageskopie verwerfen
       render("");
     }
   }

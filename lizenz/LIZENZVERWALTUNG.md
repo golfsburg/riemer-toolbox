@@ -67,6 +67,11 @@ select * from license_overview;
 - Ab Mitternacht (Gerätezeit), bei anderem Schlüssel oder nach `?abmelden` wird wieder geprüft.
 - Folge: Sperren, Ablauf, Kanal- oder Versionswechsel wirken auf einem Gerät spätestens am
   nächsten Tag bzw. beim nächsten Neu laden; `license_log` zeigt nur noch die erste Öffnung pro Tag.
+- **Ausnahme Kanal Dev** (Regel S-22): Ist die Lizenz bzw. das Tool (`tool_cfg`) im Kanal Dev, wird bei jedem
+  Öffnen geprüft und keine Tageskopie angelegt – neue DEV-Versionen kommen sofort.
+- Ohne gespeicherten Schlüssel (z. B. nach „Abmelden“ im Header) wird die Tageskopie verworfen.
+- Die eigene Anmeldeseite `msx-builder/index.html` macht dasselbe (Tagesspeicher `riemer_lizenz`).
+- Zentrales Backup, RITL-Sync und Favoriten prüfen die Lizenz weiterhin bei jedem Aufruf am Server.
 
 ## Lizenz sperren / entsperren
 
@@ -425,4 +430,3 @@ update licenses set quota_mb = 200 where key_hint = 'XXXX';
 - **Hintergründe:** Tabelle `score_posting_bg` (`club_id`, `team` – leer = Vereins-Standard, `data` = Bild als data-URL oder `neutral`, `ink` dunkel/hell, `alter_xy` = Position der handschriftlichen Altersklasse `[x, y, Höhe]`). Pflege im Admin-Tool unter „Posting-Hintergründe“.
 - **Abruf in der Webapp:** Edge Function `score-club`, Aktionen `posting` (Hintergrund der Mannschaft) und `logo` (ÖFB-Wappen als data-URL, nur Pfade `/netzwerk/imagedownload/…`) – Lizenz + Gerät, ohne PIN.
 - Der Import speichert je Spiel `heim_logo`/`gast_logo` (Pfade auf vereine.oefb.at), `gegner_oefb` (voller ÖFB-Name des Gegners) und `tore_liste` (Torschützen mit vollem Namen und Minute, für die Vornamen im Posting).
-
