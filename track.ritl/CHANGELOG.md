@@ -3,6 +3,18 @@
 GPS-Tracks (GPX) lokal im Browser in 2D und 3D darstellen, analysieren, bearbeiten und animieren · #ritl_track
 Neueste Version oben. Versionen ≤ V1.9 in Google AI Studio entwickelt und nachträglich zusammengefasst (keine Einzelstände erhalten).
 
+## V3.3.8 · 22.11.2026 · DEV
+**Neu**
+- **EXPORT › 02 Informationen für Teilbild und Video:** zentrale Auswahl der Kennzahlen (bis zu 9) – Strecke, Trackpunkte, Datum, Start/Ende, Bewegungs-, Gesamt- und Pausenzeit, Ø Tempo, max. Geschwindigkeit, Pace, Höhenmeter bergauf/bergab, höchster und tiefster Punkt, Höhendifferenz, steilster Anstieg und steilstes Gefälle, Ø/max. Puls, Ø Trittfrequenz, Fotos, Wegpunkte. Daneben steht jeweils der Wert des ausgewählten Tracks; die Reihenfolge lässt sich mit ‹ › ändern, „Standard“ setzt zurück. Die Auswahl gilt für das Teilbild (PNG) und die Bilanz im Video, wird gemerkt und mit den Einstellungen gesichert. Werte, die ein Track nicht hat, werden ausgelassen.
+- **Teilen-Blatt am iPhone, iPad und Android:** GPX, KML, GeoJSON, CSV, SVG, Teilbild, Video, Touren-Report (PDF/PowerPoint), PANO-Standbild und Favoriten öffnen das Teilen-Blatt (In Dateien sichern, Video/Bild sichern, AirDrop, Mail …) statt nur einer Vorschau. Nach längerer Erzeugung (Video, PDF) erscheint unten „Teilen / Sichern …“ zum Antippen. Am Computer wird wie bisher heruntergeladen.
+
+**Geändert**
+- Bereiche im EXPORT neu nummeriert (Teilbild 03, Video 04, Touren-Report 05).
+- Kennzahlen im Teilbild und im Video passen sich der Anzahl an (2 oder 3 Spalten); lange Werte werden kleiner geschrieben statt abgeschnitten.
+
+**Behoben**
+- **Zahlenfelder** (Anim. (s), Foto (s), Bilanz (s), Dauer von Intro/Outro, Max-Puls, Ruhepuls, Max Tempo im EDITOR): Beim Löschen oder Tippen sprang der Wert sofort auf 4 bzw. 10. Jetzt lässt sich frei eingeben; geprüft und auf den erlaubten Bereich gesetzt wird erst beim Verlassen des Felds oder mit Enter.
+
 ## V3.3.7 · 21.11.2026 · DEV
 **Geändert**
 - **Handy und iPad:** Alle Knöpfe, Auswahlfelder und Header-Symbole sind mindestens 44 px groß, Häkchen und Auswahlpunkte 24 px mit größerer Trefferfläche – leichter zu treffen. Am Computer bleibt alles wie bisher.
