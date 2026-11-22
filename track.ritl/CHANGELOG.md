@@ -3,6 +3,11 @@
 GPS-Tracks (GPX) lokal im Browser in 2D und 3D darstellen, analysieren, bearbeiten und animieren · #ritl_track
 Neueste Version oben. Versionen ≤ V1.9 in Google AI Studio entwickelt und nachträglich zusammengefasst (keine Einzelstände erhalten).
 
+## V3.3.9 · 22.11.2026 · DEV
+**Neu**
+- **EXPORT › 02 Informationen:** Die Reihenfolge der gewählten Kennzahlen lässt sich in der Leiste per **Drag & Drop** ändern – mit der Maus und am Handy/iPad mit dem Finger (Griff ⠿, eine blaue Linie zeigt die Einfügestelle; per Tastatur Alt + ← →). Die Pfeile ‹ › entfallen.
+- **Als Standard speichern:** Die aktuelle Auswahl samt Reihenfolge wird zum eigenen Standard. „Standard laden“ stellt ihn wieder her, „Werkseinstellung“ löscht den eigenen Standard. Der Standard wird gemerkt und mit den Einstellungen gesichert (gilt damit auch auf deinen anderen Geräten).
+
 ## V3.3.8 · 22.11.2026 · DEV
 **Neu**
 - **EXPORT › 02 Informationen für Teilbild und Video:** zentrale Auswahl der Kennzahlen (bis zu 9) – Strecke, Trackpunkte, Datum, Start/Ende, Bewegungs-, Gesamt- und Pausenzeit, Ø Tempo, max. Geschwindigkeit, Pace, Höhenmeter bergauf/bergab, höchster und tiefster Punkt, Höhendifferenz, steilster Anstieg und steilstes Gefälle, Ø/max. Puls, Ø Trittfrequenz, Fotos, Wegpunkte. Daneben steht jeweils der Wert des ausgewählten Tracks; die Reihenfolge lässt sich mit ‹ › ändern, „Standard“ setzt zurück. Die Auswahl gilt für das Teilbild (PNG) und die Bilanz im Video, wird gemerkt und mit den Einstellungen gesichert. Werte, die ein Track nicht hat, werden ausgelassen.
