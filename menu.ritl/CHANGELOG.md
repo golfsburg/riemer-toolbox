@@ -3,6 +3,10 @@
 Speisekarten- & Menü-Designer: Sets, Gänge, Speisendatenbank mit Allergenen (LMIV), 6 Druckformate, Export als PDF, PPTX und Druck in exakt einer Seite · #ritl_menu
 Neueste Version oben. Versionen ≤ V1.7 nachträglich rekonstruiert (aus `tool_versions`, Quellen-ZIPs und Repo-Historie).
 
+## V3.0.26 · 22.11.2026 · DEV
+**Behoben**
+- **Verschieben im Modellbereich am Handy (MAP.ritl):** Bisher ging das nur mit den Pfeiltasten. Jetzt: Block antippen › „✥ Verschieben“ – dann den Block mit dem Finger ziehen (rastet im Raster) oder das Steuerkreuz unten nutzen: ◀ ▲ ▼ ▶, „×5“ für große Schritte, „0“ für die Ausgangslage, „Fertig“. Funktioniert genauso mit der Maus; die Pfeiltasten bleiben.
+
 ## V3.0.25 · 22.11.2026 · DEV
 **Behoben**
 - **Social Media: Logos fehlten auf dem ersten Bild** (Teilen am iPhone/iPad, Safari). Safari lädt Bilder beim ersten Umwandeln nicht mit ein; jetzt wird vorab ein unsichtbarer Durchlauf gemacht und auf fertig geladene Logos gewartet – Logo oben, Wappen und Hintergrund sind auf allen Bildern.
