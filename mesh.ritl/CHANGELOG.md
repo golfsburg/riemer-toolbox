@@ -3,6 +3,23 @@
 Kompakter 3D-Viewer und -Editor im Browser für den 3D-Druck · #ritl_mesh
 Neueste Version oben. V1.0–V1.8 als Einzeldatei entwickelt (nicht in der Toolbox veröffentlicht).
 
+## V2.7.20 · 22.11.2026 · DEV
+**Neu**
+- **Am Handy und Tablet voll bedienbar:** Alles, was am Computer Tasten braucht, hat jetzt einen Knopf in der Ansichtsleiste: **⬚ Fenster** (Fensterauswahl ohne Shift – Knopf antippen, dann Fenster aufziehen) und **⌗ Raster** (Einrasten beim Verschieben/Drehen mit dem Achsen-Werkzeug, wie Shift). Ein Finger dreht, zwei Finger zoomen und schieben.
+- **Exportieren über das Teilen-Blatt:** STL, 3MF, PNG und andere Dateien öffnen am Handy/Tablet das Teilen-Blatt („In Dateien sichern“, AirDrop, Mail) – in der Home-Bildschirm-App zeigte iOS Downloads bisher nur als Vorschau.
+- **Als App auf dem Home-Bildschirm:** eigenes App-Symbol, Platz für Notch und Home-Leiste; Ziehen nach unten lädt die neueste Version.
+
+**Geändert**
+- Eingabefelder am Handy in 16 px – iOS zoomt beim Antippen nicht mehr hinein.
+- Fenster (Grundkörper, Anleitung, Backup …) erscheinen am Handy als Blatt von unten über die volle Breite, Formulare einspaltig, große Knöpfe.
+- Kleine Symbol-Knöpfe (auf-/zuklappen, zurücksetzen) haben am Touchscreen eine größere Trefferfläche; Kanten lassen sich mit dem Finger leichter treffen.
+- Hinweise im Modellbereich und Meldungen nennen am Touchscreen Tippen/Finger statt Shift/Strg/Mausrad.
+- Am iPhone/iPad lassen sich Favoriten- und Projekt-Dateien (.json) und Schriften wieder auswählen (iOS hatte sie ausgegraut).
+
+## V2.7.19 · 22.11.2026 · DEV
+_nachgetragen aus den Versionshinweisen_
+- SCAD-Duplikate behalten ihre Parameter; die Dateiablage räumt automatisch auf; ritl-bk 2.9 (ungenutzte Server-Dateien werden zuerst gelöscht).
+
 ## V2.7.18 · 21.11.2026 · DEV
 **Behoben**
 - **Dateien über den Server auf iPhone, iPad und Mac (Safari):** Eigene Schriften wurden bisher nur als Verweis auf die Originaldatei im Browser abgelegt. Safari schickte sie dann leer an den Server, und das Backup meldete „Datei „…“ konnte nicht hochgeladen werden“. Jetzt wird der Inhalt selbst gespeichert und mit Inhalt hochgeladen. Bereits abgelegte Dateien werden beim ersten Start einmalig umgestellt.
@@ -10,6 +27,68 @@ Neueste Version oben. V1.0–V1.8 als Einzeldatei entwickelt (nicht in der Toolb
 
 **Geändert**
 - Backup-Baustein ritl-bk 2.8.
+
+## V2.7.17 · 21.11.2026 · DEV
+_nachgetragen aus den Versionshinweisen_
+- **Gruppieren** (Strg+G) und Gruppe lösen; Alt+Klick wählt ein einzelnes Mitglied; Gruppen werden gespeichert und sind im Verlauf.
+
+## V2.7.16 · 21.11.2026 · DEV
+_nachgetragen aus den Versionshinweisen_
+- Importierte Modelle landen mittig auf dem Druckbett, andere Objekte bleiben stehen; nach dem Drehen kommt nur die Auswahl auf Z = 0.
+
+## V2.7.15 · 21.11.2026 · DEV
+_nachgetragen aus den Versionshinweisen_
+- **Zurück/Vor** (Strg+Z / Strg+Y) für alle Aktionen der Sitzung, bis 200 Schritte.
+
+## V2.7.14 · 21.11.2026 · DEV
+_nachgetragen aus den Versionshinweisen_
+- Eigene Schriften (OTF/TTF/WOFF) im Konverter laden – im Browser gespeichert und im Backup.
+
+## V2.7.13 · 21.11.2026 · DEV
+_nachgetragen aus den Versionshinweisen_
+- Entfernen lässt sich rückgängig machen; **Fensterauswahl** mit Shift (links→rechts: ganz im Fenster, rechts→links: berührt); Ausrichten zueinander mit Zentrieren XY/XYZ.
+
+## V2.7.12 · 21.11.2026 · DEV
+_nachgetragen aus den Versionshinweisen_
+- Kanten runden/fasen auch bei importierten Objekten – über zwei ebene Flächen (gerade Kanten, außen und innen).
+
+## V2.7.11 · 21.11.2026 · DEV
+_nachgetragen aus den Versionshinweisen_
+- Pfeiltasten verschieben in X/Y/Z; Auflösung (Schrittweite) rechts unten im Modellbereich.
+
+## V2.7.10 · 21.11.2026 · DEV
+_nachgetragen aus den Versionshinweisen_
+- SCAD: Parameter-Änderungen rückgängig (↶ Zurück, Strg+Z).
+
+## V2.7.9 · 21.11.2026 · DEV
+_nachgetragen aus den Versionshinweisen_
+- SCAD: Parametersets je Objekt, Regler im Modellbereich; linker Bereich scrollt; Höhe des Modellbereichs ziehbar.
+
+## V2.7.8 · 21.11.2026 · DEV
+_nachgetragen aus den Versionshinweisen_
+- Global/Objekt für alle Funktionen; Ghost in „01 Modelle“; Symbole Ausrichten/Kombinieren größer; SCAD-Modellbereich mit Ghost des Originals.
+
+## V2.7.7 · 20.11.2026 · DEV
+**Neu**
+- Mehrere Projekte (Modellbereiche): Knopf „Projekt“ in der Werkzeugleiste zeigt das aktive Projekt; Dialog „Projekte“ mit Neu, Öffnen, Aktuelles speichern unter, Duplizieren, Umbenennen, Als Datei speichern (inkl. Geometrien), Projekt-Datei öffnen, Löschen. Jedes Projekt wird automatisch gespeichert, gemeinsame Geometrien liegen nur einmal in der Dateiablage.
+- Speicherbedarf im Browser (aktives Projekt, alle Geometrien, localStorage, komprimierte Backup-Größen, Browser-Speicher gesamt) und Speicherbelegung am Server (belegt vom Kontingent, Stände je Stufe); „Dateiablage aufräumen“.
+
+**Geändert**
+- Backup (ritl-bk) sichert alle Projekte; Stände ohne Projekte (bis V2.7.6) ersetzen nur die Szene des aktiven Projekts. Die bisherige Szene wird beim ersten Start zu „Projekt 1“.
+- „Neu beginnen“ leert nur das aktive Projekt.
+
+**Behoben**
+- Kanten abrunden/fasen (Grundkörper und ◇ Kanten) sowie alle Funktionen aus V2.7.1–V2.7.6 wieder vorhanden: die Projekt-Funktion aus dem parallelen Stand „V2.2 · 20.11.2026“ ist jetzt auf V2.7.6 aufgebaut.
+
+## V2.2 · 20.11.2026 · DEV
+**Neu**
+- Mehrere Projekte (Modellbereiche) je Sitzung: Knopf „Projekt“ in der Werkzeugleiste zeigt das aktive Projekt; Dialog „Projekte“ mit Neu, Öffnen, Aktuelles speichern unter, Duplizieren, Umbenennen, Als Datei speichern (inkl. Geometrien), Projekt-Datei öffnen, Löschen. Jedes Projekt wird automatisch gespeichert, gemeinsame Geometrien liegen nur einmal in der Dateiablage.
+- Speicherbedarf im Browser: aktives Projekt, alle Geometrien, localStorage, komprimierte Backup-Größen je Stufe, Browser-Speicher gesamt; „Dateiablage aufräumen“.
+- Speicherbelegung am Server (zentrales Backup): belegt von 50 MB mit Balken, Stände je Stufe.
+
+**Geändert**
+- Backup-Stufen datenbank/storage sichern alle Projekte; ältere Backups (eine Szene) werden als „Projekt 1“ übernommen. Die Szene aus V2.1 wird beim ersten Start zu „Projekt 1“.
+- „Neu beginnen“ leert nur das aktive Projekt.
 
 ## V2.7.6 · 20.11.2026 · DEV
 **Geändert**
@@ -123,16 +202,6 @@ Neueste Version oben. V1.0–V1.8 als Einzeldatei entwickelt (nicht in der Toolb
 
 **Behoben**
 - Ausgeblendete Häkchen in den Backup-Dialogen werden wirklich ausgeblendet.
-
-## V2.2 · 20.11.2026 · DEV
-**Neu**
-- Mehrere Projekte (Modellbereiche) je Sitzung: Knopf „Projekt“ in der Werkzeugleiste zeigt das aktive Projekt; Dialog „Projekte“ mit Neu, Öffnen, Aktuelles speichern unter, Duplizieren, Umbenennen, Als Datei speichern (inkl. Geometrien), Projekt-Datei öffnen, Löschen. Jedes Projekt wird automatisch gespeichert, gemeinsame Geometrien liegen nur einmal in der Dateiablage.
-- Speicherbedarf im Browser: aktives Projekt, alle Geometrien, localStorage, komprimierte Backup-Größen je Stufe, Browser-Speicher gesamt; „Dateiablage aufräumen“.
-- Speicherbelegung am Server (zentrales Backup): belegt von 50 MB mit Balken, Stände je Stufe.
-
-**Geändert**
-- Backup-Stufen datenbank/storage sichern alle Projekte; ältere Backups (eine Szene) werden als „Projekt 1“ übernommen. Die Szene aus V2.1 wird beim ersten Start zu „Projekt 1“.
-- „Neu beginnen“ leert nur das aktive Projekt.
 
 ## V2.1 · 19.11.2026
 **Neu**
