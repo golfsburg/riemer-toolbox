@@ -3,6 +3,10 @@
 Speisekarten- & Menü-Designer: Sets, Gänge, Speisendatenbank mit Allergenen (LMIV), 6 Druckformate, Export als PDF, PPTX und Druck in exakt einer Seite · #ritl_menu
 Neueste Version oben. Versionen ≤ V1.7 nachträglich rekonstruiert (aus `tool_versions`, Quellen-ZIPs und Repo-Historie).
 
+## V3.0.32 · 23.11.2026 · DEV
+**Neu**
+- **Menüpreis:** Neues Feld „Menüpreis (€)“ neben dem Menüpreis-Hinweis – in DISHES › Menüs & Saison und genauso bei „Gang bearbeiten“. Auf der Karte steht es als „3-Gang-Menü · € 39,00“ (immer mit 2 Kommastellen), auch in der Menü-Übersicht und in den Social-Media-Bildern. „In Karte einfügen“ übernimmt den Menüpreis.
+
 ## V3.0.31 · 23.11.2026 · DEV
 **Geändert**
 - **Menü bearbeiten = Gang bearbeiten:** Das Fenster in DISHES › Menüs & Saison ist jetzt dasselbe wie „Gang bearbeiten“ in MAP – Titel, Untertitel, Menüpreis-Hinweis, Überschrift ausrichten, „Preise in diesem Gang ausblenden“, „Punkte von der Speise zum Preis“, Speisen mit Sonderpreis, € ein/aus, eigener Beschreibung, ▲▼ und Entfernen, dazu „Speisen hinzufügen“ mit Suche, Kategorie und Allergen-Filter. Es öffnet sich rechts wie in MAP; „Fertig“ speichert, „Abbrechen“ verwirft.
