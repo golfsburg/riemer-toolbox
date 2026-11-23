@@ -3,6 +3,10 @@
 Speisekarten- & Menü-Designer: Sets, Gänge, Speisendatenbank mit Allergenen (LMIV), 6 Druckformate, Export als PDF, PPTX und Druck in exakt einer Seite · #ritl_menu
 Neueste Version oben. Versionen ≤ V1.7 nachträglich rekonstruiert (aus `tool_versions`, Quellen-ZIPs und Repo-Historie).
 
+## V3.0.33 · 23.11.2026 · DEV
+**Entfernt**
+- MAP › 01 Modellbereich: Die Formatauswahl (A4 Hoch, Klappkarte, …) steht nicht mehr in der Werkzeugleiste. Das Format wählst du beim Anlegen eines Sets oder in STYLE.ritl › Format.
+
 ## V3.0.32 · 23.11.2026 · DEV
 **Neu**
 - **Menüpreis:** Neues Feld „Menüpreis (€)“ neben dem Menüpreis-Hinweis – in DISHES › Menüs & Saison und genauso bei „Gang bearbeiten“. Auf der Karte steht es als „3-Gang-Menü · € 39,00“ (immer mit 2 Kommastellen), auch in der Menü-Übersicht und in den Social-Media-Bildern. „In Karte einfügen“ übernimmt den Menüpreis.
