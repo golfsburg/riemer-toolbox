@@ -3,6 +3,17 @@
 Speisekarten- & Menü-Designer: Sets, Gänge, Speisendatenbank mit Allergenen (LMIV), 6 Druckformate, Export als PDF, PPTX und Druck in exakt einer Seite · #ritl_menu
 Neueste Version oben. Versionen ≤ V1.7 nachträglich rekonstruiert (aus `tool_versions`, Quellen-ZIPs und Repo-Historie).
 
+## V3.0.29 · 23.11.2026 · DEV
+**Geändert**
+- **Modellbereich überall gleich (MAP, CARD, STYLE):** Die Karte ist in allen drei Modulen der „Modellbereich“ – mit denselben Bereichen am Blatt in einer Leiste darüber: **Gesamte Seite**, **Hauptbereich** und die Bereiche des Formats (Spalten, Kopf, Fuß, Titelseite …). Klick auf einen Bereich (Leiste oder Karte) wählt ihn aus und zeigt seine Einstellungen. In STYLE entfällt dafür der schematische Modellbereich; die Block-Leiste steht jetzt in STYLE und MAP über der Karte.
+- **Gesamte Seite:** Format, Spalten je Seite (Aufsteller), Seitenränder, Rahmen. **Hauptbereich:** Auto-Fit, Schriftgröße, Spalten- und Zeilenabstand, Abstand zwischen Bereichen.
+
+**Entfernt**
+- **„Alle Bereiche als Gruppe“** (Breite, Höhe, Lage, Skalierung und Verschiebung der Gruppe). Gespeicherte Gruppenwerte wirken nicht mehr; die Schriftgröße bleibt als Einstellung des Hauptbereichs erhalten.
+
+**Neu**
+- **Punkte von der Speise zum Preis** – je Gang wählbar, gleich neben „Preise in diesem Gang ausblenden“: dezente Punktlinie in der Farbe des Preises (folgt auch einer Preisfarbe aus dem Designstil). Bei mittig ausgerichteten Gängen ohne Wirkung.
+
 ## V3.0.28 · 23.11.2026 · DEV
 **Geändert**
 - **Ziehen und Auswählen überall gleich (MAP, CARD, STYLE):** Mauszeiger über einem Gang, Text oder Logo markiert ihn blau mit Hinweis; **Drücken und Ziehen verschiebt** (im Raster, mit Fang und innerhalb des Hauptbereichs) – in MAP jetzt ohne vorherigen Doppelklick. **Klick = auswählen** (orange markiert) und öffnet die passende Bearbeitung: in CARD der Inhalt, in STYLE Platzierung & Größe, in MAP das Bearbeiten-Fenster. Doppelklick (MAP) bleibt für feines Verschieben mit Pfeilen bzw. Steuerkreuz.
