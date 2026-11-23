@@ -3,6 +3,14 @@
 PDF-Dokumente aus Lesezeichen-Abschnitten und Einzelseiten zusammenstellen – mit verlinktem Inhaltsverzeichnis · #ritl_pdf
 Neueste Version oben. Versionen ≤ V1.3 nachträglich rekonstruiert (aus `tool_versions` und Entwicklungsverlauf).
 
+## V2.1.6 · 23.11.2026 · DEV
+**Neu**
+- **Planvergleich (COMPARE.ritl) im Backup – alle Stufen:**
+  - *Einstellungen (Stufe 1):* Auflösung, Toleranz, Schwellwert, Mindestgröße, Linienverdickung, Grau, Rechtecke, Rand.
+  - *Datenbank (Stufe 2):* Versionen mit Reihenfolge, Namen, Farben, Sichtbarkeit und Masken, Seitenzuordnung, Namen der Planseiten sowie alle Ausrichtungen (automatisch und 2 Punkte). Fehlen die PDFs, zeigt der Reiter, welche Planstände zu laden sind – danach wird der Stand automatisch übernommen.
+  - *Storage (Stufe 3):* zusätzlich die Planstände selbst (lokal, im Ordner und über den Server).
+- Jede Änderung im Vergleich löst das automatische Backup aus.
+
 ## V2.1.5 · 23.11.2026 · DEV
 **Behoben**
 - **„Backup einrichten“ öffnet sich nicht mehr bei jedem Laden:** Das Fenster erscheint von selbst höchstens einmal je Gerät – auch nach Lizenzprüfung oder Neuladen nicht mehr. Jedes Schließen (✕, Esc, „Später“, „Übernehmen“) gilt als erledigt. Über Backup › „Backup einrichten …“ ist es jederzeit erreichbar.
