@@ -4,6 +4,25 @@
 Start: index.html im Browser öffnen (Chrome/Edge/Firefox) oder auf GitHub Pages ablegen.
 Beim Öffnen wird die Beispielzeichnung „Beispiel_Schnitt.dxf“ geladen.
 
+## V5.8.1 · 23.11.2026 · DEV
+**Neu**
+- **Bild aus der Zwischenablage:** Strg+V fügt ein kopiertes Bild (z. B. Bildschirmausschnitt eines Plans) als neues Unterprojekt ein.
+- **Gescannte PDF-Seiten:** Eine PDF ohne Vektoren wird automatisch wie ein Bild ausgewertet, auch beim Wechsel der Seite.
+- **Bild ausrichten …:** Zuschneiden per Rahmen und Feindrehung um ±10°, damit waagrechte Linien wirklich waagrecht sind. Das ausgerichtete Bild wird neu ausgewertet und als Quelldatei gesichert.
+- **Bildleiste** im Modellbereich (nur bei Bildern):
+  - Lupe beim Setzen von Punkten (Kalibrieren, Nullpunkt, Zeichnen).
+  - Rohr-Ø min/max in mm (wirkt nach dem Kalibrieren).
+  - Mindestlänge und Strichstärke der Linien.
+  - Schwelle automatisch oder adaptiv (für Scans mit ungleichmäßiger Helligkeit).
+  - „Neu erkennen“ wendet die Einstellungen an, gezeichnete Objekte bleiben erhalten.
+- **Konfidenz:** Unsicher erkannte Rohre sind im Modellbereich orange gestrichelt und in der Rohrliste mit „?“ markiert; der Tooltip nennt die Konfidenz in %.
+- **Nullpunkt per Klick:** Werkzeug „Nullpunkt“ setzt den Bezugspunkt der Koordinaten im MSX (dort x = 0 und z = Deckenunterkante aus Bereich 05), z. B. an der Unterkante der Decke oder einer Achse. „Nullpunkt entfernen“ stellt den automatischen Bezug wieder her.
+- **Verschieben:** Ausgewählte Rohre und Kanäle lassen sich mit der Maus verschieben – auch erkannte; Größe, Dämmung und Einstellungen bleiben erhalten. „Rückgängig“ setzt zurück.
+
+**Geändert**
+- Quelle „Bildimport“ statt „Zeichnung“ in der Rohr- und Bauteilliste bei Bildern.
+- Bildauswertung entfernt einzelne Störpunkte; Rohr und Dämmung werden bei Bildern auch bei leicht versetzten Mittelpunkten als ein Rohr erkannt.
+
 ## V5.8 · 23.11.2026 · DEV
 **Neu**
 - **Bilder als Zeichnung:** PNG, JPG, WebP, BMP und GIF lassen sich wie DWG, DXF oder PDF in Bereich 02 laden (auch per Ziehen, mehrere auf einmal). MSX.ritl wandelt das Bild im Browser in Linien, Rechtecke und Kreise um – danach erkennt es Rohre (auch Rohr + Dämmung als zwei Kreise), Decken, Wände und Kanäle wie bei Vektorzeichnungen.
