@@ -3,6 +3,16 @@
 Speisekarten- & Menü-Designer: Sets, Gänge, Speisendatenbank mit Allergenen (LMIV), 6 Druckformate, Export als PDF, PPTX und Druck in exakt einer Seite · #ritl_menu
 Neueste Version oben. Versionen ≤ V1.7 nachträglich rekonstruiert (aus `tool_versions`, Quellen-ZIPs und Repo-Historie).
 
+## V3.0.27 · 23.11.2026 · DEV
+**Neu**
+- **Hauptbereich als Grenze und Fang:** Die Inhaltsfläche jeder Seite (Blatt ohne Rand; bei Klappkarte, Wickelfalz und Aufsteller jede Seite einzeln) ist in MAP, CARD und STYLE gestrichelt umrandet. Gänge, Texte, Bereiche und Logos lassen sich nie darüber hinaus schieben und rasten beim Ziehen an seinen Kanten und seiner Mitte ein (rote Hilfslinie; Alt-Taste = ohne Fang).
+- **CARD & STYLE: Vorschau direkt bearbeiten** – wie in MAP, aber ohne Fenster: Gänge und Texte in der Vorschau mit der Maus ziehen (im Raster, mit Fang), Logos ziehen und am Eck vergrößern. Ein Klick wählt weiterhin nur aus.
+- **Farben und Logos der Lizenz (für alle Sets):** STYLE › Akzentfarbe & Rahmen › „Farben der Lizenz“ speichert Hausfarben (Name, Farbe, entfernen); ein Klick setzt sie als Akzentfarbe. STYLE › Logos & Siegel › „Logos & Siegel der Lizenz“: alle Logos stehen in jedem Set zum Platzieren bereit, auch in „＋ Logo“ und bei Social Media. Hochgeladene Logos werden automatisch gespeichert, vorhandene mit ★ übernommen; beim ersten Start werden die Logos aller Sets übernommen. Teil des Backups.
+- **Kontakt & Öffnungszeiten:** Feld „Restaurantname“.
+
+**Behoben**
+- Nach dem Ziehen eines Logos, Blocks oder der fixierten Fläche wurde der nächste Klick manchmal verschluckt (z. B. ein Modul-Reiter reagierte nicht).
+
 ## V3.0.26 · 22.11.2026 · DEV
 **Behoben**
 - **Verschieben im Modellbereich am Handy (MAP.ritl):** Bisher ging das nur mit den Pfeiltasten. Jetzt: Block antippen › „✥ Verschieben“ – dann den Block mit dem Finger ziehen (rastet im Raster) oder das Steuerkreuz unten nutzen: ◀ ▲ ▼ ▶, „×5“ für große Schritte, „0“ für die Ausgangslage, „Fertig“. Funktioniert genauso mit der Maus; die Pfeiltasten bleiben.
