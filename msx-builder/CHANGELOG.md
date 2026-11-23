@@ -9,6 +9,7 @@ Beim Öffnen wird die Beispielzeichnung „Beispiel_Schnitt.dxf“ geladen.
 - **Texterkennung im Bildimport:** Beschriftungen wie „DN100“, „Ø50“, „O“ oder „0“ werden als Textzeilen erkannt (waagrecht und senkrecht). Kreise und Striche in Buchstaben und Ziffern werden nicht mehr als Rohre oder Linien ausgewertet.
 - Erkannte Textzeilen erscheinen als gestrichelte Kästen und lassen sich mit **Texte EIN/AUS** ein- und ausblenden.
 - In der Bildleiste schaltet **Text erkennen** das Ausfiltern ab bzw. wieder ein (wirkt mit „Neu erkennen“). Kleine Rohre nebeneinander bleiben Rohre.
+- **Rahmenauswahl im Modellbereich:** Mit „Auswählen“ und **Shift + linker Maustaste** einen Rahmen ziehen. Nach rechts gezogen (durchgezogener Rahmen) werden alle Objekte gewählt, die ganz im Rahmen liegen; nach links gezogen (gestrichelt, grün) alle, die der Rahmen berührt. Gilt für Rohre, Lüftungs- und Kabelkanäle, Bauteile und Stäbe; die Auswahl kommt zur bestehenden dazu.
 
 **Behoben**
 - **Backup Stufe storage (A3/B3/C3) sichert den ganzen Arbeitsstand:** Unterprojekte ohne eigene Zeichnungsdatei – nur manuell gezeichnet oder aus einer .mspx bzw. einem Projekt-ZIP und bearbeitet – kamen beim Wiederherstellen nur als fertige MSX zurück oder fehlten ganz, wenn noch nichts exportbereit war. Jetzt werden Ausgangszeichnung und Bearbeitung (manuelle Objekte, Rohrliste, Nullpunkt, Einstellungen) gesichert und vollständig wiederhergestellt.
