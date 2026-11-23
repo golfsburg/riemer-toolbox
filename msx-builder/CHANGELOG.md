@@ -10,6 +10,10 @@ Beim Öffnen wird die Beispielzeichnung „Beispiel_Schnitt.dxf“ geladen.
 - Erkannte Textzeilen erscheinen als gestrichelte Kästen und lassen sich mit **Texte EIN/AUS** ein- und ausblenden.
 - In der Bildleiste schaltet **Text erkennen** das Ausfiltern ab bzw. wieder ein (wirkt mit „Neu erkennen“). Kleine Rohre nebeneinander bleiben Rohre.
 
+**Behoben**
+- **Backup Stufe storage (A3/B3/C3) sichert den ganzen Arbeitsstand:** Unterprojekte ohne eigene Zeichnungsdatei – nur manuell gezeichnet oder aus einer .mspx bzw. einem Projekt-ZIP und bearbeitet – kamen beim Wiederherstellen nur als fertige MSX zurück oder fehlten ganz, wenn noch nichts exportbereit war. Jetzt werden Ausgangszeichnung und Bearbeitung (manuelle Objekte, Rohrliste, Nullpunkt, Einstellungen) gesichert und vollständig wiederhergestellt.
+- Eine Änderung des Projektnamens löst jetzt ebenfalls das Sichern aus.
+
 ## V5.8.2 · 23.11.2026 · DEV
 **Behoben**
 - **Lupe vergrößert richtig:** Sie zeigte den Ausschnitt fast im Originalmaßstab. Jetzt vergrößert sie 4-fach gegenüber der aktuellen Ansicht, mit Fadenkreuz in der Mitte.
