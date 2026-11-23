@@ -156,7 +156,7 @@ const zeit=d=>`${p2(d.getDate())}.${p2(d.getMonth()+1)}.${d.getFullYear()} ${p2(
 const LS=k=>{try{return localStorage.getItem(k)}catch(e){return null}},LSset=(k,v)=>{try{v==null?localStorage.removeItem(k):localStorage.setItem(k,v)}catch(e){}};
 const toast=m=>{if(typeof window.toast==='function')window.toast(m);else try{console.info('[Backup] '+m)}catch(e){}};
 // 2.9.1: Hinweis höchstens einmal am Tag je Art (statt Fenster bei jedem Start)
-const hinweis1=(art,m)=>{const k='riemer-bk-hinweis-'+art,t=new Date().toISOString().slice(0,10);try{if(localStorage.getItem(k)===t)return;localStorage.setItem(k,t)}catch(e){}toast(m)};
+const hinweis1=(art,m)=>{const k=K('hinweis-'+art),t=new Date().toISOString().slice(0,10);try{if(localStorage.getItem(k)===t)return;localStorage.setItem(k,t)}catch(e){}toast(m)};
 const fire=()=>document.dispatchEvent(new Event(EV));
 const ver=()=>(window.RITL&&window.RITL.version_label)||(typeof A.version==='function'?A.version():A.version)||((document.querySelector('header[data-ritl-header]')||{dataset:{}}).dataset.ver)||'';
 const head=fmt=>({tool:TOOL,name:NAME,version:ver(),format:A.format||1,inhalt:fmt,erstellt:new Date().toISOString()});

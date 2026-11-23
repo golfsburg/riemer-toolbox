@@ -7,6 +7,11 @@ Zentraler Backup-Baustein aller RIEMER Tools (Regel S-17). Neueste Version oben.
 - **Kein Backup-Fenster mehr bei jedem Start:** Bei Datenquelle Ordner (Datenhoheit) öffnete sich „Backup einrichten“ nach jeder Lizenzprüfung und jedem Neuladen, solange auf dem Gerät kein Ordner verknüpft war – auch nach „Esc“. Jetzt erscheint es dort nur beim ersten Start je Gerät; danach kommt höchstens einmal am Tag der Hinweis „… noch kein Ordner verknüpft: Backup › „Ordner verknüpfen …““.
 - Braucht der Browser nach einem Neustart eine Bestätigung für den Ordner, öffnet sich nicht mehr das Backup-Fenster, sondern es kommt höchstens einmal am Tag der Hinweis „Backup › „Zugriff erneuern““. Das Backup-Symbol am Knopf zeigt den Zustand weiter in Orange.
 - Schließen von „Backup einrichten“ mit Esc zählt wie „Später“ – das Fenster kommt beim nächsten Start nicht erneut.
+- Der Tages-Hinweis gilt je Tool (nicht ein Hinweis für alle Tools zusammen).
+
+**Geändert**
+- Regel „Nie bei jedem Start“ in der Anleitung (`README.md`) und im Skill: „Backup einrichten“ öffnet sich von selbst höchstens einmal je Gerät.
+- Am Lizenzserver für den Kanal Dev hinterlegt (wirkt in allen Tools mit Dev-Lizenz ohne Neuveröffentlichung).
 
 ## 2.9 · 22.11.2026 · DEV
 **Behoben**
