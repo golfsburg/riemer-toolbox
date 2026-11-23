@@ -4,6 +4,11 @@
 Start: index.html im Browser öffnen (Chrome/Edge/Firefox) oder auf GitHub Pages ablegen.
 Beim Öffnen wird die Beispielzeichnung „Beispiel_Schnitt.dxf“ geladen.
 
+## V5.8.2 · 23.11.2026 · DEV
+**Behoben**
+- **Lupe vergrößert richtig:** Sie zeigte den Ausschnitt fast im Originalmaßstab. Jetzt vergrößert sie 4-fach gegenüber der aktuellen Ansicht, mit Fadenkreuz in der Mitte.
+- Die Lupe bleibt am Rand des Modellbereichs vollständig sichtbar und wird nicht mehr angeschnitten.
+
 ## V5.8.1 · 23.11.2026 · DEV
 **Neu**
 - **Bild aus der Zwischenablage:** Strg+V fügt ein kopiertes Bild (z. B. Bildschirmausschnitt eines Plans) als neues Unterprojekt ein.
