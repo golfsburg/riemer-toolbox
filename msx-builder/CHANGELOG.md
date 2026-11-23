@@ -4,6 +4,17 @@
 Start: index.html im Browser öffnen (Chrome/Edge/Firefox) oder auf GitHub Pages ablegen.
 Beim Öffnen wird die Beispielzeichnung „Beispiel_Schnitt.dxf“ geladen.
 
+## V5.8 · 23.11.2026 · DEV
+**Neu**
+- **Bilder als Zeichnung:** PNG, JPG, WebP, BMP und GIF lassen sich wie DWG, DXF oder PDF in Bereich 02 laden (auch per Ziehen, mehrere auf einmal). MSX.ritl wandelt das Bild im Browser in Linien, Rechtecke und Kreise um – danach erkennt es Rohre (auch Rohr + Dämmung als zwei Kreise), Decken, Wände und Kanäle wie bei Vektorzeichnungen.
+- **Maßstab über Referenzlänge:** Nach dem Laden eines Bildes ist „Kalibrieren“ aktiv – zwei Punkte einer bekannten Länge anklicken (z. B. eine Bemaßung) und die Ist-Länge in mm eingeben. Alternativ ein Rohr bekannter Größe auswählen und „Maßstab aus ausgewähltem Rohr“.
+- **Rohr über 3 Punkte am Umfang:** „+ Rohr“ hat die neue Größe „Ø aus 3 Punkten am Umfang“ – für Rohre, die im Bild nicht erkannt wurden oder deren Mitte nicht sichtbar ist. „Mitte + Rand“ gibt es weiter; „Fang“ lässt sich dafür ausschalten.
+- Schalter „Bild EIN/AUS“ im Modellbereich blendet das Hintergrundbild aus; die erkannten Linien und Kreise bleiben sichtbar.
+- Bilder werden wie alle Quelldateien im Backup (Stufe storage) mitgesichert und beim Wiederherstellen neu ausgewertet.
+
+**Geändert**
+- Bei Bildern gilt für die Zuordnung zur Rohrgröße eine Ø-Toleranz von mindestens 1,5 Bildpunkten je Seite, weil ein Bild nie pixelgenau ist.
+
 ## V5.7.6 · 22.11.2026 · DEV
 **Geändert**
 - **Backup intern vereinfacht:** MSX.ritl gleicht erst mit dem Server bzw. Ordner ab, wenn das Projekt aus dem Browser geladen ist, und baut ein Projekt vom Server auf, sobald auch die Originaldateien da sind – beides jetzt über den gemeinsamen Backup-Baustein.
