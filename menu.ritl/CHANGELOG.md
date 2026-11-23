@@ -3,6 +3,15 @@
 Speisekarten- & Menü-Designer: Sets, Gänge, Speisendatenbank mit Allergenen (LMIV), 6 Druckformate, Export als PDF, PPTX und Druck in exakt einer Seite · #ritl_menu
 Neueste Version oben. Versionen ≤ V1.7 nachträglich rekonstruiert (aus `tool_versions`, Quellen-ZIPs und Repo-Historie).
 
+## V3.0.30 · 23.11.2026 · DEV
+**Geändert**
+- **Menüs & Saison sind feste Gänge:** Jedes Menü ist eine feste Kombination aus der Speisen- & Getränkedatenbank – mit Name, Untertitel, Menüpreis-Hinweis und den Speisen in fester Reihenfolge. Bearbeiten wie einen Gang: Speisen hinzufügen (Suche, Kategorie), Reihenfolge ▲▼, entfernen, ✎ öffnet die Speise. „In Karte einfügen“ setzt das Menü als Gang in die aktive Karte (Reihenfolge und Menüpreis-Hinweis bleiben). Die Karten der Menüs zeigen alle Speisen mit Preisen.
+- Eine Speise kann weiter in mehreren Menüs sein; Filter „Menü / Saison“ in DISHES und Excel berücksichtigen das. Im Fenster „Speise“ steht, in welchen Menüs sie ist – die Zuordnung erfolgt im Menü.
+- Beim Einfügen bleibt der Name so, wie er eingegeben ist (Großschreibung bestimmt der Designstil).
+
+**Entfernt**
+- Bei Menüs & Saison: Gültig ab/bis, Aktivieren/Deaktivieren, Tag-Schlüssel und „Farbe beim Einfügen“.
+
 ## V3.0.29 · 23.11.2026 · DEV
 **Geändert**
 - **Modellbereich überall gleich (MAP, CARD, STYLE):** Die Karte ist in allen drei Modulen der „Modellbereich“ – mit denselben Bereichen am Blatt in einer Leiste darüber: **Gesamte Seite**, **Hauptbereich** und die Bereiche des Formats (Spalten, Kopf, Fuß, Titelseite …). Klick auf einen Bereich (Leiste oder Karte) wählt ihn aus und zeigt seine Einstellungen. In STYLE entfällt dafür der schematische Modellbereich; die Block-Leiste steht jetzt in STYLE und MAP über der Karte.
