@@ -3,6 +3,11 @@
 Speisekarten- & Menü-Designer: Sets, Gänge, Speisendatenbank mit Allergenen (LMIV), 6 Druckformate, Export als PDF, PPTX und Druck in exakt einer Seite · #ritl_menu
 Neueste Version oben. Versionen ≤ V1.7 nachträglich rekonstruiert (aus `tool_versions`, Quellen-ZIPs und Repo-Historie).
 
+## V3.0.31 · 23.11.2026 · DEV
+**Geändert**
+- **Menü bearbeiten = Gang bearbeiten:** Das Fenster in DISHES › Menüs & Saison ist jetzt dasselbe wie „Gang bearbeiten“ in MAP – Titel, Untertitel, Menüpreis-Hinweis, Überschrift ausrichten, „Preise in diesem Gang ausblenden“, „Punkte von der Speise zum Preis“, Speisen mit Sonderpreis, € ein/aus, eigener Beschreibung, ▲▼ und Entfernen, dazu „Speisen hinzufügen“ mit Suche, Kategorie und Allergen-Filter. Es öffnet sich rechts wie in MAP; „Fertig“ speichert, „Abbrechen“ verwirft.
+- „In Karte einfügen“ übernimmt alle diese Einstellungen in den neuen Gang. Die Menü-Karten zeigen Sonderpreise bzw. „–“ für ausgeblendete Preise.
+
 ## V3.0.30 · 23.11.2026 · DEV
 **Geändert**
 - **Menüs & Saison sind feste Gänge:** Jedes Menü ist eine feste Kombination aus der Speisen- & Getränkedatenbank – mit Name, Untertitel, Menüpreis-Hinweis und den Speisen in fester Reihenfolge. Bearbeiten wie einen Gang: Speisen hinzufügen (Suche, Kategorie), Reihenfolge ▲▼, entfernen, ✎ öffnet die Speise. „In Karte einfügen“ setzt das Menü als Gang in die aktive Karte (Reihenfolge und Menüpreis-Hinweis bleiben). Die Karten der Menüs zeigen alle Speisen mit Preisen.
