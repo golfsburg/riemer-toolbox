@@ -2,6 +2,21 @@
 
 Zentraler Backup-Baustein aller RIEMER Tools (Regel S-17). Neueste Version oben.
 
+## 2.9.1 · 23.11.2026 · DEV
+**Behoben**
+- **Kein Backup-Fenster mehr bei jedem Start:** Bei Datenquelle Ordner (Datenhoheit) öffnete sich „Backup einrichten“ nach jeder Lizenzprüfung und jedem Neuladen, solange auf dem Gerät kein Ordner verknüpft war – auch nach „Esc“. Jetzt erscheint es dort nur beim ersten Start je Gerät; danach kommt höchstens einmal am Tag der Hinweis „… noch kein Ordner verknüpft: Backup › „Ordner verknüpfen …““.
+- Braucht der Browser nach einem Neustart eine Bestätigung für den Ordner, öffnet sich nicht mehr das Backup-Fenster, sondern es kommt höchstens einmal am Tag der Hinweis „Backup › „Zugriff erneuern““. Das Backup-Symbol am Knopf zeigt den Zustand weiter in Orange.
+- Schließen von „Backup einrichten“ mit Esc zählt wie „Später“ – das Fenster kommt beim nächsten Start nicht erneut.
+- Der Tages-Hinweis gilt je Tool (nicht ein Hinweis für alle Tools zusammen).
+
+**Geändert**
+- Regel „Nie bei jedem Start“ in der Anleitung (`README.md`) und im Skill: „Backup einrichten“ öffnet sich von selbst höchstens einmal je Gerät.
+- Am Lizenzserver für den Kanal Dev hinterlegt (wirkt in allen Tools mit Dev-Lizenz ohne Neuveröffentlichung).
+
+## 2.9 · 22.11.2026 · DEV
+**Behoben**
+- Nicht mehr gebrauchte Dateien werden zuerst am Server gelöscht – ein volles Kontingent blockiert das Hochladen neuer Dateien nicht mehr. (Eintrag nachgetragen; die Fassung war am Server und in MESH.ritl, aber nicht im Repo.)
+
 ## 2.8 · 21.11.2026 · DEV
 **Behoben**
 - **Dateien über den Server auf iPhone, iPad und Mac (Safari):** Bei Backup-Stufe 3 über den Server (z. B. C3) kamen Dateien, die über „Datei wählen“ hinzugefügt wurden, leer am Server an – das Tool meldete „Datei „…“ konnte nicht hochgeladen werden“ und der Backup-Knopf wurde rot. Jetzt wird jede Datei vor dem Hochladen vollständig gelesen und mit Inhalt gesendet.

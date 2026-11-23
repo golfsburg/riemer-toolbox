@@ -4,6 +4,41 @@
 Start: index.html im Browser öffnen (Chrome/Edge/Firefox) oder auf GitHub Pages ablegen.
 Beim Öffnen wird die Beispielzeichnung „Beispiel_Schnitt.dxf“ geladen.
 
+## V5.8.3 · 23.11.2026 · DEV
+**Neu**
+- **Texterkennung im Bildimport:** Beschriftungen wie „DN100“, „Ø50“, „O“ oder „0“ werden als Textzeilen erkannt (waagrecht und senkrecht). Kreise und Striche in Buchstaben und Ziffern werden nicht mehr als Rohre oder Linien ausgewertet.
+- Erkannte Textzeilen erscheinen als gestrichelte Kästen und lassen sich mit **Texte EIN/AUS** ein- und ausblenden.
+- In der Bildleiste schaltet **Text erkennen** das Ausfiltern ab bzw. wieder ein (wirkt mit „Neu erkennen“). Kleine Rohre nebeneinander bleiben Rohre.
+- **Rahmenauswahl im Modellbereich:** Mit „Auswählen“ und **Shift + linker Maustaste** einen Rahmen ziehen. Nach rechts gezogen (durchgezogener Rahmen) werden alle Objekte gewählt, die ganz im Rahmen liegen; nach links gezogen (gestrichelt, grün) alle, die der Rahmen berührt. Gilt für Rohre, Lüftungs- und Kabelkanäle, Bauteile und Stäbe; die Auswahl kommt zur bestehenden dazu.
+
+**Behoben**
+- **Backup Stufe storage (A3/B3/C3) sichert den ganzen Arbeitsstand:** Unterprojekte ohne eigene Zeichnungsdatei – nur manuell gezeichnet oder aus einer .mspx bzw. einem Projekt-ZIP und bearbeitet – kamen beim Wiederherstellen nur als fertige MSX zurück oder fehlten ganz, wenn noch nichts exportbereit war. Jetzt werden Ausgangszeichnung und Bearbeitung (manuelle Objekte, Rohrliste, Nullpunkt, Einstellungen) gesichert und vollständig wiederhergestellt.
+- Eine Änderung des Projektnamens löst jetzt ebenfalls das Sichern aus.
+
+## V5.8.2 · 23.11.2026 · DEV
+**Behoben**
+- **Lupe vergrößert richtig:** Sie zeigte den Ausschnitt fast im Originalmaßstab. Jetzt vergrößert sie 4-fach gegenüber der aktuellen Ansicht, mit Fadenkreuz in der Mitte.
+- Die Lupe bleibt am Rand des Modellbereichs vollständig sichtbar und wird nicht mehr angeschnitten.
+
+## V5.8.1 · 23.11.2026 · DEV
+**Neu**
+- **Bild aus der Zwischenablage:** Strg+V fügt ein kopiertes Bild (z. B. Bildschirmausschnitt eines Plans) als neues Unterprojekt ein.
+- **Gescannte PDF-Seiten:** Eine PDF ohne Vektoren wird automatisch wie ein Bild ausgewertet, auch beim Wechsel der Seite.
+- **Bild ausrichten …:** Zuschneiden per Rahmen und Feindrehung um ±10°, damit waagrechte Linien wirklich waagrecht sind. Das ausgerichtete Bild wird neu ausgewertet und als Quelldatei gesichert.
+- **Bildleiste** im Modellbereich (nur bei Bildern):
+  - Lupe beim Setzen von Punkten (Kalibrieren, Nullpunkt, Zeichnen).
+  - Rohr-Ø min/max in mm (wirkt nach dem Kalibrieren).
+  - Mindestlänge und Strichstärke der Linien.
+  - Schwelle automatisch oder adaptiv (für Scans mit ungleichmäßiger Helligkeit).
+  - „Neu erkennen“ wendet die Einstellungen an, gezeichnete Objekte bleiben erhalten.
+- **Konfidenz:** Unsicher erkannte Rohre sind im Modellbereich orange gestrichelt und in der Rohrliste mit „?“ markiert; der Tooltip nennt die Konfidenz in %.
+- **Nullpunkt per Klick:** Werkzeug „Nullpunkt“ setzt den Bezugspunkt der Koordinaten im MSX (dort x = 0 und z = Deckenunterkante aus Bereich 05), z. B. an der Unterkante der Decke oder einer Achse. „Nullpunkt entfernen“ stellt den automatischen Bezug wieder her.
+- **Verschieben:** Ausgewählte Rohre und Kanäle lassen sich mit der Maus verschieben – auch erkannte; Größe, Dämmung und Einstellungen bleiben erhalten. „Rückgängig“ setzt zurück.
+
+**Geändert**
+- Quelle „Bildimport“ statt „Zeichnung“ in der Rohr- und Bauteilliste bei Bildern.
+- Bildauswertung entfernt einzelne Störpunkte; Rohr und Dämmung werden bei Bildern auch bei leicht versetzten Mittelpunkten als ein Rohr erkannt.
+
 ## V5.8 · 23.11.2026 · DEV
 **Neu**
 - **Bilder als Zeichnung:** PNG, JPG, WebP, BMP und GIF lassen sich wie DWG, DXF oder PDF in Bereich 02 laden (auch per Ziehen, mehrere auf einmal). MSX.ritl wandelt das Bild im Browser in Linien, Rechtecke und Kreise um – danach erkennt es Rohre (auch Rohr + Dämmung als zwei Kreise), Decken, Wände und Kanäle wie bei Vektorzeichnungen.
