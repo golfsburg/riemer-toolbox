@@ -3,6 +3,10 @@
 PDF-Dokumente aus Lesezeichen-Abschnitten und Einzelseiten zusammenstellen – mit verlinktem Inhaltsverzeichnis · #ritl_pdf
 Neueste Version oben. Versionen ≤ V1.3 nachträglich rekonstruiert (aus `tool_versions` und Entwicklungsverlauf).
 
+## V2.1.5 · 23.11.2026 · DEV
+**Behoben**
+- **„Backup einrichten“ öffnet sich nicht mehr bei jedem Laden:** Das Fenster erscheint von selbst höchstens einmal je Gerät – auch nach Lizenzprüfung oder Neuladen nicht mehr. Jedes Schließen (✕, Esc, „Später“, „Übernehmen“) gilt als erledigt. Über Backup › „Backup einrichten …“ ist es jederzeit erreichbar.
+
 ## V2.1.4 · 23.11.2026 · DEV
 **Neu**
 - **Reiter COMPARE.ritl – Vergleich (grafischer Planvergleich):** mehrere Planstände als PDF laden (Drag & Drop oder Dateiauswahl); Reihenfolge = Versionsstand, per Ziehen änderbar, Versionsnamen und Farben editierbar (Standard V1 Rot, V2 Blau, V3 Grün, weitere frei wählbar).
