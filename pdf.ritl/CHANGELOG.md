@@ -3,6 +3,20 @@
 PDF-Dokumente aus Lesezeichen-Abschnitten und Einzelseiten zusammenstellen – mit verlinktem Inhaltsverzeichnis · #ritl_pdf
 Neueste Version oben. Versionen ≤ V1.3 nachträglich rekonstruiert (aus `tool_versions` und Entwicklungsverlauf).
 
+## V2.1.4 · 23.11.2026 · DEV
+**Neu**
+- **Reiter COMPARE.ritl – Vergleich (grafischer Planvergleich):** mehrere Planstände als PDF laden (Drag & Drop oder Dateiauswahl); Reihenfolge = Versionsstand, per Ziehen änderbar, Versionsnamen und Farben editierbar (Standard V1 Rot, V2 Blau, V3 Grün, weitere frei wählbar).
+- **Seitenzuordnung automatisch** (nach Textähnlichkeit, sonst nach Reihenfolge), je Planseite manuell änderbar; Rendern in einheitlicher Auflösung 100/150/200/300 dpi.
+- **Automatische Ausrichtung** anhand des Planinhalts – Maßstab, Verschiebung und kleine Drehung, auch wenn sich Format und Layout ändern; Deckung je Version wird angezeigt.
+- **Ausrichten & Maske:** Ausrichtung über je 2 Referenzpunkte (z. B. Achsenschnittpunkte) mit optionalem Nachjustieren, Prüfansicht „Überlagerung“; Schriftfeld und weitere Flächen je Version ausblenden (an der nächsten Blattecke verankert, auf alle Versionen übertragbar), Planrahmen über „Rand ausblenden“.
+- **Pixelvergleich:** gleiche Inhalte grau, Abweichungen je Version in ihrer Farbe; Regler für Toleranz, Schwellwert, Mindestgröße und Linienverdickung.
+- **Ansicht:** Zoom/Verschieben, „Fixieren“ auf das ganze Fenster, Versionen in der Legende ein-/ausblendbar, Änderungsbereiche als nummerierte Rechtecke (Klick zoomt hin).
+- **Export:** neues PDF mit einer Seite je Planseite inkl. Legende und Versionsinfo im Kopf, zusätzlich PNG je Seite. Alles läuft lokal im Browser.
+
+**Geändert**
+- Module als Ribbon: **DECK.ritl** (Zusammenstellen, wie bisher) und **COMPARE.ritl**; das Modul steht im Link (#deck, #compare).
+- Backup Stufe settings enthält zusätzlich die Vergleichs-Einstellungen.
+
 ## V2.1.3 · 22.11.2026 · DEV
 **Neu**
 - **Komplett-Paket im Fenster „Backup“:** Abschnitt „04 Komplett-Paket (.zip)“ mit „Komplett-Paket speichern“ und „Komplett-Paket laden …“. Unter 03 Ausgabe bleibt der Knopf wie bisher.
