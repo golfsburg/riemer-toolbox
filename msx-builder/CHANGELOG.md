@@ -4,6 +4,12 @@
 Start: index.html im Browser öffnen (Chrome/Edge/Firefox) oder auf GitHub Pages ablegen.
 Beim Öffnen wird die Beispielzeichnung „Beispiel_Schnitt.dxf“ geladen.
 
+## V5.8.3 · 23.11.2026 · DEV
+**Neu**
+- **Texterkennung im Bildimport:** Beschriftungen wie „DN100“, „Ø50“, „O“ oder „0“ werden als Textzeilen erkannt (waagrecht und senkrecht). Kreise und Striche in Buchstaben und Ziffern werden nicht mehr als Rohre oder Linien ausgewertet.
+- Erkannte Textzeilen erscheinen als gestrichelte Kästen und lassen sich mit **Texte EIN/AUS** ein- und ausblenden.
+- In der Bildleiste schaltet **Text erkennen** das Ausfiltern ab bzw. wieder ein (wirkt mit „Neu erkennen“). Kleine Rohre nebeneinander bleiben Rohre.
+
 ## V5.8.2 · 23.11.2026 · DEV
 **Behoben**
 - **Lupe vergrößert richtig:** Sie zeigte den Ausschnitt fast im Originalmaßstab. Jetzt vergrößert sie 4-fach gegenüber der aktuellen Ansicht, mit Fadenkreuz in der Mitte.
