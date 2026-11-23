@@ -3,6 +3,13 @@
 Speisekarten- & Menü-Designer: Sets, Gänge, Speisendatenbank mit Allergenen (LMIV), 6 Druckformate, Export als PDF, PPTX und Druck in exakt einer Seite · #ritl_menu
 Neueste Version oben. Versionen ≤ V1.7 nachträglich rekonstruiert (aus `tool_versions`, Quellen-ZIPs und Repo-Historie).
 
+## V3.0.28 · 23.11.2026 · DEV
+**Geändert**
+- **Ziehen und Auswählen überall gleich (MAP, CARD, STYLE):** Mauszeiger über einem Gang, Text oder Logo markiert ihn blau mit Hinweis; **Drücken und Ziehen verschiebt** (im Raster, mit Fang und innerhalb des Hauptbereichs) – in MAP jetzt ohne vorherigen Doppelklick. **Klick = auswählen** (orange markiert) und öffnet die passende Bearbeitung: in CARD der Inhalt, in STYLE Platzierung & Größe, in MAP das Bearbeiten-Fenster. Doppelklick (MAP) bleibt für feines Verschieben mit Pfeilen bzw. Steuerkreuz.
+
+**Neu**
+- **Jede Box lässt sich fixieren:** Neben dem Auf-/Zuklappen hat jede Box einen Knopf ⤢ – die Box füllt dann das Fenster (Kopf bleibt oben, Inhalt scrollt). Erneuter Klick oder Esc löst. Die Box „Vorschau & Export“ hat weiterhin ihr eigenes „🔒 Fixieren“.
+
 ## V3.0.27 · 23.11.2026 · DEV
 **Neu**
 - **Hauptbereich als Grenze und Fang:** Die Inhaltsfläche jeder Seite (Blatt ohne Rand; bei Klappkarte, Wickelfalz und Aufsteller jede Seite einzeln) ist in MAP, CARD und STYLE gestrichelt umrandet. Gänge, Texte, Bereiche und Logos lassen sich nie darüber hinaus schieben und rasten beim Ziehen an seinen Kanten und seiner Mitte ein (rote Hilfslinie; Alt-Taste = ohne Fang).
