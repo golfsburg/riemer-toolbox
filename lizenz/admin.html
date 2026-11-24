@@ -75,6 +75,9 @@
   .p-ok{background:color-mix(in srgb,var(--alt-teal) 16%,transparent);color:var(--ok-tx)}
   .p-warn{background:color-mix(in srgb,var(--alt-orange) 16%,transparent);color:var(--warn-tx)}
   .p-bad{background:color-mix(in srgb,var(--danger) 16%,transparent);color:var(--bad-tx)}
+  .p-arch{background:var(--surface-muted);color:var(--ink-2,var(--ink))}
+  tr.arch td{opacity:.72}
+  tr.arch td:last-child{opacity:1}
   .tag{display:inline-block;padding:2px 6px;margin:2px;border-radius:var(--radius-sm);font:500 12px/16px var(--mono);background:color-mix(in srgb,var(--brand) 14%,transparent);color:var(--accent-text)}
   button.b,a.b{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:var(--radius-ctl);border:1px solid var(--line);background:var(--surface);color:var(--ink);font:500 13px/18px var(--sans);cursor:pointer;text-decoration:none;white-space:nowrap}
   button.b:hover,a.b:hover{border-color:var(--brand)}
@@ -573,7 +576,7 @@
   <div class="frame">
     <div class="dlg-head"><h2 id="ver-title">Versionen</h2><button type="button" class="ib" data-close aria-label="Schließen" title="Schließen">✕</button></div>
     <div class="dlg-body">
-<p class="hint" style="margin:-8px 0 12px">Jede Lizenz bekommt die neueste aktive Version aus ihrem Kanal und ihrer Edition (Dev sieht Dev + Beta + Stabil, Beta sieht Beta + Stabil; fehlt eine Edition, gilt Standard). Kanal und Edition lassen sich direkt in der Tabelle umstellen. „Freigeben“ verschiebt eine Version in den nächsten Kanal, „Zurückziehen“ nimmt sie aus der Auslieferung – dann gilt automatisch wieder die vorige.</p>
+<p class="hint" style="margin:-8px 0 12px">Jede Lizenz bekommt die neueste aktive Version aus ihrem Kanal und ihrer Edition (Dev sieht Dev + Beta + Stabil, Beta sieht Beta + Stabil; fehlt eine Edition, gilt Standard). Kanal und Edition lassen sich direkt in der Tabelle umstellen. „Freigeben“ verschiebt eine Version in den nächsten Kanal, „Zurückziehen“ nimmt sie aus der Auslieferung – dann gilt automatisch wieder die vorige. „Archivieren“ legt HTML und Quellen einer älteren Version im Archiv (Speicher) ab und spart Platz in der Datenbank; die Zeile bleibt, ausgeliefert wird sie nicht mehr. „Wiederherstellen“ holt sie zurück.</p>
         <div class="wrap"><table data-rz="ver">
           <thead><tr><th>Version</th><th>Edition</th><th>Kanal</th><th>Freigegeben</th><th>Größe</th><th>Aufrufe</th><th>Notiz</th><th>Quellen</th><th></th></tr></thead>
           <tbody id="verrows"></tbody>
@@ -584,7 +587,7 @@
         <input type="file" id="src-file" hidden>
         
     </div>
-    <div class="dlg-foot"><span class="sp"></span><button class="b" type="button" id="ver-close">Schließen</button></div>
+    <div class="dlg-foot"><button class="b" type="button" id="ver-arch" title="Spart Platz in der Datenbank: HTML und Quellen älterer Versionen wandern ins Archiv (Speicher). Behalten werden je Kanal und Edition die aktuelle Version und die letzten 3.">Ältere archivieren …</button><button class="b" type="button" id="ver-arch-all" title="Wie „Ältere archivieren“, aber für alle Tools">… alle Tools</button><span class="sp"></span><button class="b" type="button" id="ver-close">Schließen</button></div>
   </div>
 </dialog>
 <dialog id="eddlg" class="dlg sm" aria-labelledby="ed-title">
@@ -749,17 +752,19 @@
       // unabhängig von der Reihenfolge der Liste. Die Liste selbst steht streng nach Versionsnummer (neueste oben).
       var liveAt = {};
       r.versions.forEach(function (v) { var k = (v.edition || "standard") + "|" + v.channel, at = Date.parse(v.released_at || v.created_at || 0) || 0;
-        if (v.active && (!(k in liveAt) || at > liveAt[k] || (at === liveAt[k] && v.id > live[k]))) { live[k] = v.id; liveAt[k] = at; } });
+        if (v.active && !v.archived_at && (!(k in liveAt) || at > liveAt[k] || (at === liveAt[k] && v.id > live[k]))) { live[k] = v.id; liveAt[k] = at; } });
       var vnum = function (x) { return String(x || "").replace(/^[^0-9]*/, "").split(/[^0-9]+/).filter(Boolean).map(Number); };
       r.versions.sort(function (a, b) { var x = vnum(a.version), y = vnum(b.version);
         for (var i = 0; i < Math.max(x.length, y.length); i++) { var d = (y[i] || 0) - (x[i] || 0); if (d) return d; }
         if (x.length !== y.length) return y.length - x.length; // V3.1.0 vor V3.1
         return String(a.edition || "standard").localeCompare(String(b.edition || "standard")) || (b.id - a.id); });
       $("verrows").innerHTML = r.versions.map(function (v) {
-        var acts = '<button class="b" data-vact="open" data-vid="' + v.id + '" title="Diese Version in einem neuen Tab öffnen (Admin-Vorschau, Daten als Kopie)">↗ Öffnen</button>' +
+        var arch = !!v.archived_at, isLive = live[(v.edition || "standard") + "|" + v.channel] === v.id;
+        var acts = arch ? '<button class="b" data-vact="restore" data-vid="' + v.id + '" title="HTML aus dem Archiv zurück in die Datenbank holen">↺ Wiederherstellen</button>' : '<button class="b" data-vact="open" data-vid="' + v.id + '" title="Diese Version in einem neuen Tab öffnen (Admin-Vorschau, Daten als Kopie)">↗ Öffnen</button>' +
           '<button class="b" data-vact="offline" data-vid="' + v.id + '" title="Diese Version als Offline-HTML herunterladen (ohne Lizenzprüfung, ohne Server-Backup)">⬇ Offline</button>', ed = v.edition || "standard";
-        if (v.active && NEXT[v.channel]) acts += '<button class="b pri" data-vact="promote" data-vid="' + v.id + '" data-to="' + NEXT[v.channel] + '">Freigeben → ' + CH[NEXT[v.channel]] + "</button>";
-        acts += v.active ? '<button class="b" data-vact="off" data-vid="' + v.id + '">Zurückziehen</button>'
+        if (!arch && v.active && NEXT[v.channel]) acts += '<button class="b pri" data-vact="promote" data-vid="' + v.id + '" data-to="' + NEXT[v.channel] + '">Freigeben → ' + CH[NEXT[v.channel]] + "</button>";
+        if (!arch && !isLive) acts += '<button class="b" data-vact="arch" data-vid="' + v.id + '" title="HTML und Quellen ins Archiv (Speicher) legen – spart Platz in der Datenbank">Archivieren</button>';
+        if (!arch) acts += v.active ? '<button class="b" data-vact="off" data-vid="' + v.id + '">Zurückziehen</button>'
                          : '<button class="b" data-vact="on" data-vid="' + v.id + '">Reaktivieren</button>';
         acts += '<button class="b dan" data-vact="del" data-vid="' + v.id + '">Löschen</button>';
         var edSel = eds.length > 1
@@ -768,9 +773,9 @@
           : '<span class="hint">Standard</span>';
         var chSel = '<select class="vsel" data-vsel="channel" data-vid="' + v.id + '" aria-label="Kanal">' + ["stable", "beta", "dev"].map(function (c) {
               return '<option value="' + c + '"' + (c === v.channel ? " selected" : "") + ">" + CH[c] + "</option>"; }).join("") + "</select>";
-        return '<tr class="' + (v.active ? "" : "off") + '"><td class="mono"><b>' + esc(v.version) + "</b>" +
-          (live[ed + "|" + v.channel] === v.id ? ' <span class="pill p-ok">aktuell</span>' : "") + (v.active ? "" : ' <span class="pill p-bad">zurückgezogen</span>') + "</td>" +
-          "<td>" + edSel + "</td><td>" + chSel + "</td><td>" + fmtDT(v.released_at) + "</td><td>" + v.kb + " KB</td><td>" + v.opens + "</td>" +
+        return '<tr class="' + (v.active ? "" : "off") + (arch ? " arch" : "") + '"><td class="mono"><b>' + esc(v.version) + "</b>" +
+          (live[ed + "|" + v.channel] === v.id ? ' <span class="pill p-ok">aktuell</span>' : "") + (v.active ? "" : ' <span class="pill p-bad">zurückgezogen</span>') + (arch ? ' <span class="pill p-arch" title="Archiviert ' + esc(fmtDT(v.archived_at)) + '">archiviert</span>' : "") + "</td>" +
+          "<td>" + edSel + "</td><td>" + chSel + "</td><td>" + fmtDT(v.released_at) + "</td><td>" + (arch ? '<span class="hint">Archiv</span>' : v.kb + " KB") + "</td><td>" + v.opens + "</td>" +
           '<td class="hint">' + esc(v.notes || "") + "</td><td>" + srcCell(srcOf(v), v) + '</td><td><div class="acts">' + acts + "</div></td></tr>";
       }).join("") || '<tr><td colspan="9" class="hint">Noch keine Versionen.</td></tr>';
     });
@@ -783,26 +788,27 @@
   /* ── Quellen (Sicherung der Quelldateien je Version) ── */
   var SRC = [];
   function srcType(x) { var m = /\.([a-z0-9]{1,5})$/i.exec(x.filename || ""); return m ? m[1].toUpperCase() : "DATEI"; }
-  function srcItem(x) {
-    var t = srcType(x), zip = t === "ZIP";
-    return '<span class="srci"><button type="button" data-src-get="' + x.id + '" title="' + esc("Herunterladen: " + x.filename + " · " + x.kb + " KB · " + fmtDT(x.created_at) + (x.created_by ? " · " + x.created_by : "") + (x.notes ? "\n" + x.notes : "")) + '"><span class="ty">' + esc(t) + "</span>⬇ " + x.kb + " KB</button>" +
+  function srcItem(x, lock) {
+    var t = srcType(x), zip = t === "ZIP" || x.archiv;
+    return '<span class="srci"><button type="button" data-src-get="' + x.id + '" title="' + esc("Herunterladen: " + x.filename + " · " + x.kb + " KB · " + fmtDT(x.created_at) + (x.created_by ? " · " + x.created_by : "") + (x.notes ? "\n" + x.notes : "") + (x.archiv ? "\nliegt im Archiv (Speicher), nicht in der Datenbank" : "")) + '"><span class="ty">' + esc(t) + "</span>" + (x.archiv ? "🗄 " : "") + "⬇ " + x.kb + " KB</button>" +
       (zip ? "" : '<button type="button" data-src-zip="' + x.id + '" title="Im Browser zu ZIP packen und diese Datei ersetzen">ZIP</button>') +
-      '<button type="button" data-src-rep="' + x.id + '" title="Durch eine andere Datei ersetzen (z. B. eigenes ZIP)">↻</button>' +
-      '<button type="button" class="dan" data-src-del="' + x.id + '" title="Löschen" aria-label="Quelle löschen">✕</button></span>';
+      (x.archiv ? "" : '<button type="button" data-src-rep="' + x.id + '" title="Durch eine andere Datei ersetzen (z. B. eigenes ZIP)">↻</button>') +
+      (lock ? "" : '<button type="button" class="dan" data-src-del="' + x.id + '" title="Löschen" aria-label="Quelle löschen">✕</button>') + "</span>";
   }
   function srcCell(list, v) {
-    return '<div class="srcl">' + list.map(srcItem).join("") + '<button class="b" data-src-add="' + esc(v.version) + '" data-src-ed="' + esc(v.edition || "standard") + '" title="Quelldateien für diese Version hochladen">＋</button></div>';
+    return '<div class="srcl">' + list.map(function (x) { return srcItem(x, !!(v.archived_at && x.archiv)); }).join("") + '<button class="b" data-src-add="' + esc(v.version) + '" data-src-ed="' + esc(v.edition || "standard") + '" title="Quelldateien für diese Version hochladen">＋</button></div>';
   }
   function fmtKB(kb) { return kb >= 1024 ? (kb / 1024).toFixed(1).replace(".", ",") + " MB" : kb + " KB"; }
   function srcSummary(srcs, versions) {
-    var tot = srcs.reduce(function (a, x) { return a + Number(x.kb || 0); }, 0), html = srcs.filter(function (x) { return srcType(x) !== "ZIP"; });
+    var tot = srcs.reduce(function (a, x) { return a + Number(x.kb || 0); }, 0), html = srcs.filter(function (x) { return srcType(x) !== "ZIP" && !x.archiv; }),
+      ak = srcs.filter(function (x) { return x.archiv; }).reduce(function (a, x) { return a + Number(x.kb || 0); }, 0);
     var hk = html.reduce(function (a, x) { return a + Number(x.kb || 0); }, 0);
-    $("src-sum").innerHTML = srcs.length ? '<span class="pill">' + srcs.length + " Quelle" + (srcs.length > 1 ? "n" : "") + " · " + fmtKB(tot) + "</span>" +
+    $("src-sum").innerHTML = srcs.length ? '<span class="pill">' + srcs.length + " Quelle" + (srcs.length > 1 ? "n" : "") + " · " + fmtKB(tot) + (ak ? " · davon im Archiv " + fmtKB(ak) : "") + "</span>" +
       (html.length > 1 ? '<button class="b" type="button" id="src-zipall" title="Alle Nicht-ZIP-Quellen dieses Tools einzeln zu ZIP packen und ersetzen">Alle ' + html.length + " zu ZIP packen (" + fmtKB(hk) + ")</button>" : "") : "";
     var has = {}; versions.forEach(function (v) { has[v.version + "|" + (v.edition || "standard")] = 1; });
     var orph = srcs.filter(function (x) { return !has[x.version + "|" + (x.edition || "standard")]; });
     $("src-orph").innerHTML = orph.length ? '<p class="hint" style="margin:12px 0 6px">Quellen ohne passende Version (Version gelöscht):</p><div class="acts">' +
-      orph.map(function (x) { return '<span class="mono hint">' + esc(x.version) + (x.edition && x.edition !== "standard" ? " · " + esc(x.edition) : "") + "</span>" + srcItem(x); }).join("") + "</div>" : "";
+      orph.map(function (x) { return '<span class="mono hint">' + esc(x.version) + (x.edition && x.edition !== "standard" ? " · " + esc(x.edition) : "") + "</span>" + srcItem(x, false); }).join("") + "</div>" : "";
   }
   /* ZIP im Browser (ein Eintrag, deflate über CompressionStream) */
   var CRC_T = (function () { var t = new Uint32Array(256); for (var n = 0; n < 256; n++) { var c = n; for (var k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; } return t; })();
@@ -883,7 +889,7 @@
   $("vercard").addEventListener("click", function (e) {
     if (e.target.closest("#src-orph") && e.target.closest("button[data-src-get]")) return srcGet(e.target.closest("button[data-src-get]"));
     if (e.target.id === "src-zipall") {
-      var list = SRC.filter(function (x) { return srcType(x) !== "ZIP"; });
+      var list = SRC.filter(function (x) { return srcType(x) !== "ZIP" && !x.archiv; });
       if (!confirm(list.length + " Quellen einzeln zu ZIP packen und ersetzen?\n\nJe Datei wird zuerst das ZIP hochgeladen, erst danach das Original gelöscht.")) return;
       e.target.disabled = true; var from = 0, to = 0, i = 0;
       (function next() {
@@ -938,8 +944,33 @@
     if (a === "off") { if (!confirm("Version zurückziehen? Sie wird nicht mehr ausgeliefert.")) return; p = api("version_set", { version_id: id, active: false }); }
     if (a === "on") p = api("version_set", { version_id: id, active: true });
     if (a === "del") { if (!confirm("Version endgültig löschen?")) return; p = api("version_delete", { version_id: id }); }
-    p && p.then(function (r) { if (r.ok) { toast("Gespeichert ✓"); load().then(function () { openVersions(verTool); }); } });
+    if (a === "arch") { if (!confirm("Version archivieren?\n\nHTML und Quellen wandern ins Archiv (Speicher) und belegen keinen Platz mehr in der Datenbank. Die Version wird nicht mehr ausgeliefert; „Wiederherstellen“ holt sie zurück.")) return;
+      b.disabled = true; toast("Archiviere …"); p = api("version_archive", { version_id: id }).then(function (r) { if (r.ok) toast("Archiviert ✓ " + fmtKB(r.html_kb) + " frei" + (r.quellen ? " + " + r.quellen + " Quelle(n) " + fmtKB(r.quellen_kb) : "")); else { b.disabled = false; toast("Archivieren fehlgeschlagen" + (r.error ? " (" + r.error + ")" : "")); } return { ok: r.ok, quiet: 1 }; }); }
+    if (a === "restore") { b.disabled = true; toast("Stelle wieder her …"); p = api("version_restore", { version_id: id }).then(function (r) { if (r.ok) toast("Wiederhergestellt ✓"); else { b.disabled = false; toast("Wiederherstellen fehlgeschlagen" + (r.error ? " (" + r.error + ")" : "")); } return { ok: r.ok, quiet: 1 }; }); }
+    p && p.then(function (r) { if (r.ok) { if (!r.quiet) toast("Gespeichert ✓"); load().then(function () { openVersions(verTool); }); } });
   });
+  /* ── Ältere Versionen archivieren (je Kanal und Edition bleiben die aktuelle Version und die letzten 3) ── */
+  function archBulk(tool) {
+    api("archive_plan", tool ? { tool_id: tool, behalten: 3 } : { behalten: 3 }).then(function (r) {
+      if (!r.ok) { toast("Vorschlag fehlgeschlagen" + (r.error ? " (" + r.error + ")" : "")); return; }
+      var L = r.versions || [];
+      if (!L.length) { toast("Nichts zu archivieren – je Kanal sind höchstens " + r.behalten + " ältere Versionen da."); return; }
+      var kb = L.reduce(function (a, x) { return a + Number(x.kb || 0); }, 0), q = L.filter(function (x) { return x.quellen; }).length, per = {};
+      L.forEach(function (x) { per[x.tool_id] = (per[x.tool_id] || 0) + 1; });
+      var lines = tool ? L.slice(0, 25).map(function (x) { return "  " + x.version + " · " + CH[x.channel] + (x.edition !== "standard" ? " · " + x.edition : ""); }).concat(L.length > 25 ? ["  … und " + (L.length - 25) + " weitere"] : [])
+                       : Object.keys(per).sort().map(function (k) { return "  " + k + ": " + per[k]; });
+      if (!confirm(L.length + " Version(en) archivieren? (" + fmtKB(kb) + " HTML in der Datenbank, " + q + " mit Quellen)\n\nBehalten werden je Kanal und Edition die aktuelle Version und die letzten " + r.behalten + ".\n\n" + lines.join("\n"))) return;
+      var i = 0, ok = 0, bad = 0, freed = 0, btn = $("ver-arch"), btn2 = $("ver-arch-all"); btn.disabled = btn2.disabled = true;
+      (function next() {
+        if (i >= L.length) { btn.disabled = btn2.disabled = false; toast("Fertig ✓ " + ok + " archiviert" + (bad ? ", " + bad + " fehlgeschlagen" : "") + " · " + fmtKB(freed) + " HTML frei"); load().then(function () { if (verTool) openVersions(verTool); }); return; }
+        var x = L[i++]; toast("Archiviere " + i + "/" + L.length + ": " + x.tool_id + " " + x.version + " …");
+        api("version_archive", { version_id: x.id }).then(function (a) { if (a.ok) { ok++; freed += Number(a.html_kb || 0); } else bad++; next(); })
+          .catch(function () { bad++; next(); });
+      })();
+    });
+  }
+  $("ver-arch").addEventListener("click", function () { if (verTool) archBulk(verTool); });
+  $("ver-arch-all").addEventListener("click", function () { archBulk(null); });
 
   /* ── Admin-Vorschau einer bestimmten Version („↗ Öffnen“) ──
      Holt das HTML genau dieser Version und öffnet es in einem neuen Tab, in einem isolierten Rahmen (sandbox, eigener Ursprung):
