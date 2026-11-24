@@ -1,4 +1,4 @@
-<!-- ritl-bk 2.10 · 24.11.2026 · DEV – einheitliches Backup der RIEMER Tools (Regel S-17, Rollout R-13). Vorbild MUSTER.ritl V3.9.
+<!-- ritl-bk 2.10.1 · 24.11.2026 · DEV – einheitliches Backup der RIEMER Tools (Regel S-17, Rollout R-13). Vorbild MUSTER.ritl V3.9.
      Einbau: Adapter window.RITL_BK (siehe README.md) als <script> setzen, danach diesen Block unverändert (von ritl-bk:start bis ritl-bk:end) in den <body> nach dem Header kopieren.
      2.1 ist rückwärtskompatibel: neue Angaben (bereit, ohneSha, norm, nachAnwenden, fluechtig, extra, alias, alt.idbFs*) sind optional.
      2.3: Pfad des verknüpften Ordners (✎ je Gerät). 2.4: Stufe je Datenquelle (Lizenz-Matrix backup.max.matrix, z. B. A3 · B2 · C1) – ohne Matrix wie 2.2.
@@ -10,9 +10,10 @@
      2.9.1: „Backup einrichten“ bzw. das Backup-Fenster öffnen sich nicht mehr bei jedem Start: bei Datenquelle Ordner ohne verknüpften Ordner nur beim ersten Start je Gerät, sonst Hinweis höchstens einmal am Tag; Esc zählt als „gesehen“. -->
      2.10: Start/Neuladen – die Datenquelle mit der höchsten Stufe gibt den Stand vor, bei gleicher Stufe C vor B vor A (auch wenn ihr Stand älter ist);
            eigene, ihr unbekannte Änderungen → Konfliktdialog; danach bekommen die anderen Datenquellen diesen Stand.
+     2.10.1: C3 (Server mit Dateien) zählt beim Vorrang als Stufe 3; ein Browser ohne eigene Daten gewinnt nie (überschrieb sonst Ordner/Server).
 <!--ritl-bk:start-->
 <style id="ritl-bk-css">
-/* ritl-bk 2.10 · 24.11.2026 – einheitliches Backup der RIEMER Tools (Regel S-17). Nichts Tool-Spezifisches hier ändern.
+/* ritl-bk 2.10.1 · 24.11.2026 – einheitliches Backup der RIEMER Tools (Regel S-17). Nichts Tool-Spezifisches hier ändern.
    Nur Tokens der Farbkarte. Alle Regeln gelten nur für die Dialoge des Bausteins (.rbk) und das Symbol am Knopf #backupBtn (.bkind). */
 dialog.rbk{border:1px solid var(--line);border-radius:var(--radius-panel,16px);background:var(--surface);color:var(--ink);padding:0;width:min(640px,94vw);box-shadow:0 20px 60px rgba(0,0,0,.25);font:400 14px/20px var(--sans,"Inter",system-ui,sans-serif);margin:auto}
 dialog.rbk::backdrop{background:rgba(15,20,28,.45)}
@@ -110,7 +111,7 @@ dialog.rbk::backdrop{background:rgba(15,20,28,.45)}
 .bkind .offl{color:var(--muted)}
 </style>
 <script id="ritl-bk-js">
-/* ritl-bk 2.10 · 24.11.2026 – einheitliches Backup der RIEMER Tools (Regel S-17, Rollout R-13, Vorbild MUSTER.ritl V3.9).
+/* ritl-bk 2.10.1 · 24.11.2026 – einheitliches Backup der RIEMER Tools (Regel S-17, Rollout R-13, Vorbild MUSTER.ritl V3.9).
    Nichts Tool-Spezifisches hier ändern – das Tool setzt VOR diesem Block den Adapter window.RITL_BK (Anleitung riemer-toolbox/ritl-bk/README.md):
      tool, name, datei, prefix, ereignis, settings(), daten(), dateien()?, dateienLaden(list)?, anwenden(stufe,obj,quelle,still), leer()?,
      legacy(o)?, texte:{settings,datenbank,storage,rueckgaengig}?, alt:{bkcfg,srv,srvst,sync,ordner,oq,fs,bklic,idbFiles,idbFs,idbFsDb,idbFsStore,idbFsKey}?, version?
@@ -125,7 +126,7 @@ dialog.rbk::backdrop{background:rgba(15,20,28,.45)}
      ab 2.1: sync() (Abgleich auf Knopfdruck, Promise) · extra() (eigene Abschnitte neu zeichnen) · Ereignis ritlbk:applied {quelle,stufe,text,still} */
 (function(){"use strict";
 const A=window.RITL_BK;if(!A||!A.tool||window.RITLBK)return;
-const VERSION='2.10',$=id=>document.getElementById(id);
+const VERSION='2.10.1',$=id=>document.getElementById(id);
 const TOOL=A.tool,NAME=A.name||A.tool,PRE=A.prefix||TOOL.replace(/-ritl$/,''),BKNAME=A.datei||`Backup_${NAME.replace('.','-')}.json`,EV=A.ereignis||PRE+':change';
 const BASE=BKNAME.replace(/^Backup_/,'').replace(/\.json$/i,''),RX=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
 const OLDRE=new RegExp('^\\d{8}-\\d{4}_'+RX(BASE)+'_Backup\\.json$'),COPYRE=new RegExp('^Backup_'+RX(BASE)+'.+\\.json$','i');
@@ -698,16 +699,20 @@ renderFs();bkInd();
 // auch wenn ihr Stand älter ist. Nur sie wird geholt; hat dieser Browser Änderungen, die sie nicht kennt, und ist sie selbst
 // inzwischen geändert → Konfliktdialog (wie bisher). Danach bekommen die anderen Datenquellen diesen Stand (ohne Rückfrage).
 const RANG=s=>({settings:1,datenbank:2,storage:3})[s]||0;
-async function startQuelle(){const L=[{k:'lokal',st:CFG.lokal.stufe,p:1}];let bOk=false;
+// 2.10.1: ein neues Gerät (keine eigenen Daten, leer(), und noch nie mit Ordner/Server abgeglichen) gewinnt nie –
+// sonst würde es Ordner und Server mit „nichts“ überschreiben
+async function startQuelle(){let neu=false;try{neu=!!leer()&&!SY.rev&&!SY.sha&&!OQ.rev&&!OQ.sha}catch(e){}const L=neu?[]:[{k:'lokal',st:CFG.lokal.stufe,p:1}];let bOk=false;
  if(ORD()){await FSREADY;applyEff();bOk=fsSupported()&&!!FS.handle&&await fsPerm(false).catch(()=>false);if(bOk)L.push({k:'ordner',st:oqStufe(),p:2})}
- if(CFG.zentral.on&&syOn()&&navigator.onLine)L.push({k:'server',st:syStufe(),p:3});
- L.sort((a,b)=>RANG(b.st)-RANG(a.st)||b.p-a.p);return{w:L[0],bOk,liste:L}}
+ // 2.10.1: C3 = Server mit Dateien – zählt als Stufe 3 (syStufe() liefert dafür intern „datenbank“)
+ if(CFG.zentral.on&&syOn()&&navigator.onLine)L.push({k:'server',st:syFilesOn()?'storage':syStufe(),p:3});
+ L.sort((a,b)=>RANG(b.st)-RANG(a.st)||b.p-a.p);if(!L.length)L.push({k:'lokal',st:CFG.lokal.stufe,p:1,leer:true});return{w:L[0],bOk,liste:L,neu}}
 let STARTQ=null;
 const start=async()=>{let q;try{q=await startQuelle()}catch(e){q={w:{k:'lokal'},bOk:false,liste:[]}}STARTQ={quelle:q.w.k,stufe:q.w.st||'',reihenfolge:q.liste.map(x=>x.k+':'+x.st)};
  try{console.info('[Backup] Start: Vorrang '+STARTQ.reihenfolge.join(' > '))}catch(e){}
  const C=CFG.zentral.on,B=ORD();
  if(q.w.k==='server'){await syPull(true);if(B){if(q.bOk&&!SY.conflict&&!OQ.conflict)await oqPush(true,false,true);else if(!q.bOk)oqStart()}}
  else if(q.w.k==='ordner'){await oqStart();if(C){if(syOn()){if(!OQ.conflict&&!SY.conflict)await syPush(true,true)}else zbSave(false)}}
+ else if(q.neu){if(B)oqStart();if(C)syOn()?syPull(true):zbSave(false)}   // 2.10.1: leerer Browser, keine andere Datenquelle erreichbar → normal abgleichen, nie erzwingen
  else{if(B){if(q.bOk)await oqPush(true,false,true);else oqStart()}if(C){syOn()?await syPush(true,true):zbSave(false)}}};
 if(zbOk())setTimeout(()=>srvCheck().then(()=>{renderZb();if(!SRV.mode&&!CFG.seen)return openSetup();RDY?start():BEREIT.then(start)}),!CFG.seen||CFG.zentral.quelle||SRV.mode==='ordner'||SRV.mode==='server'?300:3000);
 else if(!CFG.seen)setTimeout(openSetup,900);

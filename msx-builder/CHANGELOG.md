@@ -4,6 +4,13 @@
 Start: index.html im Browser öffnen (Chrome/Edge/Firefox) oder auf GitHub Pages ablegen.
 Beim Öffnen wird die Beispielzeichnung „Beispiel_Schnitt.dxf“ geladen.
 
+## V5.8.9 · 24.11.2026 · DEV
+**Behoben**
+- **Backup Stufe 3 über den Server: keine Originaldatei geht mehr verloren.** Beim Aufräumen nicht mehr verwendeter Dateien konnte eine gerade importierte Datei (z. B. Bild aus der Zwischenablage, ausgerichtetes Bild, neue Zeichnung) gelöscht werden, bevor sie dem Unterprojekt zugeordnet war. Das Unterprojekt kam danach ohne Originalzeichnung zurück. Frisch importierte Dateien werden jetzt nicht aufgeräumt.
+- Nach dem Neuladen heißt die eigene Vorlage wieder genau wie vorher (ohne Zusatz „(gespeichert)“).
+- „Texte EIN/AUS“ im Modellbereich gehört jetzt zum Arbeitsstand und kommt auch über den Ordner (Datenquelle B) auf jedes Gerät mit.
+- Geprüft: Neuladen sowie Wiederherstellen auf einem leeren Gerät über Server (C3) und Ordner (B3) ergeben denselben Stand – Projekt mit allen Unterprojekten und ihrem Arbeitsstand, alle Eingabedateien, Vorlage, Rohrnormen, Revit-Zuordnung, Oberfläche, Ausschnitt und Auswahl.
+
 ## V5.8.8 · 24.11.2026 · DEV
 **Behoben**
 - **Kein falscher Konfliktdialog nach dem Neuladen:** Die Einstellungen der Bildauswertung standen im Backup bis zum ersten Speichern als „leer“ und danach mit ihren Werten. Dadurch galt der Browser nach jedem Neuladen als geändert, und Server bzw. Ordner fragten „Welcher Stand soll gelten?“, obwohl nichts geändert war.
