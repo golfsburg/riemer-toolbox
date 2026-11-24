@@ -3,6 +3,11 @@
 Kompakter 3D-Viewer und -Editor im Browser für den 3D-Druck · #ritl_mesh
 Neueste Version oben. V1.0–V1.8 als Einzeldatei entwickelt (nicht in der Toolbox veröffentlicht).
 
+## V2.7.23 · 23.11.2026 · DEV
+**Behoben**
+- **Eigene Schriften** des Konverters sind jetzt im Backup (Stufe storage) – bisher fehlten sie trotz Hinweis.
+- Die Einstellung „Spiel bei ⧉ Einlegen“ gehört zu den Einstellungen im Backup.
+
 ## V2.7.22 · 22.11.2026 · DEV
 **Geändert**
 - **Backup intern vereinfacht:** Kommen bei C3 neue Modelle vom Server, wird die Szene aufgebaut, sobald auch die Geometrien geladen sind – jetzt über den gemeinsamen Backup-Baustein. Für Nutzer ändert sich nichts.

@@ -4,6 +4,10 @@
 Start: index.html im Browser öffnen (Chrome/Edge/Firefox) oder auf GitHub Pages ablegen.
 Beim Öffnen wird die Beispielzeichnung „Beispiel_Schnitt.dxf“ geladen.
 
+## V5.8.5 · 23.11.2026 · DEV
+**Geändert**
+- Die Einstellungen der Bildauswertung gehören zu den Einstellungen im Backup.
+
 ## V5.8.4 · 23.11.2026 · DEV
 **Behoben**
 - **Backup Stufe 3 (storage) sichert den kompletten Arbeitsstand:** Neben Projekt, Unterprojekten und Originaldateien jetzt auch die Voreinstellungen für neue Rohre (Rohrnorm, Funktion, Dämmstoff, Dämmdicke, Wasser), die Werkzeugleiste (aktives Werkzeug, Rohrnorm und -größe, Stabtyp, Fang, Ortho/Frei, Zoom gesperrt, Bild EIN/AUS), die Bildleiste (Rohr-Ø min/max, Linien, Strich, Schwelle, Lupe, Text erkennen), die Filter der Rohrliste sowie je Unterprojekt den Zoom-Ausschnitt und die Auswahl. Nach dem Wiederherstellen – auch auf einem anderen Gerät über den Ordner (B3) – sieht das Tool aus wie vorher.

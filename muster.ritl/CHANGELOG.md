@@ -3,6 +3,10 @@
 Vorlage und Spielwiese für den Skill `/riemer-webapp-design` · #ritl_muster
 Neueste Version oben. Versionen ≤ V2.2 nachträglich aus den veröffentlichten Ständen (Tabelle `tool_versions`) rekonstruiert.
 
+## V3.9.5 · 23.11.2026 · DEV
+**Geändert**
+- Höhe der Map und „Fixieren“ gehören zu den Einstellungen im Backup (Vorlage).
+
 ## V3.9.4 · 22.11.2026 · DEV
 **Neu**
 - **Module im Link (Regel S-21, Vorlage):** Jedes Modul hat einen eigenen Link mit `#name` (`#modul`, `#timing`, `#setup`, `#map`). Ein Link oder Lesezeichen öffnet direkt dieses Modul, Neu laden bleibt im Modul, „Zurück“/„Vor“ im Browser wechseln zwischen den zuletzt geöffneten Modulen. Unbekannte Namen führen ins erste Modul; fremde Anker (z. B. `#ritl-handoff`) bleiben unberührt.

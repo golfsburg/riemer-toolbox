@@ -3,6 +3,13 @@
 Speisekarten- & Menü-Designer: Sets, Gänge, Speisendatenbank mit Allergenen (LMIV), 6 Druckformate, Export als PDF, PPTX und Druck in exakt einer Seite · #ritl_menu
 Neueste Version oben. Versionen ≤ V1.7 nachträglich rekonstruiert (aus `tool_versions`, Quellen-ZIPs und Repo-Historie).
 
+## V3.0.34 · 23.11.2026 · DEV
+**Behoben**
+- **Social-Bilder der Designstile** (Kopf, Wappen, Hintergrund) und Marken-Logos wurden beim Start versehentlich aus der Dateiablage gelöscht. Jetzt bleiben alle Bilder erhalten, auf die irgendwo verwiesen wird – auch im Backup.
+
+**Geändert**
+- Das Format für Social (Post/Story) gehört zu den Einstellungen im Backup.
+
 ## V3.0.33 · 23.11.2026 · DEV
 **Entfernt**
 - MAP › 01 Modellbereich: Die Formatauswahl (A4 Hoch, Klappkarte, …) steht nicht mehr in der Werkzeugleiste. Das Format wählst du beim Anlegen eines Sets oder in STYLE.ritl › Format.

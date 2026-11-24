@@ -3,6 +3,10 @@
 Beziehungs- und Stakeholder-Map für Firmen, Ansprechpartner, Projekte und Gewerke · #ritl_stake
 Neueste Version oben.
 
+## V2.6.5 · 23.11.2026 · DEV
+**Geändert**
+- Filter „Herkunft nur PM“, Ansprechpartner in den Firmen-Boxen und „Fixieren“ gehören zu den Einstellungen im Backup.
+
 ## V2.6.4 · 22.11.2026 · DEV
 **Geändert**
 - **Backup intern vereinfacht:** Ältere Backup- und Favoriten-Dateien aus der Zeit vor STAKE.ritl (MUSTER.ritl) nimmt jetzt der gemeinsame Backup-Baustein an – beim Wiederherstellen, beim Favoriten-Import und auch aus dem verknüpften Ordner. Für Nutzer ändert sich sonst nichts.

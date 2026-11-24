@@ -3,6 +3,10 @@
 GPS-Tracks (GPX) lokal im Browser in 2D und 3D darstellen, analysieren, bearbeiten und animieren · #ritl_track
 Neueste Version oben. Versionen ≤ V1.9 in Google AI Studio entwickelt und nachträglich zusammengefasst (keine Einzelstände erhalten).
 
+## V3.3.30 · 23.11.2026 · DEV
+**Geändert**
+- Die Herzfrequenz-Zonen (Max-/Ruhe-HF, Modul ANALYSE) gehören zu den Einstellungen im Backup.
+
 ## V3.3.29 · 22.11.2026 · DEV
 **Geändert**
 - **Backup intern vereinfacht** (Optionen des Bausteins ritl-bk statt eigener Umwege): Der Abgleich mit Server bzw. Ordner und das zentrale Sichern starten erst, wenn TRACK.ritl seine Tracks geladen hat.

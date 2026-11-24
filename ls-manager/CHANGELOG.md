@@ -4,6 +4,10 @@ Lieferscheine automatisch auslesen und je Lieferant im eigenen Archivordner able
 Tool-ID `ls-manager` · Download-Datei `RIEMER-Tools_LS-Manager_V#.#.html`
 Neueste Version oben. Versionen ≤ V1.0 nachträglich rekonstruiert (Repo-Historie golfsburg/riemer-toolbox, `tool_versions`).
 
+## V1.7.4 · 23.11.2026 · DEV
+**Behoben**
+- **Backup wiederherstellen:** Nach dem Wiederherstellen (Datei, Ordner oder Server) war der Eingang nach dem Neuladen leer, die Dateien hingen an keinem Beleg mehr. Der übernommene Eingang wird jetzt gespeichert.
+
 ## V1.7.3 · 22.11.2026 · DEV
 **Neu**
 - **Teilen-Blatt beim Speichern am Handy und Tablet:** Exporte und „Backup speichern“ öffnen am Touchscreen das Teilen-Blatt („In Dateien sichern“, AirDrop, Mail) – in der Home-Bildschirm-App zeigte iOS Downloads bisher nur als Vorschau. Am Computer bleibt es beim normalen Download; lässt der Browser das Teilen nicht zu, wird ebenfalls normal geladen.
