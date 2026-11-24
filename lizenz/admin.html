@@ -745,7 +745,16 @@
       SRC = srcs; srcSummary(srcs, r.versions);
       var srcOf = function (v) { var ed = v.edition || "standard"; return srcs.filter(function (x) { return x.version === v.version && (x.edition || "standard") === ed; }); };
       var live = {}, t = toolById(id), eds = ["standard"].concat(((t && t.editions) || []).map(function (e) { return e.id; }));
-      r.versions.forEach(function (v) { var k = (v.edition || "standard") + "|" + v.channel; if (v.active && !live[k]) live[k] = v.id; });
+      // „aktuell“ = was der Server ausliefert: je Edition und Kanal die aktive Version mit dem jüngsten Freigabedatum (released_at) –
+      // unabhängig von der Reihenfolge der Liste. Die Liste selbst steht streng nach Versionsnummer (neueste oben).
+      var liveAt = {};
+      r.versions.forEach(function (v) { var k = (v.edition || "standard") + "|" + v.channel, at = Date.parse(v.released_at || v.created_at || 0) || 0;
+        if (v.active && (!(k in liveAt) || at > liveAt[k] || (at === liveAt[k] && v.id > live[k]))) { live[k] = v.id; liveAt[k] = at; } });
+      var vnum = function (x) { return String(x || "").replace(/^[^0-9]*/, "").split(/[^0-9]+/).filter(Boolean).map(Number); };
+      r.versions.sort(function (a, b) { var x = vnum(a.version), y = vnum(b.version);
+        for (var i = 0; i < Math.max(x.length, y.length); i++) { var d = (y[i] || 0) - (x[i] || 0); if (d) return d; }
+        if (x.length !== y.length) return y.length - x.length; // V3.1.0 vor V3.1
+        return String(a.edition || "standard").localeCompare(String(b.edition || "standard")) || (b.id - a.id); });
       $("verrows").innerHTML = r.versions.map(function (v) {
         var acts = '<button class="b" data-vact="open" data-vid="' + v.id + '" title="Diese Version in einem neuen Tab öffnen (Admin-Vorschau, Daten als Kopie)">↗ Öffnen</button>' +
           '<button class="b" data-vact="offline" data-vid="' + v.id + '" title="Diese Version als Offline-HTML herunterladen (ohne Lizenzprüfung, ohne Server-Backup)">⬇ Offline</button>', ed = v.edition || "standard";
