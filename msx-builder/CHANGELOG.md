@@ -4,6 +4,10 @@
 Start: index.html im Browser öffnen (Chrome/Edge/Firefox) oder auf GitHub Pages ablegen.
 Beim Öffnen wird die Beispielzeichnung „Beispiel_Schnitt.dxf“ geladen.
 
+## V5.8.7 · 24.11.2026 · DEV
+**Behoben**
+- **Jede Änderung wird gesichert:** Auch das Auswählen von Objekten, das Auf- und Zuklappen der Bereiche 01–11, „Fixiert“ und die Höhe des Modellbereichs (Griff ziehen, Doppelklick, Pfeiltasten) lösen jetzt das automatische Backup aus. Bisher kamen diese Änderungen erst mit der nächsten anderen Änderung ins Backup.
+
 ## V5.8.6 · 24.11.2026 · DEV
 **Geändert**
 - Die Ansichts-Chips **+ / − / Einpassen / Zoom sperren / Fixiert** stehen jetzt in der Kopfzeile von **07 Modellbereich** (neben „.msx herunterladen“).
