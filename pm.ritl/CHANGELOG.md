@@ -3,6 +3,16 @@
 Projektmanagement: Projekt-Portfolio mit Gewerken, Anwendungen und Businesses (Lead › Spezifikation Opportunity › Spezifikation › Opportunity), Umsatzplan, Dashboard und Zeitplan · #ritl_pm
 Neueste Version oben. Versionen ≤ V1.1 nachträglich rekonstruiert (Projektmanager V1.x, selbstspeichernde HTML-Datei).
 
+## V3.1.22 · 23.11.2026 · DEV
+**Geändert**
+- Gespeicherte Auswahlen für den PowerPoint-Export und der Name im Logbuch gehören zu den Einstellungen im Backup.
+
+## V3.1.21 · 23.11.2026 · DEV
+
+### Neu
+- **Englisch (EN):** Umschalter DE/EN im Header. Alle Oberflächentexte – Module, Boxen, Filter, Dialoge, Import, Quality-Check, Export-Auswahl, Hinweise und Meldungen – gibt es auf Englisch (Texte aus der Übersetzungstabelle der RIEMER Toolbox, offline zwischengespeichert). Projektdaten (Projekt-, Kunden-, Personen-, Gewerk- und Anwendungsnamen) und Modulnamen bleiben unverändert.
+- Salesforce-Spaltennamen in den Spaltenübersichten der Import-Stufen und des Standard-Set-Imports bleiben deutsch, damit sie zu den kopierten Daten passen.
+
 ## V3.1.20 · 22.11.2026 · DEV
 **Geändert**
 - **Backup intern vereinfacht:** PM.ritl gleicht erst mit dem Server bzw. Ordner ab, wenn alle Projekte geladen sind – jetzt über den gemeinsamen Backup-Baustein statt über eine eigene Sperre. Für Nutzer ändert sich nichts: auch bei langsamem Browser-Speicher wird nie ein leerer Stand gesendet und es entsteht kein Konflikt.
