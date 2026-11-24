@@ -4,6 +4,15 @@
 Start: index.html im Browser öffnen (Chrome/Edge/Firefox) oder auf GitHub Pages ablegen.
 Beim Öffnen wird die Beispielzeichnung „Beispiel_Schnitt.dxf“ geladen.
 
+## V5.8.6 · 24.11.2026 · DEV
+**Geändert**
+- Die Ansichts-Chips **+ / − / Einpassen / Zoom sperren / Fixiert** stehen jetzt in der Kopfzeile von **07 Modellbereich** (neben „.msx herunterladen“).
+- Der Griff unten am Modellbereich ändert die Höhe jederzeit – nicht mehr nur bei freigegebenem Zoom.
+
+**Behoben**
+- **Größenänderung des Modellbereichs läuft flüssig:** Beim Ziehen am Griff und beim Ändern der Fenstergröße wurde die Zeichnung schrittweise immer kleiner, weil der Ausschnitt bei jeder Größenänderung nur vergrößert wurde. Jetzt bleibt der gewählte Ausschnitt erhalten und wird nur an das Seitenverhältnis angepasst.
+- Beim Ziehen wird höchstens einmal pro Bild neu gezeichnet (kein Ruckeln bei großen Zeichnungen); Fenster, Spalte oder auf-/zugeklappte Bereiche passen die Ansicht automatisch an.
+
 ## V5.8.5 · 23.11.2026 · DEV
 **Geändert**
 - Die Einstellungen der Bildauswertung gehören zu den Einstellungen im Backup.
