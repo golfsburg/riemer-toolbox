@@ -1,14 +1,16 @@
-<!-- ritl-bk 2.8 · 21.11.2026 · DEV – einheitliches Backup der RIEMER Tools (Regel S-17, Rollout R-13). Vorbild MUSTER.ritl V3.9.
+<!-- ritl-bk 2.9.1 · 23.11.2026 · DEV – einheitliches Backup der RIEMER Tools (Regel S-17, Rollout R-13). Vorbild MUSTER.ritl V3.9.
      Einbau: Adapter window.RITL_BK (siehe README.md) als <script> setzen, danach diesen Block unverändert (von ritl-bk:start bis ritl-bk:end) in den <body> nach dem Header kopieren.
      2.1 ist rückwärtskompatibel: neue Angaben (bereit, ohneSha, norm, nachAnwenden, fluechtig, extra, alias, alt.idbFs*) sind optional.
      2.3: Pfad des verknüpften Ordners (✎ je Gerät). 2.4: Stufe je Datenquelle (Lizenz-Matrix backup.max.matrix, z. B. A3 · B2 · C1) – ohne Matrix wie 2.2.
      2.5: „Backup einrichten“ als Raster Datenquelle × Stufe (A1 … C3), jede Kombination einzeln erlaubt oder gesperrt.
      2.6: Stufe je Datenquelle einzeln wählbar und gemerkt (cfg_set stufen), Spalte „aktiv“ wählt die Datenquelle.
      2.7: alle angebotenen Datenquellen gleichzeitig aktiv, jede in ihrer Stufe (z. B. A3 + B2 + C1) – keine Spalte „aktiv“ mehr.
-     2.8: Dateien vor dem Hochladen als eigenen Blob im Speicher lesen (Safari schickte sonst 0 Bytes); nicht lesbare Dateien überspringen. -->
+     2.8: Dateien vor dem Hochladen als eigenen Blob im Speicher lesen (Safari schickte sonst 0 Bytes); nicht lesbare Dateien überspringen.
+     2.9: nicht mehr gebrauchte Dateien zuerst am Server löschen – volles Kontingent blockiert das Hochladen nicht mehr.
+     2.9.1: „Backup einrichten“ bzw. das Backup-Fenster öffnen sich nicht mehr bei jedem Start: bei Datenquelle Ordner ohne verknüpften Ordner nur beim ersten Start je Gerät, sonst Hinweis höchstens einmal am Tag; Esc zählt als „gesehen“. -->
 <!--ritl-bk:start-->
 <style id="ritl-bk-css">
-/* ritl-bk 2.8 · 21.11.2026 – einheitliches Backup der RIEMER Tools (Regel S-17). Nichts Tool-Spezifisches hier ändern.
+/* ritl-bk 2.9.1 · 23.11.2026 – einheitliches Backup der RIEMER Tools (Regel S-17). Nichts Tool-Spezifisches hier ändern.
    Nur Tokens der Farbkarte. Alle Regeln gelten nur für die Dialoge des Bausteins (.rbk) und das Symbol am Knopf #backupBtn (.bkind). */
 dialog.rbk{border:1px solid var(--line);border-radius:var(--radius-panel,16px);background:var(--surface);color:var(--ink);padding:0;width:min(640px,94vw);box-shadow:0 20px 60px rgba(0,0,0,.25);font:400 14px/20px var(--sans,"Inter",system-ui,sans-serif);margin:auto}
 dialog.rbk::backdrop{background:rgba(15,20,28,.45)}
@@ -106,7 +108,7 @@ dialog.rbk::backdrop{background:rgba(15,20,28,.45)}
 .bkind .offl{color:var(--muted)}
 </style>
 <script id="ritl-bk-js">
-/* ritl-bk 2.8 · 21.11.2026 – einheitliches Backup der RIEMER Tools (Regel S-17, Rollout R-13, Vorbild MUSTER.ritl V3.9).
+/* ritl-bk 2.9.1 · 23.11.2026 – einheitliches Backup der RIEMER Tools (Regel S-17, Rollout R-13, Vorbild MUSTER.ritl V3.9).
    Nichts Tool-Spezifisches hier ändern – das Tool setzt VOR diesem Block den Adapter window.RITL_BK (Anleitung riemer-toolbox/ritl-bk/README.md):
      tool, name, datei, prefix, ereignis, settings(), daten(), dateien()?, dateienLaden(list)?, anwenden(stufe,obj,quelle,still), leer()?,
      legacy(o)?, texte:{settings,datenbank,storage,rueckgaengig}?, alt:{bkcfg,srv,srvst,sync,ordner,oq,fs,bklic,idbFiles,idbFs,idbFsDb,idbFsStore,idbFsKey}?, version?
@@ -121,7 +123,7 @@ dialog.rbk::backdrop{background:rgba(15,20,28,.45)}
      ab 2.1: sync() (Abgleich auf Knopfdruck, Promise) · extra() (eigene Abschnitte neu zeichnen) · Ereignis ritlbk:applied {quelle,stufe,text,still} */
 (function(){"use strict";
 const A=window.RITL_BK;if(!A||!A.tool||window.RITLBK)return;
-const VERSION='2.8',$=id=>document.getElementById(id);
+const VERSION='2.9.1',$=id=>document.getElementById(id);
 const TOOL=A.tool,NAME=A.name||A.tool,PRE=A.prefix||TOOL.replace(/-ritl$/,''),BKNAME=A.datei||`Backup_${NAME.replace('.','-')}.json`,EV=A.ereignis||PRE+':change';
 const BASE=BKNAME.replace(/^Backup_/,'').replace(/\.json$/i,''),RX=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
 const OLDRE=new RegExp('^\\d{8}-\\d{4}_'+RX(BASE)+'_Backup\\.json$'),COPYRE=new RegExp('^Backup_'+RX(BASE)+'.+\\.json$','i');
@@ -153,6 +155,8 @@ const stamp=(d=new Date())=>`${d.getFullYear()}${p2(d.getMonth()+1)}${p2(d.getDa
 const zeit=d=>`${p2(d.getDate())}.${p2(d.getMonth()+1)}.${d.getFullYear()} ${p2(d.getHours())}:${p2(d.getMinutes())}`;
 const LS=k=>{try{return localStorage.getItem(k)}catch(e){return null}},LSset=(k,v)=>{try{v==null?localStorage.removeItem(k):localStorage.setItem(k,v)}catch(e){}};
 const toast=m=>{if(typeof window.toast==='function')window.toast(m);else try{console.info('[Backup] '+m)}catch(e){}};
+// 2.9.1: Hinweis höchstens einmal am Tag je Art (statt Fenster bei jedem Start)
+const hinweis1=(art,m)=>{const k=K('hinweis-'+art),t=new Date().toISOString().slice(0,10);try{if(localStorage.getItem(k)===t)return;localStorage.setItem(k,t)}catch(e){}toast(m)};
 const fire=()=>document.dispatchEvent(new Event(EV));
 const ver=()=>(window.RITL&&window.RITL.version_label)||(typeof A.version==='function'?A.version():A.version)||((document.querySelector('header[data-ritl-header]')||{dataset:{}}).dataset.ver)||'';
 const head=fmt=>({tool:TOOL,name:NAME,version:ver(),format:A.format||1,inhalt:fmt,erstellt:new Date().toISOString()});
@@ -439,7 +443,13 @@ const UNLESBAR=new Set();
 function unlesbarHinweis(l){const neu=l.filter(f=>!UNLESBAR.has(f.id));neu.forEach(f=>UNLESBAR.add(f.id));if(!neu.length)return;
  const n=neu.map(f=>`„${f.name}“`).join(', ');try{console.warn('[Backup] nicht lesbar, übersprungen:',neu.map(f=>f.name))}catch(e){}
  toast(neu.length===1?`Datei ${n} ist auf diesem Gerät nicht mehr lesbar und wurde nicht an den Server gesendet – bitte die Datei im Tool neu hinzufügen.`:`${neu.length} Dateien (${n}) sind auf diesem Gerät nicht mehr lesbar und wurden nicht an den Server gesendet – bitte im Tool neu hinzufügen.`)}
-async function filesUp(){const srv=(await okj('files_list')).items||[],sm=new Map(srv.map(x=>[x.file_id,x])),loc=await RF.list(),skip=[];
+async function filesUp(){let srv=(await okj('files_list')).items||[];const loc=await RF.list(),skip=[];
+ // 2.9: nicht mehr gebrauchte Dateien zuerst am Server löschen – sonst kann das Kontingent das Hochladen neuer Dateien blockieren,
+ // und die alten würden erst nach einem erfolgreichen Speichern gelöscht (Sackgasse). Nur wenn am Server kein neuerer Stand liegt.
+ const weg0=srv.filter(s=>!loc.some(f=>f.id===s.file_id));
+ if(weg0.length){try{const h=await syRaw('state_head'),cur=h&&h.ok&&h.state?h.state[syStufe()]:null;
+  if(h&&h.ok&&(!cur||cur.rev===SY.rev)){for(const s of weg0)await syRaw('files_del',{file_id:s.file_id}).catch(()=>{});srv=srv.filter(s=>!weg0.includes(s))}}catch(e){}}
+ const sm=new Map(srv.map(x=>[x.file_id,x]));
  for(const f of loc){const s=sm.get(f.id);if(s&&await gleich(s,f))continue;
   const r=await RF.get(f.id).catch(()=>null),type=f.type||'application/octet-stream',body=r&&r.blob?await inMem(r.blob,type):null;
   if(!lesbar(body,f.size)){skip.push(f);continue}
@@ -555,8 +565,9 @@ setInterval(oqWatch,20000);
 document.addEventListener('visibilitychange',()=>{if(!ORD())return;if(document.visibilityState==='hidden'&&OQ.t){clearTimeout(OQ.t);OQ.t=null;oqPush(false)}else if(document.visibilityState==='visible')oqWatch()});
 async function oqStart(){await FSREADY;applyEff();renderFs();
  if(!fsSupported()){toast('Diese Lizenz speichert die Daten im OneDrive/SharePoint-Ordner – das geht nur in Chrome oder Edge am Computer.');return}
- if(!FS.handle){if(!OQ.asked){OQ.asked=true;openSetup()}return}
- if(!FS.ok){if(!OQ.asked){OQ.asked=true;openBk();toast('Bitte den Zugriff auf den Ordner bestätigen: „Zugriff erneuern“')}return}
+ // 2.9.1: Fenster nur beim allerersten Start; danach nur ein Hinweis (höchstens einmal am Tag) – kein Fenster bei jedem Laden bzw. jeder Lizenzprüfung
+ if(!FS.handle){if(!LS(K('ordner-gefragt'))&&!OQ.asked){OQ.asked=true;LSset(K('ordner-gefragt'),'1');openSetup()}else hinweis1('ordner','Diese Lizenz speichert die Arbeitsdaten im OneDrive/SharePoint-Ordner – auf diesem Gerät ist noch kein Ordner verknüpft: Backup › „Ordner verknüpfen …“.');return}
+ if(!FS.ok){hinweis1('zugriff','Der Browser braucht eine Bestätigung für den Ordner: Backup › „Zugriff erneuern“.');return}
  oqPull(true)}
 function oqStatus(){const o=ordInfo(),nm=o.name?` „${esc(o.name)}“`:'';
  if(!fsSupported())return['warn',`B · Ordner: Diese Lizenz speichert die Daten im OneDrive/SharePoint-Ordner${nm} (Datenhoheit). Das geht nur in Chrome oder Edge am Computer – in diesem Browser bleiben Änderungen nur hier. Mit „Backup speichern“ lässt sich ${BKNAME} herunterladen und in den Ordner legen.`];
@@ -670,6 +681,8 @@ $('bks-ok').onclick=async()=>{if(zbOk()&&$('bks-body').querySelector('input[name
  const k=effKurz();toast(`Backup eingerichtet: ${k}${ALLE()?' – alle Datenquellen aktiv':''}, gilt auf allen Geräten`);
  startSync();if(!ORD()&&FS.auto)fire()};
 $('bks-later').onclick=()=>{CFG.seen=true;cfgSave();$('bksetup').close()};
+// 2.9.1: auch Esc bzw. Schließen zählt als „gesehen“ – sonst öffnete sich das Fenster bei jedem Start erneut
+$('bksetup').addEventListener('close',()=>{if(!CFG.seen){CFG.seen=true;cfgSave()}});
 $('bk-setup').onclick=()=>{$('bkdlg').close();openSetup()};
 
 // ── Start ──

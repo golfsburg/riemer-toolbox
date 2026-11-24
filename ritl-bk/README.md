@@ -12,6 +12,17 @@ als eigenen Blob ab (`arrayBuffer()`), `RITLF.get` liefert nur lesbare Dateien, 
 in den Speicher – das gilt auch für Tools mit eigener `RITLF`-Kopie. Nicht lesbare Dateien (0 Bytes bei `size > 0`) werden übersprungen, mit Hinweis
 „… ist auf diesem Gerät nicht mehr lesbar …“, statt den ganzen Abgleich abzubrechen. Tools mit eigener Kopie: Stand aus `ritl-files.js` übernehmen.
 
+
+## Nie bei jedem Start (ab 2.9.1, verbindlich)
+
+„Backup einrichten“ (`#bksetup`) und der Backup-Dialog öffnen sich **nie bei jedem Start, jeder Lizenzprüfung oder jedem Neuladen**:
+
+- von selbst höchstens **einmal je Gerät**: beim ersten Laden (`seen` fehlt in `riemer-<prefix>-bkcfg`) bzw. einmal bei Datenquelle B ohne verknüpften Ordner (`riemer-<prefix>-ordner-gefragt`);
+- Schließen mit Esc, ✕ oder `Später` zählt wie `Übernehmen` – `seen` wird gesetzt (Ereignis `close` am Dialog);
+- danach nur ein Hinweis (Toast) **höchstens 1× pro Tag** je Tool (`riemer-<prefix>-hinweis-ordner` bzw. `-hinweis-zugriff`, Datum `JJJJ-MM-TT`);
+- Merker gehören in `localStorage` (überleben Neuladen, Loader und `document.write`), nie nur in eine Variable;
+- Tools rufen `RITLBK.setup()` nur auf Klick auf.
+
 ## Begriffe
 
 | | Datenquelle (DB-Wert) | Bedeutung im Baustein |
@@ -31,7 +42,7 @@ In 2.6 hatte in „Backup einrichten“ **jede Datenquelle ihre eigene Stufe** (
 ## Logik
 
 - Start mit Lizenz: `state_head` → `backup {max: {datenquelle, stufe, matrix}, wahl, datenquelle, stufe, matrix, quota}`; die **wirksamen** Werte gelten sofort auf diesem Gerät
-  (gemerkt in `riemer-<prefix>-srv`, `-srvst`, `-bklic` für den Start ohne Netz). „Backup einrichten“ öffnet sich nur bei B ohne verknüpften Ordner.
+  (gemerkt in `riemer-<prefix>-srv`, `-srvst`, `-bklic` für den Start ohne Netz). „Backup einrichten“ öffnet sich von selbst höchstens **einmal je Gerät** (siehe „Nie bei jedem Start“).
 - „Backup einrichten“: „Lizenz: höchstens A3 · B2 · C1“ (ab 2.4; vorher „C3“) + Kontingent, Datenquelle A/B/C, Stufe 1/2/3, über dem Maximum gesperrt („· durch die Lizenz begrenzt“),
   Ordner dieses Geräts. „Übernehmen“ → `cfg_set {datenquelle, stufe}` (gilt für das Tool auf allen Geräten), Wechsel der Datenquelle mit Rückfrage
   und erstem Abgleich (→C `state_get`/`state_put` wie RITL-Sync, →B Ordner-Datei schreiben/übernehmen). „Vorgabe der Lizenz verwenden“ → `cfg_set {reset:true}`.
@@ -222,6 +233,6 @@ Standard **S-14**. Der Anbieter legt im Lizenz-Admin › „Datenquelle · Daten
   - `oqPull` (Start, Verknüpfen, Zugriff erneuert, Rückkehr ins Fenster, alle 20 s bei geändertem `lastModified`): Datei fehlt → schreiben; gleich → nur merken; Datei neuer und hier nichts geändert → still übernehmen; beides geändert → Konfliktdialog (`#sydlg` mit Ordner-Texten).
   - `oqPush` (2,5 s nach `<name>:change`, Theme, Sprache; beim Verlassen sofort): vorher Datei lesen – hat ein anderes Gerät inzwischen geschrieben, Konfliktdialog statt Überschreiben; sonst `rev + 1`.
   - OneDrive-Konfliktkopien (`Backup_<NAME>-ritl*.json` außer der Hauptdatei) werden im Status gemeldet.
-  - Kein Ordner auf diesem Gerät → „Backup einrichten“ öffnet sich mit Hinweis; nach Browser-Neustart ohne Zugriff → Backup-Dialog mit „Zugriff erneuern“.
+  - Kein Ordner auf diesem Gerät → „Backup einrichten“ öffnet sich **einmal je Gerät** (Merker `riemer-<prefix>-ordner-gefragt`), danach nur ein Hinweis (Toast) höchstens 1× pro Tag; nach Browser-Neustart ohne Zugriff → Hinweis (Toast, 1× pro Tag) auf Backup › „Zugriff erneuern“, kein Dialog.
   - Safari/Firefox/iOS: Hinweis „nur Chrome oder Edge am Computer“, Arbeit nur lokal.
 - **Prompt für die Tool-Chats:** „Datenquelle je Lizenz (S-14) einbauen nach `riemer-toolbox/ritl-bk/README.md` › Datenquelle je Lizenz, Vorbild MUSTER.ritl V3.3 (Funktionen `ORD`, `SRVB`, `applyMode`, `oq*`, `setupOrd`, `setupSrv`). Als neue DEV-Version veröffentlichen, CHANGELOG und Quellen-ZIP.“
