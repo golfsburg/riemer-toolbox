@@ -41,6 +41,13 @@ In 2.6 hatte in „Backup einrichten“ **jede Datenquelle ihre eigene Stufe** (
 
 ## Logik
 
+- **Start und Neuladen (ab 2.10, verbindlich):** Die Datenquelle mit der **höchsten Stufe** gibt den Stand vor (1 `settings` · 2 `datenbank` · 3 `storage`),
+  bei gleicher Stufe **C vor B vor A** – auch wenn ihr Stand älter ist. Nur sie wird beim Start geholt (`syPull` bzw. `oqPull`); A gewinnt nur mit echt höherer Stufe
+  (dann bleibt der Stand im Browser). Danach bekommen die anderen Datenquellen genau diesen Stand (`oqPush(true)` bzw. `syPush(true)`, ohne Meldung).
+  Hat der Browser Änderungen, die die vorrangige Datenquelle nicht kennt, **und** wurde sie inzwischen geändert → Konfliktdialog; die anderen Datenquellen
+  bleiben dann unverändert, bis entschieden ist. Nicht erreichbare Datenquellen (B ohne Ordner/Zugriff, C offline) zählen nicht mit.
+  `RITLBK.stand().start` = `{quelle, stufe, reihenfolge}`; in der Konsole `[Backup] Start: Vorrang server:datenbank > ordner:datenbank > lokal:datenbank`.
+
 - Start mit Lizenz: `state_head` → `backup {max: {datenquelle, stufe, matrix}, wahl, datenquelle, stufe, matrix, quota}`; die **wirksamen** Werte gelten sofort auf diesem Gerät
   (gemerkt in `riemer-<prefix>-srv`, `-srvst`, `-bklic` für den Start ohne Netz). „Backup einrichten“ öffnet sich von selbst höchstens **einmal je Gerät** (siehe „Nie bei jedem Start“).
 - „Backup einrichten“: „Lizenz: höchstens A3 · B2 · C1“ (ab 2.4; vorher „C3“) + Kontingent, Datenquelle A/B/C, Stufe 1/2/3, über dem Maximum gesperrt („· durch die Lizenz begrenzt“),
