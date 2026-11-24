@@ -2,6 +2,12 @@
 
 Zentraler Backup-Baustein aller RIEMER Tools (Regel S-17). Neueste Version oben.
 
+## 2.10.1 · 24.11.2026 · DEV
+**Behoben**
+- **Start-Vorrang: C3 zählt als Stufe 3.** In 2.10 wurde der Server mit Dateien (C3) wie Stufe 2 gewertet; dadurch gewann bei A3 + C3 fälschlich der Browser und überschrieb den Stand am Server.
+- **Ein Browser ohne eigene Daten (neues Gerät) gewinnt nie.** In 2.10 konnte er Ordner bzw. Server mit einem leeren Stand überschreiben und die Dateien am Server löschen. 2.10 wurde am Lizenzserver sofort zurückgenommen (Dev lieferte wieder 2.9.1).
+- Geprüft mit einem kompletten Projekt (8 Unterprojekte, 5 Originaldateien, eigene Vorlage, Oberfläche): Neuladen, leeres Gerät über den Server (C3) und über den Ordner (B3) – jeweils alles gleich wie vorher.
+
 ## 2.10 · 24.11.2026 · DEV
 **Geändert**
 - **Start und Neuladen: Vorrang nach Stufe.** Die Datenquelle mit der höchsten Stufe (1 settings · 2 datenbank · 3 storage) gibt den Stand vor, bei gleicher Stufe gilt **C (Server) vor B (Ordner) vor A (Browser)** – auch wenn ihr Stand älter ist als der einer anderen Datenquelle. Nur diese Datenquelle wird beim Start geholt; danach bekommen die anderen Datenquellen genau diesen Stand. Bisher glichen Ordner und Server unabhängig voneinander ab, und es gewann zufällig, wer zuletzt fertig war.
