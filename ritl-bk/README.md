@@ -65,7 +65,7 @@ Eingebettete Kopie (gilt ohne Lizenz/Offline) und CHANGELOG-Eintrag „Backup: a
 | JFC.ritl | V4.0.5 (2.7) | – | – |
 | STAKE.ritl | V2.6.5 (2.7) | – | V2.6 (2.0) |
 
-Mit Block bekommt jede Version beim Ausliefern die Fassung ihres Kanals. **Ohne Block** (PPTX Stabil V2.9, LV Beta V9.5, MSX Stabil V4.3/V3.1) läuft noch der alte Backup-Code – die Regel greift dort erst, wenn eine Version mit Block in den Kanal kommt.
+Mit Block bekommt jede Version beim Ausliefern die Fassung ihres Kanals. Die älteren Freigaben **ohne Block** (PPTX Stabil V2.9, LV Beta V9.5, MSX Stabil V4.3/V3.1) werden bewusst **nicht nachgezogen** (Entscheidung 24.11.2026) – dort bleibt der alte Backup-Code, bis eine neuere Version des Tools in den Kanal freigegeben wird. **Rollout abgeschlossen.**
 
 ## Einbau in ein Tool (Phase 3)
 
