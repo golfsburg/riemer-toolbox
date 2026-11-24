@@ -3,12 +3,107 @@
 Speisekarten- & Menü-Designer: Sets, Gänge, Speisendatenbank mit Allergenen (LMIV), 6 Druckformate, Export als PDF, PPTX und Druck in exakt einer Seite · #ritl_menu
 Neueste Version oben. Versionen ≤ V1.7 nachträglich rekonstruiert (aus `tool_versions`, Quellen-ZIPs und Repo-Historie).
 
+## V3.0.33 · 23.11.2026 · DEV
+**Entfernt**
+- MAP › 01 Modellbereich: Die Formatauswahl (A4 Hoch, Klappkarte, …) steht nicht mehr in der Werkzeugleiste. Das Format wählst du beim Anlegen eines Sets oder in STYLE.ritl › Format.
+
+## V3.0.32 · 23.11.2026 · DEV
+**Neu**
+- **Menüpreis:** Neues Feld „Menüpreis (€)“ neben dem Menüpreis-Hinweis – in DISHES › Menüs & Saison und genauso bei „Gang bearbeiten“. Auf der Karte steht es als „3-Gang-Menü · € 39,00“ (immer mit 2 Kommastellen), auch in der Menü-Übersicht und in den Social-Media-Bildern. „In Karte einfügen“ übernimmt den Menüpreis.
+
+## V3.0.31 · 23.11.2026 · DEV
+**Geändert**
+- **Menü bearbeiten = Gang bearbeiten:** Das Fenster in DISHES › Menüs & Saison ist jetzt dasselbe wie „Gang bearbeiten“ in MAP – Titel, Untertitel, Menüpreis-Hinweis, Überschrift ausrichten, „Preise in diesem Gang ausblenden“, „Punkte von der Speise zum Preis“, Speisen mit Sonderpreis, € ein/aus, eigener Beschreibung, ▲▼ und Entfernen, dazu „Speisen hinzufügen“ mit Suche, Kategorie und Allergen-Filter. Es öffnet sich rechts wie in MAP; „Fertig“ speichert, „Abbrechen“ verwirft.
+- „In Karte einfügen“ übernimmt alle diese Einstellungen in den neuen Gang. Die Menü-Karten zeigen Sonderpreise bzw. „–“ für ausgeblendete Preise.
+
+## V3.0.30 · 23.11.2026 · DEV
+**Geändert**
+- **Menüs & Saison sind feste Gänge:** Jedes Menü ist eine feste Kombination aus der Speisen- & Getränkedatenbank – mit Name, Untertitel, Menüpreis-Hinweis und den Speisen in fester Reihenfolge. Bearbeiten wie einen Gang: Speisen hinzufügen (Suche, Kategorie), Reihenfolge ▲▼, entfernen, ✎ öffnet die Speise. „In Karte einfügen“ setzt das Menü als Gang in die aktive Karte (Reihenfolge und Menüpreis-Hinweis bleiben). Die Karten der Menüs zeigen alle Speisen mit Preisen.
+- Eine Speise kann weiter in mehreren Menüs sein; Filter „Menü / Saison“ in DISHES und Excel berücksichtigen das. Im Fenster „Speise“ steht, in welchen Menüs sie ist – die Zuordnung erfolgt im Menü.
+- Beim Einfügen bleibt der Name so, wie er eingegeben ist (Großschreibung bestimmt der Designstil).
+
+**Entfernt**
+- Bei Menüs & Saison: Gültig ab/bis, Aktivieren/Deaktivieren, Tag-Schlüssel und „Farbe beim Einfügen“.
+
+## V3.0.29 · 23.11.2026 · DEV
+**Geändert**
+- **Modellbereich überall gleich (MAP, CARD, STYLE):** Die Karte ist in allen drei Modulen der „Modellbereich“ – mit denselben Bereichen am Blatt in einer Leiste darüber: **Gesamte Seite**, **Hauptbereich** und die Bereiche des Formats (Spalten, Kopf, Fuß, Titelseite …). Klick auf einen Bereich (Leiste oder Karte) wählt ihn aus und zeigt seine Einstellungen. In STYLE entfällt dafür der schematische Modellbereich; die Block-Leiste steht jetzt in STYLE und MAP über der Karte.
+- **Gesamte Seite:** Format, Spalten je Seite (Aufsteller), Seitenränder, Rahmen. **Hauptbereich:** Auto-Fit, Schriftgröße, Spalten- und Zeilenabstand, Abstand zwischen Bereichen.
+
+**Entfernt**
+- **„Alle Bereiche als Gruppe“** (Breite, Höhe, Lage, Skalierung und Verschiebung der Gruppe). Gespeicherte Gruppenwerte wirken nicht mehr; die Schriftgröße bleibt als Einstellung des Hauptbereichs erhalten.
+
+**Neu**
+- **Punkte von der Speise zum Preis** – je Gang wählbar, gleich neben „Preise in diesem Gang ausblenden“: dezente Punktlinie in der Farbe des Preises (folgt auch einer Preisfarbe aus dem Designstil). Bei mittig ausgerichteten Gängen ohne Wirkung.
+
+## V3.0.28 · 23.11.2026 · DEV
+**Geändert**
+- **Ziehen und Auswählen überall gleich (MAP, CARD, STYLE):** Mauszeiger über einem Gang, Text oder Logo markiert ihn blau mit Hinweis; **Drücken und Ziehen verschiebt** (im Raster, mit Fang und innerhalb des Hauptbereichs) – in MAP jetzt ohne vorherigen Doppelklick. **Klick = auswählen** (orange markiert) und öffnet die passende Bearbeitung: in CARD der Inhalt, in STYLE Platzierung & Größe, in MAP das Bearbeiten-Fenster. Doppelklick (MAP) bleibt für feines Verschieben mit Pfeilen bzw. Steuerkreuz.
+
+**Neu**
+- **Jede Box lässt sich fixieren:** Neben dem Auf-/Zuklappen hat jede Box einen Knopf ⤢ – die Box füllt dann das Fenster (Kopf bleibt oben, Inhalt scrollt). Erneuter Klick oder Esc löst. Die Box „Vorschau & Export“ hat weiterhin ihr eigenes „🔒 Fixieren“.
+
+## V3.0.27 · 23.11.2026 · DEV
+**Neu**
+- **Hauptbereich als Grenze und Fang:** Die Inhaltsfläche jeder Seite (Blatt ohne Rand; bei Klappkarte, Wickelfalz und Aufsteller jede Seite einzeln) ist in MAP, CARD und STYLE gestrichelt umrandet. Gänge, Texte, Bereiche und Logos lassen sich nie darüber hinaus schieben und rasten beim Ziehen an seinen Kanten und seiner Mitte ein (rote Hilfslinie; Alt-Taste = ohne Fang).
+- **CARD & STYLE: Vorschau direkt bearbeiten** – wie in MAP, aber ohne Fenster: Gänge und Texte in der Vorschau mit der Maus ziehen (im Raster, mit Fang), Logos ziehen und am Eck vergrößern. Ein Klick wählt weiterhin nur aus.
+- **Farben und Logos der Lizenz (für alle Sets):** STYLE › Akzentfarbe & Rahmen › „Farben der Lizenz“ speichert Hausfarben (Name, Farbe, entfernen); ein Klick setzt sie als Akzentfarbe. STYLE › Logos & Siegel › „Logos & Siegel der Lizenz“: alle Logos stehen in jedem Set zum Platzieren bereit, auch in „＋ Logo“ und bei Social Media. Hochgeladene Logos werden automatisch gespeichert, vorhandene mit ★ übernommen; beim ersten Start werden die Logos aller Sets übernommen. Teil des Backups.
+- **Kontakt & Öffnungszeiten:** Feld „Restaurantname“.
+
+**Behoben**
+- Nach dem Ziehen eines Logos, Blocks oder der fixierten Fläche wurde der nächste Klick manchmal verschluckt (z. B. ein Modul-Reiter reagierte nicht).
+
+## V3.0.26 · 22.11.2026 · DEV
+**Behoben**
+- **Verschieben im Modellbereich am Handy (MAP.ritl):** Bisher ging das nur mit den Pfeiltasten. Jetzt: Block antippen › „✥ Verschieben“ – dann den Block mit dem Finger ziehen (rastet im Raster) oder das Steuerkreuz unten nutzen: ◀ ▲ ▼ ▶, „×5“ für große Schritte, „0“ für die Ausgangslage, „Fertig“. Funktioniert genauso mit der Maus; die Pfeiltasten bleiben.
+
+## V3.0.25 · 22.11.2026 · DEV
+**Behoben**
+- **Social Media: Logos fehlten auf dem ersten Bild** (Teilen am iPhone/iPad, Safari). Safari lädt Bilder beim ersten Umwandeln nicht mit ein; jetzt wird vorab ein unsichtbarer Durchlauf gemacht und auf fertig geladene Logos gewartet – Logo oben, Wappen und Hintergrund sind auf allen Bildern.
+
+## V3.0.24 · 22.11.2026 · DEV
+**Neu**
+- **Social Media am Handy: direkt teilen.** Ein Tippen auf „＋ Social Media“ öffnet sofort das Teilen-Menü des Handys mit **allen** Bildern der Karte. Ziel (Instagram, Facebook, WhatsApp …) und Art (Beitrag, Story, Reel) wählst du dort, ebenso welche Bilder gepostet werden. Die Bilder werden im Hintergrund vorbereitet; ist das beim ersten Mal noch nicht fertig, erscheint kurz „Jetzt teilen“. Standard ist **4:5**, umschaltbar auf 9:16 über ▾ (wird gemerkt).
+- **Beitragstext in der Zwischenablage:** Beim Teilen liegt ein fertiger Text mit Titel, Gängen, Datum, Reservierung und Hashtags in der Zwischenablage – im Posting einfügen (Instagram und Facebook übernehmen beim Teilen keinen Text). Im Fenster ▾ auch „Beitragstext kopieren“.
+- **▾ neben „＋ Social Media“:** Vorschau aller Bilder, Format 4:5 / 9:16 und Download (PNG / ZIP) – am Computer ohne Teilen-Menü öffnet sich dieses Fenster direkt.
+- **Block-Leiste in STYLE.ritl und MAP.ritl:** alle Gänge und Texte in Kartenreihenfolge plus „＋ Gang“ und „＋ Text“. Auf einen Bereich ziehen (STYLE › Modellbereich oder direkt auf die Karte in MAP) verschiebt den Block bzw. legt einen neuen dort an; beim Ziehen leuchten die Bereiche auf. Antippen (Handy) öffnet die Liste der Bereiche zur Auswahl. In MAP auch bei Editor AUS.
+
+**Geändert**
+- **Social Media: ein Gang wird nie auf zwei Bilder geteilt.** Passt er nicht mehr, kommt er ganz auf das nächste Bild (ist er allein zu lang, bekommt er ein eigenes Bild und wird verkleinert). Bilder und Inhalte folgen der Reihenfolge der Karte.
+
 ## V3.0.23 · 22.11.2026 · DEV
 **Geändert**
 - **Backup intern vereinfacht** (Optionen des Bausteins ritl-bk statt eigener Umwege): Der Abgleich mit Server bzw. Ordner und das zentrale Sichern starten erst, wenn MENU.ritl seine Daten geladen hat. „04 Speicher“ im Fenster „Backup“ sieht aus und funktioniert wie bisher.
 
 **Behoben**
 - Startet MENU.ritl langsam (z. B. viele eingebettete Bilder), übernimmt ein neues Gerät den Stand vom Server jetzt trotzdem sicher.
+
+## V3.0.22 · 22.11.2026 · DEV
+**Neu**
+- **Inhalte auf eine bestehende Karte übertragen** – damit nicht zu viele Karten entstehen: „⇢ Auf Karte übertragen“ in MAP.ritl (neben „＋ Neues Set“, auch bei Editor AUS) und „⇢ Übertragen“ in jeder Karte von SETS.ritl. Übertragen werden alle Gänge, Texte und Speisen; **Logos, Bilder, Design, Format und Restaurantdaten der Zielkarte bleiben unverändert.** Wahl: Zielkarte, vorhandene Inhalte **ersetzen** oder **anhängen**, Zielkarte danach öffnen. Rückgängig mit Strg+Z.
+
+## V3.0.21 · 22.11.2026 · DEV
+**Geändert**
+- **„Neues Set daraus“ / „＋ Neues Set“ (MAP):** Statt eines Sets wählst du nur noch das **Format** des neuen Sets (A4 Hoch 2-/1-spaltig, Klappkarte, A5, Wickelfalz, Aufsteller). Übernommen werden immer alle Gänge, Texte und Speisen sowie Design, Logos und Einstellungen; das Fenster nennt, wie viele Gänge und Speisen es sind. „Neues Set“ in der Toolbar von SETS.ritl bleibt wie bisher (Ausgangsbasis oder leere Karte).
+
+## V3.0.20 · 22.11.2026 · DEV
+**Neu**
+- **Neues Set auf Basis eines bestehenden Sets:** In SETS.ritl hat jede Karte „＋ Neues Set daraus“, in MAP.ritl steht „＋ Neues Set“ links neben „＋ Logo“ (auch bei Editor AUS). Es öffnet sich „Neues Set“ mit diesem Set als Basis und dem Namen „… (neu)“ zum Ändern. Das neue Set übernimmt Inhalt und Design und ist danach aktiv; in MAP bleibt man in MAP.
+
+## V3.0.19 · 22.11.2026 · DEV
+**Neu**
+- **Social Media (Facebook & Instagram):** In MAP.ritl erstellt „＋ Social Media“ aus der aktuellen Karte fertige Postings – immer im gleichen Format, unabhängig vom Format der Karte: **Beitrag 4:5** (1080 × 1350) oder **Story 9:16** (1080 × 1920). Vorschau aller Bilder im Fenster, Download einzeln als PNG oder alle als ZIP.
+  - Aufbau: Logo oben, Inhalte, Wappen unten über der Fußzeile, Rahmen und Hintergrund-Muster.
+  - Ein Gang mit Menüpreis und ohne Einzelpreise (z. B. Sonntagsmenü) bekommt ein eigenes Bild mit Preis und zentrierten Gängen; andere Gänge erscheinen als Liste mit Preisen. Was nicht auf ein Bild passt, wird auf weitere Bilder verteilt (Karussell, höchstens 10); zu viel Text wird verkleinert.
+  - Fußzeile mit Restaurantname, „Reservierung“ + Telefon und „Datum / Gültigkeit“ aus dem Set; Schild „Heute“ oben rechts auf dem ersten Bild (abschaltbar, Text änderbar).
+- **Designstil › Social Media:** Logo oben, Wappen unten, Hintergrund-Muster (mit Deckkraft), Farbe sowie das Schild werden im eigenen Designstil festgelegt – aus den Logos des Sets oder als eigene Datei. Die Bilder gehören zum Stil und ins Backup.
+
+## V3.0.18 · 22.11.2026 · DEV
+**Neu**
+- **Logos zueinander ausrichten:** Beim Verschieben rastet ein Logo an den anderen Logos derselben Seite ein – oben, Mitte und unten sowie links, Mitte und rechts, jeweils mit roter Hilfslinie. Der Fang in der Mitte von Blatt, Seite und Spalte bleibt. Alt-Taste gedrückt = ohne Fang.
+
+**Behoben**
+- **Mausrad im Modellbereich (MAP.ritl):** Über der Karte scrollte das Mausrad nichts. Jetzt scrollt es die Seite; ist die Fläche gezoomt, fixiert oder bei Editor AUS, scrollt es die Fläche.
 
 ## V3.0.17 · 22.11.2026 · DEV
 **Neu**
