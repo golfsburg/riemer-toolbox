@@ -3,6 +3,10 @@
 Projektmanagement: Projekt-Portfolio mit Gewerken, Anwendungen und Businesses (Lead › Spezifikation Opportunity › Spezifikation › Opportunity), Umsatzplan, Dashboard und Zeitplan · #ritl_pm
 Neueste Version oben. Versionen ≤ V1.1 nachträglich rekonstruiert (Projektmanager V1.x, selbstspeichernde HTML-Datei).
 
+## V3.1.22 · 23.11.2026 · DEV
+**Geändert**
+- Gespeicherte Auswahlen für den PowerPoint-Export und der Name im Logbuch gehören zu den Einstellungen im Backup.
+
 ## V3.1.21 · 23.11.2026 · DEV
 
 ### Neu
