@@ -59,7 +59,7 @@ In 2.6 hatte in „Backup einrichten“ **jede Datenquelle ihre eigene Stufe** (
 
 ## Rollout-Stand „alle Datenquellen gleichzeitig“ (ab ritl-bk 2.7, geprüft 24.11.2026)
 
-Der Lizenzserver ersetzt den Block beim Ausliefern durch die neueste Version des Lizenz-Kanals. Ausgeliefert werden derzeit: **Stabil und Beta 2.8**, **Dev 2.10** (ab 24.11.2026: Start-Vorrang) – alle mit der Regel (alle Datenquellen gleichzeitig, Stufe je Datenquelle).
+Der Lizenzserver ersetzt den Block beim Ausliefern durch die neueste Version des Lizenz-Kanals. Ausgeliefert werden derzeit: **Stabil und Beta 2.8**, **Dev 2.10.1** (ab 24.11.2026: Start-Vorrang; 2.10 wegen Fehler zurückgenommen) – alle mit der Regel (alle Datenquellen gleichzeitig, Stufe je Datenquelle).
 Eingebettete Kopie (gilt ohne Lizenz/Offline) und CHANGELOG-Eintrag „Backup: alle Datenquellen gleichzeitig aktiv, jede in ihrer Stufe (ritl-bk 2.7)“ sind in allen sieben Tools umgesetzt, jede Version mit Quellen-ZIP.
 
 | Tool | Dev (eingebettet) | Beta (eingebettet) | Stabil (eingebettet) |
