@@ -3,6 +3,10 @@
 Präsentationen aus Abschnitten zusammenstellen (DECK.ritl) und Meetings planen (TIMING.ritl) · #ritl_pptx
 Neueste Version oben. Ältere Versionen siehe Admin › Tools › Versionen (Tabelle `tool_versions`); dieser CHANGELOG beginnt mit V2.9.
 
+## V3.7.5 · 23.11.2026 · DEV
+**Behoben**
+- **TIMING verlor seine Daten:** Nach jedem Neuladen startete TIMING leer (Meeting, Teilnehmer, Räume, Agenda) und überschrieb die gespeicherten Daten bei der nächsten Änderung. Ursache war ein Fehler beim Sortieren der gespeicherten Teilnehmer. Jetzt bleibt TIMING erhalten – auch im Backup.
+
 ## V3.7.4 · 22.11.2026 · DEV
 **Neu**
 - **Komplett-Paket im Fenster „Backup“:** Abschnitt „04 Komplett-Paket (.zip)“ mit „Komplett-Paket speichern“ und „Komplett-Paket laden …“. Unter 03 Ausgabe bleibt der Knopf wie bisher.
