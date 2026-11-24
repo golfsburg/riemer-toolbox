@@ -1,4 +1,4 @@
-<!-- ritl-bk 2.10.1 · 24.11.2026 · DEV – einheitliches Backup der RIEMER Tools (Regel S-17, Rollout R-13). Vorbild MUSTER.ritl V3.9.
+<!-- ritl-bk 2.11 · 24.11.2026 · DEV – einheitliches Backup der RIEMER Tools (Regel S-17, Rollout R-13). Vorbild MUSTER.ritl V3.9.
      Einbau: Adapter window.RITL_BK (siehe README.md) als <script> setzen, danach diesen Block unverändert (von ritl-bk:start bis ritl-bk:end) in den <body> nach dem Header kopieren.
      2.1 ist rückwärtskompatibel: neue Angaben (bereit, ohneSha, norm, nachAnwenden, fluechtig, extra, alias, alt.idbFs*) sind optional.
      2.3: Pfad des verknüpften Ordners (✎ je Gerät). 2.4: Stufe je Datenquelle (Lizenz-Matrix backup.max.matrix, z. B. A3 · B2 · C1) – ohne Matrix wie 2.2.
@@ -7,13 +7,14 @@
      2.7: alle angebotenen Datenquellen gleichzeitig aktiv, jede in ihrer Stufe (z. B. A3 + B2 + C1) – keine Spalte „aktiv“ mehr.
      2.8: Dateien vor dem Hochladen als eigenen Blob im Speicher lesen (Safari schickte sonst 0 Bytes); nicht lesbare Dateien überspringen.
      2.9: nicht mehr gebrauchte Dateien zuerst am Server löschen – volles Kontingent blockiert das Hochladen nicht mehr.
-     2.9.1: „Backup einrichten“ bzw. das Backup-Fenster öffnen sich nicht mehr bei jedem Start: bei Datenquelle Ordner ohne verknüpften Ordner nur beim ersten Start je Gerät, sonst Hinweis höchstens einmal am Tag; Esc zählt als „gesehen“. -->
+     2.9.1: „Backup einrichten“ bzw. das Backup-Fenster öffnen sich nicht mehr bei jedem Start: bei Datenquelle Ordner ohne verknüpften Ordner nur beim ersten Start je Gerät, sonst Hinweis höchstens einmal am Tag; Esc zählt als „gesehen“.
      2.10: Start/Neuladen – die Datenquelle mit der höchsten Stufe gibt den Stand vor, bei gleicher Stufe C vor B vor A (auch wenn ihr Stand älter ist);
            eigene, ihr unbekannte Änderungen → Konfliktdialog; danach bekommen die anderen Datenquellen diesen Stand.
      2.10.1: C3 (Server mit Dateien) zählt beim Vorrang als Stufe 3; ein Browser ohne eigene Daten gewinnt nie (überschrieb sonst Ordner/Server).
+     2.11: SharePoint-Ordner für B zentral im Lizenz-Admin (je Lizenz/Tool, backup.ordner_vorgabe): „Ordner der Firma öffnen“ in „Backup einrichten“ und im Backup-Fenster, Prüfung des Ordnernamens beim Verknüpfen. -->
 <!--ritl-bk:start-->
 <style id="ritl-bk-css">
-/* ritl-bk 2.10.1 · 24.11.2026 – einheitliches Backup der RIEMER Tools (Regel S-17). Nichts Tool-Spezifisches hier ändern.
+/* ritl-bk 2.11 · 24.11.2026 – einheitliches Backup der RIEMER Tools (Regel S-17). Nichts Tool-Spezifisches hier ändern.
    Nur Tokens der Farbkarte. Alle Regeln gelten nur für die Dialoge des Bausteins (.rbk) und das Symbol am Knopf #backupBtn (.bkind). */
 dialog.rbk{border:1px solid var(--line);border-radius:var(--radius-panel,16px);background:var(--surface);color:var(--ink);padding:0;width:min(640px,94vw);box-shadow:0 20px 60px rgba(0,0,0,.25);font:400 14px/20px var(--sans,"Inter",system-ui,sans-serif);margin:auto}
 dialog.rbk::backdrop{background:rgba(15,20,28,.45)}
@@ -86,6 +87,9 @@ dialog.rbk::backdrop{background:rgba(15,20,28,.45)}
 .rbk .bkga span{font:600 11px var(--sans,"Inter",system-ui,sans-serif);color:var(--muted)}
 .rbk .bkga.on span{color:var(--accent-text)}
 .rbk .bkinfo{margin:10px 0 0;font-size:12.5px;color:var(--ink2)}
+.rbk .ovg{margin-top:10px;padding:10px 12px;border:1px solid color-mix(in srgb,var(--brand) 35%,var(--line));border-radius:8px;background:color-mix(in srgb,var(--brand) 5%,var(--surface));font-size:12.5px;line-height:18px;color:var(--ink2)}
+.rbk .ovg a{font-weight:600;color:var(--accent-text)}.rbk .ovg.warn{border-color:color-mix(in srgb,var(--warn) 45%,var(--line));background:color-mix(in srgb,var(--warn) 7%,var(--surface))}
+.rbk .ovg .warn{color:var(--warn)}
 .rbk .lk{font:italic 500 11px var(--sans,"Inter",system-ui,sans-serif);color:var(--muted)}
 .rbk .iolist{margin-top:10px;display:grid;gap:4px}
 .rbk .iolist:empty{display:none}
@@ -111,7 +115,7 @@ dialog.rbk::backdrop{background:rgba(15,20,28,.45)}
 .bkind .offl{color:var(--muted)}
 </style>
 <script id="ritl-bk-js">
-/* ritl-bk 2.10.1 · 24.11.2026 – einheitliches Backup der RIEMER Tools (Regel S-17, Rollout R-13, Vorbild MUSTER.ritl V3.9).
+/* ritl-bk 2.11 · 24.11.2026 – einheitliches Backup der RIEMER Tools (Regel S-17, Rollout R-13, Vorbild MUSTER.ritl V3.9).
    Nichts Tool-Spezifisches hier ändern – das Tool setzt VOR diesem Block den Adapter window.RITL_BK (Anleitung riemer-toolbox/ritl-bk/README.md):
      tool, name, datei, prefix, ereignis, settings(), daten(), dateien()?, dateienLaden(list)?, anwenden(stufe,obj,quelle,still), leer()?,
      legacy(o)?, texte:{settings,datenbank,storage,rueckgaengig}?, alt:{bkcfg,srv,srvst,sync,ordner,oq,fs,bklic,idbFiles,idbFs,idbFsDb,idbFsStore,idbFsKey}?, version?
@@ -126,7 +130,7 @@ dialog.rbk::backdrop{background:rgba(15,20,28,.45)}
      ab 2.1: sync() (Abgleich auf Knopfdruck, Promise) · extra() (eigene Abschnitte neu zeichnen) · Ereignis ritlbk:applied {quelle,stufe,text,still} */
 (function(){"use strict";
 const A=window.RITL_BK;if(!A||!A.tool||window.RITLBK)return;
-const VERSION='2.10.1',$=id=>document.getElementById(id);
+const VERSION='2.11',$=id=>document.getElementById(id);
 const TOOL=A.tool,NAME=A.name||A.tool,PRE=A.prefix||TOOL.replace(/-ritl$/,''),BKNAME=A.datei||`Backup_${NAME.replace('.','-')}.json`,EV=A.ereignis||PRE+':change';
 const BASE=BKNAME.replace(/^Backup_/,'').replace(/\.json$/i,''),RX=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
 const OLDRE=new RegExp('^\\d{8}-\\d{4}_'+RX(BASE)+'_Backup\\.json$'),COPYRE=new RegExp('^Backup_'+RX(BASE)+'.+\\.json$','i');
@@ -172,7 +176,7 @@ document.body.insertAdjacentHTML('beforeend',`<dialog id="bkdlg" class="iodlg rb
   <div class="status" id="bk-lst"></div>
   <div class="iorow"><button class="btn primary" type="button" id="bk-dl">Backup speichern</button><button class="btn" type="button" id="bk-loc" hidden>Anderer Speicherort …</button><button class="btn" type="button" id="bk-up">Backup wiederherstellen …</button><input type="file" id="bk-file" accept=".json,application/json" hidden></div></section>
  <section class="iosec"><h3><i>02</i>OneDrive &amp; SharePoint</h3><p class="small">Einen mit OneDrive synchronisierten Ordner verknüpfen – auch eine SharePoint-Bibliothek über „Synchronisieren“ oder „Verknüpfung zu OneDrive hinzufügen“. Backups landen dort und werden von OneDrive hochgeladen.</p>
-  <div class="status" id="fs-st"></div>
+  <div class="status" id="fs-st"></div><div id="fs-ovg"></div>
   <div class="iopath" id="fs-pathw" hidden><span>Pfad</span><code class="notr" id="fs-path"></code><input type="text" id="fs-pathin" class="notr" hidden placeholder="z. B. C:\\Users\\…\\OneDrive – Firma\\Projekte\\PM" aria-label="Pfad des verknüpften Ordners"><button class="ix" type="button" id="fs-pathbtn" title="Vollen Pfad eintragen (der Browser nennt nur den Ordnernamen)" aria-label="Pfad bearbeiten">✎</button><em id="fs-pathhint"></em></div>
   <div class="iorow" id="fs-btns"></div>
   <label class="iochk" id="fs-autow"><input type="checkbox" id="fs-auto"> Nach jeder Änderung automatisch im Ordner sichern (überschreibt die Backup-Datei)</label>
@@ -290,7 +294,7 @@ async function fsRead(name,ask){if(!await fsPerm(ask)){const e=new Error();e.nam
 // eine Backup-Datei je Tool; ältere Sicherungen mit Zeitstempel (JJJJMMTT-HHMM_NAME-ritl_Backup.json) bleiben wiederherstellbar
 async function fsList(){const l=[];for await(const [n,h] of FS.handle.entries())if(h.kind==='file'&&(n===BKNAME||OLDRE.test(n)||ALTN.includes(n)))l.push({n,t:(await h.getFile()).lastModified});return l.sort((a,b)=>(b.n===BKNAME)-(a.n===BKNAME)||b.t-a.t)}
 async function run(fn,okMsg){if(FS.busy)return;FS.busy=true;renderFs();try{const r=await fn();FS.err='';if(okMsg)toast(typeof okMsg==='function'?okMsg(r):okMsg);return r}catch(e){FS.err=fsErr(e);if(FS.err)toast(FS.err)}finally{FS.busy=false;renderFs()}}
-async function link(){try{const h=await window.showDirectoryPicker({id:TOOL.slice(0,32),mode:'readwrite'});FS.handle=h;FS.sess='';FS.err='';await idbSet(h).catch(()=>{});await fsPerm(true);toast(`Ordner „${h.name}“ verknüpft`);if(ORD()){applyEff();if(!$('bksetup').open)setTimeout(()=>oqPull(false),50)}}catch(e){const m=fsErr(e);if(m)toast(m)}renderFs()}
+async function link(){try{const h=await window.showDirectoryPicker({id:TOOL.slice(0,32),mode:'readwrite'});FS.handle=h;FS.sess='';FS.err='';await idbSet(h).catch(()=>{});await fsPerm(true);toast(ovgPasst()?`Ordner „${h.name}“ verknüpft`:`Ordner „${h.name}“ verknüpft – vorgesehen ist „${OVG().name}“. Bitte prüfen.`);if(ORD()){applyEff();if(!$('bksetup').open)setTimeout(()=>oqPull(false),50)}}catch(e){const m=fsErr(e);if(m)toast(m)}renderFs()}
 async function unlink(){if(!confirm(`Verknüpfung zum Ordner „${FS.handle.name}“ lösen?\nDie Dateien im Ordner bleiben erhalten.`))return;FS.handle=null;FS.ok=false;FS.err='';FS.sess='';await idbSet(null).catch(()=>{});renderFs();toast('Verknüpfung gelöst')}
 async function saveNow(){if(ORD()){await oqPush(false,true);showList();return}await run(async()=>{await fsWrite(BKNAME,await backupObj(),true);FS.last=new Date();FS.lastName=BKNAME},`Gesichert: ${BKNAME}`);showList()}
 async function showList(){const L=$('fs-list');if(!FS.handle||!FS.ok){L.innerHTML='';return}
@@ -320,7 +324,7 @@ function fsPathSet(v){if(!FS.handle)return;v=String(v||'').trim();LSset(K('ordne
 function renderFsPath(){const w=$('fs-pathw');if(!w)return;const on=fsSupported()&&!!FS.handle;w.hidden=!on;if(!on)return;
  const p=fsPathGet(),ed=!$('fs-pathin').hidden;$('fs-path').hidden=ed;$('fs-path').textContent=p||('…\\'+FS.handle.name);
  $('fs-pathhint').textContent=ed?'Enter speichert, Esc bricht ab':p?'':'Der Browser nennt nur den Ordnernamen – vollen Pfad mit ✎ einmal eintragen'}
-function renderFs(){const [c,t]=fsStatus(),s=$('fs-st');s.className='status'+(c?' '+c:'');s.textContent=t;$('fs-btns').innerHTML=fsButtons('bk');renderFsPath();
+function renderFs(){const [c,t]=fsStatus(),s=$('fs-st');s.className='status'+(c?' '+c:'');s.textContent=t;const og=$('fs-ovg');if(og)og.innerHTML=fsSupported()?ovgHtml():'';$('fs-btns').innerHTML=fsButtons('bk');renderFsPath();
  $('fs-autow').hidden=!fsSupported()||!FS.handle||ORD();$('fs-auto').checked=FS.auto;
  const dot=$('bkDot');if(dot)dot.hidden=true;try{bkInd()}catch(e){}
  document.dispatchEvent(new Event('ritlbk:fs'))}
@@ -362,7 +366,16 @@ const zbOk=()=>{if(OFFLINE)return false;const c=creds();return /^(RITL|RT)-/.tes
 const srv0=LS(K('srv'));const SRV={mode:srv0==='1'?'server':srv0==='0'?'lokal':DQ.includes(srv0)?srv0:null,stufe:null,allowed:null};SRV.allowed=SRV.mode?SRV.mode!=='lokal':null;
 SRV.stufe=ST3.includes(LS(K('srvst')))?LS(K('srvst')):null;
 let LIC=null;try{LIC=JSON.parse(LS(K('bklic'))||'null')}catch(e){}
-function setLic(b){if(!b||!b.max)return;LIC={max:b.max,matrix:b.max.matrix||b.matrix||null,stufen:b.stufen||null,alle:!!b.alle,wahl:b.wahl||null,quota:+b.quota||0,datenquelle:b.datenquelle,stufe:b.stufe};LSset(K('bklic'),JSON.stringify(LIC))}
+function setLic(b){if(!b||!b.max)return;LIC={max:b.max,matrix:b.max.matrix||b.matrix||null,stufen:b.stufen||null,alle:!!b.alle,wahl:b.wahl||null,quota:+b.quota||0,datenquelle:b.datenquelle,stufe:b.stufe,ordner:b.ordner_vorgabe&&b.ordner_vorgabe.link?b.ordner_vorgabe:null};LSset(K('bklic'),JSON.stringify(LIC));try{renderFs()}catch(e){}}
+// 2.11: SharePoint-Ordner der Firma (Lizenz-Admin, je Lizenz/Tool) – nur Vorgabe zum Öffnen und Prüfen, geschrieben wird weiter in den lokal synchronisierten Ordner
+const OVG=()=>LIC&&LIC.ordner&&/^https:\/\//.test(LIC.ordner.link||'')?LIC.ordner:null;
+const ovgNorm=n=>String(n||'').trim().toLowerCase();
+const ovgPasst=()=>{const v=OVG();return !v||!v.name||!FS.handle||ovgNorm(v.name)===ovgNorm(FS.handle.name)};
+function ovgHtml(){const v=OVG();if(!v)return '';const nm=v.name?` „${esc(v.name)}“`:'';
+ const falsch=FS.handle&&!ovgPasst();
+ return `<div class="ovg${falsch?' warn':''}">Ordner der Firma${nm}: <a href="${esc(v.link)}" target="_blank" rel="noopener noreferrer">Ordner der Firma öffnen ↗</a><br>`+
+  (falsch?`<span class="warn">Verknüpft ist „${esc(FS.handle.name)}“ – vorgesehen ist${nm}. Bitte „Anderer Ordner …“ wählen.</span>`:
+   FS.handle?'Verknüpft mit dem Ordner der Firma.':`In SharePoint „Synchronisieren“ oder „Verknüpfung zu OneDrive hinzufügen“ wählen (einmal je Computer), dann hier „Ordner verknüpfen …“ und den Ordner${nm} im OneDrive-Bereich der Firma auswählen.`)+'</div>'}
 const quotaTxt=()=>LIC&&LIC.quota?fmtMB(LIC.quota)+' MB':'50 MB';
 const ZBERR={invalid_key:'Lizenz ungültig',email_required:'E-Mail der Lizenz fehlt',invalid_login:'Lizenz und E-Mail passen nicht',revoked:'Lizenz deaktiviert',expired:'Lizenz abgelaufen',tool_not_licensed:'Tool nicht in der Lizenz',device_limit:'Geräte-Limit der Lizenz erreicht',too_large:'Backup zu groß für diese Stufe',quota:'Kontingent der Lizenz erreicht',server_error:'Serverfehler',network:'Keine Verbindung zum Server',server_not_enabled:'Server als Datenquelle ist für diese Lizenz nicht freigegeben',ordner_datenhoheit:'Diese Lizenz speichert Arbeitsdaten nur im eigenen Ordner (Datenhoheit) – am Server nur Einstellungen',not_found:'Stand am Server nicht gefunden',bad_request:'Ungültige Anfrage'};
 const errTxt=e=>e==='quota'?`${ZBERR.quota} (${quotaTxt()})`:ZBERR[e]||ZBERR.server_error;
@@ -392,7 +405,7 @@ async function srvCheck(){if(!zbOk()||!navigator.onLine)return SRV.allowed;try{c
   LSset(K('srv'),SRV.mode);LSset(K('srvst'),SRV.stufe);applyEff()}}catch(e){}return SRV.allowed}
 
 // ── Inhalt je Stufe: settings (Stufe 1) · datenbank (2) · storage (3 = datenbank + Dateien) ──
-function ordInfo(){let o={};try{o=JSON.parse(LS(K('ordner'))||'{}')}catch(e){}return{name:(FS.handle&&FS.handle.name)||o.name||'',datei:BKNAME}}
+function ordInfo(){let o={};try{o=JSON.parse(LS(K('ordner'))||'{}')}catch(e){}return{name:(FS.handle&&FS.handle.name)||o.name||(OVG()&&OVG().name)||'',datei:BKNAME}}
 function settingsObj(){return{theme:document.documentElement.getAttribute('data-theme')||'light',sprache:(typeof window.I18N!=='undefined'&&window.I18N.lang)||LS('riemer-lang')||'de',...(A.settings()||{}),...(ORD()?{ordner:ordInfo()}:{})}}
 function stufeObj(st){const s=settingsObj();if(st==='settings')return{ritl:{...head('backup'),stufe:'settings'},daten:s};return{ritl:{...head('backup'),stufe:'datenbank'},daten:{...s,...(A.daten()||{})}}}
 async function stufeObjA(st){if(st!=='storage')return stufeObj(st);const o=stufeObj('datenbank');o.ritl.stufe='storage';o.daten.dateien=await dumpFiles().catch(()=>[]);return o}
@@ -661,6 +674,7 @@ function setupHtml(){const lic=zbOk(),pv=PREVIEW(),mx=lic&&LIC&&LIC.max?LIC.max:
   <section class="iosec"><h3><i>02</i>Ordner · OneDrive &amp; SharePoint<small>dieses Gerät</small></h3>
    <label class="iochk"><input type="checkbox" id="bks-lon"${CFG.lokal.on||ob?' checked':''}${!fsSupported()||ob?' disabled':''}><span>Nach jeder Änderung in den verknüpften Ordner sichern (<code class="notr">${esc(BKNAME)}</code>, wird überschrieben)${ob?' <span class="lk">· bei B immer – der Ordner ist die Datenbank</span>':''}</span></label>
    <div class="status${FS.handle?' good':ob?' warn':''}" style="margin-top:10px">${!fsSupported()?(ob?'Dieser Browser kann keinen Ordner verknüpfen – B · Ordner geht nur in Chrome oder Edge am Computer.':'Dieser Browser kann keinen Ordner verknüpfen – „Backup speichern“ legt die Datei im Download-Ordner ab.'):FS.handle?`Ordner „${esc(FS.handle.name)}“ verknüpft`:ob?'Noch kein Ordner verknüpft – für B · Ordner bitte auf diesem Gerät einmal verknüpfen.':'Noch kein Ordner verknüpft.'}</div>
+   ${fsSupported()?ovgHtml():''}
    ${fsSupported()?`<div class="iorow"><button class="btn" type="button" id="bks-link">${FS.handle?'Anderer Ordner …':'Ordner verknüpfen …'}</button></div>`:''}</section>
   ${OFFLINE?'':`<p class="small" style="margin:12px 0 0">${pv?PVTXT+'.':!lic?'Zentrales Backup nur in der lizenzierten Version (Aufruf über die RIEMER Toolbox).':`Zentral mit Historie bis ca. ${sz?fmtB(sz[SEL.st==='storage'?'datenbank':SEL.st].gz*11):'–'} (höchstens 11 Stände, nur geänderte werden gespeichert). Kontingent ${quotaTxt()} je Lizenz für alle Tools. Gespeichert in der EU (Frankfurt), Zugriff nur mit Ihrem Lizenzschlüssel.`}</p>`}`}
 function renderSetup(){const b=$('bks-body');b.innerHTML=setupHtml();
