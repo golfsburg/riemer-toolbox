@@ -2,6 +2,14 @@
 
 Zentraler Backup-Baustein aller RIEMER Tools (Regel S-17). Neueste Version oben.
 
+## 2.10 · 24.11.2026 · DEV
+**Geändert**
+- **Start und Neuladen: Vorrang nach Stufe.** Die Datenquelle mit der höchsten Stufe (1 settings · 2 datenbank · 3 storage) gibt den Stand vor, bei gleicher Stufe gilt **C (Server) vor B (Ordner) vor A (Browser)** – auch wenn ihr Stand älter ist als der einer anderen Datenquelle. Nur diese Datenquelle wird beim Start geholt; danach bekommen die anderen Datenquellen genau diesen Stand. Bisher glichen Ordner und Server unabhängig voneinander ab, und es gewann zufällig, wer zuletzt fertig war.
+- Hat dieser Browser Änderungen, die die vorrangige Datenquelle noch nicht kennt, und wurde sie inzwischen auch geändert, kommt wie bisher der Konfliktdialog – nichts wird still überschrieben.
+
+**Behoben**
+- Beim Start wartet der Abgleich jetzt, bis die Datei im Ordner gelesen ist.
+
 ## 2.9.1 · 23.11.2026 · DEV
 **Behoben**
 - **Kein Backup-Fenster mehr bei jedem Start:** Bei Datenquelle Ordner (Datenhoheit) öffnete sich „Backup einrichten“ nach jeder Lizenzprüfung und jedem Neuladen, solange auf dem Gerät kein Ordner verknüpft war – auch nach „Esc“. Jetzt erscheint es dort nur beim ersten Start je Gerät; danach kommt höchstens einmal am Tag der Hinweis „… noch kein Ordner verknüpft: Backup › „Ordner verknüpfen …““.

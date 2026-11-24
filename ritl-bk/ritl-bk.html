@@ -1,4 +1,4 @@
-<!-- ritl-bk 2.9.1 · 23.11.2026 · DEV – einheitliches Backup der RIEMER Tools (Regel S-17, Rollout R-13). Vorbild MUSTER.ritl V3.9.
+<!-- ritl-bk 2.10 · 24.11.2026 · DEV – einheitliches Backup der RIEMER Tools (Regel S-17, Rollout R-13). Vorbild MUSTER.ritl V3.9.
      Einbau: Adapter window.RITL_BK (siehe README.md) als <script> setzen, danach diesen Block unverändert (von ritl-bk:start bis ritl-bk:end) in den <body> nach dem Header kopieren.
      2.1 ist rückwärtskompatibel: neue Angaben (bereit, ohneSha, norm, nachAnwenden, fluechtig, extra, alias, alt.idbFs*) sind optional.
      2.3: Pfad des verknüpften Ordners (✎ je Gerät). 2.4: Stufe je Datenquelle (Lizenz-Matrix backup.max.matrix, z. B. A3 · B2 · C1) – ohne Matrix wie 2.2.
@@ -8,9 +8,11 @@
      2.8: Dateien vor dem Hochladen als eigenen Blob im Speicher lesen (Safari schickte sonst 0 Bytes); nicht lesbare Dateien überspringen.
      2.9: nicht mehr gebrauchte Dateien zuerst am Server löschen – volles Kontingent blockiert das Hochladen nicht mehr.
      2.9.1: „Backup einrichten“ bzw. das Backup-Fenster öffnen sich nicht mehr bei jedem Start: bei Datenquelle Ordner ohne verknüpften Ordner nur beim ersten Start je Gerät, sonst Hinweis höchstens einmal am Tag; Esc zählt als „gesehen“. -->
+     2.10: Start/Neuladen – die Datenquelle mit der höchsten Stufe gibt den Stand vor, bei gleicher Stufe C vor B vor A (auch wenn ihr Stand älter ist);
+           eigene, ihr unbekannte Änderungen → Konfliktdialog; danach bekommen die anderen Datenquellen diesen Stand.
 <!--ritl-bk:start-->
 <style id="ritl-bk-css">
-/* ritl-bk 2.9.1 · 23.11.2026 – einheitliches Backup der RIEMER Tools (Regel S-17). Nichts Tool-Spezifisches hier ändern.
+/* ritl-bk 2.10 · 24.11.2026 – einheitliches Backup der RIEMER Tools (Regel S-17). Nichts Tool-Spezifisches hier ändern.
    Nur Tokens der Farbkarte. Alle Regeln gelten nur für die Dialoge des Bausteins (.rbk) und das Symbol am Knopf #backupBtn (.bkind). */
 dialog.rbk{border:1px solid var(--line);border-radius:var(--radius-panel,16px);background:var(--surface);color:var(--ink);padding:0;width:min(640px,94vw);box-shadow:0 20px 60px rgba(0,0,0,.25);font:400 14px/20px var(--sans,"Inter",system-ui,sans-serif);margin:auto}
 dialog.rbk::backdrop{background:rgba(15,20,28,.45)}
@@ -108,7 +110,7 @@ dialog.rbk::backdrop{background:rgba(15,20,28,.45)}
 .bkind .offl{color:var(--muted)}
 </style>
 <script id="ritl-bk-js">
-/* ritl-bk 2.9.1 · 23.11.2026 – einheitliches Backup der RIEMER Tools (Regel S-17, Rollout R-13, Vorbild MUSTER.ritl V3.9).
+/* ritl-bk 2.10 · 24.11.2026 – einheitliches Backup der RIEMER Tools (Regel S-17, Rollout R-13, Vorbild MUSTER.ritl V3.9).
    Nichts Tool-Spezifisches hier ändern – das Tool setzt VOR diesem Block den Adapter window.RITL_BK (Anleitung riemer-toolbox/ritl-bk/README.md):
      tool, name, datei, prefix, ereignis, settings(), daten(), dateien()?, dateienLaden(list)?, anwenden(stufe,obj,quelle,still), leer()?,
      legacy(o)?, texte:{settings,datenbank,storage,rueckgaengig}?, alt:{bkcfg,srv,srvst,sync,ordner,oq,fs,bklic,idbFiles,idbFs,idbFsDb,idbFsStore,idbFsKey}?, version?
@@ -123,7 +125,7 @@ dialog.rbk::backdrop{background:rgba(15,20,28,.45)}
      ab 2.1: sync() (Abgleich auf Knopfdruck, Promise) · extra() (eigene Abschnitte neu zeichnen) · Ereignis ritlbk:applied {quelle,stufe,text,still} */
 (function(){"use strict";
 const A=window.RITL_BK;if(!A||!A.tool||window.RITLBK)return;
-const VERSION='2.9.1',$=id=>document.getElementById(id);
+const VERSION='2.10',$=id=>document.getElementById(id);
 const TOOL=A.tool,NAME=A.name||A.tool,PRE=A.prefix||TOOL.replace(/-ritl$/,''),BKNAME=A.datei||`Backup_${NAME.replace('.','-')}.json`,EV=A.ereignis||PRE+':change';
 const BASE=BKNAME.replace(/^Backup_/,'').replace(/\.json$/i,''),RX=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
 const OLDRE=new RegExp('^\\d{8}-\\d{4}_'+RX(BASE)+'_Backup\\.json$'),COPYRE=new RegExp('^Backup_'+RX(BASE)+'.+\\.json$','i');
@@ -481,14 +483,14 @@ async function syPull(start){if(!syOn()||SY.busy)return;if(!RDY)return;if(!navig
   else if(!dirty||neu){await syApply(j,st);if(!start)toast('Neuer Stand vom Server geladen')}
   else{SY.conflict=j;next=syConflict}}
  catch(e){SY.err=e.message}finally{SY.busy=false;renderZb()}if(next)return next()}
-async function syPush(force){if(!syOn()||SY.busy)return;if(!RDY)return;if(!navigator.onLine){ZB.pending=true;renderZb();return}
+async function syPush(force,still){if(!syOn()||SY.busy)return;if(!RDY)return;if(!navigator.onLine){ZB.pending=true;renderZb();return}
  // 2.1: ein leerer Stand (A.leer) ersetzt nie von selbst einen Stand mit Daten am Server (nur „Meinen Stand behalten“)
  if(!force&&SY.rev&&SY.l===false&&SY.stufe===syStufe()&&syStufe()!=='settings'&&leer())return;
  // 2.1: Fehler aus settings()/daten() abfangen
  ZB.pending=false;let L;try{L=await syLocal()}catch(e){return}if(SY.stufe!==L.st)SY={...SY,stufe:L.st,rev:0,sha:''};if(!force&&L.h===SY.sha)return;
  SY.busy=true;renderZb();let next=null;
  try{const weg=syFilesOn()?await filesUp():[];const gz=await gzip(JSON.stringify(L.o));const j=await syRaw('state_put',{stufe:L.st,b64:b64(gz),sha256:L.h,raw:L.dat.length,version:ver(),base_rev:SY.rev,force:!!force});
-  if(j.ok){SY={...SY,rev:j.rev,sha:L.h,at:j.at||new Date().toISOString(),err:'',l:leer()};sySave();ZB.last=new Date();ZB.lastSha[L.st]=L.h;ZB.err='';for(const s of weg)await syRaw('files_del',{file_id:s.file_id}).catch(()=>{});if(force)toast(j.unchanged?'Server: keine Änderung':`Am Server gespeichert (Stand ${j.rev})`)}
+  if(j.ok){SY={...SY,rev:j.rev,sha:L.h,at:j.at||new Date().toISOString(),err:'',l:leer()};sySave();ZB.last=new Date();ZB.lastSha[L.st]=L.h;ZB.err='';for(const s of weg)await syRaw('files_del',{file_id:s.file_id}).catch(()=>{});if(force&&!still)toast(j.unchanged?'Server: keine Änderung':`Am Server gespeichert (Stand ${j.rev})`)}
   else if(j.error==='conflict'){const g=await syRaw('state_get',{stufe:L.st});if(g.ok&&!g.empty){if(!force&&leer())next=()=>syLeerApply(g,L.st);else{SY.conflict=g;next=syConflict}}}
   else throw new Error(errTxt(j.error))}
  catch(e){SY.err=e.message}finally{SY.busy=false;renderZb()}if(next)return next()}
@@ -538,7 +540,7 @@ async function oqPull(start){if(OQ.busy||OQ.conflict||!RDY||!await oqOk(false))r
    else{OQ.conflict=r;next=oqConflict}}}
  catch(e){OQ.err=e instanceof SyntaxError?'Die Datei im Ordner ist unvollständig – OneDrive synchronisiert gerade. Bitte kurz warten.':fsErr(e)}
  finally{OQ.busy=false;renderFs()}if(next)return next()}
-async function oqPush(force,manual){if(OQ.busy||(OQ.conflict&&!force))return;if(!RDY&&!manual)return;
+async function oqPush(force,manual,still){if(OQ.busy||(OQ.conflict&&!force))return;if(!RDY&&!manual)return;
  if(!await oqOk(!!manual))return;OQ.busy=true;let next=null;
  try{const L=await oqLocal(),r=await oqRead(),fh=r?await fileSha(r.o):'';
   if(r&&fh===L.h){OQ={...OQ,rev:r.rev,sha:L.h,mod:r.mod,l:leer()};oqSave();if(manual)toast('Ordner ist aktuell')}
@@ -548,7 +550,7 @@ async function oqPush(force,manual){if(OQ.busy||(OQ.conflict&&!force))return;if(
   // 2.1: ein leerer Stand (A.leer) überschreibt nie von selbst eine Datei mit Daten im Ordner
   else if(!force&&!manual&&r&&OQ.l===false&&leer()){}
   else{const rev=Math.max(OQ.rev,r?r.rev:0)+1;OQ.mod=await oqWrite(L.o,rev);OQ={...OQ,rev,sha:L.h,at:new Date().toISOString(),err:'',l:leer()};oqSave();
-   FS.last=new Date();FS.lastName=BKNAME;if(manual||force)toast(`Im Ordner gespeichert (Stand ${rev})`)}}
+   FS.last=new Date();FS.lastName=BKNAME;if((manual||force)&&!still)toast(`Im Ordner gespeichert (Stand ${rev})`)}}
  catch(e){OQ.err=fsErr(e)||OQ.err;if(manual&&OQ.err)toast(OQ.err)}finally{OQ.busy=false;renderFs()}if(next)return next()}
 function oqConflict(){const r=OQ.conflict,d=$('sydlg');if(!r||!d)return;syTexts(true);const t=(r.o&&r.o.ritl)||{};
  $('sy-txt').innerHTML=`Die Datei <code class="notr">${esc(BKNAME)}</code> im Ordner „${esc(FS.handle.name)}“ wurde inzwischen auf einem anderen Gerät geändert (Stand ${r.rev}${t.erstellt?' · '+zeit(new Date(t.erstellt)):''}${t.version?' · <span class="notr">'+esc(t.version)+'</span>':''}). Auch in diesem Browser gibt es Änderungen. Welcher Stand soll gelten?`;
@@ -568,7 +570,7 @@ async function oqStart(){await FSREADY;applyEff();renderFs();
  // 2.9.1: Fenster nur beim allerersten Start; danach nur ein Hinweis (höchstens einmal am Tag) – kein Fenster bei jedem Laden bzw. jeder Lizenzprüfung
  if(!FS.handle){if(!LS(K('ordner-gefragt'))&&!OQ.asked){OQ.asked=true;LSset(K('ordner-gefragt'),'1');openSetup()}else hinweis1('ordner','Diese Lizenz speichert die Arbeitsdaten im OneDrive/SharePoint-Ordner – auf diesem Gerät ist noch kein Ordner verknüpft: Backup › „Ordner verknüpfen …“.');return}
  if(!FS.ok){hinweis1('zugriff','Der Browser braucht eine Bestätigung für den Ordner: Backup › „Zugriff erneuern“.');return}
- oqPull(true)}
+ return oqPull(true)}   // 2.10: Start wartet auf den Ordner-Abgleich
 function oqStatus(){const o=ordInfo(),nm=o.name?` „${esc(o.name)}“`:'';
  if(!fsSupported())return['warn',`B · Ordner: Diese Lizenz speichert die Daten im OneDrive/SharePoint-Ordner${nm} (Datenhoheit). Das geht nur in Chrome oder Edge am Computer – in diesem Browser bleiben Änderungen nur hier. Mit „Backup speichern“ lässt sich ${BKNAME} herunterladen und in den Ordner legen.`];
  if(!FS.handle)return['warn',`B · Ordner: Diese Lizenz speichert die Daten im OneDrive/SharePoint-Ordner${nm} (Datenhoheit). Bitte den Ordner auf diesem Gerät einmal verknüpfen.`];
@@ -692,7 +694,21 @@ renderFs();bkInd();
 // mit Lizenz gelten die wirksamen Werte (Wahl ≤ Maximum) ohne Rückfrage; „Backup einrichten“ öffnet sich nur, wenn der Server nichts vorgibt
 // (ältere Server) und noch nichts eingerichtet ist, oder bei B ohne Ordner auf diesem Gerät
 // 2.1: erster Abgleich bzw. zentrales Sichern erst, wenn das Tool bereit ist (A.bereit)
-const start=()=>{if(ORD())oqStart();if(CFG.zentral.on)syOn()?syPull(true):zbSave(false)};
+// 2.10: Start (auch Neuladen) – die Datenquelle mit der HÖCHSTEN STUFE gibt den Stand vor, bei gleicher Stufe C vor B vor A,
+// auch wenn ihr Stand älter ist. Nur sie wird geholt; hat dieser Browser Änderungen, die sie nicht kennt, und ist sie selbst
+// inzwischen geändert → Konfliktdialog (wie bisher). Danach bekommen die anderen Datenquellen diesen Stand (ohne Rückfrage).
+const RANG=s=>({settings:1,datenbank:2,storage:3})[s]||0;
+async function startQuelle(){const L=[{k:'lokal',st:CFG.lokal.stufe,p:1}];let bOk=false;
+ if(ORD()){await FSREADY;applyEff();bOk=fsSupported()&&!!FS.handle&&await fsPerm(false).catch(()=>false);if(bOk)L.push({k:'ordner',st:oqStufe(),p:2})}
+ if(CFG.zentral.on&&syOn()&&navigator.onLine)L.push({k:'server',st:syStufe(),p:3});
+ L.sort((a,b)=>RANG(b.st)-RANG(a.st)||b.p-a.p);return{w:L[0],bOk,liste:L}}
+let STARTQ=null;
+const start=async()=>{let q;try{q=await startQuelle()}catch(e){q={w:{k:'lokal'},bOk:false,liste:[]}}STARTQ={quelle:q.w.k,stufe:q.w.st||'',reihenfolge:q.liste.map(x=>x.k+':'+x.st)};
+ try{console.info('[Backup] Start: Vorrang '+STARTQ.reihenfolge.join(' > '))}catch(e){}
+ const C=CFG.zentral.on,B=ORD();
+ if(q.w.k==='server'){await syPull(true);if(B){if(q.bOk&&!SY.conflict&&!OQ.conflict)await oqPush(true,false,true);else if(!q.bOk)oqStart()}}
+ else if(q.w.k==='ordner'){await oqStart();if(C){if(syOn()){if(!OQ.conflict&&!SY.conflict)await syPush(true,true)}else zbSave(false)}}
+ else{if(B){if(q.bOk)await oqPush(true,false,true);else oqStart()}if(C){syOn()?await syPush(true,true):zbSave(false)}}};
 if(zbOk())setTimeout(()=>srvCheck().then(()=>{renderZb();if(!SRV.mode&&!CFG.seen)return openSetup();RDY?start():BEREIT.then(start)}),!CFG.seen||CFG.zentral.quelle||SRV.mode==='ordner'||SRV.mode==='server'?300:3000);
 else if(!CFG.seen)setTimeout(openSetup,900);
 
@@ -709,7 +725,7 @@ window.RITLBK={version:VERSION,tool:TOOL,datei:BKNAME,
  open:openBk,setup:openSetup,schedule:()=>fire(),sync,extra:renderExtra,
  fs:{status:fsStatus,buttons:fsButtons,read:fsRead,write:fsWrite,run,action:fsAction,perm:fsPerm,supported:fsSupported,get handle(){return FS.handle},get ok(){return FS.ok}},
  head,check,download,pickFile,restore:(d,quelle,still)=>restore(d,quelle,still,'datei'),zeit,stamp,esc,
- stand:()=>({alle:ALLE(),datenquellen:ALLE()?{...LIC.stufen}:null,datenquelle:zbOk()?SRV.mode||'lokal':'lokal',stufe:zbOk()?SRV.stufe||CFG.lokal.stufe:CFG.lokal.stufe,max:LIC&&LIC.max||null,matrix:LIC&&LIC.matrix||null,stufen:LIC&&LIC.stufen||null,wahl:LIC&&LIC.wahl||null,quota:LIC&&LIC.quota||0,lokal:{...CFG.lokal},zentral:{...CFG.zentral},sync:syOn(),ordner:ORD(),bereit:RDY})};
+ stand:()=>({start:STARTQ,alle:ALLE(),datenquellen:ALLE()?{...LIC.stufen}:null,datenquelle:zbOk()?SRV.mode||'lokal':'lokal',stufe:zbOk()?SRV.stufe||CFG.lokal.stufe:CFG.lokal.stufe,max:LIC&&LIC.max||null,matrix:LIC&&LIC.matrix||null,stufen:LIC&&LIC.stufen||null,wahl:LIC&&LIC.wahl||null,quota:LIC&&LIC.quota||0,lokal:{...CFG.lokal},zentral:{...CFG.zentral},sync:syOn(),ordner:ORD(),bereit:RDY})};
 document.dispatchEvent(new Event('ritlbk:ready'));
 })();
 </script>
