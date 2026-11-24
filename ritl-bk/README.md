@@ -50,25 +50,22 @@ In 2.6 hatte in „Backup einrichten“ **jede Datenquelle ihre eigene Stufe** (
 - Neues Gerät ohne eigene Daten (`leer()` = true) übernimmt den Stand vom Server bzw. aus dem Ordner still statt zu fragen.
 - Fenster „Backup“ › 03 Zentral: Historie mit 🗑 je Stand (`delete {id}`), Belegung „x von y MB“ aus `quota`.
 
-## Rollout-Stand „alle Datenquellen gleichzeitig“ (ritl-bk 2.7, 20.11.2026)
+## Rollout-Stand „alle Datenquellen gleichzeitig“ (ab ritl-bk 2.7, geprüft 24.11.2026)
 
-Der Lizenzserver ersetzt den Block beim Ausliefern durch die neueste Version des Lizenz-Kanals – die Tools müssen dafür nicht neu veröffentlicht werden.
-Geprüft mit der ausgelieferten Fassung (Block 2.7, Lizenz A3 · B2 · C1 und A2 + C3, Server nachgestellt): je Tool alle Datenquellen aktiv, Server bekommt nur die C-Stufe, keine Fehler.
+Der Lizenzserver ersetzt den Block beim Ausliefern durch die neueste Version des Lizenz-Kanals. Ausgeliefert werden derzeit: **Stabil und Beta 2.8**, **Dev 2.9.1** – alle mit der Regel (alle Datenquellen gleichzeitig, Stufe je Datenquelle).
+Eingebettete Kopie (gilt ohne Lizenz/Offline) und CHANGELOG-Eintrag „Backup: alle Datenquellen gleichzeitig aktiv, jede in ihrer Stufe (ritl-bk 2.7)“ sind in allen sieben Tools umgesetzt, jede Version mit Quellen-ZIP.
 
-| Tool | Version mit Block (Dev) | eingebettet | Beta/Stabil ohne Block |
+| Tool | Dev (eingebettet) | Beta (eingebettet) | Stabil (eingebettet) |
 | --- | --- | --- | --- |
-| PM.ritl | V3.1.14 | 2.7 | – |
-| PPTX.ritl | V3.7.1 | 2.7 | Stabil V2.9 |
-| PDF.ritl | V2.1.1 | 2.7 | Beta V1.4 |
-| LV.ritl | V10.0.1 | 2.7 | Beta V9.5 |
-| MSX.ritl | V5.7.1 (Pro) | 2.7 | Beta V5.0, Stabil V4.3 (Pro) / V3.1 |
-| JFC.ritl | V4.0.1 | 2.7 | – |
-| STAKE.ritl | V2.6.1 | 2.7 | – |
+| PM.ritl | V3.1.22 (2.8) | – | V3.1 (2.0) |
+| PPTX.ritl | V3.7.5 (2.7) | – | V2.9 (ohne Block) |
+| PDF.ritl | V2.1.7 (2.7) | V2.1.3 (2.7) | – |
+| LV.ritl | V10.0.5 (2.7) | V9.5 (ohne Block) | – |
+| MSX.ritl | V5.8.5 Pro (2.8) | V5.8 Pro (2.8) | V4.3 Pro / V3.1 (ohne Block) |
+| JFC.ritl | V4.0.5 (2.7) | – | – |
+| STAKE.ritl | V2.6.5 (2.7) | – | V2.6 (2.0) |
 
-Offen: Beta/Stabil-Versionen ohne Block haben noch eigenen Backup-Code – die Regel greift dort erst mit der Freigabe der Dev-Version.
-Eingebettete Kopie in allen sieben Tools auf 2.7 aktualisiert (DEV-Versionen vom 20.11.2026).
-
-**R-16 (ritl-bk 2.8, 21.11.2026):** Tools mit eigener `RITLF`-Kopie auf den Stand von `ritl-files.js` 2.8 gebracht (Inhalte als eigener Blob, einmaliges `repair()`) und Block 2.8 eingebettet: MESH.ritl V2.7.18, MSX.ritl V5.7.2, PM.ritl V3.1.15 (alle DEV). TRACK.ritl seit V3.3.5 (`ritlFiles.ts`).
+Mit Block bekommt jede Version beim Ausliefern die Fassung ihres Kanals. **Ohne Block** (PPTX Stabil V2.9, LV Beta V9.5, MSX Stabil V4.3/V3.1) läuft noch der alte Backup-Code – die Regel greift dort erst, wenn eine Version mit Block in den Kanal kommt.
 
 ## Einbau in ein Tool (Phase 3)
 
