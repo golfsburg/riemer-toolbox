@@ -3,6 +3,10 @@
 PDF-Dokumente aus Lesezeichen-Abschnitten und Einzelseiten zusammenstellen – mit verlinktem Inhaltsverzeichnis · #ritl_pdf
 Neueste Version oben. Versionen ≤ V1.3 nachträglich rekonstruiert (aus `tool_versions` und Entwicklungsverlauf).
 
+## V2.1.7 · 23.11.2026 · DEV
+**Behoben**
+- **Vergleich:** Die Optionen des Planvergleichs (Auflösung, Schwelle …) gingen bei Backups der Stufe datenbank/storage verloren. Jetzt werden sie gesichert; ältere Backups werden weiter gelesen.
+
 ## V2.1.6 · 23.11.2026 · DEV
 **Neu**
 - **Planvergleich (COMPARE.ritl) im Backup – alle Stufen:**
