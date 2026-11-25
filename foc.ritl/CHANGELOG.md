@@ -3,6 +3,11 @@
 Fardriver-Controller einstellen und simulieren – Ströme, Gänge, Kurven und Funktionen mit Wirkung auf Tempo, Beschleunigung und Reichweite · #ritl_foc
 Neueste Version oben. Versionen ≤ V1.2 waren Entwürfe im Chat und wurden nicht veröffentlicht.
 
+## V1.7.5 · 25.11.2026 · DEV
+**Geändert**
+- **Scrollen (Regel S-18/S-19):** Der Header läuft beim Scrollen nach unten mit aus dem Bild, die Modul-Leiste bleibt oben am Fensterrand stehen. Die Ergebnis-Spalte rechts und die Kennzahlen-Leiste kleben unter der Modul-Leiste.
+- **Mausrad nur im Bereich der Maus:** Innere Scrollbereiche (Ergebnis-Spalte, Dialoge, Kennzahlen-Leiste) reichen am Ende nicht mehr an die Seite weiter. Über der Modul-Leiste schiebt das Rad nur die Leiste waagrecht, die Seite bleibt stehen.
+
 ## V1.7.4 · 22.11.2026 · DEV
 **Geändert**
 - **Backup intern vereinfacht:** Ein Wechsel von Modul, Diagramm oder Gang und das Auf-/Zuklappen von Bereichen gilt nicht mehr als Änderung – es entsteht kein neuer Stand am Server, im Ordner oder in der Historie. Die Ansicht wird weiter mitgesichert und beim Wiederherstellen eines Backups übernommen; der automatische Abgleich zwischen Geräten lässt die Ansicht jedes Geräts unverändert.
