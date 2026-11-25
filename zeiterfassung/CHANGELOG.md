@@ -3,6 +3,10 @@
 Projektzeiten erfassen, Timer und manuelle Einträge, Auswertung, Excel/CSV-Datei-Modus · #ritl_zeit (bis V3.7: Zeiterfassung.ritl · #ritl_zeiterfassung)
 Neueste Version oben. Versionen ≤ V3.1 nachträglich aus dem Changelog im Tool rekonstruiert (V1.0–V2.3: 17.07.2026).
 
+## V3.8.2 · 25.11.2026 · DEV
+**Geändert**
+- **Scrollen:** Der Kopfbereich scrollt mit der Seite weg, die Seitenleiste mit den Projekten bleibt am oberen Rand stehen und füllt die Fenstergröße. Innere Listen und Fenster reichen das Mausrad nicht mehr an die Seite weiter. Am Handy bleibt die Seitenleiste wie bisher oben im Inhalt.
+
 ## V3.8.1 · 22.11.2026 · DEV
 **Neu**
 - **Teilen-Blatt beim Speichern am Handy und Tablet:** Exporte und „Backup speichern“ öffnen am Touchscreen das Teilen-Blatt („In Dateien sichern“, AirDrop, Mail) – in der Home-Bildschirm-App zeigte iOS Downloads bisher nur als Vorschau. Am Computer bleibt es beim normalen Download; lässt der Browser das Teilen nicht zu, wird ebenfalls normal geladen.
