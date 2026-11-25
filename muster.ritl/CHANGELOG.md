@@ -3,6 +3,16 @@
 Vorlage und Spielwiese für den Skill `/riemer-webapp-design` · #ritl_muster
 Neueste Version oben. Versionen ≤ V2.2 nachträglich aus den veröffentlichten Ständen (Tabelle `tool_versions`) rekonstruiert.
 
+## V3.10.0 · 25.11.2026 · DEV
+**Neu**
+- **Ribbon DOC.ritl – Referenz für den Tool-Typ „Dokument“ (ritl-doc 1.0):** Jedes Projekt ist eine eigene Datei `<Projektname>.muster.ritl` (z. B. `Angebot Muster.muster.ritl`) – nur auf dem Gerät bzw. im Ordner, nie am Server. Beispiel-Adapter `daten()`/`laden()`/`dateien()`/`leer()` mit Projektname, Auftraggeber, Status, Notizen und **Datei-Upload** (Auswahl oder Ziehen; Dateien werden in der Projektdatei mitgespeichert), „Beispiel laden“ und Anzeige der Projektdatei.
+- **Startbildschirm im Modul:** „Neues Projekt“ · „Öffnen …“ · „Zuletzt geöffnet“. Header-Knöpfe **Neu · Öffnen … · Speichern · Speichern unter …** und Projektname mit „•“ aus RITL-UI 1.6, Tastenkürzel Strg+S / Strg+Umschalt+S / Strg+O. Zwischenspeicher, Warnung bei ungespeicherten Änderungen und Speichern ohne File System Access (Download) kommen aus ritl-doc.
+- **Ein Tool mit beiden Typen (Vorlage):** MUSTER, TIMING, SETUP und MAP bleiben Typ „Datenbank“ (Backup ritl-bk 2.12, `tools.typ` = `datenbank`); der Typ „Dokument“ steht nur im Adapter von DOC.ritl. Die Dokument-Knöpfe und Tastenkürzel gibt es nur, solange DOC.ritl offen ist; ritl-doc startet erst beim ersten Öffnen von DOC.ritl (kein Startbildschirm oder Wiederherstellen-Dialog über anderen Modulen); DOC.ritl meldet Änderungen mit eigenem Ereignis, damit Map-Änderungen nicht als ungespeichertes Projekt zählen.
+- Link `#doc` öffnet DOC.ritl direkt.
+
+**Geändert**
+- Bausteine im Tool auf RITL-UI 1.6 und ritl-bk 2.12 (Typ datenbank) aktualisiert; ritl-doc 1.0 neu eingebaut.
+
 ## V3.9.6 · 25.11.2026 · DEV
 **Geändert**
 - **Scrollen (Rollout R-15, Regeln S-18/S-19, Vorlage):** Der Header läuft beim Scrollen mit aus dem Bild, das Module-Ribbon klebt am oberen Fensterrand (`position:sticky; top:0`). Die Ribbon-Höhe wird als `--rib-h`/`--stk` gemessen (`stickyH()`), Sprungziele liegen dank `scroll-padding-top` nicht unter dem Ribbon. Innere Scrollbereiche (Matrix, Auswahl, Listen, Dialoge) haben `overscroll-behavior:contain` – am Ende scrollt nie die Seite im Hintergrund. Über dem Ribbon schiebt das Mausrad nur die Leiste waagrecht, nie die Seite.
