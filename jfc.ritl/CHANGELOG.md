@@ -3,6 +3,10 @@
 Engineering Navigator: Kundenvergleich, Besuchspriorisierung und Gebiets-Review aus JFC-Reports · #ritl_jfc
 Neueste Version oben. Versionen ≤ V3.6 als „JFC Engineering Navigator“.
 
+## V4.0.9 · 25.11.2026 · DEV
+**Behoben**
+- Über den Lizenz-Loader erschienen unter der Fußzeile weiterhin Programmtext und das große Toolbox-Logo. Eigentliche Ursache: Der Lizenzserver sucht die Einfügestelle in der Kleinschreibung des HTML; drei Zeichen „İ“ in den Export-Bibliotheken verschoben diese Stelle um drei Zeichen und zerrissen das letzte Skript. Die Zeichen sind als `\u0130` geschrieben, das Bauskript bricht bei solchen Zeichen ab.
+
 ## V4.0.8 · 25.11.2026 · DEV
 **Behoben**
 - Über den Lizenz-Loader erschienen unter der Fußzeile viel Programmtext und das große Toolbox-Logo. Ursache: In den eingebetteten Bibliotheken (Export) stand mehrfach `</body>` im Text; der Lizenzserver fügt Logo und „Abmelden“ vor dem ersten `</body>` ein und zerriss dabei das Skript. Die Stellen sind entschärft.
