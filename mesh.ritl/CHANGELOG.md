@@ -3,6 +3,30 @@
 Kompakter 3D-Viewer und -Editor im Browser für den 3D-Druck · #ritl_mesh
 Neueste Version oben. V1.0–V1.8 als Einzeldatei entwickelt (nicht in der Toolbox veröffentlicht).
 
+## V2.8.0 · 25.11.2026 · DEV
+**Neu**
+- **Projekte als eigene Datei:** Ein Projekt ist jetzt eine Datei, die du selbst speicherst – z. B. „Halter Werkbank.mesh.ritl“. Darin steckt alles: alle Modellbereiche mit Modellen, Lage, Farben, Gruppen, Grundkörpern (inkl. Rundung/Fase), SCAD-Parametern und Exportname, dazu Druckbett, Material und **alle Geometrien**. So kannst du mehrere Projekte parallel führen, weitergeben (Mail, OneDrive, SharePoint) und archivieren.
+- **Neu · Öffnen … · Speichern · Speichern unter …** oben im Header, dazu Strg+S, Strg+Umschalt+S und Strg+O. Der Projektname steht im Titel, ein „•“ zeigt ungespeicherte Änderungen.
+- **Startbildschirm** beim Öffnen: „Neues Projekt“, „Öffnen …“ und „Zuletzt geöffnet“ (in Chrome/Edge mit einem Klick wieder offen).
+- **Zwischenspeicher:** Ungespeicherte Änderungen werden alle 30 Sekunden und beim Verlassen im Browser festgehalten und beim nächsten Start zum Wiederherstellen angeboten. Vor „Neu“ und „Öffnen“ fragt MESH bei ungespeicherten Änderungen nach.
+- **Große Projekte:** Ab ca. 150 MB Geometrien erscheint ein Hinweis (Speichern dauert länger, Datei wird groß); ab ca. 300 MB läuft der Zwischenspeicher nur noch alle 5 Minuten. Grund: 3D-Scans haben schnell Millionen Dreiecke, und jede Geometrie liegt beim Speichern zusätzlich im Speicher – am Tablet wird es sonst knapp.
+- **Fehlt eine Geometrie** (z. B. aus einer übernommenen Sicherung ohne Stufe storage), bleibt das Modell im Projekt, „01 Modelle“ zeigt einen Hinweis und beim Speichern erscheint eine Warnung – es wird nichts still weggelassen.
+
+**Geändert**
+- **Warum die Umstellung:** Bisher lag alles nur im Browser – an ein Gerät gebunden, begrenzt durch den Browser-Speicher und ohne Weitergabe. Jetzt gehört das Projekt dir als Datei; Kamera, Zoom, gesperrte Ansicht, Anzeige (Raster, Achsen, Kanten), Favoriten und eigene Schriften bleiben Einstellungen des Geräts.
+- **„Projekte“ heißen jetzt „Modellbereiche“:** Der Knopf „Bereich“ links in der Werkzeugleiste wechselt zwischen den Modellbereichen **innerhalb** eines Projekts (neu, duplizieren, umbenennen, als .json weitergeben, aus .json einfügen, löschen). Projekt-Dateien (.json) bis V2.7 lassen sich dort als Modellbereich einfügen.
+- **Druckbett und Material** gehören zum Projekt – ein neues Projekt startet mit 250 × 250 und PLA.
+- **Backup** sichert nur noch die Einstellungen des Geräts (Ansicht, Hell/Dunkel, Favoriten, Spiel beim Einlegen) – lokal, im Ordner und mit Lizenz zentral. Die Projekte sind die Dateien selbst und liegen nie am Server.
+- Bausteine: ritl-doc 1.1, RITL-UI 1.6, ritl-bk 2.12.
+
+**Entfernt**
+- „Neu beginnen“ im Header – ersetzt durch **Neu** (neues Projekt). Einen Modellbereich leerst du mit „Alle entfernen“.
+- Automatisches Speichern im Browser-Speicher und „Dateiablage aufräumen“ (der Arbeitsstand liegt im Projekt bzw. im Zwischenspeicher).
+
+**Übernahme bisheriger Daten**
+- Beim ersten Start fragt MESH, ob der bisherige Stand als **„MESH – übernommen.mesh.ritl“** gespeichert werden soll: alle bisherigen Projekte als Modellbereiche mit ihren Geometrien aus diesem Browser – bzw. aus der Ordner-Sicherung *Backup_MESH-ritl.json*, wenn dort mehr Geometrien liegen. Jederzeit auch über „Backup“ › „Bisherigen Stand übernehmen“. **Gelöscht wird nichts** – die alten Daten bleiben im Browser.
+- **Hinweis:** Stände, die **nur am Server** lagen (zentrales Backup, Stufe datenbank/storage), werden beim Umstieg nicht automatisch angeboten. Bitte vorher in einer Fassung bis V2.7 als Backup-Datei herunterladen bzw. in einen Browser holen. Dazu steht ein Hinweis in der Hilfe („Bisherige Daten“).
+
 ## V2.7.23 · 23.11.2026 · DEV
 **Behoben**
 - **Eigene Schriften** des Konverters sind jetzt im Backup (Stufe storage) – bisher fehlten sie trotz Hinweis.
