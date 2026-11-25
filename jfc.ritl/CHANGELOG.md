@@ -3,6 +3,15 @@
 Engineering Navigator: Kundenvergleich, Besuchspriorisierung und Gebiets-Review aus JFC-Reports · #ritl_jfc
 Neueste Version oben. Versionen ≤ V3.6 als „JFC Engineering Navigator“.
 
+## V4.0.7 · 25.11.2026 · DEV
+**Geändert**
+- **Scrollen (R-15):** Der Kopfbereich läuft beim Scrollen aus dem Bild; die Leiste mit Sprungzielen und der Filterbereich bleiben oben stehen. Sprungziele landen darunter.
+- Das Mausrad wirkt nur im Bereich unter der Maus (Auswahllisten, Tabellen, Gantt, Fenster scrollen nicht mehr die Seite mit).
+- Der Hauptfilter lässt sich weiter mit „Filter“ auf- und zuklappen.
+
+**Behoben**
+- Fußzeile: bleibt bei kurzem wie bei langem Inhalt am unteren Fensterrand; geschlossene Mehrfach-Auswahllisten können nicht mehr unterhalb der Fußzeile sichtbar werden.
+
 ## V4.0.6 · 25.11.2026 · DEV
 **Geändert**
 - Die Leiste mit Sprungzielen, Kundenansicht und „Alle auf / Alle zu“ bleibt beim Scrollen oben am Fensterrand stehen – zusammen mit dem Filterbereich.
