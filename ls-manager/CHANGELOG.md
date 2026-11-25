@@ -4,6 +4,10 @@ Lieferscheine automatisch auslesen und je Lieferant im eigenen Archivordner able
 Tool-ID `ls-manager` · Download-Datei `RIEMER-Tools_LS-Manager_V#.#.html`
 Neueste Version oben. Versionen ≤ V1.0 nachträglich rekonstruiert (Repo-Historie golfsburg/riemer-toolbox, `tool_versions`).
 
+## V1.7.5 · 25.11.2026 · DEV
+**Geändert**
+- **Scrollen (R-15):** Der Header läuft beim Scrollen aus dem Bild; klebende Leisten (falls vorhanden) bleiben oben und die Seite berücksichtigt ihre Höhe beim Springen zu Zielen. Innere Scrollbereiche (Eingang, Dialoge) geben das Mausrad nicht mehr an die Seite weiter. Mausrad über einer Leiste schiebt nur die Leiste waagrecht.
+
 ## V1.7.4 · 23.11.2026 · DEV
 **Behoben**
 - **Backup wiederherstellen:** Nach dem Wiederherstellen (Datei, Ordner oder Server) war der Eingang nach dem Neuladen leer, die Dateien hingen an keinem Beleg mehr. Der übernommene Eingang wird jetzt gespeichert.
