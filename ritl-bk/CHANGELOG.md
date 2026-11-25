@@ -8,6 +8,7 @@ Zentraler Backup-Baustein aller RIEMER Tools (Regel S-17). Neueste Version oben.
 - „Backup einrichten“ zeigt bei Dokument-Tools nur die Stufe settings (A/B/C wie lizenziert) und den Hinweis „Projekte speichern Sie als eigene Datei (Speichern unter …)“ mit „Ordner der Firma öffnen ↗“; das Backup-Fenster zeigt denselben Hinweis.
 - Bei Dokument-Tools öffnet sich „Backup einrichten“ nicht von selbst (nichts zu wählen) – der Startbildschirm von ritl-doc hat Vorrang.
 - `RITLBK.typ` und `RITLBK.stand().typ`.
+- Am Lizenzserver für den Kanal Dev hinterlegt (wirkt in allen Tools mit Dev-Lizenz ohne Neuveröffentlichung).
 
 **Geändert**
 - Typ „datenbank“ (Standard) verhält sich genau wie 2.11.

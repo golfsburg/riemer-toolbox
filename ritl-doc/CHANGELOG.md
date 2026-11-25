@@ -12,4 +12,4 @@ Baustein für Tools vom Typ „Dokument“: Projekte als eigene Datei `<Projektn
 - Beim ersten „Speichern unter“ Hinweis **„Ordner der Firma öffnen ↗“** (Vorgabe aus dem Lizenz-Admin, ritl-bk 2.11).
 - **Übernahme alter Daten:** Beim ersten Start mit vorhandenem Stand im Browser wird angeboten, ihn als „<Tool> – übernommen.<tool>.ritl“ zu speichern.
 - Testseite `ritl-doc/test.html` (mit `?nofs=1` ohne File System Access).
-- Am Lizenzserver noch nicht hinterlegt – Tabelle `ritl_doc_versions` kommt mit dem Server-Auftrag A-011.
+- Am Lizenzserver für den Kanal Dev hinterlegt (`ritl_doc_versions`).

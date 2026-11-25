@@ -9,6 +9,7 @@ Neueste Version oben.
 - **Tool-Typ „Dokument“** (ritl-doc 1.0): Knöpfe **Neu · Öffnen … · Speichern · Speichern unter …** mit Symbolen vor den übrigen Tool-Knöpfen (Text als Tooltip wie bei allen Tool-Knöpfen), Projektname im Titel und **„•“** bei ungespeicherten Änderungen.
 - Tastenkürzel **Strg/Cmd+S** (Speichern), **Strg/Cmd+Umschalt+S** (Speichern unter …), **Strg/Cmd+O** (Öffnen …).
 - Alle Aktionen laufen über `window.RITL_DOC` (`RITLUI.dokument(api)`) – der Header enthält keinen eigenen Dateicode. Tools ohne ritl-doc sehen keine Änderung.
+- Am Lizenzserver für den Kanal Dev hinterlegt.
 
 ## 1.5 · 21.11.2026 · Dev
 **Geändert**

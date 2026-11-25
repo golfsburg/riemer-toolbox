@@ -49,7 +49,7 @@ dialog.rdoc::backdrop{background:rgba(15,20,28,.45)}
 <script id="ritl-doc-js">
 /* ritl-doc 1.0 · 25.11.2026 – Projekte als eigene Datei für Tool-Typ „dokument“ (Vorhaben Tool-Typen, Pilot PDF.ritl).
    Nichts Tool-Spezifisches hier ändern – das Tool setzt VOR diesem Block den Adapter window.RITL_DOC_ADAPTER (README.md):
-     tool (Pflicht, z. B. 'pdf-ritl') · name ('PDF') · endung? ('pdf' → „…​.pdf.ritl“, Standard: tool ohne -ritl) · version? (Text oder Funktion)
+     tool (Pflicht, z. B. 'pdf-ritl') · name ('PDF') · endung? ('pdf' → „….pdf.ritl“, Standard: tool ohne -ritl) · version? (Text oder Funktion)
      daten() → Objekt · laden({daten,einstellungen,dateien,kopf}) → (Promise) · dateien()? → [{id,name,mime,blob}] (auch Promise) · leer() → leeres Projekt
      einstellungen()? → projektbezogene Einstellungen · ereignis? (Änderungs-Ereignis am document, Standard '<prefix>:change')
      alt()? → {daten,einstellungen?,dateien?} | null – alter Stand im Browser (für übernehmen()) · start? (false = kein Startbildschirm) · bereit? (Promise)
@@ -86,7 +86,7 @@ async function idb(mode,fn){const d=await db();return new Promise((ok,no)=>{cons
  if(r)r.onsuccess=()=>{res=r.result};t.oncomplete=()=>ok(res);t.onerror=()=>no(t.error);t.onabort=()=>no(t.error)})}
 const iget=k=>idb('readonly',s=>s.get(k)).catch(()=>undefined),iset=(k,v)=>idb('readwrite',s=>s.put(v,k)),idel=k=>idb('readwrite',s=>s.delete(k)).catch(()=>{});
 const ZLK='zul:'+TOOL,ZWP='zw:'+TOOL+':';
-async function zwAlle(){try{return await idb('readonly',s=>s.getAll(IDBKeyRange.bound(ZWP,ZWP+'￿')))||[]}catch(e){return[]}}
+async function zwAlle(){try{return await idb('readonly',s=>s.getAll(IDBKeyRange.bound(ZWP,ZWP+'\uffff')))||[]}catch(e){return[]}}
 
 // ── Zuletzt geöffnet: 10 Einträge {name, datei, ordner, zeit, handle} ──
 async function zlLaden(){const l=await iget(ZLK);S.zl=Array.isArray(l)?l:[];return S.zl}

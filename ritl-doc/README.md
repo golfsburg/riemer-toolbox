@@ -6,7 +6,7 @@ Vorhaben Tool-Typen „Dokument“/„Datenbank“ (25.11.2026). Pilot: PDF.ritl
 Ein Block `<!--ritl-doc:start-->…<!--ritl-doc:end-->` (CSS + JS) enthält Neu, Öffnen, Speichern, Speichern unter, Zuletzt geöffnet,
 Zwischenspeicher, Warnung bei ungespeicherten Änderungen und die Übernahme alter Daten. Tool-spezifisch ist nur der **Adapter**.
 Die Knöpfe im Header kommen aus **RITL-UI 1.6**, das Backup der Einstellungen aus **ritl-bk 2.12** (Modus dokument).
-Später ersetzt der Lizenzserver den Block beim Ausliefern durch die Fassung des Kanals (Tabelle `ritl_doc_versions`, kommt mit A-011).
+Der Lizenzserver ersetzt den Block beim Ausliefern durch die Fassung des Kanals (Tabelle `ritl_doc_versions`, ab 1.0 Kanal Dev).
 
 ## Festgelegt
 
