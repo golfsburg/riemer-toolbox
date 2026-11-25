@@ -3,6 +3,13 @@
 Präsentationen aus Abschnitten zusammenstellen (DECK.ritl) und Meetings planen (TIMING.ritl) · #ritl_pptx
 Neueste Version oben. Ältere Versionen siehe Admin › Tools › Versionen (Tabelle `tool_versions`); dieser CHANGELOG beginnt mit V2.9.
 
+## V3.7.7 · 25.11.2026 · DEV
+**Behoben**
+- **„Backup einrichten“ öffnet sich nicht mehr bei jedem Laden:** Das Fenster erscheint höchstens einmal je Gerät von selbst. Jedes Schließen – auch mit ✕ oder Esc – gilt als gesehen. Über Backup › „Backup einrichten …“ bleibt es jederzeit erreichbar.
+
+**Geändert**
+- Anleitung (?) an die Reiter-Reihenfolge angepasst: TIMING.ritl (Reiter 1, Start) steht vor DECK.ritl (Reiter 2), dazu ein Hinweis auf die Links #timing und #deck.
+
 ## V3.7.6 · 25.11.2026 · DEV
 **Geändert**
 - **TIMING.ritl ist jetzt der erste Reiter und öffnet beim Start**, DECK.ritl folgt als zweiter. Ein Link mit #deck öffnet weiterhin direkt DECK.ritl; das zuletzt genutzte Modul aus dem Backup stellt den Start nicht mehr um.
