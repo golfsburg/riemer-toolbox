@@ -433,7 +433,7 @@ Jedes Tool hat einen Typ (Spalte `tools.typ`, Pflicht, Standard `datenbank`, nur
 | `dokument` | eine Projektdatei je Vorgang: `<Projektname>.<tool>.ritl`, z. B. „Angebot Muster.pdf.ritl“ (ohne Passwortschutz in 1.0) | ritl-doc (`ritl_doc_versions`) |
 
 - Pilot: PDF.ritl = `dokument`, DRIVE.ritl = `datenbank`; die übrigen Tools folgen über Rollout R-19.
-  Bis Peter es freigibt, stehen **alle** Tools auf `datenbank` – Werte nicht eigenmächtig ändern.
+  Stand 25.11.2026: `pdf-ritl` = `dokument`, alle übrigen Tools `datenbank`. Typen nur nach Peters OK ändern.
 - Auslieferung an das Tool:
   - `tool-backup` / `tool_state_api` (`_backup_cfg`): `backup.typ` neben `backup.ordner_vorgabe`.
   - `license-check` (`verify_license`, Edge Function ab v15): Antwort mit `typ` und `backup.typ`;
