@@ -3,6 +3,11 @@
 GPS-Tracks (GPX) lokal im Browser in 2D und 3D darstellen, analysieren, bearbeiten und animieren · #ritl_track
 Neueste Version oben. Versionen ≤ V1.9 in Google AI Studio entwickelt und nachträglich zusammengefasst (keine Einzelstände erhalten).
 
+## V3.3.31 · 25.11.2026 · DEV
+**Geändert**
+- TRACK.ritl ist als Tool vom Typ **Datenbank** gekennzeichnet: Tracks, Wegpunkte und Fotos bleiben wie bisher im Tool, das Backup sichert sie in den Stufen settings, datenbank und storage. Für dich ändert sich im Alltag nichts.
+- Der Backup-Baustein (ritl-bk) ist auf dem aktuellen Stand (2.13): „Backup einrichten“ zeigt bei Ordner der Firma nur noch den Link zum Zielordner.
+
 ## V3.3.30 · 23.11.2026 · DEV
 **Geändert**
 - Die Herzfrequenz-Zonen (Max-/Ruhe-HF, Modul ANALYSE) gehören zu den Einstellungen im Backup.
