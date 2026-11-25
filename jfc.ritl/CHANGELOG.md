@@ -3,6 +3,10 @@
 Engineering Navigator: Kundenvergleich, Besuchspriorisierung und Gebiets-Review aus JFC-Reports · #ritl_jfc
 Neueste Version oben. Versionen ≤ V3.6 als „JFC Engineering Navigator“.
 
+## V4.0.8 · 25.11.2026 · DEV
+**Behoben**
+- Über den Lizenz-Loader erschienen unter der Fußzeile viel Programmtext und das große Toolbox-Logo. Ursache: In den eingebetteten Bibliotheken (Export) stand mehrfach `</body>` im Text; der Lizenzserver fügt Logo und „Abmelden“ vor dem ersten `</body>` ein und zerriss dabei das Skript. Die Stellen sind entschärft.
+
 ## V4.0.7 · 25.11.2026 · DEV
 **Geändert**
 - **Scrollen (R-15):** Der Kopfbereich läuft beim Scrollen aus dem Bild; die Leiste mit Sprungzielen und der Filterbereich bleiben oben stehen. Sprungziele landen darunter.
