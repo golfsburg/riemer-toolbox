@@ -3,6 +3,13 @@
 Präsentationen aus Abschnitten zusammenstellen (DECK.ritl) und Meetings planen (TIMING.ritl) · #ritl_pptx
 Neueste Version oben. Ältere Versionen siehe Admin › Tools › Versionen (Tabelle `tool_versions`); dieser CHANGELOG beginnt mit V2.9.
 
+## V3.7.6 · 25.11.2026 · DEV
+**Geändert**
+- **TIMING.ritl ist jetzt der erste Reiter und öffnet beim Start**, DECK.ritl folgt als zweiter. Ein Link mit #deck öffnet weiterhin direkt DECK.ritl; das zuletzt genutzte Modul aus dem Backup stellt den Start nicht mehr um.
+
+**Behoben**
+- Am Handy und Tablet haben die Eingabefelder in TIMING.ritl und in den Dialogen 16 px Schrift – iOS zoomt beim Antippen nicht mehr hinein.
+
 ## V3.7.5 · 23.11.2026 · DEV
 **Behoben**
 - **TIMING verlor seine Daten:** Nach jedem Neuladen startete TIMING leer (Meeting, Teilnehmer, Räume, Agenda) und überschrieb die gespeicherten Daten bei der nächsten Änderung. Ursache war ein Fehler beim Sortieren der gespeicherten Teilnehmer. Jetzt bleibt TIMING erhalten – auch im Backup.
