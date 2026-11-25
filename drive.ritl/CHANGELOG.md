@@ -3,6 +3,10 @@
 Fahrtenbuch, Fahrzeuge, Tanken, Werkstatt, Pickerl §57a und Statistik · #ritl_drive
 Neueste Version oben.
 
+## V2.4.4 · 25.11.2026 · DEV
+**Geändert**
+- **Scrollen (R-15):** Der Kopfbereich läuft beim Scrollen aus dem Bild, die Modul-Leiste (Ribbon) bleibt oben stehen. Das Mausrad über der Leiste schiebt nur die Leiste seitlich, nie die Seite; Dialoge und innere Listen scrollen für sich. Anker-Sprünge berücksichtigen die Leistenhöhe. Am Handy bleibt die untere Tabbar unverändert.
+
 ## V2.4.3 · 22.11.2026 · DEV
 **Geändert**
 - **Aktualisieren ohne Neuladen:** Mit Geräte-Abgleich (C · Server bzw. B · Ordner) gleicht **Mehr › Aktualisieren** bzw. das Ziehen nach unten in der Home-Bildschirm-App jetzt sofort ab – neuere Stände werden geholt, eigene Änderungen gesendet, mit Meldung „Abgeglichen“. Die App wird dabei nicht mehr neu geladen; eine neue Version holt weiter **App neu laden**. Ohne Geräte-Abgleich lädt „Aktualisieren“ wie bisher neu.
