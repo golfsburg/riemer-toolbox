@@ -75,6 +75,7 @@ Rundläufe im Repo (starten selbst einen kleinen Webserver auf dem Repo, Playwri
 | --- | --- | --- |
 | `node ritl-doc/tests/rundlauf.mjs [Ausgabe]` | ohne Lizenz, 50 Schritte, mit und ohne File System Access, Bilder Hell/Dunkel | ca. 2 min |
 | `node ritl-doc/tests/lizenz.mjs [Ausgabe]` | mit Lizenz: `pdf-ritl` mit `backup.typ` dokument vom Server (nur settings + „Zuletzt geöffnet“ an den Server, Gerät B), Gegenprobe `datenbank` | ca. 20 s |
+| `RITL_TEST_KEY=… RITL_TEST_EMAIL=… node ritl-doc/tests/lizenz-live.mjs` | wie oben, aber gegen den echten Lizenzserver mit eigener **Test-Lizenz** (Kanal Dev, pdf-ritl, C ≥ 1, 2 freie Geräte). Schlüssel nur als Umgebungsvariable, nie in eine Datei. Legt 2 Geräte (`ritl-doc-test-A/-B`) und einen Stand pdf-ritl · settings an | ca. 30 s |
 
 Ausgabe standardmäßig im Temp-Ordner (`ergebnis.txt` + Bilder), Exit-Code 1 bei einem ✗. Der Lizenz-Rundlauf ruft den Lizenzserver **nicht** auf:
 Playwright fängt `tool-backup` ab und antwortet in der Form von `public._backup_cfg` – kein echter Lizenzschlüssel, keine Geräteplätze, keine Stände in Lizenzdaten.
