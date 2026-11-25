@@ -3,6 +3,10 @@
 Präsentationen aus Abschnitten zusammenstellen (DECK.ritl) und Meetings planen (TIMING.ritl) · #ritl_pptx
 Neueste Version oben. Ältere Versionen siehe Admin › Tools › Versionen (Tabelle `tool_versions`); dieser CHANGELOG beginnt mit V2.9.
 
+## V3.8.2 · 26.11.2026 · DEV
+**Behoben**
+- **Kalender (.ics):** Namen von Räumen und Teilnehmern mit `:` `;` `,` (z. B. „Raum 1; OG, Nord: A“) brachen den Eintrag. Der Name steht jetzt nach RFC 5545 in Anführungszeichen (`"` im Namen wird entfernt); lange Zeilen werden nach Oktetten (max. 75) statt nach Zeichen gefaltet – Umlaute werden nicht mehr zerschnitten.
+
 ## V3.8.0 · 25.11.2026 · DEV
 **Neu**
 - **Projekte als eigene Datei:** Ein Meeting bzw. eine Präsentation ist jetzt ein Projekt, das du als Datei speicherst – z. B. „Jour fixe KW 48.pptx.ritl“. Darin stecken **beide Reiter**: TIMING.ritl (Meeting, Datum, Ort, Teilnehmer, Teams, Räume, Agenda mit Verantwortlichen und den zugeordneten Folien) und DECK.ritl (Startfolie, Abschnitte, eigene Trennstellen, Folienauswahl, Inhaltsverzeichnis- und Ausgabe-Optionen) – samt allen geladenen PPTX-Dateien. So kannst du mehrere Meetings parallel führen, weitergeben und archivieren.
