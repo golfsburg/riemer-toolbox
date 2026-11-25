@@ -423,6 +423,43 @@ select l.key_hint, w.tool, w.datenquelle, w.stufe, w.updated_at
 update licenses set quota_mb = 200 where key_hint = 'XXXX';
 ```
 
+## Tool-Typ „Dokument“ / „Datenbank“ – `tools.typ` (ab 25.11.2026)
+
+Jedes Tool hat einen Typ (Spalte `tools.typ`, Pflicht, Standard `datenbank`, nur `dokument` oder `datenbank`):
+
+| Typ | Arbeitsweise | Baustein |
+| --- | --- | --- |
+| `datenbank` | Daten im Browser, Sicherung über Datenquelle/Stufe (S-16/S-17) | ritl-bk (`ritl_bk_versions`) |
+| `dokument` | eine Projektdatei je Vorgang: `<Projektname>.<tool>.ritl`, z. B. „Angebot Muster.pdf.ritl“ (ohne Passwortschutz in 1.0) | ritl-doc (`ritl_doc_versions`) |
+
+- Pilot: PDF.ritl = `dokument`, DRIVE.ritl = `datenbank`; die übrigen Tools folgen über Rollout R-19.
+  Bis Peter es freigibt, stehen **alle** Tools auf `datenbank` – Werte nicht eigenmächtig ändern.
+- Auslieferung an das Tool:
+  - `tool-backup` / `tool_state_api` (`_backup_cfg`): `backup.typ` neben `backup.ordner_vorgabe`.
+  - `license-check` (`verify_license`, Edge Function ab v15): Antwort mit `typ` und `backup.typ`;
+    im Tool `window.RITL.typ` und `window.RITL.backup.typ`.
+
+```sql
+-- Typ eines Tools setzen (nur nach Peters OK)
+update tools set typ = 'dokument' where id = 'pdf-ritl';
+-- Übersicht
+select id, name, typ from tools order by typ, sort;
+```
+
+### Dokument-Baustein ritl-doc – `ritl_doc_versions`
+
+Aufbau wie `ritl_bk_versions`: `id`, `version`, `channel` (`dev`/`beta`/`stable`, Standard `dev`), `block`, `notes`,
+`active`, `created_at`, `released_at`. RLS an, keine Policies – nur der Server (service_role) liest und schreibt.
+
+- `verify_license` ersetzt im Tool den Bereich `<!--ritl-doc:start-->…<!--ritl-doc:end-->` durch den neuesten aktiven
+  Block bis zum Kanal der Lizenz (`ritl_doc_block(kanal)`, Reihenfolge stable < beta < dev) und meldet die Version als `ritl_doc`.
+- Ohne Marken im Tool oder ohne Eintrag in `ritl_doc_versions` bleibt das Tool unverändert.
+
+```sql
+-- Versionen ansehen
+select id, version, channel, active, released_at from ritl_doc_versions order by released_at desc;
+```
+
 ## SCORE.ritl – Posting (Bild + Text)
 
 - **Kopfzeile:** `score_clubs.posting_kopf` bzw. `posting_kopf_nw` (Nachwuchs, U-Mannschaften) – erste Zeile des Posting-Texts.
