@@ -86,7 +86,7 @@ $('t-titel').oninput=e=>{T.titel=e.target.value;aendern()};
 $('t-notiz').oninput=e=>{T.notiz=e.target.value;aendern()};
 $('t-add').onclick=()=>$('t-file').click();
 $('t-file').onchange=async e=>{for(const f of e.target.files){const b=new Blob([await f.arrayBuffer()],{type:f.type||'application/octet-stream'});T.dateien.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),name:f.name,mime:b.type,blob:b})}e.target.value='';zeigen();aendern()};
-window.RITL_DOC_ADAPTER={tool:'test-ritl',name:'TEST',endung:'test',ereignis:'test:change',version:'V1.0.0',
+window.RITL_DOC_ADAPTER={tool:new URLSearchParams(location.search).get('tool')||'test-ritl',name:'TEST',endung:'test',ereignis:'test:change',version:'V1.0.0',
  daten:()=>({titel:T.titel,notiz:T.notiz}),
  vorschlag:()=>T.titel,
  einstellungen:()=>({ansicht:'standard'}),
@@ -94,7 +94,9 @@ window.RITL_DOC_ADAPTER={tool:'test-ritl',name:'TEST',endung:'test',ereignis:'te
  laden:o=>{T.titel=o.daten.titel||'';T.notiz=o.daten.notiz||'';T.dateien=(o.dateien||[]).map(f=>({id:f.id,name:f.name,mime:f.mime,blob:f.blob}));zeigen()},
  leer:()=>{T.titel='';T.notiz='';T.dateien=[];zeigen()},
  alt:()=>{try{const o=JSON.parse(localStorage.getItem('riemer-test-alt')||'null');return o&&o.titel?{daten:o}:null}catch(e){return null}}};
-window.RITL_BK={tool:'test-ritl',name:'TEST',prefix:'test',typ:'dokument',ereignis:'test:change',
+// ?tool=pdf-ritl – andere Tool-Kennung (z. B. für backup.typ vom Server) · ?adaptertyp=dokument|datenbank|leer – typ im ritl-bk-Adapter
+const Q=new URLSearchParams(location.search),QT=Q.get('tool')||'test-ritl',QA=Q.has('adaptertyp')?Q.get('adaptertyp'):'dokument';
+window.RITL_BK={tool:QT,name:'TEST',prefix:'test',ereignis:'test:change',...(QA==='dokument'||QA==='datenbank'?{typ:QA}:{}),
  settings:()=>({ansicht:'standard'}),daten:()=>({}),anwenden:()=>{},leer:()=>true};
 setInterval(()=>{const D=window.RITL_DOC;if(D)$('t-state').textContent=JSON.stringify({version:D.version,fs:D.fs,offen:D.offen,name:D.name,geaendert:D.geaendert,datei:D.datei,zuletzt:D.zuletzt.map(z=>z.datei),ritlui:window.RITLUI&&RITLUI.version,ritlbk:window.RITLBK&&RITLBK.version,bktyp:window.RITLBK&&RITLBK.typ},null,1)},300);
 zeigen();
