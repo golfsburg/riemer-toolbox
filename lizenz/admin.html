@@ -221,6 +221,8 @@
   .edlist td{padding:6px 8px}
   .edlist input{padding:6px 8px}
   .vsel{padding:5px 8px!important;font-size:13px!important;min-width:110px}
+  .tyl{display:inline-flex;align-items:center;gap:6px;margin:0;cursor:default}
+  .tyl .hint{margin:0;font:500 11px/16px var(--mono);text-transform:uppercase;letter-spacing:.6px}
   .hide{display:none!important}
   /* SCORE.ritl – Vereine */
   .mtab td{vertical-align:top}
@@ -295,6 +297,7 @@
     <button data-tab="tools">Tools</button>
     <button data-tab="ui">Header · RITL-UI</button>
     <button data-tab="bk">Backup · RITL-BK</button>
+    <button data-tab="doc">Dokument · RITL-DOC</button>
     <button data-tab="srv">Server</button>
     <button data-tab="clubs">Vereine</button>
     <button data-tab="log">Protokoll</button>
@@ -382,6 +385,27 @@
         <label>Notiz</label><input name="notes" placeholder="Was ist neu?">
         <label>Datei <code>ritl-bk.html</code> *</label><input name="file" type="file" accept=".html,.htm,text/html" required>
         <span class="hint">Muss mit <code>&lt;!--ritl-bk:start--&gt;</code> beginnen und mit <code>&lt;!--ritl-bk:end--&gt;</code> enden.</span>
+        <button class="b pri" style="margin-top:1rem">Hochladen</button>
+      </form>
+    </section>
+
+    <section id="t-doc" class="card hide">
+      <h2>Dokument-Baustein · RITL-DOC</h2>
+      <p class="hint" style="margin:-8px 0 12px">Tools vom Typ <b>Dokument</b> (eine Projektdatei je Vorgang, z.&nbsp;B. <code>Angebot.pdf.ritl</code>) bekommen den Block <code>&lt;!--ritl-doc:start--&gt; … &lt;!--ritl-doc:end--&gt;</code> beim Ausliefern durch die neueste aktive Version aus dem Kanal der Lizenz ersetzt – wie RITL-BK. Ohne Version bleibt der Block, der im Tool steckt. Zuerst in Dev testen, dann freigeben. Den Typ je Tool stellst du im Reiter <b>Tools</b> ein. Quelle im Repo: <code>ritl-doc/ritl-doc.html</code>.</p>
+      <div class="srcsum" id="doc-live"></div>
+      <div class="wrap"><table data-rz="doc">
+        <thead><tr><th>Version</th><th>Kanal</th><th>Freigegeben</th><th>Größe</th><th>Notiz</th><th></th></tr></thead>
+        <tbody id="docrows"></tbody>
+      </table></div>
+      <h2 style="margin-top:22px">Neue Dokument-Version hochladen</h2>
+      <form id="docform">
+        <div class="grid">
+          <div><label>Version *</label><input name="version" placeholder="1.1" required pattern="[0-9]+\.[0-9]+(\.[0-9]+)?"></div>
+          <div><label>Kanal</label><select name="channel"><option value="dev">Entwicklung (Dev)</option><option value="beta">Beta</option><option value="stable">Stabil</option></select></div>
+        </div>
+        <label>Notiz</label><input name="notes" placeholder="Was ist neu?">
+        <label>Datei <code>ritl-doc.html</code> *</label><input name="file" type="file" accept=".html,.htm,text/html" required>
+        <span class="hint">Muss mit <code>&lt;!--ritl-doc:start--&gt;</code> beginnen und mit <code>&lt;!--ritl-doc:end--&gt;</code> enden.</span>
         <button class="b pri" style="margin-top:1rem">Hochladen</button>
       </form>
     </section>
@@ -1112,6 +1136,52 @@
       });
     });
   });
+  /* ── Dokument-Baustein RITL-DOC (Tool-Typ dokument): Versionen und Kanäle – wie RITL-BK ── */
+  function loadDoc() {
+    $("docrows").innerHTML = '<tr><td colspan="6" class="hint">Lade …</td></tr>';
+    return api("doc_list").then(function (r) {
+      if (!r.ok) return;
+      var L = r.live || {};
+      $("doc-live").innerHTML = "Ausgeliefert: " + ["stable", "beta", "dev"].map(function (c) { return "<b>" + UI_CH[c] + "</b> " + esc(L[c] || "– (Block im Tool)"); }).join(" · ");
+      $("docrows").innerHTML = r.versions.map(function (v) {
+        var live = ["stable", "beta", "dev"].filter(function (c) { return L[c] === v.version && v.active; });
+        var chSel = '<select class="vsel" data-docsel="channel" data-bid="' + v.id + '" aria-label="Kanal">' + ["stable", "beta", "dev"].map(function (c) {
+          return '<option value="' + c + '"' + (c === v.channel ? " selected" : "") + ">" + UI_CH[c] + "</option>"; }).join("") + "</select>";
+        var acts = '<button class="b" data-docact="get" data-bid="' + v.id + '">⬇ Datei</button>' +
+          (v.active ? '<button class="b" data-docact="off" data-bid="' + v.id + '">Zurückziehen</button>' : '<button class="b" data-docact="on" data-bid="' + v.id + '">Reaktivieren</button>') +
+          '<button class="b dan" data-docact="del" data-bid="' + v.id + '">Löschen</button>';
+        return '<tr class="' + (v.active ? "" : "off") + '"><td class="mono"><b>' + esc(v.version) + "</b>" +
+          (live.length ? ' <span class="pill p-ok">aktuell · ' + live.map(function (c) { return UI_CH[c]; }).join(", ") + "</span>" : "") +
+          (v.active ? "" : ' <span class="pill p-bad">zurückgezogen</span>') + "</td><td>" + chSel + "</td><td>" + fmtDT(v.released_at) + "</td><td>" + v.kb + " KB</td>" +
+          '<td class="hint">' + esc(v.notes || "") + '</td><td><div class="acts">' + acts + "</div></td></tr>";
+      }).join("") || '<tr><td colspan="6" class="hint">Noch keine Dokument-Version – die Dokument-Tools nutzen den Block, der in ihnen steckt.</td></tr>';
+    });
+  }
+  $("docrows").addEventListener("change", function (e) {
+    var sel = e.target.closest("select[data-docsel]"); if (!sel) return;
+    api("doc_set", { id: sel.dataset.bid, channel: sel.value }).then(function (r) { if (r.ok) { toast("Gespeichert ✓"); loadDoc(); } });
+  });
+  $("docrows").addEventListener("click", function (e) {
+    var b = e.target.closest("button[data-docact]"); if (!b) return;
+    var id = b.dataset.bid, a = b.dataset.docact, p;
+    if (a === "get") { api("doc_get", { id: id }).then(function (r) { if (!r.ok) return;
+      var u = URL.createObjectURL(new Blob([r.block], { type: "text/html" })), l = document.createElement("a");
+      l.href = u; l.download = "ritl-doc_V" + r.version + ".html"; document.body.appendChild(l); l.click(); l.remove(); setTimeout(function () { URL.revokeObjectURL(u); }, 4000); }); return; }
+    if (a === "off") { if (!confirm("Dokument-Version zurückziehen? Die Dokument-Tools bekommen dann die vorherige aktive Version bzw. ihren eigenen Block.")) return; p = api("doc_set", { id: id, active: false }); }
+    if (a === "on") p = api("doc_set", { id: id, active: true });
+    if (a === "del") { if (!confirm("Dokument-Version endgültig löschen?")) return; p = api("doc_delete", { id: id }); }
+    p && p.then(function (r) { if (r.ok) { toast("Gespeichert ✓"); loadDoc(); } });
+  });
+  $("docform").addEventListener("submit", function (e) {
+    e.preventDefault(); var f = e.target, file = f.file.files[0]; if (!file) return;
+    file.text().then(function (txt) {
+      txt = txt.trim();
+      if (txt.indexOf("<!--ritl-doc:start-->") !== 0 || txt.slice(-18) !== "<!--ritl-doc:end-->") { toast("Datei muss mit <!--ritl-doc:start--> beginnen und mit <!--ritl-doc:end--> enden."); return; }
+      api("doc_upload", { version: f.version.value.trim(), channel: f.channel.value, notes: f.notes.value.trim(), block: txt }).then(function (r) {
+        if (r.ok) { toast("Dokument-Version hochgeladen ✓"); f.reset(); loadDoc(); }
+      });
+    });
+  });
   /* Vorschau einer Header-Version im Modal: Beispiel-Tool in wählbarer Breite, Hell/Dunkel, Kanal, Edition, Lizenz */
   var UIP = { block: "", ver: "" };
   var UIP_TOKENS = ':root{--brand:#1F5FC2;--brand-hover:#174C9E;--accent-text:#1F5FC2;--ink:#1B1F24;--ink2:#2D333B;--muted:#5F6773;--surface:#FFFFFF;--surface-muted:#F4F5F7;--on-brand:#FFFFFF;--tint:#C9DAF5;--line:#E3E6EB;--line2:#CDD2D9;--good:#0F7B6C;--warn:#C2410C;--red:#C53030;--radius-sm:3px;--radius:8px;--sans:"Inter",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace;color-scheme:light}' +
@@ -1447,7 +1517,9 @@
   }
 
   function load() {
-    return api("list").then(function (r) { if (r.ok) { state.licenses = r.licenses; state.tools = r.tools; renderAll(); loadClubs(); } return r; });
+    return Promise.all([api("list"), api("typ_list")]).then(function (a) {
+      var r = a[0]; state.typ = a[1].ok ? (a[1].typ || {}) : null;
+      if (r.ok) { state.licenses = r.licenses; state.tools = r.tools; renderAll(); loadClubs(); } return r; });
   }
   function loadLog() {
     api("log").then(function (r) {
@@ -1718,6 +1790,26 @@
            (all && !t.free ? '<button class="b" data-ed="' + esc(t.id) + '">Editionen (' + ((t.editions || []).length + 1) + ")</button>" : "") +
            '<button class="b" data-cat="' + esc(t.id) + '">Katalog</button>';
   }
+  /* Tool-Typ (tools.typ): Dokument = Projektdatei je Vorgang (ritl-doc) · Datenbank = Daten im Browser + Backup (ritl-bk) */
+  var TYP = { datenbank: "Datenbank", dokument: "Dokument" };
+  function tTyp(t) {
+    if (!state.typ || !Object.prototype.hasOwnProperty.call(state.typ, t.id)) return "";
+    var cur = state.typ[t.id] || "datenbank";
+    return '<label class="tyl" title="Tool-Typ: Dokument = eine Projektdatei je Vorgang (ritl-doc) · Datenbank = Daten im Browser mit Backup (ritl-bk)"><span class="hint">Typ</span>' +
+      '<select class="vsel tsel" data-typ="' + esc(t.id) + '" aria-label="Typ von ' + esc(t.name) + '">' + ["datenbank", "dokument"].map(function (k) {
+        return '<option value="' + k + '"' + (k === cur ? " selected" : "") + ">" + TYP[k] + "</option>"; }).join("") + "</select></label>";
+  }
+  $("toolrows").addEventListener("change", function (e) {
+    var sel = e.target.closest("select[data-typ]"); if (!sel) return;
+    var id = sel.dataset.typ, alt = state.typ[id] || "datenbank", neu = sel.value, t = toolById(id);
+    if (!confirm("Typ von „" + ((t && t.name) || id) + "“ auf „" + TYP[neu] + "“ setzen?\n\nDas Tool bekommt den Typ bei der nächsten Auslieferung (window.RITL.typ) und arbeitet dann " +
+      (neu === "dokument" ? "mit einer Projektdatei je Vorgang (ritl-doc)." : "mit Daten im Browser und Backup (ritl-bk)."))) { sel.value = alt; return; }
+    sel.disabled = true;
+    api("typ_set", { tool_id: id, typ: neu }).then(function (r) {
+      sel.disabled = false;
+      if (r.ok) { state.typ[id] = r.typ || neu; toast("Typ gespeichert ✓"); } else sel.value = alt;
+    });
+  });
   function renderTools() {
     var q = ($("tool-q").value || "").trim().toLowerCase(), st = tzGet(), order = [], by = {};
     state.tools.filter(function (t) { return !q || (t.name + " " + t.id + " " + (t.category || "") + " " + (t.description || "")).toLowerCase().indexOf(q) >= 0; })
@@ -1730,7 +1822,7 @@
           return '<article class="titem ' + (auf ? "open" : "zu") + '" data-ti="' + esc(t.id) + '">' +
             '<div class="thead" role="button" tabindex="0" aria-expanded="' + auf + '">' + TCHEV + '<span class="tico">' + (t.icon_svg || "") + "</span>" +
               '<span class="tnm"><b>' + esc(t.name) + '</b><span class="hint mono">' + esc(t.id) + "</span></span>" +
-              '<span class="tsum">' + tShort(t) + "</span><span class=\"tsum flags\">" + tFlags(t) + "</span>" +
+              '<span class="tsum">' + tShort(t) + "</span><span class=\"tsum flags\">" + tFlags(t) + "</span>" + tTyp(t) +
               '<div class="acts">' + tActs(t, false) + "</div></div>" +
             '<div class="tbody">' + (t.description ? '<p class="tdesc">' + esc(t.description) + "</p>" : "") +
               "<dl><dt>Kategorie</dt><dd>" + esc(t.category || "–") + '</dd><dt>Link</dt><dd class="mono" style="font-size:12px">' + esc(t.url || "–") +
@@ -1752,7 +1844,7 @@
     tzSet(st);
   }
   $("toolrows").addEventListener("click", function (e) {
-    if (e.target.closest("button[data-ver],button[data-ed],button[data-cat],a,input,select")) return;
+    if (e.target.closest("button[data-ver],button[data-ed],button[data-cat],a,input,select,.tyl")) return;
     var c = e.target.closest(".tcat"); if (c) return tToggle(c.parentNode);
     var h = e.target.closest(".thead"); if (h) tToggle(h.parentNode);
   });
@@ -2278,9 +2370,10 @@
   document.querySelector("nav").addEventListener("click", function (e) {
     var b = e.target.closest("button[data-tab]"); if (!b) return;
     [].forEach.call(document.querySelectorAll("nav button[data-tab]"), function (x) { x.classList.toggle("on", x === b); });
-    ["lic", "tools", "ui", "bk", "srv", "clubs", "log"].forEach(function (t) { $("t-" + t).classList.toggle("hide", t !== b.dataset.tab); });
+    ["lic", "tools", "ui", "bk", "doc", "srv", "clubs", "log"].forEach(function (t) { $("t-" + t).classList.toggle("hide", t !== b.dataset.tab); });
     if (b.dataset.tab === "ui") loadUi();
     if (b.dataset.tab === "bk") loadBk();
+    if (b.dataset.tab === "doc") loadDoc();
     if (b.dataset.tab === "srv") loadSrv();
     if (b.dataset.tab === "log") loadLog();
     if (b.dataset.tab === "clubs") loadClubs();

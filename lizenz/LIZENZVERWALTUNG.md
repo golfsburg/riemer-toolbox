@@ -348,6 +348,7 @@ Ist für eine Lizenz eine E-Mail hinterlegt, reicht der Schlüssel allein nicht 
 Name, Kategorie, Beschreibung, Link, Sortierung, „im Katalog anzeigen“, „ohne Lizenz nutzbar (Demo)“,
 **Vorschaubild** (Screenshot, wird auf 960 px verkleinert) und App-Bild (SVG).
 Startseite und myTOOLBOX lesen den Katalog live aus Supabase – keine Änderung im Repo nötig.
+Jede Kachel zeigt unten den Tool-Typ **Dokument** bzw. **Datenbank** (aus `tools.typ`; `public_catalog()` und `_license_catalog()` liefern `typ` ab 25.11.2026, Migration `20261125e_a014_katalog_typ`).
 Neue Demo-/externe Tools ohne Lizenzschutz: **+ Katalogeintrag ohne Lizenzschutz**.
 
 ## Für Kunden
@@ -463,7 +464,10 @@ select id, version, channel, active, released_at from ritl_doc_versions order by
 ### Admin-Aktionen für Typ und ritl-doc (ab 25.11.2026, Edge Function `license-admin` v17)
 
 Aufruf wie alle Admin-Aktionen: `POST { action, data }` mit Header `x-admin-token` (Prüfung in `admin_ui`).
-Die Admin-Seite bekommt die Bedienung mit A-014; bis dahin nur per Skript/Konsole.
+Bedienung auf der Admin-Seite (ab 25.11.2026, A-014):
+- Reiter **Tools**: Auswahl **Typ** (Dokument/Datenbank) je Tool – Änderung mit Rückfrage, speichert per `typ_set`.
+- Reiter **Dokument · RITL-DOC**: Versionen wie bei RITL-BK – Liste mit ausgelieferter Version je Kanal, ⬇ Datei,
+  Kanal umstellen, Zurückziehen/Reaktivieren, Löschen, neue Version hochladen (`ritl-doc/ritl-doc.html`, zuerst Dev).
 
 | Aktion | `data` | Antwort |
 | --- | --- | --- |
