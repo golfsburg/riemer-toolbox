@@ -4,6 +4,26 @@
 Start: index.html im Browser öffnen (Chrome/Edge/Firefox) oder auf GitHub Pages ablegen.
 Beim Öffnen wird die Beispielzeichnung „Beispiel_Schnitt.dxf“ geladen.
 
+## V5.9.0 · 25.11.2026 · DEV
+**Neu**
+- **Projekte als eigene Datei:** Ein MSX-Projekt ist jetzt eine Datei, die du speicherst – z. B. „Haus A.msx.ritl“. Darin steckt alles: Bereich 01 mit Projektname, allen Ordnern und Unterprojekten, Anzahl je Unterprojekt und dem Arbeitsstand jedes Unterprojekts (Erkennung, Auswahl, manuell gezeichnete Objekte, Ausschnitt), dazu Vorlage, weitere Rohrnormen, Revit-Zuordnung, „Texte EIN/AUS“, „Anzahl im Namen exportieren“ und **alle importierten Originaldateien** (DWG, DXF, PDF, Bilder, MSX, .mspx, ZIP). So kannst du mehrere Projekte parallel führen, weitergeben und archivieren – beim Öffnen ist das Projekt vollständig wieder da.
+- **Neu · Öffnen … · Speichern · Speichern unter …** oben im Header, dazu Strg+S, Strg+Umschalt+S und Strg+O. Der Projektname steht im Titel, ein „•“ zeigt ungespeicherte Änderungen. Zoomen oder Verschieben der Ansicht allein zählt nicht als Änderung.
+- **Startbildschirm** beim Öffnen: „Neues Projekt“, „Öffnen …“ und „Zuletzt geöffnet“ (in Chrome/Edge mit einem Klick wieder offen).
+- **Nichts geht verloren:** Ungespeicherte Änderungen werden laufend zwischengespeichert und beim nächsten Start zum Wiederherstellen angeboten. Vor Neu, Öffnen und Schließen kommt eine Warnung, wenn noch nicht gespeichert ist.
+- **Große Projekte:** Ab 150 MB Originaldateien erscheint einmal der Hinweis „Großes Projekt“ (Speichern dauert länger). Ab 300 MB wird nur noch alle 5 Minuten zwischengespeichert, damit die Arbeit flüssig bleibt.
+- **Bisherigen Stand übernehmen:** Liegt in diesem Browser noch ein Projekt aus der bisherigen Fassung (Backup-Stufe 3 · storage) bzw. eine eigene Vorlage, Rohrnormen oder Revit-Zuordnung, bietet MSX.ritl beim ersten Start an, alles als „MSX – übernommen.msx.ritl“ zu speichern – auch später über Backup › „Bisherigen Stand übernehmen …“ (dort auch aus der Ordner-Sicherung Backup_MSX-ritl.json). Die bisherigen Daten im Browser werden dabei nicht gelöscht.
+- Chrome/Edge speichern direkt in die geöffnete Datei; Safari, Firefox, iPhone und iPad speichern als Download mit gleichem Namen.
+
+**Geändert**
+- **Warum die Umstellung:** Bisher gab es in MSX.ritl genau ein Projekt je Browser, das über das Backup (Stufe 3) mit allen Originalen gesichert und abgeglichen wurde. Jetzt ist jedes Projekt eine eigene Datei auf deinem Gerät bzw. in deinem Ordner (OneDrive/SharePoint) – nie am Server.
+- **Backup** sichert nur noch die Einstellungen (Hell/Dunkel, Sprache, Ansichten, Voreinstellungen, Werkzeug- und Bildleiste, Filter, Bildauswertung) und die Liste „Zuletzt geöffnet“. Vorlage, weitere Rohrnormen, Revit-Zuordnung, „Texte EIN/AUS“ und „Anzahl im Namen exportieren“ gehören jetzt zum Projekt.
+- **Neu** startet mit der Standardvorlage und einem leeren Unterprojekt. Eine eigene Vorlage lädst du im Bereich 03 – oder du öffnest ein bestehendes Projekt und speicherst es mit „Speichern unter …“ als neues.
+- Nach dem Neuladen wird das Projekt nicht mehr still aus dem Backup geladen, sondern über den Startbildschirm bzw. den Zwischenspeicher geöffnet.
+- Hilfe um „Projekt als Datei“ ergänzt, „Backup“ angepasst.
+
+**Hinweis**
+- Projekte, die nur am Server lagen (Backup C · Server mit Stufe 3 · storage), werden beim Umstieg nicht automatisch übernommen. Auf jedem Gerät, auf dem das Projekt zuletzt offen war, liegt es aber noch im Browser und wird beim ersten Start angeboten. Sonst vorher in V5.8.9 auf einem Gerät öffnen (es kommt dann vom Server) und danach auf V5.9 umsteigen.
+
 ## V5.8.9 · 24.11.2026 · DEV
 **Behoben**
 - **Backup Stufe 3 über den Server: keine Originaldatei geht mehr verloren.** Beim Aufräumen nicht mehr verwendeter Dateien konnte eine gerade importierte Datei (z. B. Bild aus der Zwischenablage, ausgerichtetes Bild, neue Zeichnung) gelöscht werden, bevor sie dem Unterprojekt zugeordnet war. Das Unterprojekt kam danach ohne Originalzeichnung zurück. Frisch importierte Dateien werden jetzt nicht aufgeräumt.
