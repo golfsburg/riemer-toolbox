@@ -348,7 +348,7 @@ Ist für eine Lizenz eine E-Mail hinterlegt, reicht der Schlüssel allein nicht 
 Name, Kategorie, Beschreibung, Link, Sortierung, „im Katalog anzeigen“, „ohne Lizenz nutzbar (Demo)“,
 **Vorschaubild** (Screenshot, wird auf 960 px verkleinert) und App-Bild (SVG).
 Startseite und myTOOLBOX lesen den Katalog live aus Supabase – keine Änderung im Repo nötig.
-Jede Kachel zeigt unten den Tool-Typ **Dokument** bzw. **Datenbank** (aus `tools.typ`, sobald der Katalog `typ` mitliefert).
+Jede Kachel zeigt unten den Tool-Typ **Dokument** bzw. **Datenbank** (aus `tools.typ`; `public_catalog()` und `_license_catalog()` liefern `typ` ab 25.11.2026, Migration `20261125e_a014_katalog_typ`).
 Neue Demo-/externe Tools ohne Lizenzschutz: **+ Katalogeintrag ohne Lizenzschutz**.
 
 ## Für Kunden
