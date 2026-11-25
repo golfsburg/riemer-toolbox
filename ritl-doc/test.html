@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>TEST.ritl – ritl-doc 1.0</title>
+<title>TEST.ritl – ritl-doc 1.1</title>
 <script>
 (function(){var t=null;try{t=localStorage.getItem("riemer-theme")}catch(e){}
  if(t!=="light"&&t!=="dark")t=(window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light";
@@ -53,7 +53,7 @@ pre{margin:0;font:500 12px/18px var(--mono);white-space:pre-wrap;word-break:brea
 </style>
 </head>
 <body>
-<header data-ritl-header data-name="TEST" data-eyebrow="ritl-doc 1.0 · Testseite Tool-Typ Dokument" data-tool="test-ritl" data-ver="V1.0.0" data-date="25.11.2026" data-lang="none" data-help="none">
+<header data-ritl-header data-name="TEST" data-eyebrow="ritl-doc 1.1 · Testseite Tool-Typ Dokument" data-tool="test-ritl" data-ver="V1.0.0" data-date="25.11.2026" data-lang="none" data-help="none">
  <svg data-ritl-icon viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="10" fill="#1F5FC2"/><path d="M15 13h12l6 6v16H15z" fill="none" stroke="#fff" stroke-width="2.6" stroke-linejoin="round"/><path d="M27 13v6h6" fill="none" stroke="#fff" stroke-width="2.6" stroke-linejoin="round"/></svg>
  <div data-ritl-actions>
   <button type="button" id="backupBtn" aria-label="Backup"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M2 4h10v8H2zM2 4l1.5-2.5h7L12 4M5 8h4"/></svg><span class="lbl">Backup</span></button>
@@ -68,6 +68,10 @@ pre{margin:0;font:500 12px/18px var(--mono);white-space:pre-wrap;word-break:brea
    <label class="f">Dateien</label>
    <div class="row" style="margin-top:0"><button class="btn" type="button" id="t-add">Datei hinzufügen …</button><input type="file" id="t-file" multiple hidden></div>
    <ul class="files" id="t-files"></ul>
+   <label class="f" for="t-mb">Größen-Test (künstliche Dateien, ritl-doc 1.1)</label>
+   <div class="row" style="margin-top:0"><input type="text" id="t-mb" value="50" inputmode="decimal" autocomplete="off" style="width:90px" aria-label="Größe in MB"><span class="leer" style="padding:0">MB</span>
+    <button class="btn" type="button" id="t-gross">Künstliche Datei hinzufügen</button><button class="btn" type="button" id="t-leeren">Alle Dateien entfernen</button></div>
+   <p class="leer" id="t-grenzen"></p>
   </section>
   <section class="panel">
    <p class="eb">Zustand</p><h2>RITL_DOC</h2>
@@ -85,8 +89,14 @@ const aendern=()=>document.dispatchEvent(new Event('test:change'));
 $('t-titel').oninput=e=>{T.titel=e.target.value;aendern()};
 $('t-notiz').oninput=e=>{T.notiz=e.target.value;aendern()};
 $('t-add').onclick=()=>$('t-file').click();
+// Größen-Test: künstliche Blobs (Nullbytes) – Grenzen per ?warnmb= · ?zwmb= · ?zwmin= (z. B. ?warnmb=2&zwmb=5&zwmin=0), sonst 200 / 500 / 5
+$('t-gross').onclick=()=>{const mb=Math.max(0.1,parseFloat(String($('t-mb').value).replace(',','.'))||1),b=new Blob([new Uint8Array(Math.round(mb*1048576))],{type:'application/pdf'});
+ T.dateien.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),name:`kuenstlich-${mb}MB <&>.pdf`,mime:b.type,blob:b});zeigen();aendern()};
+$('t-leeren').onclick=()=>{T.dateien=[];zeigen();aendern()};
 $('t-file').onchange=async e=>{for(const f of e.target.files){const b=new Blob([await f.arrayBuffer()],{type:f.type||'application/octet-stream'});T.dateien.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),name:f.name,mime:b.type,blob:b})}e.target.value='';zeigen();aendern()};
-window.RITL_DOC_ADAPTER={tool:new URLSearchParams(location.search).get('tool')||'test-ritl',name:'TEST',endung:'test',ereignis:'test:change',version:'V1.0.0',
+const QG=new URLSearchParams(location.search),QN=k=>QG.has(k)?Number(QG.get(k)):undefined;
+window.RITL_DOC_ADAPTER={tool:QG.get('tool')||'test-ritl',name:'TEST',endung:'test',ereignis:'test:change',version:'V1.0.0',
+ warnAbMB:QN('warnmb'),zwSeltenAbMB:QN('zwmb'),zwGrossMin:QN('zwmin'),
  daten:()=>({titel:T.titel,notiz:T.notiz}),
  vorschlag:()=>T.titel,
  einstellungen:()=>({ansicht:'standard'}),
@@ -98,7 +108,8 @@ window.RITL_DOC_ADAPTER={tool:new URLSearchParams(location.search).get('tool')||
 const Q=new URLSearchParams(location.search),QT=Q.get('tool')||'test-ritl',QA=Q.has('adaptertyp')?Q.get('adaptertyp'):'dokument';
 window.RITL_BK={tool:QT,name:'TEST',prefix:'test',ereignis:'test:change',...(QA==='dokument'||QA==='datenbank'?{typ:QA}:{}),
  settings:()=>({ansicht:'standard'}),daten:()=>({}),anwenden:()=>{},leer:()=>true};
-setInterval(()=>{const D=window.RITL_DOC;if(D)$('t-state').textContent=JSON.stringify({version:D.version,fs:D.fs,offen:D.offen,name:D.name,geaendert:D.geaendert,datei:D.datei,zuletzt:D.zuletzt.map(z=>z.datei),ritlui:window.RITLUI&&RITLUI.version,ritlbk:window.RITLBK&&RITLBK.version,bktyp:window.RITLBK&&RITLBK.typ},null,1)},300);
+setInterval(()=>{const D=window.RITL_DOC;if(D&&D.groesse){const g=D.groesse;$('t-grenzen').textContent=`Hinweis ab ${g.warnAbMB} MB · Zwischenspeicher seltener ab ${g.zwSeltenAbMB} MB (alle ${g.zwGrossMin} min, 0 = ausgesetzt) · zuletzt gemessen ${(g.bytes/1048576).toFixed(1)} MB → ${g.zwischenspeicher}`}
+ if(D)$('t-state').textContent=JSON.stringify({version:D.version,fs:D.fs,offen:D.offen,name:D.name,geaendert:D.geaendert,datei:D.datei,zuletzt:D.zuletzt.map(z=>z.datei),ritlui:window.RITLUI&&RITLUI.version,ritlbk:window.RITLBK&&RITLBK.version,bktyp:window.RITLBK&&RITLBK.typ},null,1)},300);
 zeigen();
 // ── Bausteine direkt aus dem Repo einbauen (Testseite – Tools bekommen sie fest eingebaut bzw. vom Lizenzserver) ──
 async function einbauen(url){const t=await (await fetch(url,{cache:'no-store'})).text();const tpl=document.createElement('template');tpl.innerHTML=t;

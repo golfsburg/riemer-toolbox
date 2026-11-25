@@ -1,11 +1,11 @@
-<!-- ritl-doc 1.0 · 25.11.2026 · DEV – Projekte als eigene Datei für Tools vom Typ „Dokument“ (z. B. PDF.ritl).
+<!-- ritl-doc 1.1 · 25.11.2026 · DEV – Projekte als eigene Datei für Tools vom Typ „Dokument“ (z. B. PDF.ritl).
      Einbau: Adapter window.RITL_DOC_ADAPTER (siehe README.md) als <script> setzen, danach diesen Block unverändert
      (von ritl-doc:start bis ritl-doc:end) in den <body> nach dem Header kopieren – bei Tools mit ritl-bk vor dem ritl-bk-Block.
      Datei: „<Projektname>.<tool>.ritl“ (z. B. „Angebot Muster.pdf.ritl“) = gzip-JSON {ritl:{tool,version,typ:'dokument',erstellt,geaendert,sha256,…}, daten, einstellungen, dateien[base64]}.
      Ablage nur lokal bzw. im Ordner – nie am Server. Chrome/Edge: File System Access (Speichern überschreibt), sonst Öffnen per <input type=file> und Speichern als Download. -->
 <!--ritl-doc:start-->
 <style id="ritl-doc-css">
-/* ritl-doc 1.0 · 25.11.2026 – Projekte als Datei (Tool-Typ dokument). Nichts Tool-Spezifisches hier ändern. Nur Tokens der Farbkarte. */
+/* ritl-doc 1.1 · 25.11.2026 – Projekte als Datei (Tool-Typ dokument). Nichts Tool-Spezifisches hier ändern. Nur Tokens der Farbkarte. */
 dialog.rdoc{border:1px solid var(--line);border-radius:var(--radius-panel,16px);background:var(--surface);color:var(--ink);padding:0;width:min(560px,94vw);box-shadow:0 20px 60px rgba(0,0,0,.25);font:400 14px/20px var(--sans,"Inter",system-ui,sans-serif);margin:auto}
 dialog.rdoc::backdrop{background:rgba(15,20,28,.45)}
 .rdoc .dh{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid var(--line);background:var(--surface-muted);font:800 17px var(--sans,"Inter",system-ui,sans-serif)}
@@ -44,21 +44,31 @@ dialog.rdoc::backdrop{background:rgba(15,20,28,.45)}
 #rdoc-toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:2147482000;max-width:min(560px,92vw);padding:10px 16px;border-radius:10px;background:var(--graphite,#1B1F24);color:#fff;font:500 13px/18px var(--sans,"Inter",system-ui,sans-serif);box-shadow:0 8px 30px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:opacity .2s}
 #rdoc-toast.on{opacity:1}
 [data-theme="dark"] #rdoc-toast{background:var(--surface-muted);color:var(--ink);border:1px solid var(--line2)}
+#rdoc-hinweis{position:fixed;left:50%;bottom:calc(76px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:2147481999;width:min(520px,92vw);display:flex;gap:10px;align-items:flex-start;padding:12px 10px 12px 16px;border:1px solid var(--line2);border-left:4px solid var(--warn,#C2410C);border-radius:10px;background:var(--surface);color:var(--ink);box-shadow:0 8px 30px rgba(0,0,0,.18);font:400 13px/19px var(--sans,"Inter",system-ui,sans-serif)}
+#rdoc-hinweis[hidden]{display:none}
+#rdoc-hinweis .hb{flex:1;min-width:0;overflow-wrap:anywhere}
+#rdoc-hinweis .hb>b{display:block;font:700 14px/20px var(--sans,"Inter",system-ui,sans-serif);color:var(--warn,#C2410C);margin-bottom:2px}
+#rdoc-hinweis p{margin:4px 0 0}
+#rdoc-hinweis .small{font-size:12px;color:var(--muted)}
+#rdoc-hinweis .hz{flex:none;width:44px;height:44px;margin:-8px -4px -8px 0;border:0;border-radius:8px;background:none;color:var(--muted);cursor:pointer;font-size:16px}
+#rdoc-hinweis .hz:hover{color:var(--ink);background:var(--surface-muted)}
 @media(max-width:620px){.rdoc .start{grid-template-columns:1fr}.rdoc .db{padding:14px}.rdoc .df .btn{flex:1 1 auto;justify-content:center}}
 </style>
 <script id="ritl-doc-js">
-/* ritl-doc 1.0 · 25.11.2026 – Projekte als eigene Datei für Tool-Typ „dokument“ (Vorhaben Tool-Typen, Pilot PDF.ritl).
+/* ritl-doc 1.1 · 25.11.2026 – Projekte als eigene Datei für Tool-Typ „dokument“ (Vorhaben Tool-Typen, Pilot PDF.ritl).
    Nichts Tool-Spezifisches hier ändern – das Tool setzt VOR diesem Block den Adapter window.RITL_DOC_ADAPTER (README.md):
      tool (Pflicht, z. B. 'pdf-ritl') · name ('PDF') · endung? ('pdf' → „….pdf.ritl“, Standard: tool ohne -ritl) · version? (Text oder Funktion)
      daten() → Objekt · laden({daten,einstellungen,dateien,kopf}) → (Promise) · dateien()? → [{id,name,mime,blob}] (auch Promise) · leer() → leeres Projekt
      einstellungen()? → projektbezogene Einstellungen · ereignis? (Änderungs-Ereignis am document, Standard '<prefix>:change')
+     warnAbMB? (200 – Hinweis „Großes Projekt“ ab dieser Gesamtgröße der Dateien, 0 = aus) · zwSeltenAbMB? (500 – Zwischenspeicher ab hier seltener, 0 = nie)
+     zwGrossMin? (5 – Takt des Zwischenspeichers in Minuten bei sehr großen Projekten, 0 = aussetzen) – Zahl oder Funktion (ab 1.1)
      alt()? → {daten,einstellungen?,dateien?} | null – alter Stand im Browser (für übernehmen()) · start? (false = kein Startbildschirm) · bereit? (Promise)
    API window.RITL_DOC: version · neu() · oeffnen() · speichern() · speichernUnter() · schliessen() · uebernehmen() · startbild()
-     name · geaendert · offen · zuletzt[] · aenderung() (Tool meldet eine Änderung) · zuletztExport() / zuletztImport(liste) (für ritl-bk 2.12)
+     name · geaendert · offen · zuletzt[] · aenderung() (Tool meldet eine Änderung) · zuletztExport() / zuletztImport(liste) (für ritl-bk 2.12) · groesse (ab 1.1: {bytes,warnAbMB,zwSeltenAbMB,zwGrossMin,zwischenspeicher})
    Ereignisse: ritldoc:ready · ritldoc:state {name,geaendert,offen,datei}. Header-Knöpfe kommen aus RITL-UI 1.6 (RITLUI.dokument). */
 (function(){"use strict";
 const A=window.RITL_DOC_ADAPTER;if(!A||!A.tool||(window.RITL_DOC&&window.RITL_DOC.version))return;
-const VERSION='1.0',FORMAT=1,$=id=>document.getElementById(id);
+const VERSION='1.1',FORMAT=1,$=id=>document.getElementById(id);
 const TOOL=A.tool,NAME=A.name||TOOL,PRE=A.prefix||TOOL.replace(/-ritl$/,''),END=String(A.endung||PRE).toLowerCase().replace(/[^a-z0-9-]/g,''),EXT='.'+END+'.ritl',EV=A.ereignis||PRE+':change';
 const FS_OK=()=>typeof window.showSaveFilePicker==='function'&&typeof window.showOpenFilePicker==='function';
 const IOS=/iP(hone|ad|od)/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
@@ -69,12 +79,17 @@ const ver=()=>(window.RITL&&window.RITL.version_label)||(typeof A.version==='fun
 const zeit=d=>{d=d instanceof Date?d:new Date(d);if(isNaN(d))return '';const h=new Date(),gl=d.toDateString()===h.toDateString(),p=n=>String(n).padStart(2,'0');
  return (gl?'heute':`${p(d.getDate())}.${p(d.getMonth()+1)}.${d.getFullYear()}`)+`, ${p(d.getHours())}:${p(d.getMinutes())}`};
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);
+// ── Größe (ab 1.1): Hinweis bei großen Projekten, Zwischenspeicher bei sehr großen seltener bzw. ausgesetzt – nie blockierend ──
+const MB=1048576,zahl=(v,d)=>{try{v=typeof v==='function'?v():v}catch(e){v=d}if(v==null||v==='')return d;v=Number(v);return !isFinite(v)||v<0?d:v};
+const WARN_MB=()=>zahl(A.warnAbMB,200),ZWG_MB=()=>zahl(A.zwSeltenAbMB,500),ZWG_MIN=()=>zahl(A.zwGrossMin,5);
+const summe=l=>(l||[]).reduce((s,f)=>s+(f&&f.blob&&f.blob.size||0),0);
+const mbTxt=b=>{const m=b/MB;return m>=1024?(m/1024).toLocaleString('de-DE',{maximumFractionDigits:1})+' GB':(m<10?m.toLocaleString('de-DE',{maximumFractionDigits:1}):Math.round(m).toLocaleString('de-DE'))+' MB'};
 const I={
  neu:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M12 12v6M9 15h6"/></svg>',
  auf:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v1"/><path d="M3 7v11a2 2 0 0 0 2 2h13l3-9H7l-3 8"/></svg>'};
 
 // ── Zustand des offenen Projekts ──
-const S={id:'',name:'',handle:null,geaendert:false,offen:false,erstellt:'',gespeichert:null,laedt:0,dateien:null,zl:[]};
+const S={id:'',name:'',handle:null,geaendert:false,offen:false,erstellt:'',gespeichert:null,laedt:0,dateien:null,zl:[],bytes:0,gWarn:'',zwZeit:0};
 const TITEL0=document.title;
 
 // ── IndexedDB: „Zuletzt geöffnet“ (mit Handles) + Zwischenspeicher je Projekt ──
@@ -110,7 +125,7 @@ function ab64(t,mime){const s=atob(t||''),u=new Uint8Array(s.length);for(let i=0
 async function sha256(t){try{const h=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(t));return [...new Uint8Array(h)].map(b=>b.toString(16).padStart(2,'0')).join('')}catch(e){return ''}}
 async function toolDateien(){if(typeof A.dateien!=='function')return[];const l=await A.dateien();return Array.isArray(l)?l.filter(f=>f&&f.blob):[]}
 async function inhalt(){const daten=A.daten()||{},einst=typeof A.einstellungen==='function'?A.einstellungen()||{}:{},dat=await toolDateien();S.dateien=dat;return{daten,einstellungen:einst,dateien:dat}}
-async function bauen(){const c=await inhalt();
+async function bauen(){const c=await inhalt();groesse(c.dateien,true);
  const dateien=[];for(const f of c.dateien)dateien.push({id:String(f.id!=null?f.id:uid()),name:String(f.name||'datei'),mime:f.mime||f.blob.type||'application/octet-stream',size:f.blob.size,b64:await b64(f.blob)});
  const body={daten:c.daten,einstellungen:c.einstellungen,dateien};
  const jetzt=new Date().toISOString();if(!S.erstellt)S.erstellt=jetzt;
@@ -143,8 +158,19 @@ document.addEventListener(EV,aenderung);
 
 // ── Dialoge ──
 document.body.insertAdjacentHTML('beforeend',`<dialog id="rdoc-frage" class="rdoc" aria-labelledby="rdoc-fh"><div class="dh"><span id="rdoc-fh"></span><span class="small notr">${esc(NAME)}.ritl</span></div><div class="db" id="rdoc-fb"></div><div class="df" id="rdoc-ff"></div></dialog>
+<div id="rdoc-hinweis" class="rdoc" role="status" aria-live="polite" hidden><div class="hb"><b id="rdoc-hh"></b><div id="rdoc-hx"></div></div><button type="button" class="hz" id="rdoc-hz" title="Hinweis schließen" aria-label="Hinweis schließen">✕</button></div>
 <dialog id="rdoc-start" class="rdoc" aria-labelledby="rdoc-sh"><div class="dh"><span id="rdoc-sh"><span class="notr">${esc(NAME)}.ritl</span> – Projekt</span></div><div class="db" id="rdoc-sb"></div></dialog>
 <input type="file" id="rdoc-file" hidden${IOS?'':' accept=".ritl,application/x-ritl,application/json,application/gzip"'}><div id="rdoc-toast" role="status" aria-live="polite"></div>`);
+// Hinweis „Großes Projekt“: eigenes Feld unten, bleibt bis zum Schließen, blockiert nichts
+const hzu=()=>{const e=$('rdoc-hinweis');if(e)e.hidden=true};
+function hinweis(titel,html){const e=$('rdoc-hinweis');$('rdoc-hh').textContent=titel;$('rdoc-hx').innerHTML=html;e.hidden=false}
+function zwModus(b){const g=ZWG_MB();if(!(g>0&&b>=g*MB))return 'normal';return ZWG_MIN()>0?'selten':'aus'}
+function groesse(dat,speichern){S.bytes=summe(dat);const b=S.bytes,w=WARN_MB(),m=zwModus(b);
+ if(speichern&&w>0&&b>=w*MB)toast(`Speichern … ca. ${mbTxt(b)} Dateien – bitte warten`);
+ const stufe=m!=='normal'?2:(w>0&&b>=w*MB?1:0),key=S.id+':'+stufe;if(!stufe||S.gWarn===key||(S.gWarn===S.id+':2'))return;S.gWarn=key;
+ const zw=m==='selten'?`<p>Der Zwischenspeicher läuft deshalb nur noch alle ${esc(String(ZWG_MIN()).replace('.',','))} Minuten (sonst alle 30 Sekunden) und nicht mehr beim Verlassen der Seite – bitte zwischendurch speichern.</p>`
+  :m==='aus'?'<p>Der Zwischenspeicher ist deshalb <b>ausgesetzt</b> – bitte regelmäßig speichern.</p>':'';
+ hinweis('Großes Projekt',`<p>Die Dateien in <b>${esc(S.name||'Neues Projekt')}</b> sind zusammen ca. <b>${esc(mbTxt(b))}</b> groß. Speichern dauert länger und die Projektdatei <span class="notr">„${esc(dateiName(S.name||'Neues Projekt'))}“</span> wird entsprechend groß.</p>${zw}<p class="small">Nicht benötigte Dateien ggf. aus dem Projekt entfernen.</p>`)}
 let tT=0;function toast(t){const e=$('rdoc-toast');e.textContent=t;e.classList.add('on');clearTimeout(tT);tT=setTimeout(()=>e.classList.remove('on'),3600)}
 // frage(titel, html, [{k,t,primary?,ghost?}]) → Promise(k | null bei Esc)
 function frage(titel,html,kn){const d=$('rdoc-frage');$('rdoc-fh').textContent=titel;$('rdoc-fb').innerHTML=html;
@@ -163,11 +189,14 @@ async function sicher(was){if(!S.offen||!S.geaendert)return true;
 let zwLauf=false;
 const zwRec=(c,mitHandle)=>({id:S.id,name:S.name||'',zeit:new Date().toISOString(),erstellt:S.erstellt,handle:mitHandle&&S.handle||null,daten:c.daten,einstellungen:c.einstellungen,dateien:(c.dateien||[]).map(f=>({id:f.id,name:f.name,mime:f.mime,blob:f.blob}))});
 async function zwischen(){if(!S.offen||!S.geaendert||zwLauf)return;zwLauf=true;
- try{const c=await inhalt();await iset(ZWP+S.id,zwRec(c,true)).catch(()=>iset(ZWP+S.id,zwRec(c,false)))}
+ try{const c=await inhalt();groesse(c.dateien);const m=zwModus(S.bytes);
+  if(m==='aus'||(m==='selten'&&Date.now()-S.zwZeit<ZWG_MIN()*60000))return;S.zwZeit=Date.now();
+  await iset(ZWP+S.id,zwRec(c,true)).catch(()=>iset(ZWP+S.id,zwRec(c,false)))}
  catch(e){try{console.warn('[ritl-doc] Zwischenspeicher:',e)}catch(_){}}finally{zwLauf=false}}
 // pagehide: alles synchron – Transaktion sofort starten, sonst bricht der Browser beim Verlassen der Seite ab
 function zwSofort(){if(!S.offen||!S.geaendert||!DBH)return;
  try{let dat=S.dateien||[];if(typeof A.dateien==='function'){const r=A.dateien();if(Array.isArray(r))dat=r.filter(f=>f&&f.blob)}
+  if(zwModus(summe(dat))!=='normal')return; // sehr groß: beim Verlassen nicht mehr (zu langsam, Browser bricht ab)
   const c={daten:A.daten()||{},einstellungen:typeof A.einstellungen==='function'?A.einstellungen()||{}:{},dateien:dat};
   const t=DBH.transaction('kv','readwrite'),st=t.objectStore('kv');try{st.put(zwRec(c,true),ZWP+S.id)}catch(e){st.put(zwRec(c,false),ZWP+S.id)}if(t.commit)t.commit()}
  catch(e){try{console.warn('[ritl-doc] Zwischenspeicher:',e)}catch(_){}}}
@@ -180,13 +209,13 @@ const zwWeg=()=>idel(ZWP+S.id);
 
 // ── Neu · Öffnen · Speichern · Speichern unter · Schließen ──
 async function neuIntern(){S.laedt++;try{await A.leer()}finally{setTimeout(()=>{S.laedt=Math.max(0,S.laedt-1)},0)}
- Object.assign(S,{id:uid(),name:'',handle:null,geaendert:false,offen:true,erstellt:new Date().toISOString(),gespeichert:null,dateien:[]});startZu();melden()}
+ Object.assign(S,{id:uid(),name:'',handle:null,geaendert:false,offen:true,erstellt:new Date().toISOString(),gespeichert:null,dateien:[],bytes:0,zwZeit:0});hzu();startZu();melden()}
 async function neu(){if(!await sicher('Anlegen eines neuen Projekts'))return false;await neuIntern();toast('Neues Projekt');return true}
 function dateiWaehlen(){const inp=$('rdoc-file');inp.value='';return new Promise(ok=>{let f=false;const fin=v=>{if(f)return;f=true;inp.onchange=null;inp.removeEventListener('cancel',ab);ok(v)};
  const ab=()=>fin(null);inp.onchange=()=>fin(inp.files&&inp.files[0]||null);inp.addEventListener('cancel',ab);inp.click()})}
 async function oeffnenDatei(file,handle,ordner){let o;try{o=await entpacken(file);if(!await pruefen(o,file.name))return false}catch(e){toast(e.message);return false}
  await insTool(o);const altId=S.id;
- Object.assign(S,{id:uid(),name:nameAus(file.name),handle:handle||null,geaendert:false,offen:true,erstellt:o.ritl.erstellt||new Date().toISOString(),gespeichert:new Date()});
+ Object.assign(S,{id:uid(),name:nameAus(file.name),handle:handle||null,geaendert:false,offen:true,erstellt:o.ritl.erstellt||new Date().toISOString(),gespeichert:new Date(),zwZeit:0});hzu();
  if(altId)idel(ZWP+altId);
  await zlMerken({name:S.name,datei:file.name,ordner:ordner||'',zeit:new Date().toISOString(),handle:handle||null});startZu();melden();toast(`„${S.name}“ geöffnet`);return true}
 async function oeffnen(){if(!await sicher('Öffnen'))return false;
@@ -223,7 +252,7 @@ async function speichernUnter(vorschlag){if(!S.offen)await neuIntern();
  if(k!=='ok')return false;const nm=(($('rdoc-name')||{}).value||'').trim()||name0;S.name=nameAus(dateiName(nm));const dn=dateiName(S.name);
  try{herunterladen(dn,await packen(await bauen()));S.handle=null;await nachSpeichern(dn,'Downloads');toast(`„${dn}“ gespeichert (Download)`);return true}catch(e){toast('Speichern: '+(e&&e.message||e));return false}}
 async function schliessen(){if(!await sicher('Schließen'))return false;await zwWeg();S.laedt++;try{await A.leer()}finally{setTimeout(()=>{S.laedt=Math.max(0,S.laedt-1)},0)}
- Object.assign(S,{id:'',name:'',handle:null,geaendert:false,offen:false,gespeichert:null,dateien:null});melden();startbild();return true}
+ Object.assign(S,{id:'',name:'',handle:null,geaendert:false,offen:false,gespeichert:null,dateien:null,bytes:0,zwZeit:0});hzu();melden();startbild();return true}
 
 // ── Startbildschirm ohne Projekt: „Neues Projekt“ + „Öffnen …“ + „Zuletzt geöffnet“ ──
 function startHtml(){const zl=S.zl;
@@ -239,6 +268,7 @@ async function startbild(){if(A.start===false){if(!S.offen)await neuIntern();ret
  const d=$('rdoc-start');$('rdoc-sb').innerHTML=startHtml();startBinden($('rdoc-sb'));if(!d.open)d.showModal()}
 function startZu(){const c=startEl();if(c)c.hidden=true;const d=$('rdoc-start');if(d.open)d.close()}
 // Esc auf dem Startbildschirm = neues, leeres Projekt (das Tool ist nie ohne Projekt bedienbar)
+$('rdoc-hz').onclick=hzu;
 $('rdoc-start').addEventListener('cancel',e=>{e.preventDefault();neu().then(startZu)});
 
 // ── Übernahme alter Daten (bisheriger Typ datenbank): einmal anbieten, als „<Tool> – übernommen.<tool>.ritl“ zu speichern ──
@@ -269,7 +299,7 @@ function bereit(){try{document.dispatchEvent(new Event('ritldoc:ready'))}catch(e
 window.RITL_DOC={version:VERSION,tool:TOOL,endung:EXT,
  neu,oeffnen,speichern,speichernUnter:()=>speichernUnter(),schliessen,uebernehmen:()=>uebernehmen(true),startbild,aenderung,zuletztExport,zuletztImport,
  get name(){return S.offen?(S.name||'Neues Projekt'):''},get geaendert(){return S.geaendert},get offen(){return S.offen},get datei(){return S.handle?S.handle.name:S.gespeichert&&S.name?dateiName(S.name):''},
- get zuletzt(){return zuletztExport()},get fs(){return FS_OK()},_state:()=>({...S,handle:!!S.handle})};
+ get zuletzt(){return zuletztExport()},get groesse(){return{bytes:S.bytes,warnAbMB:WARN_MB(),zwSeltenAbMB:ZWG_MB(),zwGrossMin:ZWG_MIN(),zwischenspeicher:zwModus(S.bytes)}},get fs(){return FS_OK()},_state:()=>({...S,handle:!!S.handle}),_zwischen:()=>zwischen()};
 // Header-Knöpfe Neu · Öffnen … · Speichern · Speichern unter … kommen aus RITL-UI 1.6
 try{if(window.RITLUI&&typeof window.RITLUI.dokument==='function')window.RITLUI.dokument(window.RITL_DOC)}catch(e){}
 melden();

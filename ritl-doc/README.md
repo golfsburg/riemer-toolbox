@@ -1,4 +1,4 @@
-# ritl-doc 1.0 – Projekte als eigene Datei (Tool-Typ „Dokument“)
+# ritl-doc 1.1 – Projekte als eigene Datei (Tool-Typ „Dokument“)
 
 Baustein: [`ritl-doc.html`](ritl-doc.html) · Änderungen: [`CHANGELOG.md`](CHANGELOG.md) · Testseite: [`test.html`](test.html)
 Vorhaben Tool-Typen „Dokument“/„Datenbank“ (25.11.2026). Pilot: PDF.ritl = dokument, DRIVE.ritl = datenbank; übrige Tools über Rollout R-19.
@@ -28,6 +28,7 @@ window.RITL_DOC_ADAPTER = {
   laden: ({ daten, einstellungen, dateien, kopf }) => { … },   // Projekt ins Tool laden (dateien mit blob)
   leer: () => { … },                             // Tool auf ein leeres Projekt setzen
   vorschlag: () => 'Angebot Muster',             // optional: Namensvorschlag für „Speichern unter“
+  warnAbMB: 200, zwSeltenAbMB: 500, zwGrossMin: 5, // optional (ab 1.1): Grenzen für große Projekte, siehe unten
   alt: () => ({ daten, einstellungen, dateien }) | null,       // optional: alter Stand im Browser (Übernahme)
   // start: false  → kein Startbildschirm (leeres Projekt) · bereit: Promise · alias: ['alte-tool-id']
 };
@@ -57,6 +58,12 @@ Ereignisse: `ritldoc:ready` · `ritldoc:state {name, geaendert, offen, datei}` (
   „Neues Projekt“ · „Öffnen …“ · Liste. Esc auf dem Startbildschirm = neues, leeres Projekt.
 - **Zwischenspeicher:** alle 30 s, bei `visibilitychange` (verdeckt), `beforeunload` und `pagehide` (synchron gestartet) je Projekt in IndexedDB
   (`zw:<tool>:<id>`, Daten + Dateien als Blob + Handle). Beim Start: „Nicht gespeicherte Änderungen an … von <Zeit> wiederherstellen?“ – Verwerfen löscht ihn. Nach dem Speichern wird er gelöscht.
+- **Große Projekte (ab 1.1):** Vor jedem Speichern und Zwischenspeichern zählt ritl-doc die Größe aller Dateien (`blob.size`, vor der base64-Kodierung).
+  Ab `warnAbMB` (Standard **200 MB**) erscheint einmal je Projekt der Hinweis „Großes Projekt“ (Größe, Speichern dauert länger, Datei wird groß,
+  ggf. Dateien entfernen) – unten im Fenster, schließbar mit ✕, **blockiert nichts**; beim Speichern zusätzlich „Speichern … ca. X MB – bitte warten“.
+  Ab `zwSeltenAbMB` (Standard **500 MB**) läuft der Zwischenspeicher nur noch alle `zwGrossMin` Minuten (Standard **5**, `0` = ausgesetzt) und nicht mehr
+  bei `pagehide`; der Hinweis erscheint dann noch einmal und sagt das. Werte sind Zahl oder Funktion, `0` bei `warnAbMB`/`zwSeltenAbMB` schaltet die Stufe ab.
+  Zustand: `RITL_DOC.groesse` → `{bytes, warnAbMB, zwSeltenAbMB, zwGrossMin, zwischenspeicher: 'normal'|'selten'|'aus'}`. Dateiformat unverändert (`format:1`).
 - **Warnung** vor Neu/Öffnen/Schließen bei ungespeicherten Änderungen: eigener Dialog (Nicht speichern · Abbrechen · Speichern) + `beforeunload`.
 - **Ordner der Firma:** Beim ersten „Speichern unter“ Hinweis mit „Ordner der Firma öffnen ↗“ aus `backup.ordner_vorgabe` (ritl-bk 2.11, gemerkt in `riemer-<prefix>-bklic`).
 - **Übernahme alter Daten:** Liefert `alt()` beim ersten Start Daten, fragt ritl-doc, ob der Stand als „<Tool> – übernommen.<tool>.ritl“ gespeichert werden soll
@@ -66,14 +73,16 @@ Ereignisse: `ritldoc:ready` · `ritldoc:state {name, geaendert, offen, datei}` (
 ## Test
 
 `test.html` lädt RITL-UI, ritl-doc und ritl-bk direkt aus diesem Repo (Tool „TEST“, Titel/Notizen/Dateien). `?nofs=1` stellt einen Browser ohne
-File System Access nach. Playwright-Rundlauf (A-012): Neu → Daten → Speichern unter → Neu → Öffnen → Vergleich (Daten + Dateien) → Strg+S →
-Warnung → Zwischenspeicher nach Neuladen → beforeunload → Zuletzt geöffnet → Übernahme, Hell/Dunkel, 1920/1280/390 px, mit und ohne FS API.
+File System Access nach. **Größen-Test (1.1):** Feld „MB“ + „Künstliche Datei hinzufügen“ (Nullbytes), Grenzen per
+`?warnmb=2&zwmb=5&zwmin=0` (sonst 200 / 500 / 5). Playwright-Rundlauf (A-012): Neu → Daten → Speichern unter → Neu → Öffnen → Vergleich (Daten + Dateien) → Strg+S →
+Warnung → Zwischenspeicher nach Neuladen → beforeunload → Zuletzt geöffnet → Übernahme, Hell/Dunkel, 1920/1280/390 px, mit und ohne FS API;
+ab 1.1 zusätzlich Größen-Test (Hinweis einmal je Projekt, nicht blockierend, Escape, Format, Zwischenspeicher selten/ausgesetzt, 210 MB mit Standardgrenzen).
 
 Rundläufe im Repo (starten selbst einen kleinen Webserver auf dem Repo, Playwright muss installiert sein), aus dem Repo-Stamm:
 
 | Skript | Inhalt | Dauer |
 | --- | --- | --- |
-| `node ritl-doc/tests/rundlauf.mjs [Ausgabe]` | ohne Lizenz, 50 Schritte, mit und ohne File System Access, Bilder Hell/Dunkel | ca. 2 min |
+| `node ritl-doc/tests/rundlauf.mjs [Ausgabe]` | ohne Lizenz, 65 Schritte (davon 15 Größen-Test), mit und ohne File System Access, Bilder Hell/Dunkel | ca. 2½ min |
 | `node ritl-doc/tests/lizenz.mjs [Ausgabe]` | mit Lizenz: `pdf-ritl` mit `backup.typ` dokument vom Server (nur settings + „Zuletzt geöffnet“ an den Server, Gerät B), Gegenprobe `datenbank` | ca. 20 s |
 | `RITL_TEST_KEY=… RITL_TEST_EMAIL=… node ritl-doc/tests/lizenz-live.mjs` | wie oben, aber gegen den echten Lizenzserver mit eigener **Test-Lizenz** (Kanal Dev, pdf-ritl, C ≥ 1, 2 freie Geräte). Schlüssel nur als Umgebungsvariable, nie in eine Datei. Legt 2 Geräte (`ritl-doc-test-A/-B`) und einen Stand pdf-ritl · settings an | ca. 30 s |
 
