@@ -3,6 +3,10 @@
 Kompakter 3D-Viewer und -Editor im Browser für den 3D-Druck · #ritl_mesh
 Neueste Version oben. V1.0–V1.8 als Einzeldatei entwickelt (nicht in der Toolbox veröffentlicht).
 
+## V2.8.1 · 25.11.2026 · DEV
+**Geändert**
+- **Backup-Baustein ritl-bk 2.13:** Der Ordner der Firma (Backup im OneDrive-/SharePoint-Ordner) erscheint nur noch als Link „Ordner der Firma öffnen ↗ – diesen Ordner auswählen, das Backup wird direkt dort gespeichert“. Beim Verknüpfen wird der Ordnername nicht mehr geprüft und es kommt keine Warnung „vorgesehen ist …“ mehr. Sonst wie V2.8.0 (Projekte als Datei, Backup nur Einstellungen).
+
 ## V2.8.0 · 25.11.2026 · DEV
 **Neu**
 - **Projekte als eigene Datei:** Ein Projekt ist jetzt eine Datei, die du selbst speicherst – z. B. „Halter Werkbank.mesh.ritl“. Darin steckt alles: alle Modellbereiche mit Modellen, Lage, Farben, Gruppen, Grundkörpern (inkl. Rundung/Fase), SCAD-Parametern und Exportname, dazu Druckbett, Material und **alle Geometrien**. So kannst du mehrere Projekte parallel führen, weitergeben (Mail, OneDrive, SharePoint) und archivieren.
