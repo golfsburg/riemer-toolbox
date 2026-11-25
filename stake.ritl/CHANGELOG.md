@@ -3,6 +3,10 @@
 Beziehungs- und Stakeholder-Map für Firmen, Ansprechpartner, Projekte und Gewerke · #ritl_stake
 Neueste Version oben.
 
+## V2.6.6 · 25.11.2026 · DEV
+**Geändert**
+- **Scrollen (R-15):** Der Kopf läuft beim Scrollen aus, die Modul-Leiste (Ribbon) bleibt oben stehen. Das Mausrad über der Leiste schiebt nur die Leiste waagrecht, nie die Seite; Dialoge und innere Bereiche scrollen für sich, ohne die Seite dahinter mitzunehmen.
+
 ## V2.6.5 · 23.11.2026 · DEV
 **Geändert**
 - Filter „Herkunft nur PM“, Ansprechpartner in den Firmen-Boxen und „Fixieren“ gehören zu den Einstellungen im Backup.
