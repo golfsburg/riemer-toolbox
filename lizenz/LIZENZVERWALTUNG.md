@@ -424,6 +424,12 @@ select l.key_hint, w.tool, w.datenquelle, w.stufe, w.updated_at
 update licenses set quota_mb = 200 where key_hint = 'XXXX';
 ```
 
+### Zielordner für B · Ordner – `licenses.ordner` (nur Link ab 25.11.2026, A-028)
+
+- Im Admin (Lizenz bearbeiten › „Zielordner für B · Ordner“ bzw. Tool-Tabelle, Spalte „Ordner B“) wird nur der **Link** zum Zielordner hinterlegt – kein Ordnername mehr.
+- Beim Kunden öffnet „Ordner der Firma öffnen ↗“ diesen Ordner; er wählt ihn beim Verknüpfen, das Backup liegt direkt darin (ritl-bk ab 2.13 ohne Namensprüfung).
+- Server unverändert: `_clean_ordner` speichert `{link, name?}`, `name` ist optional. Ein früher gespeichertes `name` bleibt erhalten, solange der Link gleich bleibt, und wird nicht mehr verwendet.
+
 ## Tool-Typ „Dokument“ / „Datenbank“ – `tools.typ` (ab 25.11.2026)
 
 Jedes Tool hat einen Typ (Spalte `tools.typ`, Pflicht, Standard `datenbank`, nur `dokument` oder `datenbank`):

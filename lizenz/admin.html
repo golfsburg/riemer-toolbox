@@ -504,10 +504,9 @@
         </tbody>
       </table></div>
       <p class="hint" style="margin-top:4px">Stufe <b>1 · settings</b> – Ansichten, Filter, Favoriten, Einstellungen · <b>2 · datenbank</b> – settings + alle Arbeitsdaten (Standard) · <b>3 · storage</b> – alles, was im Tool geladen ist (Dateien, Belege, Originale, Pakete).</p>
-      <div class="sect"><h3>SharePoint-Ordner für B · Ordner</h3><span class="hint">optional – erscheint beim Kunden in „Backup einrichten“ mit „Ordner der Firma öffnen“</span></div>
+      <div class="sect"><h3>Zielordner für B · Ordner</h3><span class="hint">optional – nur der Link; erscheint beim Kunden in „Backup einrichten“ mit „Ordner der Firma öffnen“</span></div>
       <div class="grid">
-        <div><label for="lf-olink">Link zum Ordner (SharePoint / OneDrive)</label><input id="lf-olink" type="url" inputmode="url" placeholder="https://firma.sharepoint.com/sites/…/RIEMER Tools"><span class="hint">gilt für alle Tools dieser Lizenz · je Tool abweichend in der Tool-Tabelle (Spalte „Ordner B“)</span></div>
-        <div><label for="lf-oname">Ordnername</label><input id="lf-oname" placeholder="z. B. RIEMER Tools" maxlength="120"><span class="hint">so heißt der Ordner nach dem Synchronisieren – das Tool prüft ihn beim Verknüpfen</span></div>
+        <div><label for="lf-olink">Link zum Ordner (SharePoint / OneDrive)</label><input id="lf-olink" type="url" inputmode="url" placeholder="https://firma.sharepoint.com/sites/…/RIEMER Tools"><span class="hint">Der Kunde öffnet diesen Ordner mit „Ordner der Firma öffnen“ und wählt beim Verknüpfen genau diesen Ordner – das Backup liegt direkt darin. Gilt für alle Tools dieser Lizenz · je Tool abweichend in der Tool-Tabelle (Spalte „Ordner B“)</span></div>
       </div>
       <div class="grid"><div><label for="lf-quota">Kontingent am Server (MB)</label><input id="lf-quota" name="quota_mb" type="number" min="1" max="10240" value="50">
         <span class="hint">Backups, Server-Stände, Dateien und Übergaben aller Tools dieser Lizenz zusammen</span></div></div>
@@ -1485,7 +1484,7 @@
     var w = l.backup_wahl || {}, n = Object.keys(w).length;
     return '<span class="tag mono" title="Angeboten:\n' + esc(mxTitle(m)) + '">' + esc(mxCode(m)) + "</span>" +
       (n ? ' <span class="hint" title="' + esc(Object.keys(w).map(function (t) { return t + ": " + bkCode(w[t].datenquelle || q, w[t].stufe || l.backup_stufe); }).join(", ")) + '">' + n + " Tool" + (n > 1 ? "s" : "") + " gewählt</span>" : "") +
-      '<br><span class="hint">' + fmtMB(l.server_bytes) + " von " + (l.quota_mb || 50) + " MB am Server</span>" + (l.ordner || Object.keys(l.tool_cfg || {}).some(function (t) { return (l.tool_cfg[t] || {}).ordner; }) ? '<br><span class="hint" title="' + esc(l.ordner ? l.ordner.link : "je Tool") + '">🔗 SharePoint-Ordner ' + esc(l.ordner ? (l.ordner.name || "hinterlegt") : "je Tool") + "</span>" : ""); }
+      '<br><span class="hint">' + fmtMB(l.server_bytes) + " von " + (l.quota_mb || 50) + " MB am Server</span>" + (l.ordner || Object.keys(l.tool_cfg || {}).some(function (t) { return (l.tool_cfg[t] || {}).ordner; }) ? '<br><span class="hint" title="' + esc(l.ordner ? l.ordner.link : "je Tool") + '">🔗 SharePoint-Ordner ' + esc(l.ordner ? "hinterlegt" : "je Tool") + "</span>" : ""); }
 
   function renderAll() {
     $("licrows").innerHTML = state.licenses.length ? state.licenses.map(function (l) {
@@ -1585,7 +1584,7 @@
     var bs = (l && l.backup_stufe) || "datenbank";
     mxSet(bkMx(l || null));
     lf.quota_mb.value = (l && l.quota_mb) || 50;
-    $("lf-olink").value = (l && l.ordner && l.ordner.link) || ""; $("lf-oname").value = (l && l.ordner && l.ordner.name) || "";
+    $("lf-olink").value = (l && l.ordner && l.ordner.link) || ""; oAlt = (l && l.ordner) || null;
     var bw = (l && l.backup_wahl) || {};
     $("lf-wahl").textContent = Object.keys(bw).length ? "Wahl des Kunden je Tool: " + Object.keys(bw).map(function (t) { return t + " " + bkCode(bw[t].datenquelle || dq, bw[t].stufe || bs); }).join(" · ") + " (über dem Maximum wird automatisch begrenzt)" : "Der Kunde hat noch keine eigene Wahl getroffen – es gilt das Maximum.";
     var all = !!(l && l.tools.indexOf("*") >= 0); lf.all.checked = all;
@@ -1601,7 +1600,7 @@
           (t.editions || []).map(function (e) { return '<option value="' + esc(e.id) + '"' + (c.edition === e.id ? " selected" : "") + ">" + esc(e.name) + "</option>"; }).join("") +
           "</select></td>" +
         '<td class="get"></td>' +
-        '<td><button type="button" class="b ob' + (c.ordner ? " on" : "") + '" data-olink="' + esc(c.ordner ? c.ordner.link : "") + '" data-oname="' + esc(c.ordner ? (c.ordner.name || "") : "") + '" title="' + esc(c.ordner ? "Eigener SharePoint-Ordner: " + (c.ordner.name || "") + "\n" + c.ordner.link : "SharePoint-Ordner wie Lizenz – klicken für eigenen Ordner") + '">' + (c.ordner ? "🔗 eigener" : "wie Lizenz") + "</button></td></tr>";
+        '<td><button type="button" class="b ob' + (c.ordner ? " on" : "") + '" data-olink="' + esc(c.ordner ? c.ordner.link : "") + '" data-oname="' + esc(c.ordner ? (c.ordner.name || "") : "") + '" data-oalt="' + esc(c.ordner ? c.ordner.link : "") + '" title="' + esc(c.ordner ? "Eigener Zielordner:\n" + c.ordner.link : "Zielordner wie Lizenz – klicken für eigenen Link") + '">' + (c.ordner ? "🔗 eigener" : "wie Lizenz") + "</button></td></tr>";
     }).join("") || '<tr><td colspan="6" class="hint">Noch keine Tools.</td></tr>';
     refreshLic();
     $("lf-club").value = (l && SC.assign[l.id]) || "";
@@ -1628,26 +1627,21 @@
   }
   lf.addEventListener("change", refreshLic);
 
-  // SharePoint-Ordner (Backup B): Ordnername aus dem Link ableiten (letzter Pfadteil, nicht bei Freigabe-Links „/:f:/“)
-  function oName(link) {
-    try { var u = new URL(link); if (/\/:[a-z]:\//i.test(u.pathname)) return "";
-      var id = u.searchParams.get("id"); var pth = id || u.pathname; var seg = pth.split("/").filter(Boolean).pop() || "";
-      seg = decodeURIComponent(seg); return /\.(aspx|html?)$/i.test(seg) ? "" : seg.replace(/[\\/:*?"<>|]/g, "").slice(0, 120); } catch (e) { return ""; }
-  }
+  // Zielordner (Backup B): nur der Link. Ein früher gespeicherter Ordnername (name) bleibt am Server unverändert,
+  // solange der Link gleich bleibt – er wird nicht mehr angezeigt und vom Tool nicht mehr verwendet.
+  var oAlt = null;
+  function oKeep(alt, link) { return alt && alt.link === link && alt.name ? { link: link, name: alt.name } : { link: link }; }
   function oValid(link) { return /^https:\/\/[^\s"<>]+$/.test(link) && link.length >= 16 && link.length <= 2000; }
-  $("lf-olink").addEventListener("change", function () { var v = this.value.trim(); if (v && !$("lf-oname").value.trim()) $("lf-oname").value = oName(v); });
   $("lic-tools").addEventListener("click", function (e) {
     var b = e.target.closest("button.ob"); if (!b) return;
     var cur = b.dataset.olink || "";
-    var v = prompt("Eigener SharePoint-Ordner für dieses Tool (Link mit https://).\nLeer lassen = wie Lizenz.", cur || $("lf-olink").value.trim());
+    var v = prompt("Eigener Zielordner für dieses Tool – nur den Link eintragen (https://).\nDer Kunde wählt beim Verknüpfen genau diesen Ordner, das Backup liegt direkt darin.\nLeer lassen = wie Lizenz.", cur || $("lf-olink").value.trim());
     if (v === null) return; v = v.trim();
     if (v && !oValid(v)) return toast("Bitte einen vollständigen Link mit https:// eintragen.");
-    var n = "";
-    if (v) { n = prompt("Ordnername (so heißt der Ordner nach dem Synchronisieren):", b.dataset.oname || oName(v)); if (n === null) return; n = n.trim(); }
-    if (v === $("lf-olink").value.trim() && n === $("lf-oname").value.trim()) v = "";
-    b.dataset.olink = v; b.dataset.oname = v ? n : "";
+    if (v === $("lf-olink").value.trim()) v = "";
+    b.dataset.olink = v;
     b.classList.toggle("on", !!v); b.textContent = v ? "🔗 eigener" : "wie Lizenz";
-    b.title = v ? "Eigener SharePoint-Ordner: " + n + "\n" + v : "SharePoint-Ordner wie Lizenz – klicken für eigenen Ordner";
+    b.title = v ? "Eigener Zielordner:\n" + v : "Zielordner wie Lizenz – klicken für eigenen Link";
   });
   $("bkmx").addEventListener("change", function (e) { if (e.target.classList.contains("bkmx-on")) mxRefresh(); });
   lf.addEventListener("submit", function (e) {
@@ -1663,7 +1657,7 @@
       tools.push(tr.dataset.tool);
       var c = {}, ch = tr.querySelector(".tch").value, ed = tr.querySelector(".ted").value, ob = tr.querySelector(".ob");
       if (ch) c.channel = ch; if (ed) c.edition = ed;
-      if (ob && ob.dataset.olink) c.ordner = { link: ob.dataset.olink, name: ob.dataset.oname || "" };
+      if (ob && ob.dataset.olink) c.ordner = oKeep({ link: ob.dataset.oalt, name: ob.dataset.oname }, ob.dataset.olink);
       if (ch || ed || c.ordner) cfg[tr.dataset.tool] = c;
     });
     // Alle Tools: "*" + ausgeblendete Tools, die ausdrücklich in myTOOLBOX erscheinen sollen
@@ -1671,14 +1665,14 @@
       var t = toolById(tr.dataset.tool); return t && t.listed === false && tr.querySelector(".tsel").checked;
     }).map(function (tr) { return tr.dataset.tool; }));
     if (!tools.length) return toast("Bitte mindestens ein Tool wählen.");
-    var olink = $("lf-olink").value.trim(), oname = $("lf-oname").value.trim();
+    var olink = $("lf-olink").value.trim();
     if (olink && !oValid(olink)) { $("lf-olink").focus(); return toast("SharePoint-Ordner: bitte einen vollständigen Link mit https:// eintragen."); }
     var d = { customer: customer, email: em, tools: tools, tool_cfg: cfg, note: lf.note.value.trim(),
               expires_at: lf.unlimited.checked ? "" : lf.expires_at.value + "T23:59:59",
               max_devices: Math.max(1, parseInt(lf.max_devices.value, 10) || 1), channel: lf.channel.value, active: lf.active.checked,
               backup_matrix: mxGet(),
               quota_mb: Math.min(10240, Math.max(1, parseInt(lf.quota_mb.value, 10) || 50)),
-              ordner: olink ? { link: olink, name: oname || oName(olink) } : null };
+              ordner: olink ? oKeep(oAlt, olink) : null };
     var mm = mxMax(d.backup_matrix); d.datenquelle = mm.datenquelle; d.backup_stufe = mm.backup_stufe;
     var btn = $("lic-save"); btn.disabled = true;
     if (editId) {

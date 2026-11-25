@@ -1,4 +1,4 @@
-# ritl-bk 2.12 – einheitliches Backup der RIEMER Tools (ab 19.11.2026)
+# ritl-bk 2.13 – einheitliches Backup der RIEMER Tools (ab 19.11.2026)
 
 Regel **S-17**, Rollout **R-13**. Vorbild: MUSTER.ritl V3.9 (2.0: V3.8). Baustein: [`ritl-bk.html`](ritl-bk.html) · Änderungen: [`CHANGELOG.md`](CHANGELOG.md).
 Ein Block `<!--ritl-bk:start-->…<!--ritl-bk:end-->` (CSS + JS) enthält das ganze Backup: Knopf-Symbol am `#backupBtn`, Fenster „Backup“,
@@ -249,8 +249,8 @@ Standard **S-14**. Der Anbieter legt im Lizenz-Admin › „Datenquelle · Daten
   - Safari/Firefox/iOS: Hinweis „nur Chrome oder Edge am Computer“, Arbeit nur lokal.
 - **Prompt für die Tool-Chats:** „Datenquelle je Lizenz (S-14) einbauen nach `riemer-toolbox/ritl-bk/README.md` › Datenquelle je Lizenz, Vorbild MUSTER.ritl V3.3 (Funktionen `ORD`, `SRVB`, `applyMode`, `oq*`, `setupOrd`, `setupSrv`). Als neue DEV-Version veröffentlichen, CHANGELOG und Quellen-ZIP.“
 
-## SharePoint-Ordner der Firma (ab 2.11)
+## Ordner der Firma (ab 2.11, nur Link ab 2.13)
 
-Im Lizenz-Admin (Lizenz bearbeiten › „SharePoint-Ordner für B · Ordner“) lässt sich je Lizenz ein Link mit Ordnername hinterlegen, in der Tool-Tabelle (Spalte „Ordner B“) je Tool abweichend. Gespeichert in `licenses.ordner` bzw. `licenses.tool_cfg.<tool>.ordner`; der Server liefert ihn als `backup.ordner_vorgabe = {link, name, quelle}` (Tool vor Lizenz).
+Im Lizenz-Admin (Lizenz bearbeiten › „Zielordner für B · Ordner“) wird je Lizenz nur der **Link zum Zielordner** hinterlegt, in der Tool-Tabelle (Spalte „Ordner B“) je Tool abweichend. Gespeichert in `licenses.ordner` bzw. `licenses.tool_cfg.<tool>.ordner`; der Server liefert ihn als `backup.ordner_vorgabe = {link, quelle}` (Tool vor Lizenz). Ein früher gespeichertes `name` bleibt am Server stehen, wird ab 2.13 aber nicht mehr verwendet.
 
-ritl-bk zeigt die Vorgabe in „Backup einrichten“ und im Backup-Fenster mit „Ordner der Firma öffnen ↗“ und prüft beim Verknüpfen den Ordnernamen (Groß-/Kleinschreibung egal). Die Tools schreiben weiter nur in den lokal mit OneDrive synchronisierten Ordner (File System Access API) – ein direktes Schreiben nach SharePoint (Microsoft Graph) gibt es nicht.
+ritl-bk zeigt die Vorgabe in „Backup einrichten“ und im Backup-Fenster: „Ordner der Firma öffnen ↗ – diesen Ordner auswählen, das Backup wird direkt dort gespeichert“. Der Kunde legt keinen Ordner an und gibt keinen Namen ein; beim Verknüpfen gibt es keine Namensprüfung mehr (bis 2.12: Vergleich mit `name`). Die Tools schreiben weiter nur in den lokal mit OneDrive synchronisierten Ordner (File System Access API) – ein direktes Schreiben nach SharePoint (Microsoft Graph) gibt es nicht.

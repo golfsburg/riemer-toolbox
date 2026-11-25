@@ -2,6 +2,16 @@
 
 Zentraler Backup-Baustein aller RIEMER Tools (Regel S-17). Neueste Version oben.
 
+## 2.13 · 25.11.2026 · DEV
+**Geändert**
+- **Ordner der Firma nur als Link:** Im Lizenz-Admin wird bei „B · Ordner“ nur noch der Link zum Zielordner hinterlegt – kein Ordnername. „Backup einrichten“ und das Backup-Fenster zeigen „Ordner der Firma öffnen ↗ – diesen Ordner auswählen, das Backup wird direkt dort gespeichert“. Der Kunde muss keinen Ordner anlegen und keinen Namen eingeben.
+
+**Entfernt**
+- Prüfung des Ordnernamens beim Verknüpfen samt Warnung „vorgesehen ist …“ und orangem Kasten. Ein früher im Admin gespeicherter Ordnername wird nicht mehr verwendet.
+
+**Unverändert**
+- Speichern direkt im gewählten Ordner (kein Unterordner), Tool-Typ dokument/datenbank wie 2.12.
+
 ## 2.12 · 25.11.2026 · DEV
 **Neu**
 - **Tool-Typ „Dokument“** (Adapter `typ:'dokument'`, später `backup.typ` vom Server – der Server hat dann Vorrang): Projekte sind eigene Dateien (ritl-doc 1.0, „Speichern unter …“). Das Backup sichert nur noch die **Einstellungen** des Tools und die Liste **„Zuletzt geöffnet“** (ohne Dateizugriff) – keine Stufen datenbank/storage, B · Ordner ist keine Datenbank.
