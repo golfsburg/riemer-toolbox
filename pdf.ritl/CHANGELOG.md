@@ -3,6 +3,10 @@
 PDF-Dokumente aus Lesezeichen-Abschnitten und Einzelseiten zusammenstellen – mit verlinktem Inhaltsverzeichnis · #ritl_pdf
 Neueste Version oben. Versionen ≤ V1.3 nachträglich rekonstruiert (aus `tool_versions` und Entwicklungsverlauf).
 
+## V2.1.8 · 25.11.2026 · DEV
+**Geändert**
+- **Scrollen (R-15):** Der Header läuft beim Scrollen aus dem Bild, das Modul-Ribbon bleibt oben stehen. Das Mausrad über dem Ribbon schiebt nur die Leiste waagrecht und scrollt nie die Seite; innere Scrollbereiche und Dialoge reichen das Rad nicht an die Seite weiter.
+
 ## V2.1.7 · 23.11.2026 · DEV
 **Behoben**
 - **Vergleich:** Die Optionen des Planvergleichs (Auflösung, Schwelle …) gingen bei Backups der Stufe datenbank/storage verloren. Jetzt werden sie gesichert; ältere Backups werden weiter gelesen.
