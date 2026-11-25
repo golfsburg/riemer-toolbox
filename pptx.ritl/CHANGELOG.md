@@ -3,6 +3,27 @@
 Präsentationen aus Abschnitten zusammenstellen (DECK.ritl) und Meetings planen (TIMING.ritl) · #ritl_pptx
 Neueste Version oben. Ältere Versionen siehe Admin › Tools › Versionen (Tabelle `tool_versions`); dieser CHANGELOG beginnt mit V2.9.
 
+## V3.8.0 · 25.11.2026 · DEV
+**Neu**
+- **Projekte als eigene Datei:** Ein Meeting bzw. eine Präsentation ist jetzt ein Projekt, das du als Datei speicherst – z. B. „Jour fixe KW 48.pptx.ritl“. Darin stecken **beide Reiter**: TIMING.ritl (Meeting, Datum, Ort, Teilnehmer, Teams, Räume, Agenda mit Verantwortlichen und den zugeordneten Folien) und DECK.ritl (Startfolie, Abschnitte, eigene Trennstellen, Folienauswahl, Inhaltsverzeichnis- und Ausgabe-Optionen) – samt allen geladenen PPTX-Dateien. So kannst du mehrere Meetings parallel führen, weitergeben und archivieren.
+- **Neu · Öffnen … · Speichern · Speichern unter …** oben im Header, dazu Strg+S, Strg+Umschalt+S und Strg+O. Der Projektname steht im Titel, ein „•“ zeigt ungespeicherte Änderungen. Als Name schlägt PPTX.ritl den Meeting-Titel vor.
+- **Startbildschirm** beim Öffnen: „Neues Projekt“, „Öffnen …“ und „Zuletzt geöffnet“ (in Chrome/Edge mit einem Klick wieder offen).
+- **Nichts geht verloren:** Ungespeicherte Änderungen werden laufend zwischengespeichert und beim nächsten Start zum Wiederherstellen angeboten. Vor Neu, Öffnen und Schließen kommt eine Warnung, wenn noch nicht gespeichert ist.
+- **Bisherigen Stand übernehmen:** Beim ersten Start bietet PPTX.ritl an, den bisherigen Stand als „PPTX – übernommen.pptx.ritl“ zu speichern – aus dem Browser (TIMING, geladene PPTX), aus der zuletzt offenen Projekt-JSON oder aus der Ordner-Sicherung. Auch später über Backup › „Bisherigen Stand übernehmen …“. Die alten Dateien bleiben unverändert.
+- Chrome/Edge speichern direkt in die geöffnete Datei; Safari, Firefox, iPhone und iPad speichern als Download mit gleichem Namen.
+
+**Geändert**
+- **Warum die Umstellung:** Bisher lag immer genau ein Stand im Browser und im Backup – ein zweites Meeting überschrieb das erste. Jetzt ist jedes Meeting eine eigene Datei, wie ein Word- oder PowerPoint-Dokument.
+- **Neu** beginnt mit leerer Agenda, ohne Folien und mit den Standard-Optionen (Inhaltsverzeichnis, Farbe, Nummern …) – nichts wird vom vorherigen Projekt geerbt.
+- **Backup** sichert nur noch die Einstellungen (Theme, Ansicht, Filter, Favoriten) und die Liste „Zuletzt geöffnet“. Die Projekte selbst liegen nur auf deinem Gerät bzw. in deinem Ordner – nie am Server. Inhaltsverzeichnis- und Ausgabe-Optionen gehören jetzt zum Projekt.
+- Hilfe um „Projekt als Datei“ ergänzt.
+
+**Entfernt**
+- **„Projekt …“ in der Reiterleiste** (JSON-Datei, die bei jeder Änderung überschrieben wurde, seit V3.1) – ersetzt durch Speichern/Speichern unter. Bestehende Projekt-JSONs lassen sich übernehmen (siehe oben).
+
+**Hinweis**
+- Stände, die **nur am Server** lagen (frühere Backup-Stufen Datenbank/Storage), werden beim Umstieg nicht automatisch übernommen. Bitte vorher in einer Fassung bis V3.7 im Fenster „Backup“ als Backup-Datei herunterladen. Dazu steht ein Hinweis in der Hilfe („Projekt als Datei“).
+
 ## V3.7.8 · 25.11.2026 · DEV
 **Geändert**
 - **Scrollen (R-15):** Der Kopfbereich läuft beim Scrollen aus dem Bild, die Reiterleiste (Ribbon) bleibt oben stehen. Das Mausrad wirkt nur dort, wo die Maus steht: Über der Reiterleiste schiebt es nur die Leiste seitlich, nie die Seite; in Listen und Dialogen läuft es nicht in die Seite durch.
