@@ -3,6 +3,10 @@
 Vorlage und Spielwiese für den Skill `/riemer-webapp-design` · #ritl_muster
 Neueste Version oben. Versionen ≤ V2.2 nachträglich aus den veröffentlichten Ständen (Tabelle `tool_versions`) rekonstruiert.
 
+## V3.9.6 · 25.11.2026 · DEV
+**Geändert**
+- **Scrollen (Rollout R-15, Regeln S-18/S-19, Vorlage):** Der Header läuft beim Scrollen mit aus dem Bild, das Module-Ribbon klebt am oberen Fensterrand (`position:sticky; top:0`). Die Ribbon-Höhe wird als `--rib-h`/`--stk` gemessen (`stickyH()`), Sprungziele liegen dank `scroll-padding-top` nicht unter dem Ribbon. Innere Scrollbereiche (Matrix, Auswahl, Listen, Dialoge) haben `overscroll-behavior:contain` – am Ende scrollt nie die Seite im Hintergrund. Über dem Ribbon schiebt das Mausrad nur die Leiste waagrecht, nie die Seite.
+
 ## V3.9.5 · 23.11.2026 · DEV
 **Geändert**
 - Höhe der Map und „Fixieren“ gehören zu den Einstellungen im Backup (Vorlage).
