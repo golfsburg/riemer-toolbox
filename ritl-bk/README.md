@@ -1,4 +1,4 @@
-# ritl-bk 2.8 – einheitliches Backup der RIEMER Tools (ab 19.11.2026)
+# ritl-bk 2.12 – einheitliches Backup der RIEMER Tools (ab 19.11.2026)
 
 Regel **S-17**, Rollout **R-13**. Vorbild: MUSTER.ritl V3.9 (2.0: V3.8). Baustein: [`ritl-bk.html`](ritl-bk.html) · Änderungen: [`CHANGELOG.md`](CHANGELOG.md).
 Ein Block `<!--ritl-bk:start-->…<!--ritl-bk:end-->` (CSS + JS) enthält das ganze Backup: Knopf-Symbol am `#backupBtn`, Fenster „Backup“,
@@ -12,6 +12,14 @@ als eigenen Blob ab (`arrayBuffer()`), `RITLF.get` liefert nur lesbare Dateien, 
 in den Speicher – das gilt auch für Tools mit eigener `RITLF`-Kopie. Nicht lesbare Dateien (0 Bytes bei `size > 0`) werden übersprungen, mit Hinweis
 „… ist auf diesem Gerät nicht mehr lesbar …“, statt den ganzen Abgleich abzubrechen. Tools mit eigener Kopie: Stand aus `ritl-files.js` übernehmen.
 
+
+## Tool-Typ „Dokument“ (ab 2.12)
+
+Adapter `typ:'dokument'` (bzw. `backup.typ` vom Server, sobald vorhanden – hat Vorrang): Projekte sind eigene Dateien über [ritl-doc](../ritl-doc/README.md).
+Alle Stufen werden auf **settings** begrenzt (A/C), B · Ordner ist keine Datenbank (`ORD()` = false). Gesichert werden `settings()` + Theme/Sprache +
+`doc_zuletzt` (aus `RITL_DOC.zuletztExport()`, ohne Handles; beim Wiederherstellen `RITL_DOC.zuletztImport()`). „Backup einrichten“ zeigt nur die Spalte
+settings, den Hinweis „Projekte speichern Sie als eigene Datei (Speichern unter …)“ und öffnet sich nicht von selbst; „Übernehmen“ ändert die Wahl am Server nicht.
+`daten()` wird nicht gebraucht. Typ „datenbank“ (Standard) = Verhalten wie 2.11.
 
 ## Nie bei jedem Start (ab 2.9.1, verbindlich)
 

@@ -2,6 +2,17 @@
 
 Zentraler Backup-Baustein aller RIEMER Tools (Regel S-17). Neueste Version oben.
 
+## 2.12 · 25.11.2026 · DEV
+**Neu**
+- **Tool-Typ „Dokument“** (Adapter `typ:'dokument'`, später `backup.typ` vom Server – der Server hat dann Vorrang): Projekte sind eigene Dateien (ritl-doc 1.0, „Speichern unter …“). Das Backup sichert nur noch die **Einstellungen** des Tools und die Liste **„Zuletzt geöffnet“** (ohne Dateizugriff) – keine Stufen datenbank/storage, B · Ordner ist keine Datenbank.
+- „Backup einrichten“ zeigt bei Dokument-Tools nur die Stufe settings (A/B/C wie lizenziert) und den Hinweis „Projekte speichern Sie als eigene Datei (Speichern unter …)“ mit „Ordner der Firma öffnen ↗“; das Backup-Fenster zeigt denselben Hinweis.
+- Bei Dokument-Tools öffnet sich „Backup einrichten“ nicht von selbst (nichts zu wählen) – der Startbildschirm von ritl-doc hat Vorrang.
+- `RITLBK.typ` und `RITLBK.stand().typ`.
+- Am Lizenzserver für den Kanal Dev hinterlegt (wirkt in allen Tools mit Dev-Lizenz ohne Neuveröffentlichung).
+
+**Geändert**
+- Typ „datenbank“ (Standard) verhält sich genau wie 2.11.
+
 ## 2.11 · 24.11.2026 · DEV
 **Neu**
 - **SharePoint-Ordner der Firma zentral vorgeben:** Im Lizenz-Admin lässt sich je Lizenz (und je Tool abweichend) der Link zum SharePoint-Ordner und sein Name hinterlegen. Das Tool zeigt ihn unter „Backup einrichten“ und im Backup-Fenster (02 OneDrive & SharePoint) mit **„Ordner der Firma öffnen ↗“** und einer kurzen Anleitung: in SharePoint „Synchronisieren“ bzw. „Verknüpfung zu OneDrive hinzufügen“, dann „Ordner verknüpfen …“.

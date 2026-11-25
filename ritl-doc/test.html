@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>TEST.ritl – ritl-doc 1.0</title>
+<script>
+(function(){var t=null;try{t=localStorage.getItem("riemer-theme")}catch(e){}
+ if(t!=="light"&&t!=="dark")t=(window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light";
+ document.documentElement.setAttribute("data-theme",t)})();
+// ?nofs=1 – Browser ohne File System Access nachstellen (wie Safari/Firefox/iPhone)
+if(/[?&]nofs=1/.test(location.search)){try{delete window.showSaveFilePicker;delete window.showOpenFilePicker}catch(e){}window.showSaveFilePicker=undefined;window.showOpenFilePicker=undefined}
+</script>
+<link rel="stylesheet" href="https://golfsburg.github.io/riemer-toolbox/fonts/fonts.css">
+<style>
+:root{
+ --brand:#1F5FC2;--brand-hover:#174C9E;--accent-text:#1F5FC2;
+ --ink:#1B1F24;--ink2:#2D333B;--muted:#5F6773;
+ --surface:#FFFFFF;--surface-muted:#F4F5F7;--graphite:#1B1F24;
+ --on-brand:#FFFFFF;--tint:#C9DAF5;
+ --line:#E3E6EB;--line2:#CDD2D9;--shadow:0 1px 2px rgba(27,31,36,.06);
+ --good:#0F7B6C;--warn:#C2410C;--red:#C53030;
+ --radius-sm:3px;--radius:8px;--radius-panel:16px;
+ --sans:"Inter",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace;
+ --page-max:2048px;color-scheme:light;
+}
+[data-theme="dark"]{
+ --accent-text:#6EA2FF;--ink:#F4F5F7;--ink2:#D6DAE0;--muted:#9AA3AF;
+ --surface:#1B1F24;--surface-muted:#23272E;--line:#323843;--line2:#3D4450;--shadow:none;
+ --good:#4FC7B5;--warn:#FB8A55;--red:#F87171;color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--surface-muted);color:var(--ink);font:400 14px/20px var(--sans)}
+main{max-width:var(--page-max);margin:0 auto;padding:22px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-panel);padding:20px 22px;box-shadow:var(--shadow);margin-bottom:16px}
+.panel h2{margin:0 0 4px;font:800 19px var(--sans);letter-spacing:-.01em}
+.eb{margin:0 0 14px;font:600 11px/16px var(--mono);letter-spacing:1.4px;text-transform:uppercase;color:var(--muted)}
+label.f{display:block;font:600 12px/16px var(--sans);color:var(--muted);margin:12px 0 6px}
+input[type=text],textarea{width:100%;border:1px solid var(--line2);border-radius:8px;background:var(--surface);color:var(--ink);font:500 16px/22px var(--sans);padding:9px 10px}
+input[type=text]:focus,textarea:focus{outline:none;border-color:var(--brand)}
+textarea{min-height:120px;resize:vertical}
+.btn{border:1px solid var(--line2);border-radius:var(--radius);padding:9px 16px;background:var(--surface);color:var(--ink);font:600 13px/18px var(--sans);cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+.btn:hover{border-color:var(--brand);color:var(--accent-text)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:12px}
+ul.files{list-style:none;margin:10px 0 0;padding:0;border:1px solid var(--line);border-radius:10px}
+ul.files li{display:flex;justify-content:space-between;gap:10px;padding:9px 12px;border-bottom:1px solid var(--line);font-size:13px}
+ul.files li:last-child{border-bottom:0}
+ul.files small{color:var(--muted);font-family:var(--mono)}
+.leer{color:var(--muted);font-size:13px;padding:10px 0}
+.grid{display:grid;grid-template-columns:2fr 1fr;gap:16px}
+pre{margin:0;font:500 12px/18px var(--mono);white-space:pre-wrap;word-break:break-word;color:var(--ink2)}
+@media(max-width:860px){.grid{grid-template-columns:1fr}main{padding:14px}}
+</style>
+</head>
+<body>
+<header data-ritl-header data-name="TEST" data-eyebrow="ritl-doc 1.0 · Testseite Tool-Typ Dokument" data-tool="test-ritl" data-ver="V1.0.0" data-date="25.11.2026" data-lang="none" data-help="none">
+ <svg data-ritl-icon viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="10" fill="#1F5FC2"/><path d="M15 13h12l6 6v16H15z" fill="none" stroke="#fff" stroke-width="2.6" stroke-linejoin="round"/><path d="M27 13v6h6" fill="none" stroke="#fff" stroke-width="2.6" stroke-linejoin="round"/></svg>
+ <div data-ritl-actions>
+  <button type="button" id="backupBtn" aria-label="Backup"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M2 4h10v8H2zM2 4l1.5-2.5h7L12 4M5 8h4"/></svg><span class="lbl">Backup</span></button>
+ </div>
+</header>
+<main>
+ <div class="grid">
+  <section class="panel">
+   <p class="eb">Projekt</p><h2>Testdaten</h2>
+   <label class="f" for="t-titel">Titel</label><input type="text" id="t-titel" autocomplete="off">
+   <label class="f" for="t-notiz">Notizen</label><textarea id="t-notiz"></textarea>
+   <label class="f">Dateien</label>
+   <div class="row" style="margin-top:0"><button class="btn" type="button" id="t-add">Datei hinzufügen …</button><input type="file" id="t-file" multiple hidden></div>
+   <ul class="files" id="t-files"></ul>
+  </section>
+  <section class="panel">
+   <p class="eb">Zustand</p><h2>RITL_DOC</h2>
+   <pre id="t-state"></pre>
+  </section>
+ </div>
+</main>
+<script>
+// ── Testtool: Titel, Notizen, Dateien – Adapter für ritl-doc und ritl-bk (typ dokument) ──
+const T={titel:'',notiz:'',dateien:[]};
+const $=id=>document.getElementById(id);
+function zeigen(){$('t-titel').value=T.titel;$('t-notiz').value=T.notiz;
+ $('t-files').innerHTML=T.dateien.length?T.dateien.map(f=>`<li><span>${f.name.replace(/</g,'&lt;')}</span><small>${f.blob.size} B · ${f.mime}</small></li>`).join(''):'<li class="leer">Keine Dateien</li>'}
+const aendern=()=>document.dispatchEvent(new Event('test:change'));
+$('t-titel').oninput=e=>{T.titel=e.target.value;aendern()};
+$('t-notiz').oninput=e=>{T.notiz=e.target.value;aendern()};
+$('t-add').onclick=()=>$('t-file').click();
+$('t-file').onchange=async e=>{for(const f of e.target.files){const b=new Blob([await f.arrayBuffer()],{type:f.type||'application/octet-stream'});T.dateien.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),name:f.name,mime:b.type,blob:b})}e.target.value='';zeigen();aendern()};
+window.RITL_DOC_ADAPTER={tool:new URLSearchParams(location.search).get('tool')||'test-ritl',name:'TEST',endung:'test',ereignis:'test:change',version:'V1.0.0',
+ daten:()=>({titel:T.titel,notiz:T.notiz}),
+ vorschlag:()=>T.titel,
+ einstellungen:()=>({ansicht:'standard'}),
+ dateien:()=>T.dateien.map(f=>({id:f.id,name:f.name,mime:f.mime,blob:f.blob})),
+ laden:o=>{T.titel=o.daten.titel||'';T.notiz=o.daten.notiz||'';T.dateien=(o.dateien||[]).map(f=>({id:f.id,name:f.name,mime:f.mime,blob:f.blob}));zeigen()},
+ leer:()=>{T.titel='';T.notiz='';T.dateien=[];zeigen()},
+ alt:()=>{try{const o=JSON.parse(localStorage.getItem('riemer-test-alt')||'null');return o&&o.titel?{daten:o}:null}catch(e){return null}}};
+// ?tool=pdf-ritl – andere Tool-Kennung (z. B. für backup.typ vom Server) · ?adaptertyp=dokument|datenbank|leer – typ im ritl-bk-Adapter
+const Q=new URLSearchParams(location.search),QT=Q.get('tool')||'test-ritl',QA=Q.has('adaptertyp')?Q.get('adaptertyp'):'dokument';
+window.RITL_BK={tool:QT,name:'TEST',prefix:'test',ereignis:'test:change',...(QA==='dokument'||QA==='datenbank'?{typ:QA}:{}),
+ settings:()=>({ansicht:'standard'}),daten:()=>({}),anwenden:()=>{},leer:()=>true};
+setInterval(()=>{const D=window.RITL_DOC;if(D)$('t-state').textContent=JSON.stringify({version:D.version,fs:D.fs,offen:D.offen,name:D.name,geaendert:D.geaendert,datei:D.datei,zuletzt:D.zuletzt.map(z=>z.datei),ritlui:window.RITLUI&&RITLUI.version,ritlbk:window.RITLBK&&RITLBK.version,bktyp:window.RITLBK&&RITLBK.typ},null,1)},300);
+zeigen();
+// ── Bausteine direkt aus dem Repo einbauen (Testseite – Tools bekommen sie fest eingebaut bzw. vom Lizenzserver) ──
+async function einbauen(url){const t=await (await fetch(url,{cache:'no-store'})).text();const tpl=document.createElement('template');tpl.innerHTML=t;
+ for(const n of [...tpl.content.childNodes]){if(n.nodeName==='SCRIPT'){const s=document.createElement('script');s.textContent=n.textContent;document.body.appendChild(s)}
+  else if(n.nodeName==='STYLE')document.head.appendChild(n)}}
+(async()=>{await einbauen('../ritl-ui/ritl-ui.html');await einbauen('ritl-doc.html');await einbauen('../ritl-bk/ritl-bk.html');
+ $('backupBtn').onclick=()=>window.RITLBK&&RITLBK.open();window.TEST_BEREIT=true})();
+</script>
+</body>
+</html>

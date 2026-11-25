@@ -4,6 +4,13 @@ Quelle: `ritl-ui/ritl-ui.html` · verwaltet im Lizenz-Admin unter **Header · RI
 Der Lizenzserver ersetzt in jedem Tool den Block `<!--ritl-ui:start--> … <!--ritl-ui:end-->` beim Ausliefern durch die neueste aktive Version aus dem Kanal der Lizenz (Dev sieht Dev + Beta + Stabil, Beta sieht Beta + Stabil).
 Neueste Version oben.
 
+## 1.6 · 25.11.2026 · Dev
+**Neu**
+- **Tool-Typ „Dokument“** (ritl-doc 1.0): Knöpfe **Neu · Öffnen … · Speichern · Speichern unter …** mit Symbolen vor den übrigen Tool-Knöpfen (Text als Tooltip wie bei allen Tool-Knöpfen), Projektname im Titel und **„•“** bei ungespeicherten Änderungen.
+- Tastenkürzel **Strg/Cmd+S** (Speichern), **Strg/Cmd+Umschalt+S** (Speichern unter …), **Strg/Cmd+O** (Öffnen …).
+- Alle Aktionen laufen über `window.RITL_DOC` (`RITLUI.dokument(api)`) – der Header enthält keinen eigenen Dateicode. Tools ohne ritl-doc sehen keine Änderung.
+- Am Lizenzserver für den Kanal Dev hinterlegt.
+
 ## 1.5 · 21.11.2026 · Dev
 **Geändert**
 - Der Header ist nicht mehr fest am oberen Rand (sticky): Beim Scrollen nach unten läuft er aus dem Bild. Oben bleibt das Module-Ribbon des Tools stehen (Skill-Regel 28, Standard S-19, Rollout R-15). Tools ohne klebendes Ribbon scrollen einfach mit; klebende Leisten im Tool mit festem Abstand für den Header (z. B. `top:64px`) bekommen ihren Abstand bei der nächsten Version (`--stk`).

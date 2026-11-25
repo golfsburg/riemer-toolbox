@@ -1,0 +1,279 @@
+<!-- ritl-doc 1.0 · 25.11.2026 · DEV – Projekte als eigene Datei für Tools vom Typ „Dokument“ (z. B. PDF.ritl).
+     Einbau: Adapter window.RITL_DOC_ADAPTER (siehe README.md) als <script> setzen, danach diesen Block unverändert
+     (von ritl-doc:start bis ritl-doc:end) in den <body> nach dem Header kopieren – bei Tools mit ritl-bk vor dem ritl-bk-Block.
+     Datei: „<Projektname>.<tool>.ritl“ (z. B. „Angebot Muster.pdf.ritl“) = gzip-JSON {ritl:{tool,version,typ:'dokument',erstellt,geaendert,sha256,…}, daten, einstellungen, dateien[base64]}.
+     Ablage nur lokal bzw. im Ordner – nie am Server. Chrome/Edge: File System Access (Speichern überschreibt), sonst Öffnen per <input type=file> und Speichern als Download. -->
+<!--ritl-doc:start-->
+<style id="ritl-doc-css">
+/* ritl-doc 1.0 · 25.11.2026 – Projekte als Datei (Tool-Typ dokument). Nichts Tool-Spezifisches hier ändern. Nur Tokens der Farbkarte. */
+dialog.rdoc{border:1px solid var(--line);border-radius:var(--radius-panel,16px);background:var(--surface);color:var(--ink);padding:0;width:min(560px,94vw);box-shadow:0 20px 60px rgba(0,0,0,.25);font:400 14px/20px var(--sans,"Inter",system-ui,sans-serif);margin:auto}
+dialog.rdoc::backdrop{background:rgba(15,20,28,.45)}
+.rdoc .dh{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid var(--line);background:var(--surface-muted);font:800 17px var(--sans,"Inter",system-ui,sans-serif)}
+.rdoc .db{padding:20px;max-height:min(70vh,640px);overflow:auto}
+.rdoc .df{padding:14px 20px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap}
+.rdoc [hidden]{display:none!important}
+.rdoc p{margin:0 0 10px;color:var(--ink2)}
+.rdoc .small{font-size:12px;color:var(--muted)}
+.rdoc .btn{border:1px solid var(--line2);border-radius:var(--radius,8px);padding:9px 16px;background:var(--surface);color:var(--ink);font:600 13px/18px var(--sans,"Inter",system-ui,sans-serif);cursor:pointer;display:inline-flex;align-items:center;gap:8px;white-space:nowrap;text-decoration:none;transition:border-color .15s,color .15s}
+.rdoc .btn:hover{border-color:var(--brand);color:var(--accent-text)}
+.rdoc .btn.primary{background:var(--brand);border-color:var(--brand);color:var(--on-brand,#fff)}
+.rdoc .btn.primary:hover{background:var(--brand-hover,var(--brand));color:var(--on-brand,#fff)}
+.rdoc .btn.ghost{border-color:transparent;background:transparent}
+.rdoc .btn svg{width:16px;height:16px;flex:none}
+.rdoc :is(.btn,a,input,button):focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.rdoc .tip{margin:0 0 12px;padding:10px 12px;border:1px solid color-mix(in srgb,var(--brand) 35%,var(--line));border-radius:8px;background:color-mix(in srgb,var(--brand) 5%,var(--surface));font-size:13px;line-height:19px;color:var(--ink2)}
+.rdoc .tip a{font-weight:600;color:var(--accent-text)}
+.rdoc label.fld{display:block;font:600 12px/16px var(--sans,"Inter",system-ui,sans-serif);color:var(--muted);margin:0 0 6px}
+.rdoc .inrow{display:flex;align-items:center;border:1px solid var(--line2);border-radius:8px;background:var(--surface);overflow:hidden}
+.rdoc .inrow:focus-within{border-color:var(--brand)}
+.rdoc .inrow input{flex:1;min-width:0;border:0;background:transparent;color:var(--ink);font:500 16px/22px var(--sans,"Inter",system-ui,sans-serif);padding:9px 10px;outline:none}
+.rdoc .inrow span{flex:none;padding:0 10px;font:500 13px var(--mono,"JetBrains Mono",ui-monospace,monospace);color:var(--muted)}
+.rdoc .start{display:grid;gap:10px;grid-template-columns:1fr 1fr;margin-bottom:18px}
+.rdoc .start .btn{justify-content:center;padding:14px 16px;font-size:14px}
+.rdoc h3{margin:0 0 8px;font:600 11px/16px var(--mono,"JetBrains Mono",ui-monospace,monospace);letter-spacing:1.4px;text-transform:uppercase;color:var(--muted)}
+.rdoc .zl{list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.rdoc .zl li{display:flex;align-items:center;gap:6px;border-bottom:1px solid var(--line)}
+.rdoc .zl li:last-child{border-bottom:0}
+.rdoc .zl .zo{flex:1;min-width:0;display:grid;gap:2px;text-align:left;border:0;background:none;color:var(--ink);padding:10px 12px;cursor:pointer;font:inherit}
+.rdoc .zl .zo:hover{background:color-mix(in srgb,var(--brand) 5%,var(--surface))}
+.rdoc .zl .zo b{font:600 14px/19px var(--sans,"Inter",system-ui,sans-serif);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rdoc .zl .zo small{font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rdoc .zl .zx{flex:none;width:34px;height:34px;margin-right:6px;border:0;border-radius:8px;background:none;color:var(--muted);cursor:pointer;font-size:16px}
+.rdoc .zl .zx:hover{color:var(--red,#C53030);background:var(--surface-muted)}
+.rdoc .leer{padding:14px;border:1px dashed var(--line2);border-radius:10px;color:var(--muted);font-size:13px;text-align:center}
+#rdoc-toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:2147482000;max-width:min(560px,92vw);padding:10px 16px;border-radius:10px;background:var(--graphite,#1B1F24);color:#fff;font:500 13px/18px var(--sans,"Inter",system-ui,sans-serif);box-shadow:0 8px 30px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:opacity .2s}
+#rdoc-toast.on{opacity:1}
+[data-theme="dark"] #rdoc-toast{background:var(--surface-muted);color:var(--ink);border:1px solid var(--line2)}
+@media(max-width:620px){.rdoc .start{grid-template-columns:1fr}.rdoc .db{padding:14px}.rdoc .df .btn{flex:1 1 auto;justify-content:center}}
+</style>
+<script id="ritl-doc-js">
+/* ritl-doc 1.0 · 25.11.2026 – Projekte als eigene Datei für Tool-Typ „dokument“ (Vorhaben Tool-Typen, Pilot PDF.ritl).
+   Nichts Tool-Spezifisches hier ändern – das Tool setzt VOR diesem Block den Adapter window.RITL_DOC_ADAPTER (README.md):
+     tool (Pflicht, z. B. 'pdf-ritl') · name ('PDF') · endung? ('pdf' → „….pdf.ritl“, Standard: tool ohne -ritl) · version? (Text oder Funktion)
+     daten() → Objekt · laden({daten,einstellungen,dateien,kopf}) → (Promise) · dateien()? → [{id,name,mime,blob}] (auch Promise) · leer() → leeres Projekt
+     einstellungen()? → projektbezogene Einstellungen · ereignis? (Änderungs-Ereignis am document, Standard '<prefix>:change')
+     alt()? → {daten,einstellungen?,dateien?} | null – alter Stand im Browser (für übernehmen()) · start? (false = kein Startbildschirm) · bereit? (Promise)
+   API window.RITL_DOC: version · neu() · oeffnen() · speichern() · speichernUnter() · schliessen() · uebernehmen() · startbild()
+     name · geaendert · offen · zuletzt[] · aenderung() (Tool meldet eine Änderung) · zuletztExport() / zuletztImport(liste) (für ritl-bk 2.12)
+   Ereignisse: ritldoc:ready · ritldoc:state {name,geaendert,offen,datei}. Header-Knöpfe kommen aus RITL-UI 1.6 (RITLUI.dokument). */
+(function(){"use strict";
+const A=window.RITL_DOC_ADAPTER;if(!A||!A.tool||(window.RITL_DOC&&window.RITL_DOC.version))return;
+const VERSION='1.0',FORMAT=1,$=id=>document.getElementById(id);
+const TOOL=A.tool,NAME=A.name||TOOL,PRE=A.prefix||TOOL.replace(/-ritl$/,''),END=String(A.endung||PRE).toLowerCase().replace(/[^a-z0-9-]/g,''),EXT='.'+END+'.ritl',EV=A.ereignis||PRE+':change';
+const FS_OK=()=>typeof window.showSaveFilePicker==='function'&&typeof window.showOpenFilePicker==='function';
+const IOS=/iP(hone|ad|od)/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+const LS=k=>{try{return localStorage.getItem(k)}catch(e){return null}},LSset=(k,v)=>{try{v==null?localStorage.removeItem(k):localStorage.setItem(k,v)}catch(e){}};
+const K=n=>`riemer-${PRE}-doc-${n}`;
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
+const ver=()=>(window.RITL&&window.RITL.version_label)||(typeof A.version==='function'?A.version():A.version)||((document.querySelector('header[data-ritl-header]')||{dataset:{}}).dataset.ver)||'';
+const zeit=d=>{d=d instanceof Date?d:new Date(d);if(isNaN(d))return '';const h=new Date(),gl=d.toDateString()===h.toDateString(),p=n=>String(n).padStart(2,'0');
+ return (gl?'heute':`${p(d.getDate())}.${p(d.getMonth()+1)}.${d.getFullYear()}`)+`, ${p(d.getHours())}:${p(d.getMinutes())}`};
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);
+const I={
+ neu:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M12 12v6M9 15h6"/></svg>',
+ auf:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v1"/><path d="M3 7v11a2 2 0 0 0 2 2h13l3-9H7l-3 8"/></svg>'};
+
+// ── Zustand des offenen Projekts ──
+const S={id:'',name:'',handle:null,geaendert:false,offen:false,erstellt:'',gespeichert:null,laedt:0,dateien:null,zl:[]};
+const TITEL0=document.title;
+
+// ── IndexedDB: „Zuletzt geöffnet“ (mit Handles) + Zwischenspeicher je Projekt ──
+let DBP=null,DBH=null;
+function db(){if(DBP)return DBP;DBP=new Promise((ok,no)=>{let r;try{r=indexedDB.open('ritl-doc',1)}catch(e){return no(e)}
+ r.onupgradeneeded=()=>{const d=r.result;if(!d.objectStoreNames.contains('kv'))d.createObjectStore('kv')};r.onsuccess=()=>{DBH=r.result;ok(r.result)};r.onerror=()=>no(r.error)});
+ DBP.catch(()=>{DBP=null});return DBP}
+async function idb(mode,fn){const d=await db();return new Promise((ok,no)=>{const t=d.transaction('kv',mode),s=t.objectStore('kv');let res;const r=fn(s);
+ if(r)r.onsuccess=()=>{res=r.result};t.oncomplete=()=>ok(res);t.onerror=()=>no(t.error);t.onabort=()=>no(t.error)})}
+const iget=k=>idb('readonly',s=>s.get(k)).catch(()=>undefined),iset=(k,v)=>idb('readwrite',s=>s.put(v,k)),idel=k=>idb('readwrite',s=>s.delete(k)).catch(()=>{});
+const ZLK='zul:'+TOOL,ZWP='zw:'+TOOL+':';
+async function zwAlle(){try{return await idb('readonly',s=>s.getAll(IDBKeyRange.bound(ZWP,ZWP+'\uffff')))||[]}catch(e){return[]}}
+
+// ── Zuletzt geöffnet: 10 Einträge {name, datei, ordner, zeit, handle} ──
+async function zlLaden(){const l=await iget(ZLK);S.zl=Array.isArray(l)?l:[];return S.zl}
+async function zlMerken(e){S.zl=[e,...S.zl.filter(x=>x.datei!==e.datei)].slice(0,10);
+ try{await iset(ZLK,S.zl)}catch(e){try{await iset(ZLK,S.zl.map(x=>({...x,handle:null})))}catch(_){}}
+ bkMelden();}
+async function zlWeg(datei){S.zl=S.zl.filter(x=>x.datei!==datei);await iset(ZLK,S.zl).catch(()=>{});
+ bkMelden();}
+// ritl-bk (2.12, Modus dokument) sichert „Zuletzt geöffnet“ mit den Einstellungen – RITLBK.schedule() löst das Änderungs-Ereignis des Tools aus,
+// das hier nicht als Projektänderung zählen darf (Ereignis läuft synchron, darum S.laedt nur um den Aufruf)
+function bkMelden(){const B=window.RITLBK;if(!B||typeof B.schedule!=='function')return;S.laedt++;try{B.schedule()}catch(e){}finally{S.laedt--}}
+// für ritl-bk 2.12 (Modus dokument): nur Name, Ordner, Zeit – nie Handles
+const zuletztExport=()=>S.zl.map(x=>({name:x.name,datei:x.datei,ordner:x.ordner||'',zeit:x.zeit}));
+async function zuletztImport(l){if(!Array.isArray(l))return;await zlLaden();const m=[...S.zl];
+ l.forEach(x=>{if(x&&x.datei&&!m.some(y=>y.datei===x.datei))m.push({name:String(x.name||''),datei:String(x.datei),ordner:String(x.ordner||''),zeit:x.zeit||'',handle:null})});
+ S.zl=m.sort((a,b)=>String(b.zeit).localeCompare(String(a.zeit))).slice(0,10);await iset(ZLK,S.zl).catch(()=>{});renderStart()}
+
+// ── Datei bauen und lesen: gzip-JSON mit Kopf und Prüfsumme ──
+async function b64(blob){const u=new Uint8Array(await blob.arrayBuffer());let s='';for(let i=0;i<u.length;i+=32768)s+=String.fromCharCode.apply(null,u.subarray(i,i+32768));return btoa(s)}
+function ab64(t,mime){const s=atob(t||''),u=new Uint8Array(s.length);for(let i=0;i<s.length;i++)u[i]=s.charCodeAt(i);return new Blob([u],{type:mime||'application/octet-stream'})}
+async function sha256(t){try{const h=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(t));return [...new Uint8Array(h)].map(b=>b.toString(16).padStart(2,'0')).join('')}catch(e){return ''}}
+async function toolDateien(){if(typeof A.dateien!=='function')return[];const l=await A.dateien();return Array.isArray(l)?l.filter(f=>f&&f.blob):[]}
+async function inhalt(){const daten=A.daten()||{},einst=typeof A.einstellungen==='function'?A.einstellungen()||{}:{},dat=await toolDateien();S.dateien=dat;return{daten,einstellungen:einst,dateien:dat}}
+async function bauen(){const c=await inhalt();
+ const dateien=[];for(const f of c.dateien)dateien.push({id:String(f.id!=null?f.id:uid()),name:String(f.name||'datei'),mime:f.mime||f.blob.type||'application/octet-stream',size:f.blob.size,b64:await b64(f.blob)});
+ const body={daten:c.daten,einstellungen:c.einstellungen,dateien};
+ const jetzt=new Date().toISOString();if(!S.erstellt)S.erstellt=jetzt;
+ const ritl={tool:TOOL,name:NAME,version:ver(),typ:'dokument',format:FORMAT,projekt:S.name||'',erstellt:S.erstellt,geaendert:jetzt,sha256:await sha256(JSON.stringify(body))};
+ return{ritl,...body}}
+async function packen(o){const t=JSON.stringify(o);if(typeof CompressionStream!=='function')return new Blob([t],{type:'application/json'});
+ return new Response(new Blob([t]).stream().pipeThrough(new CompressionStream('gzip'))).blob().then(b=>new Blob([b],{type:'application/x-ritl'}))}
+async function entpacken(file){const u=new Uint8Array(await file.slice(0,2).arrayBuffer());let t;
+ if(u[0]===0x1f&&u[1]===0x8b){if(typeof DecompressionStream!=='function')throw new Error('Dieser Browser kann die Datei nicht entpacken – bitte einen aktuellen Browser verwenden.');
+  t=await new Response(file.stream().pipeThrough(new DecompressionStream('gzip'))).text()}else t=await file.text();
+ let o;try{o=JSON.parse(t)}catch(e){throw new Error('Die Datei ist keine gültige .ritl-Datei.')}return o}
+async function pruefen(o,dname){const k=o&&o.ritl;if(!k||k.typ!=='dokument'||!o.daten)throw new Error(`„${dname}“ ist kein Projekt eines RIEMER Tools.`);
+ const ali=[TOOL,...(A.alias||[])];if(!ali.includes(k.tool))throw new Error(`„${dname}“ gehört zu ${k.name||k.tool}.ritl, nicht zu ${NAME}.ritl.`);
+ if(k.sha256){const h=await sha256(JSON.stringify({daten:o.daten,einstellungen:o.einstellungen||{},dateien:o.dateien||[]}));
+  if(h&&h!==k.sha256&&!confirm(`Die Prüfsumme von „${dname}“ stimmt nicht – die Datei wurde außerhalb von ${NAME}.ritl verändert oder ist beschädigt.\n\nTrotzdem öffnen?`))return false}
+ return true}
+const nameAus=f=>{let n=String(f||'');const l=n.toLowerCase();if(l.endsWith(EXT))return n.slice(0,-EXT.length);if(l.endsWith('.ritl'))n=n.slice(0,-5);return n.replace(/\.[a-z0-9]{1,5}$/i,'')||n};
+const dateiName=n=>String(n||'Neues Projekt').replace(/[\\/:*?"<>|]+/g,'-').trim().slice(0,120)+EXT;
+
+// ── ins Tool laden (Dateien als Blob) ──
+async function insTool(o,kopf){S.laedt++;try{const dateien=(o.dateien||[]).map(f=>({id:f.id,name:f.name,mime:f.mime,blob:f.blob instanceof Blob?f.blob:ab64(f.b64,f.mime)}));
+ await A.laden({daten:o.daten||{},einstellungen:o.einstellungen||{},dateien,kopf:kopf||o.ritl||{}});S.dateien=dateien}
+ finally{setTimeout(()=>{S.laedt=Math.max(0,S.laedt-1)},0)}}
+
+// ── Zustand melden: Titel, „•“, Ereignis für RITL-UI ──
+function melden(){const n=S.offen?(S.name||'Neues Projekt'):'';document.title=S.offen?`${S.geaendert?'• ':''}${n} – ${TITEL0}`:TITEL0;
+ try{document.dispatchEvent(new CustomEvent('ritldoc:state',{detail:{name:n,geaendert:S.geaendert,offen:S.offen,datei:!!S.handle||!!S.gespeichert}}))}catch(e){}}
+function aenderung(){if(S.laedt||!S.offen)return;if(!S.geaendert){S.geaendert=true;melden()}}
+document.addEventListener(EV,aenderung);
+
+// ── Dialoge ──
+document.body.insertAdjacentHTML('beforeend',`<dialog id="rdoc-frage" class="rdoc" aria-labelledby="rdoc-fh"><div class="dh"><span id="rdoc-fh"></span><span class="small notr">${esc(NAME)}.ritl</span></div><div class="db" id="rdoc-fb"></div><div class="df" id="rdoc-ff"></div></dialog>
+<dialog id="rdoc-start" class="rdoc" aria-labelledby="rdoc-sh"><div class="dh"><span id="rdoc-sh"><span class="notr">${esc(NAME)}.ritl</span> – Projekt</span></div><div class="db" id="rdoc-sb"></div></dialog>
+<input type="file" id="rdoc-file" hidden${IOS?'':' accept=".ritl,application/x-ritl,application/json,application/gzip"'}><div id="rdoc-toast" role="status" aria-live="polite"></div>`);
+let tT=0;function toast(t){const e=$('rdoc-toast');e.textContent=t;e.classList.add('on');clearTimeout(tT);tT=setTimeout(()=>e.classList.remove('on'),3600)}
+// frage(titel, html, [{k,t,primary?,ghost?}]) → Promise(k | null bei Esc)
+function frage(titel,html,kn){const d=$('rdoc-frage');$('rdoc-fh').textContent=titel;$('rdoc-fb').innerHTML=html;
+ $('rdoc-ff').innerHTML=kn.map(b=>`<button class="btn${b.primary?' primary':''}${b.ghost?' ghost':''}" type="button" data-k="${esc(b.k)}"${b.links?' style="margin-right:auto"':''}>${esc(b.t)}</button>`).join('');
+ return new Promise(ok=>{let fertig=false;const ende=k=>{if(fertig)return;fertig=true;d.removeEventListener('close',zu);if(d.open)d.close();ok(k)};const zu=()=>{if(!d.open)ende(null)};   // ein verspätetes close der vorigen Frage zählt nicht
+  d.addEventListener('close',zu);$('rdoc-ff').querySelectorAll('button').forEach(b=>b.onclick=()=>ende(b.dataset.k));
+  const ein=$('rdoc-fb').querySelector('input');if(ein)ein.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();const p=kn.find(b=>b.primary);if(p)ende(p.k)}};
+  if(!d.open)d.showModal();if(ein)setTimeout(()=>{ein.focus();ein.select()},30)})}
+// Warnung bei ungespeicherten Änderungen vor Neu/Öffnen/Schließen → true = weitermachen
+async function sicher(was){if(!S.offen||!S.geaendert)return true;
+ const k=await frage('Nicht gespeicherte Änderungen',`<p>Änderungen an <b>${esc(S.name||'Neues Projekt')}</b> sind noch nicht gespeichert.</p><p class="small">Vor dem ${esc(was)} speichern?</p>`,
+  [{k:'nein',t:'Nicht speichern',ghost:true,links:true},{k:'abbr',t:'Abbrechen'},{k:'ja',t:'Speichern',primary:true}]);
+ if(k==='ja')return await speichern();return k==='nein'}
+
+// ── Zwischenspeicher: alle 30 s und bei pagehide je Projekt in IndexedDB ──
+let zwLauf=false;
+const zwRec=(c,mitHandle)=>({id:S.id,name:S.name||'',zeit:new Date().toISOString(),erstellt:S.erstellt,handle:mitHandle&&S.handle||null,daten:c.daten,einstellungen:c.einstellungen,dateien:(c.dateien||[]).map(f=>({id:f.id,name:f.name,mime:f.mime,blob:f.blob}))});
+async function zwischen(){if(!S.offen||!S.geaendert||zwLauf)return;zwLauf=true;
+ try{const c=await inhalt();await iset(ZWP+S.id,zwRec(c,true)).catch(()=>iset(ZWP+S.id,zwRec(c,false)))}
+ catch(e){try{console.warn('[ritl-doc] Zwischenspeicher:',e)}catch(_){}}finally{zwLauf=false}}
+// pagehide: alles synchron – Transaktion sofort starten, sonst bricht der Browser beim Verlassen der Seite ab
+function zwSofort(){if(!S.offen||!S.geaendert||!DBH)return;
+ try{let dat=S.dateien||[];if(typeof A.dateien==='function'){const r=A.dateien();if(Array.isArray(r))dat=r.filter(f=>f&&f.blob)}
+  const c={daten:A.daten()||{},einstellungen:typeof A.einstellungen==='function'?A.einstellungen()||{}:{},dateien:dat};
+  const t=DBH.transaction('kv','readwrite'),st=t.objectStore('kv');try{st.put(zwRec(c,true),ZWP+S.id)}catch(e){st.put(zwRec(c,false),ZWP+S.id)}if(t.commit)t.commit()}
+ catch(e){try{console.warn('[ritl-doc] Zwischenspeicher:',e)}catch(_){}}}
+db().catch(()=>{});
+setInterval(()=>zwischen(),30000);
+addEventListener('pagehide',zwSofort);
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')zwischen()});
+addEventListener('beforeunload',e=>{if(S.offen&&S.geaendert){zwSofort();e.preventDefault();e.returnValue='';return ''}});
+const zwWeg=()=>idel(ZWP+S.id);
+
+// ── Neu · Öffnen · Speichern · Speichern unter · Schließen ──
+async function neuIntern(){S.laedt++;try{await A.leer()}finally{setTimeout(()=>{S.laedt=Math.max(0,S.laedt-1)},0)}
+ Object.assign(S,{id:uid(),name:'',handle:null,geaendert:false,offen:true,erstellt:new Date().toISOString(),gespeichert:null,dateien:[]});startZu();melden()}
+async function neu(){if(!await sicher('Anlegen eines neuen Projekts'))return false;await neuIntern();toast('Neues Projekt');return true}
+function dateiWaehlen(){const inp=$('rdoc-file');inp.value='';return new Promise(ok=>{let f=false;const fin=v=>{if(f)return;f=true;inp.onchange=null;inp.removeEventListener('cancel',ab);ok(v)};
+ const ab=()=>fin(null);inp.onchange=()=>fin(inp.files&&inp.files[0]||null);inp.addEventListener('cancel',ab);inp.click()})}
+async function oeffnenDatei(file,handle,ordner){let o;try{o=await entpacken(file);if(!await pruefen(o,file.name))return false}catch(e){toast(e.message);return false}
+ await insTool(o);const altId=S.id;
+ Object.assign(S,{id:uid(),name:nameAus(file.name),handle:handle||null,geaendert:false,offen:true,erstellt:o.ritl.erstellt||new Date().toISOString(),gespeichert:new Date()});
+ if(altId)idel(ZWP+altId);
+ await zlMerken({name:S.name,datei:file.name,ordner:ordner||'',zeit:new Date().toISOString(),handle:handle||null});startZu();melden();toast(`„${S.name}“ geöffnet`);return true}
+async function oeffnen(){if(!await sicher('Öffnen'))return false;
+ if(FS_OK()){let h;try{[h]=await window.showOpenFilePicker({id:('ritl-'+END).slice(0,32),multiple:false,types:[{description:`${NAME}.ritl-Projekt`,accept:{'application/x-ritl':['.ritl']}}]})}catch(e){if(e&&e.name==='AbortError')return false;toast('Öffnen: '+(e&&e.message||e));return false}
+  return oeffnenDatei(await h.getFile(),h,'')}
+ const f=await dateiWaehlen();if(!f)return false;return oeffnenDatei(f,null,'')}
+async function perm(h,frag){try{if(!h.queryPermission)return true;let p=await h.queryPermission({mode:'readwrite'});if(p==='granted')return true;if(frag&&h.requestPermission)p=await h.requestPermission({mode:'readwrite'});return p==='granted'}catch(e){return false}}
+async function zuletztOeffnen(datei){const e=S.zl.find(x=>x.datei===datei);if(!e)return false;if(!await sicher('Öffnen'))return false;
+ if(e.handle&&FS_OK()){if(!await perm(e.handle,true)){toast('Kein Zugriff auf die Datei – bitte über „Öffnen …“ wählen.');return false}
+  try{return await oeffnenDatei(await e.handle.getFile(),e.handle,e.ordner)}catch(err){toast(`„${e.datei}“ ist dort nicht mehr vorhanden – bitte über „Öffnen …“ wählen.`);return false}}
+ toast(`Bitte die Datei „${e.datei}“ auswählen.`);const f=await dateiWaehlen();if(!f)return false;return oeffnenDatei(f,null,e.ordner)}
+async function schreiben(h,blob){const w=await h.createWritable();await w.write(blob);await w.close()}
+function herunterladen(name,blob){const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=name;a.rel='noopener';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),60000)}
+async function nachSpeichern(dname,ordner){S.geaendert=false;S.gespeichert=new Date();await zwWeg();await zlMerken({name:S.name,datei:dname,ordner:ordner||'',zeit:new Date().toISOString(),handle:S.handle||null});melden()}
+async function speichern(){if(!S.offen)await neuIntern();
+ if(S.handle&&FS_OK()){try{if(!await perm(S.handle,true))return speichernUnter();await schreiben(S.handle,await packen(await bauen()));await nachSpeichern(S.handle.name,'');toast(`„${S.handle.name}“ gespeichert`);return true}
+  catch(e){toast('Speichern: '+(e&&e.message||e));return false}}
+ if(!FS_OK()&&S.gespeichert&&S.name){const dn=dateiName(S.name),b=await packen(await bauen());herunterladen(dn,b);await nachSpeichern(dn,'Downloads');toast(`„${dn}“ gespeichert (Download)`);return true}
+ return speichernUnter()}
+// Ordner der Firma (ritl-bk 2.11: backup.ordner_vorgabe, gemerkt in riemer-<prefix>-bklic) – Hinweis beim ersten „Speichern unter“
+function ordnerVorgabe(){try{const l=JSON.parse(LS(`riemer-${PRE}-bklic`)||'null');const o=l&&l.ordner;return o&&/^https:\/\//.test(o.link||'')?o:null}catch(e){return null}}
+async function speichernUnter(vorschlag){if(!S.offen)await neuIntern();
+ const name0=vorschlag||S.name||(typeof A.vorschlag==='function'&&A.vorschlag())||'Neues Projekt';
+ const ov=ordnerVorgabe();if(ov&&!LS(K('ordner-hinweis'))){LSset(K('ordner-hinweis'),'1');
+  const k=await frage('Speichern unter …',`<div class="tip">Projekte der Firma gehören in den Ordner${ov.name?` <b>„${esc(ov.name)}“</b>`:''}. <a href="${esc(ov.link)}" target="_blank" rel="noopener noreferrer">Ordner der Firma öffnen ↗</a></div><p class="small">Im nächsten Schritt den lokal synchronisierten Ordner (OneDrive/SharePoint) auswählen.</p>`,[{k:'abbr',t:'Abbrechen',ghost:true},{k:'ok',t:'Weiter …',primary:true}]);
+  if(k!=='ok')return false}
+ if(FS_OK()){let h;try{h=await window.showSaveFilePicker({id:('ritl-'+END).slice(0,32),suggestedName:dateiName(name0),types:[{description:`${NAME}.ritl-Projekt`,accept:{'application/x-ritl':['.ritl']}}]})}
+  catch(e){if(e&&e.name==='AbortError')return false;toast('Speichern unter: '+(e&&e.message||e));return false}
+  try{S.name=nameAus(h.name);const b=await packen(await bauen());await schreiben(h,b);S.handle=h;await nachSpeichern(h.name,'');toast(`„${h.name}“ gespeichert`);return true}
+  catch(e){toast('Speichern: '+(e&&e.message||e));return false}}
+ // ohne File System Access (Safari, Firefox, iPhone): Name abfragen, dann als Download (am Touchscreen übernimmt ritl-teilen das Teilen-Blatt)
+ const k=await frage('Speichern unter …',`<label class="fld" for="rdoc-name">Projektname</label><div class="inrow"><input id="rdoc-name" type="text" value="${esc(name0)}" autocomplete="off" enterkeyhint="done" spellcheck="false"><span class="notr">${esc(EXT)}</span></div><p class="small" style="margin-top:10px">Dieser Browser speichert als Download – die Datei landet im Download-Ordner bzw. am iPhone über „In Dateien sichern“.</p>`,
+  [{k:'abbr',t:'Abbrechen',ghost:true},{k:'ok',t:'Speichern',primary:true}]);
+ if(k!=='ok')return false;const nm=(($('rdoc-name')||{}).value||'').trim()||name0;S.name=nameAus(dateiName(nm));const dn=dateiName(S.name);
+ try{herunterladen(dn,await packen(await bauen()));S.handle=null;await nachSpeichern(dn,'Downloads');toast(`„${dn}“ gespeichert (Download)`);return true}catch(e){toast('Speichern: '+(e&&e.message||e));return false}}
+async function schliessen(){if(!await sicher('Schließen'))return false;await zwWeg();S.laedt++;try{await A.leer()}finally{setTimeout(()=>{S.laedt=Math.max(0,S.laedt-1)},0)}
+ Object.assign(S,{id:'',name:'',handle:null,geaendert:false,offen:false,gespeichert:null,dateien:null});melden();startbild();return true}
+
+// ── Startbildschirm ohne Projekt: „Neues Projekt“ + „Öffnen …“ + „Zuletzt geöffnet“ ──
+function startHtml(){const zl=S.zl;
+ return `<div class="start"><button class="btn primary" type="button" data-a="neu">${I.neu}Neues Projekt</button><button class="btn" type="button" data-a="auf">${I.auf}Öffnen …</button></div>
+ <h3>Zuletzt geöffnet</h3>${zl.length?`<ul class="zl">${zl.map(x=>`<li><button class="zo" type="button" data-d="${esc(x.datei)}" title="${esc(x.datei)}"><b>${esc(x.name||x.datei)}</b><small>${esc([x.ordner,zeit(x.zeit)].filter(Boolean).join(' · '))}${x.handle&&FS_OK()?'':' · Datei neu wählen'}</small></button><button class="zx" type="button" data-x="${esc(x.datei)}" title="Aus der Liste entfernen" aria-label="Aus der Liste entfernen">✕</button></li>`).join('')}</ul>`:'<div class="leer">Noch keine Projekte geöffnet.</div>'}
+ <p class="small" style="margin:14px 0 0">Projekte sind eigene Dateien <code class="notr">…${esc(EXT)}</code> – nur auf Ihrem Gerät bzw. in Ihrem Ordner, nie am Server.</p>`}
+function startBinden(el){el.querySelectorAll('[data-a]').forEach(b=>b.onclick=async()=>{const ok=b.dataset.a==='neu'?await neu():await oeffnen();if(ok)startZu()});
+ el.querySelectorAll('[data-d]').forEach(b=>b.onclick=async()=>{if(await zuletztOeffnen(b.dataset.d))startZu()});
+ el.querySelectorAll('[data-x]').forEach(b=>b.onclick=async()=>{await zlWeg(b.dataset.x);renderStart()})}
+const startEl=()=>document.querySelector('[data-ritl-doc-start]');
+function renderStart(){const c=startEl();if(c&&!c.hidden){c.innerHTML=`<div class="rdoc">${startHtml()}</div>`;startBinden(c)}const d=$('rdoc-start');if(d.open){$('rdoc-sb').innerHTML=startHtml();startBinden($('rdoc-sb'))}}
+async function startbild(){if(A.start===false){if(!S.offen)await neuIntern();return}await zlLaden();const c=startEl();if(c){c.hidden=false;renderStart();return}
+ const d=$('rdoc-start');$('rdoc-sb').innerHTML=startHtml();startBinden($('rdoc-sb'));if(!d.open)d.showModal()}
+function startZu(){const c=startEl();if(c)c.hidden=true;const d=$('rdoc-start');if(d.open)d.close()}
+// Esc auf dem Startbildschirm = neues, leeres Projekt (das Tool ist nie ohne Projekt bedienbar)
+$('rdoc-start').addEventListener('cancel',e=>{e.preventDefault();neu().then(startZu)});
+
+// ── Übernahme alter Daten (bisheriger Typ datenbank): einmal anbieten, als „<Tool> – übernommen.<tool>.ritl“ zu speichern ──
+async function uebernehmen(manuell){if(typeof A.alt!=='function')return false;if(!manuell&&LS(K('uebernahme')))return false;let alt=null;try{alt=await A.alt()}catch(e){}
+ if(!alt||!alt.daten){if(manuell)toast('Keine Daten zum Übernehmen gefunden.');return false}
+ const vn=`${NAME} – übernommen`;
+ const k=await frage('Bisherige Daten übernehmen',`<p>In diesem Browser liegen noch Daten aus der bisherigen Fassung von <span class="notr">${esc(NAME)}.ritl</span>.</p><p>${esc(NAME)}.ritl speichert Projekte jetzt als eigene Datei. Den bisherigen Stand als <b class="notr">${esc(dateiName(vn))}</b> speichern?</p>`,
+  [{k:'nie',t:'Nicht übernehmen',ghost:true,links:true},{k:'spaeter',t:'Später'},{k:'ok',t:'Als Datei speichern …',primary:true}]);
+ if(k==='nie'){LSset(K('uebernahme'),'nein');return false}if(k!=='ok')return false;
+ await insTool({daten:alt.daten,einstellungen:alt.einstellungen||{},dateien:alt.dateien||[]},{});
+ Object.assign(S,{id:uid(),name:vn,handle:null,geaendert:true,offen:true,erstellt:new Date().toISOString(),gespeichert:null});startZu();melden();
+ const ok=await speichernUnter(vn);if(ok)LSset(K('uebernahme'),'ja');return ok}
+
+// ── Start: Zwischenspeicher wiederherstellen? → Übernahme → Startbildschirm ──
+async function init(){try{if(A.bereit)await(typeof A.bereit==='function'?A.bereit():A.bereit)}catch(e){}await zlLaden();
+ const zw=(await zwAlle()).sort((a,b)=>String(b.zeit).localeCompare(String(a.zeit)));
+ if(zw.length){const z=zw[0];
+  const k=await frage('Nicht gespeicherte Änderungen',`<p>Nicht gespeicherte Änderungen${z.name?` an <b>${esc(z.name)}</b>`:''} von <b>${esc(zeit(z.zeit))}</b> wiederherstellen?</p><p class="small">Sonst werden sie verworfen.</p>`,
+   [{k:'weg',t:'Verwerfen',ghost:true,links:true},{k:'ok',t:'Wiederherstellen',primary:true}]);
+  if(k==='ok'){await insTool({daten:z.daten,einstellungen:z.einstellungen,dateien:z.dateien||[]},{});
+   Object.assign(S,{id:z.id,name:z.name||'',handle:z.handle||null,geaendert:true,offen:true,erstellt:z.erstellt||'',gespeichert:z.handle?new Date(z.zeit):null});
+   for(const x of zw.slice(1))await idel(ZWP+x.id);melden();toast('Änderungen wiederhergestellt – bitte speichern.');bereit();return}
+  for(const x of zw)await idel(ZWP+x.id)}
+ if(await uebernehmen(false)){bereit();return}
+ if(!S.offen)await startbild();bereit()}
+function bereit(){try{document.dispatchEvent(new Event('ritldoc:ready'))}catch(e){}}
+
+window.RITL_DOC={version:VERSION,tool:TOOL,endung:EXT,
+ neu,oeffnen,speichern,speichernUnter:()=>speichernUnter(),schliessen,uebernehmen:()=>uebernehmen(true),startbild,aenderung,zuletztExport,zuletztImport,
+ get name(){return S.offen?(S.name||'Neues Projekt'):''},get geaendert(){return S.geaendert},get offen(){return S.offen},get datei(){return S.handle?S.handle.name:S.gespeichert&&S.name?dateiName(S.name):''},
+ get zuletzt(){return zuletztExport()},get fs(){return FS_OK()},_state:()=>({...S,handle:!!S.handle})};
+// Header-Knöpfe Neu · Öffnen … · Speichern · Speichern unter … kommen aus RITL-UI 1.6
+try{if(window.RITLUI&&typeof window.RITLUI.dokument==='function')window.RITLUI.dokument(window.RITL_DOC)}catch(e){}
+melden();
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else setTimeout(init,0);
+})();
+</script>
+<!--ritl-doc:end-->
