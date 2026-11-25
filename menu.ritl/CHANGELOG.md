@@ -3,6 +3,11 @@
 Speisekarten- & Menü-Designer: Sets, Gänge, Speisendatenbank mit Allergenen (LMIV), 6 Druckformate, Export als PDF, PPTX und Druck in exakt einer Seite · #ritl_menu
 Neueste Version oben. Versionen ≤ V1.7 nachträglich rekonstruiert (aus `tool_versions`, Quellen-ZIPs und Repo-Historie).
 
+## V3.0.35 · 25.11.2026 · DEV
+**Geändert**
+- MENU.ritl ist jetzt ausdrücklich als Datenbank-Tool gekennzeichnet (Sets, Gerichte und Menüs bleiben wie bisher in einer gemeinsamen Datenbank). Am Aufbau und Verhalten ändert sich nichts.
+- Das Backup arbeitet mit dem aktuellen Baustein ritl-bk 2.13.
+
 ## V3.0.34 · 23.11.2026 · DEV
 **Behoben**
 - **Social-Bilder der Designstile** (Kopf, Wappen, Hintergrund) und Marken-Logos wurden beim Start versehentlich aus der Dateiablage gelöscht. Jetzt bleiben alle Bilder erhalten, auf die irgendwo verwiesen wird – auch im Backup.
