@@ -3,6 +3,12 @@
 Engineering Navigator: Kundenvergleich, Besuchspriorisierung und Gebiets-Review aus JFC-Reports · #ritl_jfc
 Neueste Version oben. Versionen ≤ V3.6 als „JFC Engineering Navigator“.
 
+## V4.0.6 · 25.11.2026 · DEV
+**Geändert**
+- Die Leiste mit Sprungzielen, Kundenansicht und „Alle auf / Alle zu“ bleibt beim Scrollen oben am Fensterrand stehen – zusammen mit dem Filterbereich.
+- Der Filterbereich lässt sich mit „Filter“ ein- und ausklappen; zugeklappt bleiben die aktiven Filter-Chips, die Anzahl, „x von y Kunden“ und „Filter löschen“ sichtbar. Der Zustand wird gemerkt (am Handy standardmäßig zugeklappt).
+- Sprungziele landen unter der fixierten Leiste.
+
 ## V4.0.5 · 23.11.2026 · DEV
 **Behoben**
 - **Besuche:** Das Wiederherstellen eines Backups der Stufe „Einstellungen“ löschte alle Besuche. Jetzt bleiben sie erhalten.
