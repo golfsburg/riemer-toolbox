@@ -68,3 +68,13 @@ Ereignisse: `ritldoc:ready` · `ritldoc:state {name, geaendert, offen, datei}` (
 `test.html` lädt RITL-UI, ritl-doc und ritl-bk direkt aus diesem Repo (Tool „TEST“, Titel/Notizen/Dateien). `?nofs=1` stellt einen Browser ohne
 File System Access nach. Playwright-Rundlauf (A-012): Neu → Daten → Speichern unter → Neu → Öffnen → Vergleich (Daten + Dateien) → Strg+S →
 Warnung → Zwischenspeicher nach Neuladen → beforeunload → Zuletzt geöffnet → Übernahme, Hell/Dunkel, 1920/1280/390 px, mit und ohne FS API.
+
+Rundläufe im Repo (starten selbst einen kleinen Webserver auf dem Repo, Playwright muss installiert sein), aus dem Repo-Stamm:
+
+| Skript | Inhalt | Dauer |
+| --- | --- | --- |
+| `node ritl-doc/tests/rundlauf.mjs [Ausgabe]` | ohne Lizenz, 50 Schritte, mit und ohne File System Access, Bilder Hell/Dunkel | ca. 2 min |
+| `node ritl-doc/tests/lizenz.mjs [Ausgabe]` | mit Lizenz: `pdf-ritl` mit `backup.typ` dokument vom Server (nur settings + „Zuletzt geöffnet“ an den Server, Gerät B), Gegenprobe `datenbank` | ca. 20 s |
+
+Ausgabe standardmäßig im Temp-Ordner (`ergebnis.txt` + Bilder), Exit-Code 1 bei einem ✗. Der Lizenz-Rundlauf ruft den Lizenzserver **nicht** auf:
+Playwright fängt `tool-backup` ab und antwortet in der Form von `public._backup_cfg` – kein echter Lizenzschlüssel, keine Geräteplätze, keine Stände in Lizenzdaten.
