@@ -1,4 +1,4 @@
-// ritl-doc 1.0 · Playwright-Rundlauf ohne Lizenz (A-012): Neu → Daten → Speichern unter → Neu → Öffnen → Vergleich, Strg+S/O, Warnung,
+// ritl-doc 1.1 · Playwright-Rundlauf ohne Lizenz (A-012): Neu → Daten → Speichern unter → Neu → Öffnen → Vergleich, Strg+S/O, Warnung,
 // Zwischenspeicher (30 s bzw. beim Verlassen), beforeunload, Zuletzt geöffnet, Übernahme – mit und ohne File System Access, Hell/Dunkel, 1920/1280/390 px.
 // Aufruf aus dem Repo-Stamm: node ritl-doc/tests/rundlauf.mjs [Ausgabeordner, Standard: Temp-Ordner]   (Dauer ca. 2 min, Ergebnis in <Ausgabe>/ergebnis.txt)
 import {playwright,starten} from './_server.mjs';const {chromium}=playwright();const SRV=await starten();
@@ -26,6 +26,7 @@ for(const mode of ['fs','nofs']){
  ok(mode,'Neu → Projekt offen',await page.evaluate(()=>RITL_DOC.offen&&!document.getElementById('rdoc-start').open&&!RITL_DOC.geaendert));
  await page.fill('#t-titel','Angebot Muster');await page.fill('#t-notiz','Zeile 1\nZeile 2 – äöü ß €');
  await page.setInputFiles('#t-file',[{name:'plan.pdf',mimeType:'application/pdf',buffer:Buffer.from('%PDF-1.4 Testinhalt '+'x'.repeat(5000))},{name:'bild.png',mimeType:'image/png',buffer:Buffer.from(Array.from({length:3000},(_, i)=>i%256))}]);
+ await page.waitForFunction(()=>T.dateien.length===2,null,{timeout:5000}).catch(()=>{}); // Testseite liest Dateien asynchron ein
  const vorher=await blobHash(page);
  ok(mode,'Daten → „•“ ungespeichert in Titel und Header',await page.evaluate(()=>RITL_DOC.geaendert&&document.title.startsWith('• ')&&/•/.test(document.getElementById('ritl-doc-name').textContent)));
  // Speichern unter
@@ -45,7 +46,7 @@ for(const mode of ['fs','nofs']){
  else{const [fc]=await Promise.all([page.waitForEvent('filechooser'),page.click('#ritl-doc-auf')]);await fc.setFiles(dl)}
  await page.waitForFunction(()=>RITL_DOC.name==='Angebot Muster',null,{timeout:5000}).catch(()=>{});
  const nachher=await blobHash(page);
- ok(mode,'Öffnen → Vergleich Daten + Dateien gleich',vorher===nachher);
+ ok(mode,'Öffnen → Vergleich Daten + Dateien gleich',vorher===nachher);if(vorher!==nachher)console.log('  vorher:',vorher,'\n  nachher:',nachher);
  // Strg+S
  await page.fill('#t-titel','Angebot Muster 2');
  if(mode==='fs'){await page.keyboard.press('Control+s');await page.waitForFunction(()=>!RITL_DOC.geaendert,null,{timeout:5000}).catch(()=>{});ok(mode,'Strg+S überschreibt direkt (ohne Dialog)',await page.evaluate(()=>!RITL_DOC.geaendert&&!document.getElementById('rdoc-frage').open))}
@@ -111,5 +112,57 @@ for(const mode of ['fs','nofs']){
  ok(mode,'keine JS-Fehler',errs.length===0);if(errs.length)console.log(errs);
  await ctx.close();
 }
+// ── Größen-Test (ritl-doc 1.1): Hinweis „Großes Projekt“, Zwischenspeicher seltener/ausgesetzt – künstliche Blobs, kleine Grenzen per URL ──
+{const ctx=await b.newContext({viewport:{width:1280,height:860},acceptDownloads:true});await ctx.addInitScript(MOCK);
+ const m='groesse',errs=[];const neuSeite=async q=>{const pg=await ctx.newPage();pg.on('pageerror',e=>errs.push(e.message));pg.on('dialog',d=>d.accept().catch(()=>{}));
+  await pg.goto(URL0+q);await pg.waitForFunction(()=>window.TEST_BEREIT&&window.RITL_DOC);
+  if(await pg.waitForSelector('#rdoc-frage[open] [data-k="weg"]',{timeout:1500}).then(()=>true).catch(()=>false))await pg.click('#rdoc-ff [data-k="weg"]');
+  await pg.waitForSelector('#rdoc-start[open]',{timeout:5000}).catch(()=>{});
+  await pg.click('#rdoc-sb [data-a="neu"]');return pg};
+ const dazu=async(pg,mb)=>{await pg.fill('#t-mb',String(mb));await pg.click('#t-gross')};
+ const hw=pg=>pg.evaluate(()=>{const e=document.getElementById('rdoc-hinweis');return e.hidden?'':e.textContent});
+ let page=await neuSeite('');
+ ok(m,'Version 1.1, Standardgrenzen 200 / 500 MB / 5 min',await page.evaluate(()=>{const g=RITL_DOC.groesse;return RITL_DOC.version==='1.1'&&g.warnAbMB===200&&g.zwSeltenAbMB===500&&g.zwGrossMin===5}));
+ await page.close();
+ page=await neuSeite('?warnmb=2&zwmb=5&zwmin=0.02');
+ ok(m,'Grenzen aus dem Adapter (warnAbMB 2 · zwSeltenAbMB 5 · zwGrossMin 0,02)',await page.evaluate(()=>{const g=RITL_DOC.groesse;return g.warnAbMB===2&&g.zwSeltenAbMB===5&&g.zwGrossMin===0.02}));
+ await page.fill('#t-titel',"Groß & Klein's");await dazu(page,1);
+ await page.click('#ritl-doc-unt');await page.waitForFunction(()=>!RITL_DOC.geaendert,null,{timeout:5000}).catch(()=>{});
+ ok(m,'1 MB → gespeichert, kein Hinweis',await page.evaluate(()=>!RITL_DOC.geaendert)&&!await hw(page));
+ await dazu(page,2);await page.keyboard.press('Control+s');await page.waitForFunction(()=>!RITL_DOC.geaendert,null,{timeout:5000}).catch(()=>{});
+ let t=await hw(page);
+ ok(m,'3 MB ≥ 2 MB → Hinweis „Großes Projekt“ mit Größe, Speichern trotzdem erledigt (nicht blockiert)',/Großes Projekt/.test(t)&&/3 MB/.test(t)&&/dauert länger/.test(t)&&/entfernen/.test(t)&&await page.evaluate(()=>!RITL_DOC.geaendert&&!document.getElementById('rdoc-frage').open));
+ ok(m,'Projektname im Hinweis escaped',await page.evaluate(()=>{const h=document.getElementById('rdoc-hx').innerHTML;return /Groß &amp; Klein(&#39;|')s/.test(h)}));
+ const g=await page.evaluate(async()=>{const d=await navigator.storage.getDirectory();const f=await (await d.getFileHandle(window.__SAVED)).getFile();const o=JSON.parse(await new Response(f.stream().pipeThrough(new DecompressionStream('gzip'))).text());return o.ritl.format===1&&o.dateien.length===2&&o.dateien.every(x=>x.b64&&x.size>0)&&/<&>/.test(o.dateien[0].name)});
+ ok(m,'Dateiformat unverändert (format 1, base64, Namen roh)',g);
+ for(const th of ['hell','dunkel']){if(th==='dunkel')await page.evaluate(()=>RITLUI.theme('dark'));for(const [w,h,n] of [[1280,860,'1280'],[390,844,'390']]){await page.setViewportSize({width:w,height:h});await page.waitForTimeout(120);await page.screenshot({path:`${OUT}/groesse-hinweis-${n}-${th}.png`})}}
+ await page.evaluate(()=>RITLUI.theme('light'));await page.setViewportSize({width:1280,height:860});
+ await page.click('#rdoc-hz');ok(m,'✕ schließt den Hinweis',!await hw(page));
+ await page.fill('#t-notiz','x');await page.keyboard.press('Control+s');await page.waitForFunction(()=>!RITL_DOC.geaendert,null,{timeout:5000}).catch(()=>{});
+ ok(m,'erneutes Speichern → kein zweiter Hinweis (einmal je Projekt)',!await hw(page));
+ await dazu(page,3);const z0=await page.evaluate(async()=>{await RITL_DOC._zwischen();return RITL_DOC._state().zwZeit});t=await hw(page);
+ ok(m,'6 MB ≥ 5 MB → Zwischenspeicher „selten“, Hinweis nennt Takt',await page.evaluate(()=>RITL_DOC.groesse.zwischenspeicher==='selten')&&/nur noch alle 0,02 Minuten/.test(t)&&z0>0);
+ await page.screenshot({path:`${OUT}/groesse-selten-1280-hell.png`});
+ const z1=await page.evaluate(async()=>{await RITL_DOC._zwischen();return RITL_DOC._state().zwZeit});
+ await page.waitForTimeout(1400);const z2=await page.evaluate(async()=>{await RITL_DOC._zwischen();return RITL_DOC._state().zwZeit});
+ ok(m,'Zwischenspeicher gedrosselt (sofort: nein · nach Takt: ja)',z1===z0&&z2>z0);
+ await page.close();
+ page=await neuSeite('?warnmb=2&zwmb=5&zwmin=0');await dazu(page,6);
+ const za=await page.evaluate(async()=>{await RITL_DOC._zwischen();return RITL_DOC._state().zwZeit});t=await hw(page);
+ ok(m,'zwGrossMin 0 → Zwischenspeicher ausgesetzt, Hinweis sagt es',za===0&&/ausgesetzt/.test(t)&&await page.evaluate(()=>RITL_DOC.groesse.zwischenspeicher==='aus'));
+ await page.screenshot({path:`${OUT}/groesse-aus-1280-hell.png`});
+ await page.reload();await page.waitForFunction(()=>window.TEST_BEREIT&&window.RITL_DOC);
+ const wd=await page.waitForSelector('#rdoc-frage[open]',{timeout:2500}).then(()=>page.textContent('#rdoc-frage')).catch(()=>'');
+ ok(m,'ausgesetzt → auch beim Verlassen (pagehide) kein Zwischenspeicher',!/wiederherstellen\?/.test(wd));
+ await page.close();
+ page=await neuSeite('?warnmb=0');await dazu(page,3);await page.evaluate(()=>RITL_DOC._zwischen());
+ ok(m,'warnAbMB 0 → kein Hinweis',!await hw(page));await page.close();
+ // echte Größe mit Standardgrenzen: 210 MB → Hinweis beim Speichern
+ page=await neuSeite('');await page.fill('#t-titel','Gross');await dazu(page,210);const t0=Date.now();
+ await page.click('#ritl-doc-unt');await page.waitForFunction(()=>!RITL_DOC.geaendert,null,{timeout:120000}).catch(()=>{});const dt=((Date.now()-t0)/1000).toFixed(1);
+ t=await hw(page);ok(m,`210 MB mit Standardgrenzen → gespeichert in ${dt} s, Hinweis „ca. 210 MB“`,await page.evaluate(()=>!RITL_DOC.geaendert)&&/210 MB/.test(t));
+ await page.close();
+ ok(m,'keine JS-Fehler',errs.length===0);if(errs.length)console.log(errs);
+ await ctx.close()}
 await b.close();SRV.stop();
 fs.writeFileSync(OUT+'/ergebnis.txt',res.join('\n'));process.exitCode=res.some(x=>x.startsWith('✗'))?1:0;
