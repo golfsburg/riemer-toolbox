@@ -3,6 +3,19 @@
 PDF-Dokumente aus Lesezeichen-Abschnitten und Einzelseiten zusammenstellen – mit verlinktem Inhaltsverzeichnis · #ritl_pdf
 Neueste Version oben. Versionen ≤ V1.3 nachträglich rekonstruiert (aus `tool_versions` und Entwicklungsverlauf).
 
+## V2.2.0 · 25.11.2026 · DEV
+**Neu**
+- **Projekte als eigene Datei:** Eine Zusammenstellung ist jetzt ein Projekt, das du als Datei speicherst – z. B. „Angebot Muster.pdf.ritl“. Darin steckt alles: Deckblatt, Abschnitte, eigene Trennstellen, Seitenauswahl, Reihenfolge, Ausgabe-Optionen, der Planvergleich und alle geladenen PDFs. So kannst du mehrere Projekte parallel führen, weitergeben und archivieren.
+- **Neu · Öffnen … · Speichern · Speichern unter …** oben im Header, dazu Strg+S, Strg+Umschalt+S und Strg+O. Der Projektname steht im Titel, ein „•“ zeigt ungespeicherte Änderungen.
+- **Startbildschirm** beim Öffnen: „Neues Projekt“, „Öffnen …“ und „Zuletzt geöffnet“ (in Chrome/Edge mit einem Klick wieder offen).
+- **Nichts geht verloren:** Ungespeicherte Änderungen werden laufend zwischengespeichert und beim nächsten Start zum Wiederherstellen angeboten. Vor Neu, Öffnen und Schließen kommt eine Warnung, wenn noch nicht gespeichert ist.
+- **Bisherigen Stand übernehmen:** Liegt noch eine Zusammenstellung aus der bisherigen Fassung vor (im Tool bzw. in der Ordner-Sicherung), bietet PDF.ritl an, sie als „PDF – übernommen.pdf.ritl“ zu speichern – auch später über Backup › „Bisherigen Stand übernehmen …“.
+- Chrome/Edge speichern direkt in die geöffnete Datei; Safari, Firefox, iPhone und iPad speichern als Download mit gleichem Namen.
+
+**Geändert**
+- **Backup** sichert nur noch die Einstellungen (Theme, Ansichten, Filter, Favoriten, Vergleichs-Einstellungen) und die Liste „Zuletzt geöffnet“. Die Projekte selbst liegen nur auf deinem Gerät bzw. in deinem Ordner – nie am Server. Inhaltsverzeichnis- und Ausgabe-Optionen gehören jetzt zum Projekt.
+- Hilfe um „Projekt als Datei“ ergänzt.
+
 ## V2.1.8 · 25.11.2026 · DEV
 **Geändert**
 - **Scrollen (R-15):** Der Header läuft beim Scrollen aus dem Bild, das Modul-Ribbon bleibt oben stehen. Das Mausrad über dem Ribbon schiebt nur die Leiste waagrecht und scrollt nie die Seite; innere Scrollbereiche und Dialoge reichen das Rad nicht an die Seite weiter.
