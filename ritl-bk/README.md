@@ -240,3 +240,9 @@ Standard **S-14**. Der Anbieter legt im Lizenz-Admin › „Datenquelle · Daten
   - Kein Ordner auf diesem Gerät → „Backup einrichten“ öffnet sich **einmal je Gerät** (Merker `riemer-<prefix>-ordner-gefragt`), danach nur ein Hinweis (Toast) höchstens 1× pro Tag; nach Browser-Neustart ohne Zugriff → Hinweis (Toast, 1× pro Tag) auf Backup › „Zugriff erneuern“, kein Dialog.
   - Safari/Firefox/iOS: Hinweis „nur Chrome oder Edge am Computer“, Arbeit nur lokal.
 - **Prompt für die Tool-Chats:** „Datenquelle je Lizenz (S-14) einbauen nach `riemer-toolbox/ritl-bk/README.md` › Datenquelle je Lizenz, Vorbild MUSTER.ritl V3.3 (Funktionen `ORD`, `SRVB`, `applyMode`, `oq*`, `setupOrd`, `setupSrv`). Als neue DEV-Version veröffentlichen, CHANGELOG und Quellen-ZIP.“
+
+## SharePoint-Ordner der Firma (ab 2.11)
+
+Im Lizenz-Admin (Lizenz bearbeiten › „SharePoint-Ordner für B · Ordner“) lässt sich je Lizenz ein Link mit Ordnername hinterlegen, in der Tool-Tabelle (Spalte „Ordner B“) je Tool abweichend. Gespeichert in `licenses.ordner` bzw. `licenses.tool_cfg.<tool>.ordner`; der Server liefert ihn als `backup.ordner_vorgabe = {link, name, quelle}` (Tool vor Lizenz).
+
+ritl-bk zeigt die Vorgabe in „Backup einrichten“ und im Backup-Fenster mit „Ordner der Firma öffnen ↗“ und prüft beim Verknüpfen den Ordnernamen (Groß-/Kleinschreibung egal). Die Tools schreiben weiter nur in den lokal mit OneDrive synchronisierten Ordner (File System Access API) – ein direktes Schreiben nach SharePoint (Microsoft Graph) gibt es nicht.

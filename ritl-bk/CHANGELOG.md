@@ -2,6 +2,16 @@
 
 Zentraler Backup-Baustein aller RIEMER Tools (Regel S-17). Neueste Version oben.
 
+## 2.11 · 24.11.2026 · DEV
+**Neu**
+- **SharePoint-Ordner der Firma zentral vorgeben:** Im Lizenz-Admin lässt sich je Lizenz (und je Tool abweichend) der Link zum SharePoint-Ordner und sein Name hinterlegen. Das Tool zeigt ihn unter „Backup einrichten“ und im Backup-Fenster (02 OneDrive & SharePoint) mit **„Ordner der Firma öffnen ↗“** und einer kurzen Anleitung: in SharePoint „Synchronisieren“ bzw. „Verknüpfung zu OneDrive hinzufügen“, dann „Ordner verknüpfen …“.
+- **Prüfung beim Verknüpfen:** Heißt der verknüpfte Ordner anders als vorgegeben, kommt ein Hinweis, und der Kasten wird orange („Verknüpft ist … – vorgesehen ist …“).
+- Geschrieben wird weiter in den lokal synchronisierten Ordner (Chrome/Edge am Computer) – der Link ist nur die Vorgabe zum Öffnen und Prüfen.
+
+**Geändert**
+- Server: `backup.ordner_vorgabe` (`link`, `name`, `quelle` = `tool` oder `lizenz`) kommt mit jeder Backup-Einstellung (`cfg_get`, `state_head`, …).
+- Am Lizenzserver für den Kanal Dev hinterlegt.
+
 ## 2.10.1 · 24.11.2026 · DEV
 **Behoben**
 - **Start-Vorrang: C3 zählt als Stufe 3.** In 2.10 wurde der Server mit Dateien (C3) wie Stufe 2 gewertet; dadurch gewann bei A3 + C3 fälschlich der Browser und überschrieb den Stand am Server.

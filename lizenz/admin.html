@@ -209,6 +209,7 @@
   .ttab select{padding:6px 8px;font-size:13px;min-width:150px}
   .ttab tr.dis td:not(:first-child){opacity:.45}
   .ttab td:first-child{width:36px}
+  .ttab .ob{padding:4px 8px;font-size:12px}.ttab .ob.on{border-color:var(--brand);color:var(--accent-text)}
   .ttab input[type=checkbox]{width:18px;height:18px;accent-color:var(--brand)}
   .bkmx th:nth-child(n+3),.bkmx td:nth-child(n+3){text-align:center;width:96px;white-space:nowrap}
   .bkmx input[type=radio]{width:18px;height:18px;margin:0;accent-color:var(--brand);cursor:pointer}
@@ -457,7 +458,7 @@
       <label for="lf-note">Notiz</label><input id="lf-note" name="note" placeholder="z. B. Rechnung 2026-041">
       <div class="sect"><h3>Tools</h3><label class="chk"><input type="checkbox" name="all"> <b>Alle Tools</b>&nbsp;– auch künftige</label></div>
       <div class="wrap"><table class="ttab" data-rz="dlg-tools">
-        <thead><tr><th></th><th>Tool</th><th>Kanal</th><th>Edition</th><th>Bekommt</th></tr></thead>
+        <thead><tr><th></th><th>Tool</th><th>Kanal</th><th>Edition</th><th>Bekommt</th><th>Ordner B</th></tr></thead>
         <tbody id="lic-tools"></tbody>
       </table></div>
       <p class="hint">„Bekommt“ zeigt die Version, die mit dieser Einstellung ausgeliefert wird. Gibt es für eine Edition noch keine Version, gilt automatisch Standard.</p>
@@ -479,6 +480,11 @@
         </tbody>
       </table></div>
       <p class="hint" style="margin-top:4px">Stufe <b>1 · settings</b> – Ansichten, Filter, Favoriten, Einstellungen · <b>2 · datenbank</b> – settings + alle Arbeitsdaten (Standard) · <b>3 · storage</b> – alles, was im Tool geladen ist (Dateien, Belege, Originale, Pakete).</p>
+      <div class="sect"><h3>SharePoint-Ordner für B · Ordner</h3><span class="hint">optional – erscheint beim Kunden in „Backup einrichten“ mit „Ordner der Firma öffnen“</span></div>
+      <div class="grid">
+        <div><label for="lf-olink">Link zum Ordner (SharePoint / OneDrive)</label><input id="lf-olink" type="url" inputmode="url" placeholder="https://firma.sharepoint.com/sites/…/RIEMER Tools"><span class="hint">gilt für alle Tools dieser Lizenz · je Tool abweichend in der Tool-Tabelle (Spalte „Ordner B“)</span></div>
+        <div><label for="lf-oname">Ordnername</label><input id="lf-oname" placeholder="z. B. RIEMER Tools" maxlength="120"><span class="hint">so heißt der Ordner nach dem Synchronisieren – das Tool prüft ihn beim Verknüpfen</span></div>
+      </div>
       <div class="grid"><div><label for="lf-quota">Kontingent am Server (MB)</label><input id="lf-quota" name="quota_mb" type="number" min="1" max="10240" value="50">
         <span class="hint">Backups, Server-Stände, Dateien und Übergaben aller Tools dieser Lizenz zusammen</span></div></div>
       <p class="hint" style="margin-top:4px">Beispiel: Lizenz <b>A3 · B2 · C1</b> → der Kunde darf je Tool z. B. A3, A1, B2 oder C1 einstellen, aber nicht C2. Die Wahl gilt auf allen seinen Geräten. Bei B speichert der Server nur settings. Gespeichert in der EU (Frankfurt).</p>
@@ -1409,7 +1415,7 @@
     var w = l.backup_wahl || {}, n = Object.keys(w).length;
     return '<span class="tag mono" title="Angeboten:\n' + esc(mxTitle(m)) + '">' + esc(mxCode(m)) + "</span>" +
       (n ? ' <span class="hint" title="' + esc(Object.keys(w).map(function (t) { return t + ": " + bkCode(w[t].datenquelle || q, w[t].stufe || l.backup_stufe); }).join(", ")) + '">' + n + " Tool" + (n > 1 ? "s" : "") + " gewählt</span>" : "") +
-      '<br><span class="hint">' + fmtMB(l.server_bytes) + " von " + (l.quota_mb || 50) + " MB am Server</span>"; }
+      '<br><span class="hint">' + fmtMB(l.server_bytes) + " von " + (l.quota_mb || 50) + " MB am Server</span>" + (l.ordner || Object.keys(l.tool_cfg || {}).some(function (t) { return (l.tool_cfg[t] || {}).ordner; }) ? '<br><span class="hint" title="' + esc(l.ordner ? l.ordner.link : "je Tool") + '">🔗 SharePoint-Ordner ' + esc(l.ordner ? (l.ordner.name || "hinterlegt") : "je Tool") + "</span>" : ""); }
 
   function renderAll() {
     $("licrows").innerHTML = state.licenses.length ? state.licenses.map(function (l) {
@@ -1507,6 +1513,7 @@
     var bs = (l && l.backup_stufe) || "datenbank";
     mxSet(bkMx(l || null));
     lf.quota_mb.value = (l && l.quota_mb) || 50;
+    $("lf-olink").value = (l && l.ordner && l.ordner.link) || ""; $("lf-oname").value = (l && l.ordner && l.ordner.name) || "";
     var bw = (l && l.backup_wahl) || {};
     $("lf-wahl").textContent = Object.keys(bw).length ? "Wahl des Kunden je Tool: " + Object.keys(bw).map(function (t) { return t + " " + bkCode(bw[t].datenquelle || dq, bw[t].stufe || bs); }).join(" · ") + " (über dem Maximum wird automatisch begrenzt)" : "Der Kunde hat noch keine eigene Wahl getroffen – es gilt das Maximum.";
     var all = !!(l && l.tools.indexOf("*") >= 0); lf.all.checked = all;
@@ -1521,8 +1528,9 @@
         '<td><select class="ted" aria-label="Edition ' + esc(t.name) + '"><option value="">Standard</option>' +
           (t.editions || []).map(function (e) { return '<option value="' + esc(e.id) + '"' + (c.edition === e.id ? " selected" : "") + ">" + esc(e.name) + "</option>"; }).join("") +
           "</select></td>" +
-        '<td class="get"></td></tr>';
-    }).join("") || '<tr><td colspan="5" class="hint">Noch keine Tools.</td></tr>';
+        '<td class="get"></td>' +
+        '<td><button type="button" class="b ob' + (c.ordner ? " on" : "") + '" data-olink="' + esc(c.ordner ? c.ordner.link : "") + '" data-oname="' + esc(c.ordner ? (c.ordner.name || "") : "") + '" title="' + esc(c.ordner ? "Eigener SharePoint-Ordner: " + (c.ordner.name || "") + "\n" + c.ordner.link : "SharePoint-Ordner wie Lizenz – klicken für eigenen Ordner") + '">' + (c.ordner ? "🔗 eigener" : "wie Lizenz") + "</button></td></tr>";
+    }).join("") || '<tr><td colspan="6" class="hint">Noch keine Tools.</td></tr>';
     refreshLic();
     $("lf-club").value = (l && SC.assign[l.id]) || "";
     dlg.showModal(); lf.customer.focus();
@@ -1547,6 +1555,28 @@
     $("lic-sum").textContent = all ? "Alle Tools freigeschaltet" : n + (n === 1 ? " Tool" : " Tools") + " freigeschaltet";
   }
   lf.addEventListener("change", refreshLic);
+
+  // SharePoint-Ordner (Backup B): Ordnername aus dem Link ableiten (letzter Pfadteil, nicht bei Freigabe-Links „/:f:/“)
+  function oName(link) {
+    try { var u = new URL(link); if (/\/:[a-z]:\//i.test(u.pathname)) return "";
+      var id = u.searchParams.get("id"); var pth = id || u.pathname; var seg = pth.split("/").filter(Boolean).pop() || "";
+      seg = decodeURIComponent(seg); return /\.(aspx|html?)$/i.test(seg) ? "" : seg.replace(/[\\/:*?"<>|]/g, "").slice(0, 120); } catch (e) { return ""; }
+  }
+  function oValid(link) { return /^https:\/\/[^\s"<>]+$/.test(link) && link.length >= 16 && link.length <= 2000; }
+  $("lf-olink").addEventListener("change", function () { var v = this.value.trim(); if (v && !$("lf-oname").value.trim()) $("lf-oname").value = oName(v); });
+  $("lic-tools").addEventListener("click", function (e) {
+    var b = e.target.closest("button.ob"); if (!b) return;
+    var cur = b.dataset.olink || "";
+    var v = prompt("Eigener SharePoint-Ordner für dieses Tool (Link mit https://).\nLeer lassen = wie Lizenz.", cur || $("lf-olink").value.trim());
+    if (v === null) return; v = v.trim();
+    if (v && !oValid(v)) return toast("Bitte einen vollständigen Link mit https:// eintragen.");
+    var n = "";
+    if (v) { n = prompt("Ordnername (so heißt der Ordner nach dem Synchronisieren):", b.dataset.oname || oName(v)); if (n === null) return; n = n.trim(); }
+    if (v === $("lf-olink").value.trim() && n === $("lf-oname").value.trim()) v = "";
+    b.dataset.olink = v; b.dataset.oname = v ? n : "";
+    b.classList.toggle("on", !!v); b.textContent = v ? "🔗 eigener" : "wie Lizenz";
+    b.title = v ? "Eigener SharePoint-Ordner: " + n + "\n" + v : "SharePoint-Ordner wie Lizenz – klicken für eigenen Ordner";
+  });
   $("bkmx").addEventListener("change", function (e) { if (e.target.classList.contains("bkmx-on")) mxRefresh(); });
   lf.addEventListener("submit", function (e) {
     e.preventDefault();
@@ -1559,20 +1589,24 @@
     [].forEach.call($("lic-tools").querySelectorAll("tr[data-tool]"), function (tr) {
       var on = lf.all.checked || tr.querySelector(".tsel").checked; if (!on) return;
       tools.push(tr.dataset.tool);
-      var c = {}, ch = tr.querySelector(".tch").value, ed = tr.querySelector(".ted").value;
+      var c = {}, ch = tr.querySelector(".tch").value, ed = tr.querySelector(".ted").value, ob = tr.querySelector(".ob");
       if (ch) c.channel = ch; if (ed) c.edition = ed;
-      if (ch || ed) cfg[tr.dataset.tool] = c;
+      if (ob && ob.dataset.olink) c.ordner = { link: ob.dataset.olink, name: ob.dataset.oname || "" };
+      if (ch || ed || c.ordner) cfg[tr.dataset.tool] = c;
     });
     // Alle Tools: "*" + ausgeblendete Tools, die ausdrücklich in myTOOLBOX erscheinen sollen
     if (lf.all.checked) tools = ["*"].concat([].filter.call($("lic-tools").querySelectorAll("tr[data-tool]"), function (tr) {
       var t = toolById(tr.dataset.tool); return t && t.listed === false && tr.querySelector(".tsel").checked;
     }).map(function (tr) { return tr.dataset.tool; }));
     if (!tools.length) return toast("Bitte mindestens ein Tool wählen.");
+    var olink = $("lf-olink").value.trim(), oname = $("lf-oname").value.trim();
+    if (olink && !oValid(olink)) { $("lf-olink").focus(); return toast("SharePoint-Ordner: bitte einen vollständigen Link mit https:// eintragen."); }
     var d = { customer: customer, email: em, tools: tools, tool_cfg: cfg, note: lf.note.value.trim(),
               expires_at: lf.unlimited.checked ? "" : lf.expires_at.value + "T23:59:59",
               max_devices: Math.max(1, parseInt(lf.max_devices.value, 10) || 1), channel: lf.channel.value, active: lf.active.checked,
               backup_matrix: mxGet(),
-              quota_mb: Math.min(10240, Math.max(1, parseInt(lf.quota_mb.value, 10) || 50)) };
+              quota_mb: Math.min(10240, Math.max(1, parseInt(lf.quota_mb.value, 10) || 50)),
+              ordner: olink ? { link: olink, name: oname || oName(olink) } : null };
     var mm = mxMax(d.backup_matrix); d.datenquelle = mm.datenquelle; d.backup_stufe = mm.backup_stufe;
     var btn = $("lic-save"); btn.disabled = true;
     if (editId) {
@@ -1582,10 +1616,10 @@
     } else {
       api("create", d).then(function (r) {
         btn.disabled = false; if (!r.ok) return;
-        if (mxCode(d.backup_matrix) !== "A2" || d.quota_mb !== 50) load().then(function () {
+        if (mxCode(d.backup_matrix) !== "A2" || d.quota_mb !== 50 || d.ordner) load().then(function () {
           // Datenquelle und Backup-Stufe gleich nachtragen (create kennt die Felder nicht)
           var nl = state.licenses.filter(function (x) { return x.key && r.key.slice(-4) === x.key.slice(-4) && x.customer === customer; })[0];
-          if (nl) api("update", { id: nl.id, datenquelle: d.datenquelle, backup_stufe: d.backup_stufe, backup_matrix: d.backup_matrix, quota_mb: d.quota_mb }).then(load);
+          if (nl) api("update", { id: nl.id, datenquelle: d.datenquelle, backup_stufe: d.backup_stufe, backup_matrix: d.backup_matrix, quota_mb: d.quota_mb, ordner: d.ordner }).then(load);
         });
         if (!lf.active.checked) {
           // neue Lizenz sofort gesperrt anlegen
