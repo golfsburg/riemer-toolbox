@@ -440,7 +440,7 @@ Jedes Tool hat einen Typ (Spalte `tools.typ`, Pflicht, Standard `datenbank`, nur
     im Tool `window.RITL.typ` und `window.RITL.backup.typ`.
 
 ```sql
--- Typ eines Tools setzen (nur nach Peters OK)
+-- Typ eines Tools setzen (nur nach Peters OK; ab 25.11.2026 auch per Admin-Aktion typ_set, siehe unten)
 update tools set typ = 'dokument' where id = 'pdf-ritl';
 -- Übersicht
 select id, name, typ from tools order by typ, sort;
@@ -459,6 +459,31 @@ Aufbau wie `ritl_bk_versions`: `id`, `version`, `channel` (`dev`/`beta`/`stable`
 -- Versionen ansehen
 select id, version, channel, active, released_at from ritl_doc_versions order by released_at desc;
 ```
+
+### Admin-Aktionen für Typ und ritl-doc (ab 25.11.2026, Edge Function `license-admin` v17)
+
+Aufruf wie alle Admin-Aktionen: `POST { action, data }` mit Header `x-admin-token` (Prüfung in `admin_ui`).
+Die Admin-Seite bekommt die Bedienung mit A-014; bis dahin nur per Skript/Konsole.
+
+| Aktion | `data` | Antwort |
+| --- | --- | --- |
+| `typ_list` | – | `{ ok, typ: { "<tool_id>": "dokument" \| "datenbank", … } }` |
+| `typ_set` | `{ tool_id, typ }` – `typ` nur `dokument` oder `datenbank` | `{ ok, tool_id, typ }` · Fehler `invalid_typ`, `not_found` |
+| `doc_list` | – | `{ ok, versions: [{ id, version, channel, active, notes, kb, released_at }], live: { stable, beta, dev } }` |
+| `doc_get` | `{ id }` | `{ ok, version, block }` |
+| `doc_upload` | `{ version (#.# oder #.#.#), block, channel?, notes? }` – Block beginnt mit `<!--ritl-doc:start-->`, endet mit `<!--ritl-doc:end-->`, max. 400 000 Zeichen; Kanal Standard `dev` | `{ ok, id }` · Fehler `invalid_block`, `invalid_version`, `invalid_channel` |
+| `doc_set` | `{ id, channel?, active? }` – Kanalwechsel setzt `released_at` neu | `{ ok }` |
+| `doc_delete` | `{ id }` | `{ ok }` |
+
+`doc_*` arbeitet genau wie `bk_*` (ritl-bk) bzw. `ui_*` (RITL-UI). Neue ritl-doc-Versionen immer zuerst in `dev`.
+
+### Einfügen in das ausgelieferte HTML (A-019, ab 25.11.2026)
+
+- `license-check` (ab v16) fügt Toolbox-Logo/Abmelden vor dem **letzten echten `</body>`** ein und sucht die Stelle
+  direkt im Originaltext (`inject.ts`). Früher wurde in `html.toLowerCase()` gesucht – Zeichen wie „İ“ (U+0130) werden
+  kleingeschrieben länger, die Stelle verschob sich und das Skript landete mitten im Tool (JFC V4.0.6: Text + Logo nach der Fußzeile).
+- `verify_license` setzt die Farbpalette der Lizenz vor `</head>` ebenso im Originaltext (`regexp_instr … 'i'` statt `strpos(lower(h), …)`).
+- Tools müssen „İ“ oder `</body>` in Bibliotheken deshalb nicht mehr entschärfen (JFC V4.0.8/V4.0.9 schadet aber nicht).
 
 ## SCORE.ritl – Posting (Bild + Text)
 
