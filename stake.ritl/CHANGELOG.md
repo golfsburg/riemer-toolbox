@@ -3,6 +3,11 @@
 Beziehungs- und Stakeholder-Map für Firmen, Ansprechpartner, Projekte und Gewerke · #ritl_stake
 Neueste Version oben.
 
+## V2.6.7 · 25.11.2026 · DEV
+**Geändert**
+- **Tool-Typ „Datenbank“ (Regel S-23, Rollout R-19):** Das Tool ist als Typ Datenbank gekennzeichnet – Daten bleiben wie bisher im Tool, keine Projektdateien.
+- Backup-Baustein auf **ritl-bk 2.12** aktualisiert (Verhalten unverändert).
+
 ## V2.6.6 · 25.11.2026 · DEV
 **Geändert**
 - **Scrollen (R-15):** Der Kopf läuft beim Scrollen aus, die Modul-Leiste (Ribbon) bleibt oben stehen. Das Mausrad über der Leiste schiebt nur die Leiste waagrecht, nie die Seite; Dialoge und innere Bereiche scrollen für sich, ohne die Seite dahinter mitzunehmen.

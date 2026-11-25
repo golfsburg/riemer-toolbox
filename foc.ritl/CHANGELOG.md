@@ -3,6 +3,11 @@
 Fardriver-Controller einstellen und simulieren – Ströme, Gänge, Kurven und Funktionen mit Wirkung auf Tempo, Beschleunigung und Reichweite · #ritl_foc
 Neueste Version oben. Versionen ≤ V1.2 waren Entwürfe im Chat und wurden nicht veröffentlicht.
 
+## V1.7.6 · 25.11.2026 · DEV
+**Geändert**
+- **Tool-Typ „Datenbank“ (Regel S-23, Rollout R-19):** Das Tool ist als Typ Datenbank gekennzeichnet – Daten bleiben wie bisher im Tool, keine Projektdateien.
+- Backup-Baustein auf **ritl-bk 2.12** aktualisiert (Verhalten unverändert).
+
 ## V1.7.5 · 25.11.2026 · DEV
 **Geändert**
 - **Scrollen (Regel S-18/S-19):** Der Header läuft beim Scrollen nach unten mit aus dem Bild, die Modul-Leiste bleibt oben am Fensterrand stehen. Die Ergebnis-Spalte rechts und die Kennzahlen-Leiste kleben unter der Modul-Leiste.

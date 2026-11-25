@@ -3,6 +3,11 @@
 Leistungsverzeichnisse nach ÖNORM A 2063 mit Materiallisten, Bieterangeboten und ONLV-Export · #ritl_lv
 Neueste Version oben. Versionen ≤ V9.2 nachträglich rekonstruiert (aus `tool_versions` und den Quellen-ZIPs).
 
+## V10.0.7 · 25.11.2026 · DEV
+**Geändert**
+- **Tool-Typ „Datenbank“ (Regel S-23, Rollout R-19):** Das Tool ist als Typ Datenbank gekennzeichnet – Daten bleiben wie bisher im Tool, keine Projektdateien.
+- Backup-Baustein auf **ritl-bk 2.12** aktualisiert (Verhalten unverändert).
+
 ## V10.0.6 · 25.11.2026 · DEV
 **Geändert**
 - **Scrollen (R-15):** Der Kopf (Header) läuft beim Scrollen aus dem Bild, die Reiterleiste bleibt oben stehen. Das Mausrad über der Reiterleiste schiebt nur die Leiste seitlich und scrollt nicht mehr die Seite; innere Scrollbereiche und Dialoge geben das Scrollen nicht an die Seite weiter.
