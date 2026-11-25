@@ -3,6 +3,13 @@
 Fahrtenbuch, Fahrzeuge, Tanken, Werkstatt, Pickerl §57a und Statistik · #ritl_drive
 Neueste Version oben.
 
+## V2.4.5 · 25.11.2026 · DEV
+**Neu**
+- **Tool-Typ „Datenbank“ (Pilot, Regel S-23):** DRIVE.ritl ist als Typ `datenbank` gekennzeichnet (Adapter `typ:'datenbank'`, `ritl.json` `typ`; am Server steht `tools.typ` bereits darauf). Fahrten, Fahrzeuge, Tanken, Werkstatt und Pickerl bleiben wie bisher in der Datenbank des Tools – keine Projektdateien.
+
+**Geändert**
+- Backup-Baustein auf **ritl-bk 2.12** aktualisiert (Verhalten für Typ „Datenbank“ unverändert).
+
 ## V2.4.4 · 25.11.2026 · DEV
 **Geändert**
 - **Scrollen (R-15):** Der Kopfbereich läuft beim Scrollen aus dem Bild, die Modul-Leiste (Ribbon) bleibt oben stehen. Das Mausrad über der Leiste schiebt nur die Leiste seitlich, nie die Seite; Dialoge und innere Listen scrollen für sich. Anker-Sprünge berücksichtigen die Leistenhöhe. Am Handy bleibt die untere Tabbar unverändert.
