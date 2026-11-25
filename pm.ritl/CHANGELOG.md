@@ -3,6 +3,11 @@
 Projektmanagement: Projekt-Portfolio mit Gewerken, Anwendungen und Businesses (Lead › Spezifikation Opportunity › Spezifikation › Opportunity), Umsatzplan, Dashboard und Zeitplan · #ritl_pm
 Neueste Version oben. Versionen ≤ V1.1 nachträglich rekonstruiert (Projektmanager V1.x, selbstspeichernde HTML-Datei).
 
+## V3.1.23 · 25.11.2026 · DEV
+**Geändert**
+- **Tool-Typ „Datenbank“ (Regel S-23, Rollout R-19):** Das Tool ist als Typ Datenbank gekennzeichnet – Daten bleiben wie bisher im Tool, keine Projektdateien.
+- Backup-Baustein auf **ritl-bk 2.12** aktualisiert (Verhalten unverändert).
+
 ## V3.1.22 · 23.11.2026 · DEV
 **Geändert**
 - Gespeicherte Auswahlen für den PowerPoint-Export und der Name im Logbuch gehören zu den Einstellungen im Backup.

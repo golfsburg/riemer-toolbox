@@ -1,5 +1,9 @@
 # CHANGELOG – SCORE.ritl (fcpf-ergebnisse)
 
+## V2.1.1 · 25.11.2026 · DEV
+**Geändert**
+- **Tool-Typ „Datenbank“ (Regel S-23, Rollout R-19):** Das Tool ist als Typ Datenbank gekennzeichnet – Daten bleiben wie bisher im Tool, keine Projektdateien.
+
 ## V2.1 · 19.11.2026 · DEV
 
 ### Neu

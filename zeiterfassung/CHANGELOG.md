@@ -3,6 +3,11 @@
 Projektzeiten erfassen, Timer und manuelle Einträge, Auswertung, Excel/CSV-Datei-Modus · #ritl_zeit (bis V3.7: Zeiterfassung.ritl · #ritl_zeiterfassung)
 Neueste Version oben. Versionen ≤ V3.1 nachträglich aus dem Changelog im Tool rekonstruiert (V1.0–V2.3: 17.07.2026).
 
+## V3.8.3 · 25.11.2026 · DEV
+**Geändert**
+- **Tool-Typ „Datenbank“ (Regel S-23, Rollout R-19):** Das Tool ist als Typ Datenbank gekennzeichnet – Daten bleiben wie bisher im Tool, keine Projektdateien.
+- Backup-Baustein auf **ritl-bk 2.12** aktualisiert (Verhalten unverändert).
+
 ## V3.8.2 · 25.11.2026 · DEV
 **Geändert**
 - **Scrollen:** Der Kopfbereich scrollt mit der Seite weg, die Seitenleiste mit den Projekten bleibt am oberen Rand stehen und füllt die Fenstergröße. Innere Listen und Fenster reichen das Mausrad nicht mehr an die Seite weiter. Am Handy bleibt die Seitenleiste wie bisher oben im Inhalt.

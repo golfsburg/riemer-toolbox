@@ -3,6 +3,11 @@
 Testfeld für RIEMER Tools als installierbare App · #ritl_lab
 Abgeleitet aus MUSTER.ritl V3.8 › SETUP.ritl. Neueste Version oben.
 
+## V1.0.4 · 25.11.2026 · DEV
+**Geändert**
+- **Tool-Typ „Datenbank“ (Regel S-23, Rollout R-19):** Das Tool ist als Typ Datenbank gekennzeichnet – Daten bleiben wie bisher im Tool, keine Projektdateien.
+- Backup-Baustein auf **ritl-bk 2.12** aktualisiert (Verhalten unverändert).
+
 ## V1.0.3 · 25.11.2026 · DEV
 **Geändert**
 - **Scrollen (R-15):** Der Kopfbereich läuft beim Scrollen mit der Seite aus und klebt nicht mehr oben. Scrollen im Fenster oder in einer Liste schiebt die Seite dahinter nicht mehr mit. Vorbereitet für Leisten, die oben kleben (Höhe als `--stk`).

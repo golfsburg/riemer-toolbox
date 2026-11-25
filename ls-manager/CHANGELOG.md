@@ -4,6 +4,11 @@ Lieferscheine automatisch auslesen und je Lieferant im eigenen Archivordner able
 Tool-ID `ls-manager` · Download-Datei `RIEMER-Tools_LS-Manager_V#.#.html`
 Neueste Version oben. Versionen ≤ V1.0 nachträglich rekonstruiert (Repo-Historie golfsburg/riemer-toolbox, `tool_versions`).
 
+## V1.7.6 · 25.11.2026 · DEV
+**Geändert**
+- **Tool-Typ „Datenbank“ (Regel S-23, Rollout R-19):** Das Tool ist als Typ Datenbank gekennzeichnet – Daten bleiben wie bisher im Tool, keine Projektdateien.
+- Backup-Baustein auf **ritl-bk 2.12** aktualisiert (Verhalten unverändert).
+
 ## V1.7.5 · 25.11.2026 · DEV
 **Geändert**
 - **Scrollen (R-15):** Der Header läuft beim Scrollen aus dem Bild; klebende Leisten (falls vorhanden) bleiben oben und die Seite berücksichtigt ihre Höhe beim Springen zu Zielen. Innere Scrollbereiche (Eingang, Dialoge) geben das Mausrad nicht mehr an die Seite weiter. Mausrad über einer Leiste schiebt nur die Leiste waagrecht.

@@ -3,6 +3,11 @@
 Engineering Navigator: Kundenvergleich, Besuchspriorisierung und Gebiets-Review aus JFC-Reports · #ritl_jfc
 Neueste Version oben. Versionen ≤ V3.6 als „JFC Engineering Navigator“.
 
+## V4.0.10 · 25.11.2026 · DEV
+**Geändert**
+- **Tool-Typ „Datenbank“ (Regel S-23, Rollout R-19):** Das Tool ist als Typ Datenbank gekennzeichnet – Daten bleiben wie bisher im Tool, keine Projektdateien.
+- Backup-Baustein auf **ritl-bk 2.12** aktualisiert (Verhalten unverändert).
+
 ## V4.0.9 · 25.11.2026 · DEV
 **Behoben**
 - Über den Lizenz-Loader erschienen unter der Fußzeile weiterhin Programmtext und das große Toolbox-Logo. Eigentliche Ursache: Der Lizenzserver sucht die Einfügestelle in der Kleinschreibung des HTML; drei Zeichen „İ“ in den Export-Bibliotheken verschoben diese Stelle um drei Zeichen und zerrissen das letzte Skript. Die Zeichen sind als `\u0130` geschrieben, das Bauskript bricht bei solchen Zeichen ab.
