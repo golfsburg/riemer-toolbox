@@ -3,6 +3,14 @@
 PDF-Dokumente aus Lesezeichen-Abschnitten und Einzelseiten zusammenstellen – mit verlinktem Inhaltsverzeichnis · #ritl_pdf
 Neueste Version oben. Versionen ≤ V1.3 nachträglich rekonstruiert (aus `tool_versions` und Entwicklungsverlauf).
 
+## V2.2.1 · 25.11.2026 · DEV
+**Behoben**
+- **Neu:** Ein neues Projekt startet jetzt mit den Standard-Ausgabe-Optionen (Titel, Farbe, Seitenstempel …) und erbt sie nicht mehr vom vorherigen Projekt. Der Filter bleibt erhalten.
+- **„•“ direkt nach dem Öffnen:** Ein Projekt mit Deckblatt galt nach dem Öffnen auf einem Gerät ohne die Deckblatt-Vorlage sofort als geändert. Jetzt wird erst nach dem vollständigen Laden des Deckblatts verglichen.
+
+**Hinweis**
+- Stände, die nur am Server lagen (frühere Backup-Stufen datenbank/storage), werden beim Umstieg nicht automatisch als Projekt angeboten. Bitte vorher in einer Fassung bis V2.1 als Backup-Datei herunterladen. Dazu Hinweis in der Hilfe („Projekt als Datei“).
+
 ## V2.2.0 · 25.11.2026 · DEV
 **Neu**
 - **Projekte als eigene Datei:** Eine Zusammenstellung ist jetzt ein Projekt, das du als Datei speicherst – z. B. „Angebot Muster.pdf.ritl“. Darin steckt alles: Deckblatt, Abschnitte, eigene Trennstellen, Seitenauswahl, Reihenfolge, Ausgabe-Optionen, der Planvergleich und alle geladenen PDFs. So kannst du mehrere Projekte parallel führen, weitergeben und archivieren.
