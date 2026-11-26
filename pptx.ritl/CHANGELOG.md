@@ -3,6 +3,11 @@
 Präsentationen aus Abschnitten zusammenstellen (DECK.ritl) und Meetings planen (TIMING.ritl) · #ritl_pptx
 Neueste Version oben. Ältere Versionen siehe Admin › Tools › Versionen (Tabelle `tool_versions`); dieser CHANGELOG beginnt mit V2.9.
 
+## V3.8.3 · 26.11.2026 · DEV
+**Geändert**
+- **Live-Modus:** Beim Schließen des Live-Fensters wird die Tonausgabe angehalten (spart Akku am Handy).
+- **Handy/Tablet:** Der Schalter „Ton 3 und 1 min vor Ende“ hat eine größere Fläche (mind. 44 px) und Schrift (14 px) und lässt sich besser antippen.
+
 ## V3.8.2 · 26.11.2026 · DEV
 **Behoben**
 - **Kalender (.ics):** Namen von Räumen und Teilnehmern mit `:` `;` `,` (z. B. „Raum 1; OG, Nord: A“) brachen den Eintrag. Der Name steht jetzt nach RFC 5545 in Anführungszeichen (`"` im Namen wird entfernt); lange Zeilen werden nach Oktetten (max. 75) statt nach Zeichen gefaltet – Umlaute werden nicht mehr zerschnitten.
