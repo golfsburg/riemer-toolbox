@@ -3,6 +3,17 @@
 Engineering Navigator: Kundenvergleich, Besuchspriorisierung und Gebiets-Review aus JFC-Reports · #ritl_jfc
 Neueste Version oben. Versionen ≤ V3.6 als „JFC Engineering Navigator“.
 
+## V4.0.15 · 26.11.2026 · DEV
+**Neu**
+- **Verteilung Produktmix** unter „Produktmix je Kunde“: Ring-Diagramm mit der Summe der Umsätze Structural, Support Systems und Firestop über alle Kunden im aktuellen Filter (nicht nur die Top-Kunden), Anteil in % und Betrag als Tabelle. Bei Bezug „Vorjahr“ zweiter, innerer Ring mit dem Vorjahr und Spalte Δ zum VJ. Eigener PNG-Export; in der PowerPoint (Produktmix und Gesamt-Export) als eigene Folie.
+
+**Geändert**
+- **Steckbrief, VB-Report und Produktmix folgen dem Bezug** wie KPI-Kacheln, Top-Veränderungen und Heatmap – es werden nur die gewählten Monate gezeigt: Bezug „Vorjahr“ = Vorjahr bis heute (bei BIS 10/2026: Jänner–Oktober 2026 gegen Jänner–Oktober 2025), Bezug „Zeitraum“ = Monate VON bis BIS. Gilt für Diagramme, Vergleichsmatrix des Steckbriefs, VB-Report-Folie sowie PPTX/PDF/XLSX und „Alle PPTX/PDF“; Bezug und Zeitraum stehen in Bezugszeile, Untertitel bzw. Fußzeile.
+- **Diagramm im Kunden-Steckbrief zeigt die gewählte Kennzahl** (statt fest F&P): Balken je Monat, bei Bezug „Vorjahr“ gegen denselben Monat im Vorjahr mit Linie Δ zum VJ in %, bei „Zeitraum“ mit Linie Δ zu VON. Vergleich nach derselben Logik wie die KPI-Kacheln (F&P gegen VJ kum lt. Report, Spalten R–T; Events/gewonnenes Business als Monatswert; DD&E nie zu F&P addiert). Zusätzliche Kachel mit Kennzahl BIS und Δ. Achse, Legende und Einheit folgen der Kennzahl – auch in PNG, PDF und PowerPoint (Steckbrief-Folie jetzt mit Diagramm).
+- **VB-Report:** Kennzahl je Monat im gewählten Bezug (bis 12 Monate), bei Bezug „Vorjahr“ mit Vorjahresbalken und Legende.
+- **Produktmix je Kunde:** Umsätze im gewählten Bezug statt fest „Stand BIS“ – Vorjahr: Jänner bis BIS (lfd. Jahr kum.), Zeitraum: kum. BIS − kum. Vormonat von VON (je Kalenderjahr). Ist der Vormonat von VON nicht geladen, zählt der Umsatz nach VON (so beschriftet).
+- PNG-Export: Bezug- und Filterzeile brechen bei schmalen Diagrammen um statt abgeschnitten zu werden.
+
 ## V4.0.14 · 26.11.2026 · DEV
 **Geändert**
 - **Scrollen nach Ebenen (R-20, S-18):** Solange ein Dialog, Modal (Daten, PowerPoint, Bild), eine Hilfe oder ein Auswahlmenü (Filter-Dropdowns, Spaltenfilter, Spaltenauswahl, Kundenansicht) offen ist, steht die Seite im Hintergrund – Mausrad, Wischen am iPhone/Android und Bild↓. Der Inhalt des offenen Fensters scrollt in sich. Die Sperre kommt zentral aus RITL-UI 1.7; alle Overlays tragen das Merkmal `data-ritl-overlay`, die eigene Sperre im Tool ist entfernt.
