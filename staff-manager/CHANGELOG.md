@@ -2,6 +2,11 @@
 
 Personalplanung & Teamstruktur · #ritl_staff · Tool-Typ Datenbank
 
+## V1.0.3 · 26.11.2026 · DEV
+
+### Behoben
+- **Scrollen im Organigramm:** Mit dem Mausrad über „01 Teamstruktur“ lässt sich die Seite wieder scrollen. Der Bereich scrollt zuerst selbst; ist er am Anfang bzw. Ende (oder nichts zu scrollen), wandert das Scrollen an die Seite weiter.
+
 ## V1.0.2 · 26.11.2026 · DEV
 
 ### Neu
