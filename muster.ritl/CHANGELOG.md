@@ -3,6 +3,11 @@
 Vorlage und Spielwiese für den Skill `/riemer-webapp-design` · #ritl_muster
 Neueste Version oben. Versionen ≤ V2.2 nachträglich aus den veröffentlichten Ständen (Tabelle `tool_versions`) rekonstruiert.
 
+## V3.10.5 · 26.11.2026 · DEV
+**Behoben**
+- **Esc nach einer Auswahl:** Hatte man in einem Popup ein Auswahlfeld benutzt, schloss das erste Esc das Popup nicht. Jetzt schließt es sofort; nur eine wirklich offene Vorschlagsliste eines Eingabefelds wird zuerst geschlossen.
+- **Rückfrage bei schnellem doppeltem Esc:** Zweimal Esc hintereinander schloss den Beispiel-Dialog trotz „Abbrechen“ in der Rückfrage. Jetzt fragt jedes Esc nach, solange Änderungen offen sind.
+
 ## V3.10.4 · 26.11.2026 · DEV
 **Neu**
 - **Rückfrage beim Abbrechen (Vorlage):** Hat man im Beispiel-Dialog etwas geändert, fragen Esc und „Abbrechen“ gleichermaßen „Ungespeicherte Änderungen verwerfen?“. Ohne Änderung schließt der Dialog sofort.
