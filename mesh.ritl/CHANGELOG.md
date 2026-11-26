@@ -3,6 +3,10 @@
 Kompakter 3D-Viewer und -Editor im Browser für den 3D-Druck · #ritl_mesh
 Neueste Version oben. V1.0–V1.8 als Einzeldatei entwickelt (nicht in der Toolbox veröffentlicht).
 
+## V2.8.2 · 26.11.2026 · DEV
+**Geändert**
+- **Scrollen (R-15):** Der Kopfbereich läuft beim Scrollen aus, die Werkzeugleiste (Projekt, Dateien öffnen, Grundkörper, Konverter …) bleibt oben stehen und der Modellbereich klebt direkt darunter. Das Mausrad über der Leiste scrollt nur die Leiste (am Handy waagrecht), nie die Seite; Zoomen im Modellbereich scrollt die Seite nicht. Sonst wie V2.8.1.
+
 ## V2.8.1 · 25.11.2026 · DEV
 **Geändert**
 - **Backup-Baustein ritl-bk 2.13:** Der Ordner der Firma (Backup im OneDrive-/SharePoint-Ordner) erscheint nur noch als Link „Ordner der Firma öffnen ↗ – diesen Ordner auswählen, das Backup wird direkt dort gespeichert“. Beim Verknüpfen wird der Ordnername nicht mehr geprüft und es kommt keine Warnung „vorgesehen ist …“ mehr. Sonst wie V2.8.0 (Projekte als Datei, Backup nur Einstellungen).
