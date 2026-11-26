@@ -3,6 +3,10 @@
 Projektmanagement: Projekt-Portfolio mit Gewerken, Anwendungen und Businesses (Lead › Spezifikation Opportunity › Spezifikation › Opportunity), Umsatzplan, Dashboard und Zeitplan · #ritl_pm
 Neueste Version oben. Versionen ≤ V1.1 nachträglich rekonstruiert (Projektmanager V1.x, selbstspeichernde HTML-Datei).
 
+## V3.1.24 · 26.11.2026 · DEV
+**Geändert**
+- **Scrollen (Regel S-18/S-19, Rollout R-15):** Header läuft aus, Ribbon bleibt oben (`--rib-h`/`--stk` per `stickyH()`), `scroll-padding-top`, `overscroll-behavior:contain` auf inneren Scrollbereichen (Tabellen, Gantt, Import-Vorschau), Mausrad über der Reiterleiste scrollt nur die Leiste waagrecht, nie die Seite.
+
 ## V3.1.23 · 25.11.2026 · DEV
 **Geändert**
 - **Tool-Typ „Datenbank“ (Regel S-23, Rollout R-19):** Das Tool ist als Typ Datenbank gekennzeichnet – Daten bleiben wie bisher im Tool, keine Projektdateien.
