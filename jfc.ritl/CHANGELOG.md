@@ -3,6 +3,13 @@
 Engineering Navigator: Kundenvergleich, Besuchspriorisierung und Gebiets-Review aus JFC-Reports · #ritl_jfc
 Neueste Version oben. Versionen ≤ V3.6 als „JFC Engineering Navigator“.
 
+## V4.0.14 · 26.11.2026 · DEV
+**Geändert**
+- **Scrollen nach Ebenen (R-20, S-18):** Solange ein Dialog, Modal (Daten, PowerPoint, Bild), eine Hilfe oder ein Auswahlmenü (Filter-Dropdowns, Spaltenfilter, Spaltenauswahl, Kundenansicht) offen ist, steht die Seite im Hintergrund – Mausrad, Wischen am iPhone/Android und Bild↓. Der Inhalt des offenen Fensters scrollt in sich. Die Sperre kommt zentral aus RITL-UI 1.7; alle Overlays tragen das Merkmal `data-ritl-overlay`, die eigene Sperre im Tool ist entfernt.
+- Tabellen, Listen und Leisten halten das Scrollen nicht mehr fest: Ist eine Tabelle am Ende, scrollt das Fenster weiter. Das senkrechte Mausrad über der Sprungleiste scrollt die Seite (waagrecht per Umschalt+Rad bzw. Touchpad/Wischen).
+- Esc schließt zuerst ein offenes Auswahlmenü, danach erst Dialog bzw. Modal. Die Spaltenauswahl schließt auch per Klick daneben.
+- Bausteine: RITL-UI 1.7, ritl-bk 2.14.
+
 ## V4.0.13 · 26.11.2026 · DEV
 **Neu**
 - **Monatswerte aus kumulierten Werten** (Bezug Vorjahr): Events FE, gewonnenes Business und Spec gewonnen stehen im Report kumuliert (lfd. Jahr). Verglichen wird jetzt der Monatswert = kumulierter Wert des Monats − kumulierter Wert des Vormonats desselben Jahres (Jänner = kumulierter Wert), z. B. Events 09/2026 − 08/2026 gegen 09/2025 − 08/2025. Gilt in der Rechnung von KPI-Kacheln, Top/Flop, Power-Tabelle, Heatmap, Streudiagramm, Pareto, VB-Report, Gebiets-Review, Pipeline, Steckbrief und allen Exporten.
