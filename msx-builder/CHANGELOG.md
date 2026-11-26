@@ -4,6 +4,10 @@
 Start: index.html im Browser öffnen (Chrome/Edge/Firefox) oder auf GitHub Pages ablegen.
 Beim Öffnen wird die Beispielzeichnung „Beispiel_Schnitt.dxf“ geladen.
 
+## V5.9.4 · 26.11.2026 · DEV
+**Behoben**
+- **Höhe des Modellbereichs ändern:** Beim Ziehen am Griff (und mit den Pfeiltasten) bleiben Maßstab und Ausschnitt der Zeichnung jetzt unverändert – die Fläche wächst oder schrumpft nur nach unten. Vorher wurde das Modell bei jedem Zwischenschritt neu berechnet und um die Mitte neu eingepasst, die Zeichnung wanderte und wirkte wie skaliert. Das Raster wird erst beim Loslassen aktualisiert.
+
 ## V5.9.3 · 26.11.2026 · DEV
 **Geändert**
 - **Höhe des Modellbereichs umgebaut:** Der Griff unter dem Modell folgt jetzt genau der Maus – ohne Sprünge und ohne die bisherigen Grenzen (vorher höchstens ca. 95 % der Spalte, mindestens 240 px). Es gibt nur noch **eine** Höhe, sie gilt fixiert wie frei, bleibt beim Ändern der Fenstergröße unverändert und wird gemerkt. Doppelklick auf den Griff setzt auf die Standardhöhe zurück (fixiert: ca. 60 % der Fensterhöhe).
