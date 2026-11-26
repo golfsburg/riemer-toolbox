@@ -2,6 +2,18 @@
 
 Personalplanung & Teamstruktur · #ritl_staff · Tool-Typ Datenbank
 
+## V1.0.5 · 26.11.2026 · DEV
+
+### Neu
+- **Teamtyp Team / Gruppe.** Eine *Gruppe* ist eine thematische Einteilung **innerhalb** eines übergeordneten Teams (Pflicht, keine Gruppe auf oberster Ebene; das übergeordnete Team ist ein Team). Gruppen haben **keine eigene Soll-FTE und keine eigene Leitung** (Felder im Dialog ausgeblendet, beim Excel-Import ignoriert – mit Hinweis in der Vorschau). Ihre Mitglieder zählen zugleich im übergeordneten Team (Ist-FTE und Σ, jede Person genau einmal); die Gruppe selbst zeigt nur ihre Summe zur Info. In Teamkarten und Organigramm erscheint sie als dezenter, gestrichelter Unterbereich im Team (Person auf die Gruppe ziehen = Move in die Gruppe). JOBS Soll/Ist nur für Teams; Stellen können einer Gruppe zugeordnet werden und zählen zum Team. Altdaten sind „Team“. Excel: neue Spalte „Typ“ (Team/Gruppe) im Blatt Teams nach den TIMING-Spalten.
+- **Vorname und Nachname** (zwei Felder). „Name“ bleibt als Anzeigename „Vorname Nachname“ (Austausch mit PPTX.ritl › TIMING, Spalte name unverändert zuerst); neue Excel-Spalten „Vorname“, „Nachname“ danach. Ältere Namen und Importe nur mit „Name“ werden am letzten Leerzeichen getrennt (Nachname = letztes Wort), Hinweis in der Import-Vorschau bzw. beim Start. Vorname/Nachname im Import haben Vorrang. Sortierung nach Nachname, Vorname (Option „Vorname zuerst“), Suche über beide.
+- **E-Mail-Vorgabe:** Einstellung „E-Mail-Syntax“ (PEOPLE › E-Mail & Sortierung, im Backup/settings), z. B. `{vorname}.{nachname}@firma.at`; Platzhalter `{vorname}`, `{nachname}`, `{v}`, `{n}`; klein, ä→ae ö→oe ü→ue ß→ss, Akzente und Leerzeichen entfallen, Bindestrich bleibt; Format wird geprüft. Die E-Mail wird beim Anlegen/Ändern der Namen vorgeschlagen, solange sie nicht manuell geändert wurde (Merker emailManuell je Person); „Vorgabe übernehmen“ je Person und „Für alle ohne manuelle E-Mail neu setzen“ (mit Bestätigung). Import: leere E-Mail → Vorgabe. Bestehende E-Mails gelten als manuell.
+- **DEMO:** Gruppe „Außendienst Ost“ in Vertrieb Ost, Personen mit Vor-/Nachname, E-Mail-Syntax gesetzt.
+
+### Geändert
+- **Ist-FTE nach der FTE-Regel auch in der Liste und in den Excel-Exporten:** PEOPLE › Teams zeigt Typ, Mitglieder, Ist FTE und Σ Ist FTE; der Teams-Export enthält „Ist FTE“ und „Σ Ist FTE“ (beim Import ignoriert) – gleiche Rechnung wie Karten, Organigramm und JOBS.
+- Anleitung: teamfremde Leitung berichtet an die Leitung **ihres eigenen** Teams (unverändertes Verhalten, jetzt beschrieben); Abschnitte „Team oder Gruppe“ und „Name und E-Mail“.
+
 ## V1.0.4 · 26.11.2026 · DEV
 
 ### Neu
