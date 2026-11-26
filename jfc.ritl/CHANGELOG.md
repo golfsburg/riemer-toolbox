@@ -3,6 +3,15 @@
 Engineering Navigator: Kundenvergleich, Besuchspriorisierung und Gebiets-Review aus JFC-Reports · #ritl_jfc
 Neueste Version oben. Versionen ≤ V3.6 als „JFC Engineering Navigator“.
 
+## V4.0.11 · 26.11.2026 · DEV
+**Neu**
+- **Bezug „Vorjahr“ (Standard):** Neuer Schalter „Bezug“ in der Filterleiste. Bei „Vorjahr“ wählst Du nur den Datenstand BIS; verglichen wird automatisch mit demselben Monat ein Jahr davor (z. B. 10/2026 vs. 10/2025). „Zeitraum“ ist das bisherige VON → BIS. Die Wahl steckt in Ansicht, Favoriten, Backup-Einstellungen und im exportierten Kunden-Tool.
+- Stichtag gegen Stichtag (die Report-Spalten „lfd. Jahr“ sind bereits kumuliert). F&P rechnet bei geladenem Vorjahresmonat aus den eigenen Daten, sonst wie bisher aus den Report-Spalten R–T; die Bezugszeile nennt die Quelle.
+- **„kein VJ“:** Fehlt der Vorjahresmonat oder ein Kunde darin, steht „kein VJ“ – nicht 0 und nicht Verlust; Summen und Δ beziehen sich nur auf Kunden mit Vorjahreswert.
+- Alle Bezugszeilen, Spaltenüberschriften, Chips und Exporte (CSV/XLSX/PDF/PNG/PPTX, Kurzbericht) nennen den Bezug, z. B. „10/2026 vs. 10/2025 (Vorjahresmonat)“. Heatmap: Vorjahresmonat als erste Spalte, Δ-Spalte aus eigenen Daten. Steckbrief-Verlauf: Vorjahreswerte Monat für Monat.
+- Besuchsscore und Partner-Wechsel rechnen im Bezug Vorjahr gegen den Vorjahresmonat. Neuer Monat geladen → BIS springt auf den neuesten Datenstand.
+- Anleitung (?) um eine Erklärung ergänzt; Beispieldaten um Vorjahresmonate erweitert.
+
 ## V4.0.10 · 25.11.2026 · DEV
 **Geändert**
 - **Tool-Typ „Datenbank“ (Regel S-23, Rollout R-19):** Das Tool ist als Typ Datenbank gekennzeichnet – Daten bleiben wie bisher im Tool, keine Projektdateien.
