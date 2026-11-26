@@ -3,6 +3,12 @@
 Fardriver-Controller einstellen und simulieren – Ströme, Gänge, Kurven und Funktionen mit Wirkung auf Tempo, Beschleunigung und Reichweite · #ritl_foc
 Neueste Version oben. Versionen ≤ V1.2 waren Entwürfe im Chat und wurden nicht veröffentlicht.
 
+## V1.7.7 · 26.11.2026 · DEV
+**Geändert**
+- **Scrollen nach Ebenen (Regel S-18 neu, Rollout R-20):** Offene Dialoge sperren die Seite zentral über RITL-UI 1.7 (Rad, Touch, Tastatur); Hilfe- und Setup-Dialog tragen `data-ritl-overlay`. Eigene Sperr-Regel entfernt.
+- Mausrad über dem Ribbon scrollt wieder die Seite (kein eigener `wheel`-Handler mehr); `overscroll-behavior:contain` nur noch auf Dialogen. Listen, Spalten und Ribbons reichen am Ende an das Fenster weiter.
+- Bausteine aktualisiert: **RITL-UI 1.7**, **ritl-bk 2.14** (Verhalten sonst unverändert).
+
 ## V1.7.6 · 25.11.2026 · DEV
 **Geändert**
 - **Tool-Typ „Datenbank“ (Regel S-23, Rollout R-19):** Das Tool ist als Typ Datenbank gekennzeichnet – Daten bleiben wie bisher im Tool, keine Projektdateien.
