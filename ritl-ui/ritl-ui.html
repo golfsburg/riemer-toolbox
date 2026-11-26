@@ -92,7 +92,9 @@ dialog:modal,dialog:modal *{overscroll-behavior:contain}
      nicht hidden, nicht display:none/visibility:hidden. Altbestand: sichtbares .modal zählt mit; data-ritl-overlay="aus" schließt ein Element aus.
      API: RITLUI.overlay(el, true|false) – Ebene ausdrücklich öffnen/schließen (z. B. wenn ein Elternelement sie einblendet);
      RITLUI.overlay() → true, solange gesperrt. Ereignis ritl:overlay {offen}. Kein Rad-Handler für Ribbons o. Ä. – gleichrangige
-     Bereiche scrollen am Ende die Seite weiter; Zoom-Flächen (3D, Zeichnung, Organigramm) fangen das Rad selbst ab. */
+     Bereiche scrollen am Ende die Seite weiter; Zoom-Flächen (3D, Zeichnung, Organigramm) fangen das Rad selbst ab.
+     Zoom-Flächen mit data-ritl-zoom INNERHALB des obersten Overlays (z. B. fixierte Arbeitsfläche 🔒) bleiben unberührt –
+     dort kein preventDefault für Rad, Touch oder Tasten, damit Ziehen und Pinch-Zoom gehen; gesperrt wird nur außerhalb. */
 (function () {
   "use strict";
   var VERSION = "1.7";
@@ -340,8 +342,11 @@ dialog:modal,dialog:modal *{overscroll-behavior:contain}
       return false;
     }
     function innen(t) { var o = top(); return !!(o && t && t.nodeType === 1 && (o === t || o.contains(t))) ? o : null; }
+    // Zoom-Flächen (data-ritl-zoom: Zeichnung, 3D, Organigramm, Karte) im obersten Overlay behandeln Rad/Touch/Tasten selbst
+    function zoom(t, o) { var z = t && t.closest ? t.closest("[data-ritl-zoom]") : null; return !!(z && (o === z || o.contains(z))); }
     function verwerfen(e, t, dx, dy) {
       var o = innen(t);
+      if (o && zoom(t, o)) return;
       if (!o || !kann(t, o, dx, dy)) { if (e.cancelable) e.preventDefault(); }
     }
     var opt = { passive: false, capture: true };

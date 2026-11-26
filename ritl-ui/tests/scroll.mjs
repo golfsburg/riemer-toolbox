@@ -50,6 +50,16 @@ async function lauf(profil,ctxOpt,touch){
  // 7 API (Eltern blendet ein)
  await p.evaluate(()=>{$('b-api').click()});await warte(50);ok(profil,'RITLUI.overlay(el,true) → gesperrt',await gesperrt());
  await p.evaluate(()=>{$('eltern-zu').click()});await warte(50);ok(profil,'RITLUI.overlay(el,false) → frei',!(await gesperrt()));
+ // 7b Fixierte Arbeitsfläche 🔒 (Overlay) mit Zoom-Fläche data-ritl-zoom: Rad/Ziehen/Pinch gehen, Seite steht
+ await p.evaluate(()=>{scrollTo(0,200);Object.assign(ZS,{wheel:0,wheelGesperrt:0,touch:0,touchGesperrt:0,s:1,x:0,y:0});$('flaeche').hidden=false});await warte(50);
+ const yz=await y();ok(profil,'Arbeitsfläche 🔒 offen → gesperrt',await gesperrt());c=await box('#zoomf');
+ if(!touch){await scroll(c.x,c.y,-300);const z=await p.evaluate(()=>({...ZS}));ok(profil,'Zoom-Fläche: Rad zoomt, nicht verworfen, Seite steht',z.wheel>0&&!z.wheelGesperrt&&z.s>1&&(await y())===yz,JSON.stringify(z))}
+ else{const T=(type,pts)=>cdp.send('Input.dispatchTouchEvent',{type,touchPoints:pts.map(q=>({x:Math.round(q[0]),y:Math.round(q[1])}))});
+  await T('touchStart',[[c.x,c.y]]);for(let i=1;i<=8;i++){await T('touchMove',[[c.x+i*10,c.y+i*6]]);await warte(16)}await T('touchEnd',[]);await warte(100);
+  let z=await p.evaluate(()=>({...ZS}));ok(profil,'Zoom-Fläche: Ziehen verschiebt, nicht verworfen, Seite steht',z.touch>0&&!z.touchGesperrt&&z.x>40&&(await y())===yz,JSON.stringify(z));
+  await T('touchStart',[[c.x-20,c.y],[c.x+20,c.y]]);for(let i=1;i<=8;i++){await T('touchMove',[[c.x-20-i*8,c.y],[c.x+20+i*8,c.y]]);await warte(16)}await T('touchEnd',[]);await warte(100);
+  z=await p.evaluate(()=>({...ZS}));ok(profil,'Zoom-Fläche: Pinch zoomt, nicht verworfen, Seite steht',z.s>1.5&&!z.touchGesperrt&&(await y())===yz,JSON.stringify(z))}
+ await p.evaluate(()=>{$('flaeche').hidden=true});await warte(50);ok(profil,'Arbeitsfläche zu → frei',!(await gesperrt()));
  // 8 kein Springen: Header-Position und Breite bleiben
  await p.evaluate(()=>scrollTo(0,300));const a=await p.evaluate(()=>{const r=document.querySelector('.ritl-in').getBoundingClientRect();return [r.x,r.width,scrollY]});
  await p.evaluate(()=>dlg.showModal());await warte(50);const b=await p.evaluate(()=>{const r=document.querySelector('.ritl-in').getBoundingClientRect();return [r.x,r.width,scrollY]});await p.evaluate(()=>dlg.close());
