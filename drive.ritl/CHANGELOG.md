@@ -3,6 +3,11 @@
 Fahrtenbuch, Fahrzeuge, Tanken, Werkstatt, Pickerl §57a und Statistik · #ritl_drive
 Neueste Version oben.
 
+## V2.4.6 · 26.11.2026 · DEV
+**Geändert**
+- **Scrollen nach Ebenen (Regel S-18 neu, Rollout R-20):** Bei offenem Dialog (Fahrt/Fahrzeug, Menü, Hilfe, Favoriten, Backup) scrollt die Seite im Hintergrund nicht mehr – weder Mausrad noch Touch noch Tastatur; die Sperre kommt zentral aus RITL-UI 1.7. `overscroll-behavior:contain` gilt nur noch für Dialoge. Das Mausrad über dem Ribbon scrollt wieder die Seite (eigener `wheel`-Handler entfernt); Listen reichen am Ende an das Fenster weiter.
+- Bausteine aktualisiert: **RITL-UI 1.7**, **ritl-bk 2.14**.
+
 ## V2.4.5 · 25.11.2026 · DEV
 **Neu**
 - **Tool-Typ „Datenbank“ (Pilot, Regel S-23):** DRIVE.ritl ist als Typ `datenbank` gekennzeichnet (Adapter `typ:'datenbank'`, `ritl.json` `typ`; am Server steht `tools.typ` bereits darauf). Fahrten, Fahrzeuge, Tanken, Werkstatt und Pickerl bleiben wie bisher in der Datenbank des Tools – keine Projektdateien.
