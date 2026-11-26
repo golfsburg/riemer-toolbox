@@ -4,6 +4,10 @@
 Start: index.html im Browser öffnen (Chrome/Edge/Firefox) oder auf GitHub Pages ablegen.
 Beim Öffnen wird die Beispielzeichnung „Beispiel_Schnitt.dxf“ geladen.
 
+## V5.9.6 · 26.11.2026 · DEV
+**Geändert**
+- **Höhe des Modellbereichs:** Die Zeichnung wächst beim Ziehen wieder mit und wird zentriert in die Fläche eingepasst (statt fest an der oberen Ecke zu stehen wie in V5.9.4/5.9.5). Dabei wird höchstens einmal pro Bild neu gezeichnet. Das sichere Beenden des Ziehens aus V5.9.5 bleibt.
+
 ## V5.9.5 · 26.11.2026 · DEV
 **Behoben**
 - **Griff der Modellhöhe „klebte“ an der Maus:** Das Ziehen endet jetzt zuverlässig – beim Loslassen (auch außerhalb des Griffs oder des Fensters), bei Fensterwechsel und sobald die Maus ohne gedrückte Taste bewegt wird. Bewegung und Ende werden am ganzen Dokument verfolgt, nicht nur am Griff.
