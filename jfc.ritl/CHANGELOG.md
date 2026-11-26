@@ -3,6 +3,10 @@
 Engineering Navigator: Kundenvergleich, Besuchspriorisierung und Gebiets-Review aus JFC-Reports · #ritl_jfc
 Neueste Version oben. Versionen ≤ V3.6 als „JFC Engineering Navigator“.
 
+## V4.0.17 · 26.11.2026 · DEV
+**Behoben**
+- **Hinweis in Bereich 05 (Vertiefungen):** Die Zeile „Alle folgen den Hauptfiltern …“ zeigt jetzt immer den aktuellen Bezug – sie wird bei jeder Änderung von Bezug, VON und BIS neu gesetzt (bisher nur beim Laden der Daten). Der Text nennt dieselben Monate wie Steckbrief und VB-Report: Bezug Vorjahr z. B. „Jän 25 – Okt 25 → Jän 26 – Okt 26“, Bezug Zeitraum „VON 04/2026 → BIS 10/2026 · Apr 26 – Okt 26“.
+
 ## V4.0.16 · 26.11.2026 · DEV
 **Behoben**
 - **Kunden-Steckbrief ohne Vormonat:** Fehlt ein Kunde im Vormonat, zeigt das Diagramm „Kennzahl je Monat“ jetzt eine Lücke statt eines 0-Balkens – passend zu Kachel und Tabelle („kein Monatswert“). Der Hinweis unter dem Diagramm nennt die betroffenen Monate. Gilt auch für PowerPoint (leerer Wert + Hinweis auf der Folie) und PDF („kein MW“).
