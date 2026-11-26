@@ -4,6 +4,11 @@
 Start: index.html im Browser öffnen (Chrome/Edge/Firefox) oder auf GitHub Pages ablegen.
 Beim Öffnen wird die Beispielzeichnung „Beispiel_Schnitt.dxf“ geladen.
 
+## V5.9.5 · 26.11.2026 · DEV
+**Behoben**
+- **Griff der Modellhöhe „klebte“ an der Maus:** Das Ziehen endet jetzt zuverlässig – beim Loslassen (auch außerhalb des Griffs oder des Fensters), bei Fensterwechsel und sobald die Maus ohne gedrückte Taste bewegt wird. Bewegung und Ende werden am ganzen Dokument verfolgt, nicht nur am Griff.
+- Die Spalte verschiebt sich beim Ziehen nicht mehr von selbst unter der Maus (Scroll-Verankerung des Browsers abgeschaltet).
+
 ## V5.9.4 · 26.11.2026 · DEV
 **Behoben**
 - **Höhe des Modellbereichs ändern:** Beim Ziehen am Griff (und mit den Pfeiltasten) bleiben Maßstab und Ausschnitt der Zeichnung jetzt unverändert – die Fläche wächst oder schrumpft nur nach unten. Vorher wurde das Modell bei jedem Zwischenschritt neu berechnet und um die Mitte neu eingepasst, die Zeichnung wanderte und wirkte wie skaliert. Das Raster wird erst beim Loslassen aktualisiert.
