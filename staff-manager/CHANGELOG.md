@@ -9,6 +9,9 @@ Personalplanung & Teamstruktur · #ritl_staff · Tool-Typ Datenbank
 - **Gesamt-Export** (Header › Export): Dialog mit Häkchenliste je Bereich (ORG, MOVE, JOBS, PEOPLE) und je Format. XLSX = alle gewählten Tabellen in **einer** Datei, je Blatt (plus Blatt „Export-Info“); PPTX = alle gewählten Tabellen und Darstellungen in **einer** Präsentation mit Titelfolie und Inhaltsverzeichnis. Stichtag und Filter gelten und stehen auf der Titelfolie. Auswahl wird gemerkt (Einstellungen, im Backup). Dateinamen `JJJJMMDD-HHMM-STAFF-ritl_Gesamt.xlsx/.pptx` bzw. `_<Bereich>`.
 - Kleine Export-Knöpfe XLSX/PPTX an jedem Panel für den Einzelexport.
 - Teamtyp (Team/Gruppe) sowie Vorname/Nachname sind in allen Tabellen enthalten; Gruppen erscheinen im Organigramm als Unterzeile im Team, in den Teamkarten als Unterbereich.
+- **Dialoge:** In allen Dialogen gilt zentral **Enter = Speichern** (Hauptknopf), **Esc = Abbrechen** ohne Änderung; Enter in mehrzeiligen Feldern bleibt Zeilenumbruch, in Auswahllisten und Feldern mit Vorschlägen nativ; keine Doppelspeicherung; Fokus nach dem Öffnen im ersten Feld (Desktop). Gilt auch für den Export-Dialog.
+- E-Mail-Vorgabe: Sonderzeichen (Ø, Æ, Ł, Þ, ð) werden abgebildet, Warnung bei doppelter E-Mail-Adresse; Namensänderung im Import bildet die E-Mail neu, solange sie nicht manuell gesetzt wurde.
+- Team → Gruppe: Rückfrage, wenn Soll FTE, Leitung oder Bereich verloren gehen; Meldung, wenn eine Gruppe kein übergeordnetes Team hat.
 - Der Export liegt als eigener Block (`staff-export`) mit kleiner API (`RITLEXP`) im Tool – Vorbereitung für einen späteren Baustein.
 
 ## V1.0.5 · 26.11.2026 · DEV
@@ -18,6 +21,10 @@ Personalplanung & Teamstruktur · #ritl_staff · Tool-Typ Datenbank
 - **Vorname und Nachname** (zwei Felder). „Name“ bleibt als Anzeigename „Vorname Nachname“ (Austausch mit PPTX.ritl › TIMING, Spalte name unverändert zuerst); neue Excel-Spalten „Vorname“, „Nachname“ danach. Ältere Namen und Importe nur mit „Name“ werden am letzten Leerzeichen getrennt (Nachname = letztes Wort), Hinweis in der Import-Vorschau bzw. beim Start. Vorname/Nachname im Import haben Vorrang. Sortierung nach Nachname, Vorname (Option „Vorname zuerst“), Suche über beide.
 - **E-Mail-Vorgabe:** Einstellung „E-Mail-Syntax“ (PEOPLE › E-Mail & Sortierung, im Backup/settings), z. B. `{vorname}.{nachname}@firma.at`; Platzhalter `{vorname}`, `{nachname}`, `{v}`, `{n}`; klein, ä→ae ö→oe ü→ue ß→ss, Akzente und Leerzeichen entfallen, Bindestrich bleibt; Format wird geprüft. Die E-Mail wird beim Anlegen/Ändern der Namen vorgeschlagen, solange sie nicht manuell geändert wurde (Merker emailManuell je Person); „Vorgabe übernehmen“ je Person und „Für alle ohne manuelle E-Mail neu setzen“ (mit Bestätigung). Import: leere E-Mail → Vorgabe. Bestehende E-Mails gelten als manuell.
 - **DEMO:** Gruppe „Außendienst Ost“ in Vertrieb Ost, Personen mit Vor-/Nachname, E-Mail-Syntax gesetzt.
+
+### Behoben
+- **Teamleitung als Mitglied einer Gruppe des eigenen Teams** gilt nicht mehr als „teamfremd“: Karten, Organigramm, Liste und JOBS zeigen sie als Mitglied der Gruppe („Leitung · in Gruppe X“), Zahlen und Texte stimmen.
+- Sortierung umschalten speichert den Bestand nicht mehr unnötig.
 
 ### Geändert
 - **Ist-FTE nach der FTE-Regel auch in der Liste und in den Excel-Exporten:** PEOPLE › Teams zeigt Typ, Mitglieder, Ist FTE und Σ Ist FTE; der Teams-Export enthält „Ist FTE“ und „Σ Ist FTE“ (beim Import ignoriert) – gleiche Rechnung wie Karten, Organigramm und JOBS.
