@@ -3,6 +3,17 @@
 Engineering Navigator: Kundenvergleich, Besuchspriorisierung und Gebiets-Review aus JFC-Reports · #ritl_jfc
 Neueste Version oben. Versionen ≤ V3.6 als „JFC Engineering Navigator“.
 
+## V4.0.12 · 26.11.2026 · DEV
+**Neu**
+- **Vergleichsart je Kennzahl** (Bezug Vorjahr): „Monat gegen Vorjahresmonat“ für Summenwerte pro Monat (Events FE, gewonnene Business-/Spec-Werte), „Stichtag gegen Stichtag“ für Bestands-/Stichtagsgrößen (Partner, offenes Business, R12, Score) und die bereits kumulierten Spalten „lfd. Jahr“. Die Art steht in der Bezugszeile, in Exporten und in der Anleitung.
+- Heatmap: je Zelle der Wert des Vorjahresmonats darunter („VJ …“ bzw. „kein VJ“).
+- Beispieldaten: Vorjahresmonate für alle Monate des laufenden Jahres, ein Monat ohne Vorjahr (12/2025) und Kunden ohne Vorjahr.
+
+**Geändert**
+- Bezug im Format „MM/JJJJ vs. MM/JJJJ-1 (Vorjahresmonat)“ jetzt auch in PPTX-Titelfolie, Gebiets-Review (App, PPTX, PDF), Streudiagramm, Besuchsscore/Besuchsplan, Steckbrief (App/PPTX/PDF), VB-Report, Excel-Infoblatt und Kurzbericht; keine „VON“-Reste im Bezug Vorjahr.
+- Gebiets-Review und Steckbrief rechnen F&P bei geladenem Vorjahresmonat aus den eigenen Daten (statt Report-Spalten R–T).
+- Status „kein VJ“ wird neutral (grau) dargestellt, nicht als Verlust.
+
 ## V4.0.11 · 26.11.2026 · DEV
 **Neu**
 - **Bezug „Vorjahr“ (Standard):** Neuer Schalter „Bezug“ in der Filterleiste. Bei „Vorjahr“ wählst Du nur den Datenstand BIS; verglichen wird automatisch mit demselben Monat ein Jahr davor (z. B. 10/2026 vs. 10/2025). „Zeitraum“ ist das bisherige VON → BIS. Die Wahl steckt in Ansicht, Favoriten, Backup-Einstellungen und im exportierten Kunden-Tool.
