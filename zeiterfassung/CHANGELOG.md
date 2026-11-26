@@ -3,6 +3,12 @@
 Projektzeiten erfassen, Timer und manuelle Einträge, Auswertung, Excel/CSV-Datei-Modus · #ritl_zeit (bis V3.7: Zeiterfassung.ritl · #ritl_zeiterfassung)
 Neueste Version oben. Versionen ≤ V3.1 nachträglich aus dem Changelog im Tool rekonstruiert (V1.0–V2.3: 17.07.2026).
 
+## V3.8.4 · 26.11.2026 · DEV
+**Geändert**
+- **Scrollen nach Ebenen (Regel S-18, Rollout R-20):** Solange ein Dialog, ein Fenster (Einstellungen, Projekt, Eintrag bearbeiten, Changelog) oder die Anleitung offen ist, bleibt die Seite im Hintergrund stehen – Mausrad, Touch und Tastatur. Ist das Fenster geschlossen, scrollt die Seite wieder. Die Sperre kommt zentral aus dem Baustein.
+- Mausrad über der Leiste oben scrollt jetzt die Seite (kein eigener Rad-Handler mehr).
+- Bausteine aktualisiert: **RITL-UI 1.7**, **ritl-bk 2.14**.
+
 ## V3.8.3 · 25.11.2026 · DEV
 **Geändert**
 - **Tool-Typ „Datenbank“ (Regel S-23, Rollout R-19):** Das Tool ist als Typ Datenbank gekennzeichnet – Daten bleiben wie bisher im Tool, keine Projektdateien.
