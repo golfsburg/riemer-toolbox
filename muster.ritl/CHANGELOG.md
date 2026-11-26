@@ -3,6 +3,11 @@
 Vorlage und Spielwiese für den Skill `/riemer-webapp-design` · #ritl_muster
 Neueste Version oben. Versionen ≤ V2.2 nachträglich aus den veröffentlichten Ständen (Tabelle `tool_versions`) rekonstruiert.
 
+## V3.10.2 · 26.11.2026 · DEV
+**Geändert**
+- **Kompaktes Module-Ribbon ohne Bildlaufleiste (Regel S-26, Rollout R-22, Vorlage für alle Tools):** Das Ribbon ist jetzt rund **45 px** hoch statt 70 px (bei 1280 px bisher 90 px, weil Untertitel umbrachen) – Titel und Untertitel bleiben zweizeilig lesbar, Symbole etwas kleiner. Im Ribbon erscheint **nie** eine Bildlaufleiste, weder senkrecht noch waagrecht: Passen nicht alle Reiter ins Fenster (z. B. am Handy), scrollt das Ribbon seitlich mit Shift+Rad, Touchpad oder Wischen, eine dezente Verlaufskante am Rand zeigt weitere Reiter an. Bei wenig Platz verschwinden zuerst die Kennzeichen (`#ritl_…`), dann die Untertitel. Am Handy und Tablet bleiben die Reiter mindestens 40 px hoch.
+- Die klebenden Bereiche unter dem Ribbon (`--rib-h`/`--stk`) passen sich der neuen Höhe automatisch an.
+
 ## V3.10.1 · 26.11.2026 · DEV
 **Geändert**
 - **Scrollen nach Ebenen (Rollout R-20, Regel S-18 neu, Vorlage für alle Tools):** Solange ein Dialog, ein Popup (Filter, Filter-Favoriten, Rollenauswahl), die Anleitung, das Backup oder die fixierte Arbeitsfläche 🔒 offen ist, steht die Seite im Hintergrund – mit Mausrad, Wischen am iPhone/Android und Bild↓. Gekennzeichnet sind diese Ebenen mit `data-ritl-overlay`; die Sperre selbst kommt zentral aus RITL-UI 1.7 (eigene Sperre `body.wslocked`/`html:has(dialog…)` entfernt).
