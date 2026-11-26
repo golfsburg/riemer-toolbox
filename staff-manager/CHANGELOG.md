@@ -2,6 +2,11 @@
 
 Personalplanung & Teamstruktur · #ritl_staff · Tool-Typ Datenbank
 
+## V1.0.4 · 26.11.2026 · DEV
+
+### Neu
+- **Team-Dialog: „Das Team hat eine Teamleitung“ (ja/nein).** Bei „nein“ entfällt die Leitungsauswahl; Organigramm zeigt „ohne Teamleitung“ statt „Leitung offen“. Bei „ja“ ohne Auswahl bleibt „Leitung offen“. Excel-Import mit Leitung setzt das Team wieder auf „ja“.
+
 ## V1.0.3 · 26.11.2026 · DEV
 
 ### Behoben
