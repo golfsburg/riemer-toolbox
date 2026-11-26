@@ -3,6 +3,13 @@
 Vorlage und Spielwiese für den Skill `/riemer-webapp-design` · #ritl_muster
 Neueste Version oben. Versionen ≤ V2.2 nachträglich aus den veröffentlichten Ständen (Tabelle `tool_versions`) rekonstruiert.
 
+## V3.10.1 · 26.11.2026 · DEV
+**Geändert**
+- **Scrollen nach Ebenen (Rollout R-20, Regel S-18 neu, Vorlage für alle Tools):** Solange ein Dialog, ein Popup (Filter, Filter-Favoriten, Rollenauswahl), die Anleitung, das Backup oder die fixierte Arbeitsfläche 🔒 offen ist, steht die Seite im Hintergrund – mit Mausrad, Wischen am iPhone/Android und Bild↓. Gekennzeichnet sind diese Ebenen mit `data-ritl-overlay`; die Sperre selbst kommt zentral aus RITL-UI 1.7 (eigene Sperre `body.wslocked`/`html:has(dialog…)` entfernt).
+- Listen, Tabellen, Vorschau und Ribbons scrollen am Ende die Seite weiter (`overscroll-behavior:contain` nur noch auf Dialogen und Overlays). Über dem Ribbon scrollt das senkrechte Mausrad die Seite; waagrecht geht es mit Shift+Rad bzw. Touchpad/Wischen (Rad-Handler am Ribbon entfernt).
+- Die Map ist als Zoom-Fläche gekennzeichnet (`data-ritl-zoom`): Im 🔒-Modus zoomt das Rad bzw. Pinch nur über der Zeichnung. Das Auswahl-Popup in der Map bleibt Teil der Map (`data-ritl-overlay="aus"`) und sperrt die Seite nicht.
+- Bausteine aktualisiert: RITL-UI 1.7, ritl-bk 2.14, ritl-doc 1.2.
+
 ## V3.10.0 · 25.11.2026 · DEV
 **Neu**
 - **Ribbon DOC.ritl – Referenz für den Tool-Typ „Dokument“ (ritl-doc 1.0):** Jedes Projekt ist eine eigene Datei `<Projektname>.muster.ritl` (z. B. `Angebot Muster.muster.ritl`) – nur auf dem Gerät bzw. im Ordner, nie am Server. Beispiel-Adapter `daten()`/`laden()`/`dateien()`/`leer()` mit Projektname, Auftraggeber, Status, Notizen und **Datei-Upload** (Auswahl oder Ziehen; Dateien werden in der Projektdatei mitgespeichert), „Beispiel laden“ und Anzeige der Projektdatei.
