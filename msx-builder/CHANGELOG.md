@@ -4,6 +4,10 @@
 Start: index.html im Browser öffnen (Chrome/Edge/Firefox) oder auf GitHub Pages ablegen.
 Beim Öffnen wird die Beispielzeichnung „Beispiel_Schnitt.dxf“ geladen.
 
+## V5.9.1 · 26.11.2026 · DEV
+**Geändert**
+- **Scrollen (R-15):** Der Kopfbereich läuft beim Scrollen aus, die Werkzeugleiste der Rohrliste (Bereich 08) bleibt oben stehen. Auf dem Handy ist sie einzeilig und seitlich wischbar. Das Mausrad über der Leiste schiebt nur die Leiste und nie die ganze Seite. Innere Listen und Dialoge reichen das Scrollen nicht mehr an die Seite weiter.
+
 ## V5.9.0 · 25.11.2026 · DEV
 **Neu**
 - **Projekte als eigene Datei:** Ein MSX-Projekt ist jetzt eine Datei, die du speicherst – z. B. „Haus A.msx.ritl“. Darin steckt alles: Bereich 01 mit Projektname, allen Ordnern und Unterprojekten, Anzahl je Unterprojekt und dem Arbeitsstand jedes Unterprojekts (Erkennung, Auswahl, manuell gezeichnete Objekte, Ausschnitt), dazu Vorlage, weitere Rohrnormen, Revit-Zuordnung, „Texte EIN/AUS“, „Anzahl im Namen exportieren“ und **alle importierten Originaldateien** (DWG, DXF, PDF, Bilder, MSX, .mspx, ZIP). So kannst du mehrere Projekte parallel führen, weitergeben und archivieren – beim Öffnen ist das Projekt vollständig wieder da.
