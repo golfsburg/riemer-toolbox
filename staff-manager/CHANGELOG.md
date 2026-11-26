@@ -2,6 +2,25 @@
 
 Personalplanung & Teamstruktur · #ritl_staff · Tool-Typ Datenbank
 
+## V1.0.8 · 26.11.2026 · DEV
+
+### Neu
+- **Scrollen nach Ebenen (R-20):** Fixierte Organigramm-Arbeitsfläche (🔒) trägt `data-ritl-overlay` (nur solange fixiert), Zeichenfläche `data-ritl-zoom`: Rad zoomt nur im 🔒-Modus, sonst scrollt die Seite. RITL-UI 1.7 / ritl-bk 2.14.
+- Zeitplan-Export verteilt viele Ereignisse auf weitere Folien statt Zeilen zu stauchen; Organigramm-Export nennt Teams in einem „Übergeordnet“-Kreis mit Hinweis.
+- EN-Texte für Export-Folien und Rückfragen ergänzt.
+
+### Geändert
+- Exporte „Teams & Gruppen“, „Soll / Ist“ und „Personen“ (Team/Gruppe) verwenden den gewählten Stichtag; Zeitplan-Folie folgt dem MOVE-Filter.
+- Import: E-Mail wird bei Namensänderung auch neu gebildet, wenn die alte Adresse der Vorgabe entsprach.
+- E-Mail-Vorgabe wandelt zusätzlich ħ, ı, ĸ um.
+- Eigene Dialoge setzen den Fokus über eine Funktion statt über einen `showModal`-Prototyp-Ersatz.
+
+### Behoben
+- Enter auf einer Checkbox im Export-Dialog löst nicht mehr „Speichern“ aus; Texte im Export-Block werden maskiert.
+
+### Entfernt
+- `wheel`-Handler am Ribbon und `overscroll-behavior:contain` auf Ribbon, Tabellen, Kanban, Zeitleiste.
+
 ## V1.0.7 · 26.11.2026 · DEV
 
 ### Neu
