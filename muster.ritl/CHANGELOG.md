@@ -3,6 +3,20 @@
 Vorlage und Spielwiese für den Skill `/riemer-webapp-design` · #ritl_muster
 Neueste Version oben. Versionen ≤ V2.2 nachträglich aus den veröffentlichten Ständen (Tabelle `tool_versions`) rekonstruiert.
 
+## V3.10.4 · 26.11.2026 · DEV
+**Neu**
+- **Rückfrage beim Abbrechen (Vorlage):** Hat man im Beispiel-Dialog etwas geändert, fragen Esc und „Abbrechen“ gleichermaßen „Ungespeicherte Änderungen verwerfen?“. Ohne Änderung schließt der Dialog sofort.
+
+**Geändert**
+- **Enter wirkt nur im Dialog oder Popup, in dem man gerade ist:** Ist z. B. die Filterliste der Map offen und man tippt in einem Feld der Seite, bleibt die Liste offen und Enter wirkt im Feld wie gewohnt.
+- **Esc bei offener Auswahlliste** schließt zuerst nur die Liste; Eingaben mit Akzent- oder Silbenschrift (IME) bleiben unberührt.
+- **Fokus zurück:** Schließt man Filterliste oder Favoriten-Popup, steht der Fokus wieder auf dem Knopf, mit dem man es geöffnet hat.
+- **Gehaltenes Enter** schreibt im Notizfeld wieder mehrere Zeilen; die Sperre gegen doppeltes Speichern gilt nur in den eigenen Dialogen.
+- Handy-Erkennung (Touch) wird laufend geprüft, z. B. bei Tablets mit angestecktem Eingabestift oder Maus.
+
+**Behoben**
+- FOKUS-Dialog: der Cursor startet eindeutig im Auswahlfeld.
+
 ## V3.10.3 · 26.11.2026 · DEV
 **Neu**
 - **Enter speichert, Esc bricht ab – in allen Dialogen (Regel S-25, Rollout R-21, Vorlage):** Ein zentraler Tasten-Handler für alle eigenen Dialoge und Popups. **Enter** löst den Hauptknopf aus (Speichern, Übernehmen), **Esc** schließt ohne Änderung. Im mehrzeiligen Notizfeld macht Enter eine neue Zeile, **Strg/⌘+Enter** speichert. Enter auf Auswahlfeld, Kontrollkästchen oder Knopf speichert nicht. Reine Info-Dialoge (Anleitung, Favoriten, FOKUS) schließen mit Enter und Esc. Gedrückt gehaltenes oder doppelt gedrücktes Enter speichert nur einmal und öffnet den Dialog nicht gleich wieder.
