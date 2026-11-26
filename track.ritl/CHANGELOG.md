@@ -3,6 +3,10 @@
 GPS-Tracks (GPX) lokal im Browser in 2D und 3D darstellen, analysieren, bearbeiten und animieren · #ritl_track
 Neueste Version oben. Versionen ≤ V1.9 in Google AI Studio entwickelt und nachträglich zusammengefasst (keine Einzelstände erhalten).
 
+## V3.3.33 · 26.11.2026 · DEV
+**Behoben**
+- Die fixierte 🔒-Arbeitsfläche (Modell, Höhenprofil, Export, Pano) sperrt die Seite dahinter jetzt zuverlässig: Mit Mausrad, Touch und Bild↓ bleibt die Seite stehen, nach dem Lösen scrollt sie wieder.
+
 ## V3.3.32 · 26.11.2026 · DEV
 **Geändert**
 - **Scrollen nach Ebenen (R-20):** Solange ein Fenster, eine Anleitung, das Teilen-Blatt oder eine fixierte Arbeitsfläche (🔒) offen ist, bleibt die Seite dahinter stehen – mit Mausrad, Touch und Tastatur. Das Fenster selbst scrollt in sich.
