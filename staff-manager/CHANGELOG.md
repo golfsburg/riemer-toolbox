@@ -2,6 +2,17 @@
 
 Personalplanung & Teamstruktur · #ritl_staff · Tool-Typ Datenbank
 
+## V1.0.2 · 26.11.2026 · DEV
+
+### Neu
+- **FTE-Regel mit/ohne Teamleitung:** *Team* = alle aktiven Mitglieder; ist die Teamleitung selbst Mitglied, zählt sie mit. Ist sie **teamfremd** (nicht Mitglied), zählt sie in diesem Team nicht und wird nur als „Leitung: Name“ angezeigt. *Übergeordnetes Team* (Σ über alle Unterteams) = alle FTE **inklusive aller Teamleitungen**, jede Person genau einmal. Gilt in den Teamkarten und im Organigramm (auch am Stichtag), in JOBS.ritl (Soll/Ist je Team) und in der Anleitung. Regel als kleine Tabelle mit DEMO-Beispiel in der Anleitung (?) und unter „Soll / Ist je Team“.
+- **Teamleitung darf teamfremd sein:** Die Auswahl im Team-Dialog bietet alle Personen an (gruppiert: „Im Team“ / „Andere Personen“); der Excel-Import (Blatt Teams, Spalte Leitung) akzeptiert jede vorhandene Person. „Berichtet an“ automatisch (leer) bleibt: Mitglieder berichten an die Teamleitung, die Leitung selbst an die Leitung des übergeordneten Teams.
+- **Organigramm:** teamfremde Leitung erscheint (gestrichelt, „teamfremd“) beim Team, ohne dort als Mitglied zu zählen; eine Leitungslinie führt vom Team zur Person in ihrem eigenen Team.
+- **DEMO:** neues Team „Kundensupport“ (unter Vertrieb Ost) mit teamfremder Leitung Lukas Steiner.
+
+### Geändert
+- Kreisprüfung berücksichtigt teamfremde Leitungen: Leitungen, die einen Berichtskreis ergäben, sind im Team-Dialog gesperrt, werden beim Speichern verworfen und beim Excel-Import als Fehler gemeldet (die bisherige Leitung bleibt).
+
 ## V1.0.1 · 26.11.2026 · DEV
 
 ### Behoben
