@@ -3,6 +3,21 @@
 Engineering Navigator: Kundenvergleich, Besuchspriorisierung und Gebiets-Review aus JFC-Reports · #ritl_jfc
 Neueste Version oben. Versionen ≤ V3.6 als „JFC Engineering Navigator“.
 
+## V4.0.17 · 26.11.2026 · DEV
+**Behoben**
+- **Hinweis in Bereich 05 (Vertiefungen):** Die Zeile „Alle folgen den Hauptfiltern …“ zeigt jetzt immer den aktuellen Bezug – sie wird bei jeder Änderung von Bezug, VON und BIS neu gesetzt (bisher nur beim Laden der Daten). Der Text nennt dieselben Monate wie Steckbrief und VB-Report: Bezug Vorjahr z. B. „Jän 25 – Okt 25 → Jän 26 – Okt 26“, Bezug Zeitraum „VON 04/2026 → BIS 10/2026 · Apr 26 – Okt 26“.
+
+## V4.0.16 · 26.11.2026 · DEV
+**Behoben**
+- **Kunden-Steckbrief ohne Vormonat:** Fehlt ein Kunde im Vormonat, zeigt das Diagramm „Kennzahl je Monat“ jetzt eine Lücke statt eines 0-Balkens – passend zu Kachel und Tabelle („kein Monatswert“). Der Hinweis unter dem Diagramm nennt die betroffenen Monate. Gilt auch für PowerPoint (leerer Wert + Hinweis auf der Folie) und PDF („kein MW“).
+- **VB-Report mit mehreren Kunden:** Kunden ohne Monatswert werden nicht als 0 mitgezählt; der Hinweis nennt je Monat die Anzahl („Sep 26 (1 Kunde)“). In PowerPoint bleiben Monate ohne Wert leer.
+- **Bezug Zeitraum mit VON nach BIS:** Linie und Beschriftung „Δ zu …“ beziehen sich auf den ersten Monat der Auswahl; Zeitraum-Angaben (Steckbrief, Produktmix, Verteilung) laufen vom ersten bis zum letzten Monat. Hervorgehoben bleibt BIS.
+- **Produktmix als PowerPoint:** Folien „Produktmix je Kunde“ und „Verteilung Produktmix“ werden mit dem aktuellen Filter neu gerechnet – auch wenn die Vertiefung vorher nicht angezeigt war.
+- Produktmix über den Jahreswechsel: Fehlt der Jänner im Folgejahr, nennt der Hinweis das (Wert ab Jänner aus dem kumulierten Stand).
+
+**Geändert**
+- Steckbrief-Reihen für einen Kunden schneller (direkter Zugriff statt Suche) – spürbar bei „Alle Steckbriefe“ als PPTX/PDF.
+
 ## V4.0.15 · 26.11.2026 · DEV
 **Neu**
 - **Verteilung Produktmix** unter „Produktmix je Kunde“: Ring-Diagramm mit der Summe der Umsätze Structural, Support Systems und Firestop über alle Kunden im aktuellen Filter (nicht nur die Top-Kunden), Anteil in % und Betrag als Tabelle. Bei Bezug „Vorjahr“ zweiter, innerer Ring mit dem Vorjahr und Spalte Δ zum VJ. Eigener PNG-Export; in der PowerPoint (Produktmix und Gesamt-Export) als eigene Folie.
