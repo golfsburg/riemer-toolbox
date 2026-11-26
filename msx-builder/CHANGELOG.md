@@ -4,6 +4,10 @@
 Start: index.html im Browser öffnen (Chrome/Edge/Firefox) oder auf GitHub Pages ablegen.
 Beim Öffnen wird die Beispielzeichnung „Beispiel_Schnitt.dxf“ geladen.
 
+## V5.9.2 · 26.11.2026 · DEV
+**Geändert**
+- **Scrollen:** Ist der Inhalt eines Bereichs (Liste, Tabelle, Projektbaum, Spalte) am Ende oder gar nicht scrollbar, scrollt das Mausrad jetzt die ganze Seite weiter. Dasselbe gilt für die Werkzeugleiste: Sie schiebt sich seitlich, solange sie überläuft, danach läuft die Seite weiter. Dialoge bleiben davon ausgenommen.
+
 ## V5.9.1 · 26.11.2026 · DEV
 **Geändert**
 - **Scrollen (R-15):** Der Kopfbereich läuft beim Scrollen aus, die Werkzeugleiste der Rohrliste (Bereich 08) bleibt oben stehen. Auf dem Handy ist sie einzeilig und seitlich wischbar. Das Mausrad über der Leiste schiebt nur die Leiste und nie die ganze Seite. Innere Listen und Dialoge reichen das Scrollen nicht mehr an die Seite weiter.
