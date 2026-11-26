@@ -3,6 +3,10 @@
 Präsentationen aus Abschnitten zusammenstellen (DECK.ritl) und Meetings planen (TIMING.ritl) · #ritl_pptx
 Neueste Version oben. Ältere Versionen siehe Admin › Tools › Versionen (Tabelle `tool_versions`); dieser CHANGELOG beginnt mit V2.9.
 
+## V3.8.5 · 26.11.2026 · DEV
+**Neu**
+- **DE/EN-Umschalter funktioniert:** Der Knopf im Header schaltet die Oberfläche jetzt um. Texte kommen aus der Übersetzungstabelle (gemeinsame Texte plus PPTX); noch nicht übersetzte Texte bleiben Deutsch. Namen und eigene Eingaben werden nie übersetzt.
+
 ## V3.8.4 · 26.11.2026 · DEV
 **Geändert**
 - **Kalender (.ics):** Alle Räume werden als Ressource (`RESOURCES`) in den Termin geschrieben – auch Räume ohne E-Mail-Adresse. Räume mit E-Mail bleiben zusätzlich als Raum-Teilnehmer enthalten.
