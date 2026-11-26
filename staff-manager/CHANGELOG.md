@@ -2,6 +2,15 @@
 
 Personalplanung & Teamstruktur · #ritl_staff · Tool-Typ Datenbank
 
+## V1.0.6 · 26.11.2026 · DEV
+
+### Neu
+- **Export-Pilot (XLSX und PPTX).** Jede Tabelle (ORG Liste, MOVE Verschiebungen, JOBS Offene Stellen und Soll/Ist, PEOPLE Personen, Teams & Gruppen, Dotted Lines, Datenbasis) als **XLSX** (eigener Schreiber auf JSZip, kein SheetJS) und als **PPTX** (Tabelle auf Folien, bei vielen Zeilen auf mehrere verteilt, Kopfzeile wiederholt). Jede Darstellung als **PPTX**: Teamkarten, Organigramm (als Formen/Vektor, in PowerPoint bearbeitbar), MOVE-Zeitplan 12 Monate, JOBS-Board, Soll/Ist-Übersicht. 16:9 in RIEMER-Farben, Fußzeile mit Tool, Version, Stand, Stichtag/Filter und Quelle.
+- **Gesamt-Export** (Header › Export): Dialog mit Häkchenliste je Bereich (ORG, MOVE, JOBS, PEOPLE) und je Format. XLSX = alle gewählten Tabellen in **einer** Datei, je Blatt (plus Blatt „Export-Info“); PPTX = alle gewählten Tabellen und Darstellungen in **einer** Präsentation mit Titelfolie und Inhaltsverzeichnis. Stichtag und Filter gelten und stehen auf der Titelfolie. Auswahl wird gemerkt (Einstellungen, im Backup). Dateinamen `JJJJMMDD-HHMM-STAFF-ritl_Gesamt.xlsx/.pptx` bzw. `_<Bereich>`.
+- Kleine Export-Knöpfe XLSX/PPTX an jedem Panel für den Einzelexport.
+- Teamtyp (Team/Gruppe) sowie Vorname/Nachname sind in allen Tabellen enthalten; Gruppen erscheinen im Organigramm als Unterzeile im Team, in den Teamkarten als Unterbereich.
+- Der Export liegt als eigener Block (`staff-export`) mit kleiner API (`RITLEXP`) im Tool – Vorbereitung für einen späteren Baustein.
+
 ## V1.0.5 · 26.11.2026 · DEV
 
 ### Neu
