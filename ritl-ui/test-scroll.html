@@ -32,6 +32,11 @@ dialog::backdrop{background:rgba(15,20,28,.45)}
 .menu div{padding:8px 12px}
 .wrap.zeigen .eltern{display:block}
 .eltern{display:none;position:fixed;inset:20% 20%;z-index:55;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;overflow:auto}
+.flaeche{position:fixed;inset:0;z-index:58;background:var(--bg);display:flex;flex-direction:column}
+.flaeche[hidden]{display:none}
+.flaeche .fk{display:flex;gap:8px;align-items:center;padding:10px 16px;background:var(--surface);border-bottom:1px solid var(--line)}
+.zoomf{flex:1;position:relative;overflow:hidden;touch-action:none;background:repeating-linear-gradient(45deg,var(--surface) 0 12px,var(--bg) 12px 24px)}
+.zoomf i{position:absolute;left:40%;top:40%;width:120px;height:80px;border-radius:10px;background:var(--brand);transform-origin:center}
 #stand{position:fixed;right:12px;bottom:12px;z-index:70;padding:6px 10px;border-radius:8px;background:var(--ink);color:var(--bg);font:500 12px var(--mono)}
 </style>
 </head>
@@ -44,6 +49,7 @@ dialog::backdrop{background:rgba(15,20,28,.45)}
  <button type="button" id="b-sheet">Bottom-Sheet</button>
  <button type="button" id="b-menu">Menü</button>
  <button type="button" id="b-api">Eltern + API</button>
+ <button type="button" id="b-fl">Arbeitsfläche 🔒</button>
  <button type="button">Modul 5</button><button type="button">Modul 6</button><button type="button">Modul 7</button><button type="button">Modul 8</button>
  <button type="button">Modul 9</button><button type="button">Modul 10</button><button type="button">Modul 11</button><button type="button">Modul 12</button>
  <button type="button">Modul 13</button><button type="button">Modul 14</button><button type="button">Modul 15</button><button type="button">Modul 16</button>
@@ -56,6 +62,8 @@ dialog::backdrop{background:rgba(15,20,28,.45)}
 <dialog id="dlg" aria-labelledby="dlg-h"><div class="dh" id="dlg-h">Dialog mit langem Inhalt</div><div class="db" id="dlg-db"></div><div class="df"><button class="btn" type="button" id="dlg-zu">Schließen</button></div></dialog>
 <div class="sheet" id="sheet" data-ritl-overlay hidden><div class="pn" id="sheet-pn"></div></div>
 <div class="wrap" id="wrap"><div class="eltern" id="eltern"><b>Ebene, die ein Elternelement einblendet</b> – angemeldet über <code>RITLUI.overlay(el, true)</code>.<p><button class="btn" type="button" id="eltern-zu">Schließen</button></p></div></div>
+<div class="flaeche" id="flaeche" data-ritl-overlay hidden><div class="fk"><b>Fixierte Arbeitsfläche 🔒</b><span id="zs" class="notr"></span><button class="btn" type="button" id="fl-zu" style="margin-left:auto">Schließen</button></div>
+ <div class="zoomf" id="zoomf" data-ritl-zoom aria-label="Zoom-Fläche (Rad/Pinch zoomen, Ziehen verschiebt)"><i id="zobj"></i></div></div>
 <div id="stand" class="notr">scrollY 0 · frei</div>
 <script>
 const $=id=>document.getElementById(id),zeilen=(n,t)=>Array.from({length:n},(_,i)=>`<div>${t} ${i+1}</div>`).join('');
@@ -69,6 +77,17 @@ $('b-sheet').onclick=()=>{$('sheet').hidden=false};$('sheet').addEventListener('
 $('b-menu').onclick=e=>{e.stopPropagation();$('menu').hidden=!$('menu').hidden};document.addEventListener('click',e=>{if(!$('menu').hidden&&!$('menu').contains(e.target)&&e.target.id!=='b-menu')$('menu').hidden=true});
 $('b-api').onclick=()=>{$('wrap').classList.add('zeigen');window.RITLUI&&RITLUI.overlay($('eltern'),true)};
 $('eltern-zu').onclick=()=>{$('wrap').classList.remove('zeigen');window.RITLUI&&RITLUI.overlay($('eltern'),false)};
+// Zoom-Fläche wie in den Tools: eigene Rad-/Touch-Handler; protokolliert, ob RITL-UI das Ereignis schon verworfen hat
+const ZS=window.ZS={wheel:0,wheelGesperrt:0,touch:0,touchGesperrt:0,s:1,x:0,y:0};let tp=null;
+const zmal=()=>{$('zobj').style.transform=`translate(${ZS.x}px,${ZS.y}px) scale(${ZS.s})`;$('zs').textContent=`Zoom ${ZS.s.toFixed(2)} · ${Math.round(ZS.x)}/${Math.round(ZS.y)}`};
+$('zoomf').addEventListener('wheel',e=>{ZS.wheel++;if(e.defaultPrevented)ZS.wheelGesperrt++;e.preventDefault();ZS.s=Math.max(.2,Math.min(8,ZS.s*Math.exp(-e.deltaY/500)));zmal()},{passive:false});
+const pk=t=>[...t].map(p=>({x:p.clientX,y:p.clientY}));
+$('zoomf').addEventListener('touchstart',e=>{tp=pk(e.touches)},{passive:true});
+$('zoomf').addEventListener('touchmove',e=>{ZS.touch++;if(e.defaultPrevented)ZS.touchGesperrt++;const n=pk(e.touches);
+ if(tp&&n.length===2&&tp.length===2){const d=(a)=>Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y);ZS.s*=d(n)/Math.max(1,d(tp))}
+ else if(tp&&n.length===1&&tp.length===1){ZS.x+=n[0].x-tp[0].x;ZS.y+=n[0].y-tp[0].y}
+ tp=n;e.preventDefault();zmal()},{passive:false});
+$('b-fl').onclick=()=>{$('flaeche').hidden=false};$('fl-zu').onclick=()=>{$('flaeche').hidden=true};zmal();
 setInterval(()=>{$('stand').textContent=`scrollY ${Math.round(scrollY)} · ${window.RITLUI&&RITLUI.overlay&&RITLUI.overlay()?'gesperrt':'frei'} · RITL-UI ${window.RITLUI?RITLUI.version:'–'}`},200);
 // RITL-UI direkt aus dem Repo einbauen (Tools bekommen den Block fest eingebaut bzw. vom Lizenzserver)
 (async()=>{const t=await (await fetch('ritl-ui.html',{cache:'no-store'})).text();const tpl=document.createElement('template');tpl.innerHTML=t;

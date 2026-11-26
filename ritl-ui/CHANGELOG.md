@@ -11,6 +11,7 @@ Neueste Version oben.
 - **API:** `RITLUI.overlay(el, true|false)` meldet eine Ebene ausdrücklich an/ab (z. B. wenn ein Elternelement sie einblendet); `RITLUI.overlay()` liefert `true`, solange gesperrt. Ereignis `ritl:overlay {offen}`.
 - Sperre ohne Springen: `html[data-ritl-lock]` mit `overflow:hidden`, Platz der Scrollleiste bleibt (`scrollbar-gutter:stable`, nur wenn eine da war), Scrollposition bleibt; Seiten, die im `body` scrollen, werden ebenfalls gehalten.
 - `overscroll-behavior:contain` nur in Overlays.
+- **Zoom-Flächen bleiben frei:** Flächen mit `data-ritl-zoom` (Zeichnung, 3D, Organigramm, Karte) innerhalb der obersten Ebene – etwa in der fixierten Arbeitsfläche 🔒 – bekommen Rad, Ziehen, Pinch-Zoom und Tasten unverändert; gesperrt wird nur außerhalb der obersten Ebene.
 - Das Sperrfenster „Offline-Version abgelaufen“ ist als Overlay gekennzeichnet.
 - Testseite `ritl-ui/test-scroll.html` und Rundlauf `ritl-ui/tests/scroll.mjs` (Desktop + Touch iPhone 13 / Pixel 7).
 
