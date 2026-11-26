@@ -3,6 +3,11 @@
 Präsentationen aus Abschnitten zusammenstellen (DECK.ritl) und Meetings planen (TIMING.ritl) · #ritl_pptx
 Neueste Version oben. Ältere Versionen siehe Admin › Tools › Versionen (Tabelle `tool_versions`); dieser CHANGELOG beginnt mit V2.9.
 
+## V3.8.4 · 26.11.2026 · DEV
+**Geändert**
+- **Kalender (.ics):** Alle Räume werden als Ressource (`RESOURCES`) in den Termin geschrieben – auch Räume ohne E-Mail-Adresse. Räume mit E-Mail bleiben zusätzlich als Raum-Teilnehmer enthalten.
+- **Englisch:** Neue Texte aus V3.8.1 (Live-Töne, Schlummern, Raum-E-Mail, Überblick) sind ins Englische übersetzt.
+
 ## V3.8.3 · 26.11.2026 · DEV
 **Geändert**
 - **Live-Modus:** Beim Schließen des Live-Fensters wird die Tonausgabe angehalten (spart Akku am Handy).
