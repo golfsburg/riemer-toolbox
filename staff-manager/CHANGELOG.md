@@ -2,6 +2,29 @@
 
 Personalplanung & Teamstruktur · #ritl_staff · Tool-Typ Datenbank
 
+## V1.0.7 · 26.11.2026 · DEV
+
+### Neu
+- **Dialoge:** In allen Dialogen gilt zentral **Enter = Speichern** (Hauptknopf), **Esc = Abbrechen** ohne Änderung; Enter in mehrzeiligen Feldern bleibt Zeilenumbruch, in Auswahllisten und Feldern mit Vorschlägen nativ; keine Doppelspeicherung; Fokus nach dem Öffnen im ersten Feld (Desktop). Gilt auch für den Export-Dialog.
+- E-Mail-Vorgabe: Sonderzeichen (Ø, Æ, Ł, Þ, ð) werden abgebildet, Warnung bei doppelter E-Mail-Adresse; Namensänderung im Import bildet die E-Mail neu, solange sie nicht manuell gesetzt wurde.
+- Team → Gruppe: Rückfrage, wenn Soll FTE, Leitung oder Bereich verloren gehen; Meldung, wenn eine Gruppe kein übergeordnetes Team hat.
+
+### Geändert
+- Englische Texte für Gruppe, Typ, Vor-/Nachname, E-Mail-Syntax und Export liegen als `translations_en.tsv/.sql` vor (Einspielen nach Freigabe).
+
+### Behoben
+- **Teamleitung als Mitglied einer Gruppe des eigenen Teams** gilt nicht mehr als „teamfremd“: Karten, Organigramm, Liste und JOBS zeigen sie als Mitglied der Gruppe („Leitung · in Gruppe X“), Zahlen und Texte stimmen.
+- Sortierung umschalten speichert den Bestand nicht mehr unnötig.
+
+## V1.0.6 · 26.11.2026 · DEV
+
+### Neu
+- **Export-Pilot (XLSX und PPTX).** Jede Tabelle (ORG Liste, MOVE Verschiebungen, JOBS Offene Stellen und Soll/Ist, PEOPLE Personen, Teams & Gruppen, Dotted Lines, Datenbasis) als **XLSX** (eigener Schreiber auf JSZip, kein SheetJS) und als **PPTX** (Tabelle auf Folien, bei vielen Zeilen auf mehrere verteilt, Kopfzeile wiederholt). Jede Darstellung als **PPTX**: Teamkarten, Organigramm (als Formen/Vektor, in PowerPoint bearbeitbar), MOVE-Zeitplan 12 Monate, JOBS-Board, Soll/Ist-Übersicht. 16:9 in RIEMER-Farben, Fußzeile mit Tool, Version, Stand, Stichtag/Filter und Quelle.
+- **Gesamt-Export** (Header › Export): Dialog mit Häkchenliste je Bereich (ORG, MOVE, JOBS, PEOPLE) und je Format. XLSX = alle gewählten Tabellen in **einer** Datei, je Blatt (plus Blatt „Export-Info“); PPTX = alle gewählten Tabellen und Darstellungen in **einer** Präsentation mit Titelfolie und Inhaltsverzeichnis. Stichtag und Filter gelten und stehen auf der Titelfolie. Auswahl wird gemerkt (Einstellungen, im Backup). Dateinamen `JJJJMMDD-HHMM-STAFF-ritl_Gesamt.xlsx/.pptx` bzw. `_<Bereich>`.
+- Kleine Export-Knöpfe XLSX/PPTX an jedem Panel für den Einzelexport.
+- Teamtyp (Team/Gruppe) sowie Vorname/Nachname sind in allen Tabellen enthalten; Gruppen erscheinen im Organigramm als Unterzeile im Team, in den Teamkarten als Unterbereich.
+- Der Export liegt als eigener Block (`staff-export`) mit kleiner API (`RITLEXP`) im Tool – Vorbereitung für einen späteren Baustein.
+
 ## V1.0.5 · 26.11.2026 · DEV
 
 ### Neu
