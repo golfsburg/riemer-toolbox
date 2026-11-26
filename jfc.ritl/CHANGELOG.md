@@ -3,6 +3,41 @@
 Engineering Navigator: Kundenvergleich, Besuchspriorisierung und Gebiets-Review aus JFC-Reports · #ritl_jfc
 Neueste Version oben. Versionen ≤ V3.6 als „JFC Engineering Navigator“.
 
+## V4.0.13 · 26.11.2026 · DEV
+**Neu**
+- **Monatswerte aus kumulierten Werten** (Bezug Vorjahr): Events FE, gewonnenes Business und Spec gewonnen stehen im Report kumuliert (lfd. Jahr). Verglichen wird jetzt der Monatswert = kumulierter Wert des Monats − kumulierter Wert des Vormonats desselben Jahres (Jänner = kumulierter Wert), z. B. Events 09/2026 − 08/2026 gegen 09/2025 − 08/2025. Gilt in der Rechnung von KPI-Kacheln, Top/Flop, Power-Tabelle, Heatmap, Streudiagramm, Pareto, VB-Report, Gebiets-Review, Pipeline, Steckbrief und allen Exporten.
+- **„kein Monatswert“:** Ist der Vormonat nicht geladen (oder der Kunde dort nicht enthalten), wird kein Monatswert gerechnet und eigens gekennzeichnet – nicht 0.
+- Pipeline: Vergleich mit dem Vorjahresmonat (offen Stichtag gegen Stichtag, gewonnen/Spec gewonnen Monatswert gegen Monatswert). Steckbrief: Zeilen „Events FE im Monat“ und „Wert gewonnene im Monat“.
+- Beispieldaten: Events und gewonnenes Business/Spec kumuliert, Jänner-Monate, Monate ohne Vormonat, ein Kunde ohne Vormonat und ein Kunde ohne F&P-Vorjahreswert; F&P-VJ-Spalten R–T befüllt.
+
+**Geändert**
+- **F&P je Bezug:** Bezug „Vorjahr“ vergleicht F&P immer mit dem Vorjahreswert lt. aktuellem Report (Spalten R–T bzw. die zugeordneten F&P-VJ-Spalten) – auch ohne geladenen Vorjahres-Monatsreport; fehlt der Wert im Report, steht „kein VJ“. Bezug „Zeitraum“ vergleicht F&P BIS mit F&P VON aus den eigenen geladenen Monaten. Die Bezugszeile nennt die Quelle („F&P lt. aktuellem Report, Vorjahreswert“).
+- Bezug „Zeitraum“: alle übrigen Kennzahlen wie bisher Stichtag gegen Stichtag (Events/gewonnenes Business als kumulierte Report-Werte, so beschriftet).
+- Letzte „VON“-Reste im Bezug Vorjahr entfernt (Filter-Chip Partner-Wechsel, Spalte „Partner VJ“, Übergangsmatrix, Überschriften, Legende Gebiets-Review, Feld „Vorjahresmonat“). Excel-Infoblatt und Kurzbericht mit Zeile „Vergleichsart“. Anleitung an die Rechnung angepasst.
+
+**Behoben**
+- Gebiets-Review als PowerPoint: Die Bezugszeile war leer.
+
+## V4.0.12 · 26.11.2026 · DEV
+**Neu**
+- **Vergleichsart je Kennzahl** (Bezug Vorjahr): „Monat gegen Vorjahresmonat“ für Summenwerte pro Monat (Events FE, gewonnene Business-/Spec-Werte), „Stichtag gegen Stichtag“ für Bestands-/Stichtagsgrößen (Partner, offenes Business, R12, Score) und die bereits kumulierten Spalten „lfd. Jahr“. Die Art steht in der Bezugszeile, in Exporten und in der Anleitung.
+- Heatmap: je Zelle der Wert des Vorjahresmonats darunter („VJ …“ bzw. „kein VJ“).
+- Beispieldaten: Vorjahresmonate für alle Monate des laufenden Jahres, ein Monat ohne Vorjahr (12/2025) und Kunden ohne Vorjahr.
+
+**Geändert**
+- Bezug im Format „MM/JJJJ vs. MM/JJJJ-1 (Vorjahresmonat)“ jetzt auch in PPTX-Titelfolie, Gebiets-Review (App, PPTX, PDF), Streudiagramm, Besuchsscore/Besuchsplan, Steckbrief (App/PPTX/PDF), VB-Report, Excel-Infoblatt und Kurzbericht; keine „VON“-Reste im Bezug Vorjahr.
+- Gebiets-Review und Steckbrief rechnen F&P bei geladenem Vorjahresmonat aus den eigenen Daten (statt Report-Spalten R–T).
+- Status „kein VJ“ wird neutral (grau) dargestellt, nicht als Verlust.
+
+## V4.0.11 · 26.11.2026 · DEV
+**Neu**
+- **Bezug „Vorjahr“ (Standard):** Neuer Schalter „Bezug“ in der Filterleiste. Bei „Vorjahr“ wählst Du nur den Datenstand BIS; verglichen wird automatisch mit demselben Monat ein Jahr davor (z. B. 10/2026 vs. 10/2025). „Zeitraum“ ist das bisherige VON → BIS. Die Wahl steckt in Ansicht, Favoriten, Backup-Einstellungen und im exportierten Kunden-Tool.
+- Stichtag gegen Stichtag (die Report-Spalten „lfd. Jahr“ sind bereits kumuliert). F&P rechnet bei geladenem Vorjahresmonat aus den eigenen Daten, sonst wie bisher aus den Report-Spalten R–T; die Bezugszeile nennt die Quelle.
+- **„kein VJ“:** Fehlt der Vorjahresmonat oder ein Kunde darin, steht „kein VJ“ – nicht 0 und nicht Verlust; Summen und Δ beziehen sich nur auf Kunden mit Vorjahreswert.
+- Alle Bezugszeilen, Spaltenüberschriften, Chips und Exporte (CSV/XLSX/PDF/PNG/PPTX, Kurzbericht) nennen den Bezug, z. B. „10/2026 vs. 10/2025 (Vorjahresmonat)“. Heatmap: Vorjahresmonat als erste Spalte, Δ-Spalte aus eigenen Daten. Steckbrief-Verlauf: Vorjahreswerte Monat für Monat.
+- Besuchsscore und Partner-Wechsel rechnen im Bezug Vorjahr gegen den Vorjahresmonat. Neuer Monat geladen → BIS springt auf den neuesten Datenstand.
+- Anleitung (?) um eine Erklärung ergänzt; Beispieldaten um Vorjahresmonate erweitert.
+
 ## V4.0.10 · 25.11.2026 · DEV
 **Geändert**
 - **Tool-Typ „Datenbank“ (Regel S-23, Rollout R-19):** Das Tool ist als Typ Datenbank gekennzeichnet – Daten bleiben wie bisher im Tool, keine Projektdateien.
