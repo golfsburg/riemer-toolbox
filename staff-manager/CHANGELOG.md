@@ -2,6 +2,12 @@
 
 Personalplanung & Teamstruktur · #ritl_staff · Tool-Typ Datenbank
 
+## V1.0.1 · 26.11.2026 · DEV
+
+### Behoben
+- **„Berichtet an“ ohne Kreise:** Die Kette (ausdrücklich gesetzt oder automatisch über Teamleitung bzw. übergeordnetes Team) wird bis zur Person verfolgt. Im Personen-Dialog werden Personen, die einen Kreis ergäben (A → B → A), nicht mehr zur Auswahl angeboten; beim Speichern wird ein Kreis verworfen („auf automatisch gesetzt“). Beim Excel-Import erscheint die betroffene Zeile als Fehler im Protokoll und wird nicht übernommen. Altdaten mit Kreis lassen Organigramm und Liste weiter laden (begrenzte Kettenprüfung).
+- **XLSX-Leser begrenzt:** Zusätzlich zur 20-MB-Grenze für die Datei werden vor dem Lesen die Anzahl der Zip-Einträge (max. 200) und die entpackte Größe (je Eintrag 50 MB, gesamt 200 MB) geprüft; bei Überschreitung kommt eine verständliche Meldung.
+
 ## V1.0.0 · 26.11.2026 · DEV
 
 ### Neu
