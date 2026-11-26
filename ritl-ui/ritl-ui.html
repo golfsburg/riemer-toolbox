@@ -1,11 +1,13 @@
 <!--ritl-ui:start-->
 <style id="ritl-ui-css">
-/* RITL-UI 1.6 – zentraler Header der RIEMER Tools. Wird vom Lizenzserver beim Ausliefern durch die aktuelle Version ersetzt.
+/* RITL-UI 1.7 – zentraler Header der RIEMER Tools. Wird vom Lizenzserver beim Ausliefern durch die aktuelle Version ersetzt.
    Maße nach PPTX.ritl (Standard): Header 64 px, App-Bild 38 px, Titel 22 px, Eyebrow 10,5 px, Chips 34 px.
    Rechts immer kompakt: Tool-Knöpfe als eckige Chips nur mit Symbol, System-Knöpfe als runde Chips. Nur Tokens der Farbkarte –
    Ausnahme: Schriftzug „RIEMER Tools“ und Toolbox-Logo bleiben auch bei Lizenz-Farben im RIEMER-Blau (Marke).
    Ab 1.5 ist der Header nicht mehr sticky: Er läuft beim Scrollen aus, das Module-Ribbon des Tools klebt oben (Skill-Regel 28, S-19).
-   Ab 1.6 bei Tool-Typ „dokument“ (ritl-doc): Knöpfe Neu · Öffnen … · Speichern · Speichern unter … und Projektname mit „•“ im Titel. */
+   Ab 1.6 bei Tool-Typ „dokument“ (ritl-doc): Knöpfe Neu · Öffnen … · Speichern · Speichern unter … und Projektname mit „•“ im Titel.
+   Ab 1.7 Overlay-Sperre: Solange eine überlagernde Ebene offen ist (dialog[open]:modal oder [data-ritl-overlay] sichtbar),
+   scrollt die Seite dahinter nicht – weder Rad noch Touch noch Tastatur. overscroll-behavior:contain nur in Overlays. */
 header[data-ritl-header]{position:relative;z-index:40;background:var(--surface);border-bottom:1px solid var(--line);font-family:var(--sans,"Inter",system-ui,sans-serif)}
 header[data-ritl-header]:not(.ritl-h)>*{visibility:hidden}
 .ritl-in{max-width:var(--page-max,2048px);margin:0 auto;height:64px;padding:0 22px;display:flex;align-items:center;gap:20px;box-sizing:border-box}
@@ -54,6 +56,13 @@ header[data-ritl-header] :is(button,a):focus-visible{outline:2px solid var(--bra
 .ritl-docn[hidden]{display:none}
 .ritl-docn i{font-style:normal;color:var(--warn);margin-left:4px}
 .ritl-tool .ritl-docsep{width:1px;height:22px;margin:0 3px;background:var(--line2);flex:none}
+/* ── Overlay-Sperre (ab 1.7): JS setzt html[data-ritl-lock] (g = Scrollleiste war da → Platz halten, b = body ist der Scroller) ── */
+html[data-ritl-lock]{overflow:hidden!important;overscroll-behavior:none}
+html[data-ritl-lock~="g"]{scrollbar-gutter:stable}
+html[data-ritl-lock~="b"] body{overflow:hidden!important}
+html:has(dialog[open]:modal){overflow:hidden}
+[data-ritl-overlay]:not([data-ritl-overlay="aus"]),[data-ritl-overlay]:not([data-ritl-overlay="aus"]) *{overscroll-behavior:contain}
+dialog:modal,dialog:modal *{overscroll-behavior:contain}
 @media(max-width:1500px){.ritl-mid{display:none}}
 @media(max-width:1000px){.ritl-ver{display:none}}
 @media(max-width:900px){.ritl-wm{display:none}}
@@ -64,7 +73,7 @@ header[data-ritl-header] :is(button,a):focus-visible{outline:2px solid var(--bra
 @media print{header[data-ritl-header]{position:static}.ritl-act{display:none}}
 </style>
 <script id="ritl-ui-js">
-/* RITL-UI 1.6 – baut den Header aus <header data-ritl-header …> auf. Attribute:
+/* RITL-UI 1.7 – baut den Header aus <header data-ritl-header …> auf. Attribute:
    data-name="MUSTER" (Pflicht) · data-eyebrow="…" · data-tool="muster-ritl" · data-ver="V2.8" · data-date="16.11.2026"
    data-help="none" (ohne Anleitung) · data-lang="none" (ohne DE/EN) · data-login="URL" (Anmelden-Ziel)
    Kinder: [data-ritl-icon] (App-Bild, SVG) · [data-ritl-center] (optional, Mitte) · [data-ritl-actions] (Tool-Knöpfe: Symbol + Text in <span class="lbl"> – der Text erscheint als Tooltip)
@@ -75,10 +84,18 @@ header[data-ritl-header] :is(button,a):focus-visible{outline:2px solid var(--bra
      kein An-/Abmelden, Toolbox-Logo ohne Link; 14 Tage vor Ablauf Warnung, danach Sperrfenster (Backup bleibt möglich).
    Tool-Typ „dokument“ (ab 1.6): ritl-doc ruft RITLUI.dokument(window.RITL_DOC) auf → Knöpfe Neu · Öffnen … · Speichern · Speichern unter …
      (.hbtn in .ritl-tool, Text in .lbl wie die übrigen Tool-Knöpfe), Projektname + „•“ (ungespeichert) im Titel (#ritl-doc-name),
-     Strg/Cmd+S · Strg/Cmd+Umschalt+S · Strg/Cmd+O. Alle Aktionen nur über window.RITL_DOC – kein eigener Dateicode im Header. */
+     Strg/Cmd+S · Strg/Cmd+Umschalt+S · Strg/Cmd+O. Alle Aktionen nur über window.RITL_DOC – kein eigener Dateicode im Header.
+   Overlay-Sperre (ab 1.7): Überlagernde Ebenen (Dialog, Popup, Dropdown, Bottom-Sheet, Startbildschirm, Hilfe, Toast-Menü mit Inhalt,
+     fixierte Arbeitsfläche) tragen das Merkmal data-ritl-overlay; dialog[open]:modal zählt immer. Solange eine sichtbar ist, steht die Seite:
+     Rad und Touch außerhalb der obersten Ebene werden verworfen, innen scrollt nur der Overlay-Inhalt (kein Weiterreichen an die Seite),
+     Leertaste/Bild↑↓/Pos1/Ende/Pfeile außerhalb ebenso. Erkennung automatisch (MutationObserver auf open/hidden/class/style), sichtbar =
+     nicht hidden, nicht display:none/visibility:hidden. Altbestand: sichtbares .modal zählt mit; data-ritl-overlay="aus" schließt ein Element aus.
+     API: RITLUI.overlay(el, true|false) – Ebene ausdrücklich öffnen/schließen (z. B. wenn ein Elternelement sie einblendet);
+     RITLUI.overlay() → true, solange gesperrt. Ereignis ritl:overlay {offen}. Kein Rad-Handler für Ribbons o. Ä. – gleichrangige
+     Bereiche scrollen am Ende die Seite weiter; Zoom-Flächen (3D, Zeichnung, Organigramm) fangen das Rad selbst ab. */
 (function () {
   "use strict";
-  var VERSION = "1.6";
+  var VERSION = "1.7";
   var h = document.querySelector("header[data-ritl-header]");
   if (!h || h.classList.contains("ritl-h")) return;
   var d = h.dataset, R = window.RITL || {}, root = document.documentElement;
@@ -210,7 +227,7 @@ header[data-ritl-header] :is(button,a):focus-visible{outline:2px solid var(--bra
       }, 0);
     });
     if (left != null && left <= 0) {
-      var ov = E("div", { id: "ritl-expired", role: "alertdialog", "aria-modal": "true", "aria-labelledby": "ritl-exp-h" },
+      var ov = E("div", { id: "ritl-expired", "data-ritl-overlay": "", role: "alertdialog", "aria-modal": "true", "aria-labelledby": "ritl-exp-h" },
         '<div><h2 id="ritl-exp-h">Offline-Version abgelaufen</h2><p>' + esc(offTxt) + '.</p>' +
         "<p>Bitte eine neue Version anfordern. Ihre Daten sind nicht verloren: Mit „Backup speichern“ sichern Sie sie und laden sie in der neuen Version wieder.</p>" +
         '<div class="row"><button type="button" class="pri" id="ritl-exp-bk">Backup speichern …</button><a href="mailto:toolbox@riemer.co?subject=' + encodeURIComponent("Neue Offline-Version " + (d.name || "") + ".ritl") + '">Neue Version anfordern</a></div></div>');
@@ -256,7 +273,113 @@ header[data-ritl-header] :is(button,a):focus-visible{outline:2px solid var(--bra
     });
     docState();
   }
-  window.RITLUI = { version: VERSION, mounted: true, lang: langUi, theme: setTheme, offline: OFF, expiresInDays: left, dokument: dokument };
+  // ── Overlay-Sperre (ab 1.7): Seite hinter überlagernden Ebenen sperren – Rad, Touch (iOS/Android), Tastatur ──
+  var OV = (function () {
+    var SEL = "dialog[open],[data-ritl-overlay],.modal", manual = [], order = [], locked = false, sx = 0, sy = 0, bsy = 0, bodyLock = false;
+    var tx = 0, ty = 0, plan = false, SBW = -1;
+    function sbw() { if (SBW < 0 && document.body) { var p = document.createElement("div"); p.style.cssText = "position:absolute;top:-999px;width:100px;height:100px;overflow:scroll";
+      document.body.appendChild(p); SBW = p.offsetWidth - p.clientWidth; document.body.removeChild(p); } return SBW; }
+    function aus(el) { return el.getAttribute("data-ritl-overlay") === "aus"; }
+    function modal(el) { try { return el.matches(":modal"); } catch (e) { return el.hasAttribute("data-ritl-overlay"); } }
+    function offen(el) {
+      if (!el.isConnected || aus(el)) return false;
+      if (manual.indexOf(el) >= 0) return true;
+      if (el.tagName === "DIALOG") { if (!el.open) return false; if (!modal(el) && !el.hasAttribute("data-ritl-overlay")) return false; }
+      if (el.hidden) return false;
+      var cs = getComputedStyle(el); if (cs.display === "none" || cs.visibility === "hidden") return false;
+      return el.getClientRects().length > 0;
+    }
+    function top() { return order.length ? order[order.length - 1] : null; }
+    function sperren(an) {
+      var b = document.body;
+      if (an) {
+        sx = window.scrollX; sy = window.scrollY;
+        var bs = b && getComputedStyle(b), tok = [];
+        if (sbw() > 0 && root.scrollHeight > window.innerHeight) tok.push("g");
+        bodyLock = !!(bs && /auto|scroll|overlay/.test(bs.overflowY) && b.scrollHeight > b.clientHeight + 1);
+        if (bodyLock) { tok.push("b"); bsy = b.scrollTop; }
+        root.setAttribute("data-ritl-lock", tok.join(" "));
+      } else { root.removeAttribute("data-ritl-lock"); if (bodyLock && b) b.scrollTop = bsy; bodyLock = false; }
+      locked = an;
+      document.dispatchEvent(new CustomEvent("ritl:overlay", { detail: { offen: an } }));
+    }
+    function pruefen() {
+      plan = false;
+      manual = manual.filter(function (el) { return el.isConnected; });
+      var alle = Array.prototype.slice.call(document.querySelectorAll(SEL)).concat(manual), auf = [];
+      alle.forEach(function (el) { if (auf.indexOf(el) < 0 && offen(el)) auf.push(el); });
+      order = order.filter(function (el) { return auf.indexOf(el) >= 0; });
+      auf.forEach(function (el) { if (order.indexOf(el) < 0) order.push(el); });
+      if (!!order.length !== locked) sperren(!!order.length);
+    }
+    function bald() { if (!plan) { plan = true; Promise.resolve().then(pruefen); } }
+    function trifft(n) { return n.nodeType === 1 && (n.matches(SEL) || !!n.querySelector(SEL)); }
+    function relevant(m) {
+      if (m.type === "childList") {
+        for (var i = 0; i < m.addedNodes.length; i++) if (trifft(m.addedNodes[i])) return true;
+        for (var j = 0; j < m.removedNodes.length; j++) if (trifft(m.removedNodes[j]) || order.indexOf(m.removedNodes[j]) >= 0) return true;
+        return false;
+      }
+      var t = m.target;
+      if (m.attributeName === "data-ritl-overlay" || order.indexOf(t) >= 0) return true;
+      if (t.matches && t.matches("dialog,[data-ritl-overlay],.modal")) return true;
+      return m.attributeName === "class" && /(^|\s)modal(\s|$)/.test(m.oldValue || "");
+    }
+    // darf ein Element zwischen t und grenze (einschließlich) in Richtung dx/dy noch scrollen?
+    function kann(t, grenze, dx, dy) {
+      for (var el = t; el && el.nodeType === 1; el = el.parentElement) {
+        var cs = getComputedStyle(el);
+        if (dy && (/auto|scroll|overlay/.test(cs.overflowY) || el.tagName === "TEXTAREA") && el.scrollHeight > el.clientHeight + 1) {
+          if (dy < 0 ? el.scrollTop > 0 : el.scrollTop + el.clientHeight < el.scrollHeight - 1) return true;
+        }
+        if (dx && /auto|scroll|overlay/.test(cs.overflowX) && el.scrollWidth > el.clientWidth + 1) {
+          if (dx < 0 ? el.scrollLeft > 0 : el.scrollLeft + el.clientWidth < el.scrollWidth - 1) return true;
+        }
+        if (el === grenze) break;
+      }
+      return false;
+    }
+    function innen(t) { var o = top(); return !!(o && t && t.nodeType === 1 && (o === t || o.contains(t))) ? o : null; }
+    function verwerfen(e, t, dx, dy) {
+      var o = innen(t);
+      if (!o || !kann(t, o, dx, dy)) { if (e.cancelable) e.preventDefault(); }
+    }
+    var opt = { passive: false, capture: true };
+    document.addEventListener("wheel", function (e) {
+      if (!locked || e.ctrlKey || e.defaultPrevented) return;
+      var dx = e.deltaX, dy = e.deltaY; if (e.shiftKey && !dx) { dx = dy; dy = 0; }
+      verwerfen(e, e.target, dx, dy);
+    }, opt);
+    document.addEventListener("touchstart", function (e) { if (e.touches.length === 1) { tx = e.touches[0].clientX; ty = e.touches[0].clientY; } }, { passive: true, capture: true });
+    document.addEventListener("touchmove", function (e) {
+      if (!locked || e.touches.length !== 1) return;
+      var p = e.touches[0], dx = tx - p.clientX, dy = ty - p.clientY; tx = p.clientX; ty = p.clientY;
+      var t = e.target; if (t && t.closest && t.closest("input,select") && innen(t)) return;
+      if (Math.abs(dx) > Math.abs(dy)) dy = 0; else dx = 0;
+      verwerfen(e, t, dx, dy);
+    }, opt);
+    var TASTE = { " ": 1, PageDown: 1, PageUp: -1, End: 1, Home: -1, ArrowDown: 1, ArrowUp: -1 };
+    document.addEventListener("keydown", function (e) {
+      if (!locked || e.defaultPrevented || e.ctrlKey || e.metaKey || e.altKey || !(e.key in TASTE)) return;
+      var t = e.target;
+      if (t && t.closest && t.closest('input,textarea,select,button,a[href],summary,[contenteditable]:not([contenteditable="false"]),[role=button],[role=menuitem],[role=option],[role=listbox],[role=slider],[role=tab],[role=textbox],[role=combobox],[role=spinbutton],[role=menu],[role=tree],[role=grid]')) return;
+      var dy = e.key === " " ? (e.shiftKey ? -1 : 1) : TASTE[e.key];
+      verwerfen(e, t === document.body || t === root ? null : t, 0, dy);
+    }, true);
+    // Sicherheitsnetz: falls doch etwas die Seite bewegt (z. B. iOS-Schwung), Position halten
+    window.addEventListener("scroll", function () { if (locked && (window.scrollX !== sx || window.scrollY !== sy)) window.scrollTo(sx, sy); });
+    ["click", "keyup", "toggle", "close", "transitionend", "animationend"].forEach(function (n) { document.addEventListener(n, bald, true); });
+    if (window.MutationObserver) new MutationObserver(function (ms) { for (var i = 0; i < ms.length; i++) if (relevant(ms[i])) { bald(); return; } })
+      .observe(root, { subtree: true, childList: true, attributes: true, attributeOldValue: true, attributeFilter: ["open", "hidden", "class", "style", "data-ritl-overlay"] });
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", pruefen); else pruefen();
+    return function (el, an) {
+      if (!el) return locked;
+      if (an) { if (!el.hasAttribute("data-ritl-overlay")) el.setAttribute("data-ritl-overlay", ""); if (manual.indexOf(el) < 0) manual.push(el); }
+      else manual = manual.filter(function (x) { return x !== el; });
+      pruefen(); return locked;
+    };
+  })();
+  window.RITLUI = { version: VERSION, mounted: true, lang: langUi, theme: setTheme, offline: OFF, expiresInDays: left, dokument: dokument, overlay: OV };
   if (window.RITL_DOC && window.RITL_DOC.version) dokument(window.RITL_DOC);
 })();
 </script>
