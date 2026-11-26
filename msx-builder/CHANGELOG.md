@@ -4,6 +4,10 @@
 Start: index.html im Browser öffnen (Chrome/Edge/Firefox) oder auf GitHub Pages ablegen.
 Beim Öffnen wird die Beispielzeichnung „Beispiel_Schnitt.dxf“ geladen.
 
+## V5.9.3 · 26.11.2026 · DEV
+**Geändert**
+- **Höhe des Modellbereichs umgebaut:** Der Griff unter dem Modell folgt jetzt genau der Maus – ohne Sprünge und ohne die bisherigen Grenzen (vorher höchstens ca. 95 % der Spalte, mindestens 240 px). Es gibt nur noch **eine** Höhe, sie gilt fixiert wie frei, bleibt beim Ändern der Fenstergröße unverändert und wird gemerkt. Doppelklick auf den Griff setzt auf die Standardhöhe zurück (fixiert: ca. 60 % der Fensterhöhe).
+
 ## V5.9.2 · 26.11.2026 · DEV
 **Geändert**
 - **Scrollen:** Ist der Inhalt eines Bereichs (Liste, Tabelle, Projektbaum, Spalte) am Ende oder gar nicht scrollbar, scrollt das Mausrad jetzt die ganze Seite weiter. Dasselbe gilt für die Werkzeugleiste: Sie schiebt sich seitlich, solange sie überläuft, danach läuft die Seite weiter. Dialoge bleiben davon ausgenommen.
