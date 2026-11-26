@@ -3,6 +3,13 @@
 GPS-Tracks (GPX) lokal im Browser in 2D und 3D darstellen, analysieren, bearbeiten und animieren · #ritl_track
 Neueste Version oben. Versionen ≤ V1.9 in Google AI Studio entwickelt und nachträglich zusammengefasst (keine Einzelstände erhalten).
 
+## V3.3.32 · 26.11.2026 · DEV
+**Geändert**
+- **Scrollen nach Ebenen (R-20):** Solange ein Fenster, eine Anleitung, das Teilen-Blatt oder eine fixierte Arbeitsfläche (🔒) offen ist, bleibt die Seite dahinter stehen – mit Mausrad, Touch und Tastatur. Das Fenster selbst scrollt in sich.
+- Listen, Tabellen, Vorschau und Seitenspalten reichen das Scrollen am Ende ans Fenster weiter; die Seite bleibt nie hängen.
+- Mausrad über dem Ribbon scrollt die Seite (waagrecht mit Shift oder Touchpad). Der Zoom per Mausrad gilt weiter nur über Karte, Profil, 3D-Ansicht und Export-Vorschau im 🔒-Modus.
+- Bausteine auf dem aktuellen Stand: RITL-UI 1.7, ritl-bk 2.14.
+
 ## V3.3.31 · 25.11.2026 · DEV
 **Geändert**
 - TRACK.ritl ist als Tool vom Typ **Datenbank** gekennzeichnet: Tracks, Wegpunkte und Fotos bleiben wie bisher im Tool, das Backup sichert sie in den Stufen settings, datenbank und storage. Für dich ändert sich im Alltag nichts.
