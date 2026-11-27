@@ -4,6 +4,13 @@
 Start: index.html im Browser öffnen (Chrome/Edge/Firefox) oder auf GitHub Pages ablegen.
 Ein neues Projekt startet mit einer leeren Zeichnung (ab V5.9.9 ohne Beispielzeichnung).
 
+## V5.10.2 · 27.11.2026 · DEV
+**Behoben**
+- Die Versionsnummer im Gesamt-Export (XLSX/PPTX) und im Backup lautet jetzt richtig V5.10.2 statt V5.10.
+
+**Geändert**
+- Stahlträger zusätzlich geprüft: Bei „Horizontal spiegeln“ und bei gesetztem Nullpunkt liegt der Träger in der MSX genau dort, wo er angezeigt wird. Nach dem Wiederherstellen eines Backups und beim Wechsel zwischen Unterprojekten bleibt der Träger mit Profil und Lage erhalten.
+
 ## V5.10.1 · 27.11.2026 · DEV
 **Neu**
 - **Stahlträger als Bauteil** (I-024, Schritt 1): neues Werkzeug „+ Stahlträger“ im Modellbereich mit den Profilen **HEA 300, HEB 300 und IPE 300**. Ein Klick setzt die Trägermitte. Der Träger steht immer, der Steg ist also senkrecht. Er wird als I-Querschnitt gezeichnet, ist auswählbar und lässt sich löschen. Export EIN/AUS und das Trägerprofil stellst du im Auswahl-Fenster ein.
