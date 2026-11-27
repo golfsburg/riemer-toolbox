@@ -1,15 +1,16 @@
-<!-- ritl-doc 1.1 · 25.11.2026 · DEV – Projekte als eigene Datei für Tools vom Typ „Dokument“ (z. B. PDF.ritl).
+<!-- ritl-doc 1.2 · 26.11.2026 · DEV – Projekte als eigene Datei für Tools vom Typ „Dokument“ (z. B. PDF.ritl).
      Einbau: Adapter window.RITL_DOC_ADAPTER (siehe README.md) als <script> setzen, danach diesen Block unverändert
      (von ritl-doc:start bis ritl-doc:end) in den <body> nach dem Header kopieren – bei Tools mit ritl-bk vor dem ritl-bk-Block.
      Datei: „<Projektname>.<tool>.ritl“ (z. B. „Angebot Muster.pdf.ritl“) = gzip-JSON {ritl:{tool,version,typ:'dokument',erstellt,geaendert,sha256,…}, daten, einstellungen, dateien[base64]}.
-     Ablage nur lokal bzw. im Ordner – nie am Server. Chrome/Edge: File System Access (Speichern überschreibt), sonst Öffnen per <input type=file> und Speichern als Download. -->
+     Ablage nur lokal bzw. im Ordner – nie am Server. Chrome/Edge: File System Access (Speichern überschreibt), sonst Öffnen per <input type=file> und Speichern als Download.
+     1.2: Startbildschirm und Rückfragen als überlagernde Ebene gekennzeichnet (data-ritl-overlay, RITL-UI 1.7 sperrt die Seite dahinter). -->
 <!--ritl-doc:start-->
 <style id="ritl-doc-css">
-/* ritl-doc 1.1 · 25.11.2026 – Projekte als Datei (Tool-Typ dokument). Nichts Tool-Spezifisches hier ändern. Nur Tokens der Farbkarte. */
+/* ritl-doc 1.2 · 26.11.2026 – Projekte als Datei (Tool-Typ dokument). Nichts Tool-Spezifisches hier ändern. Nur Tokens der Farbkarte. */
 dialog.rdoc{border:1px solid var(--line);border-radius:var(--radius-panel,16px);background:var(--surface);color:var(--ink);padding:0;width:min(560px,94vw);box-shadow:0 20px 60px rgba(0,0,0,.25);font:400 14px/20px var(--sans,"Inter",system-ui,sans-serif);margin:auto}
 dialog.rdoc::backdrop{background:rgba(15,20,28,.45)}
 .rdoc .dh{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid var(--line);background:var(--surface-muted);font:800 17px var(--sans,"Inter",system-ui,sans-serif)}
-.rdoc .db{padding:20px;max-height:min(70vh,640px);overflow:auto}
+.rdoc .db{padding:20px;max-height:min(70vh,640px);overflow:auto;overscroll-behavior:contain}
 .rdoc .df{padding:14px 20px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap}
 .rdoc [hidden]{display:none!important}
 .rdoc p{margin:0 0 10px;color:var(--ink2)}
@@ -55,7 +56,7 @@ dialog.rdoc::backdrop{background:rgba(15,20,28,.45)}
 @media(max-width:620px){.rdoc .start{grid-template-columns:1fr}.rdoc .db{padding:14px}.rdoc .df .btn{flex:1 1 auto;justify-content:center}}
 </style>
 <script id="ritl-doc-js">
-/* ritl-doc 1.1 · 25.11.2026 – Projekte als eigene Datei für Tool-Typ „dokument“ (Vorhaben Tool-Typen, Pilot PDF.ritl).
+/* ritl-doc 1.2 · 26.11.2026 – Projekte als eigene Datei für Tool-Typ „dokument“ (Vorhaben Tool-Typen, Pilot PDF.ritl).
    Nichts Tool-Spezifisches hier ändern – das Tool setzt VOR diesem Block den Adapter window.RITL_DOC_ADAPTER (README.md):
      tool (Pflicht, z. B. 'pdf-ritl') · name ('PDF') · endung? ('pdf' → „….pdf.ritl“, Standard: tool ohne -ritl) · version? (Text oder Funktion)
      daten() → Objekt · laden({daten,einstellungen,dateien,kopf}) → (Promise) · dateien()? → [{id,name,mime,blob}] (auch Promise) · leer() → leeres Projekt
@@ -68,7 +69,7 @@ dialog.rdoc::backdrop{background:rgba(15,20,28,.45)}
    Ereignisse: ritldoc:ready · ritldoc:state {name,geaendert,offen,datei}. Header-Knöpfe kommen aus RITL-UI 1.6 (RITLUI.dokument). */
 (function(){"use strict";
 const A=window.RITL_DOC_ADAPTER;if(!A||!A.tool||(window.RITL_DOC&&window.RITL_DOC.version))return;
-const VERSION='1.1',FORMAT=1,$=id=>document.getElementById(id);
+const VERSION='1.2',FORMAT=1,$=id=>document.getElementById(id);
 const TOOL=A.tool,NAME=A.name||TOOL,PRE=A.prefix||TOOL.replace(/-ritl$/,''),END=String(A.endung||PRE).toLowerCase().replace(/[^a-z0-9-]/g,''),EXT='.'+END+'.ritl',EV=A.ereignis||PRE+':change';
 const FS_OK=()=>typeof window.showSaveFilePicker==='function'&&typeof window.showOpenFilePicker==='function';
 const IOS=/iP(hone|ad|od)/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
@@ -157,9 +158,9 @@ function aenderung(){if(S.laedt||!S.offen)return;if(!S.geaendert){S.geaendert=tr
 document.addEventListener(EV,aenderung);
 
 // ── Dialoge ──
-document.body.insertAdjacentHTML('beforeend',`<dialog id="rdoc-frage" class="rdoc" aria-labelledby="rdoc-fh"><div class="dh"><span id="rdoc-fh"></span><span class="small notr">${esc(NAME)}.ritl</span></div><div class="db" id="rdoc-fb"></div><div class="df" id="rdoc-ff"></div></dialog>
+document.body.insertAdjacentHTML('beforeend',`<dialog id="rdoc-frage" class="rdoc" data-ritl-overlay aria-labelledby="rdoc-fh"><div class="dh"><span id="rdoc-fh"></span><span class="small notr">${esc(NAME)}.ritl</span></div><div class="db" id="rdoc-fb"></div><div class="df" id="rdoc-ff"></div></dialog>
 <div id="rdoc-hinweis" class="rdoc" role="status" aria-live="polite" hidden><div class="hb"><b id="rdoc-hh"></b><div id="rdoc-hx"></div></div><button type="button" class="hz" id="rdoc-hz" title="Hinweis schließen" aria-label="Hinweis schließen">✕</button></div>
-<dialog id="rdoc-start" class="rdoc" aria-labelledby="rdoc-sh"><div class="dh"><span id="rdoc-sh"><span class="notr">${esc(NAME)}.ritl</span> – Projekt</span></div><div class="db" id="rdoc-sb"></div></dialog>
+<dialog id="rdoc-start" class="rdoc" data-ritl-overlay aria-labelledby="rdoc-sh"><div class="dh"><span id="rdoc-sh"><span class="notr">${esc(NAME)}.ritl</span> – Projekt</span></div><div class="db" id="rdoc-sb"></div></dialog>
 <input type="file" id="rdoc-file" hidden${IOS?'':' accept=".ritl,application/x-ritl,application/json,application/gzip"'}><div id="rdoc-toast" role="status" aria-live="polite"></div>`);
 // Hinweis „Großes Projekt“: eigenes Feld unten, bleibt bis zum Schließen, blockiert nichts
 const hzu=()=>{const e=$('rdoc-hinweis');if(e)e.hidden=true};

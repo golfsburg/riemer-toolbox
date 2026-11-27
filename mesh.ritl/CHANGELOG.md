@@ -12,6 +12,9 @@ Neueste Version oben. V1.0–V1.8 als Einzeldatei entwickelt (nicht in der Toolb
 - **Handy:** Der Modellbereich füllt auch auf schmalen Fenstern das Fenster (statt fester 70 % der Höhe) – mit Griff zum Verstellen.
 - **Werkzeugleiste kompakter (≈45 px)** und ohne Bildlaufleiste; bei Platzmangel scrollt sie waagrecht (Shift+Rad, Touchpad, Wischen), eine Verlaufskante zeigt weitere Knöpfe.
 - **🔒 Fixieren** kennzeichnet die Fläche als Overlay (Seite dahinter scrollt nicht mit), die 3D-Ansicht als Zoom-Fläche.
+## V2.8.2 · 26.11.2026 · DEV
+**Geändert**
+- **Scrollen (R-15):** Der Kopfbereich läuft beim Scrollen aus, die Werkzeugleiste (Projekt, Dateien öffnen, Grundkörper, Konverter …) bleibt oben stehen und der Modellbereich klebt direkt darunter. Das Mausrad über der Leiste scrollt nur die Leiste (am Handy waagrecht), nie die Seite; Zoomen im Modellbereich scrollt die Seite nicht. Sonst wie V2.8.1.
 
 ## V2.8.1 · 25.11.2026 · DEV
 **Geändert**

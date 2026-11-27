@@ -3,6 +3,84 @@
 Engineering Navigator: Kundenvergleich, Besuchspriorisierung und Gebiets-Review aus JFC-Reports · #ritl_jfc
 Neueste Version oben. Versionen ≤ V3.6 als „JFC Engineering Navigator“.
 
+## V4.0.18 · 27.11.2026 · DEV
+**Neu**
+- **Enter und Esc in allen Dialogen (R-21):** Enter löst den Hauptknopf aus – im PowerPoint-Export „PowerPoint erstellen“, im Set-Namen „Neues Set“, in Daten & Setup beim Datenstand „Importieren“, beim Favoriten-Namen „Als Favorit“, beim Favoriten-Code „Laden“, beim Titel „Tool exportieren“; die Anleitung schließt mit Enter. Esc schließt ohne Änderung, und zwar genau eine Ebene: zuerst ein offenes Filter- oder Spalten-Dropdown, dann den Dialog. Enter auf Häkchen und Auswahllisten löst nichts aus, gehaltenes Enter nur einmal. Nach dem Schließen springt der Fokus auf den Knopf zurück, der den Dialog geöffnet hat.
+
+**Geändert**
+- **Sprungleiste kompakt (R-22):** Die Inhaltsleiste (KPI mit Trend … Weitere Ideen) bleibt einzeilig ohne Bildlaufleiste; passt sie nicht, lässt sie sich waagrecht wischen bzw. mit Umschalt+Rad scrollen, eine Verlaufskante zeigt weitere Einträge. „Alle auf/Alle zu“ rutschen nicht mehr in eine zweite Zeile. Tastatur-Fokus mit sichtbarem Rahmen.
+
+**Behoben**
+- **Mehrere Kunden ohne Monatswert:** Haben alle Kunden einer Auswahl (z. B. VB-Report) in einem Monat keinen Monatswert, bleibt der Monat jetzt leer statt 0 – im Bericht und in PowerPoint (leere Zelle im Diagramm).
+
+## V4.0.17 · 26.11.2026 · DEV
+**Behoben**
+- **Hinweis in Bereich 05 (Vertiefungen):** Die Zeile „Alle folgen den Hauptfiltern …“ zeigt jetzt immer den aktuellen Bezug – sie wird bei jeder Änderung von Bezug, VON und BIS neu gesetzt (bisher nur beim Laden der Daten). Der Text nennt dieselben Monate wie Steckbrief und VB-Report: Bezug Vorjahr z. B. „Jän 25 – Okt 25 → Jän 26 – Okt 26“, Bezug Zeitraum „VON 04/2026 → BIS 10/2026 · Apr 26 – Okt 26“.
+
+## V4.0.16 · 26.11.2026 · DEV
+**Behoben**
+- **Kunden-Steckbrief ohne Vormonat:** Fehlt ein Kunde im Vormonat, zeigt das Diagramm „Kennzahl je Monat“ jetzt eine Lücke statt eines 0-Balkens – passend zu Kachel und Tabelle („kein Monatswert“). Der Hinweis unter dem Diagramm nennt die betroffenen Monate. Gilt auch für PowerPoint (leerer Wert + Hinweis auf der Folie) und PDF („kein MW“).
+- **VB-Report mit mehreren Kunden:** Kunden ohne Monatswert werden nicht als 0 mitgezählt; der Hinweis nennt je Monat die Anzahl („Sep 26 (1 Kunde)“). In PowerPoint bleiben Monate ohne Wert leer.
+- **Bezug Zeitraum mit VON nach BIS:** Linie und Beschriftung „Δ zu …“ beziehen sich auf den ersten Monat der Auswahl; Zeitraum-Angaben (Steckbrief, Produktmix, Verteilung) laufen vom ersten bis zum letzten Monat. Hervorgehoben bleibt BIS.
+- **Produktmix als PowerPoint:** Folien „Produktmix je Kunde“ und „Verteilung Produktmix“ werden mit dem aktuellen Filter neu gerechnet – auch wenn die Vertiefung vorher nicht angezeigt war.
+- Produktmix über den Jahreswechsel: Fehlt der Jänner im Folgejahr, nennt der Hinweis das (Wert ab Jänner aus dem kumulierten Stand).
+
+**Geändert**
+- Steckbrief-Reihen für einen Kunden schneller (direkter Zugriff statt Suche) – spürbar bei „Alle Steckbriefe“ als PPTX/PDF.
+
+## V4.0.15 · 26.11.2026 · DEV
+**Neu**
+- **Verteilung Produktmix** unter „Produktmix je Kunde“: Ring-Diagramm mit der Summe der Umsätze Structural, Support Systems und Firestop über alle Kunden im aktuellen Filter (nicht nur die Top-Kunden), Anteil in % und Betrag als Tabelle. Bei Bezug „Vorjahr“ zweiter, innerer Ring mit dem Vorjahr und Spalte Δ zum VJ. Eigener PNG-Export; in der PowerPoint (Produktmix und Gesamt-Export) als eigene Folie.
+
+**Geändert**
+- **Steckbrief, VB-Report und Produktmix folgen dem Bezug** wie KPI-Kacheln, Top-Veränderungen und Heatmap – es werden nur die gewählten Monate gezeigt: Bezug „Vorjahr“ = Vorjahr bis heute (bei BIS 10/2026: Jänner–Oktober 2026 gegen Jänner–Oktober 2025), Bezug „Zeitraum“ = Monate VON bis BIS. Gilt für Diagramme, Vergleichsmatrix des Steckbriefs, VB-Report-Folie sowie PPTX/PDF/XLSX und „Alle PPTX/PDF“; Bezug und Zeitraum stehen in Bezugszeile, Untertitel bzw. Fußzeile.
+- **Diagramm im Kunden-Steckbrief zeigt die gewählte Kennzahl** (statt fest F&P): Balken je Monat, bei Bezug „Vorjahr“ gegen denselben Monat im Vorjahr mit Linie Δ zum VJ in %, bei „Zeitraum“ mit Linie Δ zu VON. Vergleich nach derselben Logik wie die KPI-Kacheln (F&P gegen VJ kum lt. Report, Spalten R–T; Events/gewonnenes Business als Monatswert; DD&E nie zu F&P addiert). Zusätzliche Kachel mit Kennzahl BIS und Δ. Achse, Legende und Einheit folgen der Kennzahl – auch in PNG, PDF und PowerPoint (Steckbrief-Folie jetzt mit Diagramm).
+- **VB-Report:** Kennzahl je Monat im gewählten Bezug (bis 12 Monate), bei Bezug „Vorjahr“ mit Vorjahresbalken und Legende.
+- **Produktmix je Kunde:** Umsätze im gewählten Bezug statt fest „Stand BIS“ – Vorjahr: Jänner bis BIS (lfd. Jahr kum.), Zeitraum: kum. BIS − kum. Vormonat von VON (je Kalenderjahr). Ist der Vormonat von VON nicht geladen, zählt der Umsatz nach VON (so beschriftet).
+- PNG-Export: Bezug- und Filterzeile brechen bei schmalen Diagrammen um statt abgeschnitten zu werden.
+
+## V4.0.14 · 26.11.2026 · DEV
+**Geändert**
+- **Scrollen nach Ebenen (R-20, S-18):** Solange ein Dialog, Modal (Daten, PowerPoint, Bild), eine Hilfe oder ein Auswahlmenü (Filter-Dropdowns, Spaltenfilter, Spaltenauswahl, Kundenansicht) offen ist, steht die Seite im Hintergrund – Mausrad, Wischen am iPhone/Android und Bild↓. Der Inhalt des offenen Fensters scrollt in sich. Die Sperre kommt zentral aus RITL-UI 1.7; alle Overlays tragen das Merkmal `data-ritl-overlay`, die eigene Sperre im Tool ist entfernt.
+- Tabellen, Listen und Leisten halten das Scrollen nicht mehr fest: Ist eine Tabelle am Ende, scrollt das Fenster weiter. Das senkrechte Mausrad über der Sprungleiste scrollt die Seite (waagrecht per Umschalt+Rad bzw. Touchpad/Wischen).
+- Esc schließt zuerst ein offenes Auswahlmenü, danach erst Dialog bzw. Modal. Die Spaltenauswahl schließt auch per Klick daneben.
+- Bausteine: RITL-UI 1.7, ritl-bk 2.14.
+
+## V4.0.13 · 26.11.2026 · DEV
+**Neu**
+- **Monatswerte aus kumulierten Werten** (Bezug Vorjahr): Events FE, gewonnenes Business und Spec gewonnen stehen im Report kumuliert (lfd. Jahr). Verglichen wird jetzt der Monatswert = kumulierter Wert des Monats − kumulierter Wert des Vormonats desselben Jahres (Jänner = kumulierter Wert), z. B. Events 09/2026 − 08/2026 gegen 09/2025 − 08/2025. Gilt in der Rechnung von KPI-Kacheln, Top/Flop, Power-Tabelle, Heatmap, Streudiagramm, Pareto, VB-Report, Gebiets-Review, Pipeline, Steckbrief und allen Exporten.
+- **„kein Monatswert“:** Ist der Vormonat nicht geladen (oder der Kunde dort nicht enthalten), wird kein Monatswert gerechnet und eigens gekennzeichnet – nicht 0.
+- Pipeline: Vergleich mit dem Vorjahresmonat (offen Stichtag gegen Stichtag, gewonnen/Spec gewonnen Monatswert gegen Monatswert). Steckbrief: Zeilen „Events FE im Monat“ und „Wert gewonnene im Monat“.
+- Beispieldaten: Events und gewonnenes Business/Spec kumuliert, Jänner-Monate, Monate ohne Vormonat, ein Kunde ohne Vormonat und ein Kunde ohne F&P-Vorjahreswert; F&P-VJ-Spalten R–T befüllt.
+
+**Geändert**
+- **F&P je Bezug:** Bezug „Vorjahr“ vergleicht F&P immer mit dem Vorjahreswert lt. aktuellem Report (Spalten R–T bzw. die zugeordneten F&P-VJ-Spalten) – auch ohne geladenen Vorjahres-Monatsreport; fehlt der Wert im Report, steht „kein VJ“. Bezug „Zeitraum“ vergleicht F&P BIS mit F&P VON aus den eigenen geladenen Monaten. Die Bezugszeile nennt die Quelle („F&P lt. aktuellem Report, Vorjahreswert“).
+- Bezug „Zeitraum“: alle übrigen Kennzahlen wie bisher Stichtag gegen Stichtag (Events/gewonnenes Business als kumulierte Report-Werte, so beschriftet).
+- Letzte „VON“-Reste im Bezug Vorjahr entfernt (Filter-Chip Partner-Wechsel, Spalte „Partner VJ“, Übergangsmatrix, Überschriften, Legende Gebiets-Review, Feld „Vorjahresmonat“). Excel-Infoblatt und Kurzbericht mit Zeile „Vergleichsart“. Anleitung an die Rechnung angepasst.
+
+**Behoben**
+- Gebiets-Review als PowerPoint: Die Bezugszeile war leer.
+
+## V4.0.12 · 26.11.2026 · DEV
+**Neu**
+- **Vergleichsart je Kennzahl** (Bezug Vorjahr): „Monat gegen Vorjahresmonat“ für Summenwerte pro Monat (Events FE, gewonnene Business-/Spec-Werte), „Stichtag gegen Stichtag“ für Bestands-/Stichtagsgrößen (Partner, offenes Business, R12, Score) und die bereits kumulierten Spalten „lfd. Jahr“. Die Art steht in der Bezugszeile, in Exporten und in der Anleitung.
+- Heatmap: je Zelle der Wert des Vorjahresmonats darunter („VJ …“ bzw. „kein VJ“).
+- Beispieldaten: Vorjahresmonate für alle Monate des laufenden Jahres, ein Monat ohne Vorjahr (12/2025) und Kunden ohne Vorjahr.
+
+**Geändert**
+- Bezug im Format „MM/JJJJ vs. MM/JJJJ-1 (Vorjahresmonat)“ jetzt auch in PPTX-Titelfolie, Gebiets-Review (App, PPTX, PDF), Streudiagramm, Besuchsscore/Besuchsplan, Steckbrief (App/PPTX/PDF), VB-Report, Excel-Infoblatt und Kurzbericht; keine „VON“-Reste im Bezug Vorjahr.
+- Gebiets-Review und Steckbrief rechnen F&P bei geladenem Vorjahresmonat aus den eigenen Daten (statt Report-Spalten R–T).
+- Status „kein VJ“ wird neutral (grau) dargestellt, nicht als Verlust.
+
+## V4.0.11 · 26.11.2026 · DEV
+**Neu**
+- **Bezug „Vorjahr“ (Standard):** Neuer Schalter „Bezug“ in der Filterleiste. Bei „Vorjahr“ wählst Du nur den Datenstand BIS; verglichen wird automatisch mit demselben Monat ein Jahr davor (z. B. 10/2026 vs. 10/2025). „Zeitraum“ ist das bisherige VON → BIS. Die Wahl steckt in Ansicht, Favoriten, Backup-Einstellungen und im exportierten Kunden-Tool.
+- Stichtag gegen Stichtag (die Report-Spalten „lfd. Jahr“ sind bereits kumuliert). F&P rechnet bei geladenem Vorjahresmonat aus den eigenen Daten, sonst wie bisher aus den Report-Spalten R–T; die Bezugszeile nennt die Quelle.
+- **„kein VJ“:** Fehlt der Vorjahresmonat oder ein Kunde darin, steht „kein VJ“ – nicht 0 und nicht Verlust; Summen und Δ beziehen sich nur auf Kunden mit Vorjahreswert.
+- Alle Bezugszeilen, Spaltenüberschriften, Chips und Exporte (CSV/XLSX/PDF/PNG/PPTX, Kurzbericht) nennen den Bezug, z. B. „10/2026 vs. 10/2025 (Vorjahresmonat)“. Heatmap: Vorjahresmonat als erste Spalte, Δ-Spalte aus eigenen Daten. Steckbrief-Verlauf: Vorjahreswerte Monat für Monat.
+- Besuchsscore und Partner-Wechsel rechnen im Bezug Vorjahr gegen den Vorjahresmonat. Neuer Monat geladen → BIS springt auf den neuesten Datenstand.
+- Anleitung (?) um eine Erklärung ergänzt; Beispieldaten um Vorjahresmonate erweitert.
+
 ## V4.0.10 · 25.11.2026 · DEV
 **Geändert**
 - **Tool-Typ „Datenbank“ (Regel S-23, Rollout R-19):** Das Tool ist als Typ Datenbank gekennzeichnet – Daten bleiben wie bisher im Tool, keine Projektdateien.

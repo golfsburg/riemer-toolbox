@@ -4,6 +4,42 @@
 Start: index.html im Browser öffnen (Chrome/Edge/Firefox) oder auf GitHub Pages ablegen.
 Beim Öffnen wird die Beispielzeichnung „Beispiel_Schnitt.dxf“ geladen.
 
+## V5.9.7 · 27.11.2026 · DEV
+**Behoben**
+- **Keine Montageschienen mehr im Export, die nicht geplant sind.** Mit Berechnungsblock „mit Vorlagen-Produkten“ kamen Knoten, Stäbe (MT-40 V2, MT-70 OC, MT-90 OC) und die Stückliste mit Schienen und Endkappen aus der Standardvorlage in jede .msx/.mspx – auch wenn im Modellbereich nur Decke und Rohr lagen. Das Tragwerk der Vorlage wird jetzt nie mehr übernommen; geplante Stäbe („+ Stab“ oder aus RIEMER Tools) werden wie bisher exportiert. Exporte mit „ohne Produkte“ (Standard) und „minimal“ sind unverändert.
+
+**Neu**
+- **Platzhalter-ID aus RIEMER Tools V4:** Enthält die Platzhaltergruppe (`.mse.json` bzw. Projekt-ZIP) `group.typId`, `group.typName` und `group.placeholderNames`, heißt das Unterprojekt wie der Typname (mit „· 3 Stk“ wie bisher), die Dateien heißen `<Modell>_<Typname>.msx`, und der Typname steht in der MSX als Name des Unterprojekts (`subProjectName`). `_Platzhalter.csv` enthält zusätzlich Typ-ID, Typname und den Instanznamen je Platzhalter neben Element-ID und UniqueId. Die Typ-ID wird im Projekt (.msx.ritl) gespeichert. Ohne diese Felder (RIEMER Tools V3) bleibt alles wie bisher.
+- **Enter und Esc in Dialogen:** Enter übernimmt („Bild ausrichten“ → Übernehmen, Anleitung → Schließen), Esc bricht ab – ein zentraler Handler wie in allen RIEMER Tools. Zeichnen (Polylinie mit Enter beenden, Esc bricht ab) bleibt unverändert.
+
+**Geändert**
+- **Werkzeugleiste der Rohrliste kompakt:** einzeilig, ca. 42 px hoch, nie eine Bildlaufleiste; passt sie nicht in die Breite, lässt sie sich mit Shift+Rad, Touchpad oder Wischen verschieben (Verlaufskante zeigt weitere Knöpfe).
+
+## V5.9.6 · 26.11.2026 · DEV
+**Geändert**
+- **Höhe des Modellbereichs:** Die Zeichnung wächst beim Ziehen wieder mit und wird zentriert in die Fläche eingepasst (statt fest an der oberen Ecke zu stehen wie in V5.9.4/5.9.5). Dabei wird höchstens einmal pro Bild neu gezeichnet. Das sichere Beenden des Ziehens aus V5.9.5 bleibt.
+
+## V5.9.5 · 26.11.2026 · DEV
+**Behoben**
+- **Griff der Modellhöhe „klebte“ an der Maus:** Das Ziehen endet jetzt zuverlässig – beim Loslassen (auch außerhalb des Griffs oder des Fensters), bei Fensterwechsel und sobald die Maus ohne gedrückte Taste bewegt wird. Bewegung und Ende werden am ganzen Dokument verfolgt, nicht nur am Griff.
+- Die Spalte verschiebt sich beim Ziehen nicht mehr von selbst unter der Maus (Scroll-Verankerung des Browsers abgeschaltet).
+
+## V5.9.4 · 26.11.2026 · DEV
+**Behoben**
+- **Höhe des Modellbereichs ändern:** Beim Ziehen am Griff (und mit den Pfeiltasten) bleiben Maßstab und Ausschnitt der Zeichnung jetzt unverändert – die Fläche wächst oder schrumpft nur nach unten. Vorher wurde das Modell bei jedem Zwischenschritt neu berechnet und um die Mitte neu eingepasst, die Zeichnung wanderte und wirkte wie skaliert. Das Raster wird erst beim Loslassen aktualisiert.
+
+## V5.9.3 · 26.11.2026 · DEV
+**Geändert**
+- **Höhe des Modellbereichs umgebaut:** Der Griff unter dem Modell folgt jetzt genau der Maus – ohne Sprünge und ohne die bisherigen Grenzen (vorher höchstens ca. 95 % der Spalte, mindestens 240 px). Es gibt nur noch **eine** Höhe, sie gilt fixiert wie frei, bleibt beim Ändern der Fenstergröße unverändert und wird gemerkt. Doppelklick auf den Griff setzt auf die Standardhöhe zurück (fixiert: ca. 60 % der Fensterhöhe).
+
+## V5.9.2 · 26.11.2026 · DEV
+**Geändert**
+- **Scrollen:** Ist der Inhalt eines Bereichs (Liste, Tabelle, Projektbaum, Spalte) am Ende oder gar nicht scrollbar, scrollt das Mausrad jetzt die ganze Seite weiter. Dasselbe gilt für die Werkzeugleiste: Sie schiebt sich seitlich, solange sie überläuft, danach läuft die Seite weiter. Dialoge bleiben davon ausgenommen.
+
+## V5.9.1 · 26.11.2026 · DEV
+**Geändert**
+- **Scrollen (R-15):** Der Kopfbereich läuft beim Scrollen aus, die Werkzeugleiste der Rohrliste (Bereich 08) bleibt oben stehen. Auf dem Handy ist sie einzeilig und seitlich wischbar. Das Mausrad über der Leiste schiebt nur die Leiste und nie die ganze Seite. Innere Listen und Dialoge reichen das Scrollen nicht mehr an die Seite weiter.
+
 ## V5.9.0 · 25.11.2026 · DEV
 **Neu**
 - **Projekte als eigene Datei:** Ein MSX-Projekt ist jetzt eine Datei, die du speicherst – z. B. „Haus A.msx.ritl“. Darin steckt alles: Bereich 01 mit Projektname, allen Ordnern und Unterprojekten, Anzahl je Unterprojekt und dem Arbeitsstand jedes Unterprojekts (Erkennung, Auswahl, manuell gezeichnete Objekte, Ausschnitt), dazu Vorlage, weitere Rohrnormen, Revit-Zuordnung, „Texte EIN/AUS“, „Anzahl im Namen exportieren“ und **alle importierten Originaldateien** (DWG, DXF, PDF, Bilder, MSX, .mspx, ZIP). So kannst du mehrere Projekte parallel führen, weitergeben und archivieren – beim Öffnen ist das Projekt vollständig wieder da.
