@@ -4,6 +4,17 @@
 Start: index.html im Browser öffnen (Chrome/Edge/Firefox) oder auf GitHub Pages ablegen.
 Beim Öffnen wird die Beispielzeichnung „Beispiel_Schnitt.dxf“ geladen.
 
+## V5.9.7 · 27.11.2026 · DEV
+**Behoben**
+- **Keine Montageschienen mehr im Export, die nicht geplant sind.** Mit Berechnungsblock „mit Vorlagen-Produkten“ kamen Knoten, Stäbe (MT-40 V2, MT-70 OC, MT-90 OC) und die Stückliste mit Schienen und Endkappen aus der Standardvorlage in jede .msx/.mspx – auch wenn im Modellbereich nur Decke und Rohr lagen. Das Tragwerk der Vorlage wird jetzt nie mehr übernommen; geplante Stäbe („+ Stab“ oder aus RIEMER Tools) werden wie bisher exportiert. Exporte mit „ohne Produkte“ (Standard) und „minimal“ sind unverändert.
+
+**Neu**
+- **Platzhalter-ID aus RIEMER Tools V4:** Enthält die Platzhaltergruppe (`.mse.json` bzw. Projekt-ZIP) `group.typId`, `group.typName` und `group.placeholderNames`, heißt das Unterprojekt wie der Typname (mit „· 3 Stk“ wie bisher), die Dateien heißen `<Modell>_<Typname>.msx`, und der Typname steht in der MSX als Name des Unterprojekts (`subProjectName`). `_Platzhalter.csv` enthält zusätzlich Typ-ID, Typname und den Instanznamen je Platzhalter neben Element-ID und UniqueId. Die Typ-ID wird im Projekt (.msx.ritl) gespeichert. Ohne diese Felder (RIEMER Tools V3) bleibt alles wie bisher.
+- **Enter und Esc in Dialogen:** Enter übernimmt („Bild ausrichten“ → Übernehmen, Anleitung → Schließen), Esc bricht ab – ein zentraler Handler wie in allen RIEMER Tools. Zeichnen (Polylinie mit Enter beenden, Esc bricht ab) bleibt unverändert.
+
+**Geändert**
+- **Werkzeugleiste der Rohrliste kompakt:** einzeilig, ca. 42 px hoch, nie eine Bildlaufleiste; passt sie nicht in die Breite, lässt sie sich mit Shift+Rad, Touchpad oder Wischen verschieben (Verlaufskante zeigt weitere Knöpfe).
+
 ## V5.9.6 · 26.11.2026 · DEV
 **Geändert**
 - **Höhe des Modellbereichs:** Die Zeichnung wächst beim Ziehen wieder mit und wird zentriert in die Fläche eingepasst (statt fest an der oberen Ecke zu stehen wie in V5.9.4/5.9.5). Dabei wird höchstens einmal pro Bild neu gezeichnet. Das sichere Beenden des Ziehens aus V5.9.5 bleibt.
