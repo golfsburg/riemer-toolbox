@@ -4,6 +4,20 @@
 Start: index.html im Browser öffnen (Chrome/Edge/Firefox) oder auf GitHub Pages ablegen.
 Beim Öffnen wird die Beispielzeichnung „Beispiel_Schnitt.dxf“ geladen.
 
+## V5.9.8 · 27.11.2026 · DEV
+**Behoben**
+- **Alte .msx/.mspx mit Vorlagen-Tragwerk werden sauber:** Dateien, die bis V5.9.6 exportiert wurden, tragen das Stab-Tragwerk der Standardvorlage (3 Stäbe, 6 Knoten, Stückliste mit Schienen und Endkappen), obwohl nichts geplant war. Das erkennt MSX.ritl jetzt (Stäbe genau wie in der Vorlage): Beim Öffnen einer solchen .msx werden diese Stäbe nicht als geplant übernommen (Hinweis im Protokoll), und beim Export einer .mspx wird das Tragwerk aus **allen** Unterprojekten entfernt – auch aus denen, die nicht geöffnet wurden. Beim Laden der .mspx meldet das Protokoll, wie viele Unterprojekte betroffen sind. Geplante Stäbe bleiben unverändert.
+- **„mit Vorlagen-Produkten“ ohne Verweise ins Leere:** Schellen (117) und Rohr-Stab-Verbindungen (128/129) der Vorlage zeigen auf ihr Tragwerk, das nicht mehr exportiert wird – sie entfallen. Rohr-Zusatzdaten (119) und Lastzuordnungen (127) kommen nur noch für Rohre und Bauteile mit, die wirklich im Export stehen.
+- **CSV sicherer:** Felder mit Zeilenumbruch (auch nur CR) stehen in Anführungszeichen; Werte, die mit `=`, `+`, `-` oder `@` beginnen und keine Zahl sind, werden mit `'` entschärft (keine Formeln beim Öffnen in Excel).
+- **Dateinamen mit Umlauten:** ä, ö, ü, ß werden zu ae, oe, ue, ss statt `_`.
+
+**Neu**
+- **Export XLSX/PPTX (Baustein ritl-export 1.0.1, Regel S-27):** Rohrliste, Bauteile/Kanäle und Stäbe haben je einen kleinen Knopf XLSX und PPTX, der Modellbereich „Zeichnung PPTX“ (Zeichnung als Bild). Der Knopf **Export** im Header öffnet die Auswahl für alles inklusive Projekt-Stückliste (deren bisheriger Excel-Export bleibt). Die Auswahl wird gemerkt und mit den Einstellungen gesichert (Backup).
+- **Auswahl-Leiste in der Zeichnung:** Esc hebt die Auswahl auf und schließt die Leiste. Die Seite bleibt bei offener Leiste scrollbar.
+
+**Geändert**
+- Bausteine aktualisiert: RITL-UI 1.7 (Seite hinter Dialogen gesperrt – Rad, Touch, Tastatur), ritl-bk 2.14, ritl-doc 1.2. JSZip ist eingebettet (kein Nachladen aus dem Netz mehr).
+
 ## V5.9.7 · 27.11.2026 · DEV
 **Behoben**
 - **Keine Montageschienen mehr im Export, die nicht geplant sind.** Mit Berechnungsblock „mit Vorlagen-Produkten“ kamen Knoten, Stäbe (MT-40 V2, MT-70 OC, MT-90 OC) und die Stückliste mit Schienen und Endkappen aus der Standardvorlage in jede .msx/.mspx – auch wenn im Modellbereich nur Decke und Rohr lagen. Das Tragwerk der Vorlage wird jetzt nie mehr übernommen; geplante Stäbe („+ Stab“ oder aus RIEMER Tools) werden wie bisher exportiert. Exporte mit „ohne Produkte“ (Standard) und „minimal“ sind unverändert.
