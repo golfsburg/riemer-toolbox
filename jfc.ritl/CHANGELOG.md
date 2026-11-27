@@ -3,6 +3,16 @@
 Engineering Navigator: Kundenvergleich, Besuchspriorisierung und Gebiets-Review aus JFC-Reports · #ritl_jfc
 Neueste Version oben. Versionen ≤ V3.6 als „JFC Engineering Navigator“.
 
+## V4.0.18 · 27.11.2026 · DEV
+**Neu**
+- **Enter und Esc in allen Dialogen (R-21):** Enter löst den Hauptknopf aus – im PowerPoint-Export „PowerPoint erstellen“, im Set-Namen „Neues Set“, in Daten & Setup beim Datenstand „Importieren“, beim Favoriten-Namen „Als Favorit“, beim Favoriten-Code „Laden“, beim Titel „Tool exportieren“; die Anleitung schließt mit Enter. Esc schließt ohne Änderung, und zwar genau eine Ebene: zuerst ein offenes Filter- oder Spalten-Dropdown, dann den Dialog. Enter auf Häkchen und Auswahllisten löst nichts aus, gehaltenes Enter nur einmal. Nach dem Schließen springt der Fokus auf den Knopf zurück, der den Dialog geöffnet hat.
+
+**Geändert**
+- **Sprungleiste kompakt (R-22):** Die Inhaltsleiste (KPI mit Trend … Weitere Ideen) bleibt einzeilig ohne Bildlaufleiste; passt sie nicht, lässt sie sich waagrecht wischen bzw. mit Umschalt+Rad scrollen, eine Verlaufskante zeigt weitere Einträge. „Alle auf/Alle zu“ rutschen nicht mehr in eine zweite Zeile. Tastatur-Fokus mit sichtbarem Rahmen.
+
+**Behoben**
+- **Mehrere Kunden ohne Monatswert:** Haben alle Kunden einer Auswahl (z. B. VB-Report) in einem Monat keinen Monatswert, bleibt der Monat jetzt leer statt 0 – im Bericht und in PowerPoint (leere Zelle im Diagramm).
+
 ## V4.0.17 · 26.11.2026 · DEV
 **Behoben**
 - **Hinweis in Bereich 05 (Vertiefungen):** Die Zeile „Alle folgen den Hauptfiltern …“ zeigt jetzt immer den aktuellen Bezug – sie wird bei jeder Änderung von Bezug, VON und BIS neu gesetzt (bisher nur beim Laden der Daten). Der Text nennt dieselben Monate wie Steckbrief und VB-Report: Bezug Vorjahr z. B. „Jän 25 – Okt 25 → Jän 26 – Okt 26“, Bezug Zeitraum „VON 04/2026 → BIS 10/2026 · Apr 26 – Okt 26“.
