@@ -3,6 +3,14 @@
 Vorlage und Spielwiese für den Skill `/riemer-webapp-design` · #ritl_muster
 Neueste Version oben. Versionen ≤ V2.2 nachträglich aus den veröffentlichten Ständen (Tabelle `tool_versions`) rekonstruiert.
 
+## V3.10.7 · 27.11.2026 · DEV
+**Neu**
+- **Entwurf Bereichsfarben (Idee I-020, zur Freigabe):** Boxen zeigen ihre Funktion mit einer eigenen, dezenten Farbe – wie Platzhalter.ritl › ▶ Platzieren › ① Steuerung. Die ganze Box ist getönt: Fläche 4 %, Rahmen 45 % (1,5 px), Kopfzeile 8 %, Überschrift und Nummer in der Bereichsfarbe. Vier Farb-Tokens `--zone-a` … `--zone-d` (Blau, Laubgrün, Bernstein, Violett) für Hell und Dunkel, höchstens 4 je Ansicht, Rot bleibt Fehler/Löschen vorbehalten. Text auf allen getönten Flächen ≥ 4,5:1.
+- Kennzahl-Kacheln in MODUL.ritl tragen dieselben Farben (`--kc` Farbe, `--kb` 13 % Fläche).
+
+**Geändert**
+- Boxen in MODUL, TIMING, SETUP, MAP und DOC mit `data-zone` gekennzeichnet. Noch keine Regel und kein Rollout – Vorschlag für den Skill in `docs/vorschlag-skill-bereichsfarben.md` (privates Repo).
+
 ## V3.10.6 · 27.11.2026 · DEV
 **Neu**
 - **Export für alle Tabellen und Darstellungen (Vorlage für Regel S-27):** Knopf **Export** im Header öffnet den Export-Dialog mit Auswahl je Modul – eine XLSX mit einem Blatt je Tabelle und eine PPTX mit Titelfolie, Inhaltsverzeichnis und allen gewählten Tabellen und Darstellungen. Dateinamen `JJJJMMDD-HHMM-MUSTER-ritl_<Bereich>.xlsx|pptx`.
