@@ -2,7 +2,23 @@
 ============================================
 
 Start: index.html im Browser öffnen (Chrome/Edge/Firefox) oder auf GitHub Pages ablegen.
-Beim Öffnen wird die Beispielzeichnung „Beispiel_Schnitt.dxf“ geladen.
+Ein neues Projekt startet mit einer leeren Zeichnung (ab V5.9.9 ohne Beispielzeichnung).
+
+## V5.9.10 · 27.11.2026 · DEV
+**Behoben**
+- **Horizontal spiegeln** wird beim Wechsel zwischen Unterprojekten wieder übernommen (seit V5.9.9 blieb die Einstellung des zuletzt geöffneten Unterprojekts stehen).
+
+## V5.9.9 · 27.11.2026 · DEV
+**Entfernt**
+- **Beispielzeichnung:** Die eingebaute Beispiel-DXF und der Knopf „Beispiel laden“ sind weg (Datei rund 220 KB kleiner). Ein neues Projekt startet mit einem leeren Unterprojekt und dem Hinweis „Zeichnung laden (DWG/DXF/PDF/Bild) oder .mse.json ziehen“ in der Zeichenfläche. Ältere Projekte mit dem früheren Beispiel-Unterprojekt öffnen ohne Fehler mit leerer Zeichnung.
+
+**Behoben**
+- **Berechnungsblock nie mehr leer:** Nach „Neues Projekt“ oder beim Öffnen eines Unterprojekts aus einem älteren Stand konnte die Auswahl „Berechnungsblock“ leer sein – dann gingen Produkte der Vorlage mit in die MSX. Leer oder unbekannt gilt jetzt immer „ohne Produkte“, auch beim Export.
+
+**Neu**
+- **Zoom direkt in der Zeichenfläche:** Unten rechts schweben +, −, Einpassen, 🔒 (Zoom sperren/freigeben) und die Zoomstufe in % (Klick = 100 %). Tasten + / − / 0 zoomen, wenn der Zoom freigegeben ist (nicht in Eingabefeldern). Die bisherigen Zoom-Knöpfe in der Kopfzeile des Modellbereichs entfallen.
+- **Dämmung aus der Dicke erkennen:** Eine erkannte Dämmdicke von 9, 13, 19, 25 oder 32 mm (±1 mm) schlägt Dämmstoff **Kautschuk** und Medium **Kälte** vor – nur wenn Revit bzw. der Typname nichts liefern. In der Rohrliste steht dann „aus Dicke erkannt“; eigene Änderungen bleiben erhalten. Dicken, Dämmstoff und Medium sind in Bereich 04 änderbar und werden mit den Einstellungen gesichert (Backup).
+- **Orthogonal-Fang:** Mit gedrückter Shift-Taste rastet der zweite Punkt waagrecht oder senkrecht zum ersten ein – beim Kalibrieren, bei „+ Rohr“ (Mitte + Rand) und bei Stäben (auch im Modus „Frei“). Eine Hilfslinie zeigt die Achse; der Objektfang wirkt dann nur entlang der Achse. Am Touchgerät übernimmt der Schalter „⟂ Orthogonal“ die Shift-Taste.
 
 ## V5.9.8 · 27.11.2026 · DEV
 **Behoben**
