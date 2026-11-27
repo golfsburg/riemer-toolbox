@@ -1,4 +1,4 @@
--- ritl-export 1.0: EN-Übersetzungen der Baustein-Texte (Dialog, Meldungen, Dateiinhalte über RITLEXP.init({t})).
+-- ritl-export 1.0.1: EN-Übersetzungen der Baustein-Texte (Dialog, Meldungen, Dateiinhalte über RITLEXP.init({t})).
 -- NICHT eingespielt – nur nach Peters Freigabe. Je Tool mit Baustein die App in apps(app) ergänzen (bewusst nicht app '*':
 -- kurze Wörter wie „Stand“, „Tabelle“ sollen andere Tools nicht ungefragt mitübersetzen). Vorhandene Paare bleiben (on conflict do nothing).
 with apps(app) as (values ('staff-ritl')),
@@ -43,7 +43,9 @@ with apps(app) as (values ('staff-ritl')),
   ('Quelle:','Source:'),
   ('Teil {0} von {1}','Part {0} of {1}'),
   ('1 Zeile','1 row'),
-  ('{0} Zeilen','{0} rows'))
+  ('{0} Zeilen','{0} rows'),
+  ('Tool','Tool'),
+  ('Export nicht möglich: JSZip 3.10.1 fehlt im Tool (Baustein ritl-export lädt es nicht).','Export not possible: JSZip 3.10.1 is missing in the tool (the ritl-export component does not load it).'))
 insert into translations (app,de,en,kind,note)
-select apps.app,t.de,t.en,'text','ritl-export 1.0' from apps cross join t
+select apps.app,t.de,t.en,'text','ritl-export 1.0.1' from apps cross join t
 where not exists (select 1 from translations x where x.app=apps.app and x.de=t.de);

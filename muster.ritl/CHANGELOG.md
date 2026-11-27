@@ -3,6 +3,17 @@
 Vorlage und Spielwiese für den Skill `/riemer-webapp-design` · #ritl_muster
 Neueste Version oben. Versionen ≤ V2.2 nachträglich aus den veröffentlichten Ständen (Tabelle `tool_versions`) rekonstruiert.
 
+## V3.10.6 · 27.11.2026 · DEV
+**Neu**
+- **Export für alle Tabellen und Darstellungen (Vorlage für Regel S-27):** Knopf **Export** im Header öffnet den Export-Dialog mit Auswahl je Modul – eine XLSX mit einem Blatt je Tabelle und eine PPTX mit Titelfolie, Inhaltsverzeichnis und allen gewählten Tabellen und Darstellungen. Dateinamen `JJJJMMDD-HHMM-MUSTER-ritl_<Bereich>.xlsx|pptx`.
+- **Kleine Knöpfe XLSX/PPTX an jeder Tabelle:** MODUL.ritl › Ergebnis (Tabelle und Diagramm), MAP.ritl › Firmen & Ansprechpartner, Projekte & Gewerke, Beziehungen, Schlüsselpersonen, Risiken & Lücken; die Map selbst als PPTX-Folie (Knoten und Beziehungen als echte Formen mit Legende).
+- Firmen und Gewerke lassen sich auch aus der Map-Ansicht exportieren (die Matrix muss nicht offen sein); aktive Filter, FOKUS und ausgeblendete Beziehungen stehen in Dialog, Fußzeile und Blatt „Export-Info“.
+- Die Auswahl im Export-Dialog wird mit den Einstellungen gesichert (Backup Stufe 1).
+
+**Geändert**
+- „Exportieren“ in der Werkzeugleiste von MODUL.ritl öffnet den Export-Dialog für dieses Modul.
+- Baustein **ritl-export 1.0.1** und JSZip 3.10.1 eingebaut (kein SheetJS).
+
 ## V3.10.5 · 26.11.2026 · DEV
 **Behoben**
 - **Esc nach einer Auswahl:** Hatte man in einem Popup ein Auswahlfeld benutzt, schloss das erste Esc das Popup nicht. Jetzt schließt es sofort; nur eine wirklich offene Vorschlagsliste eines Eingabefelds wird zuerst geschlossen.
