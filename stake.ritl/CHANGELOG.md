@@ -3,6 +3,11 @@
 Beziehungs- und Stakeholder-Map für Firmen, Ansprechpartner, Projekte und Gewerke · #ritl_stake
 Neueste Version oben.
 
+## V2.6.10 · 27.11.2026 · DEV
+**Behoben**
+- **Auswahl-Fenster der Map:** Enter im Namensfeld schließt das Fenster „Auswahl bearbeiten“ nicht mehr, und Esc hebt die Auswahl wieder auf (bzw. verlässt die fixierte Arbeitsfläche 🔒), statt nur das Fenster auszublenden.
+- **Export:** Fehlende Zahlenwerte (Einfluss, Stärke, Fokus-Level) erscheinen als leere Zelle, nie als 0 oder NaN.
+
 ## V2.6.9 · 27.11.2026 · DEV
 **Neu**
 - **Export als XLSX und PPTX (Regel S-27, Rollout R-23, Baustein ritl-export 1.0.1):** Jede Tabelle lässt sich einzeln als Excel- und PowerPoint-Datei exportieren – MAP: Firmen & Ansprechpartner, Projekte & Gewerke, Beziehungen, Schlüsselpersonen, Risiken & Lücken; DATA: Firmen, Ansprechpartner, Projekte. Die Map selbst gibt es als PPTX-Folie (Knoten, Beziehungen, Legende). Der Knopf **Export** im Kopf öffnet den Gesamt-Export mit Auswahl; aktive Filter und FOKUS stehen in der Datei. Die Auswahl wird im Backup mitgesichert.
