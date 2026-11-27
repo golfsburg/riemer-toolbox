@@ -3,6 +3,14 @@
 Projektmanagement: Projekt-Portfolio mit Gewerken, Anwendungen und Businesses (Lead › Spezifikation Opportunity › Spezifikation › Opportunity), Umsatzplan, Dashboard und Zeitplan · #ritl_pm
 Neueste Version oben. Versionen ≤ V1.1 nachträglich rekonstruiert (Projektmanager V1.x, selbstspeichernde HTML-Datei).
 
+## V3.1.26 · 27.11.2026 · DEV
+**Neu**
+- **Enter/Esc in Dialogen (Regel S-25, Rollout R-21):** Ein zentraler Tastatur-Handler für alle Dialoge und Eingabemasken: Enter im Feld löst den Hauptknopf aus (Speichern, Fertig, Importieren …), Esc bricht ab. Enter in mehrzeiligen Feldern macht einen Zeilenumbruch (Strg/⌘+Enter speichert), gehaltene Taste speichert nur einmal.
+- **Esc-Reihenfolge:** Esc schließt immer genau eine Ebene – erst Filterliste, Export-Menü oder Datums-Kalender, dann Dialog/Maske, erst zuletzt die fixierte Arbeitsfläche 🔒. Behebt, dass Esc bei offener Filterliste in einer fixierten Fläche beides auf einmal schloss.
+
+**Geändert**
+- **Ribbon kompakt (Regel S-26, Rollout R-22):** Das Modul-Ribbon ist nur noch ≈45 px hoch und zeigt nie eine Bildlaufleiste; weitere Reiter deutet eine Verlaufskante an (Shift+Rad bzw. Wischen). Sichtbarer Fokus-Ring auf den Reitern.
+
 ## V3.1.23 · 25.11.2026 · DEV
 **Geändert**
 - **Tool-Typ „Datenbank“ (Regel S-23, Rollout R-19):** Das Tool ist als Typ Datenbank gekennzeichnet – Daten bleiben wie bisher im Tool, keine Projektdateien.
