@@ -3,6 +3,20 @@
 Leistungsverzeichnisse nach ÖNORM A 2063 mit Materiallisten, Bieterangeboten und ONLV-Export · #ritl_lv
 Neueste Version oben. Versionen ≤ V9.2 nachträglich rekonstruiert (aus `tool_versions` und den Quellen-ZIPs).
 
+## V10.0.8 · 27.11.2026 · DEV
+**Neu**
+- **Export XLSX/PPTX (Regel S-27, Rollout R-23, Baustein ritl-export 1.0.1):** Knopf **Export** im Kopf öffnet den Export-Dialog mit Auswahl (Gruppe, Alle, Keine) und erzeugt eine Excel-Datei (ein Blatt je Tabelle) bzw. eine PowerPoint-Datei im RIEMER-Folienlayout. Enthalten: PROJEKTE (Projekte), VORLAGEN (Vorlagenordner, Positionsvorlagen), POSITIONEN (Positionen, Materiallisten), PREISE (aktive Preisliste), ANGEBOT (Angebot mit EP/GP, Angebotssummen). Dazu je Bereich kleine Knöpfe **XLSX/PPTX** (Kopf „Alle Projekte“/„Alle Vorlagenordner“, Werkzeugzeile in Positionen, Preise und Angebot). Das bisherige **„XLS Angebot“** bleibt unverändert und lässt sich im Dialog zusätzlich mitwählen (eigene Datei). Die Auswahl im Dialog wird mit den Einstellungen im Backup gesichert.
+
+**Geändert**
+- **Dialoge mit Enter und Esc (Regel S-25, Rollout R-21):** Enter löst in jedem Dialog den Hauptknopf aus (Speichern, Importieren, Einfügen, OK …), Esc bricht ohne Änderung ab. Im mehrzeiligen Textfeld bleibt Enter ein Zeilenumbruch (Strg+Enter speichert), Enter auf Checkboxen und Auswahllisten löst nichts aus, gehaltenes Enter speichert nur einmal. Info-Dialoge (Anleitung) schließen mit Enter. Beim Öffnen steht der Fokus im Dialog (bei Positionsvorlagen im Stichwort), nach dem Schließen wieder dort, wo er vorher war.
+- **Menüband und Reiterleiste kompakt (Regel S-26, Rollout R-22):** Das Menüband in PROJEKTE, VORLAGEN und im Projekt ist jetzt eine Zeile (≈45 statt 118 px) mit Symbol und Text nebeneinander; die Gruppennamen stehen als Hinweis beim Darüberfahren. Passt es nicht in die Breite, lässt es sich seitlich wischen – ohne Bildlaufleiste, eine weiche Kante zeigt weitere Knöpfe. Die Reiterleiste ist ebenfalls 45 px hoch, am Handy ohne Bildlaufleiste, Knöpfe mindestens 40 px.
+- **Bereichsfarben (Regel S-28, Rollout R-24):** Boxen und Kennzahl-Kacheln zeigen ihre Funktion mit einer Bereichsfarbe (hell und dunkel). Zuordnung:
+  - Zone a (Blau): Übersicht und Navigation – Alle Projekte, Alle Vorlagenordner, Projekt-/Ordnerinhalt, Kennzahl-Kacheln (Positionen, Export)
+  - Zone b (Laubgrün): LV bearbeiten – LV-Kenndaten, LV-Ersteller/Planer, Auftraggeber, Bieter-Daten, Bieter, Positionsvorlagen
+  - Zone c (Bernstein): Preise und Kalkulation – Preisliste importieren, Globale Kalkulationsparameter
+  - Zone d (Violett): interne/globale Angaben und Bibliothek – Angebot Ersteller (global), Intern (projektspezifisch), Leistungsbeschreibungen
+- Bausteine aktualisiert: **RITL-UI 1.7** (Seite hinter offenen Dialogen gesperrt) und **ritl-bk 2.14**.
+
 ## V10.0.7 · 25.11.2026 · DEV
 **Geändert**
 - **Tool-Typ „Datenbank“ (Regel S-23, Rollout R-19):** Das Tool ist als Typ Datenbank gekennzeichnet – Daten bleiben wie bisher im Tool, keine Projektdateien.
