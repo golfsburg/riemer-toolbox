@@ -39,3 +39,5 @@ Quelle:	Source:
 Teil {0} von {1}	Part {0} of {1}
 1 Zeile	1 row
 {0} Zeilen	{0} rows
+Tool	Tool
+Export nicht möglich: JSZip 3.10.1 fehlt im Tool (Baustein ritl-export lädt es nicht).	Export not possible: JSZip 3.10.1 is missing in the tool (the ritl-export component does not load it).

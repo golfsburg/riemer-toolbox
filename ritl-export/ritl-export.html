@@ -1,9 +1,10 @@
 <!--ritl-export:start-->
-<!-- ritl-export 1.0 · 27.11.2026 – einheitlicher Export der RIEMER Tools: Tabellen → XLSX/PPTX, Darstellungen → PPTX, einzeln oder gesamt
+<!-- ritl-export 1.0.1 · 27.11.2026 – einheitlicher Export der RIEMER Tools: Tabellen → XLSX/PPTX, Darstellungen → PPTX, einzeln oder gesamt
      mit Auswahl-Dialog. Herausgelöst aus dem Pilot STAFF.ritl V1.0.6–V1.0.9. Nichts Tool-Spezifisches hier ändern (Block byte-gleich einbetten).
-     Voraussetzung: JSZip 3.10.1 als window.JSZip (kein SheetJS), Standard-Klassen des Skills (.dh/.db/.df, .btn, .status, .hint).
+     Voraussetzung (Pflicht): JSZip 3.10.1 als window.JSZip VOR dem Block (der Baustein lädt es NICHT; fehlt es, sind alle Export-Knöpfe
+     gesperrt und eine Meldung erscheint). Kein SheetJS. Standard-Klassen des Skills (.dh/.db/.df, .btn, .status, .hint).
      API (Details: README im öffentlichen Repo, Ordner ritl-export/):
-       RITLEXP.init({name,version,items()→[item],context()→{stand,lines[]},toast(msg), optional: tool,fileTag,getSel,setSel,xlsx,download,t})
+       RITLEXP.init({name,version,items()→[item] (bei open/mount/one neu ausgewertet),context()→{stand,lines[]},toast(msg), optional: tool,fileTag,getSel,setSel,xlsx,download,t})
        item = {id,group,label,file?,sheet?,table?()→{cols:[{h,w,t:'d'|'n'}],rows:[[…]]},draw?(deck)→(Promise),ownPptx?(),ownXlsx?()}
        RITLEXP.open(group?) · RITLEXP.one(id,'xlsx'|'pptx') · RITLEXP.mount(host,id,label?) · RITLEXP.Deck · RITLEXP.bild(svg|canvas)
      Tasten (S-25, Baustein regelt seinen Dialog selbst): Esc schließt · Enter auf einem Knopf = dessen Klick (ohne Tastenwiederholung) ·
@@ -21,13 +22,14 @@
 #ritl-exp .xr .c{text-align:center}
 #ritl-exp .xr small{color:var(--muted);font:500 11px var(--mono)}
 #ritl-exp .xctx{margin:0 0 12px}
+#ritl-exp .xzip{margin:0 0 12px;color:var(--warn,#C2410C);font-weight:600}
 #ritl-exp .xa{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 10px}
-.expb{display:inline-flex;gap:4px;align-items:center;margin-right:6px}
-.expb .btn{padding:3px 8px;min-height:0;font:600 11px var(--sans)}
+.ritl-expb{display:inline-flex;gap:4px;align-items:center;margin-right:6px}
+.ritl-expb .btn{padding:3px 8px;min-height:0;font:600 11px var(--sans)}
 @media(max-width:620px){#ritl-exp .xr{grid-template-columns:1fr 54px 54px}#ritl-exp .df .spacer{display:none}#ritl-exp .df .btn{flex:1 1 0;min-width:0;padding-left:6px;padding-right:6px}}
-@media(pointer:coarse){.expb .btn{min-height:36px;padding:6px 10px}#ritl-exp .xr input[type=checkbox]{width:22px;height:22px}}
+@media(pointer:coarse){.ritl-expb .btn{min-height:36px;padding:6px 10px}#ritl-exp .xr input[type=checkbox]{width:22px;height:22px}}
 </style>
-<dialog id="ritl-exp" class="rexp" data-ritl-overlay data-ritl-baustein="ritl-export" aria-labelledby="ritl-exp-h">
+<dialog id="ritl-exp" class="ritl-rexp" data-ritl-overlay data-ritl-baustein="ritl-export" aria-labelledby="ritl-exp-h">
  <div class="dh"><span id="ritl-exp-h">Export · Tabellen und Darstellungen</span> <small>XLSX · PPTX</small></div>
  <div class="db" tabindex="-1">
   <div class="status xctx" id="ritl-exp-ctx"></div>
@@ -40,7 +42,7 @@
 <script>
 window.RITLEXP=(function(){
 "use strict";
-const VERSION='1.0';
+const VERSION='1.0.1';
 const C={brand:'1F5FC2',ink:'1B1F24',ink2:'2D333B',muted:'5F6773',line:'E3E6EB',line2:'CDD2D9',soft:'F4F5F7',good:'0F7B6C',warn:'C2410C',white:'FFFFFF'};
 const FONT='Inter';
 const W=13.333,H=7.5,MX=0.5;
@@ -176,11 +178,11 @@ const XL=(()=>{
   const nc=sh.cols.length,last=colL(nc-1),nr=sh.rows.length+1;
   let x=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">`;
   x+=`<sheetViews><sheetView workbookViewId="0"${sh.tab?' tabSelected="1"':''}><pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews><sheetFormatPr defaultRowHeight="15"/>`;
-  x+='<cols>'+sh.cols.map((c,i)=>`<col min="${i+1}" max="${i+1}" width="${c.w||14}" customWidth="1"/>`).join('')+'</cols><sheetData>';
+  x+=(nc?'<cols>'+sh.cols.map((c,i)=>`<col min="${i+1}" max="${i+1}" width="${c.w||14}" customWidth="1"/>`).join('')+'</cols>':'')+'<sheetData>';
   x+='<row r="1">'+sh.cols.map((c,i)=>cell(colL(i)+'1',c.h,'',1)).join('')+'</row>';
   sh.rows.forEach((r,ri)=>{x+=`<row r="${ri+2}">`+sh.cols.map((c,i)=>cell(colL(i)+(ri+2),r[i],c.t,sh.wrap?3:0)).join('')+'</row>'});
   x+='</sheetData>';
-  if(sh.filter!==false)x+=`<autoFilter ref="A1:${last}${Math.max(nr,2)}"/>`;
+  if(sh.filter!==false&&nc>0)x+=`<autoFilter ref="A1:${last}${Math.max(nr,2)}"/>`;
   return x+'</worksheet>';
  }
  async function build(sheets,title){
@@ -188,7 +190,7 @@ const XL=(()=>{
   z.file('[Content_Types].xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>${sheets.map((s,i)=>`<Override PartName="/xl/worksheets/sheet${i+1}.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>`).join('')}<Override PartName="/docProps/core.xml" ContentType="application/vnd.openxmlformats-package.core-properties+xml"/></Types>`);
   z.file('_rels/.rels',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties" Target="docProps/core.xml"/></Relationships>`);
   z.file('docProps/core.xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><dc:title>${xe(title)}</dc:title><dc:creator>${xe(title)} – RIEMER Tools</dc:creator><dcterms:created xsi:type="dcterms:W3CDTF">${new Date().toISOString().slice(0,19)}Z</dcterms:created></cp:coreProperties>`);
-  z.file('xl/workbook.xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><bookViews><workbookView activeTab="0"/></bookViews><sheets>${sheets.map((s,i)=>`<sheet name="${xe(s.name)}" sheetId="${i+1}"${s.hidden?' state="hidden"':''} r:id="rId${i+1}"/>`).join('')}</sheets><definedNames>${sheets.map((s,i)=>s.filter===false?'':`<definedName name="_xlnm._FilterDatabase" localSheetId="${i}" hidden="1">'${xe(s.name.replace(/'/g,"''"))}'!$A$1:$${colL(s.cols.length-1)}$${Math.max(s.rows.length+1,2)}</definedName>`).join('')}</definedNames></workbook>`);
+  z.file('xl/workbook.xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><bookViews><workbookView activeTab="0"/></bookViews><sheets>${sheets.map((s,i)=>`<sheet name="${xe(s.name)}" sheetId="${i+1}"${s.hidden?' state="hidden"':''} r:id="rId${i+1}"/>`).join('')}</sheets><definedNames>${sheets.map((s,i)=>s.filter===false||!s.cols.length?'':`<definedName name="_xlnm._FilterDatabase" localSheetId="${i}" hidden="1">'${xe(s.name.replace(/'/g,"''"))}'!$A$1:$${colL(s.cols.length-1)}$${Math.max(s.rows.length+1,2)}</definedName>`).join('')}</definedNames></workbook>`);
   z.file('xl/_rels/workbook.xml.rels',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">${sheets.map((s,i)=>`<Relationship Id="rId${i+1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet${i+1}.xml"/>`).join('')}<Relationship Id="rId${n+1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>`);
   z.file('xl/styles.xml',STYLES);
   sheets.forEach((s,i)=>z.file(`xl/worksheets/sheet${i+1}.xml`,sheetXml(s)));
@@ -213,7 +215,7 @@ let CFG=null,ITEMS=[],BUSY=false;
 const $=s=>document.querySelector(s);
 const T=(s,...a)=>{let x=CFG&&typeof CFG.t==='function'?(CFG.t(s)||s):s;a.forEach((v,i)=>{x=x.split('{'+i+'}').join(String(v))});return x};
 const stamp=()=>{const d=new Date();return `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}-${pad(d.getHours())}${pad(d.getMinutes())}`};
-const slug=s=>String(s).replace(/[^\wÄÖÜäöüß-]+/g,'-').replace(/^-+|-+$/g,'');
+const slug=s=>String(s==null?'':s).replace(/[^\wÄÖÜäöüß-]+/g,'-').replace(/^-+|-+$/g,'')||'Export';
 const tag=()=>CFG.fileTag||(slug(String(CFG.name||'RITL').replace(/\.ritl$/i,''))+'-ritl');
 const groups=()=>[...new Set(ITEMS.map(i=>i.group))];
 const ctx=()=>{const c=(CFG.context&&CFG.context())||{};return{stand:c.stand||new Date().toLocaleDateString('de-AT'),lines:(c.lines||[]).filter(Boolean)}};
@@ -224,8 +226,9 @@ const toast=m=>{try{CFG.toast?CFG.toast(m):console.log(m)}catch(e){}};
 function pick(ids){return ids.map(id=>ITEMS.find(i=>i.id===id)).filter(Boolean)}
 function sheetsOf(items){const used=new Set(),sh=[];
  items.filter(isTab).forEach((it,k)=>{const t=it.table();let nm=(it.sheet||it.group+' '+it.label).replace(/[\\\/?*\[\]:]/g,' ').slice(0,31).trim(),b=nm,j=2;while(used.has(nm.toLowerCase()))nm=b.slice(0,28)+' '+(j++);used.add(nm.toLowerCase());
-  sh.push({name:nm,cols:t.cols.map(c=>({h:c.h,w:c.w||14,t:c.t})),rows:t.rows,tab:k===0})});
- const c=ctx();sh.push({name:'Export-Info',cols:[{h:T('Angabe'),w:22},{h:T('Wert'),w:60}],rows:[['Tool',CFG.name+' '+CFG.version],[T('Erstellt'),new Date().toLocaleString('de-AT')],[T('Stand'),c.stand]].concat(c.lines.map(l=>{const i=l.indexOf(':');return i>0?[l.slice(0,i),l.slice(i+1).trim()]:[T('Hinweis'),l]})),filter:false,wrap:true});
+  sh.push({name:nm,cols:(t.cols||[]).map(c=>({h:c.h,w:c.w||14,t:c.t})),rows:t.rows||[],tab:k===0})});
+ let inf='Export-Info',j=2;while(used.has(inf.toLowerCase()))inf='Export-Info '+(j++);
+ const c=ctx();sh.push({name:inf,cols:[{h:T('Angabe'),w:22},{h:T('Wert'),w:60}],rows:[[T('Tool'),(CFG.name+' '+CFG.version).trim()],[T('Erstellt'),new Date().toLocaleString('de-AT')],[T('Stand'),c.stand]].concat(c.lines.map(l=>{const i=l.indexOf(':');return i>0?[l.slice(0,i),l.slice(i+1).trim()]:[T('Hinweis'),l]})),filter:false,wrap:true});
  return sh}
 async function makeDeck(items,title){const c=ctx(),deck=new Deck({tool:CFG.tool||CFG.name,name:CFG.name,version:CFG.version,stand:c.stand,lines:c.lines,title});
  const multi=items.length>1,entries=[],off=multi?1:0; // das Inhaltsverzeichnis (Folie 2) schiebt alle Folgefolien um 1
@@ -254,7 +257,7 @@ async function runP(ids,name,title){const items=pick(ids),deckI=items.filter(inD
  if(deckI.length){const deck=await makeDeck(deckI,title||`${CFG.name} · ${name==='Gesamt'?T('Gesamt-Export'):name}`),f=`${stamp()}-${tag()}_${name}.pptx`;
   fertig(await save(await deck.blob(),f),f,T('{0} Folien',deck.slides.length))}
  await runOwn(own,'ownPptx')}
-const nameFor=ids=>{const it=pick(ids),g=[...new Set(it.map(i=>i.group))];return g.length>1?'Gesamt':it.length===1?(it[0].file||slug(it[0].label)):slug(g[0]||'Export')};
+const nameFor=ids=>{const it=pick(ids),g=[...new Set(it.map(i=>i.group))];return g.length>1?'Gesamt':it.length===1?(slug(it[0].file||it[0].label)):slug(g[0])};
 const LSK=()=>'ritl-export:'+tag();
 let SEL={x:{},p:{}};
 function loadSel(){let s={};try{s=(CFG.getSel?CFG.getSel():JSON.parse(localStorage.getItem(LSK())||'null'))||{}}catch(e){s={}}
@@ -262,13 +265,15 @@ function loadSel(){let s={};try{s=(CFG.getSel?CFG.getSel():JSON.parse(localStora
  if(!Object.keys(SEL.p).length&&!Object.keys(SEL.x).length){ITEMS.forEach(i=>{SEL.p[i.id]=true;if(hasX(i))SEL.x[i.id]=true})}}
 function saveSel(){const v={x:SEL.x,p:SEL.p};try{CFG.setSel?CFG.setSel(v):localStorage.setItem(LSK(),JSON.stringify(v))}catch(e){}}
 const art=i=>isTab(i)&&i.draw?T('Tabelle + Darstellung'):isTab(i)?T('Tabelle'):inDeck(i)?T('Darstellung'):T('eigene Datei');
-function paint(){const c=ctx();$('#ritl-exp-ctx').innerHTML=`<b>${xe(T('Stand:'))}</b> ${xe(c.stand)}${c.lines.length?'<br>'+c.lines.map(xe).join('<br>'):''}`;
+function paint(){const c=ctx();$('#ritl-exp-ctx').innerHTML=(NOZIP()?`<div class="xzip" role="alert">${xe(ZIPMSG())}</div>`:'')+`<b>${xe(T('Stand:'))}</b> ${xe(c.stand)}${c.lines.length?'<br>'+c.lines.map(xe).join('<br>'):''}`;
  $('#ritl-exp-list').innerHTML=groups().map(g=>`<div class="xg"><header><span>${xe(g)}</span><span class="sp"></span><button class="btn sm" type="button" data-xg="${xe(g)}">${xe(T('Gruppe wählen'))}</button></header><div class="xr h"><span>${xe(T('Tabelle / Darstellung'))}</span><span class="c">XLSX</span><span class="c">PPTX</span></div>${ITEMS.filter(i=>i.group===g).map(i=>`<div class="xr"><span>${xe(i.label)}<br><small>${xe(art(i))}</small></span><span class="c">${hasX(i)?`<input type="checkbox" data-xs="x:${xe(i.id)}" aria-label="${xe(T('{0} als XLSX',i.label))}"${SEL.x[i.id]?' checked':''}>`:'–'}</span><span class="c"><input type="checkbox" data-xs="p:${xe(i.id)}" aria-label="${xe(T('{0} als PPTX',i.label))}"${SEL.p[i.id]?' checked':''}></span></div>`).join('')}</div>`).join('');
  cnt()}
 const chosen=k=>ITEMS.filter(i=>SEL[k][i.id]&&(k==='p'||hasX(i))).map(i=>i.id);
-function cnt(){const X=$('#ritl-exp-x'),P=$('#ritl-exp-p');X.textContent=`XLSX (${chosen('x').length})`;P.textContent=`PPTX (${chosen('p').length})`;X.title=T('Gewählte Tabellen als eine XLSX-Datei erstellen');P.title=T('Gewählte Tabellen und Darstellungen als eine PPTX-Präsentation erstellen');X.disabled=BUSY||!chosen('x').length;P.disabled=BUSY||!chosen('p').length}
+const NOZIP=()=>!window.JSZip; // Pflicht: JSZip 3.10.1 – der Baustein lädt es nicht
+const ZIPMSG=()=>T('Export nicht möglich: JSZip 3.10.1 fehlt im Tool (Baustein ritl-export lädt es nicht).');
+function cnt(){const X=$('#ritl-exp-x'),P=$('#ritl-exp-p');X.textContent=`XLSX (${chosen('x').length})`;P.textContent=`PPTX (${chosen('p').length})`;X.title=T('Gewählte Tabellen als eine XLSX-Datei erstellen');P.title=T('Gewählte Tabellen und Darstellungen als eine PPTX-Präsentation erstellen');X.disabled=BUSY||NOZIP()||!chosen('x').length;P.disabled=BUSY||NOZIP()||!chosen('p').length}
 /* ein Export zur Zeit: Knöpfe gesperrt (aria-busy), Doppelklick/gehaltenes Enter erzeugt keine zweite Datei */
-async function guard(fn,btn){if(BUSY)return;BUSY=true;if(btn)btn.setAttribute('aria-busy','true');if($('#ritl-exp').open)cnt();
+async function guard(fn,btn){if(BUSY)return;if(NOZIP()){toast(ZIPMSG());return}BUSY=true;if(btn)btn.setAttribute('aria-busy','true');if($('#ritl-exp').open)cnt();
  try{await fn()}catch(e){toast(T('Export fehlgeschlagen: {0}',(e&&e.message)||e))}finally{BUSY=false;if(btn)btn.removeAttribute('aria-busy');if($('#ritl-exp').open)cnt()}}
 function wire(){const d=$('#ritl-exp');if(d._w)return;d._w=1;
  d.addEventListener('change',e=>{const c=e.target.closest('[data-xs]');if(!c)return;const k=c.dataset.xs.slice(0,1),id=c.dataset.xs.slice(2);SEL[k][id]=c.checked;saveSel();cnt()});
@@ -285,24 +290,30 @@ function wire(){const d=$('#ritl-exp');if(d._w)return;d._w=1;
  $('#ritl-exp-close').onclick=()=>d.close();
  $('#ritl-exp-x').onclick=e=>guard(()=>{const ids=chosen('x');return runX(ids,nameFor(ids))},e.currentTarget);
  $('#ritl-exp-p').onclick=e=>guard(()=>{const ids=chosen('p');return runP(ids,nameFor(ids))},e.currentTarget)}
-function open(group){if(!CFG)return;loadSel();wire();if(group&&groups().includes(group)){ITEMS.forEach(i=>{const on=i.group===group;SEL.p[i.id]=on;if(hasX(i))SEL.x[i.id]=on})}paint();
+function open(group){if(!CFG)return;refresh();loadSel();wire();if(group&&groups().includes(group)){ITEMS.forEach(i=>{const on=i.group===group;SEL.p[i.id]=on;if(hasX(i))SEL.x[i.id]=on})}paint();
  const d=$('#ritl-exp');if(!d.open)d.showModal();const b=d.querySelector('.db');if(b)b.focus({preventScroll:true})}
 /** Einzelexport (kleine Knöpfe an den Panels): eigener Spezial-Export hat Vorrang, sonst Tabelle/Darstellung */
-function one(id,fmt){const it=ITEMS.find(i=>i.id===id);if(!it)return Promise.resolve();const nm=it.file||slug(it.label);
+function one(id,fmt){if(CFG)refresh();const it=ITEMS.find(i=>i.id===id);if(!it)return Promise.resolve();const nm=slug(it.file||it.label);
  return guard(()=>{if(fmt==='xlsx')return typeof it.ownXlsx==='function'?it.ownXlsx():runX([id],nm);
   return typeof it.ownPptx==='function'?it.ownPptx():runP([id],nm,`${CFG.name} · ${it.group} · ${it.label}`)})}
 /** Knöpfe in ein Panel setzen (host = Selektor oder Element, label = Präfix bei mehreren Einträgen im selben Panel) */
-function mount(host,id,label){const h=typeof host==='string'?document.querySelector(host):host,it=ITEMS.find(i=>i.id===id);if(!h||!it)return;
- h.querySelectorAll('.expb').forEach(x=>{if(x.dataset.exp===id)x.remove()});
- const b=document.createElement('span');b.className='expb';b.dataset.exp=id;
- const L=label?label+' ':'';b.innerHTML=(hasX(it)?`<button class="btn sm" type="button" data-expone="${xe(id)}" data-fmt="xlsx" title="${xe(T('{0} als XLSX',it.label))}">${xe(L)}XLSX</button>`:'')+`<button class="btn sm" type="button" data-expone="${xe(id)}" data-fmt="pptx" title="${xe(T('{0} als PPTX',it.label))}">${xe(L)}PPTX</button>`;
+function mount(host,id,label){if(CFG)refresh();const h=typeof host==='string'?document.querySelector(host):host,it=ITEMS.find(i=>i.id===id);if(!h||!it)return;
+ h.querySelectorAll('.ritl-expb').forEach(x=>{if(x.dataset.exp===id)x.remove()});
+ const b=document.createElement('span');b.className='ritl-expb';b.dataset.exp=id;
+ const L=label?label+' ':'',dis=NOZIP()?' disabled':'';b.innerHTML=(hasX(it)?`<button class="btn sm" type="button" data-expone="${xe(id)}" data-fmt="xlsx"${dis} title="${xe(NOZIP()?ZIPMSG():T('{0} als XLSX',it.label))}">${xe(L)}XLSX</button>`:'')+`<button class="btn sm" type="button" data-expone="${xe(id)}" data-fmt="pptx"${dis} title="${xe(NOZIP()?ZIPMSG():T('{0} als PPTX',it.label))}">${xe(L)}PPTX</button>`;
  h.insertBefore(b,h.firstChild)}
-function unmount(host){const h=typeof host==='string'?document.querySelector(host):host;if(h)h.querySelectorAll('.expb').forEach(x=>x.remove())}
+function unmount(host){const h=typeof host==='string'?document.querySelector(host):host;if(h)h.querySelectorAll('.ritl-expb').forEach(x=>x.remove())}
 document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('[data-expone]');if(b){e.stopPropagation();one(b.dataset.expone,b.dataset.fmt)}});
-function init(cfg){CFG=cfg||{};if(!window.JSZip)console.warn('ritl-export: JSZip 3.10.1 fehlt');ITEMS=(typeof CFG.items==='function'?CFG.items():CFG.items)||[];
- const ids=new Set();ITEMS.forEach(i=>{if(ids.has(i.id))console.warn('ritl-export: id doppelt',i.id);ids.add(i.id)});return api}
+/* Einträge neu auswerten (items als Funktion: bei jedem open/mount/one – Module, Filter, Rechte können sich ändern) */
+function refresh(){const v=(typeof CFG.items==='function'?CFG.items():CFG.items)||[];ITEMS=Array.isArray(v)?v:[];
+ const ids=new Set();ITEMS.forEach(i=>{if(ids.has(i.id))console.warn('ritl-export: id doppelt',i.id);ids.add(i.id)})}
+function init(cfg){CFG=Object.assign({name:'RIEMER Tools',version:''},cfg||{});if(CFG.version==null)CFG.version='';if(!CFG.name)CFG.name='RIEMER Tools';
+ refresh();
+ if(NOZIP()){console.error('ritl-export: '+ZIPMSG());const lock=()=>{if(!NOZIP())return;document.querySelectorAll('[data-expone],#ritl-exp-x,#ritl-exp-p').forEach(b=>{b.disabled=true;b.title=ZIPMSG()})};
+  lock();if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{lock();if(NOZIP())toast(ZIPMSG())},{once:true});else setTimeout(()=>{if(NOZIP())toast(ZIPMSG())},0)}
+ return api}
 const api={version:VERSION,init,open,one,mount,unmount,Deck,Slide,C,W,H,MX,fmtCell,isoDe,bild,xlsx:(sheets,title)=>XL.build(sheets,title||(CFG&&CFG.name)||'RIEMER Tools'),
- items:()=>ITEMS,groups,sheets:ids=>sheetsOf(pick(ids)),deckFor:(ids,title)=>makeDeck(pick(ids),title||'Test'),fileName:(name,ext)=>`${stamp()}-${tag()}_${name}.${ext}`};
+ items:()=>ITEMS,groups,sheets:ids=>sheetsOf(pick(ids)),deckFor:(ids,title)=>makeDeck(pick(ids),title||'Test'),fileName:(name,ext)=>`${stamp()}-${tag()}_${slug(name)}.${ext}`,selKey:()=>LSK(),refresh:()=>{if(CFG)refresh();return ITEMS}};
 return api;
 })();
 </script>
