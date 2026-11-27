@@ -2,6 +2,20 @@
 
 Personalplanung & Teamstruktur · #ritl_staff · Tool-Typ Datenbank
 
+## V1.0.9 · 27.11.2026 · DEV
+
+### Neu
+- **Enter/Esc zentral (R-21, S-25):** ein Handler nach Vorlage MUSTER V3.10.5 ersetzt den eigenen Dialog-Handler. Enter = Hauptknopf nur bei Fokus im Dialog, Esc schließt genau eine Ebene (Popup → Dialog → 🔒), Fokus kehrt zurück, Abbrechen und Esc laufen über dasselbe `cancel`.
+- **Ribbon kompakt (R-22, S-26):** Reiterleiste ≈ 45 px ohne Bildlaufleiste, Verlaufskante bei weiteren Reitern, sichtbarer Fokus-Ring; mobile Tab-Leiste unverändert.
+
+### Geändert
+- Info-Dialog (Anleitung) schließt mit Enter; erstes Feld jedes Dialogs hat den Fokus (auch Favoriten); Abbrechen-Knöpfe über `data-close`.
+- Zeitplan-Folie nennt den MOVE-Filter (Status/Suche) in der Unterzeile.
+
+### Behoben
+- Enter auf Checkbox (z. B. „Das Team hat eine Teamleitung“) löst kein Speichern mehr aus.
+- Organigramm-Export: Kreis-Hinweis liegt nicht mehr auf der Fußzeile (beide Hinweise in einer Zeile).
+
 ## V1.0.8 · 26.11.2026 · DEV
 
 ### Neu
