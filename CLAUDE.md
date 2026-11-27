@@ -37,6 +37,7 @@ Arbeitsanweisungen für Claude Code. Sprache: Deutsch, Du-Form, kurz.
 | `lizenz/LIZENZVERWALTUNG.md` | SQL-Befehle und Ablauf Lizenzverwaltung |
 | `ritl-ui/ritl-ui.html` | Zentraler Header-Kit RITL-UI (+ CHANGELOG); ab 1.7 Overlay-Sperre (`data-ritl-overlay`), Testseite `test-scroll.html`, Rundlauf `tests/scroll.mjs` |
 | `ritl-bk/` | Backup-Bausteine (`ritl-files.js`, Anleitung RITL-Sync/Stufen) |
+| `ritl-export/` | Export-Baustein ritl-export (Tabellen → XLSX/PPTX, Darstellungen → PPTX, Gesamt-Export mit Auswahl; eingebetteter Block, README mit API) |
 | `fonts/` | Selbst gehostete Schriften (`fonts.css`) – nie Google Fonts direkt |
 | `<tool>/index.html` | nur Loader mit `data-tool="<tool-id>"` |
 | `<tool>/CHANGELOG.md` | CHANGELOG des Tools (neueste Version oben) |
