@@ -1,4 +1,4 @@
-<!-- ritl-bk 2.13 · 25.11.2026 · DEV – einheitliches Backup der RIEMER Tools (Regel S-17, Rollout R-13). Vorbild MUSTER.ritl V3.9.
+<!-- ritl-bk 2.14 · 26.11.2026 · DEV – einheitliches Backup der RIEMER Tools (Regel S-17, Rollout R-13). Vorbild MUSTER.ritl V3.9.
      Einbau: Adapter window.RITL_BK (siehe README.md) als <script> setzen, danach diesen Block unverändert (von ritl-bk:start bis ritl-bk:end) in den <body> nach dem Header kopieren.
      2.1 ist rückwärtskompatibel: neue Angaben (bereit, ohneSha, norm, nachAnwenden, fluechtig, extra, alias, alt.idbFs*) sind optional.
      2.3: Pfad des verknüpften Ordners (✎ je Gerät). 2.4: Stufe je Datenquelle (Lizenz-Matrix backup.max.matrix, z. B. A3 · B2 · C1) – ohne Matrix wie 2.2.
@@ -14,15 +14,16 @@
      2.11: SharePoint-Ordner für B zentral im Lizenz-Admin (je Lizenz/Tool, backup.ordner_vorgabe): „Ordner der Firma öffnen“ in „Backup einrichten“ und im Backup-Fenster, Prüfung des Ordnernamens beim Verknüpfen.
      2.12: Tool-Typ (Adapter typ bzw. backup.typ vom Server): „dokument“ = Projekte sind eigene Dateien (ritl-doc), das Backup sichert nur Einstellungen
            und „Zuletzt geöffnet“ (ohne Handles) – keine Stufen datenbank/storage, keine Ordner-Datenbank; „datenbank“ = Verhalten wie 2.11.
-     2.13: Ordner der Firma nur noch als Link (kein Ordnername): beim Verknüpfen keine Namensprüfung/Warnung mehr, das Backup liegt direkt im gewählten Ordner. -->
+     2.13: Ordner der Firma nur noch als Link (kein Ordnername): beim Verknüpfen keine Namensprüfung/Warnung mehr, das Backup liegt direkt im gewählten Ordner.
+     2.14: Dialoge als überlagernde Ebene gekennzeichnet (data-ritl-overlay, RITL-UI 1.7 sperrt die Seite dahinter); overscroll-behavior:contain nur im Dialoginhalt. -->
 <!--ritl-bk:start-->
 <style id="ritl-bk-css">
-/* ritl-bk 2.13 · 25.11.2026 – einheitliches Backup der RIEMER Tools (Regel S-17). Nichts Tool-Spezifisches hier ändern.
+/* ritl-bk 2.14 · 26.11.2026 – einheitliches Backup der RIEMER Tools (Regel S-17). Nichts Tool-Spezifisches hier ändern.
    Nur Tokens der Farbkarte. Alle Regeln gelten nur für die Dialoge des Bausteins (.rbk) und das Symbol am Knopf #backupBtn (.bkind). */
 dialog.rbk{border:1px solid var(--line);border-radius:var(--radius-panel,16px);background:var(--surface);color:var(--ink);padding:0;width:min(640px,94vw);box-shadow:0 20px 60px rgba(0,0,0,.25);font:400 14px/20px var(--sans,"Inter",system-ui,sans-serif);margin:auto}
 dialog.rbk::backdrop{background:rgba(15,20,28,.45)}
 .rbk .dh{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid var(--line);background:var(--surface-muted);font:800 17px var(--sans,"Inter",system-ui,sans-serif)}
-.rbk .db{padding:20px;max-height:min(72vh,720px);overflow:auto}
+.rbk .db{padding:20px;max-height:min(72vh,720px);overflow:auto;overscroll-behavior:contain}
 .rbk .db:focus{outline:none}
 .rbk .df{padding:14px 20px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap}
 .rbk [hidden]{display:none!important}
@@ -120,7 +121,7 @@ dialog.rbk::backdrop{background:rgba(15,20,28,.45)}
 .bkind .offl{color:var(--muted)}
 </style>
 <script id="ritl-bk-js">
-/* ritl-bk 2.13 · 25.11.2026 – einheitliches Backup der RIEMER Tools (Regel S-17, Rollout R-13, Vorbild MUSTER.ritl V3.9).
+/* ritl-bk 2.14 · 26.11.2026 – einheitliches Backup der RIEMER Tools (Regel S-17, Rollout R-13, Vorbild MUSTER.ritl V3.9).
    Nichts Tool-Spezifisches hier ändern – das Tool setzt VOR diesem Block den Adapter window.RITL_BK (Anleitung riemer-toolbox/ritl-bk/README.md):
      tool, name, datei, prefix, ereignis, settings(), daten(), dateien()?, dateienLaden(list)?, anwenden(stufe,obj,quelle,still), leer()?,
      typ:'dokument'|'datenbank'? (ab 2.12, sonst datenbank; backup.typ vom Server hat Vorrang) ·
@@ -136,7 +137,7 @@ dialog.rbk::backdrop{background:rgba(15,20,28,.45)}
      ab 2.1: sync() (Abgleich auf Knopfdruck, Promise) · extra() (eigene Abschnitte neu zeichnen) · Ereignis ritlbk:applied {quelle,stufe,text,still} */
 (function(){"use strict";
 const A=window.RITL_BK;if(!A||!A.tool||window.RITLBK)return;
-const VERSION='2.13',$=id=>document.getElementById(id);
+const VERSION='2.14',$=id=>document.getElementById(id);
 const TOOL=A.tool,NAME=A.name||A.tool,PRE=A.prefix||TOOL.replace(/-ritl$/,''),BKNAME=A.datei||`Backup_${NAME.replace('.','-')}.json`,EV=A.ereignis||PRE+':change';
 const BASE=BKNAME.replace(/^Backup_/,'').replace(/\.json$/i,''),RX=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
 const OLDRE=new RegExp('^\\d{8}-\\d{4}_'+RX(BASE)+'_Backup\\.json$'),COPYRE=new RegExp('^Backup_'+RX(BASE)+'.+\\.json$','i');
@@ -177,7 +178,7 @@ const fmtB=n=>n<1024?n+' B':n<1048576?(n/1024).toFixed(n<10240?1:0).replace('.',
 const fmtMB=n=>{const v=(n||0)/1048576;return v>0&&v<0.05?'< 0,1':(v>=10?Math.round(v):Math.round(v*10)/10).toString().replace('.',',')};
 
 // ── Dialoge (Layout und Texte wie MUSTER.ritl V3.7) ──
-document.body.insertAdjacentHTML('beforeend',`<dialog id="bkdlg" class="iodlg rbk" aria-labelledby="bk-h"><div class="dh"><span id="bk-h">Backup</span><span class="small notr" id="bk-ver"></span></div><div class="db">
+document.body.insertAdjacentHTML('beforeend',`<dialog id="bkdlg" class="iodlg rbk" data-ritl-overlay aria-labelledby="bk-h"><div class="dh"><span id="bk-h">Backup</span><span class="small notr" id="bk-ver"></span></div><div class="db">
  <section class="iosec"><h3><i>01</i>Lokal<span class="badge notr" id="bk-stufe"></span></h3><p class="small">Stand je nach Stufe – <b class="notr">settings</b>: ${esc(T.settings)} · <b class="notr">datenbank</b>: zusätzlich ${esc(T.datenbank)} · <b class="notr">storage</b>: zusätzlich ${esc(T.storage)} – in einer einzigen Datei <code class="notr">${esc(BKNAME)}</code>, die bei jedem Sichern überschrieben wird.</p>
   <p class="dokh" id="bk-dok" hidden>Projekte speichern Sie als eigene Datei (Speichern unter …). Das Backup enthält nur die Einstellungen und „Zuletzt geöffnet“.</p><div class="status" id="bk-lst"></div>
   <div class="iorow"><button class="btn primary" type="button" id="bk-dl">Backup speichern</button><button class="btn" type="button" id="bk-loc" hidden>Anderer Speicherort …</button><button class="btn" type="button" id="bk-up">Backup wiederherstellen …</button><input type="file" id="bk-file" accept=".json,application/json" hidden></div></section>
@@ -191,9 +192,9 @@ document.body.insertAdjacentHTML('beforeend',`<dialog id="bkdlg" class="iodlg rb
   <div class="status" id="zb-st"></div><div class="iorow" id="zb-btns"></div>
   <div class="iolist" id="zb-list"></div><div id="zb-q"></div></section>
 </div><div class="df"><button class="btn ghost" type="button" id="bk-setup" style="margin-right:auto">Backup einrichten …</button><button class="btn" type="button" data-bkclose>Schließen</button></div></dialog>
-<dialog id="bksetup" class="iodlg rbk" aria-labelledby="bks-h"><div class="dh"><span id="bks-h">Backup einrichten</span><span class="small notr">${esc(NAME)}</span></div><div class="db" id="bks-body"></div>
+<dialog id="bksetup" class="iodlg rbk" data-ritl-overlay aria-labelledby="bks-h"><div class="dh"><span id="bks-h">Backup einrichten</span><span class="small notr">${esc(NAME)}</span></div><div class="db" id="bks-body"></div>
 <div class="df"><button class="btn ghost" type="button" id="bks-later">Später</button><button class="btn primary" type="button" id="bks-ok">Übernehmen</button></div></dialog>
-<dialog id="sydlg" class="iodlg rbk" aria-labelledby="sy-h"><div class="dh"><span id="sy-h">Neuerer Stand am Server</span></div><div class="db"><p id="sy-txt" style="margin:0;font-size:14px;line-height:21px"></p><p class="small" id="sy-hint" style="margin:10px 0 0">„Serverstand übernehmen“ ersetzt die Daten in diesem Browser. „Meinen Stand behalten“ schreibt deinen Stand auf den Server und ersetzt dort den anderen.</p></div><div class="df"><button class="btn" type="button" id="sy-mine">Meinen Stand behalten</button><button class="btn primary" type="button" id="sy-srv">Serverstand übernehmen</button></div></dialog>`);
+<dialog id="sydlg" class="iodlg rbk" data-ritl-overlay aria-labelledby="sy-h"><div class="dh"><span id="sy-h">Neuerer Stand am Server</span></div><div class="db"><p id="sy-txt" style="margin:0;font-size:14px;line-height:21px"></p><p class="small" id="sy-hint" style="margin:10px 0 0">„Serverstand übernehmen“ ersetzt die Daten in diesem Browser. „Meinen Stand behalten“ schreibt deinen Stand auf den Server und ersetzt dort den anderen.</p></div><div class="df"><button class="btn" type="button" id="sy-mine">Meinen Stand behalten</button><button class="btn primary" type="button" id="sy-srv">Serverstand übernehmen</button></div></dialog>`);
 document.querySelectorAll('.rbk [data-bkclose]').forEach(b=>b.onclick=()=>b.closest('dialog').close());
 {const pin=$('fs-pathin'),pend=ok=>{if(pin.hidden)return;if(ok)fsPathSet(pin.value);pin.hidden=true;renderFsPath()};
  $('fs-pathbtn').onclick=()=>{if(!pin.hidden){pend(true);return}pin.value=fsPathGet();pin.hidden=false;renderFsPath();pin.focus();pin.select()};

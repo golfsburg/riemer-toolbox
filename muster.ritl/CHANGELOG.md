@@ -3,6 +3,47 @@
 Vorlage und Spielwiese für den Skill `/riemer-webapp-design` · #ritl_muster
 Neueste Version oben. Versionen ≤ V2.2 nachträglich aus den veröffentlichten Ständen (Tabelle `tool_versions`) rekonstruiert.
 
+## V3.10.5 · 26.11.2026 · DEV
+**Behoben**
+- **Esc nach einer Auswahl:** Hatte man in einem Popup ein Auswahlfeld benutzt, schloss das erste Esc das Popup nicht. Jetzt schließt es sofort; nur eine wirklich offene Vorschlagsliste eines Eingabefelds wird zuerst geschlossen.
+- **Rückfrage bei schnellem doppeltem Esc:** Zweimal Esc hintereinander schloss den Beispiel-Dialog trotz „Abbrechen“ in der Rückfrage. Jetzt fragt jedes Esc nach, solange Änderungen offen sind.
+
+## V3.10.4 · 26.11.2026 · DEV
+**Neu**
+- **Rückfrage beim Abbrechen (Vorlage):** Hat man im Beispiel-Dialog etwas geändert, fragen Esc und „Abbrechen“ gleichermaßen „Ungespeicherte Änderungen verwerfen?“. Ohne Änderung schließt der Dialog sofort.
+
+**Geändert**
+- **Enter wirkt nur im Dialog oder Popup, in dem man gerade ist:** Ist z. B. die Filterliste der Map offen und man tippt in einem Feld der Seite, bleibt die Liste offen und Enter wirkt im Feld wie gewohnt.
+- **Esc bei offener Auswahlliste** schließt zuerst nur die Liste; Eingaben mit Akzent- oder Silbenschrift (IME) bleiben unberührt.
+- **Fokus zurück:** Schließt man Filterliste oder Favoriten-Popup, steht der Fokus wieder auf dem Knopf, mit dem man es geöffnet hat.
+- **Gehaltenes Enter** schreibt im Notizfeld wieder mehrere Zeilen; die Sperre gegen doppeltes Speichern gilt nur in den eigenen Dialogen.
+- Handy-Erkennung (Touch) wird laufend geprüft, z. B. bei Tablets mit angestecktem Eingabestift oder Maus.
+
+**Behoben**
+- FOKUS-Dialog: der Cursor startet eindeutig im Auswahlfeld.
+
+## V3.10.3 · 26.11.2026 · DEV
+**Neu**
+- **Enter speichert, Esc bricht ab – in allen Dialogen (Regel S-25, Rollout R-21, Vorlage):** Ein zentraler Tasten-Handler für alle eigenen Dialoge und Popups. **Enter** löst den Hauptknopf aus (Speichern, Übernehmen), **Esc** schließt ohne Änderung. Im mehrzeiligen Notizfeld macht Enter eine neue Zeile, **Strg/⌘+Enter** speichert. Enter auf Auswahlfeld, Kontrollkästchen oder Knopf speichert nicht. Reine Info-Dialoge (Anleitung, Favoriten, FOKUS) schließen mit Enter und Esc. Gedrückt gehaltenes oder doppelt gedrücktes Enter speichert nur einmal und öffnet den Dialog nicht gleich wieder.
+- **Beispiel-Dialog als Formular:** „Dialog zeigen“ hat jetzt Bezeichnung, Art, Notiz und „Als Vorlage merken“ – zum Ausprobieren der Tasten. Abbrechen verwirft die Eingabe, beim nächsten Öffnen steht wieder der gespeicherte Stand.
+- **Fokus beim Öffnen:** Der Cursor steht im ersten Feld. Am Handy und Tablet bleibt die Bildschirmtastatur zu, bis man ins Feld tippt; Return im Feld speichert wie Enter.
+
+**Geändert**
+- **Esc schließt genau eine Ebene:** zuerst die offene Filterliste oder das Favoriten-Popup, dann den Dialog, erst danach die fixierte Map (🔒).
+- **Ribbon-Reiter mit Tastatur:** Der Fokus-Ring der Reiter ist in RIEMER-Blau gut sichtbar (Regel S-26, Rollout R-22).
+
+## V3.10.2 · 26.11.2026 · DEV
+**Geändert**
+- **Kompaktes Module-Ribbon ohne Bildlaufleiste (Regel S-26, Rollout R-22, Vorlage für alle Tools):** Das Ribbon ist jetzt rund **45 px** hoch statt 70 px (bei 1280 px bisher 90 px, weil Untertitel umbrachen) – Titel und Untertitel bleiben zweizeilig lesbar, Symbole etwas kleiner. Im Ribbon erscheint **nie** eine Bildlaufleiste, weder senkrecht noch waagrecht: Passen nicht alle Reiter ins Fenster (z. B. am Handy), scrollt das Ribbon seitlich mit Shift+Rad, Touchpad oder Wischen, eine dezente Verlaufskante am Rand zeigt weitere Reiter an. Bei wenig Platz verschwinden zuerst die Kennzeichen (`#ritl_…`), dann die Untertitel. Am Handy und Tablet bleiben die Reiter mindestens 40 px hoch.
+- Die klebenden Bereiche unter dem Ribbon (`--rib-h`/`--stk`) passen sich der neuen Höhe automatisch an.
+
+## V3.10.1 · 26.11.2026 · DEV
+**Geändert**
+- **Scrollen nach Ebenen (Rollout R-20, Regel S-18 neu, Vorlage für alle Tools):** Solange ein Dialog, ein Popup (Filter, Filter-Favoriten, Rollenauswahl), die Anleitung, das Backup oder die fixierte Arbeitsfläche 🔒 offen ist, steht die Seite im Hintergrund – mit Mausrad, Wischen am iPhone/Android und Bild↓. Gekennzeichnet sind diese Ebenen mit `data-ritl-overlay`; die Sperre selbst kommt zentral aus RITL-UI 1.7 (eigene Sperre `body.wslocked`/`html:has(dialog…)` entfernt).
+- Listen, Tabellen, Vorschau und Ribbons scrollen am Ende die Seite weiter (`overscroll-behavior:contain` nur noch auf Dialogen und Overlays). Über dem Ribbon scrollt das senkrechte Mausrad die Seite; waagrecht geht es mit Shift+Rad bzw. Touchpad/Wischen (Rad-Handler am Ribbon entfernt).
+- Die Map ist als Zoom-Fläche gekennzeichnet (`data-ritl-zoom`): Im 🔒-Modus zoomt das Rad bzw. Pinch nur über der Zeichnung. Das Auswahl-Popup in der Map bleibt Teil der Map (`data-ritl-overlay="aus"`) und sperrt die Seite nicht.
+- Bausteine aktualisiert: RITL-UI 1.7, ritl-bk 2.14, ritl-doc 1.2.
+
 ## V3.10.0 · 25.11.2026 · DEV
 **Neu**
 - **Ribbon DOC.ritl – Referenz für den Tool-Typ „Dokument“ (ritl-doc 1.0):** Jedes Projekt ist eine eigene Datei `<Projektname>.muster.ritl` (z. B. `Angebot Muster.muster.ritl`) – nur auf dem Gerät bzw. im Ordner, nie am Server. Beispiel-Adapter `daten()`/`laden()`/`dateien()`/`leer()` mit Projektname, Auftraggeber, Status, Notizen und **Datei-Upload** (Auswahl oder Ziehen; Dateien werden in der Projektdatei mitgespeichert), „Beispiel laden“ und Anzeige der Projektdatei.

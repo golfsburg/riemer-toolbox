@@ -35,7 +35,7 @@ Arbeitsanweisungen für Claude Code. Sprache: Deutsch, Du-Form, kurz.
 | `lizenz/loader.js` | Lizenz-Loader 1.1: prüft Schlüssel höchstens 1× pro Tag und Gerät (Regel S-22, Tageskopie IndexedDB `riemer-lizenz-cache`; Neu laden oder `?neu` prüft sofort; Kanal Dev bei jedem Öffnen), lädt Tool-HTML per `document.write` |
 | `lizenz/admin.html` | Lizenz-Admin (Edge Function `license-admin`, Header `x-admin-token`) |
 | `lizenz/LIZENZVERWALTUNG.md` | SQL-Befehle und Ablauf Lizenzverwaltung |
-| `ritl-ui/ritl-ui.html` | Zentraler Header-Kit RITL-UI (+ CHANGELOG) |
+| `ritl-ui/ritl-ui.html` | Zentraler Header-Kit RITL-UI (+ CHANGELOG); ab 1.7 Overlay-Sperre (`data-ritl-overlay`), Testseite `test-scroll.html`, Rundlauf `tests/scroll.mjs` |
 | `ritl-bk/` | Backup-Bausteine (`ritl-files.js`, Anleitung RITL-Sync/Stufen) |
 | `fonts/` | Selbst gehostete Schriften (`fonts.css`) – nie Google Fonts direkt |
 | `<tool>/index.html` | nur Loader mit `data-tool="<tool-id>"` |

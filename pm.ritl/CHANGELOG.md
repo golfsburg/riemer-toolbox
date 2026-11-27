@@ -14,6 +14,17 @@ Neueste Version oben. Versionen ≤ V1.1 nachträglich rekonstruiert (Projektman
 
 **Geändert**
 - **Ribbon kompakt (Regel S-26, Rollout R-22):** Das Modul-Ribbon ist nur noch ≈45 px hoch und zeigt nie eine Bildlaufleiste; weitere Reiter deutet eine Verlaufskante an (Shift+Rad bzw. Wischen). Sichtbarer Fokus-Ring auf den Reitern.
+## V3.1.25 · 26.11.2026 · DEV
+**Geändert**
+- **Scrollen nach Ebenen (Regel S-18 neu, Rollout R-20):** Solange ein Fenster (Eingabemasken, Import, Bericht, Export, Hilfe, Backup), ein Filter-Auswahlfeld, das Auswahlmenü beim Export oder der Datums-Kalender offen ist, steht die Seite dahinter – Rad, Touch und Tastatur; innen scrollt nur der Inhalt. Auch die fixierte Arbeitsfläche (🔒) sperrt die Seite; das Rad zoomt dort nur über der Zeichnung. Ist nichts offen, scrollt die Seite wie gewohnt.
+- Eigene Seitensperren (`modal-open`, `ws-lock`, `fx-lock`) entfernt – die Sperre kommt zentral aus **RITL-UI 1.7**. Bausteine auf RITL-UI 1.7 und **ritl-bk 2.14** aktualisiert (Verhalten des Backups unverändert).
+
+**Entfernt**
+- Mausrad-Handler an der Reiterleiste: Rad über Ribbon und Reitern scrollt wieder die Seite.
+
+## V3.1.24 · 26.11.2026 · DEV
+**Geändert**
+- **Scrollen (Regel S-18/S-19, Rollout R-15):** Header läuft aus, Ribbon bleibt oben (`--rib-h`/`--stk` per `stickyH()`), `scroll-padding-top`, `overscroll-behavior:contain` auf inneren Scrollbereichen (Tabellen, Gantt, Import-Vorschau), Mausrad über der Reiterleiste scrollt nur die Leiste waagrecht, nie die Seite.
 
 ## V3.1.23 · 25.11.2026 · DEV
 **Geändert**

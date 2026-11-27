@@ -3,6 +3,13 @@
 Beziehungs- und Stakeholder-Map für Firmen, Ansprechpartner, Projekte und Gewerke · #ritl_stake
 Neueste Version oben.
 
+## V2.6.8 · 26.11.2026 · DEV
+**Geändert**
+- **Scrollen nach Ebenen (Regel S-18, Rollout R-20):** Solange ein Dialog, Filter-/Favoriten-Popup, Rollen-Auswahl, Auswahl-Popup oder die fixierte Arbeitsfläche (🔒) offen ist, scrollt die Seite im Hintergrund nicht mehr – weder per Mausrad noch per Touch noch per Tastatur. Die Sperre kommt zentral aus RITL-UI 1.7.
+- Listen, Matrix und Ribbon reichen am Ende an das Fenster weiter; Mausrad über dem Ribbon scrollt die Seite.
+- Esc schließt zuerst das oberste Popup, erst danach die fixierte Arbeitsfläche.
+- Bausteine aktualisiert: **RITL-UI 1.7**, **ritl-bk 2.14**.
+
 ## V2.6.7 · 25.11.2026 · DEV
 **Geändert**
 - **Tool-Typ „Datenbank“ (Regel S-23, Rollout R-19):** Das Tool ist als Typ Datenbank gekennzeichnet – Daten bleiben wie bisher im Tool, keine Projektdateien.

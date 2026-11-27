@@ -3,6 +3,34 @@
 Präsentationen aus Abschnitten zusammenstellen (DECK.ritl) und Meetings planen (TIMING.ritl) · #ritl_pptx
 Neueste Version oben. Ältere Versionen siehe Admin › Tools › Versionen (Tabelle `tool_versions`); dieser CHANGELOG beginnt mit V2.9.
 
+## V3.8.5 · 26.11.2026 · DEV
+**Neu**
+- **DE/EN-Umschalter funktioniert:** Der Knopf im Header schaltet die Oberfläche jetzt um. Texte kommen aus der Übersetzungstabelle (gemeinsame Texte plus PPTX); noch nicht übersetzte Texte bleiben Deutsch. Namen und eigene Eingaben werden nie übersetzt.
+
+## V3.8.4 · 26.11.2026 · DEV
+**Geändert**
+- **Kalender (.ics):** Alle Räume werden als Ressource (`RESOURCES`) in den Termin geschrieben – auch Räume ohne E-Mail-Adresse. Räume mit E-Mail bleiben zusätzlich als Raum-Teilnehmer enthalten.
+- **Englisch:** Neue Texte aus V3.8.1 (Live-Töne, Schlummern, Raum-E-Mail, Überblick) sind ins Englische übersetzt.
+
+## V3.8.3 · 26.11.2026 · DEV
+**Geändert**
+- **Live-Modus:** Beim Schließen des Live-Fensters wird die Tonausgabe angehalten (spart Akku am Handy).
+- **Handy/Tablet:** Der Schalter „Ton 3 und 1 min vor Ende“ hat eine größere Fläche (mind. 44 px) und Schrift (14 px) und lässt sich besser antippen.
+
+## V3.8.2 · 26.11.2026 · DEV
+**Behoben**
+- **Kalender (.ics):** Namen von Räumen und Teilnehmern mit `:` `;` `,` (z. B. „Raum 1; OG, Nord: A“) brachen den Eintrag. Der Name steht jetzt nach RFC 5545 in Anführungszeichen (`"` im Namen wird entfernt); lange Zeilen werden nach Oktetten (max. 75) statt nach Zeichen gefaltet – Umlaute werden nicht mehr zerschnitten.
+
+## V3.8.1 · 25.11.2026 · DEV
+**Neu**
+- **TIMING – E-Mail-Adresse je Raum:** Räume werden per E-Mail gebucht – jetzt gibt es dafür ein Feld beim Raum (Seitenleiste und „Räume verwalten“, auch per Einfügen mit Spalte „E-Mail“). Ungültige Adressen werden rot markiert und im Export nicht verwendet. Die Adresse steht im Überblick (als Link), in der Agenda (.html, als mailto-Link), im Text, in den Tabellen (.csv) und im Kalender (.ics, als Raum-Teilnehmer, damit der Raum direkt mit eingeladen wird). Sie gehört zur Projektdatei; ältere Dateien ohne E-Mail öffnen wie bisher.
+- **Live-Modus – Töne:** 3 Minuten vor Ende des Punkts ein weicher Ton, 1 Minute vorher zwei aufsteigende Töne (Web Audio, nichts wird geladen). Ein/Aus mit „Ton 3 und 1 min vor Ende“ (im Live-Fenster und in der Seitenleiste, wird gemerkt). Der Ton wird beim Klick auf „Live-Modus starten“ freigeschaltet.
+- **Live-Modus – Schlummern:** Ab 3 Minuten vor Ende erscheint „⏰ Schlummern +2 min“ (auch Taste S). Der Punkt wird um 2 Minuten verlängert, alle Folgezeiten verschieben sich; die Hinweistöne gelten danach relativ zum neuen Ende.
+- **03 Überblick & Export:** „Zeitanteile“ und „Räume“ lassen sich auf- und zuklappen (Tastatur, Zustand wird gemerkt).
+
+**Geändert**
+- Hinweistext unter „Export“ und das Komplett-Paket (LIESMICH) auf den Stand ab V3.8 gebracht: Die Agenda gehört zur Projektdatei `<Name>.pptx.ritl` und wird im Browser nur zwischengespeichert; das Backup sichert nur die Einstellungen.
+
 ## V3.8.0 · 25.11.2026 · DEV
 **Neu**
 - **Projekte als eigene Datei:** Ein Meeting bzw. eine Präsentation ist jetzt ein Projekt, das du als Datei speicherst – z. B. „Jour fixe KW 48.pptx.ritl“. Darin stecken **beide Reiter**: TIMING.ritl (Meeting, Datum, Ort, Teilnehmer, Teams, Räume, Agenda mit Verantwortlichen und den zugeordneten Folien) und DECK.ritl (Startfolie, Abschnitte, eigene Trennstellen, Folienauswahl, Inhaltsverzeichnis- und Ausgabe-Optionen) – samt allen geladenen PPTX-Dateien. So kannst du mehrere Meetings parallel führen, weitergeben und archivieren.
