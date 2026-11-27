@@ -3,6 +3,15 @@
 Speisekarten- & Menü-Designer: Sets, Gänge, Speisendatenbank mit Allergenen (LMIV), 6 Druckformate, Export als PDF, PPTX und Druck in exakt einer Seite · #ritl_menu
 Neueste Version oben. Versionen ≤ V1.7 nachträglich rekonstruiert (aus `tool_versions`, Quellen-ZIPs und Repo-Historie).
 
+## V3.0.37 · 27.11.2026 · DEV
+**Neu**
+- **Export (Regel S-27, Rollout R-23):** Knopf **Export** im Kopf öffnet den Gesamt-Export (ritl-export 1.0.1): Tabellen (Sets, Gänge und Gerichte der Karte, Designstile, Speisen- & Getränkedatenbank, Gänge/Kategorien, Allergen-Legende) als **XLSX** und **PPTX**, die Karte (alle Seiten) als **PPTX**, einzeln über kleine Knöpfe im Kopf der Boxen oder gesammelt mit Auswahl. Die Auswahl wird mit den Einstellungen im Backup gesichert.
+- Die bestehenden Exporte bleiben: **PPTX der Karte** (editierbare Texte) und **Excel-Export der Speisendatenbank** (Import-Format) erscheinen im Export-Dialog als „eigene Datei“.
+
+**Geändert**
+- **Enter/Esc in Dialogen (Regel S-25, Rollout R-21):** Enter speichert bzw. bestätigt mit dem Hauptknopf, Esc schließt ohne Änderung – in allen Dialogen, auch in Info-Dialogen (Hilfe, Gang verschieben, Logo wählen). Enter in der Mehrzeilen-Eingabe bleibt Zeilenumbruch, Strg+Enter bestätigt. Der **Stil-Dialog** bleibt bewusst ein Seitenpanel (die Seite dahinter scrollt weiter) und ist so gekennzeichnet.
+- **Ribbons kompakt (Regel S-26, Rollout R-22):** Modul-Ribbon und Block-Leiste sind ≈ 45 px hoch und zeigen nie eine Bildlaufleiste; weitere Reiter deutet eine Verlaufskante an. Der Fokus-Ring der Reiter ist sichtbar.
+
 ## V3.0.36 · 26.11.2026 · DEV
 **Geändert**
 - **Scrollen nach Ebenen (Regel S-18 neu, Rollout R-20):** Solange ein Fenster (Dialog), die fixierte Box oder die fixierte Arbeitsfläche (🔒) offen ist, scrollt die Seite dahinter nie – weder mit Mausrad noch per Touch oder Tastatur; der Inhalt des Fensters scrollt in sich. Die Sperre kommt zentral aus RITL-UI 1.7, die eigene Sperre im Tool entfällt.
