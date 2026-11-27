@@ -2,6 +2,16 @@
 
 Personalplanung & Teamstruktur · #ritl_staff · Tool-Typ Datenbank
 
+## V1.0.10 · 27.11.2026 · DEV
+
+### Geändert
+- **Export über den gemeinsamen Baustein ritl-export 1.0:** Der bisherige Export-Block von STAFF ist jetzt der Baustein für alle Tools (byte-gleich eingebettet). Tabellen, Darstellungen, Dateinamen und Folien bleiben gleich; XLSX schreibt der Baustein selbst.
+- Export am Handy öffnet das Teilen-Blatt direkt aus dem Baustein.
+
+### Behoben
+- Export-Dialog: Enter ohne Fokus auf einem Knopf löst keinen Export mehr aus (vorher still PPTX); gehaltenes Enter erzeugt keine zweite Datei.
+- EN: Hinweis im Zeitplan-Export „(gilt für Moves, nicht für Ein-/Austritte)“ und die Texte in den Export-Dateien (Inhalt, Teil n von m, Zeilen, Quelle) werden übersetzt; EN-Texte vorbereitet, noch nicht eingespielt.
+
 ## V1.0.9 · 27.11.2026 · DEV
 
 ### Neu
