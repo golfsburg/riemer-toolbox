@@ -3,6 +3,10 @@
 Projektmanagement: Projekt-Portfolio mit Gewerken, Anwendungen und Businesses (Lead › Spezifikation Opportunity › Spezifikation › Opportunity), Umsatzplan, Dashboard und Zeitplan · #ritl_pm
 Neueste Version oben. Versionen ≤ V1.1 nachträglich rekonstruiert (Projektmanager V1.x, selbstspeichernde HTML-Datei).
 
+## V3.1.27 · 27.11.2026 · DEV
+**Behoben**
+- In der Filterliste wählt Enter im Suchfeld wieder den ersten Treffer an bzw. ab (mit V3.1.26 schloss es versehentlich die Liste). Esc schließt sie weiterhin.
+
 ## V3.1.26 · 27.11.2026 · DEV
 **Neu**
 - **Enter/Esc in Dialogen (Regel S-25, Rollout R-21):** Ein zentraler Tastatur-Handler für alle Dialoge und Eingabemasken: Enter im Feld löst den Hauptknopf aus (Speichern, Fertig, Importieren …), Esc bricht ab. Enter in mehrzeiligen Feldern macht einen Zeilenumbruch (Strg/⌘+Enter speichert), gehaltene Taste speichert nur einmal.
