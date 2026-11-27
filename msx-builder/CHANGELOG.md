@@ -4,6 +4,15 @@
 Start: index.html im Browser öffnen (Chrome/Edge/Firefox) oder auf GitHub Pages ablegen.
 Ein neues Projekt startet mit einer leeren Zeichnung (ab V5.9.9 ohne Beispielzeichnung).
 
+## V5.10.1 · 27.11.2026 · DEV
+**Neu**
+- **Stahlträger als Bauteil** (I-024, Schritt 1): neues Werkzeug „+ Stahlträger“ im Modellbereich mit den Profilen **HEA 300, HEB 300 und IPE 300**. Ein Klick setzt die Trägermitte. Der Träger steht immer, der Steg ist also senkrecht. Er wird als I-Querschnitt gezeichnet, ist auswählbar und lässt sich löschen. Export EIN/AUS und das Trägerprofil stellst du im Auswahl-Fenster ein.
+- **MSX-Export** schreibt den Träger als PROFIS-`SteelElement` genau wie in PROFIS: Typ H, I-Profil, Profil-IDs von PROFIS, Anschlusspunkte für die Abhängung, 3D-Körper mit Ausrundungen und Eintrag im Berechnungsblock. Die Länge ist die Trassenlänge.
+- **MSX einlesen:** Stahlträger in einer MSX werden übernommen statt übersprungen. Ein unveränderter Träger geht beim Export Feld für Feld gleich wieder hinaus, auch mit Werten, die MSX.ritl nicht kennt.
+
+**Hinweis**
+- Vorerst gibt es nur die drei Profile aus PROFIS. Weitere Größen und die Erkennung aus DWG/DXF/PDF folgen in Schritt 2.
+
 ## V5.10 · 27.11.2026 · BETA
 Fasst die DEV-Versionen V5.9.1 bis V5.9.10 seit Beta V5.9.0 zusammen (Details in den Einträgen darunter).
 
