@@ -3,6 +3,15 @@
 Fardriver-Controller einstellen und simulieren – Ströme, Gänge, Kurven und Funktionen mit Wirkung auf Tempo, Beschleunigung und Reichweite · #ritl_foc
 Neueste Version oben. Versionen ≤ V1.2 waren Entwürfe im Chat und wurden nicht veröffentlicht.
 
+## V1.7.8 · 27.11.2026 · DEV
+**Neu**
+- **Export (Regel S-27, Rollout R-23, Baustein ritl-export 1.0.1):** Knopf „Export“ im Kopf (Gesamt-Export mit Auswahl, XLSX und PPTX). Je Bereich kleine Knöpfe: „Alle Gänge im Vergleich“ (XLSX + PPTX), „Änderungsliste für die Fardriver-App“ (XLSX + PPTX) und die Diagramme (PPTX mit vier Folien: Zugkraft, Beschleunigung, Leistung & Strom, Kurven – unabhängig vom gewählten Diagramm und davon, ob das Modul gerade sichtbar ist). Die Auswahl wird mit dem Backup gesichert.
+
+**Geändert**
+- **Enter/Esc in Dialogen (Regel S-25, Rollout R-21):** zentraler Tasten-Handler. Anleitung: Enter oder Esc schließt. Setups: Enter im Namensfeld speichert das aktuelle Setup, Esc schließt.
+- **Ribbon kompakt (Regel S-26, Rollout R-22):** Modul-Leiste ≈45 px hoch, nie eine Bildlaufleiste (Verlaufskante zeigt weitere Reiter), sichtbarer Fokus-Ring auf den Reitern.
+- Bausteine: RITL-UI 1.7, ritl-bk 2.14, neu ritl-export 1.0.1 (JSZip 3.10.1 eingebettet).
+
 ## V1.7.7 · 26.11.2026 · DEV
 **Geändert**
 - **Scrollen nach Ebenen (Regel S-18 neu, Rollout R-20):** Offene Dialoge sperren die Seite zentral über RITL-UI 1.7 (Rad, Touch, Tastatur); Hilfe- und Setup-Dialog tragen `data-ritl-overlay`. Eigene Sperr-Regel entfernt.
