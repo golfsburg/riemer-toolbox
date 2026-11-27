@@ -3,12 +3,20 @@
 Projektzeiten erfassen, Timer und manuelle Einträge, Auswertung, Excel/CSV-Datei-Modus · #ritl_zeit (bis V3.7: Zeiterfassung.ritl · #ritl_zeiterfassung)
 Neueste Version oben. Versionen ≤ V3.1 nachträglich aus dem Changelog im Tool rekonstruiert (V1.0–V2.3: 17.07.2026).
 
+## V3.8.6 · 27.11.2026 · DEV
+**Behoben**
+- Enter im Feld „Neue Kategorie“ legt die Kategorie an (wie „+ Hinzufügen“), die Einstellungen bleiben offen. Ist das Feld leer, wirkt Enter wie bisher als „Schließen“. In V3.8.5 ging die getippte Kategorie dabei verloren.
+
+**Geändert**
+- Reiterleiste: Verlaufskante links/rechts, wenn weitere Reiter außerhalb liegen, sichtbarer Fokus-Ring, mobil mindestens 40 px hoch.
+- Backup: die Export-Auswahl zählt nicht mehr zur Prüfsumme der Einstellungen (kein falscher „Änderungs“-Stand nach einem Export).
+
 ## V3.8.5 · 27.11.2026 · DEV
 **Neu**
 - **Export als Excel (XLSX) und PowerPoint (PPTX) (Regel S-27, Rollout R-23, Baustein ritl-export 1.0.1):** Neuer Export-Knopf im Kopf und „Excel / PowerPoint …“ im Reiter Export. Tabellen: Projekte, alle Zeiteinträge (alle Projekte), Einträge des Projekts, Stunden nach Kategorie, Stunden nach Mitarbeiter, Tagesübersicht – jeweils XLSX und PPTX. Das Diagramm „Stunden nach Kategorie“ gibt es als PPTX. Kleine Export-Knöpfe sitzen an den Tabellen in Erfassen und Auswertung. Der Gesamt-Export lässt dich auswählen und liefert alles in einer Datei. CSV-Export und „Drucken / PDF“ bleiben unverändert und stehen im Dialog als „eigene Datei“. Die Auswahl wird mit den Einstellungen im Backup gesichert.
 
 **Geändert**
-- **Enter und Esc in Fenstern (Regel S-25, Rollout R-21):** ein zentraler Tastenhandler. Enter im Feld löst den Hauptknopf aus (Speichern, Anlegen, Schließen), Esc schließt ohne Speichern; in „Beschreibung“ bleibt Enter ein Zeilenumbruch. Die Anleitung schließt mit Enter. Neue Fenster setzen den Fokus ins erste Feld (am Handy ohne Tastatur). **Achtung:** Enter im Feld „Neue Kategorie“ schließt jetzt die Einstellungen – eine Kategorie fügst du mit „+ Hinzufügen“ hinzu.
+- **Enter und Esc in Fenstern (Regel S-25, Rollout R-21):** ein zentraler Tastenhandler. Enter im Feld löst den Hauptknopf aus (Speichern, Anlegen, Schließen), Esc schließt ohne Speichern; in „Beschreibung“ bleibt Enter ein Zeilenumbruch. Die Anleitung schließt mit Enter. Neue Fenster setzen den Fokus ins erste Feld (am Handy ohne Tastatur). Enter im Feld „Neue Kategorie“ siehe V3.8.6.
 - **Reiterleiste (Regel S-26, Rollout R-22):** Erfassen / Auswertung / Export ist als Ribbon gekennzeichnet, einzeilig, ohne Bildlaufleiste.
 
 ## V3.8.4 · 26.11.2026 · DEV
