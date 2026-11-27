@@ -4,6 +4,31 @@
 Start: index.html im Browser öffnen (Chrome/Edge/Firefox) oder auf GitHub Pages ablegen.
 Ein neues Projekt startet mit einer leeren Zeichnung (ab V5.9.9 ohne Beispielzeichnung).
 
+## V5.10 · 27.11.2026 · BETA
+Fasst die DEV-Versionen V5.9.1 bis V5.9.10 seit Beta V5.9.0 zusammen (Details in den Einträgen darunter).
+
+**Neu**
+- **Export XLSX/PPTX:** Rohrliste, Bauteile/Kanäle, Stäbe und Zeichnung einzeln, dazu ein Gesamt-Export mit Auswahl über den Knopf **Export** im Header.
+- **Zoom direkt in der Zeichenfläche:** +, −, Einpassen, 🔒 und Zoomstufe in % unten rechts; Tasten + / − / 0.
+- **Dämmung aus der Dicke erkennen:** 9, 13, 19, 25, 32 mm (±1) → Kautschuk und Kälte als Vorschlag, wenn Revit bzw. Typname nichts liefern; in Bereich 04 änderbar.
+- **Orthogonal-Fang** mit Shift bzw. Schalter „⟂ Orthogonal“ beim Kalibrieren, bei „+ Rohr“ und bei Stäben.
+- **Platzhalter-ID aus RIEMER Tools V4:** Unterprojekt heißt wie der Typname der Platzhaltergruppe.
+- **Enter/Esc in Dialogen** und in der Auswahl-Leiste der Zeichnung wie in allen RIEMER Tools.
+
+**Geändert**
+- Höhe des Modellbereichs per Griff frei verstellbar, Zeichnung bleibt eingepasst.
+- Scrollen: Kopfbereich läuft aus, Werkzeugleiste der Rohrliste bleibt oben, kompakt und ohne Bildlaufleiste; am Ende eines Bereichs scrollt die Seite weiter.
+- Bausteine: RITL-UI 1.7, ritl-bk 2.14, ritl-doc 1.2, ritl-export 1.0.1; JSZip eingebettet.
+
+**Behoben**
+- Keine ungeplanten Montageschienen, Schellen oder Verweise ins Leere mehr im Export; alte .msx/.mspx mit Vorlagen-Tragwerk werden bereinigt.
+- Berechnungsblock ist nie mehr leer (sonst gingen Vorlagen-Produkte mit).
+- „Horizontal spiegeln“ wird beim Wechsel der Unterprojekte übernommen.
+- CSV sicherer (Zeilenumbrüche, keine Formeln in Excel), Dateinamen mit Umlauten ausgeschrieben.
+
+**Entfernt**
+- Eingebaute Beispielzeichnung und Knopf „Beispiel laden“; ein neues Projekt startet leer.
+
 ## V5.9.10 · 27.11.2026 · DEV
 **Behoben**
 - **Horizontal spiegeln** wird beim Wechsel zwischen Unterprojekten wieder übernommen (seit V5.9.9 blieb die Einstellung des zuletzt geöffneten Unterprojekts stehen).
