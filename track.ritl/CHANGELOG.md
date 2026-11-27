@@ -3,6 +3,19 @@
 GPS-Tracks (GPX) lokal im Browser in 2D und 3D darstellen, analysieren, bearbeiten und animieren · #ritl_track
 Neueste Version oben. Versionen ≤ V1.9 in Google AI Studio entwickelt und nachträglich zusammengefasst (keine Einzelstände erhalten).
 
+## V3.3.35 · 27.11.2026 · DEV
+**Behoben**
+- Export **Vektorgrafik** (PPTX) zeigt jetzt die Kartenvorschau statt eines Pfeil-Symbols. Ist der Bereich eingeklappt, steht ein Hinweis auf der Folie.
+- Eine geänderte Auswahl im Export-Dialog landet sofort im Backup.
+
+## V3.3.34 · 27.11.2026 · DEV
+**Neu**
+- **Export als XLSX und PPTX (R-23, ritl-export 1.0.1):** Im Kopf steht ein **Export**-Knopf für den Gesamt-Export mit Auswahl. Die Tabellen **Abschnitte**, **Runden**, **Geisterrennen** und **Tracks verwalten** gibt es einzeln als XLSX und PPTX. **Karte 2D**, **Höhenprofil**, **3D Raum**, **Vektorgrafik** und **Teilbild** gibt es als PPTX. Der **Touren-Report** steht zusätzlich im Dialog. Die gemerkte Auswahl im Dialog ist im Backup (Einstellungen) enthalten.
+- Video der Animation und 360°-Video haben keinen PPTX-Knopf. Sie behalten ihren eigenen Export.
+**Geändert**
+- **Enter und Esc in Fenstern (R-21):** In Anleitung, Favoriten und den (i)-Infofenstern löst Enter den Hauptknopf aus, Esc schließt. Im Namensfeld der Favoriten speichert Enter wie bisher. Gehaltenes Enter speichert nur einmal. Die fixierte 🔒-Arbeitsfläche behält ihr eigenes Esc.
+- **Ribbon kompakt (R-22):** Die Modul-Leiste ist nur noch etwa 45 px hoch und zeigt nie eine Bildlaufleiste. Wenn Platz fehlt, deutet eine Verlaufskante weitere Reiter an. Der Fokus-Ring ist sichtbar.
+
 ## V3.3.33 · 26.11.2026 · DEV
 **Behoben**
 - Die fixierte 🔒-Arbeitsfläche (Modell, Höhenprofil, Export, Pano) sperrt die Seite dahinter jetzt zuverlässig: Mit Mausrad, Touch und Bild↓ bleibt die Seite stehen, nach dem Lösen scrollt sie wieder.
