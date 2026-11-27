@@ -3,6 +3,10 @@
 Vorlage und Spielwiese für den Skill `/riemer-webapp-design` · #ritl_muster
 Neueste Version oben. Versionen ≤ V2.2 nachträglich aus den veröffentlichten Ständen (Tabelle `tool_versions`) rekonstruiert.
 
+## V3.10.8 · 27.11.2026 · DEV
+**Behoben**
+- **Kontrast Beziehungsart-Kennzeichnung (A-080):** `.rpill` in MAP › Beziehungen (z. B. „entscheidet“) hatte nur 2,54:1. Der Text steht jetzt in `--ink2` (≥ 4,5:1 hell und dunkel), die Datenfarbe der Beziehungsart färbt nur noch den Strich. Dasselbe gilt für die Beschriftungen an den Linien im Beziehungsgraphen (Text neutral, Farbe nur am Rand der Beschriftung).
+
 ## V3.10.7 · 27.11.2026 · DEV
 **Neu**
 - **Entwurf Bereichsfarben (Idee I-020, zur Freigabe):** Boxen zeigen ihre Funktion mit einer eigenen, dezenten Farbe – wie Platzhalter.ritl › ▶ Platzieren › ① Steuerung. Die ganze Box ist getönt: Fläche 4 %, Rahmen 45 % (1,5 px), Kopfzeile 8 %, Überschrift und Nummer in der Bereichsfarbe. Vier Farb-Tokens `--zone-a` … `--zone-d` (Blau, Laubgrün, Bernstein, Violett) für Hell und Dunkel, höchstens 4 je Ansicht, Rot bleibt Fehler/Löschen vorbehalten. Text auf allen getönten Flächen ≥ 4,5:1.
