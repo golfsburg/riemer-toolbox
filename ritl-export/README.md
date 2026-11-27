@@ -13,7 +13,7 @@ erst nach Peters Wort.
 
 ## Voraussetzungen
 
-- **JSZip 3.10.1 ist Pflicht** (MIT) als `window.JSZip`, **vor** dem Block eingebunden. **Der Baustein lädt JSZip nicht selbst.** Fehlt es, sperrt
+- **JSZip 3.10.1 ist Pflicht** (MIT) als `window.JSZip` und muss **VOR dem Block** `<!--ritl-export:start-->` geladen werden (eigenes `<script>` direkt davor, oder `<script src>` – dann ohne Netz kein Export). **Der Baustein lädt JSZip nicht selbst.** Fehlt es, sperrt
   `init` alle Export-Knöpfe (Dialog und Panel), der Dialog zeigt „Export nicht möglich: JSZip 3.10.1 fehlt …“, und jeder Export-Versuch meldet das
   per `toast` statt still zu scheitern (ab 1.0.1). **Kein SheetJS** (0.18.5 hat eine offene Sicherheitslücke) – der Baustein schreibt XLSX und PPTX selbst.
 - Standard-Klassen des Skills `/riemer-webapp-design`: Dialog `.dh` / `.db` / `.df`, `.btn` (`.sm`, `.primary`), `.status`, `.hint`, Tokens `--line`,
@@ -66,8 +66,8 @@ RITLEXP.mount('[data-fold="jb-board"] .ph-r', 'jobs-board', 'Board');  // Knöpf
 Ohne `getSel`/`setSel` merkt sich der Baustein die Auswahl im Browser unter **`localStorage['ritl-export:<fileTag>']`** (Schlüssel: `RITLEXP.selKey()`),
 **nicht** im Backup des Tools. Ein Tool mit ritl-bk muss deshalb **eines** von beiden tun:
 
-1. **`getSel`/`setSel`** auf den eigenen Speicher (empfohlen – dann sichert das Backup die Auswahl mit den Einstellungen), oder
-2. den Schlüssel im **ritl-bk-Adapter** unter Stufe 1 (Einstellungen) mitnehmen:
+1. **`getSel`/`setSel`** auf den eigenen Speicher (**empfohlen** – dann sichert das Backup die Auswahl mit den Einstellungen, ohne festen Schlüssel), oder
+2. den Schlüssel im **ritl-bk-Adapter** unter Stufe 1 (Einstellungen) mitnehmen – den Schlüssel am besten **nicht hartkodieren**, sondern mit `RITLEXP.selKey()` lesen (`const K = RITLEXP.selKey();`). Ein hartkodierter Schlüssel (`'ritl-export:MUSTER-ritl'` in der MUSTER-Vorlage) ist **zulässig**, solange er genau `ritl-export:<fileTag>` entspricht (Standard: `<name>-ritl`); `fileTag` danach nicht mehr ändern:
 
 ```js
 window.RITL_BK = { …,
