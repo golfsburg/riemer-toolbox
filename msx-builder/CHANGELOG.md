@@ -4,6 +4,10 @@
 Start: index.html im Browser öffnen (Chrome/Edge/Firefox) oder auf GitHub Pages ablegen.
 Ein neues Projekt startet mit einer leeren Zeichnung (ab V5.9.9 ohne Beispielzeichnung).
 
+## V5.9.10 · 27.11.2026 · DEV
+**Behoben**
+- **Horizontal spiegeln** wird beim Wechsel zwischen Unterprojekten wieder übernommen (seit V5.9.9 blieb die Einstellung des zuletzt geöffneten Unterprojekts stehen).
+
 ## V5.9.9 · 27.11.2026 · DEV
 **Entfernt**
 - **Beispielzeichnung:** Die eingebaute Beispiel-DXF und der Knopf „Beispiel laden“ sind weg (Datei rund 220 KB kleiner). Ein neues Projekt startet mit einem leeren Unterprojekt und dem Hinweis „Zeichnung laden (DWG/DXF/PDF/Bild) oder .mse.json ziehen“ in der Zeichenfläche. Ältere Projekte mit dem früheren Beispiel-Unterprojekt öffnen ohne Fehler mit leerer Zeichnung.
