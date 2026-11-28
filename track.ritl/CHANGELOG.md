@@ -3,6 +3,10 @@
 GPS-Tracks (GPX) lokal im Browser in 2D und 3D darstellen, analysieren, bearbeiten und animieren · #ritl_track
 Neueste Version oben. Versionen ≤ V1.9 in Google AI Studio entwickelt und nachträglich zusammengefasst (keine Einzelstände erhalten).
 
+## V3.3.36 · 28.11.2026 · DEV
+**Geändert**
+- **Bereichsfarben (S-28):** Die Boxen und Kennzahl-Kacheln zeigen ihre Funktion jetzt mit einer von vier Farben (Rahmen, Kopf und Titel getönt). Zuordnung in TRACK.ritl: **Zone a (Blau): Übersicht** (01 Übersicht, Kennzahlen, 02 Karte/3D) · **Zone b (Laubgrün): Bearbeiten/Eingabe** (EDITOR: Tracks verwalten, Bereinigen, Schneiden; ANALYSE: Wegpunkte, Notizen & Fotos) · **Zone c (Bernstein): Auswertung** (ANALYSE: Tracks, Abschnitte, Geisterrennen, Herzfrequenz samt Kacheln) · **Zone d (Violett): Ausgabe & Sonstiges** (EXPORT: Dateien, Teilbild, Video, Report; PANO: 360°-Video, Abgleich, Markierungen). Rot bleibt Fehlern vorbehalten; die Kacheln der Herzfrequenz-Auswertung nutzen jetzt die Zonenfarbe statt Rot/Orange.
+
 ## V3.3.35 · 27.11.2026 · DEV
 **Behoben**
 - Export **Vektorgrafik** (PPTX) zeigt jetzt die Kartenvorschau statt eines Pfeil-Symbols. Ist der Bereich eingeklappt, steht ein Hinweis auf der Folie.
@@ -26,10 +30,6 @@ Neueste Version oben. Versionen ≤ V1.9 in Google AI Studio entwickelt und nach
 - Listen, Tabellen, Vorschau und Seitenspalten reichen das Scrollen am Ende ans Fenster weiter; die Seite bleibt nie hängen.
 - Mausrad über dem Ribbon scrollt die Seite (waagrecht mit Shift oder Touchpad). Der Zoom per Mausrad gilt weiter nur über Karte, Profil, 3D-Ansicht und Export-Vorschau im 🔒-Modus.
 - Bausteine auf dem aktuellen Stand: RITL-UI 1.7, ritl-bk 2.14.
-
-## V3.3.36 · 28.11.2026 · DEV
-**Geändert**
-- **Bereichsfarben (S-28):** Die Boxen und Kennzahl-Kacheln zeigen ihre Funktion jetzt mit einer von vier Farben (Rahmen, Kopf und Titel getönt). Zuordnung in TRACK.ritl: **Zone a (Blau): Übersicht** (01 Übersicht, Kennzahlen, 02 Karte/3D) · **Zone b (Laubgrün): Bearbeiten/Eingabe** (EDITOR: Tracks verwalten, Bereinigen, Schneiden; ANALYSE: Wegpunkte, Notizen & Fotos) · **Zone c (Bernstein): Auswertung** (ANALYSE: Tracks, Abschnitte, Geisterrennen, Herzfrequenz samt Kacheln) · **Zone d (Violett): Ausgabe & Sonstiges** (EXPORT: Dateien, Teilbild, Video, Report; PANO: 360°-Video, Abgleich, Markierungen). Rot bleibt Fehlern vorbehalten; die Kacheln der Herzfrequenz-Auswertung nutzen jetzt die Zonenfarbe statt Rot/Orange.
 
 ## V3.3.31 · 25.11.2026 · DEV
 **Geändert**
