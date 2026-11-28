@@ -19,8 +19,8 @@ for(const mode of ['fs','nofs']){
  await page.waitForSelector('#rdoc-start[open]',{timeout:5000}).catch(()=>{});
  ok(mode,'Startbildschirm ohne Projekt (Neues Projekt + Zuletzt geöffnet)',await page.evaluate(()=>document.getElementById('rdoc-start').open&&/Zuletzt geöffnet/.test(document.getElementById('rdoc-sb').textContent)));
  ok(mode,'FS API '+(mode==='fs'?'vorhanden':'fehlt'),await page.evaluate(()=>RITL_DOC.fs)===(mode==='fs'));
- ok(mode,'Header-Knöpfe Neu/Öffnen/Speichern/Speichern unter (RITL-UI 1.6)',await page.evaluate(()=>['neu','auf','spe','unt'].every(k=>document.querySelector('header .ritl-tool #ritl-doc-'+k))&&RITLUI.version==='1.6'));
- ok(mode,'ritl-bk 2.12 Modus dokument (Stufe settings)',await page.evaluate(()=>RITLBK.version==='2.12'&&RITLBK.typ==='dokument'&&RITLBK.stand().stufe==='settings'));
+ ok(mode,'Header-Knöpfe Neu/Öffnen/Speichern/Speichern unter (RITL-UI 1.7)',await page.evaluate(()=>['neu','auf','spe','unt'].every(k=>document.querySelector('header .ritl-tool #ritl-doc-'+k))&&RITLUI.version==='1.7'));
+ ok(mode,'ritl-bk 2.14 Modus dokument (Stufe settings)',await page.evaluate(()=>RITLBK.version==='2.14'&&RITLBK.typ==='dokument'&&RITLBK.stand().stufe==='settings'));
  ok(mode,'kein „Backup einrichten“ über dem Startbildschirm',await page.evaluate(()=>new Promise(r=>setTimeout(()=>r(!document.getElementById('bksetup').open),1200))));
  await page.click('#rdoc-sb [data-a="neu"]');
  ok(mode,'Neu → Projekt offen',await page.evaluate(()=>RITL_DOC.offen&&!document.getElementById('rdoc-start').open&&!RITL_DOC.geaendert));
@@ -122,7 +122,7 @@ for(const mode of ['fs','nofs']){
  const dazu=async(pg,mb)=>{await pg.fill('#t-mb',String(mb));await pg.click('#t-gross')};
  const hw=pg=>pg.evaluate(()=>{const e=document.getElementById('rdoc-hinweis');return e.hidden?'':e.textContent});
  let page=await neuSeite('');
- ok(m,'Version 1.1, Standardgrenzen 200 / 500 MB / 5 min',await page.evaluate(()=>{const g=RITL_DOC.groesse;return RITL_DOC.version==='1.1'&&g.warnAbMB===200&&g.zwSeltenAbMB===500&&g.zwGrossMin===5}));
+ ok(m,'Version 1.2, Standardgrenzen 200 / 500 MB / 5 min',await page.evaluate(()=>{const g=RITL_DOC.groesse;return RITL_DOC.version==='1.2'&&g.warnAbMB===200&&g.zwSeltenAbMB===500&&g.zwGrossMin===5}));
  await page.close();
  page=await neuSeite('?warnmb=2&zwmb=5&zwmin=0.02');
  ok(m,'Grenzen aus dem Adapter (warnAbMB 2 · zwSeltenAbMB 5 · zwGrossMin 0,02)',await page.evaluate(()=>{const g=RITL_DOC.groesse;return g.warnAbMB===2&&g.zwSeltenAbMB===5&&g.zwGrossMin===0.02}));

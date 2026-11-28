@@ -2,6 +2,13 @@
 
 Zentraler Backup-Baustein aller RIEMER Tools (Regel S-17). Neueste Version oben.
 
+## 2.14 · 26.11.2026 · DEV
+**Geändert**
+- **Dialoge als überlagernde Ebene gekennzeichnet** (`data-ritl-overlay` an „Backup“, „Backup einrichten“ und „Neuerer Stand am Server“): Mit RITL-UI 1.7 scrollt die Seite dahinter nicht mehr – weder Rad noch Touch noch Tastatur. `overscroll-behavior:contain` nur im Dialoginhalt.
+
+**Unverändert**
+- Modi dokument/datenbank, Stufen, Datenquellen und Dateiformat wie 2.13.
+
 ## 2.13 · 25.11.2026 · DEV
 **Geändert**
 - **Ordner der Firma nur als Link:** Im Lizenz-Admin wird bei „B · Ordner“ nur noch der Link zum Zielordner hinterlegt – kein Ordnername. „Backup einrichten“ und das Backup-Fenster zeigen „Ordner der Firma öffnen ↗ – diesen Ordner auswählen, das Backup wird direkt dort gespeichert“. Der Kunde muss keinen Ordner anlegen und keinen Namen eingeben.
