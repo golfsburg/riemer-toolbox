@@ -3,6 +3,11 @@
 Kompakter 3D-Viewer und -Editor im Browser für den 3D-Druck · #ritl_mesh
 Neueste Version oben. V1.0–V1.8 als Einzeldatei entwickelt (nicht in der Toolbox veröffentlicht).
 
+## V2.8.4 · 28.11.2026 · DEV
+**Geändert**
+- **Bereichsfarben (S-28):** Die Boxen links zeigen ihre Funktion mit einer Farbe (Fläche, Rahmen und Kopf getönt, Titel in der Bereichsfarbe; hell und dunkel). Zuordnung: Zone a (Blau): Übersicht – 01 Modelle, 04 Info · Zone b (Laubgrün): Arbeiten – 02 Bearbeiten · Zone c (Bernstein): Ausgabe – 03 Export für Slicer · Zone d (Violett): Einstellungen – 05 Darstellung. Die fixierbare 3D-Fläche, Dialoge und Bausteine bleiben ohne Zone.
+- Keine Funktionsänderung; R-21/R-22 waren seit V2.8.3 erfüllt, R-23 entfällt (keine Datentabellen).
+
 ## V2.8.1 · 25.11.2026 · DEV
 **Geändert**
 - **Backup-Baustein ritl-bk 2.13:** Der Ordner der Firma (Backup im OneDrive-/SharePoint-Ordner) erscheint nur noch als Link „Ordner der Firma öffnen ↗ – diesen Ordner auswählen, das Backup wird direkt dort gespeichert“. Beim Verknüpfen wird der Ordnername nicht mehr geprüft und es kommt keine Warnung „vorgesehen ist …“ mehr. Sonst wie V2.8.0 (Projekte als Datei, Backup nur Einstellungen).
