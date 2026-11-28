@@ -3,6 +3,11 @@
 Fardriver-Controller einstellen und simulieren – Ströme, Gänge, Kurven und Funktionen mit Wirkung auf Tempo, Beschleunigung und Reichweite · #ritl_foc
 Neueste Version oben. Versionen ≤ V1.2 waren Entwürfe im Chat und wurden nicht veröffentlicht.
 
+## V1.7.9 · 28.11.2026 · DEV
+**Geändert**
+- **Bereichsfarben (Regel S-28, Rollout R-24):** Boxen und Kennzahl-Kacheln zeigen ihre Funktion mit einer von vier Farben (Tönung Fläche 4 %, Rahmen 45 %, Kopf 8 %). Zuordnung: Zone a (Blau): Übersicht/Erklärung – CHECK „Prüfung“, FUNC (Gangschalter, Funktionen), BIKE „Controller-Daten“ · Zone b (Laubgrün): Einstellen/Eingabe – TUNE (Strom, Gänge, Kurve, Gas, Rekuperation), BIKE (Akku & Schutz, Fahrzeug & Kalibrierung) · Zone c (Bernstein): Auswertung – „Ergebnis & Simulation“ samt Kennzahlen (TUNE, SIM) · Zone d (Violett): Ausgabe – CHECK „Änderungsliste für die Fardriver-App“. Höchstens drei Zonen je Ansicht, kein Rot.
+- Kennzahl-Änderungen (+/−) in den Kacheln für 4,5:1 Kontrast leicht abgedunkelt.
+
 ## V1.7.8 · 27.11.2026 · DEV
 **Neu**
 - **Export (Regel S-27, Rollout R-23, Baustein ritl-export 1.0.1):** Knopf „Export“ im Kopf (Gesamt-Export mit Auswahl, XLSX und PPTX). Je Bereich kleine Knöpfe: „Alle Gänge im Vergleich“ (XLSX + PPTX), „Änderungsliste für die Fardriver-App“ (XLSX + PPTX) und die Diagramme (PPTX mit vier Folien: Zugkraft, Beschleunigung, Leistung & Strom, Kurven – unabhängig vom gewählten Diagramm und davon, ob das Modul gerade sichtbar ist). Die Auswahl wird mit dem Backup gesichert.
