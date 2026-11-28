@@ -3,6 +3,17 @@
 Präsentationen aus Abschnitten zusammenstellen (DECK.ritl) und Meetings planen (TIMING.ritl) · #ritl_pptx
 Neueste Version oben. Ältere Versionen siehe Admin › Tools › Versionen (Tabelle `tool_versions`); dieser CHANGELOG beginnt mit V2.9.
 
+## V3.8.6 · 27.11.2026 · DEV
+**Neu**
+- **Export XLSX/PPTX (S-27, ritl-export 1.0.1):** Header-Knopf „Export“ öffnet den Auswahl-Dialog → eine XLSX (Blatt je Tabelle + Export-Info) und eine PPTX. Tabellen: TIMING Agenda, Teilnehmer, Räume · DECK Matrix Abschnitte × Dateien, Storyboard. Kleine XLSX/PPTX-Knöpfe an den Panels bzw. in „Teilnehmer/Räume verwalten“. Die bisherige Präsentation (Startfolie, Inhaltsverzeichnis, Abschnitte) bleibt unverändert und steht im Dialog als „eigene Datei“. Die Auswahl im Dialog wird mit den Einstellungen gesichert.
+- **Bereichsfarben (S-28):** Zone a (Blau): Bibliothek, Meeting & Teilnehmer · Zone b (Laubgrün): Storyboard, Agenda · Zone c (Bernstein): Ausgabe, Überblick & Export (samt Kennzahlen) · Zone d (Violett): derzeit nicht verwendet.
+- **Enter/Esc in Dialogen (S-25):** ein zentraler Tasten-Handler. Esc schließt immer genau eine Ebene; Enter löst den Hauptknopf aus (Favoriten: „Aktuellen Stand speichern“; Verwalten-Dialoge schließen mit Enter, Strg+Enter im Einfügefeld ebenso); Info-Dialoge (Anleitung, Startfolie) schließen mit Enter. Umbenennen in den Favoriten (Enter/Esc) und der Live-Modus (Esc beendet) behalten ihr Verhalten.
+
+**Geändert**
+- **Ribbon (S-26):** Reiterleiste ≈ 45 px hoch (vorher 66 px) und ohne Bildlaufleiste; bei schmalen Fenstern zeigt eine Verlaufskante weitere Reiter an; Fokus-Ring an den Reitern.
+- Bausteine aktualisiert: RITL-UI 1.7, ritl-bk 2.14, ritl-doc 1.2 (Seite hinter einem offenen Dialog scrollt nicht mehr).
+- „Ergänzen“ in „Teilnehmer/Räume verwalten“ ist kein Hauptknopf mehr (Enter im Suchfeld löst keinen Import aus).
+
 ## V3.8.5 · 26.11.2026 · DEV
 **Neu**
 - **DE/EN-Umschalter funktioniert:** Der Knopf im Header schaltet die Oberfläche jetzt um. Texte kommen aus der Übersetzungstabelle (gemeinsame Texte plus PPTX); noch nicht übersetzte Texte bleiben Deutsch. Namen und eigene Eingaben werden nie übersetzt.
