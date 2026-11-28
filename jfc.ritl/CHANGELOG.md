@@ -3,6 +3,18 @@
 Engineering Navigator: Kundenvergleich, Besuchspriorisierung und Gebiets-Review aus JFC-Reports · #ritl_jfc
 Neueste Version oben. Versionen ≤ V3.6 als „JFC Engineering Navigator“.
 
+## V4.0.19 · 28.11.2026 · DEV
+**Neu**
+- **Export XLSX/PPTX für jede Tabelle und jedes Diagramm (R-23, Baustein ritl-export 1.0.1):** Kleine Knöpfe **XLSX** und **PPTX** im Kopf jedes Bereichs – KPI-Kacheln, Top 15 / Flop 10, Befestigungspartner (Saldo je VB), Heatmap, Besuchspriorität je VB, Power-Tabelle (gefiltert, sichtbare Spalten), Pareto, VJ/VON gegen BIS, Score-Treiber, Kunden-Steckbrief, Besuchsplan, Pipeline je VB, VB-Report (Kunden mit Handlungsbedarf und Kennzahl je Monat), Produktmix je Kunde, Verteilung Produktmix und die drei Listen im Gebiets-Review. Diagramme kommen als PPTX-Folie mit dem Diagramm und danach den Werten als Tabelle; XLSX mit den Werten aus den Daten (Zahlen als Zahl, „kein VJ“/„kein Monatswert“ als Text).
+- **Gesamt-Export** über den neuen Header-Knopf **Export** bzw. „Export-Auswahl XLSX/PPTX …“ in 07: alle Bereiche mit Auswahl (Gruppen 01–07), eine XLSX mit einem Blatt je Tabelle und eine PPTX mit Titelfolie und Inhaltsverzeichnis. Fußzeile und Blatt „Export-Info“ nennen Datenstand, **Bezug** (Vorjahr bzw. Zeitraum VON–BIS), **Zeitraum**, Kennzahl und die aktiven **Hauptfilter**. Die Auswahl wird gemerkt und mit den Einstellungen gesichert (Backup).
+- Die **bisherigen Exporte bleiben unverändert** (PowerPoint mit Bereichsauswahl, XLSX Kundenvergleich, Steckbrief PPTX/PDF/XLSX, Besuchsplan, VB-Report, Produktmix, Gebiets-Review, PNG, CSV) und stehen zusätzlich als eigene Einträge („JFC-Vorlage“) im Export-Dialog.
+- Kundenansicht und ausgeblendete Bereiche gelten auch für den neuen Export (Priorität/Score, Biz.Team, KEP fallen weg).
+
+**Geändert**
+- **Bereichsfarben (R-24):** Boxen zeigen ihre Funktion in einer von vier Farben, die KPI-Kacheln in der Farbe ihres Bereichs.
+  Zone a (Blau): Übersicht – 01 KPI-Kacheln, 02 Cross-Filter & Drill-down · Zone b (Laubgrün): Arbeiten – 03 Power-Tabelle, 05 Vertiefungen (Steckbrief, Besuchsplan, Pipeline, VB-Report, Produktmix) · Zone c (Bernstein): Auswertung – 04 Analysen, 06 Gebiets-Review · Zone d (Violett): Sonstiges – 07 Export & Teilen, 08 Weitere Funktionen.
+- Anstieg/Rückgang in den KPI-Kacheln etwas dunkler (hell) bzw. heller (dunkel), damit sie auf der getönten Kachel gut lesbar bleiben.
+
 ## V4.0.18 · 27.11.2026 · DEV
 **Neu**
 - **Enter und Esc in allen Dialogen (R-21):** Enter löst den Hauptknopf aus – im PowerPoint-Export „PowerPoint erstellen“, im Set-Namen „Neues Set“, in Daten & Setup beim Datenstand „Importieren“, beim Favoriten-Namen „Als Favorit“, beim Favoriten-Code „Laden“, beim Titel „Tool exportieren“; die Anleitung schließt mit Enter. Esc schließt ohne Änderung, und zwar genau eine Ebene: zuerst ein offenes Filter- oder Spalten-Dropdown, dann den Dialog. Enter auf Häkchen und Auswahllisten löst nichts aus, gehaltenes Enter nur einmal. Nach dem Schließen springt der Fokus auf den Knopf zurück, der den Dialog geöffnet hat.
