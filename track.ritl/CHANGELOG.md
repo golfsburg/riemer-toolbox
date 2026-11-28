@@ -3,6 +3,10 @@
 GPS-Tracks (GPX) lokal im Browser in 2D und 3D darstellen, analysieren, bearbeiten und animieren · #ritl_track
 Neueste Version oben. Versionen ≤ V1.9 in Google AI Studio entwickelt und nachträglich zusammengefasst (keine Einzelstände erhalten).
 
+## V3.3.37 · 28.11.2026 · DEV
+**Behoben**
+- Die Kennzahl-Kacheln der Übersicht (Höhenmeter, Tempo & Puls, Strecke) nutzen jetzt durchgehend die Farbe ihrer Zone (Blau) statt eigener Grün-/Orange-Werte.
+
 ## V3.3.36 · 28.11.2026 · DEV
 **Geändert**
 - **Bereichsfarben (S-28):** Die Boxen und Kennzahl-Kacheln zeigen ihre Funktion jetzt mit einer von vier Farben (Rahmen, Kopf und Titel getönt). Zuordnung in TRACK.ritl: **Zone a (Blau): Übersicht** (01 Übersicht, Kennzahlen, 02 Karte/3D) · **Zone b (Laubgrün): Bearbeiten/Eingabe** (EDITOR: Tracks verwalten, Bereinigen, Schneiden; ANALYSE: Wegpunkte, Notizen & Fotos) · **Zone c (Bernstein): Auswertung** (ANALYSE: Tracks, Abschnitte, Geisterrennen, Herzfrequenz samt Kacheln) · **Zone d (Violett): Ausgabe & Sonstiges** (EXPORT: Dateien, Teilbild, Video, Report; PANO: 360°-Video, Abgleich, Markierungen). Rot bleibt Fehlern vorbehalten; die Kacheln der Herzfrequenz-Auswertung nutzen jetzt die Zonenfarbe statt Rot/Orange.
