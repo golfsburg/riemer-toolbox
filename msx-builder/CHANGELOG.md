@@ -2,7 +2,102 @@
 ============================================
 
 Start: index.html im Browser öffnen (Chrome/Edge/Firefox) oder auf GitHub Pages ablegen.
-Beim Öffnen wird die Beispielzeichnung „Beispiel_Schnitt.dxf“ geladen.
+Ein neues Projekt startet mit einer leeren Zeichnung (ab V5.9.9 ohne Beispielzeichnung).
+
+## V5.10 · 27.11.2026 · BETA
+Fasst die DEV-Versionen V5.9.1 bis V5.9.10 seit Beta V5.9.0 zusammen (Details in den Einträgen darunter).
+
+**Neu**
+- **Export XLSX/PPTX:** Rohrliste, Bauteile/Kanäle, Stäbe und Zeichnung einzeln, dazu ein Gesamt-Export mit Auswahl über den Knopf **Export** im Header.
+- **Zoom direkt in der Zeichenfläche:** +, −, Einpassen, 🔒 und Zoomstufe in % unten rechts; Tasten + / − / 0.
+- **Dämmung aus der Dicke erkennen:** 9, 13, 19, 25, 32 mm (±1) → Kautschuk und Kälte als Vorschlag, wenn Revit bzw. Typname nichts liefern; in Bereich 04 änderbar.
+- **Orthogonal-Fang** mit Shift bzw. Schalter „⟂ Orthogonal“ beim Kalibrieren, bei „+ Rohr“ und bei Stäben.
+- **Platzhalter-ID aus RIEMER Tools V4:** Unterprojekt heißt wie der Typname der Platzhaltergruppe.
+- **Enter/Esc in Dialogen** und in der Auswahl-Leiste der Zeichnung wie in allen RIEMER Tools.
+
+**Geändert**
+- Höhe des Modellbereichs per Griff frei verstellbar, Zeichnung bleibt eingepasst.
+- Scrollen: Kopfbereich läuft aus, Werkzeugleiste der Rohrliste bleibt oben, kompakt und ohne Bildlaufleiste; am Ende eines Bereichs scrollt die Seite weiter.
+- Bausteine: RITL-UI 1.7, ritl-bk 2.14, ritl-doc 1.2, ritl-export 1.0.1; JSZip eingebettet.
+
+**Behoben**
+- Keine ungeplanten Montageschienen, Schellen oder Verweise ins Leere mehr im Export; alte .msx/.mspx mit Vorlagen-Tragwerk werden bereinigt.
+- Berechnungsblock ist nie mehr leer (sonst gingen Vorlagen-Produkte mit).
+- „Horizontal spiegeln“ wird beim Wechsel der Unterprojekte übernommen.
+- CSV sicherer (Zeilenumbrüche, keine Formeln in Excel), Dateinamen mit Umlauten ausgeschrieben.
+
+**Entfernt**
+- Eingebaute Beispielzeichnung und Knopf „Beispiel laden“; ein neues Projekt startet leer.
+
+## V5.9.10 · 27.11.2026 · DEV
+**Behoben**
+- **Horizontal spiegeln** wird beim Wechsel zwischen Unterprojekten wieder übernommen (seit V5.9.9 blieb die Einstellung des zuletzt geöffneten Unterprojekts stehen).
+
+## V5.9.9 · 27.11.2026 · DEV
+**Entfernt**
+- **Beispielzeichnung:** Die eingebaute Beispiel-DXF und der Knopf „Beispiel laden“ sind weg (Datei rund 220 KB kleiner). Ein neues Projekt startet mit einem leeren Unterprojekt und dem Hinweis „Zeichnung laden (DWG/DXF/PDF/Bild) oder .mse.json ziehen“ in der Zeichenfläche. Ältere Projekte mit dem früheren Beispiel-Unterprojekt öffnen ohne Fehler mit leerer Zeichnung.
+
+**Behoben**
+- **Berechnungsblock nie mehr leer:** Nach „Neues Projekt“ oder beim Öffnen eines Unterprojekts aus einem älteren Stand konnte die Auswahl „Berechnungsblock“ leer sein – dann gingen Produkte der Vorlage mit in die MSX. Leer oder unbekannt gilt jetzt immer „ohne Produkte“, auch beim Export.
+
+**Neu**
+- **Zoom direkt in der Zeichenfläche:** Unten rechts schweben +, −, Einpassen, 🔒 (Zoom sperren/freigeben) und die Zoomstufe in % (Klick = 100 %). Tasten + / − / 0 zoomen, wenn der Zoom freigegeben ist (nicht in Eingabefeldern). Die bisherigen Zoom-Knöpfe in der Kopfzeile des Modellbereichs entfallen.
+- **Dämmung aus der Dicke erkennen:** Eine erkannte Dämmdicke von 9, 13, 19, 25 oder 32 mm (±1 mm) schlägt Dämmstoff **Kautschuk** und Medium **Kälte** vor – nur wenn Revit bzw. der Typname nichts liefern. In der Rohrliste steht dann „aus Dicke erkannt“; eigene Änderungen bleiben erhalten. Dicken, Dämmstoff und Medium sind in Bereich 04 änderbar und werden mit den Einstellungen gesichert (Backup).
+- **Orthogonal-Fang:** Mit gedrückter Shift-Taste rastet der zweite Punkt waagrecht oder senkrecht zum ersten ein – beim Kalibrieren, bei „+ Rohr“ (Mitte + Rand) und bei Stäben (auch im Modus „Frei“). Eine Hilfslinie zeigt die Achse; der Objektfang wirkt dann nur entlang der Achse. Am Touchgerät übernimmt der Schalter „⟂ Orthogonal“ die Shift-Taste.
+
+## V5.9.8 · 27.11.2026 · DEV
+**Behoben**
+- **Alte .msx/.mspx mit Vorlagen-Tragwerk werden sauber:** Dateien, die bis V5.9.6 exportiert wurden, tragen das Stab-Tragwerk der Standardvorlage (3 Stäbe, 6 Knoten, Stückliste mit Schienen und Endkappen), obwohl nichts geplant war. Das erkennt MSX.ritl jetzt (Stäbe genau wie in der Vorlage): Beim Öffnen einer solchen .msx werden diese Stäbe nicht als geplant übernommen (Hinweis im Protokoll), und beim Export einer .mspx wird das Tragwerk aus **allen** Unterprojekten entfernt – auch aus denen, die nicht geöffnet wurden. Beim Laden der .mspx meldet das Protokoll, wie viele Unterprojekte betroffen sind. Geplante Stäbe bleiben unverändert.
+- **„mit Vorlagen-Produkten“ ohne Verweise ins Leere:** Schellen (117) und Rohr-Stab-Verbindungen (128/129) der Vorlage zeigen auf ihr Tragwerk, das nicht mehr exportiert wird – sie entfallen. Rohr-Zusatzdaten (119) und Lastzuordnungen (127) kommen nur noch für Rohre und Bauteile mit, die wirklich im Export stehen.
+- **CSV sicherer:** Felder mit Zeilenumbruch (auch nur CR) stehen in Anführungszeichen; Werte, die mit `=`, `+`, `-` oder `@` beginnen und keine Zahl sind, werden mit `'` entschärft (keine Formeln beim Öffnen in Excel).
+- **Dateinamen mit Umlauten:** ä, ö, ü, ß werden zu ae, oe, ue, ss statt `_`.
+
+**Neu**
+- **Export XLSX/PPTX (Baustein ritl-export 1.0.1, Regel S-27):** Rohrliste, Bauteile/Kanäle und Stäbe haben je einen kleinen Knopf XLSX und PPTX, der Modellbereich „Zeichnung PPTX“ (Zeichnung als Bild). Der Knopf **Export** im Header öffnet die Auswahl für alles inklusive Projekt-Stückliste (deren bisheriger Excel-Export bleibt). Die Auswahl wird gemerkt und mit den Einstellungen gesichert (Backup).
+- **Auswahl-Leiste in der Zeichnung:** Esc hebt die Auswahl auf und schließt die Leiste. Die Seite bleibt bei offener Leiste scrollbar.
+
+**Geändert**
+- Bausteine aktualisiert: RITL-UI 1.7 (Seite hinter Dialogen gesperrt – Rad, Touch, Tastatur), ritl-bk 2.14, ritl-doc 1.2. JSZip ist eingebettet (kein Nachladen aus dem Netz mehr).
+
+## V5.9.7 · 27.11.2026 · DEV
+**Behoben**
+- **Keine Montageschienen mehr im Export, die nicht geplant sind.** Mit Berechnungsblock „mit Vorlagen-Produkten“ kamen Knoten, Stäbe (MT-40 V2, MT-70 OC, MT-90 OC) und die Stückliste mit Schienen und Endkappen aus der Standardvorlage in jede .msx/.mspx – auch wenn im Modellbereich nur Decke und Rohr lagen. Das Tragwerk der Vorlage wird jetzt nie mehr übernommen; geplante Stäbe („+ Stab“ oder aus RIEMER Tools) werden wie bisher exportiert. Exporte mit „ohne Produkte“ (Standard) und „minimal“ sind unverändert.
+
+**Neu**
+- **Platzhalter-ID aus RIEMER Tools V4:** Enthält die Platzhaltergruppe (`.mse.json` bzw. Projekt-ZIP) `group.typId`, `group.typName` und `group.placeholderNames`, heißt das Unterprojekt wie der Typname (mit „· 3 Stk“ wie bisher), die Dateien heißen `<Modell>_<Typname>.msx`, und der Typname steht in der MSX als Name des Unterprojekts (`subProjectName`). `_Platzhalter.csv` enthält zusätzlich Typ-ID, Typname und den Instanznamen je Platzhalter neben Element-ID und UniqueId. Die Typ-ID wird im Projekt (.msx.ritl) gespeichert. Ohne diese Felder (RIEMER Tools V3) bleibt alles wie bisher.
+- **Enter und Esc in Dialogen:** Enter übernimmt („Bild ausrichten“ → Übernehmen, Anleitung → Schließen), Esc bricht ab – ein zentraler Handler wie in allen RIEMER Tools. Zeichnen (Polylinie mit Enter beenden, Esc bricht ab) bleibt unverändert.
+
+**Geändert**
+- **Werkzeugleiste der Rohrliste kompakt:** einzeilig, ca. 42 px hoch, nie eine Bildlaufleiste; passt sie nicht in die Breite, lässt sie sich mit Shift+Rad, Touchpad oder Wischen verschieben (Verlaufskante zeigt weitere Knöpfe).
+
+## V5.9.6 · 26.11.2026 · DEV
+**Geändert**
+- **Höhe des Modellbereichs:** Die Zeichnung wächst beim Ziehen wieder mit und wird zentriert in die Fläche eingepasst (statt fest an der oberen Ecke zu stehen wie in V5.9.4/5.9.5). Dabei wird höchstens einmal pro Bild neu gezeichnet. Das sichere Beenden des Ziehens aus V5.9.5 bleibt.
+
+## V5.9.5 · 26.11.2026 · DEV
+**Behoben**
+- **Griff der Modellhöhe „klebte“ an der Maus:** Das Ziehen endet jetzt zuverlässig – beim Loslassen (auch außerhalb des Griffs oder des Fensters), bei Fensterwechsel und sobald die Maus ohne gedrückte Taste bewegt wird. Bewegung und Ende werden am ganzen Dokument verfolgt, nicht nur am Griff.
+- Die Spalte verschiebt sich beim Ziehen nicht mehr von selbst unter der Maus (Scroll-Verankerung des Browsers abgeschaltet).
+
+## V5.9.4 · 26.11.2026 · DEV
+**Behoben**
+- **Höhe des Modellbereichs ändern:** Beim Ziehen am Griff (und mit den Pfeiltasten) bleiben Maßstab und Ausschnitt der Zeichnung jetzt unverändert – die Fläche wächst oder schrumpft nur nach unten. Vorher wurde das Modell bei jedem Zwischenschritt neu berechnet und um die Mitte neu eingepasst, die Zeichnung wanderte und wirkte wie skaliert. Das Raster wird erst beim Loslassen aktualisiert.
+
+## V5.9.3 · 26.11.2026 · DEV
+**Geändert**
+- **Höhe des Modellbereichs umgebaut:** Der Griff unter dem Modell folgt jetzt genau der Maus – ohne Sprünge und ohne die bisherigen Grenzen (vorher höchstens ca. 95 % der Spalte, mindestens 240 px). Es gibt nur noch **eine** Höhe, sie gilt fixiert wie frei, bleibt beim Ändern der Fenstergröße unverändert und wird gemerkt. Doppelklick auf den Griff setzt auf die Standardhöhe zurück (fixiert: ca. 60 % der Fensterhöhe).
+
+## V5.9.2 · 26.11.2026 · DEV
+**Geändert**
+- **Scrollen:** Ist der Inhalt eines Bereichs (Liste, Tabelle, Projektbaum, Spalte) am Ende oder gar nicht scrollbar, scrollt das Mausrad jetzt die ganze Seite weiter. Dasselbe gilt für die Werkzeugleiste: Sie schiebt sich seitlich, solange sie überläuft, danach läuft die Seite weiter. Dialoge bleiben davon ausgenommen.
+
+## V5.9.1 · 26.11.2026 · DEV
+**Geändert**
+- **Scrollen (R-15):** Der Kopfbereich läuft beim Scrollen aus, die Werkzeugleiste der Rohrliste (Bereich 08) bleibt oben stehen. Auf dem Handy ist sie einzeilig und seitlich wischbar. Das Mausrad über der Leiste schiebt nur die Leiste und nie die ganze Seite. Innere Listen und Dialoge reichen das Scrollen nicht mehr an die Seite weiter.
+
+## V5.10.3 · 28.11.2026 · DEV
+**Geändert**
+- **Bereichsfarben (R-24, Standard S-28):** Die Boxen von MSX.ritl zeigen ihre Funktion jetzt mit einer von vier Bereichsfarben (Fläche leicht getönt, Rahmen und Kopf in der Farbe, Titel und Nummer farbig – hell und dunkel mit Kontrast ≥ 4,5:1). Zuordnung: Zone a (Blau): Übersicht/Start – 01 Projekt, 02 Zeichnung, 03 Vorlage · Zone b (Laubgrün): Arbeiten – 07 Modellbereich, 08 Rohrliste, 09 Bauteile, 10 Stäbe · Zone c (Bernstein): Vorgaben/Erkennung – 04 Rohr-Vorgaben, 06 Layer · Zone d (Violett): Einstellungen/Sonstiges – 05 Einstellungen, 11 Protokoll. Rot bleibt Fehlern und Löschen vorbehalten.
 
 ## V5.9.0 · 25.11.2026 · DEV
 **Neu**

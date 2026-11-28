@@ -12,6 +12,21 @@ Neueste Version oben.
 - **Bereichsfarben (Regel S-28, Rollout R-24):** Boxen und Kennzahl-Kacheln tragen je Funktion eine Farbe (Tokens `--zone-a..d`, hell/dunkel; keine Zone auf Rot). Zuordnung: Zone a (Blau): Übersicht/Kennzahlen – Überblick, Summen, Tankstatistik, Statistik-Kennzahlen · Zone b (Laubgrün): Arbeiten/Eingabe – Fahrten, Tankvorgänge, Werkstatt & Kosten, Werkstätten, Fahrzeuge, Orte & Fahrer, Vergleich einstellen · Zone c (Bernstein): Planung/Auswertung – Service-Fälligkeit, Pickerl je Fahrzeug, Begutachtungen, Fristen §57a, Diagramm, Fahrtzwecke, Kosten je Fahrzeug · Zone d (Violett): Einstellungen. Je Ansicht höchstens 4 Zonen.
 - R-21 (Enter/Esc), R-22 (Ribbon kompakt) und R-23 (Export XLSX/PPTX) waren bereits in V2.4.7 enthalten.
 
+## V2.4.7 · 27.11.2026 · DEV
+**Neu**
+- **Export XLSX/PPTX (Regel S-27, Rollout R-23, Baustein ritl-export 1.0.1):** Jede Datentabelle lässt sich einzeln als XLSX oder PPTX speichern – Fahrtenbuch, Tankvorgänge, Werkstatt & Kosten, Werkstätten, Pickerl je Fahrzeug, Begutachtungen, Fristen nach §57a, Kennzahlen, Auswertung, Fahrtzwecke und Kosten je Fahrzeug, Fahrzeuge, Orte und Fahrer. Die Diagramme (Tank-Verbrauch/Preis, Auswertung in STATS) gibt es als PPTX. Im Kopf öffnet **Export** den Gesamt-Export mit Auswahl (eine XLSX mit einem Blatt je Tabelle, eine PPTX mit Titel- und Inhaltsfolie). Die Auswahl wird im Backup (Einstellungen) mitgesichert.
+- Die bisherigen Exporte (XLSX, PDF, CSV, Report PDF/PowerPoint/XLSX, „Alle Daten“) bleiben unverändert in den Werkzeugleisten und stehen im Export-Dialog zusätzlich als „eigene Datei“.
+
+**Geändert**
+- **Enter/Esc in Dialogen (Regel S-25, Rollout R-21):** Ein zentraler Tastenhandler: Enter löst den Hauptknopf aus (in Textfeldern; nicht in Mehrzeilenfeldern, Auswahl, Checkboxen, Knöpfen), Esc schließt genau eine Ebene. Info-Dialoge ohne Hauptknopf (Menü, Anleitung) schließen mit Enter; im Favoriten-Dialog ist „Schließen“ der Hauptknopf.
+- **Ribbon kompakt (Regel S-26, Rollout R-22):** Die Modul-Leiste ist nur noch ≈45 px hoch (vorher 70 px), zeigt nie eine Bildlaufleiste und blendet bei vielen Modulen eine Verlaufskante ein; der Tastaturfokus auf einem Reiter ist sichtbar.
+- Bausteine: **RITL-UI 1.7**, **ritl-bk 2.14**, neu **ritl-export 1.0.1** (mit JSZip 3.10.1).
+
+## V2.4.6 · 26.11.2026 · DEV
+**Geändert**
+- **Scrollen nach Ebenen (Regel S-18 neu, Rollout R-20):** Bei offenem Dialog (Fahrt/Fahrzeug, Menü, Hilfe, Favoriten, Backup) scrollt die Seite im Hintergrund nicht mehr – weder Mausrad noch Touch noch Tastatur; die Sperre kommt zentral aus RITL-UI 1.7. `overscroll-behavior:contain` gilt nur noch für Dialoge. Das Mausrad über dem Ribbon scrollt wieder die Seite (eigener `wheel`-Handler entfernt); Listen reichen am Ende an das Fenster weiter.
+- Bausteine aktualisiert: **RITL-UI 1.7**, **ritl-bk 2.14**.
+
 ## V2.4.5 · 25.11.2026 · DEV
 **Neu**
 - **Tool-Typ „Datenbank“ (Pilot, Regel S-23):** DRIVE.ritl ist als Typ `datenbank` gekennzeichnet (Adapter `typ:'datenbank'`, `ritl.json` `typ`; am Server steht `tools.typ` bereits darauf). Fahrten, Fahrzeuge, Tanken, Werkstatt und Pickerl bleiben wie bisher in der Datenbank des Tools – keine Projektdateien.

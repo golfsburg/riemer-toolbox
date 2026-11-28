@@ -324,13 +324,22 @@ Kurzzeit-Ablage für Dateien, die ein Tool von einem Gerät zum anderen bringen 
 
 ## E-Mail-Prüfung
 
-Jede Lizenz kann eine Login-E-Mail haben (Admin → Spalte E-Mail bzw. Knopf **E-Mail**):
+Jede Lizenz kann eine oder **mehrere** Login-E-Mails haben (Admin → Lizenz bearbeiten → Feld **E-Mail**).
+Einträge je Zeile oder getrennt durch `;`, `,` oder Leerzeichen; Adressen und Domains dürfen gemischt werden,
+z. B. `max@firma.at; eva@firma.at; @partner.at`. Die Anmeldung gelingt, wenn **ein** Eintrag passt.
 
 | Eintrag | Wirkung |
 |---|---|
-| `max@firma.at` | nur diese Adresse (Groß-/Kleinschreibung egal) |
-| `@firma.at` | jede Adresse dieser Domain – für Firmenlizenzen |
+| `max@firma.at` | nur genau diese Adresse (Groß-/Kleinschreibung egal) |
+| `@firma.at` | jede Adresse dieser Domain – für Firmenlizenzen. Exakt die Domain: `x@evilfirma.at` oder `x@mail.firma.at` passen **nicht** |
+| mehrere Einträge | jede der Adressen bzw. Domains |
 | leer | keine Prüfung (wie bisher) |
+
+- Der Admin prüft jeden Eintrag beim Tippen, markiert ungültige und sperrt *Speichern*, bis sie korrigiert sind.
+  Gespeichert wird bereinigt als `max@firma.at; eva@firma.at; @partner.at` (doppelte Einträge entfallen).
+- In der Lizenzliste steht der erste Eintrag mit `+N`; der Tooltip zeigt alle.
+- Prüfung am Server: `public.license_email_ok(lizenz_email, eingabe)` (aufgerufen von `_check_license`, damit von
+  allen Lizenz-Abfragen). Die Anmeldung in Startseite/myTOOLBOX bleibt gleich: eine Adresse eingeben.
 
 Alle Schlüssel-Abfragen fragen E-Mail **und** Schlüssel ab. Die E-Mail ist für Passwortmanager der Benutzername.
 Ist für eine Lizenz eine E-Mail hinterlegt, reicht der Schlüssel allein nicht mehr.
