@@ -3,6 +3,10 @@
 Speisekarten- & Menü-Designer: Sets, Gänge, Speisendatenbank mit Allergenen (LMIV), 6 Druckformate, Export als PDF, PPTX und Druck in exakt einer Seite · #ritl_menu
 Neueste Version oben. Versionen ≤ V1.7 nachträglich rekonstruiert (aus `tool_versions`, Quellen-ZIPs und Repo-Historie).
 
+## V3.0.38 · 28.11.2026 · DEV
+**Geändert**
+- **Bereichsfarben (S-28):** Die Boxen sind nach Funktion getönt (Rahmen, Kopfzeile, Titel), hell und dunkel. Zuordnung: Zone a (Blau): Übersicht & Verzeichnisse (Speisekarten-Sets, Speisen- & Getränkedatenbank, Menüs & Saison, Gänge & Kategorien) · Zone b (Laubgrün): Arbeiten & Eingabe (Bearbeiten, Einstellen, Designstil, Akzentfarbe & Rahmen, Logos & Siegel) · Zone c (Bernstein): Ausgabe (Vorschau & Export) · Zone d (Violett): Angaben (Kontakt & Öffnungszeiten, Preise & Kennzeichnung, Texte für Außenseiten). Je Ansicht höchstens vier Zonen, kein Rot.
+
 ## V3.0.37 · 27.11.2026 · DEV
 **Neu**
 - **Export (Regel S-27, Rollout R-23):** Knopf **Export** im Kopf öffnet den Gesamt-Export (ritl-export 1.0.1): Tabellen (Sets, Gänge und Gerichte der Karte, Designstile, Speisen- & Getränkedatenbank, Gänge/Kategorien, Allergen-Legende) als **XLSX** und **PPTX**, die Karte (alle Seiten) als **PPTX**, einzeln über kleine Knöpfe im Kopf der Boxen oder gesammelt mit Auswahl. Die Auswahl wird mit den Einstellungen im Backup gesichert.
