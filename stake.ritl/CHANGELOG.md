@@ -3,6 +3,10 @@
 Beziehungs- und Stakeholder-Map für Firmen, Ansprechpartner, Projekte und Gewerke · #ritl_stake
 Neueste Version oben.
 
+## V2.6.11 · 28.11.2026 · DEV
+**Geändert**
+- **Bereichsfarben (Regel S-28, Rollout R-24):** Die Boxen zeigen ihre Funktion mit einer von vier Farben. Zone a (Blau): Übersicht – MAP „Map/Matrix“, DATA „Bestand“ · Zone b (Laubgrün): Arbeiten/Eingabe – MAP „Beziehungen“, DATA „Import“ · Zone c (Bernstein): Auswertung – MAP „Auswertung“ · Zone d (Violett): Sonstiges – DATA „Daten“ (Beispiel laden/Leeren). Je Ansicht höchstens drei Farben, kein Rot.
+
 ## V2.6.10 · 27.11.2026 · DEV
 **Behoben**
 - **Auswahl-Fenster der Map:** Enter im Namensfeld schließt das Fenster „Auswahl bearbeiten“ nicht mehr, und Esc hebt die Auswahl wieder auf (bzw. verlässt die fixierte Arbeitsfläche 🔒), statt nur das Fenster auszublenden.
