@@ -3,6 +3,10 @@
 Fahrtenbuch, Fahrzeuge, Tanken, Werkstatt, Pickerl §57a und Statistik · #ritl_drive
 Neueste Version oben.
 
+## V2.4.9 · 28.11.2026 · DEV
+**Geändert**
+- **Bereichsfarben eindeutig (S-28):** eine Farbe = eine Funktion im ganzen Tool. Zone a (Blau): Übersicht/Status – Überblick, Summen, Tankstatistik, Statistik-Kennzahlen, Service-Fälligkeit, Pickerl je Fahrzeug, Fristen §57a · Zone b (Laubgrün): Arbeiten/Eingabe – Fahrten, Tankvorgänge, Werkstatt & Kosten, Werkstätten, Begutachtungen, Fahrzeuge, Orte & Fahrer, Vergleich einstellen · Zone c (Bernstein): Auswertung – Diagramm, Fahrtzwecke, Kosten je Fahrzeug · Zone d (Violett): Einstellungen. Gegenüber V2.4.8 lag Zone c doppelt (Fristen und Auswertung); die Fristen sind jetzt Zone a, die Begutachtungsliste Zone b.
+
 ## V2.4.8 · 28.11.2026 · DEV
 **Geändert**
 - **Bereichsfarben (Regel S-28, Rollout R-24):** Boxen und Kennzahl-Kacheln tragen je Funktion eine Farbe (Tokens `--zone-a..d`, hell/dunkel; keine Zone auf Rot). Zuordnung: Zone a (Blau): Übersicht/Kennzahlen – Überblick, Summen, Tankstatistik, Statistik-Kennzahlen · Zone b (Laubgrün): Arbeiten/Eingabe – Fahrten, Tankvorgänge, Werkstatt & Kosten, Werkstätten, Fahrzeuge, Orte & Fahrer, Vergleich einstellen · Zone c (Bernstein): Planung/Auswertung – Service-Fälligkeit, Pickerl je Fahrzeug, Begutachtungen, Fristen §57a, Diagramm, Fahrtzwecke, Kosten je Fahrzeug · Zone d (Violett): Einstellungen. Je Ansicht höchstens 4 Zonen.
