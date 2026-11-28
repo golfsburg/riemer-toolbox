@@ -3,6 +3,11 @@
 Fahrtenbuch, Fahrzeuge, Tanken, Werkstatt, Pickerl §57a und Statistik · #ritl_drive
 Neueste Version oben.
 
+## V2.4.8 · 28.11.2026 · DEV
+**Geändert**
+- **Bereichsfarben (Regel S-28, Rollout R-24):** Boxen und Kennzahl-Kacheln tragen je Funktion eine Farbe (Tokens `--zone-a..d`, hell/dunkel; keine Zone auf Rot). Zuordnung: Zone a (Blau): Übersicht/Kennzahlen – Überblick, Summen, Tankstatistik, Statistik-Kennzahlen · Zone b (Laubgrün): Arbeiten/Eingabe – Fahrten, Tankvorgänge, Werkstatt & Kosten, Werkstätten, Fahrzeuge, Orte & Fahrer, Vergleich einstellen · Zone c (Bernstein): Planung/Auswertung – Service-Fälligkeit, Pickerl je Fahrzeug, Begutachtungen, Fristen §57a, Diagramm, Fahrtzwecke, Kosten je Fahrzeug · Zone d (Violett): Einstellungen. Je Ansicht höchstens 4 Zonen.
+- R-21 (Enter/Esc), R-22 (Ribbon kompakt) und R-23 (Export XLSX/PPTX) waren bereits in V2.4.7 enthalten.
+
 ## V2.4.5 · 25.11.2026 · DEV
 **Neu**
 - **Tool-Typ „Datenbank“ (Pilot, Regel S-23):** DRIVE.ritl ist als Typ `datenbank` gekennzeichnet (Adapter `typ:'datenbank'`, `ritl.json` `typ`; am Server steht `tools.typ` bereits darauf). Fahrten, Fahrzeuge, Tanken, Werkstatt und Pickerl bleiben wie bisher in der Datenbank des Tools – keine Projektdateien.
