@@ -3,6 +3,11 @@
 Kompakter 3D-Viewer und -Editor im Browser für den 3D-Druck · #ritl_mesh
 Neueste Version oben. V1.0–V1.8 als Einzeldatei entwickelt (nicht in der Toolbox veröffentlicht).
 
+## V2.8.4 · 28.11.2026 · DEV
+**Geändert**
+- **Bereichsfarben (S-28):** Die Boxen links zeigen ihre Funktion mit einer Farbe (Fläche, Rahmen und Kopf getönt, Titel in der Bereichsfarbe; hell und dunkel). Zuordnung: Zone a (Blau): Übersicht – 01 Modelle, 04 Info · Zone b (Laubgrün): Arbeiten – 02 Bearbeiten · Zone c (Bernstein): Ausgabe – 03 Export für Slicer · Zone d (Violett): Einstellungen – 05 Darstellung. Die fixierbare 3D-Fläche, Dialoge und Bausteine bleiben ohne Zone.
+- Keine Funktionsänderung; R-21/R-22 waren seit V2.8.3 erfüllt, R-23 entfällt (keine Datentabellen).
+
 ## V2.8.3 · 27.11.2026 · DEV
 **Neu**
 - **Höhe des Modellbereichs verstellbar:** Unter der 3D-Ansicht sitzt ein Griff. Ziehen mit Maus, Stift oder Finger ändert die Höhe (mindestens 320 px, höchstens Fensterhöhe minus Kopfzeile/Werkzeugleiste), Doppelklick bzw. Doppeltipp setzt auf „Fenster füllen“ zurück, Pfeil ↑/↓ verstellt in 20-px-Schritten. Die Ansicht rendert dabei verzerrungsfrei mit. Die Höhe wird je Gerät gemerkt (Einstellung, Teil des Backups „Einstellungen“); bei kleinerem Fenster gilt automatisch das Maximum. Im 🔒-Modus ist der Griff ausgeblendet.

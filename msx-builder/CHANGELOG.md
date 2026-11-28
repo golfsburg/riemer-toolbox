@@ -111,6 +111,10 @@ Fasst die DEV-Versionen V5.9.1 bis V5.9.10 seit Beta V5.9.0 zusammen (Details in
 **Geändert**
 - **Scrollen (R-15):** Der Kopfbereich läuft beim Scrollen aus, die Werkzeugleiste der Rohrliste (Bereich 08) bleibt oben stehen. Auf dem Handy ist sie einzeilig und seitlich wischbar. Das Mausrad über der Leiste schiebt nur die Leiste und nie die ganze Seite. Innere Listen und Dialoge reichen das Scrollen nicht mehr an die Seite weiter.
 
+## V5.10.3 · 28.11.2026 · DEV
+**Geändert**
+- **Bereichsfarben (R-24, Standard S-28):** Die Boxen von MSX.ritl zeigen ihre Funktion jetzt mit einer von vier Bereichsfarben (Fläche leicht getönt, Rahmen und Kopf in der Farbe, Titel und Nummer farbig – hell und dunkel mit Kontrast ≥ 4,5:1). Zuordnung: Zone a (Blau): Übersicht/Start – 01 Projekt, 02 Zeichnung, 03 Vorlage · Zone b (Laubgrün): Arbeiten – 07 Modellbereich, 08 Rohrliste, 09 Bauteile, 10 Stäbe · Zone c (Bernstein): Vorgaben/Erkennung – 04 Rohr-Vorgaben, 06 Layer · Zone d (Violett): Einstellungen/Sonstiges – 05 Einstellungen, 11 Protokoll. Rot bleibt Fehlern und Löschen vorbehalten.
+
 ## V5.9.0 · 25.11.2026 · DEV
 **Neu**
 - **Projekte als eigene Datei:** Ein MSX-Projekt ist jetzt eine Datei, die du speicherst – z. B. „Haus A.msx.ritl“. Darin steckt alles: Bereich 01 mit Projektname, allen Ordnern und Unterprojekten, Anzahl je Unterprojekt und dem Arbeitsstand jedes Unterprojekts (Erkennung, Auswahl, manuell gezeichnete Objekte, Ausschnitt), dazu Vorlage, weitere Rohrnormen, Revit-Zuordnung, „Texte EIN/AUS“, „Anzahl im Namen exportieren“ und **alle importierten Originaldateien** (DWG, DXF, PDF, Bilder, MSX, .mspx, ZIP). So kannst du mehrere Projekte parallel führen, weitergeben und archivieren – beim Öffnen ist das Projekt vollständig wieder da.

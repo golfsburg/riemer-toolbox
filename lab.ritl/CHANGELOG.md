@@ -3,6 +3,19 @@
 Testfeld für RIEMER Tools als installierbare App · #ritl_lab
 Abgeleitet aus MUSTER.ritl V3.8 › SETUP.ritl. Neueste Version oben.
 
+## V1.0.5 · 27.11.2026 · DEV
+**Neu**
+- **Bereichsfarben (Regel S-28, Rollout R-24):** Boxen zeigen ihre Funktion mit einer der vier Bereichsfarben (Tokens `--zone-a..d`, hell/dunkel, `data-zone`). Text ≥ 4,5:1.
+
+**Geändert**
+- **Enter/Esc in Dialogen (S-25, R-21):** ein zentraler Tasten-Handler aus MUSTER – Enter löst den Hauptknopf aus, Esc bricht ab, Info-Dialoge (Anleitung) schließen mit Enter und Esc.
+- Bausteine auf **RITL-UI 1.7** und **ritl-bk 2.14** aktualisiert (byte-gleich; Dialoge sperren die Seite dahinter).
+- Zuordnung der Bereichsfarben: Zone a (Blau): Übersicht/Allgemein (01 Allgemein) · Zone b (Laubgrün): Arbeiten/Eingabe (02 Erweitert – Daten, Dateiablage) · Zone c (Bernstein): nicht belegt · Zone d (Violett): Einstellungen/Sonstiges (03 App · Installation & Vollbild).
+
+**Unverändert / nicht zutreffend**
+- R-22 (Ribbon kompakt, S-26): LAB hat nur eine Ansicht ohne Reiterleiste – nichts zu ändern.
+- R-23 (Export XLSX/PPTX, S-27): LAB hat keine Datentabellen und keine Darstellungen (nur Name und Notiz) – kein ritl-export eingebaut.
+
 ## V1.0.4 · 25.11.2026 · DEV
 **Geändert**
 - **Tool-Typ „Datenbank“ (Regel S-23, Rollout R-19):** Das Tool ist als Typ Datenbank gekennzeichnet – Daten bleiben wie bisher im Tool, keine Projektdateien.
