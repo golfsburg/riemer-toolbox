@@ -3,6 +3,15 @@
 Projektmanagement: Projekt-Portfolio mit Gewerken, Anwendungen und Businesses (Lead › Spezifikation Opportunity › Spezifikation › Opportunity), Umsatzplan, Dashboard und Zeitplan · #ritl_pm
 Neueste Version oben. Versionen ≤ V1.1 nachträglich rekonstruiert (Projektmanager V1.x, selbstspeichernde HTML-Datei).
 
+## V3.1.28 · 28.11.2026 · DEV
+**Neu**
+- **Export XLSX/PPTX (Regel S-27, Rollout R-23, ritl-export 1.0.1):** Neuer Knopf **Export** im Kopf öffnet den Gesamt-Export mit Auswahl (einzeln, je Ansicht oder alles; eine XLSX- und eine PPTX-Datei). Kleine Knöpfe XLSX/PPTX direkt an den Boxen mit Tabellen: Projekte (PORTFOLIO), Kennzahlen, Top 10 und Handlungsbedarf (DASH), Einträge, Pipeline & Potential, Umsatzplan, Forecast, Logbuch (PROJEKT), Beteiligungen, Firmen, Pipeline (LINK), Logbuch (DATA). Die Kennzahlen aus DASH gibt es zusätzlich als Kacheln in der PPTX. Die Auswahl im Dialog wird mit dem Backup gesichert (Einstellungen).
+- Die bisherigen Exporte bleiben unverändert und stehen im Gesamt-Export als eigene Dateien: Dashboard- und Zeitplan-PPTX, Quality-Check (XLSX/PPTX) und „Boxen dieser Ansicht“ (Abbild/XLSX). Die alten Knöpfe „⬇ Export“ an den Boxen bleiben.
+- **Bereichsfarben (Regel S-28, Rollout R-24):** Boxen zeigen ihre Funktion mit einer von vier Farben, in allen Ansichten gleich – Zone a (Blau): Übersicht, Kennzahlen, Dashboard, Projektauswahl und -kopf · Zone b (Laubgrün): Arbeiten und Eingabe, d. h. Einträge, Übergabe an STAKE, Import · Zone c (Bernstein): Planung und Auswertung, d. h. Umsatzplan, Zeitpläne, Pipeline & Potential, Umsatz, Forecast, Beteiligungen, Firmen, Pipeline, Meldefristen · Zone d (Violett): Verwaltung und Sonstiges, d. h. Logbuch, Export & Reports, Projekttypen, Bestand. Kennzahl-Kacheln (LINK, DATA) tragen Zone a.
+
+**Geändert**
+- Hell/Dunkel mit eigenen Zonen-Tokens `--zone-a..d`; keine Zone ist Rot.
+
 ## V3.1.27 · 27.11.2026 · DEV
 **Behoben**
 - In der Filterliste wählt Enter im Suchfeld wieder den ersten Treffer an bzw. ab (mit V3.1.26 schloss es versehentlich die Liste). Esc schließt sie weiterhin.
