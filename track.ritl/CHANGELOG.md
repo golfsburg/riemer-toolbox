@@ -27,6 +27,10 @@ Neueste Version oben. Versionen ≤ V1.9 in Google AI Studio entwickelt und nach
 - Mausrad über dem Ribbon scrollt die Seite (waagrecht mit Shift oder Touchpad). Der Zoom per Mausrad gilt weiter nur über Karte, Profil, 3D-Ansicht und Export-Vorschau im 🔒-Modus.
 - Bausteine auf dem aktuellen Stand: RITL-UI 1.7, ritl-bk 2.14.
 
+## V3.3.36 · 28.11.2026 · DEV
+**Geändert**
+- **Bereichsfarben (S-28):** Die Boxen und Kennzahl-Kacheln zeigen ihre Funktion jetzt mit einer von vier Farben (Rahmen, Kopf und Titel getönt). Zuordnung in TRACK.ritl: **Zone a (Blau): Übersicht** (01 Übersicht, Kennzahlen, 02 Karte/3D) · **Zone b (Laubgrün): Bearbeiten/Eingabe** (EDITOR: Tracks verwalten, Bereinigen, Schneiden; ANALYSE: Wegpunkte, Notizen & Fotos) · **Zone c (Bernstein): Auswertung** (ANALYSE: Tracks, Abschnitte, Geisterrennen, Herzfrequenz samt Kacheln) · **Zone d (Violett): Ausgabe & Sonstiges** (EXPORT: Dateien, Teilbild, Video, Report; PANO: 360°-Video, Abgleich, Markierungen). Rot bleibt Fehlern vorbehalten; die Kacheln der Herzfrequenz-Auswertung nutzen jetzt die Zonenfarbe statt Rot/Orange.
+
 ## V3.3.31 · 25.11.2026 · DEV
 **Geändert**
 - TRACK.ritl ist als Tool vom Typ **Datenbank** gekennzeichnet: Tracks, Wegpunkte und Fotos bleiben wie bisher im Tool, das Backup sichert sie in den Stufen settings, datenbank und storage. Für dich ändert sich im Alltag nichts.
