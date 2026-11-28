@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>TEST.ritl – RITL-UI 1.7 Scrollregel</title>
+<style>
+/* Testseite für die Scrollregel (RITL-UI 1.7): überlagernde Ebenen sperren die Seite, gleichrangige Bereiche reichen am Ende weiter. */
+:root{--bg:#F4F6F9;--surface:#fff;--ink:#141A22;--ink2:#3A4452;--muted:#6B7684;--line:#E2E6EC;--line2:#CDD3DC;--brand:#1F5FC2;--accent-text:#1F5FC2;--good:#1E8A4C;--warn:#C2410C;--on-brand:#fff;
+ --sans:"Inter",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace}
+[data-theme="dark"]{--bg:#0F141C;--surface:#161D27;--ink:#E8ECF2;--ink2:#C3CAD4;--muted:#8F9AA8;--line:#253041;--line2:#334155;--brand:#6EA2FF;--accent-text:#6EA2FF}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:400 14px/1.5 var(--sans)}
+.ribbon{position:sticky;top:0;z-index:30;display:flex;gap:8px;overflow-x:auto;padding:10px 16px;background:var(--surface);border-bottom:1px solid var(--line)}
+.ribbon button{flex:none;height:34px;padding:0 14px;border:1px solid var(--line2);border-radius:9px;background:var(--surface);color:var(--ink);font:600 13px var(--sans);cursor:pointer}
+main{max-width:1100px;margin:0 auto;padding:16px;display:grid;grid-template-columns:260px 1fr;gap:16px}
+@media(max-width:700px){main{grid-template-columns:1fr}}
+.liste{max-height:300px;overflow:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+.liste div{padding:8px 12px;border-bottom:1px solid var(--line)}
+.inhalt p{margin:0 0 12px;padding:14px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+dialog{width:min(560px,92vw);padding:0;border:1px solid var(--line);border-radius:16px;background:var(--surface);color:var(--ink)}
+dialog::backdrop{background:rgba(15,20,28,.45)}
+.dh{padding:14px 20px;font-weight:800;border-bottom:1px solid var(--line)}
+.db{padding:20px;max-height:50vh;overflow:auto}
+.db p{margin:0 0 10px}
+.df{padding:12px 20px;border-top:1px solid var(--line);display:flex;justify-content:flex-end}
+.btn{height:34px;padding:0 14px;border:1px solid var(--line2);border-radius:8px;background:var(--surface);color:var(--ink);font:600 13px var(--sans);cursor:pointer}
+.sheet{position:fixed;inset:0;z-index:50;background:rgba(15,20,28,.45);display:flex;align-items:flex-end;justify-content:center}
+.sheet[hidden]{display:none}
+.sheet .pn{width:min(640px,100vw);max-height:60vh;overflow:auto;background:var(--surface);border-radius:16px 16px 0 0;padding:16px 20px}
+.menu{position:absolute;z-index:60;top:52px;left:16px;width:220px;max-height:200px;overflow:auto;background:var(--surface);border:1px solid var(--line);border-radius:10px;box-shadow:0 12px 30px rgba(0,0,0,.18)}
+.menu div{padding:8px 12px}
+.wrap.zeigen .eltern{display:block}
+.eltern{display:none;position:fixed;inset:20% 20%;z-index:55;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;overflow:auto}
+.flaeche{position:fixed;inset:0;z-index:58;background:var(--bg);display:flex;flex-direction:column}
+.flaeche[hidden]{display:none}
+.flaeche .fk{display:flex;gap:8px;align-items:center;padding:10px 16px;background:var(--surface);border-bottom:1px solid var(--line)}
+.zoomf{flex:1;position:relative;overflow:hidden;touch-action:none;background:repeating-linear-gradient(45deg,var(--surface) 0 12px,var(--bg) 12px 24px)}
+.zoomf i{position:absolute;left:40%;top:40%;width:120px;height:80px;border-radius:10px;background:var(--brand);transform-origin:center}
+#stand{position:fixed;right:12px;bottom:12px;z-index:70;padding:6px 10px;border-radius:8px;background:var(--ink);color:var(--bg);font:500 12px var(--mono)}
+</style>
+</head>
+<body>
+<header data-ritl-header data-name="TEST" data-eyebrow="RITL-UI 1.7 · Testseite Scrollregel" data-tool="test-ritl" data-ver="V1.0.0" data-date="26.11.2026" data-lang="none" data-help="none">
+ <svg data-ritl-icon viewBox="0 0 38 38"><rect width="38" height="38" rx="9" fill="#1F5FC2"/></svg>
+</header>
+<nav class="ribbon" id="ribbon" aria-label="Module">
+ <button type="button" id="b-dlg">Dialog (showModal)</button>
+ <button type="button" id="b-sheet">Bottom-Sheet</button>
+ <button type="button" id="b-menu">Menü</button>
+ <button type="button" id="b-api">Eltern + API</button>
+ <button type="button" id="b-fl">Arbeitsfläche 🔒</button>
+ <button type="button">Modul 5</button><button type="button">Modul 6</button><button type="button">Modul 7</button><button type="button">Modul 8</button>
+ <button type="button">Modul 9</button><button type="button">Modul 10</button><button type="button">Modul 11</button><button type="button">Modul 12</button>
+ <button type="button">Modul 13</button><button type="button">Modul 14</button><button type="button">Modul 15</button><button type="button">Modul 16</button>
+</nav>
+<div class="menu" id="menu" data-ritl-overlay hidden></div>
+<main>
+ <aside class="liste" id="liste" aria-label="Liste (gleichrangiger Bereich)"></aside>
+ <section class="inhalt" id="inhalt"></section>
+</main>
+<dialog id="dlg" aria-labelledby="dlg-h"><div class="dh" id="dlg-h">Dialog mit langem Inhalt</div><div class="db" id="dlg-db"></div><div class="df"><button class="btn" type="button" id="dlg-zu">Schließen</button></div></dialog>
+<div class="sheet" id="sheet" data-ritl-overlay hidden><div class="pn" id="sheet-pn"></div></div>
+<div class="wrap" id="wrap"><div class="eltern" id="eltern"><b>Ebene, die ein Elternelement einblendet</b> – angemeldet über <code>RITLUI.overlay(el, true)</code>.<p><button class="btn" type="button" id="eltern-zu">Schließen</button></p></div></div>
+<div class="flaeche" id="flaeche" data-ritl-overlay hidden><div class="fk"><b>Fixierte Arbeitsfläche 🔒</b><span id="zs" class="notr"></span><button class="btn" type="button" id="fl-zu" style="margin-left:auto">Schließen</button></div>
+ <div class="zoomf" id="zoomf" data-ritl-zoom aria-label="Zoom-Fläche (Rad/Pinch zoomen, Ziehen verschiebt)"><i id="zobj"></i></div></div>
+<div id="stand" class="notr">scrollY 0 · frei</div>
+<script>
+const $=id=>document.getElementById(id),zeilen=(n,t)=>Array.from({length:n},(_,i)=>`<div>${t} ${i+1}</div>`).join('');
+$('liste').innerHTML=zeilen(30,'Listeneintrag');
+$('inhalt').innerHTML=Array.from({length:40},(_,i)=>`<p>Absatz ${i+1} – Inhalt der Seite. Ohne offene Ebene scrollt hier das ganze Fenster.</p>`).join('');
+$('dlg-db').innerHTML=Array.from({length:30},(_,i)=>`<p>Zeile ${i+1} im Dialog – scrollt in sich, nie die Seite dahinter.</p>`).join('');
+$('sheet-pn').innerHTML='<b>Bottom-Sheet</b>'+zeilen(30,'Eintrag')+'<p><button class="btn" type="button" id="sheet-zu">Schließen</button></p>';
+$('menu').innerHTML=zeilen(20,'Menüpunkt');
+$('b-dlg').onclick=()=>$('dlg').showModal();$('dlg-zu').onclick=()=>$('dlg').close();
+$('b-sheet').onclick=()=>{$('sheet').hidden=false};$('sheet').addEventListener('click',e=>{if(e.target.id==='sheet'||e.target.id==='sheet-zu')$('sheet').hidden=true});
+$('b-menu').onclick=e=>{e.stopPropagation();$('menu').hidden=!$('menu').hidden};document.addEventListener('click',e=>{if(!$('menu').hidden&&!$('menu').contains(e.target)&&e.target.id!=='b-menu')$('menu').hidden=true});
+$('b-api').onclick=()=>{$('wrap').classList.add('zeigen');window.RITLUI&&RITLUI.overlay($('eltern'),true)};
+$('eltern-zu').onclick=()=>{$('wrap').classList.remove('zeigen');window.RITLUI&&RITLUI.overlay($('eltern'),false)};
+// Zoom-Fläche wie in den Tools: eigene Rad-/Touch-Handler; protokolliert, ob RITL-UI das Ereignis schon verworfen hat
+const ZS=window.ZS={wheel:0,wheelGesperrt:0,touch:0,touchGesperrt:0,s:1,x:0,y:0};let tp=null;
+const zmal=()=>{$('zobj').style.transform=`translate(${ZS.x}px,${ZS.y}px) scale(${ZS.s})`;$('zs').textContent=`Zoom ${ZS.s.toFixed(2)} · ${Math.round(ZS.x)}/${Math.round(ZS.y)}`};
+$('zoomf').addEventListener('wheel',e=>{ZS.wheel++;if(e.defaultPrevented)ZS.wheelGesperrt++;e.preventDefault();ZS.s=Math.max(.2,Math.min(8,ZS.s*Math.exp(-e.deltaY/500)));zmal()},{passive:false});
+const pk=t=>[...t].map(p=>({x:p.clientX,y:p.clientY}));
+$('zoomf').addEventListener('touchstart',e=>{tp=pk(e.touches)},{passive:true});
+$('zoomf').addEventListener('touchmove',e=>{ZS.touch++;if(e.defaultPrevented)ZS.touchGesperrt++;const n=pk(e.touches);
+ if(tp&&n.length===2&&tp.length===2){const d=(a)=>Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y);ZS.s*=d(n)/Math.max(1,d(tp))}
+ else if(tp&&n.length===1&&tp.length===1){ZS.x+=n[0].x-tp[0].x;ZS.y+=n[0].y-tp[0].y}
+ tp=n;e.preventDefault();zmal()},{passive:false});
+$('b-fl').onclick=()=>{$('flaeche').hidden=false};$('fl-zu').onclick=()=>{$('flaeche').hidden=true};zmal();
+setInterval(()=>{$('stand').textContent=`scrollY ${Math.round(scrollY)} · ${window.RITLUI&&RITLUI.overlay&&RITLUI.overlay()?'gesperrt':'frei'} · RITL-UI ${window.RITLUI?RITLUI.version:'–'}`},200);
+// RITL-UI direkt aus dem Repo einbauen (Tools bekommen den Block fest eingebaut bzw. vom Lizenzserver)
+(async()=>{const t=await (await fetch('ritl-ui.html',{cache:'no-store'})).text();const tpl=document.createElement('template');tpl.innerHTML=t;
+ for(const n of [...tpl.content.childNodes]){if(n.nodeName==='SCRIPT'){const s=document.createElement('script');s.textContent=n.textContent;document.body.appendChild(s)}else if(n.nodeName==='STYLE')document.head.appendChild(n)}
+ window.TEST_BEREIT=true})();
+</script>
+</body>
+</html>

@@ -1,0 +1,320 @@
+<!--ritl-export:start-->
+<!-- ritl-export 1.0.1 · 27.11.2026 – einheitlicher Export der RIEMER Tools: Tabellen → XLSX/PPTX, Darstellungen → PPTX, einzeln oder gesamt
+     mit Auswahl-Dialog. Herausgelöst aus dem Pilot STAFF.ritl V1.0.6–V1.0.9. Nichts Tool-Spezifisches hier ändern (Block byte-gleich einbetten).
+     Voraussetzung (Pflicht): JSZip 3.10.1 als window.JSZip VOR dem Block (der Baustein lädt es NICHT; fehlt es, sind alle Export-Knöpfe
+     gesperrt und eine Meldung erscheint). Kein SheetJS. Standard-Klassen des Skills (.dh/.db/.df, .btn, .status, .hint).
+     API (Details: README im öffentlichen Repo, Ordner ritl-export/):
+       RITLEXP.init({name,version,items()→[item] (bei open/mount/one neu ausgewertet),context()→{stand,lines[]},toast(msg), optional: tool,fileTag,getSel,setSel,xlsx,download,t})
+       item = {id,group,label,file?,sheet?,table?()→{cols:[{h,w,t:'d'|'n'}],rows:[[…]]},draw?(deck)→(Promise),ownPptx?(),ownXlsx?()}
+       RITLEXP.open(group?) · RITLEXP.one(id,'xlsx'|'pptx') · RITLEXP.mount(host,id,label?) · RITLEXP.Deck · RITLEXP.bild(svg|canvas)
+     Tasten (S-25, Baustein regelt seinen Dialog selbst): Esc schließt · Enter auf einem Knopf = dessen Klick (ohne Tastenwiederholung) ·
+       Enter auf Checkbox oder ohne Knopf-Fokus löst NICHTS aus – der Dialog hat keine Eingabefelder und zwei gleichrangige Aktionen
+       (XLSX/PPTX), ein Export entsteht nur bewusst per Klick bzw. Enter/Leertaste auf dem Knopf. -->
+<style id="ritl-export-css">
+#ritl-exp{width:min(720px,96vw)}
+#ritl-exp .db:focus{outline:0}
+#ritl-exp .xg{border:1px solid var(--line);border-radius:10px;margin:0 0 10px;overflow:hidden}
+#ritl-exp .xg>header{display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--surface-muted);font:700 12.5px var(--sans)}
+#ritl-exp .xg>header span.sp{flex:1}
+#ritl-exp .xr{display:grid;grid-template-columns:1fr 64px 64px;gap:8px;align-items:center;padding:6px 12px;border-top:1px solid var(--line);font:500 13px var(--sans)}
+#ritl-exp .xr.h{font:600 11px var(--sans);color:var(--muted);border-top:0;padding-bottom:0}
+#ritl-exp .xr input[type=checkbox]{width:18px;height:18px;margin:0}
+#ritl-exp .xr .c{text-align:center}
+#ritl-exp .xr small{color:var(--muted);font:500 11px var(--mono)}
+#ritl-exp .xctx{margin:0 0 12px}
+#ritl-exp .xzip{margin:0 0 12px;color:var(--warn,#C2410C);font-weight:600}
+#ritl-exp .xa{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 10px}
+.ritl-expb{display:inline-flex;gap:4px;align-items:center;margin-right:6px}
+.ritl-expb .btn{padding:3px 8px;min-height:0;font:600 11px var(--sans)}
+@media(max-width:620px){#ritl-exp .xr{grid-template-columns:1fr 54px 54px}#ritl-exp .df .spacer{display:none}#ritl-exp .df .btn{flex:1 1 0;min-width:0;padding-left:6px;padding-right:6px}}
+@media(pointer:coarse){.ritl-expb .btn{min-height:36px;padding:6px 10px}#ritl-exp .xr input[type=checkbox]{width:22px;height:22px}}
+</style>
+<dialog id="ritl-exp" class="ritl-rexp" data-ritl-overlay data-ritl-baustein="ritl-export" aria-labelledby="ritl-exp-h">
+ <div class="dh"><span id="ritl-exp-h">Export · Tabellen und Darstellungen</span> <small>XLSX · PPTX</small></div>
+ <div class="db" tabindex="-1">
+  <div class="status xctx" id="ritl-exp-ctx"></div>
+  <div class="xa"><button class="btn sm" type="button" data-xa="all">Alle</button><button class="btn sm" type="button" data-xa="none">Keine</button><button class="btn sm" type="button" data-xa="xlsx">Alle Tabellen (XLSX)</button><button class="btn sm" type="button" data-xa="pptx">Alle als PPTX</button></div>
+  <div id="ritl-exp-list"></div>
+  <p class="hint">XLSX: alle gewählten Tabellen in <b>einer</b> Datei, je Blatt. PPTX: alle gewählten Tabellen und Darstellungen in <b>einer</b> Präsentation mit Titelfolie und Inhaltsverzeichnis. Berücksichtigt werden Stichtag und Filter, wie sie gerade eingestellt sind.</p>
+ </div>
+ <div class="df"><button class="btn" type="button" id="ritl-exp-close">Schließen</button><span class="spacer"></span><button class="btn" type="button" id="ritl-exp-x">XLSX</button><button class="btn primary" type="button" id="ritl-exp-p">PPTX</button></div>
+</dialog>
+<script>
+window.RITLEXP=(function(){
+"use strict";
+const VERSION='1.0.1';
+const C={brand:'1F5FC2',ink:'1B1F24',ink2:'2D333B',muted:'5F6773',line:'E3E6EB',line2:'CDD2D9',soft:'F4F5F7',good:'0F7B6C',warn:'C2410C',white:'FFFFFF'};
+const FONT='Inter';
+const W=13.333,H=7.5,MX=0.5;
+const E=n=>Math.round(n*914400);
+const xe=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])).replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g,'');
+const hex=c=>String(c||'').replace('#','').toUpperCase();
+const okHex=c=>/^[0-9A-F]{6}$/.test(hex(c));
+const NS='xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main"';
+const pad=n=>String(n).padStart(2,'0');
+const isoDe=s=>{const m=/^(\d{4})-(\d{2})-(\d{2})/.exec(String(s||''));return m?`${m[3]}.${m[2]}.${m[1]}`:String(s==null?'':s)};
+const fmtCell=(c,v)=>{if(v===''||v==null)return '';if(c&&c.t==='d')return isoDe(v);if(typeof v==='number')return (Math.round(v*100)/100).toLocaleString('de-AT',{maximumFractionDigits:2});return String(v)};
+const tw=(s,pt)=>String(s).length*pt*0.52/72; // geschätzte Textbreite in Zoll
+const fill=c=>c?`<a:solidFill><a:srgbClr val="${hex(c)}"/></a:solidFill>`:'<a:noFill/>';
+const lnX=(c,w,dash)=>c?`<a:ln w="${Math.round((w||0.75)*12700)}"><a:solidFill><a:srgbClr val="${hex(c)}"/></a:solidFill>${dash?'<a:prstDash val="dash"/>':''}</a:ln>`:'<a:ln><a:noFill/></a:ln>';
+function runs(str,o){ // Absätze (\n) und Läufe; o: size,bold,color,mono
+ const sz=Math.round((o.size||12)*100),clr=o.color||C.ink;
+ return String(str==null?'':str).split('\n').map(line=>`<a:p><a:pPr algn="${o.align==='c'?'ctr':o.align==='r'?'r':'l'}"/>${line===''?`<a:endParaRPr lang="de-AT" sz="${sz}"/>`:`<a:r><a:rPr lang="de-AT" sz="${sz}" b="${o.bold?1:0}" dirty="0">${fill(clr)}<a:latin typeface="${o.mono?'JetBrains Mono':FONT}"/></a:rPr><a:t>${xe(line)}</a:t></a:r>`}</a:p>`).join('');
+}
+class Slide{
+ constructor(deck,o){this.deck=deck;this.sh=[];this.id=1;this.title=o.title||'';this.sub=o.sub||'';this.W=W;this.H=H;this.bx=MX;this.bw=W-2*MX;this.by=1.45;this.bh=H-1.45-0.55;this.notes=o.notes||'';this.full=!!o.full;this.media=[]}
+ nid(){return ++this.id}
+ rect(x,y,w,h,o={}){const id=this.nid();this.sh.push(`<p:sp><p:nvSpPr><p:cNvPr id="${id}" name="Form ${id}"/><p:cNvSpPr/><p:nvPr/></p:nvSpPr><p:spPr><a:xfrm><a:off x="${E(x)}" y="${E(y)}"/><a:ext cx="${E(w)}" cy="${E(h)}"/></a:xfrm><a:prstGeom prst="${o.r?'roundRect':'rect'}"><a:avLst>${o.r?`<a:gd name="adj" fmla="val ${Math.round(Math.min(50000,o.r/Math.min(w,h)*100000))}"/>`:''}</a:avLst></a:prstGeom>${fill(o.fill)}${lnX(o.line,o.lw,o.dash)}</p:spPr><p:txBody><a:bodyPr/><a:lstStyle/><a:p><a:endParaRPr lang="de-AT"/></a:p></p:txBody></p:sp>`);return this}
+ text(x,y,w,h,str,o={}){const id=this.nid(),ins=o.ins==null?0.05:o.ins;this.sh.push(`<p:sp><p:nvSpPr><p:cNvPr id="${id}" name="Text ${id}"/><p:cNvSpPr txBox="1"/><p:nvPr/></p:nvSpPr><p:spPr><a:xfrm><a:off x="${E(x)}" y="${E(y)}"/><a:ext cx="${E(w)}" cy="${E(h)}"/></a:xfrm><a:prstGeom prst="${o.r?'roundRect':'rect'}"><a:avLst>${o.r?`<a:gd name="adj" fmla="val ${Math.round(Math.min(50000,o.r/Math.min(w,h)*100000))}"/>`:''}</a:avLst></a:prstGeom>${fill(o.fill)}${lnX(o.line,o.lw,o.dash)}</p:spPr><p:txBody><a:bodyPr wrap="square" lIns="${E(ins)}" tIns="${E(o.tins==null?ins*0.6:o.tins)}" rIns="${E(ins)}" bIns="${E(o.tins==null?ins*0.6:o.tins)}" anchor="${o.v==='m'?'ctr':o.v==='b'?'b':'t'}"><a:noAutofit/></a:bodyPr><a:lstStyle/>${runs(str,o)}</p:txBody></p:sp>`);return this}
+ line(x1,y1,x2,y2,o={}){const id=this.nid(),x=Math.min(x1,x2),y=Math.min(y1,y2),w=Math.abs(x2-x1),h=Math.abs(y2-y1),fh=x2<x1?' flipH="1"':'',fv=y2<y1?' flipV="1"':'';
+  this.sh.push(`<p:cxnSp><p:nvCxnSpPr><p:cNvPr id="${id}" name="Linie ${id}"/><p:cNvCxnSpPr/><p:nvPr/></p:nvCxnSpPr><p:spPr><a:xfrm${fh}${fv}><a:off x="${E(x)}" y="${E(y)}"/><a:ext cx="${E(w)}" cy="${E(h)}"/></a:xfrm><a:prstGeom prst="line"><a:avLst/></a:prstGeom><a:ln w="${Math.round((o.lw||1)*12700)}"><a:solidFill><a:srgbClr val="${hex(o.color||C.line2)}"/></a:solidFill>${o.dash?'<a:prstDash val="dash"/>':''}${o.arrow?'<a:tailEnd type="triangle"/>':''}</a:ln></p:spPr></p:cxnSp>`);return this}
+ /** Bild (PNG/JPEG als data:-URL, z. B. aus RITLEXP.bild): o.ratio = Breite/Höhe → ins Feld einpassen und mittig setzen */
+ image(x,y,w,h,src,o={}){const m=/^data:image\/(png|jpe?g);base64,(.+)$/i.exec(String(src||''));if(!m)throw new Error('Bild: nur PNG/JPEG als data:-URL');
+  if(o.ratio>0){const r=w/h;if(o.ratio>r){const nh=w/o.ratio;y+=(h-nh)/2;h=nh}else{const nw=h*o.ratio;x+=(w-nw)/2;w=nw}}
+  const ext=m[1].toLowerCase()==='png'?'png':'jpeg',rid='rId'+(this.media.length+2),id=this.nid();this.media.push({rid,ext,b64:m[2]});
+  this.sh.push(`<p:pic><p:nvPicPr><p:cNvPr id="${id}" name="Bild ${id}"/><p:cNvPicPr><a:picLocks noChangeAspect="1"/></p:cNvPicPr><p:nvPr/></p:nvPicPr><p:blipFill><a:blip r:embed="${rid}"/><a:stretch><a:fillRect/></a:stretch></p:blipFill><p:spPr><a:xfrm><a:off x="${E(x)}" y="${E(y)}"/><a:ext cx="${E(w)}" cy="${E(h)}"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></p:spPr></p:pic>`);return this}
+ /** Tabelle: cols [{h,w,t}], rows [[…]] – Spaltenbreiten anteilig zu w; liefert die Höhe */
+ table(x,y,w,cols,rows,o={}){const id=this.nid(),pt=o.size||9,tot=cols.reduce((s,c)=>s+(c.w||14),0),cw=cols.map(c=>w*(c.w||14)/tot),lh=pt*1.25/72,padv=0.05;
+  const cellLines=(c,i,v)=>{const s=fmtCell(c,v),per=Math.max(1,Math.floor((cw[i]-0.12)/(pt*0.52/72)));return s.split('\n').reduce((n,l)=>n+Math.max(1,Math.ceil(l.length/per)),0)};
+  const rh=r=>Math.max(0.26,Math.max(...r.map((v,i)=>cellLines(cols[i],i,v)))*lh+2*padv);
+  const hh=Math.max(0.3,Math.max(...cols.map((c,i)=>cellLines(c,i,c.h)))*lh+2*padv+0.02);
+  const tc=(txt,i,head,band)=>{const c=cols[i]||{},al=(c.t==='n'||c.t==='d')&&!head?'r':'l';return `<a:tc><a:txBody><a:bodyPr/><a:lstStyle/>${runs(head?txt:fmtCell(c,txt),{size:pt,bold:head,color:head?C.white:C.ink,align:al==='r'?'r':'l'})}</a:txBody><a:tcPr marL="${E(0.06)}" marR="${E(0.06)}" marT="${E(padv)}" marB="${E(padv)}" anchor="ctr"><a:lnL w="0"><a:noFill/></a:lnL><a:lnR w="0"><a:noFill/></a:lnR><a:lnT w="0"><a:noFill/></a:lnT><a:lnB w="6350"><a:solidFill><a:srgbClr val="${C.line}"/></a:solidFill></a:lnB>${fill(head?C.brand:band?C.soft:C.white)}</a:tcPr></a:tc>`};
+  let g='<a:tblGrid>'+cw.map(v=>`<a:gridCol w="${E(v)}"/>`).join('')+'</a:tblGrid>';
+  g+=`<a:tr h="${E(hh)}">`+cols.map((c,i)=>tc(c.h,i,true)).join('')+'</a:tr>';
+  let th=hh;rows.forEach((r,ri)=>{const h=rh(r);th+=h;g+=`<a:tr h="${E(h)}">`+cols.map((c,i)=>tc(r[i],i,false,ri%2===1)).join('')+'</a:tr>'});
+  this.sh.push(`<p:graphicFrame><p:nvGraphicFramePr><p:cNvPr id="${id}" name="Tabelle ${id}"/><p:cNvGraphicFramePr><a:graphicFrameLocks noGrp="1"/></p:cNvGraphicFramePr><p:nvPr/></p:nvGraphicFramePr><p:xfrm><a:off x="${E(x)}" y="${E(y)}"/><a:ext cx="${E(w)}" cy="${E(th)}"/></p:xfrm><a:graphic><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/table"><a:tbl><a:tblPr firstRow="1" bandRow="1"/>${g}</a:tbl></a:graphicData></a:graphic></p:graphicFrame>`);
+  return th}
+ /** Zeilenhöhen vorab (für Seitenumbruch) */
+ static rowH(cols,rows,w,pt){const tot=cols.reduce((s,c)=>s+(c.w||14),0),cw=cols.map(c=>w*(c.w||14)/tot),lh=pt*1.25/72,padv=0.05;
+  const n=(c,i,v)=>{const s=fmtCell(c,v),per=Math.max(1,Math.floor((cw[i]-0.12)/(pt*0.52/72)));return s.split('\n').reduce((a,l)=>a+Math.max(1,Math.ceil(l.length/per)),0)};
+  return{head:Math.max(0.3,Math.max(...cols.map((c,i)=>n(c,i,c.h)))*lh+2*padv+0.02),rows:rows.map(r=>Math.max(0.26,Math.max(...r.map((v,i)=>n(cols[i],i,v)))*lh+2*padv))}}
+ xml(n,total){const d=this.deck,m=d.meta;
+  const foot=`${m.name} ${m.version} · ${m.stand}${m.lines.length?' · '+m.lines.join(' · '):''} · ${T('Quelle:')} ${m.tool}`;
+  const head=[];
+  if(!this.full){
+   head.push(`<p:sp><p:nvSpPr><p:cNvPr id="${this.nid()}" name="Kopfband"/><p:cNvSpPr/><p:nvPr/></p:nvSpPr><p:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="${E(W)}" cy="${E(0.12)}"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom>${fill(C.brand)}<a:ln><a:noFill/></a:ln></p:spPr><p:txBody><a:bodyPr/><a:lstStyle/><a:p><a:endParaRPr lang="de-AT"/></a:p></p:txBody></p:sp>`);
+   const tid=this.nid();
+   head.push(`<p:sp><p:nvSpPr><p:cNvPr id="${tid}" name="Titel"/><p:cNvSpPr><a:spLocks noGrp="1"/></p:cNvSpPr><p:nvPr><p:ph type="title"/></p:nvPr></p:nvSpPr><p:spPr><a:xfrm><a:off x="${E(MX)}" y="${E(0.35)}"/><a:ext cx="${E(W-2*MX)}" cy="${E(0.6)}"/></a:xfrm></p:spPr><p:txBody><a:bodyPr lIns="0" tIns="0" rIns="0" bIns="0" anchor="b"><a:noAutofit/></a:bodyPr><a:lstStyle/>${runs(this.title,{size:26,bold:true,color:C.ink})}</p:txBody></p:sp>`);
+   if(this.sub)head.push(`<p:sp><p:nvSpPr><p:cNvPr id="${this.nid()}" name="Untertitel"/><p:cNvSpPr txBox="1"/><p:nvPr/></p:nvSpPr><p:spPr><a:xfrm><a:off x="${E(MX)}" y="${E(0.98)}"/><a:ext cx="${E(W-2*MX)}" cy="${E(0.36)}"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr><p:txBody><a:bodyPr wrap="square" lIns="0" tIns="0" rIns="0" bIns="0" anchor="t"><a:noAutofit/></a:bodyPr><a:lstStyle/>${runs(this.sub,{size:13,color:C.muted})}</p:txBody></p:sp>`);
+   head.push(`<p:cxnSp><p:nvCxnSpPr><p:cNvPr id="${this.nid()}" name="Fußlinie"/><p:cNvCxnSpPr/><p:nvPr/></p:nvCxnSpPr><p:spPr><a:xfrm><a:off x="${E(MX)}" y="${E(H-0.5)}"/><a:ext cx="${E(W-2*MX)}" cy="0"/></a:xfrm><a:prstGeom prst="line"><a:avLst/></a:prstGeom><a:ln w="6350"><a:solidFill><a:srgbClr val="${C.line}"/></a:solidFill></a:ln></p:spPr></p:cxnSp>`);
+   head.push(`<p:sp><p:nvSpPr><p:cNvPr id="${this.nid()}" name="Fußzeile"/><p:cNvSpPr txBox="1"/><p:nvPr/></p:nvSpPr><p:spPr><a:xfrm><a:off x="${E(MX)}" y="${E(H-0.46)}"/><a:ext cx="${E(W-2*MX-0.9)}" cy="${E(0.36)}"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr><p:txBody><a:bodyPr wrap="square" lIns="0" tIns="0" rIns="0" bIns="0" anchor="ctr"><a:noAutofit/></a:bodyPr><a:lstStyle/>${runs(foot,{size:8,color:C.muted})}</p:txBody></p:sp>`);
+   head.push(`<p:sp><p:nvSpPr><p:cNvPr id="${this.nid()}" name="Seitenzahl"/><p:cNvSpPr txBox="1"/><p:nvPr/></p:nvSpPr><p:spPr><a:xfrm><a:off x="${E(W-MX-0.8)}" y="${E(H-0.46)}"/><a:ext cx="${E(0.8)}" cy="${E(0.36)}"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr><p:txBody><a:bodyPr wrap="square" lIns="0" tIns="0" rIns="0" bIns="0" anchor="ctr"><a:noAutofit/></a:bodyPr><a:lstStyle/>${runs(n+' / '+total,{size:8,color:C.muted,align:'r'})}</p:txBody></p:sp>`);
+  }
+  return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<p:sld ${NS}><p:cSld><p:spTree><p:nvGrpSpPr><p:cNvPr id="1" name=""/><p:cNvGrpSpPr/><p:nvPr/></p:nvGrpSpPr><p:grpSpPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="0" cy="0"/><a:chOff x="0" y="0"/><a:chExt cx="0" cy="0"/></a:xfrm></p:grpSpPr>${head.join('')}${this.sh.join('')}</p:spTree></p:cSld><p:clrMapOvr><a:masterClrMapping/></p:clrMapOvr></p:sld>`}
+}
+const THEME=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<a:theme xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" name="RIEMER Tools"><a:themeElements><a:clrScheme name="RIEMER"><a:dk1><a:srgbClr val="${C.ink}"/></a:dk1><a:lt1><a:srgbClr val="FFFFFF"/></a:lt1><a:dk2><a:srgbClr val="${C.ink2}"/></a:dk2><a:lt2><a:srgbClr val="${C.soft}"/></a:lt2><a:accent1><a:srgbClr val="${C.brand}"/></a:accent1><a:accent2><a:srgbClr val="${C.good}"/></a:accent2><a:accent3><a:srgbClr val="${C.warn}"/></a:accent3><a:accent4><a:srgbClr val="7C6FD6"/></a:accent4><a:accent5><a:srgbClr val="2A9DB8"/></a:accent5><a:accent6><a:srgbClr val="B8873A"/></a:accent6><a:hlink><a:srgbClr val="${C.brand}"/></a:hlink><a:folHlink><a:srgbClr val="${C.muted}"/></a:folHlink></a:clrScheme><a:fontScheme name="RIEMER"><a:majorFont><a:latin typeface="${FONT}"/><a:ea typeface=""/><a:cs typeface=""/></a:majorFont><a:minorFont><a:latin typeface="${FONT}"/><a:ea typeface=""/><a:cs typeface=""/></a:minorFont></a:fontScheme><a:fmtScheme name="RIEMER"><a:fillStyleLst><a:solidFill><a:schemeClr val="phClr"/></a:solidFill><a:solidFill><a:schemeClr val="phClr"/></a:solidFill><a:solidFill><a:schemeClr val="phClr"/></a:solidFill></a:fillStyleLst><a:lnStyleLst><a:ln w="6350"><a:solidFill><a:schemeClr val="phClr"/></a:solidFill></a:ln><a:ln w="12700"><a:solidFill><a:schemeClr val="phClr"/></a:solidFill></a:ln><a:ln w="19050"><a:solidFill><a:schemeClr val="phClr"/></a:solidFill></a:ln></a:lnStyleLst><a:effectStyleLst><a:effectStyle><a:effectLst/></a:effectStyle><a:effectStyle><a:effectLst/></a:effectStyle><a:effectStyle><a:effectLst/></a:effectStyle></a:effectStyleLst><a:bgFillStyleLst><a:solidFill><a:schemeClr val="phClr"/></a:solidFill><a:solidFill><a:schemeClr val="phClr"/></a:solidFill><a:solidFill><a:schemeClr val="phClr"/></a:solidFill></a:bgFillStyleLst></a:fmtScheme></a:themeElements></a:theme>`;
+const TITLEPH=`<p:sp><p:nvSpPr><p:cNvPr id="2" name="Titel"/><p:cNvSpPr><a:spLocks noGrp="1"/></p:cNvSpPr><p:nvPr><p:ph type="title"/></p:nvPr></p:nvSpPr><p:spPr><a:xfrm><a:off x="${E(MX)}" y="${E(0.35)}"/><a:ext cx="${E(W-2*MX)}" cy="${E(0.6)}"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></p:spPr><p:txBody><a:bodyPr/><a:lstStyle/><a:p><a:r><a:rPr lang="de-AT"/><a:t>Titel</a:t></a:r></a:p></p:txBody></p:sp>`;
+const GRP='<p:nvGrpSpPr><p:cNvPr id="1" name=""/><p:cNvGrpSpPr/><p:nvPr/></p:nvGrpSpPr><p:grpSpPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="0" cy="0"/><a:chOff x="0" y="0"/><a:chExt cx="0" cy="0"/></a:xfrm></p:grpSpPr>';
+const MASTER=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<p:sldMaster ${NS}><p:cSld><p:bg><p:bgPr><a:solidFill><a:srgbClr val="FFFFFF"/></a:solidFill><a:effectLst/></p:bgPr></p:bg><p:spTree>${GRP}${TITLEPH}</p:spTree></p:cSld><p:clrMap bg1="lt1" tx1="dk1" bg2="lt2" tx2="dk2" accent1="accent1" accent2="accent2" accent3="accent3" accent4="accent4" accent5="accent5" accent6="accent6" hlink="hlink" folHlink="folHlink"/><p:sldLayoutIdLst><p:sldLayoutId id="2147483649" r:id="rId1"/></p:sldLayoutIdLst><p:txStyles><p:titleStyle><a:lvl1pPr algn="l"><a:defRPr sz="2600" b="1"><a:solidFill><a:schemeClr val="tx1"/></a:solidFill><a:latin typeface="+mj-lt"/></a:defRPr></a:lvl1pPr></p:titleStyle><p:bodyStyle><a:lvl1pPr><a:defRPr sz="1400"><a:solidFill><a:schemeClr val="tx1"/></a:solidFill><a:latin typeface="+mn-lt"/></a:defRPr></a:lvl1pPr></p:bodyStyle><p:otherStyle><a:lvl1pPr><a:defRPr sz="1200"><a:solidFill><a:schemeClr val="tx1"/></a:solidFill><a:latin typeface="+mn-lt"/></a:defRPr></a:lvl1pPr></p:otherStyle></p:txStyles></p:sldMaster>`;
+const LAYOUT=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<p:sldLayout ${NS} type="titleOnly" preserve="1"><p:cSld name="Titel"><p:spTree>${GRP}${TITLEPH}</p:spTree></p:cSld><p:clrMapOvr><a:masterClrMapping/></p:clrMapOvr></p:sldLayout>`;
+const REL=(items)=>`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">${items.map(([id,t,tg])=>`<Relationship Id="${id}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/${t}" Target="${tg}"/>`).join('')}</Relationships>`;
+
+class Deck{
+ /** meta: {tool,name,version,stand,lines[],title} */
+ constructor(meta){this.meta=Object.assign({tool:'',name:'',version:'',stand:'',lines:[],title:''},meta);this.slides=[];this.toc=[]}
+ slide(o){const s=new Slide(this,o||{});this.slides.push(s);return s}
+ /** Abschnittsmarke fürs Inhaltsverzeichnis (zeigt auf die nächste erzeugte Folie) */
+ mark(label){this.toc.push({label,idx:this.slides.length})}
+ /** Tabelle auf mehrere Folien verteilen, Kopfzeile je Folie */
+ tableSlides(title,sub,cols,rows,o={}){const pt=o.size||(cols.length>8?8:9),s0=this.slides.length;
+  const w=W-2*MX,rh=Slide.rowH(cols,rows.length?rows:[cols.map(()=>'')],w,pt),avail=H-1.45-0.65;let i=0,part=0;const parts=[];
+  if(!rows.length)parts.push([]);
+  while(i<rows.length){let h=rh.head,r=[];while(i<rows.length&&(r.length===0||h+rh.rows[i]<=avail)){h+=rh.rows[i];r.push(rows[i]);i++}parts.push(r)}
+  parts.forEach((r,k)=>{const s=this.slide({title,sub:(sub?sub+' · ':'')+(parts.length>1?T('Teil {0} von {1}',k+1,parts.length)+' · ':'')+(rows.length===1?T('1 Zeile'):T('{0} Zeilen',rows.length))});
+   if(r.length)s.table(MX,1.45,w,cols,r,{size:pt});else s.text(MX,1.5,w,0.5,T('Keine Einträge.'),{size:13,color:C.muted})});
+  return this.slides.length-s0}
+ title(){const m=this.meta,s=this.slide({full:true,title:''});
+  s.rect(0,0,W,H,{fill:C.soft});s.rect(0,0,0.28,H,{fill:C.brand});
+  const id=s.nid();
+  s.sh.push(`<p:sp><p:nvSpPr><p:cNvPr id="${id}" name="Titel"/><p:cNvSpPr><a:spLocks noGrp="1"/></p:cNvSpPr><p:nvPr><p:ph type="title"/></p:nvPr></p:nvSpPr><p:spPr><a:xfrm><a:off x="${E(0.9)}" y="${E(2.2)}"/><a:ext cx="${E(11)}" cy="${E(1.1)}"/></a:xfrm></p:spPr><p:txBody><a:bodyPr lIns="0" tIns="0" rIns="0" bIns="0" anchor="b"><a:noAutofit/></a:bodyPr><a:lstStyle/>${runs(m.title||m.name,{size:40,bold:true,color:C.ink})}</p:txBody></p:sp>`);
+  s.text(0.9,3.4,11,0.5,`${m.name} ${m.version}`,{size:18,color:C.brand,bold:true,ins:0});
+  s.text(0.9,4.0,11,1.6,[T('Stand:')+' '+m.stand].concat(m.lines).join('\n'),{size:14,color:C.muted,ins:0});
+  s.text(0.9,6.7,11,0.4,'RIEMER Tools',{size:11,color:C.muted,ins:0});
+  return s}
+ tocSlide(entries){const s=this.slide({title:T('Inhalt'),sub:''}),rows=entries.length,two=rows>12,per=two?Math.ceil(rows/2):rows,cw=(W-2*MX)/(two?2:1);
+  entries.forEach((e,i)=>{const col=two?Math.floor(i/per):0,row=i%per;s.text(MX+col*cw,1.5+row*0.42,cw-0.2,0.38,e.label,{size:14,v:'m',ins:0.05});s.text(MX+col*cw+cw-1.1,1.5+row*0.42,0.8,0.38,String(e.page),{size:14,v:'m',align:'r',color:C.muted,ins:0.05});s.line(MX+col*cw,1.5+row*0.42+0.4,MX+col*cw+cw-0.2,1.5+row*0.42+0.4,{color:C.line,lw:0.5})});
+  return s}
+ async blob(){
+  const z=new JSZip(),n=this.slides.length;
+  z.file('[Content_Types].xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Default Extension="png" ContentType="image/png"/><Default Extension="jpeg" ContentType="image/jpeg"/><Override PartName="/ppt/presentation.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.presentation.main+xml"/><Override PartName="/ppt/slideMasters/slideMaster1.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.slideMaster+xml"/><Override PartName="/ppt/slideLayouts/slideLayout1.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml"/><Override PartName="/ppt/theme/theme1.xml" ContentType="application/vnd.openxmlformats-officedocument.theme+xml"/><Override PartName="/docProps/core.xml" ContentType="application/vnd.openxmlformats-package.core-properties+xml"/><Override PartName="/docProps/app.xml" ContentType="application/vnd.openxmlformats-officedocument.extended-properties+xml"/>${this.slides.map((_,i)=>`<Override PartName="/ppt/slides/slide${i+1}.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.slide+xml"/>`).join('')}</Types>`);
+  z.file('_rels/.rels',REL([['rId1','officeDocument','ppt/presentation.xml']]).replace('</Relationships>','<Relationship Id="rId2" Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties" Target="docProps/core.xml"/><Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties" Target="docProps/app.xml"/></Relationships>'));
+  const now=new Date().toISOString().replace(/\.\d+Z$/,'Z');
+  z.file('docProps/core.xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><dc:title>${xe(this.meta.title||this.meta.name)}</dc:title><dc:creator>${xe(this.meta.name)}</dc:creator><dcterms:created xsi:type="dcterms:W3CDTF">${now}</dcterms:created><dcterms:modified xsi:type="dcterms:W3CDTF">${now}</dcterms:modified></cp:coreProperties>`);
+  z.file('docProps/app.xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties"><Application>${xe(this.meta.name)}</Application><Slides>${n}</Slides></Properties>`);
+  z.file('ppt/presentation.xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<p:presentation ${NS}><p:sldMasterIdLst><p:sldMasterId id="2147483648" r:id="rId1"/></p:sldMasterIdLst><p:sldIdLst>${this.slides.map((_,i)=>`<p:sldId id="${256+i}" r:id="rId${i+2}"/>`).join('')}</p:sldIdLst><p:sldSz cx="${E(W)}" cy="${E(H)}"/><p:notesSz cx="6858000" cy="9144000"/></p:presentation>`);
+  z.file('ppt/_rels/presentation.xml.rels',REL([['rId1','slideMaster','slideMasters/slideMaster1.xml']].concat(this.slides.map((_,i)=>['rId'+(i+2),'slide',`slides/slide${i+1}.xml`]),[['rId'+(n+2),'theme','theme/theme1.xml']])));
+  z.file('ppt/slideMasters/slideMaster1.xml',MASTER);
+  z.file('ppt/slideMasters/_rels/slideMaster1.xml.rels',REL([['rId1','slideLayout','../slideLayouts/slideLayout1.xml'],['rId2','theme','../theme/theme1.xml']]));
+  z.file('ppt/slideLayouts/slideLayout1.xml',LAYOUT);
+  z.file('ppt/slideLayouts/_rels/slideLayout1.xml.rels',REL([['rId1','slideMaster','../slideMasters/slideMaster1.xml']]));
+  z.file('ppt/theme/theme1.xml',THEME);
+  let mi=0;this.slides.forEach((s,i)=>{const xml=s.xml(i+1,n),rel=[['rId1','slideLayout','../slideLayouts/slideLayout1.xml']];
+   s.media.forEach(m=>{const f=`image${++mi}.${m.ext}`;z.file('ppt/media/'+f,m.b64,{base64:true});rel.push([m.rid,'image','../media/'+f])});
+   z.file(`ppt/slides/slide${i+1}.xml`,xml);z.file(`ppt/slides/_rels/slide${i+1}.xml.rels`,REL(rel))});
+  return z.generateAsync({type:'blob',mimeType:'application/vnd.openxmlformats-officedocument.presentationml.presentation',compression:'DEFLATE'});
+ }
+}
+
+/* ── XLSX-Schreiber (eigener, auf JSZip – kein SheetJS) ── sh = {name, cols:[{h,w,t}], rows:[[…]], tab, hidden, filter:false, wrap} */
+const XL=(()=>{
+ const colL=i=>{let s='';i++;while(i){const m=(i-1)%26;s=String.fromCharCode(65+m)+s;i=(i-m-1)/26|0}return s};
+ const serial=iso=>{const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(iso||'');if(!m)return null;return(Date.UTC(+m[1],+m[2]-1,+m[3])-Date.UTC(1899,11,30))/864e5};
+ /* Stile: 0 Standard · 1 Kopf · 2 Datum · 3 Text umbrechen */
+ const STYLES=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><numFmts count="1"><numFmt numFmtId="164" formatCode="DD.MM.YYYY"/></numFmts>
+<fonts count="2"><font><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="11"/><color rgb="FF1B1F24"/><name val="Calibri"/></font></fonts>
+<fills count="3"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FFE8EEF8"/><bgColor indexed="64"/></patternFill></fill></fills>
+<borders count="2"><border><left/><right/><top/><bottom/><diagonal/></border><border><left/><right/><top/><bottom style="thin"><color rgb="FF1F5FC2"/></bottom><diagonal/></border></borders>
+<cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs>
+<cellXfs count="4"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/><xf numFmtId="0" fontId="1" fillId="2" borderId="1" xfId="0" applyFont="1" applyFill="1" applyBorder="1"/><xf numFmtId="164" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" applyAlignment="1"><alignment wrapText="1" vertical="top"/></xf></cellXfs>
+<cellStyles count="1"><cellStyle name="Standard" xfId="0" builtinId="0"/></cellStyles></styleSheet>`;
+ function cell(ref,v,t,st){
+  if(v===''||v==null)return '';
+  if(t==='d'){const n=serial(v);if(n!=null)return `<c r="${ref}" s="2"><v>${n}</v></c>`}
+  if(typeof v==='number'){if(!isFinite(v))return '';return `<c r="${ref}"${st?` s="${st}"`:''}><v>${v}</v></c>`}
+  return `<c r="${ref}" t="inlineStr"${st?` s="${st}"`:''}><is><t xml:space="preserve">${xe(v)}</t></is></c>`;
+ }
+ function sheetXml(sh){
+  const nc=sh.cols.length,last=colL(nc-1),nr=sh.rows.length+1;
+  let x=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">`;
+  x+=`<sheetViews><sheetView workbookViewId="0"${sh.tab?' tabSelected="1"':''}><pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews><sheetFormatPr defaultRowHeight="15"/>`;
+  x+=(nc?'<cols>'+sh.cols.map((c,i)=>`<col min="${i+1}" max="${i+1}" width="${c.w||14}" customWidth="1"/>`).join('')+'</cols>':'')+'<sheetData>';
+  x+='<row r="1">'+sh.cols.map((c,i)=>cell(colL(i)+'1',c.h,'',1)).join('')+'</row>';
+  sh.rows.forEach((r,ri)=>{x+=`<row r="${ri+2}">`+sh.cols.map((c,i)=>cell(colL(i)+(ri+2),r[i],c.t,sh.wrap?3:0)).join('')+'</row>'});
+  x+='</sheetData>';
+  if(sh.filter!==false&&nc>0)x+=`<autoFilter ref="A1:${last}${Math.max(nr,2)}"/>`;
+  return x+'</worksheet>';
+ }
+ async function build(sheets,title){
+  const z=new JSZip(),n=sheets.length;
+  z.file('[Content_Types].xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>${sheets.map((s,i)=>`<Override PartName="/xl/worksheets/sheet${i+1}.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>`).join('')}<Override PartName="/docProps/core.xml" ContentType="application/vnd.openxmlformats-package.core-properties+xml"/></Types>`);
+  z.file('_rels/.rels',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties" Target="docProps/core.xml"/></Relationships>`);
+  z.file('docProps/core.xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><dc:title>${xe(title)}</dc:title><dc:creator>${xe(title)} – RIEMER Tools</dc:creator><dcterms:created xsi:type="dcterms:W3CDTF">${new Date().toISOString().slice(0,19)}Z</dcterms:created></cp:coreProperties>`);
+  z.file('xl/workbook.xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><bookViews><workbookView activeTab="0"/></bookViews><sheets>${sheets.map((s,i)=>`<sheet name="${xe(s.name)}" sheetId="${i+1}"${s.hidden?' state="hidden"':''} r:id="rId${i+1}"/>`).join('')}</sheets><definedNames>${sheets.map((s,i)=>s.filter===false||!s.cols.length?'':`<definedName name="_xlnm._FilterDatabase" localSheetId="${i}" hidden="1">'${xe(s.name.replace(/'/g,"''"))}'!$A$1:$${colL(s.cols.length-1)}$${Math.max(s.rows.length+1,2)}</definedName>`).join('')}</definedNames></workbook>`);
+  z.file('xl/_rels/workbook.xml.rels',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">${sheets.map((s,i)=>`<Relationship Id="rId${i+1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet${i+1}.xml"/>`).join('')}<Relationship Id="rId${n+1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>`);
+  z.file('xl/styles.xml',STYLES);
+  sheets.forEach((s,i)=>z.file(`xl/worksheets/sheet${i+1}.xml`,sheetXml(s)));
+  return z.generateAsync({type:'blob',mimeType:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',compression:'DEFLATE'});
+ }
+ return{build};
+})();
+
+/* ── Bild einer Darstellung (SVG oder Canvas) als PNG für Slide.image ── */
+async function bild(el,scale){scale=scale||2;
+ if(!el)throw new Error('Kein Element');
+ if(el.localName==='canvas')return{src:el.toDataURL('image/png'),ratio:el.width/Math.max(1,el.height)};
+ const r=el.getBoundingClientRect(),w=Math.max(1,Math.round(r.width)),h=Math.max(1,Math.round(r.height));
+ const c=el.cloneNode(true);c.setAttribute('xmlns','http://www.w3.org/2000/svg');c.setAttribute('width',w);c.setAttribute('height',h);
+ const url=URL.createObjectURL(new Blob([new XMLSerializer().serializeToString(c)],{type:'image/svg+xml'}));
+ try{const img=await new Promise((ok,no)=>{const i=new Image();i.onload=()=>ok(i);i.onerror=()=>no(new Error('Bild nicht lesbar'));i.src=url});
+  const cv=document.createElement('canvas');cv.width=w*scale;cv.height=h*scale;const g=cv.getContext('2d');g.fillStyle='#FFFFFF';g.fillRect(0,0,cv.width,cv.height);g.drawImage(img,0,0,cv.width,cv.height);
+  return{src:cv.toDataURL('image/png'),ratio:w/h}}finally{URL.revokeObjectURL(url)}}
+
+/* ── Registry, Dialog ── */
+let CFG=null,ITEMS=[],BUSY=false;
+const $=s=>document.querySelector(s);
+const T=(s,...a)=>{let x=CFG&&typeof CFG.t==='function'?(CFG.t(s)||s):s;a.forEach((v,i)=>{x=x.split('{'+i+'}').join(String(v))});return x};
+const stamp=()=>{const d=new Date();return `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}-${pad(d.getHours())}${pad(d.getMinutes())}`};
+const slug=s=>String(s==null?'':s).replace(/[^\wÄÖÜäöüß-]+/g,'-').replace(/^-+|-+$/g,'')||'Export';
+const tag=()=>CFG.fileTag||(slug(String(CFG.name||'RITL').replace(/\.ritl$/i,''))+'-ritl');
+const groups=()=>[...new Set(ITEMS.map(i=>i.group))];
+const ctx=()=>{const c=(CFG.context&&CFG.context())||{};return{stand:c.stand||new Date().toLocaleDateString('de-AT'),lines:(c.lines||[]).filter(Boolean)}};
+const isTab=i=>typeof i.table==='function';
+const inDeck=i=>typeof i.draw==='function'||isTab(i);
+const hasX=i=>isTab(i)||typeof i.ownXlsx==='function';
+const toast=m=>{try{CFG.toast?CFG.toast(m):console.log(m)}catch(e){}};
+function pick(ids){return ids.map(id=>ITEMS.find(i=>i.id===id)).filter(Boolean)}
+function sheetsOf(items){const used=new Set(),sh=[];
+ items.filter(isTab).forEach((it,k)=>{const t=it.table();let nm=(it.sheet||it.group+' '+it.label).replace(/[\\\/?*\[\]:]/g,' ').slice(0,31).trim(),b=nm,j=2;while(used.has(nm.toLowerCase()))nm=b.slice(0,28)+' '+(j++);used.add(nm.toLowerCase());
+  sh.push({name:nm,cols:(t.cols||[]).map(c=>({h:c.h,w:c.w||14,t:c.t})),rows:t.rows||[],tab:k===0})});
+ let inf='Export-Info',j=2;while(used.has(inf.toLowerCase()))inf='Export-Info '+(j++);
+ const c=ctx();sh.push({name:inf,cols:[{h:T('Angabe'),w:22},{h:T('Wert'),w:60}],rows:[[T('Tool'),(CFG.name+' '+CFG.version).trim()],[T('Erstellt'),new Date().toLocaleString('de-AT')],[T('Stand'),c.stand]].concat(c.lines.map(l=>{const i=l.indexOf(':');return i>0?[l.slice(0,i),l.slice(i+1).trim()]:[T('Hinweis'),l]})),filter:false,wrap:true});
+ return sh}
+async function makeDeck(items,title){const c=ctx(),deck=new Deck({tool:CFG.tool||CFG.name,name:CFG.name,version:CFG.version,stand:c.stand,lines:c.lines,title});
+ const multi=items.length>1,entries=[],off=multi?1:0; // das Inhaltsverzeichnis (Folie 2) schiebt alle Folgefolien um 1
+ if(multi)deck.title();
+ for(const it of items){const s0=deck.slides.length;
+  if(typeof it.draw==='function')await it.draw(deck);
+  else if(isTab(it)){const t=it.table();deck.tableSlides(it.group+' · '+it.label,'',t.cols,t.rows)}
+  entries.push({label:it.group+' · '+it.label,page:s0+1+off})}
+ if(multi){deck.tocSlide(entries);deck.slides.splice(1,0,deck.slides.pop())}
+ return deck}
+/* Speichern: CFG.download, sonst am Touchscreen Teilen-Blatt (S-20), sonst Download – data-noshare verhindert doppeltes Teilen mit ritl-teilen */
+async function save(blob,name){
+ if(typeof CFG.download==='function'){await CFG.download(blob,name);return 'ok'}
+ try{if(matchMedia('(pointer:coarse)').matches&&navigator.share&&navigator.canShare&&window.File){const f=new File([blob],name,{type:blob.type||'application/octet-stream'});
+  if(navigator.canShare({files:[f]})){try{await navigator.share({files:[f],title:name});return 'ok'}catch(e){if(e&&e.name==='AbortError')return 'abort'}}}}catch(e){}
+ const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.setAttribute('data-noshare','1');document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),3000);return 'ok'}
+const fertig=(r,f,was)=>toast(r==='abort'?T('Export abgebrochen.'):T('{0} gespeichert ({1}).',f,was));
+async function runOwn(items,k){for(const it of items){await it[k]()}}
+async function runX(ids,name){const items=pick(ids),tabs=items.filter(isTab),own=items.filter(i=>!isTab(i)&&typeof i.ownXlsx==='function');
+ if(!tabs.length&&!own.length){toast(T('Keine Tabelle für XLSX gewählt.'));return}
+ if(tabs.length){const f=`${stamp()}-${tag()}_${name}.xlsx`,b=typeof CFG.xlsx==='function'?await CFG.xlsx(sheetsOf(tabs)):await XL.build(sheetsOf(tabs),CFG.name);
+  fertig(await save(b,f),f,tabs.length>1?T('{0} Tabellen',tabs.length):T('1 Tabelle'))}
+ await runOwn(own,'ownXlsx')}
+async function runP(ids,name,title){const items=pick(ids),deckI=items.filter(inDeck),own=items.filter(i=>!inDeck(i)&&typeof i.ownPptx==='function');
+ if(!deckI.length&&!own.length){toast(T('Nichts für PPTX gewählt.'));return}
+ if(deckI.length){const deck=await makeDeck(deckI,title||`${CFG.name} · ${name==='Gesamt'?T('Gesamt-Export'):name}`),f=`${stamp()}-${tag()}_${name}.pptx`;
+  fertig(await save(await deck.blob(),f),f,T('{0} Folien',deck.slides.length))}
+ await runOwn(own,'ownPptx')}
+const nameFor=ids=>{const it=pick(ids),g=[...new Set(it.map(i=>i.group))];return g.length>1?'Gesamt':it.length===1?(slug(it[0].file||it[0].label)):slug(g[0])};
+const LSK=()=>'ritl-export:'+tag();
+let SEL={x:{},p:{}};
+function loadSel(){let s={};try{s=(CFG.getSel?CFG.getSel():JSON.parse(localStorage.getItem(LSK())||'null'))||{}}catch(e){s={}}
+ SEL={x:Object.assign({},s.x),p:Object.assign({},s.p)};
+ if(!Object.keys(SEL.p).length&&!Object.keys(SEL.x).length){ITEMS.forEach(i=>{SEL.p[i.id]=true;if(hasX(i))SEL.x[i.id]=true})}}
+function saveSel(){const v={x:SEL.x,p:SEL.p};try{CFG.setSel?CFG.setSel(v):localStorage.setItem(LSK(),JSON.stringify(v))}catch(e){}}
+const art=i=>isTab(i)&&i.draw?T('Tabelle + Darstellung'):isTab(i)?T('Tabelle'):inDeck(i)?T('Darstellung'):T('eigene Datei');
+function paint(){const c=ctx();$('#ritl-exp-ctx').innerHTML=(NOZIP()?`<div class="xzip" role="alert">${xe(ZIPMSG())}</div>`:'')+`<b>${xe(T('Stand:'))}</b> ${xe(c.stand)}${c.lines.length?'<br>'+c.lines.map(xe).join('<br>'):''}`;
+ $('#ritl-exp-list').innerHTML=groups().map(g=>`<div class="xg"><header><span>${xe(g)}</span><span class="sp"></span><button class="btn sm" type="button" data-xg="${xe(g)}">${xe(T('Gruppe wählen'))}</button></header><div class="xr h"><span>${xe(T('Tabelle / Darstellung'))}</span><span class="c">XLSX</span><span class="c">PPTX</span></div>${ITEMS.filter(i=>i.group===g).map(i=>`<div class="xr"><span>${xe(i.label)}<br><small>${xe(art(i))}</small></span><span class="c">${hasX(i)?`<input type="checkbox" data-xs="x:${xe(i.id)}" aria-label="${xe(T('{0} als XLSX',i.label))}"${SEL.x[i.id]?' checked':''}>`:'–'}</span><span class="c"><input type="checkbox" data-xs="p:${xe(i.id)}" aria-label="${xe(T('{0} als PPTX',i.label))}"${SEL.p[i.id]?' checked':''}></span></div>`).join('')}</div>`).join('');
+ cnt()}
+const chosen=k=>ITEMS.filter(i=>SEL[k][i.id]&&(k==='p'||hasX(i))).map(i=>i.id);
+const NOZIP=()=>!window.JSZip; // Pflicht: JSZip 3.10.1 – der Baustein lädt es nicht
+const ZIPMSG=()=>T('Export nicht möglich: JSZip 3.10.1 fehlt im Tool (Baustein ritl-export lädt es nicht).');
+function cnt(){const X=$('#ritl-exp-x'),P=$('#ritl-exp-p');X.textContent=`XLSX (${chosen('x').length})`;P.textContent=`PPTX (${chosen('p').length})`;X.title=T('Gewählte Tabellen als eine XLSX-Datei erstellen');P.title=T('Gewählte Tabellen und Darstellungen als eine PPTX-Präsentation erstellen');X.disabled=BUSY||NOZIP()||!chosen('x').length;P.disabled=BUSY||NOZIP()||!chosen('p').length}
+/* ein Export zur Zeit: Knöpfe gesperrt (aria-busy), Doppelklick/gehaltenes Enter erzeugt keine zweite Datei */
+async function guard(fn,btn){if(BUSY)return;if(NOZIP()){toast(ZIPMSG());return}BUSY=true;if(btn)btn.setAttribute('aria-busy','true');if($('#ritl-exp').open)cnt();
+ try{await fn()}catch(e){toast(T('Export fehlgeschlagen: {0}',(e&&e.message)||e))}finally{BUSY=false;if(btn)btn.removeAttribute('aria-busy');if($('#ritl-exp').open)cnt()}}
+function wire(){const d=$('#ritl-exp');if(d._w)return;d._w=1;
+ d.addEventListener('change',e=>{const c=e.target.closest('[data-xs]');if(!c)return;const k=c.dataset.xs.slice(0,1),id=c.dataset.xs.slice(2);SEL[k][id]=c.checked;saveSel();cnt()});
+ d.addEventListener('click',e=>{const a=e.target.closest('[data-xa]'),g=e.target.closest('[data-xg]');
+  if(a){const m=a.dataset.xa;ITEMS.forEach(i=>{if(m==='none'){SEL.x[i.id]=false;SEL.p[i.id]=false}else if(m==='all'){SEL.p[i.id]=true;if(hasX(i))SEL.x[i.id]=true}else if(m==='xlsx'){if(hasX(i))SEL.x[i.id]=true}else if(m==='pptx')SEL.p[i.id]=true});saveSel();paint()}
+  if(g){const l=ITEMS.filter(i=>i.group===g.dataset.xg),on=!l.every(i=>SEL.p[i.id]&&(!hasX(i)||SEL.x[i.id]));l.forEach(i=>{SEL.p[i.id]=on;if(hasX(i))SEL.x[i.id]=on});saveSel();paint()}});
+ /* Tasten (S-25): der Baustein regelt seinen Dialog selbst (id ritl-…, data-ritl-baustein → zentraler Tool-Handler nimmt ihn aus) */
+ d.addEventListener('keydown',e=>{if(e.isComposing||e.keyCode===229||e.altKey)return;
+  if(e.key==='Escape'){e.preventDefault();e.stopPropagation();d.close();return}
+  if(e.key!=='Enter')return;
+  const t=e.target;
+  if(t.closest&&t.closest('button,a[href],summary')){if(e.repeat||BUSY){e.preventDefault();e.stopPropagation()}return} // Knopf: eigener Klick, nie wiederholt
+  e.preventDefault();e.stopPropagation()});   // Checkbox, Fläche, Dialog selbst: kein stiller Export
+ $('#ritl-exp-close').onclick=()=>d.close();
+ $('#ritl-exp-x').onclick=e=>guard(()=>{const ids=chosen('x');return runX(ids,nameFor(ids))},e.currentTarget);
+ $('#ritl-exp-p').onclick=e=>guard(()=>{const ids=chosen('p');return runP(ids,nameFor(ids))},e.currentTarget)}
+function open(group){if(!CFG)return;refresh();loadSel();wire();if(group&&groups().includes(group)){ITEMS.forEach(i=>{const on=i.group===group;SEL.p[i.id]=on;if(hasX(i))SEL.x[i.id]=on})}paint();
+ const d=$('#ritl-exp');if(!d.open)d.showModal();const b=d.querySelector('.db');if(b)b.focus({preventScroll:true})}
+/** Einzelexport (kleine Knöpfe an den Panels): eigener Spezial-Export hat Vorrang, sonst Tabelle/Darstellung */
+function one(id,fmt){if(CFG)refresh();const it=ITEMS.find(i=>i.id===id);if(!it)return Promise.resolve();const nm=slug(it.file||it.label);
+ return guard(()=>{if(fmt==='xlsx')return typeof it.ownXlsx==='function'?it.ownXlsx():runX([id],nm);
+  return typeof it.ownPptx==='function'?it.ownPptx():runP([id],nm,`${CFG.name} · ${it.group} · ${it.label}`)})}
+/** Knöpfe in ein Panel setzen (host = Selektor oder Element, label = Präfix bei mehreren Einträgen im selben Panel) */
+function mount(host,id,label){if(CFG)refresh();const h=typeof host==='string'?document.querySelector(host):host,it=ITEMS.find(i=>i.id===id);if(!h||!it)return;
+ h.querySelectorAll('.ritl-expb').forEach(x=>{if(x.dataset.exp===id)x.remove()});
+ const b=document.createElement('span');b.className='ritl-expb';b.dataset.exp=id;
+ const L=label?label+' ':'',dis=NOZIP()?' disabled':'';b.innerHTML=(hasX(it)?`<button class="btn sm" type="button" data-expone="${xe(id)}" data-fmt="xlsx"${dis} title="${xe(NOZIP()?ZIPMSG():T('{0} als XLSX',it.label))}">${xe(L)}XLSX</button>`:'')+`<button class="btn sm" type="button" data-expone="${xe(id)}" data-fmt="pptx"${dis} title="${xe(NOZIP()?ZIPMSG():T('{0} als PPTX',it.label))}">${xe(L)}PPTX</button>`;
+ h.insertBefore(b,h.firstChild)}
+function unmount(host){const h=typeof host==='string'?document.querySelector(host):host;if(h)h.querySelectorAll('.ritl-expb').forEach(x=>x.remove())}
+document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('[data-expone]');if(b){e.stopPropagation();one(b.dataset.expone,b.dataset.fmt)}});
+/* Einträge neu auswerten (items als Funktion: bei jedem open/mount/one – Module, Filter, Rechte können sich ändern) */
+function refresh(){const v=(typeof CFG.items==='function'?CFG.items():CFG.items)||[];ITEMS=Array.isArray(v)?v:[];
+ const ids=new Set();ITEMS.forEach(i=>{if(ids.has(i.id))console.warn('ritl-export: id doppelt',i.id);ids.add(i.id)})}
+function init(cfg){CFG=Object.assign({name:'RIEMER Tools',version:''},cfg||{});if(CFG.version==null)CFG.version='';if(!CFG.name)CFG.name='RIEMER Tools';
+ refresh();
+ if(NOZIP()){console.error('ritl-export: '+ZIPMSG());const lock=()=>{if(!NOZIP())return;document.querySelectorAll('[data-expone],#ritl-exp-x,#ritl-exp-p').forEach(b=>{b.disabled=true;b.title=ZIPMSG()})};
+  lock();if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{lock();if(NOZIP())toast(ZIPMSG())},{once:true});else setTimeout(()=>{if(NOZIP())toast(ZIPMSG())},0)}
+ return api}
+const api={version:VERSION,init,open,one,mount,unmount,Deck,Slide,C,W,H,MX,fmtCell,isoDe,bild,xlsx:(sheets,title)=>XL.build(sheets,title||(CFG&&CFG.name)||'RIEMER Tools'),
+ items:()=>ITEMS,groups,sheets:ids=>sheetsOf(pick(ids)),deckFor:(ids,title)=>makeDeck(pick(ids),title||'Test'),fileName:(name,ext)=>`${stamp()}-${tag()}_${slug(name)}.${ext}`,selKey:()=>LSK(),refresh:()=>{if(CFG)refresh();return ITEMS}};
+return api;
+})();
+</script>
+<!--ritl-export:end-->

@@ -7,6 +7,27 @@ Neueste Version oben.
 **Geändert**
 - **Bereichsfarben (Regel S-28, Rollout R-24):** Die Boxen zeigen ihre Funktion mit einer von vier Farben. Zone a (Blau): Übersicht – MAP „Map/Matrix“, DATA „Bestand“ · Zone b (Laubgrün): Arbeiten/Eingabe – MAP „Beziehungen“, DATA „Import“ · Zone c (Bernstein): Auswertung – MAP „Auswertung“ · Zone d (Violett): Sonstiges – DATA „Daten“ (Beispiel laden/Leeren). Je Ansicht höchstens drei Farben, kein Rot.
 
+## V2.6.10 · 27.11.2026 · DEV
+**Behoben**
+- **Auswahl-Fenster der Map:** Enter im Namensfeld schließt das Fenster „Auswahl bearbeiten“ nicht mehr, und Esc hebt die Auswahl wieder auf (bzw. verlässt die fixierte Arbeitsfläche 🔒), statt nur das Fenster auszublenden.
+- **Export:** Fehlende Zahlenwerte (Einfluss, Stärke, Fokus-Level) erscheinen als leere Zelle, nie als 0 oder NaN.
+
+## V2.6.9 · 27.11.2026 · DEV
+**Neu**
+- **Export als XLSX und PPTX (Regel S-27, Rollout R-23, Baustein ritl-export 1.0.1):** Jede Tabelle lässt sich einzeln als Excel- und PowerPoint-Datei exportieren – MAP: Firmen & Ansprechpartner, Projekte & Gewerke, Beziehungen, Schlüsselpersonen, Risiken & Lücken; DATA: Firmen, Ansprechpartner, Projekte. Die Map selbst gibt es als PPTX-Folie (Knoten, Beziehungen, Legende). Der Knopf **Export** im Kopf öffnet den Gesamt-Export mit Auswahl; aktive Filter und FOKUS stehen in der Datei. Die Auswahl wird im Backup mitgesichert.
+
+**Geändert**
+- **Enter/Esc in Dialogen (Regel S-25, Rollout R-21):** Ein zentraler Handler: Enter löst den Hauptknopf aus (Speichern, Verstanden, Schließen), Esc bricht ab – auch ohne Feld. Info-Dialoge schließen mit Enter, in Textfeldern bleibt Enter ein Zeilenumbruch, Strg+Enter speichert. Filter-/Favoriten-Popups schließen zuerst mit Esc; der Favoriten-Name speichert mit Enter.
+- **Ribbon kompakt (Regel S-26, Rollout R-22):** Das Reiter-Ribbon ist nur noch ≈45 px hoch und zeigt nie eine Bildlaufleiste; weitere Reiter deutet eine Verlaufskante an. Sichtbarer Fokus-Ring auf den Reitern.
+- Bausteine: **RITL-UI 1.7**, **ritl-bk 2.14**, **ritl-export 1.0.1**.
+
+## V2.6.8 · 26.11.2026 · DEV
+**Geändert**
+- **Scrollen nach Ebenen (Regel S-18, Rollout R-20):** Solange ein Dialog, Filter-/Favoriten-Popup, Rollen-Auswahl, Auswahl-Popup oder die fixierte Arbeitsfläche (🔒) offen ist, scrollt die Seite im Hintergrund nicht mehr – weder per Mausrad noch per Touch noch per Tastatur. Die Sperre kommt zentral aus RITL-UI 1.7.
+- Listen, Matrix und Ribbon reichen am Ende an das Fenster weiter; Mausrad über dem Ribbon scrollt die Seite.
+- Esc schließt zuerst das oberste Popup, erst danach die fixierte Arbeitsfläche.
+- Bausteine aktualisiert: **RITL-UI 1.7**, **ritl-bk 2.14**.
+
 ## V2.6.7 · 25.11.2026 · DEV
 **Geändert**
 - **Tool-Typ „Datenbank“ (Regel S-23, Rollout R-19):** Das Tool ist als Typ Datenbank gekennzeichnet – Daten bleiben wie bisher im Tool, keine Projektdateien.

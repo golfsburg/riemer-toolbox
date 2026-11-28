@@ -2,6 +2,15 @@
 
 Baustein für Tools vom Typ „Dokument“: Projekte als eigene Datei `<Projektname>.<tool>.ritl`. Neueste Version oben.
 
+## 1.2 · 26.11.2026 · DEV
+**Geändert**
+- **Startbildschirm und Rückfragen als überlagernde Ebene gekennzeichnet** (`data-ritl-overlay`): Mit RITL-UI 1.7 scrollt die Seite dahinter nicht mehr – weder Rad noch Touch noch Tastatur. `overscroll-behavior:contain` nur im Inhalt.
+- Der eingebettete Startbereich `[data-ritl-doc-start]` des Tools bleibt Teil der Seite (kein Overlay); deckt er die Arbeitsfläche ab, setzt das Tool selbst `data-ritl-overlay`.
+- Der Hinweis „Großes Projekt“ bleibt ohne Sperre (blockiert nichts, wie 1.1).
+
+**Unverändert**
+- API und Dateiformat (`format:1`) – Projekte aus 1.0, 1.1 und 1.2 öffnen sich gegenseitig.
+
 ## 1.1 · 25.11.2026 · DEV
 **Neu**
 - **Hinweis „Großes Projekt“:** Vor dem Speichern und Zwischenspeichern wird die Gesamtgröße der Dateien ermittelt. Ab ca. **200 MB** erscheint einmal je Projekt ein Hinweis (Größe, Speichern dauert länger, Datei wird groß, ggf. Dateien entfernen) – blockiert nichts, schließbar mit ✕. Beim Speichern großer Projekte zusätzlich „Speichern … – bitte warten“.

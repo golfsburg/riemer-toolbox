@@ -3,6 +3,19 @@
 Kompakter 3D-Viewer und -Editor im Browser für den 3D-Druck · #ritl_mesh
 Neueste Version oben. V1.0–V1.8 als Einzeldatei entwickelt (nicht in der Toolbox veröffentlicht).
 
+## V2.8.3 · 27.11.2026 · DEV
+**Neu**
+- **Höhe des Modellbereichs verstellbar:** Unter der 3D-Ansicht sitzt ein Griff. Ziehen mit Maus, Stift oder Finger ändert die Höhe (mindestens 320 px, höchstens Fensterhöhe minus Kopfzeile/Werkzeugleiste), Doppelklick bzw. Doppeltipp setzt auf „Fenster füllen“ zurück, Pfeil ↑/↓ verstellt in 20-px-Schritten. Die Ansicht rendert dabei verzerrungsfrei mit. Die Höhe wird je Gerät gemerkt (Einstellung, Teil des Backups „Einstellungen“); bei kleinerem Fenster gilt automatisch das Maximum. Im 🔒-Modus ist der Griff ausgeblendet.
+- **Enter speichert, Esc bricht ab** in allen Dialogen (Grundkörper, Konverter, Parametrisch, Anleitung, Modellbereiche, Favoriten): Enter löst den Hauptknopf aus, Esc schließt ohne Änderung; in Textfeldern mit Zeilenumbruch bleibt Enter ein Umbruch (Strg+Enter speichert). Das erste Feld ist beim Öffnen aktiv (am Handy nicht, damit die Tastatur nicht aufspringt).
+
+**Geändert**
+- **Handy:** Der Modellbereich füllt auch auf schmalen Fenstern das Fenster (statt fester 70 % der Höhe) – mit Griff zum Verstellen.
+- **Werkzeugleiste kompakter (≈45 px)** und ohne Bildlaufleiste; bei Platzmangel scrollt sie waagrecht (Shift+Rad, Touchpad, Wischen), eine Verlaufskante zeigt weitere Knöpfe.
+- **🔒 Fixieren** kennzeichnet die Fläche als Overlay (Seite dahinter scrollt nicht mit), die 3D-Ansicht als Zoom-Fläche.
+## V2.8.2 · 26.11.2026 · DEV
+**Geändert**
+- **Scrollen (R-15):** Der Kopfbereich läuft beim Scrollen aus, die Werkzeugleiste (Projekt, Dateien öffnen, Grundkörper, Konverter …) bleibt oben stehen und der Modellbereich klebt direkt darunter. Das Mausrad über der Leiste scrollt nur die Leiste (am Handy waagrecht), nie die Seite; Zoomen im Modellbereich scrollt die Seite nicht. Sonst wie V2.8.1.
+
 ## V2.8.1 · 25.11.2026 · DEV
 **Geändert**
 - **Backup-Baustein ritl-bk 2.13:** Der Ordner der Firma (Backup im OneDrive-/SharePoint-Ordner) erscheint nur noch als Link „Ordner der Firma öffnen ↗ – diesen Ordner auswählen, das Backup wird direkt dort gespeichert“. Beim Verknüpfen wird der Ordnername nicht mehr geprüft und es kommt keine Warnung „vorgesehen ist …“ mehr. Sonst wie V2.8.0 (Projekte als Datei, Backup nur Einstellungen).

@@ -3,6 +3,38 @@
 GPS-Tracks (GPX) lokal im Browser in 2D und 3D darstellen, analysieren, bearbeiten und animieren · #ritl_track
 Neueste Version oben. Versionen ≤ V1.9 in Google AI Studio entwickelt und nachträglich zusammengefasst (keine Einzelstände erhalten).
 
+## V3.3.37 · 28.11.2026 · DEV
+**Behoben**
+- Die Kennzahl-Kacheln der Übersicht (Höhenmeter, Tempo & Puls, Strecke) nutzen jetzt durchgehend die Farbe ihrer Zone (Blau) statt eigener Grün-/Orange-Werte.
+
+## V3.3.36 · 28.11.2026 · DEV
+**Geändert**
+- **Bereichsfarben (S-28):** Die Boxen und Kennzahl-Kacheln zeigen ihre Funktion jetzt mit einer von vier Farben (Rahmen, Kopf und Titel getönt). Zuordnung in TRACK.ritl: **Zone a (Blau): Übersicht** (01 Übersicht, Kennzahlen, 02 Karte/3D) · **Zone b (Laubgrün): Bearbeiten/Eingabe** (EDITOR: Tracks verwalten, Bereinigen, Schneiden; ANALYSE: Wegpunkte, Notizen & Fotos) · **Zone c (Bernstein): Auswertung** (ANALYSE: Tracks, Abschnitte, Geisterrennen, Herzfrequenz samt Kacheln) · **Zone d (Violett): Ausgabe & Sonstiges** (EXPORT: Dateien, Teilbild, Video, Report; PANO: 360°-Video, Abgleich, Markierungen). Rot bleibt Fehlern vorbehalten; die Kacheln der Herzfrequenz-Auswertung nutzen jetzt die Zonenfarbe statt Rot/Orange.
+
+## V3.3.35 · 27.11.2026 · DEV
+**Behoben**
+- Export **Vektorgrafik** (PPTX) zeigt jetzt die Kartenvorschau statt eines Pfeil-Symbols. Ist der Bereich eingeklappt, steht ein Hinweis auf der Folie.
+- Eine geänderte Auswahl im Export-Dialog landet sofort im Backup.
+
+## V3.3.34 · 27.11.2026 · DEV
+**Neu**
+- **Export als XLSX und PPTX (R-23, ritl-export 1.0.1):** Im Kopf steht ein **Export**-Knopf für den Gesamt-Export mit Auswahl. Die Tabellen **Abschnitte**, **Runden**, **Geisterrennen** und **Tracks verwalten** gibt es einzeln als XLSX und PPTX. **Karte 2D**, **Höhenprofil**, **3D Raum**, **Vektorgrafik** und **Teilbild** gibt es als PPTX. Der **Touren-Report** steht zusätzlich im Dialog. Die gemerkte Auswahl im Dialog ist im Backup (Einstellungen) enthalten.
+- Video der Animation und 360°-Video haben keinen PPTX-Knopf. Sie behalten ihren eigenen Export.
+**Geändert**
+- **Enter und Esc in Fenstern (R-21):** In Anleitung, Favoriten und den (i)-Infofenstern löst Enter den Hauptknopf aus, Esc schließt. Im Namensfeld der Favoriten speichert Enter wie bisher. Gehaltenes Enter speichert nur einmal. Die fixierte 🔒-Arbeitsfläche behält ihr eigenes Esc.
+- **Ribbon kompakt (R-22):** Die Modul-Leiste ist nur noch etwa 45 px hoch und zeigt nie eine Bildlaufleiste. Wenn Platz fehlt, deutet eine Verlaufskante weitere Reiter an. Der Fokus-Ring ist sichtbar.
+
+## V3.3.33 · 26.11.2026 · DEV
+**Behoben**
+- Die fixierte 🔒-Arbeitsfläche (Modell, Höhenprofil, Export, Pano) sperrt die Seite dahinter jetzt zuverlässig: Mit Mausrad, Touch und Bild↓ bleibt die Seite stehen, nach dem Lösen scrollt sie wieder.
+
+## V3.3.32 · 26.11.2026 · DEV
+**Geändert**
+- **Scrollen nach Ebenen (R-20):** Solange ein Fenster, eine Anleitung, das Teilen-Blatt oder eine fixierte Arbeitsfläche (🔒) offen ist, bleibt die Seite dahinter stehen – mit Mausrad, Touch und Tastatur. Das Fenster selbst scrollt in sich.
+- Listen, Tabellen, Vorschau und Seitenspalten reichen das Scrollen am Ende ans Fenster weiter; die Seite bleibt nie hängen.
+- Mausrad über dem Ribbon scrollt die Seite (waagrecht mit Shift oder Touchpad). Der Zoom per Mausrad gilt weiter nur über Karte, Profil, 3D-Ansicht und Export-Vorschau im 🔒-Modus.
+- Bausteine auf dem aktuellen Stand: RITL-UI 1.7, ritl-bk 2.14.
+
 ## V3.3.31 · 25.11.2026 · DEV
 **Geändert**
 - TRACK.ritl ist als Tool vom Typ **Datenbank** gekennzeichnet: Tracks, Wegpunkte und Fotos bleiben wie bisher im Tool, das Backup sichert sie in den Stufen settings, datenbank und storage. Für dich ändert sich im Alltag nichts.
