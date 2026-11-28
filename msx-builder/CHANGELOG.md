@@ -4,6 +4,10 @@
 Start: index.html im Browser öffnen (Chrome/Edge/Firefox) oder auf GitHub Pages ablegen.
 Ein neues Projekt startet mit einer leeren Zeichnung (ab V5.9.9 ohne Beispielzeichnung).
 
+## V5.10.3 · 28.11.2026 · DEV
+**Geändert**
+- **Bereichsfarben (R-24, Standard S-28):** Die Boxen von MSX.ritl zeigen ihre Funktion jetzt mit einer von vier Bereichsfarben (Fläche leicht getönt, Rahmen und Kopf in der Farbe, Titel und Nummer farbig – hell und dunkel mit Kontrast ≥ 4,5:1). Zuordnung: Zone a (Blau): Übersicht/Start – 01 Projekt, 02 Zeichnung, 03 Vorlage · Zone b (Laubgrün): Arbeiten – 07 Modellbereich, 08 Rohrliste, 09 Bauteile, 10 Stäbe · Zone c (Bernstein): Vorgaben/Erkennung – 04 Rohr-Vorgaben, 06 Layer · Zone d (Violett): Einstellungen/Sonstiges – 05 Einstellungen, 11 Protokoll. Rot bleibt Fehlern und Löschen vorbehalten.
+
 ## V5.10.2 · 27.11.2026 · DEV
 **Behoben**
 - Die Versionsnummer im Gesamt-Export (XLSX/PPTX) und im Backup lautet jetzt richtig V5.10.2 statt V5.10.
@@ -110,10 +114,6 @@ Fasst die DEV-Versionen V5.9.1 bis V5.9.10 seit Beta V5.9.0 zusammen (Details in
 ## V5.9.1 · 26.11.2026 · DEV
 **Geändert**
 - **Scrollen (R-15):** Der Kopfbereich läuft beim Scrollen aus, die Werkzeugleiste der Rohrliste (Bereich 08) bleibt oben stehen. Auf dem Handy ist sie einzeilig und seitlich wischbar. Das Mausrad über der Leiste schiebt nur die Leiste und nie die ganze Seite. Innere Listen und Dialoge reichen das Scrollen nicht mehr an die Seite weiter.
-
-## V5.10.3 · 28.11.2026 · DEV
-**Geändert**
-- **Bereichsfarben (R-24, Standard S-28):** Die Boxen von MSX.ritl zeigen ihre Funktion jetzt mit einer von vier Bereichsfarben (Fläche leicht getönt, Rahmen und Kopf in der Farbe, Titel und Nummer farbig – hell und dunkel mit Kontrast ≥ 4,5:1). Zuordnung: Zone a (Blau): Übersicht/Start – 01 Projekt, 02 Zeichnung, 03 Vorlage · Zone b (Laubgrün): Arbeiten – 07 Modellbereich, 08 Rohrliste, 09 Bauteile, 10 Stäbe · Zone c (Bernstein): Vorgaben/Erkennung – 04 Rohr-Vorgaben, 06 Layer · Zone d (Violett): Einstellungen/Sonstiges – 05 Einstellungen, 11 Protokoll. Rot bleibt Fehlern und Löschen vorbehalten.
 
 ## V5.9.0 · 25.11.2026 · DEV
 **Neu**
