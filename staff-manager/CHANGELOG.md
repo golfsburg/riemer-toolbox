@@ -2,6 +2,15 @@
 
 Personalplanung & Teamstruktur · #ritl_staff · Tool-Typ Datenbank
 
+## V1.0.11 · 27.11.2026 · DEV
+
+### Neu
+- **Bereichsfarben (R-24, S-28):** Tokens `--zone-a..d` (hell/dunkel), Boxen und Kennzahl-Kacheln mit `data-zone`. Zuordnung: Zone a (Blau): Übersicht – Teamstruktur, Kennzahlen · Zone b (Laubgrün): Arbeiten/Eingabe – Verschiebungen, Besetzungs-Board, Personen, Teams & Gruppen · Zone c (Bernstein): Planung/Auswertung – Zeitplan 12 Monate, Soll/Ist je Team · Zone d (Violett): Einstellungen/Sonstiges – Datenbasis, E-Mail & Sortierung.
+
+### Geändert
+- **Export auf ritl-export 1.0.1 (R-23, S-27):** Baustein byte-gleich getauscht (JSZip vor dem Block, Klassen `.ritl-expb`/`.ritl-rexp`); `#expBtn` mit `data-ritl-export="gesamt"`. Organigramm, Teamkarten, Zeitplan, Board und Soll/Ist bleiben als PPTX erhalten. Hilfstabellen in Dialogen (Import, Stichtag-Vorschau) sind vom Export ausgenommen.
+- Backup: gemerkte Export-Auswahl zählt nicht als Änderung (`ohneSha`).
+
 ## V1.0.10 · 27.11.2026 · DEV
 
 ### Geändert
