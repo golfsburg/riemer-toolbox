@@ -3,6 +3,38 @@
 Projektmanagement: Projekt-Portfolio mit Gewerken, Anwendungen und Businesses (Lead › Spezifikation Opportunity › Spezifikation › Opportunity), Umsatzplan, Dashboard und Zeitplan · #ritl_pm
 Neueste Version oben. Versionen ≤ V1.1 nachträglich rekonstruiert (Projektmanager V1.x, selbstspeichernde HTML-Datei).
 
+## V3.1.28 · 28.11.2026 · DEV
+**Neu**
+- **Export XLSX/PPTX (Regel S-27, Rollout R-23, ritl-export 1.0.1):** Neuer Knopf **Export** im Kopf öffnet den Gesamt-Export mit Auswahl (einzeln, je Ansicht oder alles; eine XLSX- und eine PPTX-Datei). Kleine Knöpfe XLSX/PPTX direkt an den Boxen mit Tabellen: Projekte (PORTFOLIO), Kennzahlen, Top 10 und Handlungsbedarf (DASH), Einträge, Pipeline & Potential, Umsatzplan, Forecast, Logbuch (PROJEKT), Beteiligungen, Firmen, Pipeline (LINK), Logbuch (DATA). Die Kennzahlen aus DASH gibt es zusätzlich als Kacheln in der PPTX. Die Auswahl im Dialog wird mit dem Backup gesichert (Einstellungen).
+- Die bisherigen Exporte bleiben unverändert und stehen im Gesamt-Export als eigene Dateien: Dashboard- und Zeitplan-PPTX, Quality-Check (XLSX/PPTX) und „Boxen dieser Ansicht“ (Abbild/XLSX). Die alten Knöpfe „⬇ Export“ an den Boxen bleiben.
+- **Bereichsfarben (Regel S-28, Rollout R-24):** Boxen zeigen ihre Funktion mit einer von vier Farben, in allen Ansichten gleich – Zone a (Blau): Übersicht, Kennzahlen, Dashboard, Projektauswahl und -kopf · Zone b (Laubgrün): Arbeiten und Eingabe, d. h. Einträge, Übergabe an STAKE, Import · Zone c (Bernstein): Planung und Auswertung, d. h. Umsatzplan, Zeitpläne, Pipeline & Potential, Umsatz, Forecast, Beteiligungen, Firmen, Pipeline, Meldefristen · Zone d (Violett): Verwaltung und Sonstiges, d. h. Logbuch, Export & Reports, Projekttypen, Bestand. Kennzahl-Kacheln (LINK, DATA) tragen Zone a.
+
+**Geändert**
+- Hell/Dunkel mit eigenen Zonen-Tokens `--zone-a..d`; keine Zone ist Rot.
+
+## V3.1.27 · 27.11.2026 · DEV
+**Behoben**
+- In der Filterliste wählt Enter im Suchfeld wieder den ersten Treffer an bzw. ab (mit V3.1.26 schloss es versehentlich die Liste). Esc schließt sie weiterhin.
+
+## V3.1.26 · 27.11.2026 · DEV
+**Neu**
+- **Enter/Esc in Dialogen (Regel S-25, Rollout R-21):** Ein zentraler Tastatur-Handler für alle Dialoge und Eingabemasken: Enter im Feld löst den Hauptknopf aus (Speichern, Fertig, Importieren …), Esc bricht ab. Enter in mehrzeiligen Feldern macht einen Zeilenumbruch (Strg/⌘+Enter speichert), gehaltene Taste speichert nur einmal.
+- **Esc-Reihenfolge:** Esc schließt immer genau eine Ebene – erst Filterliste, Export-Menü oder Datums-Kalender, dann Dialog/Maske, erst zuletzt die fixierte Arbeitsfläche 🔒. Behebt, dass Esc bei offener Filterliste in einer fixierten Fläche beides auf einmal schloss.
+
+**Geändert**
+- **Ribbon kompakt (Regel S-26, Rollout R-22):** Das Modul-Ribbon ist nur noch ≈45 px hoch und zeigt nie eine Bildlaufleiste; weitere Reiter deutet eine Verlaufskante an (Shift+Rad bzw. Wischen). Sichtbarer Fokus-Ring auf den Reitern.
+## V3.1.25 · 26.11.2026 · DEV
+**Geändert**
+- **Scrollen nach Ebenen (Regel S-18 neu, Rollout R-20):** Solange ein Fenster (Eingabemasken, Import, Bericht, Export, Hilfe, Backup), ein Filter-Auswahlfeld, das Auswahlmenü beim Export oder der Datums-Kalender offen ist, steht die Seite dahinter – Rad, Touch und Tastatur; innen scrollt nur der Inhalt. Auch die fixierte Arbeitsfläche (🔒) sperrt die Seite; das Rad zoomt dort nur über der Zeichnung. Ist nichts offen, scrollt die Seite wie gewohnt.
+- Eigene Seitensperren (`modal-open`, `ws-lock`, `fx-lock`) entfernt – die Sperre kommt zentral aus **RITL-UI 1.7**. Bausteine auf RITL-UI 1.7 und **ritl-bk 2.14** aktualisiert (Verhalten des Backups unverändert).
+
+**Entfernt**
+- Mausrad-Handler an der Reiterleiste: Rad über Ribbon und Reitern scrollt wieder die Seite.
+
+## V3.1.24 · 26.11.2026 · DEV
+**Geändert**
+- **Scrollen (Regel S-18/S-19, Rollout R-15):** Header läuft aus, Ribbon bleibt oben (`--rib-h`/`--stk` per `stickyH()`), `scroll-padding-top`, `overscroll-behavior:contain` auf inneren Scrollbereichen (Tabellen, Gantt, Import-Vorschau), Mausrad über der Reiterleiste scrollt nur die Leiste waagrecht, nie die Seite.
+
 ## V3.1.23 · 25.11.2026 · DEV
 **Geändert**
 - **Tool-Typ „Datenbank“ (Regel S-23, Rollout R-19):** Das Tool ist als Typ Datenbank gekennzeichnet – Daten bleiben wie bisher im Tool, keine Projektdateien.

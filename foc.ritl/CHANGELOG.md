@@ -8,6 +8,21 @@ Neueste Version oben. Versionen ≤ V1.2 waren Entwürfe im Chat und wurden nich
 - **Bereichsfarben (Regel S-28, Rollout R-24):** Boxen und Kennzahl-Kacheln zeigen ihre Funktion mit einer von vier Farben (Tönung Fläche 4 %, Rahmen 45 %, Kopf 8 %). Zuordnung: Zone a (Blau): Übersicht/Erklärung – CHECK „Prüfung“, FUNC (Gangschalter, Funktionen), BIKE „Controller-Daten“ · Zone b (Laubgrün): Einstellen/Eingabe – TUNE (Strom, Gänge, Kurve, Gas, Rekuperation), BIKE (Akku & Schutz, Fahrzeug & Kalibrierung) · Zone c (Bernstein): Auswertung – „Ergebnis & Simulation“ samt Kennzahlen (TUNE, SIM) · Zone d (Violett): Ausgabe – CHECK „Änderungsliste für die Fardriver-App“. Höchstens drei Zonen je Ansicht, kein Rot.
 - Kennzahl-Änderungen (+/−) in den Kacheln für 4,5:1 Kontrast leicht abgedunkelt.
 
+## V1.7.8 · 27.11.2026 · DEV
+**Neu**
+- **Export (Regel S-27, Rollout R-23, Baustein ritl-export 1.0.1):** Knopf „Export“ im Kopf (Gesamt-Export mit Auswahl, XLSX und PPTX). Je Bereich kleine Knöpfe: „Alle Gänge im Vergleich“ (XLSX + PPTX), „Änderungsliste für die Fardriver-App“ (XLSX + PPTX) und die Diagramme (PPTX mit vier Folien: Zugkraft, Beschleunigung, Leistung & Strom, Kurven – unabhängig vom gewählten Diagramm und davon, ob das Modul gerade sichtbar ist). Die Auswahl wird mit dem Backup gesichert.
+
+**Geändert**
+- **Enter/Esc in Dialogen (Regel S-25, Rollout R-21):** zentraler Tasten-Handler. Anleitung: Enter oder Esc schließt. Setups: Enter im Namensfeld speichert das aktuelle Setup, Esc schließt.
+- **Ribbon kompakt (Regel S-26, Rollout R-22):** Modul-Leiste ≈45 px hoch, nie eine Bildlaufleiste (Verlaufskante zeigt weitere Reiter), sichtbarer Fokus-Ring auf den Reitern.
+- Bausteine: RITL-UI 1.7, ritl-bk 2.14, neu ritl-export 1.0.1 (JSZip 3.10.1 eingebettet).
+
+## V1.7.7 · 26.11.2026 · DEV
+**Geändert**
+- **Scrollen nach Ebenen (Regel S-18 neu, Rollout R-20):** Offene Dialoge sperren die Seite zentral über RITL-UI 1.7 (Rad, Touch, Tastatur); Hilfe- und Setup-Dialog tragen `data-ritl-overlay`. Eigene Sperr-Regel entfernt.
+- Mausrad über dem Ribbon scrollt wieder die Seite (kein eigener `wheel`-Handler mehr); `overscroll-behavior:contain` nur noch auf Dialogen. Listen, Spalten und Ribbons reichen am Ende an das Fenster weiter.
+- Bausteine aktualisiert: **RITL-UI 1.7**, **ritl-bk 2.14** (Verhalten sonst unverändert).
+
 ## V1.7.6 · 25.11.2026 · DEV
 **Geändert**
 - **Tool-Typ „Datenbank“ (Regel S-23, Rollout R-19):** Das Tool ist als Typ Datenbank gekennzeichnet – Daten bleiben wie bisher im Tool, keine Projektdateien.

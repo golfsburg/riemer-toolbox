@@ -4,6 +4,20 @@ Quelle: `ritl-ui/ritl-ui.html` · verwaltet im Lizenz-Admin unter **Header · RI
 Der Lizenzserver ersetzt in jedem Tool den Block `<!--ritl-ui:start--> … <!--ritl-ui:end-->` beim Ausliefern durch die neueste aktive Version aus dem Kanal der Lizenz (Dev sieht Dev + Beta + Stabil, Beta sieht Beta + Stabil).
 Neueste Version oben.
 
+## 1.7 · 26.11.2026 · Dev
+**Neu**
+- **Overlay-Sperre (neue Scrollregel, ersetzt „Scrollen nur im Bereich der Maus“):** Solange eine überlagernde Ebene offen ist – Dialog (`showModal`), Popup, Dropdown/Menü, Bottom-Sheet, Startbildschirm, Hilfe, Toast-Menü mit Inhalt, fixierte Arbeitsfläche –, scrollt die Seite im Hintergrund **nie**: weder Mausrad noch Touch (iPhone/iPad/Android) noch Tastatur (Leertaste, Bild↑/↓, Pos1/Ende, Pfeile). Der Inhalt der Ebene scrollt in sich und reicht am Ende nicht an die Seite weiter.
+- **Ein gemeinsames Merkmal:** `data-ritl-overlay` am Element der Ebene; `dialog[open]:modal` zählt immer. Erkennung automatisch (sichtbar = nicht `hidden`, nicht `display:none`/`visibility:hidden`), Altbestand `.modal` zählt mit, solange sichtbar; `data-ritl-overlay="aus"` schließt ein Element aus.
+- **API:** `RITLUI.overlay(el, true|false)` meldet eine Ebene ausdrücklich an/ab (z. B. wenn ein Elternelement sie einblendet); `RITLUI.overlay()` liefert `true`, solange gesperrt. Ereignis `ritl:overlay {offen}`.
+- Sperre ohne Springen: `html[data-ritl-lock]` mit `overflow:hidden`, Platz der Scrollleiste bleibt (`scrollbar-gutter:stable`, nur wenn eine da war), Scrollposition bleibt; Seiten, die im `body` scrollen, werden ebenfalls gehalten.
+- `overscroll-behavior:contain` nur in Overlays.
+- **Zoom-Flächen bleiben frei:** Flächen mit `data-ritl-zoom` (Zeichnung, 3D, Organigramm, Karte) innerhalb der obersten Ebene – etwa in der fixierten Arbeitsfläche 🔒 – bekommen Rad, Ziehen, Pinch-Zoom und Tasten unverändert; gesperrt wird nur außerhalb der obersten Ebene.
+- Das Sperrfenster „Offline-Version abgelaufen“ ist als Overlay gekennzeichnet.
+- Testseite `ritl-ui/test-scroll.html` und Rundlauf `ritl-ui/tests/scroll.mjs` (Desktop + Touch iPhone 13 / Pixel 7).
+
+**Unverändert**
+- Kein Rad-Handler für Ribbons: Gleichrangige Bereiche (Listen, Vorschau, Matrix, Seitenspalten, Ribbons) scrollen am Ende die Seite weiter, über Ribbons scrollt das Rad die Seite (waagrecht nur mit Umschalt/Touchpad). Zoom-Flächen fangen das Rad weiter selbst ab. Ohne offene Ebene verhält sich RITL-UI wie 1.6.
+
 ## 1.6 · 25.11.2026 · Dev
 **Neu**
 - **Tool-Typ „Dokument“** (ritl-doc 1.0): Knöpfe **Neu · Öffnen … · Speichern · Speichern unter …** mit Symbolen vor den übrigen Tool-Knöpfen (Text als Tooltip wie bei allen Tool-Knöpfen), Projektname im Titel und **„•“** bei ungespeicherten Änderungen.

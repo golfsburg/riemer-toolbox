@@ -63,6 +63,9 @@ Der MSX-Builder übernimmt die Lage unverändert (kein Maßstab, keine Spiegelun
 | `ducts[] / cableTrays[]` | nein | Mittelpunkt + Breite/Höhe; `weight` kg/m optional, sonst Schätzung |
 | `structures[]` | nein | `kind` = `Ceiling` oder `Wall`, Rechteck im Schnitt |
 | `bars[]` | nein | `type` enthält 40 / 70 / 90 → MT-40 V2 / MT-70 OC / MT-90 OC |
+| `group.typId` | nein | ab RIEMER Tools V4 (V4dev): Typ-ID des Platzhalters (`PH_TypID`) |
+| `group.typName` | nein | ab V4dev: Typname nach neuer Nomenklatur (z. B. `Platzhalter_0112`) – siehe „Platzhalter-ID“ |
+| `group.placeholderNames` | nein | ab V4dev: Instanzname je Platzhalter (`PH_InstanzName`, z. B. `Platzhalter_0112-001`), gleiche Reihenfolge wie `placeholderIds` |
 
 ## Zuordnung im MSX-Builder
 
@@ -135,3 +138,24 @@ Details der Umsetzung (MSX-Builder 4.6):
 - PROFIS MSE übernimmt Mengen **nicht** aus `.msx`/`.mspx` (getestet 14.11.2026). Der MSX-Builder hängt die Anzahl daher optional an den Namen
   des Unterprojekts an („Platzhalter_1 · 27 Stk“) und erstellt eine Stückliste (Excel). Die Menge wird im PMSE-Import-Dialog eingetragen.
 - `group.count` sollte daher immer gesetzt sein (≥ 1).
+
+
+## Platzhalter-ID (ab MSX-Builder 5.9.7, RIEMER Tools V4dev)
+
+Format bleibt `riemer-mse-group` **v1** – die drei Felder sind optional. Fehlen sie (RIEMER Tools V3), arbeitet der MSX-Builder wie bisher.
+
+```json
+"group": { "id": "Platzhalter_0112", "name": "Platzhalter_0112", "count": 3,
+           "placeholderIds": [1001, 1002, 1003], "placeholderUniqueIds": ["…", "…", "…"],
+           "typId": "PT-0112", "typName": "Platzhalter_0112",
+           "placeholderNames": ["Platzhalter_0112-001", "Platzhalter_0112-002", "Platzhalter_0112-003"] }
+```
+
+Mit `group.typName`:
+- **Unterprojekt-Name** = `typName` (Einzeldatei und Projekt-ZIP), mit „· 3 Stk“ wie bisher, wenn „Anzahl im Namen exportieren“ an ist.
+- **Dateinamen** = `<Modell>_<typName>.msx` bzw. `…_Rohre.csv`, `…_Platzhalter.csv` (Modell = `source.project`).
+- **In der MSX:** `subProjectName` = `typName` (dort, wo PROFIS MSE den Namen des Unterprojekts führt); in der `.mspx` ist `entityName` der Unterprojekt-Name. Was PROFIS MSE davon in Bericht und Stückliste übernimmt, wird mit einer Testdatei geprüft.
+- **`_Platzhalter.csv`** (Trennzeichen `;`, UTF-8 mit BOM): `gruppe;typ_id;typ_name;befestigungstyp;platzhalter_name;platzhalter_id;unique_id` – eine Zeile je Platzhalter.
+  Ohne `typName` bleibt die bisherige Form `gruppe;befestigungstyp;platzhalter_id;unique_id`.
+- **Projekt (.msx.ritl):** `typId`, `typName` und die Instanznamen werden je Unterprojekt gespeichert.
+- Der Rücklauf bleibt in RIEMER Tools V4 („Rückläufer einlesen“ über den Platzhalternamen) – der MSX-Builder liest nichts aus PROFIS MSE zurück.

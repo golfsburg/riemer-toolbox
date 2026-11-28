@@ -3,6 +3,17 @@
 PDF-Dokumente aus Lesezeichen-Abschnitten und Einzelseiten zusammenstellen – mit verlinktem Inhaltsverzeichnis · #ritl_pdf
 Neueste Version oben. Versionen ≤ V1.3 nachträglich rekonstruiert (aus `tool_versions` und Entwicklungsverlauf).
 
+## V2.2.2 · 27.11.2026 · DEV
+**Neu**
+- **Export (S-27, R-23):** Neuer Knopf **Export** im Header (öffnet den Gesamt-Export mit Auswahl, die Auswahl bleibt erhalten und steckt im Backup). Tabellen als **XLSX und PPTX**: Bibliothek (Dateien und Abschnitte), Storyboard, Planstände und Planseiten (Zuordnung und Deckung je Version). Die **Vergleichsansicht** (aktueller Ausschnitt) lässt sich als PPTX-Folie exportieren. Je Box ein kleiner XLSX/PPTX-Knopf im Kopf. Zahlen sind nie `NaN` oder `null`. Baustein ritl-export 1.0.1 (JSZip 3.10.1 war schon eingebettet).
+- **Bereichsfarben (S-28, R-24):** Jede Box trägt die Farbe ihrer Funktion, hell und dunkel mit ausreichendem Kontrast.
+
+**Geändert**
+- **Bereichsfarben – Zuordnung:** Zone a (Blau): Übersicht · Bibliothek (DECK), Versionen (COMPARE) · Zone b (Laubgrün): Arbeiten · Storyboard (DECK), Planseiten (COMPARE) · Zone c (Bernstein): Auswertung/Ausgabe · Ausgabe (DECK), Vergleichsansicht (COMPARE) · Zone d (Violett): Einstellungen (COMPARE).
+- **Enter/Esc in Dialogen (S-25, R-21):** Ein zentraler Handler regelt alle Dialoge: Esc schließt genau eine Ebene, Enter löst den Hauptknopf aus (Favoriten: „Aktuellen Stand speichern“, Deckblatt-Vorlage: „Speichern & verwenden“, Ausrichten & Maske: „Fertig“), Info-Dialoge (Anleitung, Vorschau, Auswahl) schließen mit Enter. Beim Öffnen steht der Fokus im Dialog. Umbenennen eines Favoriten: Enter übernimmt, Esc bricht ab.
+- **Ribbon (S-26, R-22):** Das Modul-Ribbon ist jetzt nur noch ca. 45 px hoch und zeigt nie eine Bildlaufleiste (Verlaufskante bei Überlauf, sichtbarer Fokus-Ring, mobil mindestens 40 px je Reiter).
+- Bausteine aktualisiert: RITL-UI 1.7, ritl-bk 2.14, ritl-export 1.0.1.
+
 ## V2.2.1 · 25.11.2026 · DEV
 **Behoben**
 - **Neu:** Ein neues Projekt startet jetzt mit den Standard-Ausgabe-Optionen (Titel, Farbe, Seitenstempel …) und erbt sie nicht mehr vom vorherigen Projekt. Der Filter bleibt erhalten.
